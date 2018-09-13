@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Header} from "../../Library";
+import {Header} from "../../Elements";
 
 class AppHeader extends Component {
     render() {

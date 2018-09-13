@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import {Page, Sidebar} from "../../Library";
+import {Page, Sidebar} from "../../Elements";
 
 class PublicContractsPage extends Component {
     render() {
