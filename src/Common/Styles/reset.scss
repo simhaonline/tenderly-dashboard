@@ -1,5 +1,23 @@
+@import "./colors.scss";
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  background-image: radial-gradient(
+                  circle at top right,
+                  #171e31,
+                  #121826
+  );
+}
+
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Source Sans Pro', sans-serif;
+  font-size: 16px;
+  color: $DefaultTextColor;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
 }
