@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import './Common/Styles/reset.css';
+
 import {AppHeader} from "./Components";
 import {PublicContractsPage} from "./Pages";
 
