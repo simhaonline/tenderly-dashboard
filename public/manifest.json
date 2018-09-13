@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Tenderly",
+  "name": "Smart Contract error tracking, analytics and performance metrics.",
   "icons": [
     {
       "src": "favicon.ico",
