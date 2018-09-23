@@ -1,1 +1,1 @@
-export { default as PublicContractsPage } from './PublicContracts/PublicContractsPage';
+export { default as AppPages } from './AppPages';
