@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 
+import {Button} from "../../Elements";
+
 class SessionHeaderMenu extends Component {
     render() {
         const {auth} = this.props;
@@ -10,9 +12,12 @@ class SessionHeaderMenu extends Component {
         if (!auth.loggedIn) {
             return (
                 <div>
-                    <button>
+                    <Button to="login">
+                        login
+                    </Button>
+                    <Button>
                         Request early access
-                    </button>
+                    </Button>
                 </div>
             )
         }
