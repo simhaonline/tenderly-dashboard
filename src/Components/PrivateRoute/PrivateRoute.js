@@ -4,15 +4,13 @@ import {Redirect, Route, withRouter} from "react-router-dom";
 
 class PrivateRoute extends Component {
     render() {
-        const { component: Component, user, ...rest } = this.props;
-
-        console.log(user);
+        const { component: Component, auth, ...rest } = this.props;
 
         return (
             <Route
                 {...rest}
                 render={props =>
-                    user.loggedIn ? (
+                    auth.loggedIn ? (
                         <Component {...props} />
                     ) : (
                         <Redirect
@@ -30,7 +28,7 @@ class PrivateRoute extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user,
+        auth: state.auth,
     };
 };
 
