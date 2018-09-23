@@ -6,7 +6,7 @@ import './Common/Styles/reset.css';
 
 import {store} from './Core';
 
-import {AppHeader, Navigation} from "./Components";
+import {AppHeader} from "./Components";
 import {AppPages} from "./Pages";
 
 class App extends Component {
@@ -16,7 +16,6 @@ class App extends Component {
                 <Router>
                     <div className="App">
                         <AppHeader/>
-                        <Navigation/>
                         <AppPages/>
                     </div>
                 </Router>
