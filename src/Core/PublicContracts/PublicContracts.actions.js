@@ -1,9 +1,9 @@
-export const FETCH_PUBLIC_CONTRACTS_ACTION = 'GET_PUBLIC_CONTRACTS';
+export const FETCH_PUBLIC_CONTRACTS_ACTION = 'FETCH_PUBLIC_CONTRACTS';
+export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
 
 /**
  * @param {string} network
  * @param {number} page
- * @returns {Function}
  */
 export const fetchPublicContracts = (network, page) => {
     return dispatch => {
@@ -36,6 +36,27 @@ export const fetchPublicContracts = (network, page) => {
             contracts,
             page,
             network,
+        });
+    }
+};
+
+/**
+ *
+ * @param {number} id
+ */
+export const fetchPublicContract = (id) => {
+    return dispatch => {
+        const contract = {
+            id: id,
+            network: 'kovan_testnet',
+            address: '0x0a97094c19295E320D5121d72139A150021a2702',
+            name: 'CryptoMinerToken',
+            compilerVersion: 'v0.4.25',
+        };
+
+        dispatch({
+           type: FETCH_PUBLIC_CONTRACT_ACTION,
+           contract,
         });
     }
 };
