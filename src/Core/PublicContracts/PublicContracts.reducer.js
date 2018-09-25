@@ -1,4 +1,4 @@
-import {FETCH_PUBLIC_CONTRACTS_ACTION} from "./PublicContracts.actions";
+import {FETCH_PUBLIC_CONTRACT_ACTION, FETCH_PUBLIC_CONTRACTS_ACTION} from "./PublicContracts.actions";
 
 
 const initialState = {
@@ -29,6 +29,14 @@ const PublicContractsReducer = (state = initialState, action) => {
                         [action.page]: pageContracts,
                     }
                 },
+            };
+        case FETCH_PUBLIC_CONTRACT_ACTION:
+            return {
+                ...state,
+                contracts: {
+                    ...state.contracts,
+                    [action.contract.id]: action.contract,
+                }
             };
         default:
             return state;
