@@ -12,7 +12,7 @@ class Navigation extends Component {
                     <Icon icon='project'/>
                     Dashboard
                 </NavLink>
-                <NavLink className="HeaderNavItem" exact to="/contracts">
+                <NavLink className="HeaderNavItem" exact to="/public-contracts/kovan">
                     <Icon icon='diamond'/>
                     Public Contracts
                 </NavLink>
