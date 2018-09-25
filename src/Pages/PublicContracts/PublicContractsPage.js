@@ -7,7 +7,7 @@ import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicCon
 
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
 
-import {Page} from "../../Elements";
+import {Page, Container} from "../../Elements";
 import PublicContractList from "../../Components/PublicContractList/PublicContractList";
 
 const routeNetworkMap = {
@@ -26,7 +26,9 @@ class PublicContractsPage extends Component {
 
         return (
             <Page>
-                <PublicContractList contracts={contracts}/>
+                <Container>
+                    <PublicContractList contracts={contracts}/>
+                </Container>
             </Page>
         )
     }
