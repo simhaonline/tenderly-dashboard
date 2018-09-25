@@ -7,6 +7,7 @@ export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
  */
 export const fetchPublicContracts = (network, page) => {
     return dispatch => {
+        // @TODO Replace with API call...
         const contracts = [
             {
                 id: 'k1',
@@ -46,6 +47,7 @@ export const fetchPublicContracts = (network, page) => {
  */
 export const fetchPublicContract = (id) => {
     return dispatch => {
+        // @TODO Replace with API call...
         const contract = {
             id: id,
             network: 'kovan_testnet',
