@@ -7,8 +7,6 @@ class SessionHeaderMenu extends Component {
     render() {
         const {auth} = this.props;
 
-        console.log(auth);
-
         if (!auth.loggedIn) {
             return (
                 <div>
