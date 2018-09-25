@@ -7,7 +7,8 @@ import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicCon
 
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
 
-import {Page, Sidebar} from "../../Elements";
+import {Page} from "../../Elements";
+import PublicContractList from "../../Components/PublicContractList/PublicContractList";
 
 const routeNetworkMap = {
     [NetworkRouteTypes.MAIN]: NetworkTypes.MAIN,
@@ -25,10 +26,7 @@ class PublicContractsPage extends Component {
 
         return (
             <Page>
-                <Sidebar>
-                    testing the sidebar
-                </Sidebar>
-                PublicContractsPage
+                <PublicContractList contracts={contracts}/>
             </Page>
         )
     }
