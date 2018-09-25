@@ -21,3 +21,7 @@ body {
 * {
   box-sizing: border-box;
 }
+
+a, a:hover, a:visited, a:focus, a:active {
+  text-decoration: none;
+}
