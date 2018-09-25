@@ -29,7 +29,7 @@ const AppPages = () => {
         <Switch>
             <PrivateRoute path="/private" exact component={privatePages}/>
             <Route path="/login" exact component={loginPages}/>
-            <Route path="/contracts" exact component={PublicContractsPage}/>
+            <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:id" exact component={PublicContractPage}/>
             <Route path="/contract/:id/error/:errorId" exact component={ErrorPage}/>
             <Route component={noMatchPage}/>
