@@ -1,12 +1,13 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 import './PublicContractList.css';
 
 const PublicContractListItem = ({contract}) => {
     return (
-        <div className="PublicContractListItem">
+        <Link className="PublicContractListItem" to={`/contract/${contract.id}`}>
             {contract.name}
-        </div>
+        </Link>
     )
 };
 
