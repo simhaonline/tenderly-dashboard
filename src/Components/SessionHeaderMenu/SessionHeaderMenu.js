@@ -10,7 +10,7 @@ class SessionHeaderMenu extends Component {
         if (!auth.loggedIn) {
             return (
                 <div>
-                    <Button to="login">
+                    <Button to="/login">
                         login
                     </Button>
                     <Button>
