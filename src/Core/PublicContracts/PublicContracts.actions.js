@@ -52,11 +52,26 @@ export const fetchPublicContract = (id) => {
             address: '0x0a97094c19295E320D5121d72139A150021a2702',
             name: 'CryptoMinerToken',
             compilerVersion: 'v0.4.25',
+            events: [
+                {
+                    id: 'e1',
+                    name: 'Dummy error number 1',
+                },
+                {
+                    id: 'e2',
+                    name: 'Dummy error number 2',
+                },
+                {
+                    id: 'e3',
+                    name: 'Dummy error number 3',
+                },
+            ]
         };
 
         dispatch({
-           type: FETCH_PUBLIC_CONTRACT_ACTION,
-           contract,
+            type: FETCH_PUBLIC_CONTRACT_ACTION,
+            contract,
+            events: contract.events,
         });
     }
 };

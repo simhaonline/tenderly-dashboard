@@ -2,15 +2,15 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 import {Page} from "../../Elements";
-import {getPublicContractById} from "../../Common/Selectors/PublicContractSelectors";
+import {getPublicContractById, isPublicContractLoaded} from "../../Common/Selectors/PublicContractSelectors";
 import {bindActionCreators} from "redux";
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 
 class PublicContractPage extends Component {
     componentDidMount() {
-        const {contract, actions, match: {params: { id }}} = this.props;
+        const {contract, loaded, actions, match: {params: { id }}} = this.props;
 
-        if (!contract) {
+        if (!contract || !loaded) {
             actions.fetchPublicContract(id);
         }
     }
@@ -38,6 +38,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         contract: getPublicContractById(state, id),
+        loaded: isPublicContractLoaded(state, id),
     };
 };
 

@@ -3,6 +3,7 @@ import {FETCH_PUBLIC_CONTRACT_ACTION, FETCH_PUBLIC_CONTRACTS_ACTION} from "./Pub
 
 const initialState = {
     contracts: {},
+    contractsLoaded: {},
     pages: {},
 };
 
@@ -36,6 +37,10 @@ const PublicContractsReducer = (state = initialState, action) => {
                 contracts: {
                     ...state.contracts,
                     [action.contract.id]: action.contract,
+                },
+                contractsLoaded: {
+                    ...state.contractsLoaded,
+                    [action.contract.id]: true,
                 }
             };
         default:

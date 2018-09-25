@@ -26,3 +26,16 @@ export function getPublicContractById(state, id) {
 
     return state.publicContracts.contracts[id];
 }
+
+/**
+ * @param {Object} state
+ * @param {number} id
+ * @returns {boolean}
+ */
+export function isPublicContractLoaded(state, id) {
+    if (!state.publicContracts.contracts[id] || !state.publicContracts.contractsLoaded[id]) {
+        return false;
+    }
+
+    return state.publicContracts.contractsLoaded[id];
+}
