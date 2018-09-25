@@ -13,3 +13,16 @@ export function getNetworkPublicContractsForPage(state, network, page) {
 
     return contractIds.map(id => state.publicContracts.contracts[id]);
 }
+
+/**
+ * @param {Object} state
+ * @param {number} id
+ * @returns {Object} contract
+ */
+export function getPublicContractById(state, id) {
+    if (!state.publicContracts.contracts[id]) {
+        return null;
+    }
+
+    return state.publicContracts.contracts[id];
+}
