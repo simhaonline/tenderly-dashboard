@@ -7,13 +7,14 @@ export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
 /**
  * @param {string} network
  * @param {number} page
+ * @param {string} query
  */
-export const fetchPublicContracts = (network, page) => {
+export const fetchPublicContracts = (network, page, query) => {
     return async dispatch => {
         const {data} = await Api.get('/public-contracts', {
             params: {
-                page: page,
-                query: '0x296eaae0c8d9216a46bf6520d37b96058b14d03d',
+                page,
+                query,
             }
         });
 

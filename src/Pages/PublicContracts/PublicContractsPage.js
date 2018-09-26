@@ -19,7 +19,7 @@ class PublicContractsPage extends Component {
     componentDidMount() {
         const {actions} = this.props;
 
-        actions.fetchPublicContracts(NetworkTypes.KOVAN, 0);
+        actions.fetchPublicContracts(NetworkTypes.KOVAN, 0, '0x296eaae0c8d9216a46bf6520d37b96058b14d03d');
     }
     render() {
         const {contracts} = this.props;
