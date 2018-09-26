@@ -1,3 +1,6 @@
+import {Api} from '../../Utils/Api';
+import PublicContract from "./PublicContract.model";
+
 export const FETCH_PUBLIC_CONTRACTS_ACTION = 'FETCH_PUBLIC_CONTRACTS';
 export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
 
@@ -6,31 +9,15 @@ export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
  * @param {number} page
  */
 export const fetchPublicContracts = (network, page) => {
-    return dispatch => {
-        // @TODO Replace with API call...
-        const contracts = [
-            {
-                id: 'k1',
-                network: 'kovan_testnet',
-                address: '0x0a97094c19295E320D5121d72139A150021a2702',
-                name: 'CryptoMinerToken',
-                compilerVersion: 'v0.4.25',
-            },
-            {
-                id: 'k2',
-                network: 'kovan_testnet',
-                address: '0x296eaae0c8d9216a46bf6520d37b96058b14d03d',
-                name: 'EnaToken',
-                compilerVersion: 'v0.4.25',
-            },
-            {
-                id: 'k3',
-                network: 'kovan_testnet',
-                address: '0x7026c4a7cf1fffa16d69efe5239192269203673a',
-                name: 'ClubTransferContract',
-                compilerVersion: 'v0.4.24',
-            },
-        ];
+    return async dispatch => {
+        const {data} = await Api.get('/public-contracts', {
+            params: {
+                page: page,
+                query: '0x296eaae0c8d9216a46bf6520d37b96058b14d03d',
+            }
+        });
+
+        const contracts = data.map(contract => PublicContract.responseTransformer(contract));
 
         dispatch({
             type: FETCH_PUBLIC_CONTRACTS_ACTION,

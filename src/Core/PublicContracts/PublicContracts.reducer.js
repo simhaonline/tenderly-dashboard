@@ -27,7 +27,7 @@ const PublicContractsReducer = (state = initialState, action) => {
                     ...state.pages,
                     [action.network]: {
                         ...state.pages[action.network],
-                        [action.page]: pageContracts,
+                        [action.page]: [...pageContracts],
                     }
                 },
             };
