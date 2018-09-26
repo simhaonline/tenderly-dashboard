@@ -1,8 +1,10 @@
 import {Api} from '../../Utils/Api';
+import Event from "../Event/Event.model";
 import PublicContract from "./PublicContract.model";
 
 export const FETCH_PUBLIC_CONTRACTS_ACTION = 'FETCH_PUBLIC_CONTRACTS';
 export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
+export const FETCH_PUBLIC_CONTRACT_EVENTS_ACTION = 'FETCH_PUBLIC_CONTRACT_EVENTS';
 
 /**
  * @param {string} network
@@ -31,7 +33,7 @@ export const fetchPublicContracts = (network, page, query) => {
 
 /**
  *
- * @param {number} id
+ * @param {string} id
  */
 export const fetchPublicContract = (id) => {
     return async dispatch => {
@@ -42,7 +44,29 @@ export const fetchPublicContract = (id) => {
         dispatch({
             type: FETCH_PUBLIC_CONTRACT_ACTION,
             contract,
-            events: contract.events,
+        });
+    }
+};
+
+/**
+ * @param {string} id
+ * @param {string} query
+ * @param {number} page
+ */
+export const fetchPublicContractEvents = (id, query, page) => {
+    return async dispatch => {
+        const {data} = await Api.get(`/public-contracts/${id}/events`, {
+            params: {
+                query,
+                page,
+            }
+        });
+
+        const events = data.map(contract => Event.responseTransformer(contract));
+
+        dispatch({
+            type: FETCH_PUBLIC_CONTRACT_EVENTS_ACTION,
+            events,
         });
     }
 };
