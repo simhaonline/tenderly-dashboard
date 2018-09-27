@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
@@ -16,13 +17,39 @@ const routeNetworkMap = {
 };
 
 class PublicContractsPage extends Component {
-    componentDidMount() {
+    /**
+     * @param {string} network
+     */
+    getNetworkPublicContracts(network) {
         const {actions} = this.props;
 
-        actions.fetchPublicContracts(NetworkTypes.KOVAN, 0, '0x296eaae0c8d9216a46bf6520d37b96058b14d03d');
+        actions.fetchPublicContracts(network, 0, '0x296eaae0c8d9216a46bf6520d37b96058b14d03d');
     }
+
+    componentDidMount() {
+        const {networkType} = this.props;
+
+        if (networkType) {
+            this.getNetworkPublicContracts(networkType);
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const {networkType} = this.props;
+
+        if (networkType && networkType !== prevProps.networkType) {
+            this.getNetworkPublicContracts(networkType);
+        }
+    }
+
     render() {
-        const {contracts} = this.props;
+        const {contracts, networkType} = this.props;
+
+        if (!networkType) {
+            return (
+                <Redirect to={`/public-contracts/${NetworkRouteTypes.MAIN}`}/>
+            )
+        }
 
         return (
             <Page>
@@ -41,6 +68,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         contracts: getNetworkPublicContractsForPage(state, networkType, 0),
+        networkType,
     };
 };
 
