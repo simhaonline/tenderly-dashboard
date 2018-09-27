@@ -20,6 +20,10 @@ export const fetchPublicContracts = (network, page, query) => {
             }
         });
 
+        if (!data) {
+            return;
+        }
+
         const contracts = data.map(contract => PublicContract.responseTransformer(contract));
 
         dispatch({
@@ -38,6 +42,10 @@ export const fetchPublicContracts = (network, page, query) => {
 export const fetchPublicContract = (id) => {
     return async dispatch => {
         const {data} = await Api.get(`/public-contracts/${id}`);
+
+        if (!data) {
+            return;
+        }
 
         const contract = PublicContract.responseTransformer(data);
 
@@ -61,6 +69,10 @@ export const fetchPublicContractEvents = (id, query, page) => {
                 page,
             }
         });
+
+        if (!data) {
+            return;
+        }
 
         const events = data.map(contract => Event.responseTransformer(contract));
 
