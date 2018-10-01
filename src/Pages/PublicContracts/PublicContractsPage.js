@@ -23,7 +23,7 @@ class PublicContractsPage extends Component {
     getNetworkPublicContracts(network) {
         const {actions} = this.props;
 
-        actions.fetchPublicContracts(network, 0, '0x296eaae0c8d9216a46bf6520d37b96058b14d03d');
+        actions.fetchPublicContracts(network, 0, '');
     }
 
     componentDidMount() {
