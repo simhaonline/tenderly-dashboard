@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 import './PublicContractList.css';
-import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 const PublicContractListItem = ({contract}) => {
     return (

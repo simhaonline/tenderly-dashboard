@@ -1,4 +1,5 @@
 import {Api} from '../../Utils/Api';
+import {NetworkAppToApiTypeMap} from "../../Common/constants";
 import Event from "../Event/Event.model";
 import PublicContract from "./PublicContract.model";
 
@@ -13,7 +14,9 @@ export const FETCH_PUBLIC_CONTRACT_EVENTS_ACTION = 'FETCH_PUBLIC_CONTRACT_EVENTS
  */
 export const fetchPublicContracts = (network, page, query) => {
     return async dispatch => {
-        const {data} = await Api.get('/public-contracts', {
+        const apiNetwork = NetworkAppToApiTypeMap[network];
+
+        const {data} = await Api.get(`/public-contracts/${apiNetwork}`, {
             params: {
                 page,
                 query,

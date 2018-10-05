@@ -3,18 +3,13 @@ import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import {NetworkRouteTypes, NetworkTypes} from "../../Common/constants";
+import {NetworkApiToAppTypeMap, NetworkRouteTypes} from "../../Common/constants";
 import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicContractSelectors";
 
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
 
 import {Page, Container} from "../../Elements";
 import PublicContractList from "../../Components/PublicContractList/PublicContractList";
-
-const routeNetworkMap = {
-    [NetworkRouteTypes.MAIN]: NetworkTypes.MAIN,
-    [NetworkRouteTypes.KOVAN]: NetworkTypes.KOVAN,
-};
 
 class PublicContractsPage extends Component {
     /**
@@ -64,7 +59,7 @@ class PublicContractsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: { network }}} = ownProps;
 
-    const networkType = routeNetworkMap[network];
+    const networkType = NetworkApiToAppTypeMap[network];
 
     return {
         contracts: getNetworkPublicContractsForPage(state, networkType, 0),
