@@ -11,3 +11,6 @@ $SecondaryColor600: #00cebb;
 
 $WhiteColor: #ffffff;
 $BlackColor: #000000;
+
+// Borders
+$BorderColor: transparentize($WhiteColor, 0.85);

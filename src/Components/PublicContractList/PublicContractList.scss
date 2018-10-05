@@ -1,4 +1,41 @@
-.PublicContractListItem {
-  display: flex;
-  padding: 20px;
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.PublicContractList {
+
+  .ListHeader, .PublicContractListItem {
+    display: flex;
+    align-items: center;
+
+    .NameColumn {
+      flex: 0 0 300px;
+    }
+
+    .AddressColumn {
+      margin-left: auto;
+    }
+  }
+
+  .PublicContractListItem {
+    padding: 10px 15px;
+    color: $WhiteColor;
+    border-top: 1px solid $BorderColor;
+    cursor: pointer;
+    transition: 0.15s;
+
+    .AddressColumn {
+      color: $SecondaryColor600;
+      font-family: $MonospaceFontFamily;
+      font-size: $FontSize100;
+    }
+
+    &:hover {
+      background-color: transparentize($BlackColor, 0.8);
+    }
+
+    &:last-child {
+      border-bottom: 1px solid $BorderColor;
+    }
+  }
 }
+
