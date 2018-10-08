@@ -2,10 +2,13 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 import './PublicContractList.css';
+import {NetworkAppToApiTypeMap} from "../../Common/constants";
 
 const PublicContractListItem = ({contract}) => {
+    const networkType = NetworkAppToApiTypeMap[contract.network];
+
     return (
-        <Link className="PublicContractListItem" to={`/contract/${contract.id}`}>
+        <Link className="PublicContractListItem" to={`/contract/${networkType}/${contract.id}`}>
             <div className="NameColumn">
                 {contract.name}
             </div>

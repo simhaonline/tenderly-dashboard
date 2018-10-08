@@ -30,8 +30,8 @@ const AppPages = () => {
             <PrivateRoute path="/private" exact component={privatePages}/>
             <Route path="/login" exact component={loginPages}/>
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
-            <Route path="/contract/:id" exact component={PublicContractPage}/>
-            <Route path="/contract/:id/error/:errorId" exact component={ErrorPage}/>
+            <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
+            <Route path="/contract/:network/:id/error/:errorId" exact component={ErrorPage}/>
             <Route component={noMatchPage}/>
         </Switch>
     )

@@ -5,13 +5,16 @@ import {Page} from "../../Elements";
 import {getPublicContractById, isPublicContractLoaded} from "../../Common/Selectors/PublicContractSelectors";
 import {bindActionCreators} from "redux";
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
+import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 class PublicContractPage extends Component {
     componentDidMount() {
-        const {contract, loaded, actions, match: {params: { id }}} = this.props;
+        const {contract, loaded, actions, match: {params: { id, network }}} = this.props;
+
+        const networkType = NetworkApiToAppTypeMap[network];
 
         if (!contract || !loaded) {
-            actions.fetchPublicContract(id);
+            actions.fetchPublicContract(id, networkType);
         }
     }
     render() {

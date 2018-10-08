@@ -41,10 +41,13 @@ export const fetchPublicContracts = (network, page, query) => {
 /**
  *
  * @param {string} id
+ * @param {string} network
  */
-export const fetchPublicContract = (id) => {
+export const fetchPublicContract = (id, network) => {
     return async dispatch => {
-        const {data} = await Api.get(`/public-contracts/${id}`);
+        const apiNetwork = NetworkAppToApiTypeMap[network];
+
+        const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}`);
 
         if (!data) {
             return;
@@ -61,12 +64,15 @@ export const fetchPublicContract = (id) => {
 
 /**
  * @param {string} id
+ * @param {string} network
  * @param {string} query
  * @param {number} page
  */
-export const fetchPublicContractEvents = (id, query, page) => {
+export const fetchPublicContractEvents = (id, network, query, page) => {
     return async dispatch => {
-        const {data} = await Api.get(`/public-contracts/${id}/events`, {
+        const apiNetwork = NetworkAppToApiTypeMap[network];
+
+        const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}/events`, {
             params: {
                 query,
                 page,
