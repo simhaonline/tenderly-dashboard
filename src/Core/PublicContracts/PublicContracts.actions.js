@@ -88,6 +88,7 @@ export const fetchPublicContractEvents = (id, network, after, limit = 20) => {
         dispatch({
             type: FETCH_PUBLIC_CONTRACT_EVENTS_ACTION,
             contractId: id,
+            network,
             events,
         });
     }

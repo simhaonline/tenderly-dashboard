@@ -17,6 +17,9 @@ class PublicContract {
 
         /** @type string */
         this.network = publicContractNetworkMap[data.deployment_information.network_id];
+
+        /** @type string */
+        this.source = data.source;
     }
     static responseTransformer(responseData) {
         return new PublicContract(responseData);
