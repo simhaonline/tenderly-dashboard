@@ -23,7 +23,11 @@ const PublicContractsSwitcher = ({active}) => {
     return (
         <div className="PublicContractsSwitcher">
             {networks.map(network =>
-                <Link to={`/public-contracts/${network.route}`} key={network.route} className={classNames(
+                <Link to={`/public-contracts/${network.route}`} onClick={event => {
+                    if (network.soon) {
+                        event.preventDefault();
+                    }
+                }} key={network.route} title={network.soon ? 'Coming soon..' : ''} className={classNames(
                     'SwitcherItem',
                     {
                         'active': active === network.route,
@@ -31,7 +35,6 @@ const PublicContractsSwitcher = ({active}) => {
                     }
                 )}>
                     <div className="Label">{network.label}</div>
-                    {network.soon && <div className="SoonLabel">Soon</div>}
                 </Link>
             )}
         </div>
