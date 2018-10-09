@@ -6,12 +6,11 @@ import {getPublicContractById, isPublicContractLoaded} from "../../Common/Select
 import {bindActionCreators} from "redux";
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
+import {getPublicContractEvents} from "../../Common/Selectors/EventSelectors";
 
 class PublicContractPage extends Component {
     componentDidMount() {
-        const {contract, contractLoaded, eventsLoaded, actions, match: {params: { id, network }}} = this.props;
-
-        const networkType = NetworkApiToAppTypeMap[network];
+        const {contract, contractLoaded, networkType, eventsLoaded, actions, match: {params: { id }}} = this.props;
 
         if (!contract || !contractLoaded) {
             actions.fetchPublicContract(id, networkType);
@@ -22,7 +21,9 @@ class PublicContractPage extends Component {
         }
     }
     render() {
-        const {contract} = this.props;
+        const {contract, events} = this.props;
+
+        console.log(events);
 
         if (!contract) {
             return (
@@ -41,12 +42,15 @@ class PublicContractPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: { id }}} = ownProps;
+    const {match: {params: { id, network }}} = ownProps;
+
+    const networkType = NetworkApiToAppTypeMap[network];
 
     return {
         contract: getPublicContractById(state, id),
         contractLoaded: isPublicContractLoaded(state, id),
-        events: [],
+        events: getPublicContractEvents(state, id, networkType),
+        networkType,
         eventsLoaded: false,
     };
 };
