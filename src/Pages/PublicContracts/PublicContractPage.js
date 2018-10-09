@@ -23,8 +23,6 @@ class PublicContractPage extends Component {
     render() {
         const {contract, events} = this.props;
 
-        console.log(events);
-
         if (!contract) {
             return (
                 <Page>
@@ -36,6 +34,20 @@ class PublicContractPage extends Component {
         return (
             <Page>
                 {contract.name}
+
+                {events.length && <div>
+                    {events.map(event =>
+                        <div key={event.transactionId} style={{display: 'flex'}}>
+                            <div>
+                                <div>{event.message}</div>
+                                <div>{event.description} | {contract.name}:{event.lineNumber}</div>
+                            </div>
+                            <div>{event.transactionId}</div>
+                            <div>{event.block}</div>
+                            <div>{event.timestamp}</div>
+                        </div>
+                    )}
+                </div>}
             </Page>
         )
     }
