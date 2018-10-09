@@ -1,0 +1,30 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.EventListWrapper {
+  border-top: 1px solid $BorderColor;
+
+  .EventListItem {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $BorderColor;
+
+    .ItemColumn {
+      padding: 15px 10px;
+    }
+
+    .GeneralColumn {
+      flex: 1 1 0;
+
+      .Message {
+
+      }
+
+      .Description {
+        margin-top: 5px;
+        font-size: $FontSize100;
+        opacity: 0.75;
+      }
+    }
+  }
+}

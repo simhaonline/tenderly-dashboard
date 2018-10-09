@@ -7,6 +7,7 @@ import {bindActionCreators} from "redux";
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
 import {getPublicContractEvents} from "../../Common/Selectors/EventSelectors";
+import {EventList} from "../../Components";
 
 class PublicContractPage extends Component {
     componentDidMount() {
@@ -35,19 +36,7 @@ class PublicContractPage extends Component {
             <Page>
                 {contract.name}
 
-                {events.length && <div>
-                    {events.map(event =>
-                        <div key={event.transactionId} style={{display: 'flex'}}>
-                            <div>
-                                <div>{event.message}</div>
-                                <div>{event.description} | {contract.name}:{event.lineNumber}</div>
-                            </div>
-                            <div>{event.transactionId}</div>
-                            <div>{event.block}</div>
-                            <div>{event.timestamp}</div>
-                        </div>
-                    )}
-                </div>}
+                {events.length && <EventList events={events} contract={contract}/>}
             </Page>
         )
     }
