@@ -4,11 +4,17 @@ import {Link} from "react-router-dom";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import './EventList.css';
-import {NetworkAppToApiTypeMap} from "../../Common/constants";
+import {NetworkAppToApiTypeMap, NetworkRouteTypes, NetworkTypes} from "../../Common/constants";
 
 const EventList = ({events, contract}) => {
     const routeNetwork = NetworkAppToApiTypeMap[contract.network];
-    
+
+    let etherscanPrefix = '';
+
+    if (contract.network === NetworkTypes.KOVAN) {
+        etherscanPrefix = NetworkRouteTypes.KOVAN + '.';
+    }
+
     return (
         <div className="EventListWrapper">
             {events.map(event =>
@@ -17,11 +23,22 @@ const EventList = ({events, contract}) => {
                         <div className="Message">{event.message}</div>
                         <div className="Description">{event.description} | {contract.name}:{event.lineNumber}</div>
                     </div>
-                    <div className="TransactionColumn ItemColumn">
-                        <span title={event.transactionId}>{generateShortAddress(event.transactionId)}</span>
+                    <div className="TimeColumn ItemColumn">
+                        <div>Occurred</div>
+                        <span>{event.timestamp}</span>
                     </div>
-                    <div className="BlockColumn ItemColumn">{event.block}</div>
-                    <div className="TimeColumn ItemColumn">{event.timestamp}</div>
+                    <div className="TransactionColumn ItemColumn">
+                        <div>Transaction</div>
+                        <div>
+                            <a onClick={event => event.stopPropagation()} target="_blank" href={`https://${etherscanPrefix}etherscan.io/tx/${event.transactionId}`} title={event.transactionId}>{generateShortAddress(event.transactionId)}</a>
+                        </div>
+                    </div>
+                    <div className="BlockColumn ItemColumn">
+                        <div>Block</div>
+                        <div>
+                            <a onClick={event => event.stopPropagation()} target="_blank" href={`https://${etherscanPrefix}etherscan.io/block/${event.block}`}>{event.block}</a>
+                        </div>
+                    </div>
                 </Link>
             )}
         </div>
