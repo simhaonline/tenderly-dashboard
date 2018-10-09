@@ -11,17 +11,20 @@ const EventReducer = (state = initialState, action) => {
             const existingEvents = state.contractEvents[action.network] || {};
             const existingEventsLoaded = state.contractEventsLoaded[action.network] || {};
 
-            const existingContractEvents = existingEvents[action.contractId] || [];
+            const existingContractEvents = existingEvents[action.contractId] || {};
+
+            action.events.forEach(event => {
+               existingContractEvents[event.transactionId] = event;
+            });
 
             return {
                 ...state,
                 contractEvents: {
                     [action.network]: {
                         ...existingEvents,
-                        [action.contractId]: [
+                        [action.contractId]: {
                             ...existingContractEvents,
-                            ...action.events,
-                        ],
+                        },
                     },
                 },
                 contractEventsLoaded: {

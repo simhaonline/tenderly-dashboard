@@ -26,9 +26,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         contract: getPublicContractById(state, id),
         contractLoaded: isPublicContractLoaded(state, id),
-        events: getPublicContractEvents(state, id, networkType),
+        event: getPublicContractEvents(state, id, networkType),
         networkType,
-        eventsLoaded: false,
     };
 };
 
