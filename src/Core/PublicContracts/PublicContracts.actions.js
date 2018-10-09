@@ -65,17 +65,17 @@ export const fetchPublicContract = (id, network) => {
 /**
  * @param {string} id
  * @param {string} network
- * @param {string} query
- * @param {number} page
+ * @param {number} limit
+ * @param {string} after
  */
-export const fetchPublicContractEvents = (id, network, query, page) => {
+export const fetchPublicContractEvents = (id, network, after, limit = 20) => {
     return async dispatch => {
         const apiNetwork = NetworkAppToApiTypeMap[network];
 
         const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}/events`, {
             params: {
-                query,
-                page,
+                limit,
+                after,
             }
         });
 
@@ -87,6 +87,7 @@ export const fetchPublicContractEvents = (id, network, query, page) => {
 
         dispatch({
             type: FETCH_PUBLIC_CONTRACT_EVENTS_ACTION,
+            contractId: id,
             events,
         });
     }

@@ -9,12 +9,16 @@ import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 class PublicContractPage extends Component {
     componentDidMount() {
-        const {contract, loaded, actions, match: {params: { id, network }}} = this.props;
+        const {contract, contractLoaded, eventsLoaded, actions, match: {params: { id, network }}} = this.props;
 
         const networkType = NetworkApiToAppTypeMap[network];
 
-        if (!contract || !loaded) {
+        if (!contract || !contractLoaded) {
             actions.fetchPublicContract(id, networkType);
+        }
+
+        if (!contract || !eventsLoaded) {
+            actions.fetchPublicContractEvents(id, networkType);
         }
     }
     render() {
@@ -41,7 +45,9 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         contract: getPublicContractById(state, id),
-        loaded: isPublicContractLoaded(state, id),
+        contractLoaded: isPublicContractLoaded(state, id),
+        events: [],
+        eventsLoaded: false,
     };
 };
 
