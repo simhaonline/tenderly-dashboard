@@ -3,7 +3,6 @@ import React from 'react';
 import './ContractInformation.css';
 
 const ContractInformation = ({contract}) => {
-    console.log(contract);
     return (
         <div className="ContractInformation">
             <div>{contract.name}</div>

@@ -5,16 +5,16 @@ import {Redirect} from "react-router-dom";
 
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {Page} from "../../Elements";
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
 import {getPublicContractById, isPublicContractLoaded} from "../../Common/Selectors/PublicContractSelectors";
 import {getPublicContractEvent} from "../../Common/Selectors/EventSelectors";
 
+import {Page, Container} from "../../Elements";
+import {ContractInformation, EventInformation, EventStackTrace} from "../../Components";
+
 class ErrorPage extends Component {
     render() {
         const {event, contract, redirectNetwork, redirectId} = this.props;
-
-        console.log(event, contract);
 
         if (!contract) {
             return <Redirect to={`/contract/${redirectNetwork}/${redirectId}`}/>;
@@ -22,7 +22,11 @@ class ErrorPage extends Component {
 
         return (
             <Page>
-                ErrorPage
+                <Container>
+                    <ContractInformation contract={contract}/>
+                    <EventInformation event={event}/>
+                    <EventStackTrace trace={event.trace} source={contract.source}/>
+                </Container>
             </Page>
         )
     }
