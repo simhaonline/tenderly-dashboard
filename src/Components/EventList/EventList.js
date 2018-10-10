@@ -1,11 +1,12 @@
 import React from 'react';
 import moment from "moment";
-import {Link} from "react-router-dom";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-import './EventList.css';
 import {NetworkAppToApiTypeMap, NetworkRouteTypes, NetworkTypes} from "../../Common/constants";
+import PageLink from "../PageLink/PageLink";
+
+import './EventList.css';
 
 const EventList = ({events, contract}) => {
     const routeNetwork = NetworkAppToApiTypeMap[contract.network];
@@ -19,7 +20,7 @@ const EventList = ({events, contract}) => {
     return (
         <div className="EventListWrapper">
             {events.map(event =>
-                <Link key={event.transactionId} className="EventListItem" to={`/contract/${routeNetwork}/${contract.id}/error/${event.transactionId}`}>
+                <PageLink key={event.transactionId} className="EventListItem" to={`/contract/${routeNetwork}/${contract.id}/error/${event.transactionId}`}>
                     <div className="GeneralColumn ItemColumn">
                         <div className="Message">{event.message}</div>
                         <div className="Description">{event.description} | {contract.name}:{event.lineNumber}</div>
@@ -42,7 +43,7 @@ const EventList = ({events, contract}) => {
                             <a onClick={event => event.stopPropagation()} target="_blank" href={`https://${etherscanPrefix}etherscan.io/block/${event.block}`}>{event.block}</a>
                         </div>
                     </div>
-                </Link>
+                </PageLink>
             )}
         </div>
     );

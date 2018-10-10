@@ -1,13 +1,16 @@
 import React, {Component} from "react";
+import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import {Page, Container} from "../../Elements";
-import {getPublicContractById, isPublicContractLoaded} from "../../Common/Selectors/PublicContractSelectors";
-import {bindActionCreators} from "redux";
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
-import {NetworkApiToAppTypeMap} from "../../Common/constants";
+
+import {getPublicContractById, isPublicContractLoaded} from "../../Common/Selectors/PublicContractSelectors";
 import {getPublicContractEvents} from "../../Common/Selectors/EventSelectors";
-import {EventList} from "../../Components";
+
+import {NetworkApiToAppTypeMap} from "../../Common/constants";
+
+import {Page, Container} from "../../Elements";
+import {EventList, ContractInformation} from "../../Components";
 
 class PublicContractPage extends Component {
     componentDidMount() {
@@ -35,8 +38,7 @@ class PublicContractPage extends Component {
         return (
             <Page>
                 <Container>
-                    {contract.name}
-
+                    <ContractInformation contract={contract}/>
                     {events.length && <EventList events={events} contract={contract}/>}
                 </Container>
             </Page>
