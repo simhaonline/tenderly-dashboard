@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from "moment";
 import {Link} from "react-router-dom";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
@@ -24,18 +25,20 @@ const EventList = ({events, contract}) => {
                         <div className="Description">{event.description} | {contract.name}:{event.lineNumber}</div>
                     </div>
                     <div className="TimeColumn ItemColumn">
-                        <div>Occurred</div>
-                        <span>{event.timestamp}</span>
+                        <div className="InfoLabel">Occurred</div>
+                        <div className="SmallInfo">
+                            <span>{moment(event.timestamp).format("MMM DD YYYY, HH:mm:ss")}</span>
+                        </div>
                     </div>
                     <div className="TransactionColumn ItemColumn">
-                        <div>Transaction</div>
-                        <div>
+                        <div className="InfoLabel">Transaction</div>
+                        <div className="SmallInfo">
                             <a onClick={event => event.stopPropagation()} target="_blank" href={`https://${etherscanPrefix}etherscan.io/tx/${event.transactionId}`} title={event.transactionId}>{generateShortAddress(event.transactionId)}</a>
                         </div>
                     </div>
                     <div className="BlockColumn ItemColumn">
-                        <div>Block</div>
-                        <div>
+                        <div className="InfoLabel">Block</div>
+                        <div className="SmallInfo">
                             <a onClick={event => event.stopPropagation()} target="_blank" href={`https://${etherscanPrefix}etherscan.io/block/${event.block}`}>{event.block}</a>
                         </div>
                     </div>

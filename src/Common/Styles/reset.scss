@@ -22,7 +22,12 @@ body {
   box-sizing: border-box;
 }
 
-a, a:hover, a:visited, a:focus, a:active {
+a {
   text-decoration: none;
-  outline: none;
+  color: #73C2FB;
+
+  &:hover, &:focus {
+    outline: none;
+    color: #69a5db;
+  }
 }

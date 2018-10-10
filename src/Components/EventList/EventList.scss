@@ -2,17 +2,22 @@
 @import "../../Common/Styles/typography";
 
 .EventListWrapper {
-  border-top: 1px solid $BorderColor;
 
   .EventListItem {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid $BorderColor;
     color: $WhiteColor;
     text-decoration: none;
+    margin-bottom: 10px;
+    border: 1px solid $BorderColor;
+    background: transparentize($BlackColor, 0.8);
+    box-shadow: 0 0 0 0 $SecondaryColor600 inset;
+    border-radius: 3px;
+    padding: 12px 10px;
+    transition: 0.2s;
 
     .ItemColumn {
-      padding: 15px 10px;
+      padding: 0 15px;
     }
 
     .GeneralColumn {
@@ -27,6 +32,19 @@
         font-size: $FontSize100;
         opacity: 0.75;
       }
+    }
+
+    .InfoLabel {
+      margin-bottom: 5px;
+    }
+
+    .SmallInfo {
+      font-size: $FontSize200;
+    }
+
+    &:hover {
+      background: transparentize($BlackColor, 0.7);
+      box-shadow: 4px 0 0 0 $SecondaryColor600 inset;
     }
   }
 }
