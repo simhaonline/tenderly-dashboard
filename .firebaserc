@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "tenderly-project"
+  },
+  "targets": {
+    "tenderly-project": {
+      "hosting": {
+        "dashboard": [
+          "tenderly-dashboard"
+        ]
+      }
+    }
+  }
+}

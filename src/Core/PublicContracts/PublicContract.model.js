@@ -27,15 +27,20 @@ class PublicContract {
 
     /**
      * @param {string} source
-     * @returns {string}
+     * @returns {string|null}
      */
     static getSolidityVersion(source) {
-       const versionRegex = /solidity \^(.*);/g;
+        if (!source) {
+            return null;
+        }
 
-       const matches = versionRegex.exec(source);
+        const versionRegex = /solidity \^(.*);/g;
 
-       return matches[1];
+        const matches = versionRegex.exec(source);
+
+        return matches[1];
     }
+
     static responseTransformer(responseData) {
         return new PublicContract(responseData);
     }
