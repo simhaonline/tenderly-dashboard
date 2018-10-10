@@ -6,7 +6,10 @@ const ContractInformation = ({contract}) => {
     console.log(contract);
     return (
         <div className="ContractInformation">
-            {contract.name}
+            <div>{contract.name}</div>
+            <div>{contract.network}</div>
+            <div>{contract.address}</div>
+            <div>{contract.solidity}</div>
         </div>
     )
 };
