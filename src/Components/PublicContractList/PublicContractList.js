@@ -9,11 +9,12 @@ const PublicContractListItem = ({contract}) => {
 
     return (
         <Link className="PublicContractListItem" to={`/contract/${networkType}/${contract.id}`}>
-            <div className="NameColumn">
-                {contract.name}
+            <div className="MainInfo">
+                <h4 className="ContractName">{contract.name}</h4>
             </div>
-            <div className="AddressColumn" title={contract.address}>
-                {contract.address}
+            <div className="AddressInfo" title={contract.address}>
+                <div className="InfoLabel">Address</div>
+                <div className="Address">{contract.address}</div>
             </div>
         </Link>
     )
@@ -22,10 +23,6 @@ const PublicContractListItem = ({contract}) => {
 const PublicContractList = ({contracts}) => {
     return (
         <div className="PublicContractList">
-            <div className="ListHeader">
-                <div className="NameColumn">Contract</div>
-                <div className="AddressColumn">Address</div>
-            </div>
             {contracts.map(contract => <PublicContractListItem key={contract.id} contract={contract}/>)}
         </div>
     )

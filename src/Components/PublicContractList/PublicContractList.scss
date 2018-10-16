@@ -2,39 +2,43 @@
 @import "../../Common/Styles/typography";
 
 .PublicContractList {
-
-  .ListHeader, .PublicContractListItem {
-    display: flex;
-    align-items: center;
-
-    .NameColumn {
-      flex: 0 0 300px;
-    }
-
-    .AddressColumn {
-      margin-left: auto;
-    }
-  }
+  display: flex;
+  flex-wrap: wrap;
 
   .PublicContractListItem {
     padding: 10px 15px;
     color: $WhiteColor;
-    border-top: 1px solid $BorderColor;
+    border: 1px solid $BorderColor;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 20px;
     cursor: pointer;
     transition: 0.15s;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 450px;
 
-    .AddressColumn {
-      color: $SecondaryColor600;
-      font-family: $MonospaceFontFamily;
+    .MainInfo {
+      margin-bottom: 12px;
+    }
+
+    .AddressInfo {
       font-size: $FontSize100;
+
+      .InfoLabel {
+        color: transparentize($WhiteColor, 0.1);
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+
+      .Address {
+        color: $SecondaryColor600;
+        font-family: $MonospaceFontFamily;
+      }
     }
 
     &:hover {
       background-color: transparentize($BlackColor, 0.8);
-    }
-
-    &:last-child {
-      border-bottom: 1px solid $BorderColor;
     }
   }
 }
