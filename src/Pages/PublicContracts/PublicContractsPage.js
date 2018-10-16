@@ -49,9 +49,6 @@ class PublicContractsPage extends Component {
         return (
             <Page>
                 <Container>
-                    <div>
-                        <PublicContractsSwitcher active={network}/>
-                    </div>
                     <PublicContractsInfo network={networkType}/>
                     <PublicContractList contracts={contracts}/>
                 </Container>
