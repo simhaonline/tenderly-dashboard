@@ -9,7 +9,7 @@ import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicCon
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
 
 import {Page, Container} from "../../Elements";
-import {PublicContractList, PublicContractsSwitcher} from "../../Components";
+import {PublicContractList, PublicContractsSwitcher, PublicContractsInfo} from "../../Components";
 
 class PublicContractsPage extends Component {
     /**
@@ -52,6 +52,7 @@ class PublicContractsPage extends Component {
                     <div>
                         <PublicContractsSwitcher active={network}/>
                     </div>
+                    <PublicContractsInfo/>
                     <PublicContractList contracts={contracts}/>
                 </Container>
             </Page>
