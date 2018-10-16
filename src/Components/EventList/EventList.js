@@ -3,19 +3,14 @@ import moment from "moment";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-import {NetworkAppToApiTypeMap, NetworkRouteTypes, NetworkTypes} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
+import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import PageLink from "../PageLink/PageLink";
 
 import './EventList.css';
 
 const EventList = ({events, contract}) => {
     const routeNetwork = NetworkAppToApiTypeMap[contract.network];
-
-    let etherscanPrefix = '';
-
-    if (contract.network === NetworkTypes.KOVAN) {
-        etherscanPrefix = NetworkRouteTypes.KOVAN + '.';
-    }
 
     return (
         <div className="EventListWrapper">
@@ -34,13 +29,13 @@ const EventList = ({events, contract}) => {
                     <div className="TransactionColumn ItemColumn">
                         <div className="InfoLabel">Transaction</div>
                         <div className="SmallInfo">
-                            <a onClick={event => event.stopPropagation()} target="_blank" href={`https://${etherscanPrefix}etherscan.io/tx/${event.transactionId}`} title={event.transactionId}>{generateShortAddress(event.transactionId)}</a>
+                            <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.TRANSACTION} value={event.transactionId} title={event.transactionId}>{generateShortAddress(event.transactionId)}</EtherscanLink>
                         </div>
                     </div>
                     <div className="BlockColumn ItemColumn">
                         <div className="InfoLabel">Block</div>
                         <div className="SmallInfo">
-                            <a onClick={event => event.stopPropagation()} target="_blank" href={`https://${etherscanPrefix}etherscan.io/block/${event.block}`}>{event.block}</a>
+                            <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.BLOCK} value={event.block}>{event.block}</EtherscanLink>
                         </div>
                     </div>
                 </PageLink>

@@ -52,7 +52,7 @@ class PublicContractsPage extends Component {
                     <div>
                         <PublicContractsSwitcher active={network}/>
                     </div>
-                    <PublicContractsInfo/>
+                    <PublicContractsInfo network={networkType}/>
                     <PublicContractList contracts={contracts}/>
                 </Container>
             </Page>
