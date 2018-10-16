@@ -3,11 +3,11 @@ import classNames from 'classnames';
 
 import './Icon.css';
 
-const Icon = ({icon, ...props}) => {
+const Icon = ({icon, className, ...props}) => {
     const iconClass = `icon-${icon.toLowerCase()}`;
 
     return (
-        <i className={classNames('TnIcon', iconClass)} {...props}/>
+        <i className={classNames('TnIcon', iconClass, className)} {...props}/>
     )
 };
 
