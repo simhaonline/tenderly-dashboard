@@ -11,7 +11,14 @@ const PublicContractsReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_PUBLIC_CONTRACTS_ACTION:
             const contracts = action.contracts.reduce((list, contract) => {
-                list[contract.id] = contract;
+                if (state.contracts[contract.id]) {
+                    const existingContract = state.contracts[contract.id];
+
+                    list[contract.id] = existingContract.update(contract);
+                } else {
+                    list[contract.id] = contract;
+                }
+
                 return list;
             }, {});
 

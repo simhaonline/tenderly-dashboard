@@ -18,11 +18,20 @@ class PublicContract {
         /** @type string */
         this.network = publicContractNetworkMap[data.deployment_information.network_id];
 
-        /** @type string */
-        this.source = data.source;
+        if (data.source) {
+            /** @type string */
+            this.source = data.source;
 
-        /** @type string */
-        this.solidity = PublicContract.getSolidityVersion(data.source);
+            /** @type string */
+            this.solidity = PublicContract.getSolidityVersion(data.source);
+        }
+    }
+
+    /**
+     * @returns {PublicContract}
+     */
+    update() {
+        return this;
     }
 
     /**
@@ -41,6 +50,10 @@ class PublicContract {
         return matches[1];
     }
 
+    /**
+     * @param {Object} responseData
+     * @returns {PublicContract}
+     */
     static responseTransformer(responseData) {
         return new PublicContract(responseData);
     }
