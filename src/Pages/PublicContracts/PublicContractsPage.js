@@ -9,7 +9,7 @@ import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicCon
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
 
 import {Page, Container} from "../../Elements";
-import {PublicContractList, PublicContractsSwitcher, PublicContractsInfo} from "../../Components";
+import {PublicContractList, PublicContractsInfo} from "../../Components";
 
 class PublicContractsPage extends Component {
     /**
@@ -38,7 +38,7 @@ class PublicContractsPage extends Component {
     }
 
     render() {
-        const {contracts, networkType, match: {params: { network }}} = this.props;
+        const {contracts, networkType} = this.props;
 
         if (!networkType) {
             return (
