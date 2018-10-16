@@ -17,3 +17,8 @@ export const NetworkAppToApiTypeMap = {
     [NetworkTypes.MAIN]: NetworkRouteTypes.MAIN,
     [NetworkTypes.KOVAN]: NetworkRouteTypes.KOVAN,
 };
+
+export const EtherscanLinkTypes = {
+    BLOCK: 'block',
+    TRANSACTION: 'transaction',
+};
