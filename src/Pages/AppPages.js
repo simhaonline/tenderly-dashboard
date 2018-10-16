@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 
 import {PrivateRoute} from "../Components";
 import PublicContractsPage from "./PublicContracts/PublicContractsPage";
@@ -32,6 +32,7 @@ const AppPages = () => {
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
             <Route path="/contract/:network/:id/error/:errorId" exact component={ErrorPage}/>
+            <Redirect exact from="/" to="/public-contracts/kovan"/>
             <Route component={noMatchPage}/>
         </Switch>
     )
