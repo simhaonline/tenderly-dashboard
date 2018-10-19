@@ -37,7 +37,6 @@ class PublicContractSourcePage extends Component {
         return (
             <Page>
                 <Container>
-                    source my source
                     <ContractInformation contract={contract}/>
                     <ContractSource contract={contract} line={line}/>
                 </Container>
