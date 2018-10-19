@@ -4,7 +4,33 @@
 $ExpandCodeButtonSize: 37px;
 
 .EventStackTracePoint {
-  position: relative;
+  .StackTraceCode {
+    position: relative;
+
+    &:hover {
+      .SourceLink {
+        opacity: 1;
+      }
+    }
+  }
+
+  .SourceLink {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: $FontSize100;
+    opacity: 0;
+    transition: 0.2s;
+    border: 1px solid transparentize($WhiteColor, 0.6);
+    border-radius: 3px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+
+    .LinkIcon {
+      margin-right: 5px;
+    }
+  }
 
   .ExpandCodeButton {
     cursor: pointer;

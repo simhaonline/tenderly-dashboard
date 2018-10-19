@@ -4,7 +4,6 @@ import './EventStackTrace.css';
 import EventStackTracePoint from "../EventStackTracePoint/EventStackTracePoint";
 
 const EventStackTrace = ({trace, source}) => {
-    console.log(trace);
     return (
         <div className="EventStackTrace">
             trace

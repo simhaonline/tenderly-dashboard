@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {parse} from "query-string";
 
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 
@@ -20,7 +21,10 @@ class PublicContractSourcePage extends Component {
         }
     }
     render() {
-        const {contract} = this.props;
+        const {contract, location: {search}} = this.props;
+
+        const parsedQuery = parse(search);
+        const line = parseInt(parsedQuery["line"]) || null;
 
         if (!contract) {
             return (
@@ -35,7 +39,7 @@ class PublicContractSourcePage extends Component {
                 <Container>
                     source my source
                     <ContractInformation contract={contract}/>
-                    <ContractSource contract={contract}/>
+                    <ContractSource contract={contract} line={line}/>
                 </Container>
             </Page>
         )

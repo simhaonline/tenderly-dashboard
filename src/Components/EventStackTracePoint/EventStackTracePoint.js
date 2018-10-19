@@ -4,6 +4,7 @@ import {Icon} from "../../Elements";
 import Code from "../Code/Code";
 
 import './EventStackTracePoint.css';
+import {Link} from "react-router-dom";
 
 class EventStackTracePoint extends Component {
     constructor(props) {
@@ -32,9 +33,15 @@ class EventStackTracePoint extends Component {
         return (
             <div className="EventStackTracePoint">
                 {point.code}
-                <Code line={point.line} linePreview={linesVisible} source={source}/>
-                <div onClick={this.handleExpandToggle} className="ExpandCodeButton">
-                    <Icon icon={expanded ? 'chevrons-up' : 'chevrons-down'}/>
+                <div className="StackTraceCode">
+                    <Code line={point.line} linePreview={linesVisible} source={source}/>
+                    <Link className="SourceLink" to={`../source?line=${point.line}`}>
+                        <Icon icon="terminal" className="LinkIcon"/>
+                        <span>Contract Source</span>
+                    </Link>
+                    <div onClick={this.handleExpandToggle} className="ExpandCodeButton">
+                        <Icon icon={expanded ? 'chevrons-up' : 'chevrons-down'}/>
+                    </div>
                 </div>
             </div>
         );

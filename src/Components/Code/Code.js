@@ -40,7 +40,7 @@ class Code extends Component {
             <div className="CodeWrapper" style={wrapperStyle}>
                 <div className="StackLines">
                     {lineNumbers.map(num =>
-                        <div key={num.number} className={`StackLine ${num.active? 'active': ''}`}>{num.number}</div>
+                        <div key={num.number} id={`line-${num.number}`} className={`StackLine ${num.active? 'active': ''}`}>{num.number}</div>
                     )}
                 </div>
                 <pre className="StackCode" ref={this.state.ref} style={codeStyle}>

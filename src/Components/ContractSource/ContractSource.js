@@ -2,10 +2,10 @@ import React from 'react';
 
 import Code from "../Code/Code";
 
-const ContractSource = ({contract}) => {
+const ContractSource = ({contract, line}) => {
     return (
         <div className="ContractSource">
-            <Code source={contract.source} line={19}/>
+            <Code source={contract.source} line={line}/>
         </div>
     );
 };
