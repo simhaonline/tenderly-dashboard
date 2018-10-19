@@ -24,7 +24,7 @@ class PublicContractSourcePage extends Component {
         const {contract, location: {search}} = this.props;
 
         const parsedQuery = parse(search);
-        const line = parseInt(parsedQuery["line"]) || null;
+        const line = parseInt(parsedQuery["line"], 10) || null;
 
         if (!contract) {
             return (

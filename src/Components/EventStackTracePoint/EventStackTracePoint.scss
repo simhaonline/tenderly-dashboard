@@ -4,8 +4,37 @@
 $ExpandCodeButtonSize: 37px;
 
 .EventStackTracePoint {
+
+  .StackTraceHeading {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: transparentize($BlackColor, 0.8);
+    transition: 0.1s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .TraceMessage {
+      font-size: $FontSize200;
+      margin-bottom: 3px;
+    }
+
+    .TraceLineNumber {
+      opacity: 0.5;
+      font-size: $FontSize100;
+    }
+
+    &:hover {
+      background-color: transparentize($BlackColor, 0.7);
+    }
+  }
+
   .StackTraceCode {
     position: relative;
+
+    .CodeWrapper {
+      border-radius: 0;
+      border-top: none;
+      border-bottom: none;
+    }
 
     &:hover {
       .SourceLink {
@@ -52,5 +81,9 @@ $ExpandCodeButtonSize: 37px;
       border-color: transparentize($SecondaryColor600, 0.3);
       background-color: transparentize($BlackColor, 0.5);
     }
+  }
+
+  &:last-child .StackTraceCode{
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 }
