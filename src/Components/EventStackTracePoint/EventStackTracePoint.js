@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import {Icon} from "../../Elements";
 import Code from "../Code/Code";
 
 import './EventStackTracePoint.css';
@@ -32,7 +33,9 @@ class EventStackTracePoint extends Component {
             <div className="EventStackTracePoint">
                 {point.code}
                 <Code line={point.line} linePreview={linesVisible} source={source}/>
-                <div onClick={this.handleExpandToggle}>Expand</div>
+                <div onClick={this.handleExpandToggle} className="ExpandCodeButton">
+                    <Icon icon={expanded ? 'chevrons-up' : 'chevrons-down'}/>
+                </div>
             </div>
         );
     }

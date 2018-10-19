@@ -1,2 +1,30 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
+
+$ExpandCodeButtonSize: 37px;
+
+.EventStackTracePoint {
+  position: relative;
+
+  .ExpandCodeButton {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: $ExpandCodeButtonSize;
+    height: $ExpandCodeButtonSize;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $FontSize500;
+    border: 1px solid transparentize($SecondaryColor600, 0.7);
+    background-color: transparentize($BlackColor, 0.7);
+    transition: 0.15s;
+
+    &:hover {
+      border-color: transparentize($SecondaryColor600, 0.3);
+      background-color: transparentize($BlackColor, 0.5);
+    }
+  }
+}
