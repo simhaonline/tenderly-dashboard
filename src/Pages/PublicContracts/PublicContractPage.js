@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
@@ -25,7 +26,7 @@ class PublicContractPage extends Component {
         }
     }
     render() {
-        const {contract, events} = this.props;
+        const {contract, events, match: {params: { network }}} = this.props;
 
         if (!contract) {
             return (
@@ -39,6 +40,7 @@ class PublicContractPage extends Component {
             <Page>
                 <Container>
                     <ContractInformation contract={contract}/>
+                    <Link className="EventListItem" to={`/contract/${network}/${contract.id}/source`}>Contract Source</Link>
                     {events.length && <EventList events={events} contract={contract}/>}
                 </Container>
             </Page>
