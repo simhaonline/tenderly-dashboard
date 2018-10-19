@@ -1,12 +1,13 @@
 import React from 'react';
 
-import './EventStackTrace.css';
 import EventStackTracePoint from "../EventStackTracePoint/EventStackTracePoint";
+
+import './EventStackTrace.css';
 
 const EventStackTrace = ({trace, source}) => {
     return (
         <div className="EventStackTrace">
-            trace
+            <div className="EventStackTraceHeading"><h5>StackTrace</h5></div>
             {trace.map((point, index) => <EventStackTracePoint open={index === 0} key={point.start} point={point} source={source}/>)}
         </div>
     )

@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
@@ -10,7 +9,7 @@ import {getPublicContractEvents} from "../../Common/Selectors/EventSelectors";
 
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
-import {Page, Container} from "../../Elements";
+import {Page, Container, Button} from "../../Elements";
 import {EventList, ContractInformation} from "../../Components";
 
 class PublicContractPage extends Component {
@@ -40,7 +39,7 @@ class PublicContractPage extends Component {
             <Page>
                 <Container>
                     <ContractInformation contract={contract}/>
-                    <Link className="EventListItem" to={`/contract/${network}/${contract.id}/source`}>Contract Source</Link>
+                    <Button className="EventListItem" to={`/contract/${network}/${contract.id}/source`}>Contract Source</Button>
                     {events.length && <EventList events={events} contract={contract}/>}
                 </Container>
             </Page>

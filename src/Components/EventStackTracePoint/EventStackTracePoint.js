@@ -38,7 +38,7 @@ class EventStackTracePoint extends Component {
 
         return (
             <div className="EventStackTracePoint">
-                <div className="StackTraceHeading" onClick={this.handleOpenToggle}>
+                <div className="StackTracePointHeading" onClick={this.handleOpenToggle}>
                     <div className="TraceMessage">{point.code}</div>
                     <div className="TraceLineNumber">Line number: {point.line}</div>
                 </div>

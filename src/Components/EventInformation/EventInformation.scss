@@ -1,3 +1,12 @@
 .EventInformation {
+  display: flex;
+  justify-content: space-between;
 
+  .OtherInfo {
+    text-align: right;
+
+    .InfoItem:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
 }
