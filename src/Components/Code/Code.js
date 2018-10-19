@@ -28,6 +28,12 @@ class Code extends Component {
 
             codeStyle.top = `${(line - linePreview - 1) * - 21}px`;
             wrapperStyle.height = `${lineNumbers.length * 21}px`;
+        } else {
+            const textLinesCount = source.split("\n").length;
+
+            for (let i = 1; i <= textLinesCount; i++) {
+                lineNumbers.push({number: i, active: i === line});
+            }
         }
 
         return (
