@@ -21,4 +21,5 @@ export const NetworkAppToApiTypeMap = {
 export const EtherscanLinkTypes = {
     BLOCK: 'block',
     TRANSACTION: 'transaction',
+    ADDRESS: 'address',
 };

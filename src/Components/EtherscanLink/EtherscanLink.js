@@ -9,6 +9,7 @@ const NetworkToPrefixMap = {
 const TypeToUrlPathMap = {
     [EtherscanLinkTypes.BLOCK]: 'block',
     [EtherscanLinkTypes.TRANSACTION]: 'tx',
+    [EtherscanLinkTypes.ADDRESS]: 'address',
 };
 
 const EtherscanLink = ({network, type, value, path = '', children, ...props}) => {

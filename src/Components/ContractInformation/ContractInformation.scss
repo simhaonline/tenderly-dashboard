@@ -1,3 +1,34 @@
-.ContractInformation {
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
 
+.ContractInformation {
+  border-bottom: 1px solid $BorderColor;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+
+  .ContractDetails {
+    display: flex;
+    margin-top: 20px;
+
+    .DetailsWrapper {
+      flex: 0 0 auto;
+
+      &:not(:last-child) {
+        margin-right: 20px;
+        padding-right: 20px;
+        border-right: 1px solid $BorderColor;
+      }
+
+      .DetailLabel {
+        text-transform: uppercase;
+        opacity: 0.75;
+        margin-bottom: 3px;
+        font-size: $FontSize100;
+      }
+
+      .DetailValue {
+        color: $SecondaryColor600;
+      }
+    }
+  }
 }

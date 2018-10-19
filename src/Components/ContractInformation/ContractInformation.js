@@ -1,14 +1,33 @@
 import React from 'react';
+import {Link} from "react-router-dom";
+
+import {EtherscanLinkTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
+
+import EtherscanLink from "../EtherscanLink/EtherscanLink";
 
 import './ContractInformation.css';
 
 const ContractInformation = ({contract}) => {
+    const networkType = NetworkAppToApiTypeMap[contract.network];
+
     return (
         <div className="ContractInformation">
-            <div>{contract.name}</div>
-            <div>{contract.network}</div>
-            <div>{contract.address}</div>
-            <div>{contract.solidity}</div>
+            <div className="ContractName">
+                <h2><Link to={`/contract/${networkType}/${contract.id}`}>{contract.name}</Link></h2>
+                <span>{contract.network}</span>
+            </div>
+            <div className="ContractDetails">
+                <div className="DetailsWrapper">
+                    <div className="DetailLabel">Address:</div>
+                    <div className="DetailValue">
+                        <EtherscanLink network={contract.network} type={EtherscanLinkTypes.ADDRESS} value={contract.address}>{contract.address}</EtherscanLink>
+                    </div>
+                </div>
+                <div className="DetailsWrapper">
+                    <div className="DetailLabel">Solidity Verson:</div>
+                    <div className="DetailValue">{contract.solidity}</div>
+                </div>
+            </div>
         </div>
     )
 };
