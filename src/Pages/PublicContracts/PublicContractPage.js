@@ -9,8 +9,8 @@ import {getPublicContractEvents} from "../../Common/Selectors/EventSelectors";
 
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
-import {Page, Container, Button} from "../../Elements";
-import {EventList, ContractInformation} from "../../Components";
+import {Page, Container} from "../../Elements";
+import {EventList, ContractInformation, ContractActions} from "../../Components";
 
 class PublicContractPage extends Component {
     componentDidMount() {
@@ -39,7 +39,7 @@ class PublicContractPage extends Component {
             <Page>
                 <Container>
                     <ContractInformation contract={contract}/>
-                    <Button className="EventListItem" to={`/contract/${network}/${contract.id}/source`}>Contract Source</Button>
+                    <ContractActions contract={contract} routeNetwork={network}/>
                     {events.length && <EventList events={events} contract={contract}/>}
                 </Container>
             </Page>
