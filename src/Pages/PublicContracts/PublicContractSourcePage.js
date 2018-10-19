@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {parse} from "query-string";
+import qs from "qs";
 
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 
@@ -23,7 +23,7 @@ class PublicContractSourcePage extends Component {
     render() {
         const {contract, location: {search}} = this.props;
 
-        const parsedQuery = parse(search);
+        const parsedQuery = qs.parse(search, { ignoreQueryPrefix: true });
         const line = parseInt(parsedQuery["line"], 10) || null;
 
         if (!contract) {
