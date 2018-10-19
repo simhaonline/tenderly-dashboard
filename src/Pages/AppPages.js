@@ -4,6 +4,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {PrivateRoute} from "../Components";
 import PublicContractsPage from "./PublicContracts/PublicContractsPage";
 import PublicContractPage from "./PublicContracts/PublicContractPage";
+import PublicContractSourcePage from "./PublicContracts/PublicContractSourcePage";
 import ErrorPage from "./Error/ErrorPage";
 
 const loginPages = () => (
@@ -31,6 +32,7 @@ const AppPages = () => {
             <Route path="/login" exact component={loginPages}/>
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
+            <Route path="/contract/:network/:id/source" exact component={PublicContractSourcePage}/>
             <Route path="/contract/:network/:id/error/:errorId" exact component={ErrorPage}/>
             <Redirect exact from="/" to="/public-contracts/kovan"/>
             <Route component={noMatchPage}/>
