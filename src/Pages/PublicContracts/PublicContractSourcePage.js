@@ -9,7 +9,7 @@ import {getPublicContractById, isPublicContractLoaded} from "../../Common/Select
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container} from "../../Elements";
-import {ContractInformation} from "../../Components";
+import {ContractInformation, ContractSource} from "../../Components";
 
 class PublicContractSourcePage extends Component {
     componentDidMount() {
@@ -35,6 +35,7 @@ class PublicContractSourcePage extends Component {
                 <Container>
                     source my source
                     <ContractInformation contract={contract}/>
+                    <ContractSource contract={contract}/>
                 </Container>
             </Page>
         )
