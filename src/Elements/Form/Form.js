@@ -1,10 +1,18 @@
 import React from 'react';
 
 const Form = ({children, onSubmit}) => {
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+
+        if (onSubmit) {
+            onSubmit(event);
+        }
+    };
+
     return (
-        <div className="Form">
+        <form onSubmit={handleFormSubmit} className="Form">
             {children}
-        </div>
+        </form>
     )
 };
 

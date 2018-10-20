@@ -1,12 +1,20 @@
 import React from 'react';
 
-const Form = ({children, value, field, label}) => {
+const Input = ({children, value, field, label, onChange}) => {
+    const handleInputChange = (event) => {
+        const newValue = event.target.value;
+
+        if (onChange && field) {
+            onChange(field, newValue, event)
+        }
+    };
+
     return (
         <div className="InputWrapper">
             {!!label && <span className="InputLabel">{label}</span>}
-            <input type="text" className="Input" id={field} name={field} value={value}/>
+            <input type="text" className="Input" id={field} name={field} value={value} onChange={handleInputChange}/>
         </div>
     )
 };
 
-export default Form;
+export default Input;
