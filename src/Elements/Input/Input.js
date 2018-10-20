@@ -1,6 +1,9 @@
 import React from 'react';
+import classNames from 'classnames';
 
-const Input = ({children, value, field, label, onChange}) => {
+import './Input.css';
+
+const Input = ({children, value, type, field, label, onChange}) => {
     const handleInputChange = (event) => {
         const newValue = event.target.value;
 
@@ -9,10 +12,17 @@ const Input = ({children, value, field, label, onChange}) => {
         }
     };
 
+    const labelStateClassName = value ? 'focused' : '';
+
     return (
         <div className="InputWrapper">
-            {!!label && <span className="InputLabel">{label}</span>}
-            <input type="text" className="Input" id={field} name={field} value={value} onChange={handleInputChange}/>
+            {!!label && <label htmlFor={`input-${field}`} className={
+                classNames(
+                    "InputLabel",
+                    labelStateClassName,
+                )}>{label}</label>
+            }
+            <input type={type || "text"} className="Input" id={`input-${field}`} name={field} value={value} onChange={handleInputChange}/>
         </div>
     )
 };

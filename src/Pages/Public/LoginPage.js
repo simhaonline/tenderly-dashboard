@@ -31,7 +31,7 @@ class LoginPage extends Component {
                     <div className="LoginFormWrapper">
                         <Form onSubmit={this.handleFormSubmit}>
                             <Input label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
-                            <Input label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+                            <Input type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
                             <Button type="submit">Login</Button>
                         </Form>
                     </div>

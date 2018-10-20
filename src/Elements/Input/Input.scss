@@ -1,0 +1,48 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+
+.InputWrapper {
+  background-color: transparentize($WhiteColor, 0.95);
+  border: 1px solid transparentize($PrimaryColor600, 0.5);
+  position: relative;
+  border-radius: 3px;
+  transition: 0.15s;
+
+  .Input {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    padding: 10px 15px;
+    color: transparentize($WhiteColor, 0.15);
+    font-size: $FontSize300;
+
+    &:focus, &:hover, &:active {
+      outline: none;
+    }
+  }
+
+  .InputLabel {
+    cursor: text;
+    position: absolute;
+    left: 15px;
+    transition: 0.15s;
+    top: 9px;
+
+    &.focused {
+      top: -11px;
+    }
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  &:hover {
+    background-color: transparentize($WhiteColor, 0.92);
+  }
+
+  &.focused {
+    background-color: transparentize($WhiteColor, 0.9);
+  }
+}
