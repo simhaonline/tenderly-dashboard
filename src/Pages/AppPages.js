@@ -6,12 +6,7 @@ import PublicContractsPage from "./PublicContracts/PublicContractsPage";
 import PublicContractPage from "./PublicContracts/PublicContractPage";
 import PublicContractSourcePage from "./PublicContracts/PublicContractSourcePage";
 import ErrorPage from "./Error/ErrorPage";
-
-const loginPages = () => (
-    <div>
-        login page
-    </div>
-);
+import LoginPage from "./Public/LoginPage";
 
 const privatePages = () => (
     <div>
@@ -29,7 +24,7 @@ const AppPages = () => {
     return (
         <Switch>
             <PrivateRoute path="/private" exact component={privatePages}/>
-            <Route path="/login" exact component={loginPages}/>
+            <Route path="/login" exact component={LoginPage}/>
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
             <Route path="/contract/:network/:id/source" exact component={PublicContractSourcePage}/>
