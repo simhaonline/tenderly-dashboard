@@ -1,0 +1,19 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.NetworkTag {
+  color: $WhiteColor;
+  padding: 4px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: $FontSize100;
+
+  &.main {
+    background-color: transparentize($SecondaryColor600, 0.25);
+  }
+
+  &.kovan {
+    background-color: transparentize($TertiaryColor600, 0.25);
+  }
+}

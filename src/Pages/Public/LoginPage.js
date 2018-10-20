@@ -35,6 +35,13 @@ class LoginPage extends Component {
                             <Button type="submit">Login</Button>
                         </Form>
                     </div>
+                    <div className="SignUpWrapper">
+                        <h2>Want to participate in our Early Access Program?</h2>
+                        <p>We are currently working hard on creating the right tools to help and speed up Smart Contract development.</p>
+                        <p>For that we need your help! You can help by participating in our early access program and by providing feedback on newly released features.</p>
+                        <p>You can see a full list of <a href="https://tenderly.app#features">our features here</a>.</p>
+                        <Button>Sign up for Early Access</Button>
+                    </div>
                 </Container>
             </Page>
         )

@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {EtherscanLinkTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
 
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
+import NetworkTag from "../NetworkTag/NetworkTag";
 
 import './ContractInformation.css';
 
@@ -14,7 +15,7 @@ const ContractInformation = ({contract}) => {
         <div className="ContractInformation">
             <div className="ContractName">
                 <h2><Link to={`/contract/${networkType}/${contract.id}`}>{contract.name}</Link></h2>
-                <span>{contract.network}</span>
+                <div><NetworkTag network={contract.network}/></div>
             </div>
             <div className="ContractDetails">
                 <div className="DetailsWrapper">
