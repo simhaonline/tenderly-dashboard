@@ -1,4 +1,5 @@
 import {Api} from "../../Utils/Api";
+import Project from "./Project.model";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const FETCH_PROJECT_ACTION = 'FETCH_PROJECT';
@@ -25,11 +26,10 @@ export const createProject = (name, slug, account = null) => {
 
         console.log(data);
 
-        const project = {
-            id: slug,
+        const project = new Project({
             name,
             slug,
-        };
+        });
 
         dispatch({
             type: CREATE_PROJECT_ACTION,
