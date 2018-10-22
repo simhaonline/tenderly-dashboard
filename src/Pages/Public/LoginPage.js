@@ -7,6 +7,8 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Container, Button, Form, Input} from "../../Elements";
 
+import './LoginPage.css';
+
 class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -37,19 +39,21 @@ class LoginPage extends Component {
         return (
             <Page id="LoginPage">
                 <Container>
-                    <div className="LoginFormWrapper">
-                        <Form onSubmit={this.handleFormSubmit}>
-                            <Input label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
-                            <Input type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
-                            <Button outline stretch type="submit">Login</Button>
-                        </Form>
-                    </div>
-                    <div className="SignUpWrapper">
-                        <h2>Want to participate in our Early Access Program?</h2>
-                        <p>We are currently working hard on creating the right tools to help and speed up Smart Contract development.</p>
-                        <p>For that we need your help! You can help by participating in our early access program and by providing feedback on newly released features.</p>
-                        <p>You can see a full list of <a href="https://tenderly.app#features">our features here</a>.</p>
-                        <Button>Sign up for Early Access</Button>
+                    <div className="LoginPageContent">
+                        <div className="LoginFormWrapper">
+                            <Form onSubmit={this.handleFormSubmit}>
+                                <Input label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
+                                <Input type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+                                <Button outline stretch type="submit">Login</Button>
+                            </Form>
+                        </div>
+                        <div className="SignUpWrapper">
+                            <h2>Want to participate in our Early Access Program?</h2>
+                            <p>We are currently working hard on creating the right tools to help and speed up Smart Contract development.</p>
+                            <p>For that we need your help! You can help by participating in our early access program and by providing feedback on newly released features.</p>
+                            <p>You can see a full list of <a href="https://tenderly.app#features">our features here</a>.</p>
+                            <Button>Sign up for Early Access</Button>
+                        </div>
                     </div>
                 </Container>
             </Page>
