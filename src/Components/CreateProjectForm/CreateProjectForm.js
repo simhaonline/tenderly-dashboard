@@ -3,7 +3,6 @@ import React from 'react';
 import {Form, Input, Button} from "../../Elements";
 
 const CreateProjectForm = ({formData = {}, onChange, onSubmit}) => {
-    console.log(formData);
     return (
         <Form onSubmit={onSubmit}>
             <Input value={formData.projectName} field={"projectName"} onChange={onChange}/>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as projectActions from '../../Core/Project/Project.actions';
@@ -12,6 +13,11 @@ class CreateProjectPage extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            projectCreated: false,
+            project: null,
+        };
+
         initializeForm(this, {
             projectName: '',
             projectSlug: '',
@@ -19,7 +25,7 @@ class CreateProjectPage extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
-    handleFormSubmit = () => {
+    handleFormSubmit = async () => {
         const {formData: {projectName, projectSlug}} = this.state;
 
 
@@ -29,11 +35,21 @@ class CreateProjectPage extends Component {
 
         const {actions} = this.props;
 
-        actions.createProject(projectName, projectSlug);
+        const project = await actions.createProject(projectName, projectSlug);
+
+        this.setState({
+            projectCreated: true,
+            project,
+        })
     };
 
     render() {
-        const {formData} = this.state;
+        const {formData, projectCreated} = this.state;
+
+        if (projectCreated) {
+            // @TODO Redirect to individual project page
+            return <Redirect to="/dashboard"/>
+        }
 
         return (
             <Page>

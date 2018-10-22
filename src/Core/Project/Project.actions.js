@@ -13,27 +13,21 @@ export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
  */
 export const createProject = (name, slug, account = null) => {
     return async (dispatch, getState) => {
-        console.log(getState());
         const {auth: {user: {username}}} = getState();
 
         const projectAccount = account || username;
 
-        console.log(projectAccount);
-
-        const {data} = Api.post(`/account/${projectAccount}/project`, {
+        const {data} = await Api.post(`/account/${projectAccount}/project`, {
             name: slug,
         });
 
-        console.log(data);
-
-        const project = new Project({
-            name,
-            slug,
-        });
+        const project = new Project(data);
 
         dispatch({
             type: CREATE_PROJECT_ACTION,
             project,
         });
+
+        return project;
     };
 };
