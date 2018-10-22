@@ -65,5 +65,10 @@ export const retrieveToken = (token) => {
             type: RETRIEVE_TOKEN_ACTION,
             token,
         });
+
+        if (token) {
+            dispatch(setAuthHeader(token));
+            dispatch(getUser());
+        }
     }
 };
