@@ -17,9 +17,7 @@ class App extends Component {
     async componentDidMount() {
         const tokenCookie = Cookies.get('token');
 
-        if (!!tokenCookie) {
-            await store.dispatch(authActions.retrieveToken(tokenCookie));
-        }
+        await store.dispatch(authActions.retrieveToken(tokenCookie));
     }
     render() {
         return (

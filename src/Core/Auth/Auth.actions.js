@@ -61,14 +61,14 @@ export const getUser = () => {
  */
 export const retrieveToken = (token) => {
     return async dispatch => {
+        if (token) {
+            dispatch(setAuthHeader(token));
+            await dispatch(getUser());
+        }
+
         dispatch({
             type: RETRIEVE_TOKEN_ACTION,
             token,
         });
-
-        if (token) {
-            dispatch(setAuthHeader(token));
-            dispatch(getUser());
-        }
     }
 };
