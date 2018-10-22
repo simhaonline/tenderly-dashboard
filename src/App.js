@@ -14,12 +14,24 @@ import {AppHeader} from "./Components";
 import {AppPages} from "./Pages";
 
 class App extends Component {
+    state = {
+        loaded: false,
+    };
+
     async componentDidMount() {
         const tokenCookie = Cookies.get('token');
 
         await store.dispatch(authActions.retrieveToken(tokenCookie));
+
+        this.setState({
+            loaded: true,
+        });
     }
     render() {
+        const {loaded} = this.state;
+
+        if (!loaded) return null;
+
         return (
             <Provider store={store}>
                 <Router>
