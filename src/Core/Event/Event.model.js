@@ -19,8 +19,6 @@ class Event {
 
         const lastTraceData = Event.parseLastTraceData(this.trace);
 
-
-
         /** @type number */
         this.lineNumber = lastTraceData.lineNumber;
 
@@ -37,6 +35,10 @@ class Event {
      */
     static parseLastTraceData(trace) {
         const lastTraceData = {};
+
+        if (!trace) {
+            return lastTraceData;
+        }
 
         const lastTrace = trace[0];
 
