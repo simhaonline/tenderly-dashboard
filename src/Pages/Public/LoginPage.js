@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Container, Button, Form, Input} from "../../Elements";
 
@@ -16,10 +18,17 @@ class LoginPage extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
-    handleFormSubmit = (event) => {
-        const {formData} = this.state;
+    handleFormSubmit = () => {
+        const {formData: {email, password}} = this.state;
 
-        console.log(formData, event);
+
+        if (!email || !password) {
+            return;
+        }
+
+        const {actions} = this.props;
+
+        actions.loginUser(email, password);
     };
 
     render() {
@@ -54,7 +63,13 @@ const mapStateToProps = (state) => {
     };
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(authActions, dispatch),
+    }
+};
+
 export default connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
 )(LoginPage);
