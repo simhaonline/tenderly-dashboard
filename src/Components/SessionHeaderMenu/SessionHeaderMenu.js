@@ -7,7 +7,9 @@ class SessionHeaderMenu extends Component {
     render() {
         const {auth} = this.props;
 
-        if (!auth.loggedIn) {
+        if (!auth.retrievedToken) return null;
+
+        if (!auth.loggedIn && !auth.token) {
             return (
                 <div>
                     <Button to="/login">
@@ -20,7 +22,9 @@ class SessionHeaderMenu extends Component {
             )
         }
 
-        const {user} = auth;
+        const {user, loggedIn} = auth;
+
+        if (!loggedIn) return null;
 
         return (
             <div className="asd">
