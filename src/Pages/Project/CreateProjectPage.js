@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 
 import {Page, Container} from "../../Elements";
-import {DashboardProjectsList} from "../../Components";
 
-class DashboardPage extends Component {
+class CreateProjectPage extends Component {
     render() {
         return (
             <Page>
                 <Container>
-                    <DashboardProjectsList/>
+                    Create a project
                 </Container>
             </Page>
         )
     }
 }
 
-export default DashboardPage;
+export default CreateProjectPage;
