@@ -1,4 +1,4 @@
-import {GET_USER_ACTION, LOG_IN_ACTION, RETRIEVE_TOKEN_ACTION} from "./Auth.actions";
+import {GET_USER_ACTION, LOG_IN_ACTION, LOG_OUT_ACTION, RETRIEVE_TOKEN_ACTION} from "./Auth.actions";
 
 const initialState = {
     retrievedToken: false,
@@ -19,6 +19,13 @@ const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 token: action.token,
+            };
+        case LOG_OUT_ACTION:
+            return {
+                ...state,
+                token: null,
+                loggedIn: false,
+                user: {},
             };
         case GET_USER_ACTION:
             return {

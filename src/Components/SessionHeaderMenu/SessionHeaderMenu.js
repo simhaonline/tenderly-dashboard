@@ -1,9 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+
+import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Button} from "../../Elements";
 
 class SessionHeaderMenu extends Component {
+    handleLogoutUser = () => {
+        const {actions} = this.props;
+
+        actions.logoutUser();
+    };
     render() {
         const {auth} = this.props;
 
@@ -28,7 +36,8 @@ class SessionHeaderMenu extends Component {
 
         return (
             <div className="asd">
-                Hey {user.getFullName()}
+                <div>{user.getFullName()}</div>
+                <div><a onClick={this.handleLogoutUser}>Logout</a></div>
             </div>
         )
     }
@@ -40,7 +49,14 @@ const mapStateToProps = (state) => {
     };
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(authActions, dispatch),
+    }
+};
+
 export default connect(
     mapStateToProps,
+    mapDispatchToProps,
 )(SessionHeaderMenu);
 

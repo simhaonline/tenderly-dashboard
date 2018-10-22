@@ -5,6 +5,7 @@ import {PublicApi, Api} from '../../Utils/Api';
 import User from "./User.model";
 
 export const LOG_IN_ACTION = 'LOG_IN';
+export const LOG_OUT_ACTION = 'LOG_OUT';
 export const REGISTER_ACTION = 'REGISTER';
 export const GET_USER_ACTION = 'GET_USER';
 export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
@@ -16,6 +17,13 @@ const setAuthHeader = (token) => {
     return async dispatch => {
         Cookies.set('token', token, { path: '/' });
         Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+};
+
+const removeAuthHeader = () => {
+    return async dispatch => {
+        Cookies.remove('token');
+        Api.defaults.headers.common['Authorization'] = null;
     }
 };
 
@@ -40,6 +48,15 @@ export const loginUser = (username, password) => {
         });
         dispatch(setAuthHeader(data.token));
         dispatch(getUser());
+    }
+};
+
+export const logoutUser = () => {
+    return async dispatch => {
+        dispatch({
+            type: LOG_OUT_ACTION,
+        });
+        dispatch(removeAuthHeader());
     }
 };
 
