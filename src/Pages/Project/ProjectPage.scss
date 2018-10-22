@@ -1,0 +1,28 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+#ProjectPage {
+  .ProjectSetupWrapper {
+    margin-top: 30px;
+    padding: 20px 30px;
+    border: 1px solid $BorderColor;
+    background-color: transparentize($BlackColor, 0.75);
+    border-radius: 5px;
+
+    p {
+      margin-top: 0;
+    }
+
+    code {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid $BorderColor;
+      font-family: $MonospaceFontFamily;
+      font-size: $FontSize100;
+      width: 100%;
+      color: $SecondaryColor600;
+      display: block;
+      border-radius: 3px;
+    }
+  }
+}

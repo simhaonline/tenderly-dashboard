@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 import {Button} from "../../Elements";
 
@@ -16,9 +17,9 @@ const DashboardProjectsList = ({projects, loaded}) => {
             </div>}
             {(loaded && projects.length !== 0) && <div className="ProjectList">
                 {projects.map(project =>
-                    <div className="ProjectListItem" key={project.id}>
+                    <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id}>
                         {project.name}
-                    </div>
+                    </Link>
                 )}
                 <Button to="/project/create">Create Project</Button>
             </div>}
