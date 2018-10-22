@@ -18,9 +18,12 @@ const DashboardProjectsList = ({projects, loaded}) => {
             {(loaded && projects.length !== 0) && <div className="ProjectList">
                 {projects.map(project =>
                     <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id}>
-                        {project.name}
+                        <div className="ProjectNameLabel">Project name:</div>
+                        <div className="ProjectName">{project.name}</div>
                     </Link>
                 )}
+            </div>}
+            {(loaded && projects.length !== 0) && <div>
                 <Button to="/project/create">Create Project</Button>
             </div>}
             {!loaded && <div className="LoadingProjects">

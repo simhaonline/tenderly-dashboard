@@ -1,0 +1,37 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.ProjectList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+
+  .ProjectListItem {
+    flex: 0 0 250px;
+    background-color: transparentize($BlackColor, 0.75);
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid $BorderColor;
+    cursor: pointer;
+    transition: 0.15s;
+
+    .ProjectNameLabel {
+      color: transparentize($WhiteColor, 0.3);
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      font-size: $FontSize100 * 0.8;
+    }
+
+    .ProjectName {
+      color: $WhiteColor;
+      font-size: $FontSize200;
+      font-weight: bold;
+    }
+
+    &:hover {
+      border-color: $SecondaryColor600;
+    }
+  }
+}
