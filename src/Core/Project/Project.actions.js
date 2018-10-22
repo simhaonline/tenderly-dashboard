@@ -31,3 +31,20 @@ export const createProject = (name, slug, account = null) => {
         return project;
     };
 };
+
+export const fetchProjects = (account = null) => {
+    return async (dispatch, getState) => {
+        const {auth: {user: {username}}} = getState();
+
+        const projectAccount = account || username;
+
+        const {data} =await Api.get(`/account/${projectAccount}/projects`);
+
+        const projects = data.map(project => new Project(project));
+
+        dispatch({
+            type: FETCH_PROJECTS_ACTION,
+            projects,
+        });
+    }
+};

@@ -9,6 +9,13 @@ class Project {
         /** @type string */
         this.slug = data.name;
     }
+
+    /**
+     * @returns {Project}
+     */
+    update() {
+        return this;
+    }
 }
 
 export default Project;
