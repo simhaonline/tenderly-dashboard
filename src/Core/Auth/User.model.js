@@ -13,7 +13,7 @@ class User {
         this.lastName = data.last_name;
 
         /** @type string */
-        this.userName = data.userName;
+        this.username = data.username;
     }
 
     getFullName() {
