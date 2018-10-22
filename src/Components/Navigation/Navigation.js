@@ -9,7 +9,7 @@ class Navigation extends Component {
     render() {
         return (
             <div className="Navigation">
-                <NavLink className="HeaderNavItem" exact to="/private">
+                <NavLink className="HeaderNavItem" exact to="/dashboard">
                     <Icon icon="project" className="NavIcon"/>
                     Dashboard
                 </NavLink>
