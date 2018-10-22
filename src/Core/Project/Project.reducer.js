@@ -1,4 +1,5 @@
 import {CREATE_PROJECT_ACTION, FETCH_PROJECTS_ACTION} from "./Project.actions";
+import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
 const initialState = {
     projects: {},
@@ -7,6 +8,13 @@ const initialState = {
 
 const ProjectReducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOG_OUT_ACTION: {
+            return {
+                ...state,
+                projectsLoaded: false,
+                projects: {},
+            }
+        }
         case CREATE_PROJECT_ACTION:
             return {
                 ...state,
