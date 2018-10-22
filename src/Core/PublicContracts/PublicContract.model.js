@@ -18,6 +18,12 @@ class PublicContract {
         /** @type string */
         this.network = publicContractNetworkMap[data.deployment_information.network_id];
 
+        /** @type Date */
+        this.lastEventAt = data.last_event_occurred_at;
+
+        /** @type number */
+        this.eventCount = data.number_of_exceptions;
+
         if (data.source) {
             /** @type string */
             this.source = data.source;

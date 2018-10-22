@@ -22,6 +22,31 @@
       margin-bottom: 12px;
     }
 
+    .EventInfo {
+      margin-bottom: 15px;
+      display: flex;
+
+      .EventInfoItem {
+        font-size: $FontSize100 * 0.8;
+
+        .InfoLabel {
+          text-transform: uppercase;
+          margin-bottom: 6px;
+        }
+
+        .InfoValue {
+          border-radius: 3px;
+          border: 1px solid transparentize($WhiteColor, 0.75);
+          padding: 3px 5px;
+          display: inline-block;
+        }
+
+        &:not(:last-child) {
+          margin-right: 20px;
+        }
+      }
+    }
+
     .AddressInfo {
       font-size: $FontSize100;
 
