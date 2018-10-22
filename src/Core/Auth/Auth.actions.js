@@ -7,6 +7,7 @@ import User from "./User.model";
 export const LOG_IN_ACTION = 'LOG_IN';
 export const REGISTER_ACTION = 'REGISTER';
 export const GET_USER_ACTION = 'GET_USER';
+export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
 
 /**
  * @param {string} token
@@ -51,6 +52,18 @@ export const getUser = () => {
         dispatch({
             type: GET_USER_ACTION,
             user,
+        });
+    }
+};
+
+/**
+ * @param {string} token
+ */
+export const retrieveToken = (token) => {
+    return async dispatch => {
+        dispatch({
+            type: RETRIEVE_TOKEN_ACTION,
+            token,
         });
     }
 };
