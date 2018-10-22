@@ -1,2 +1,44 @@
 @import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
 
+.Button {
+
+}
+
+.ButtonOutlined {
+  color: $WhiteColor;
+  border: 1px solid $WhiteColor;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: transparentize($BlackColor, 0.75);
+  font-size: $FontSize300;
+  cursor: pointer;
+  transition: 0.2s;
+  justify-content: center;
+
+  &:hover {
+    background-color: transparentize($BlackColor, 0.65);
+  }
+
+  &:active {
+    box-shadow: 0 0 0 3px transparentize($WhiteColor, 0.85);
+  }
+
+  &.Primary {
+    border-color: transparentize($PrimaryColor600, 0.5);
+
+    &:hover {
+      border-color: $PrimaryColor600;
+    }
+
+    &:active {
+      box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.7);
+    }
+  }
+
+  &.Stretch {
+    width: 100%;
+  }
+}

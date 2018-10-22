@@ -41,7 +41,7 @@ class LoginPage extends Component {
                         <Form onSubmit={this.handleFormSubmit}>
                             <Input label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
                             <Input type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
-                            <Button type="submit">Login</Button>
+                            <Button outline stretch type="submit">Login</Button>
                         </Form>
                     </div>
                     <div className="SignUpWrapper">

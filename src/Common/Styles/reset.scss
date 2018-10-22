@@ -35,3 +35,9 @@ a {
     color: #69a5db;
   }
 }
+
+button {
+  &:focus, &:active {
+    outline: none;
+  }
+}

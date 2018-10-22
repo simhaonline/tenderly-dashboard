@@ -4,17 +4,28 @@ import classNames from 'classnames';
 
 import './Button.css';
 
-const Button = ({children, type, className, to, ...props}) => {
+function getButtonColorClass(color) {
+    switch (color) {
+        default:
+            return 'Primary';
+    }
+}
+
+const Button = ({children, type, color, size, className, outline, stretch, to, ...props}) => {
     let ButtonTag = 'button';
 
     if (to) {
         ButtonTag = Link;
     }
 
+    const buttonColorClass = getButtonColorClass(color);
+
     return (
         <ButtonTag className={classNames(
-            'Button',
+            outline ? 'ButtonOutlined' : 'Button',
+            stretch ? 'Stretch' : '',
             className,
+            buttonColorClass,
         )} type={type || 'button'} to={to} {...props}>
             {children}
         </ButtonTag>
