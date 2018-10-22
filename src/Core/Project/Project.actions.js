@@ -38,7 +38,16 @@ export const fetchProjects = (account = null) => {
 
         const projectAccount = account || username;
 
-        const {data} =await Api.get(`/account/${projectAccount}/projects`);
+        const {data} = await Api.get(`/account/${projectAccount}/projects`);
+
+        if (!data) {
+            dispatch({
+                type: FETCH_PROJECTS_ACTION,
+                projects: [],
+            });
+
+            return;
+        }
 
         const projects = data.map(project => new Project(project));
 
