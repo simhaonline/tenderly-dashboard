@@ -24,7 +24,7 @@ class SessionHeaderMenu extends Component {
 
         return (
             <div className="asd">
-                Hey {user.firstName} {user.lastName}
+                Hey {user.getFullName()}
             </div>
         )
     }

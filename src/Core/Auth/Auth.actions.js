@@ -1,5 +1,8 @@
 import Cookies from "js-cookie";
+
 import {PublicApi, Api} from '../../Utils/Api';
+
+import User from "./User.model";
 
 export const LOG_IN_ACTION = 'LOG_IN';
 export const REGISTER_ACTION = 'REGISTER';
@@ -41,7 +44,9 @@ export const loginUser = (username, password) => {
 
 export const getUser = () => {
     return async dispatch => {
-        const {user} = await Api.get('/user');
+        const {data} = await Api.get('/user');
+
+        const user = new User(data);
 
         dispatch({
             type: GET_USER_ACTION,
