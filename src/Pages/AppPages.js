@@ -9,12 +9,6 @@ import ErrorPage from "./Error/ErrorPage";
 import LoginPage from "./Public/LoginPage";
 import DashboardPage from "./Dashboard/DashboardPage";
 
-const privatePages = () => (
-    <div>
-        private
-    </div>
-);
-
 const noMatchPage = () => (
     <div>
         woah 404
@@ -24,7 +18,6 @@ const noMatchPage = () => (
 const AppPages = () => {
     return (
         <Switch>
-            <PrivateRoute path="/private" exact component={privatePages}/>
             <PrivateRoute path="/dashboard" exact component={DashboardPage}/>
             <Route path="/login" exact component={LoginPage}/>
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
