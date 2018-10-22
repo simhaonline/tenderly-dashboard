@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
@@ -35,6 +36,11 @@ class LoginPage extends Component {
 
     render() {
         const {formData} = this.state;
+        const {auth} = this.props;
+
+        if (auth.loggedIn) {
+            return <Redirect to="/dashboard"/>
+        }
 
         return (
             <Page id="LoginPage">
