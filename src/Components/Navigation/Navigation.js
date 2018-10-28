@@ -17,6 +17,10 @@ class Navigation extends Component {
                     <Icon icon="diamond" className="NavIcon"/>
                     Public Contracts
                 </NavLink>
+                <a className="HeaderNavItem" target="_blank" href="https://docs.tenderly.app">
+                    <Icon icon="file-text" className="NavIcon"/>
+                    Documentation
+                </a>
             </div>
         );
     }
