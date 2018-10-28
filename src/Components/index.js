@@ -14,3 +14,4 @@ export {default as EventInformation} from './EventInformation/EventInformation';
 export {default as EventStackTrace} from './EventStackTrace/EventStackTrace';
 export {default as DashboardProjectsList} from './DashboardProjectsList/DashboardProjectsList';
 export {default as CreateProjectForm} from './CreateProjectForm/CreateProjectForm';
+export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigation';

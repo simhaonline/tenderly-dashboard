@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect, Route, Switch} from "react-router-dom";
@@ -13,6 +13,8 @@ import ProjectContractsPage from "./ProjectContractsPage";
 import ProjectReleasesPage from "./ProjectReleasesPage";
 import ProjectSettingsPage from "./ProjectSettingsPage";
 
+import {ProjectNavigation} from "../../Components";
+
 import './ProjectPage.css';
 
 class ProjectPage extends Component {
@@ -24,15 +26,18 @@ class ProjectPage extends Component {
         }
 
         return (
-            <Switch>
-                <Route path="/project/:id/events" component={ProjectEventsPage}/>
-                <Route path="/project/:id/usage" component={ProjectUsagePage}/>
-                <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
-                <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
-                <Route path="/project/:id/releases" component={ProjectReleasesPage}/>
-                <Route path="/project/:id/settings" component={ProjectSettingsPage}/>
-                <Redirect to={`/project/${project.id}/events`}/>
-            </Switch>
+            <Fragment>
+                <ProjectNavigation project={project}/>
+                <Switch>
+                    <Route path="/project/:id/events" component={ProjectEventsPage}/>
+                    <Route path="/project/:id/usage" component={ProjectUsagePage}/>
+                    <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
+                    <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
+                    <Route path="/project/:id/releases" component={ProjectReleasesPage}/>
+                    <Route path="/project/:id/settings" component={ProjectSettingsPage}/>
+                    <Redirect to={`/project/${project.id}/events`}/>
+                </Switch>
+            </Fragment>
         )
     }
 }
