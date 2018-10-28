@@ -22,7 +22,7 @@ const AppPages = () => {
         <Switch>
             <PrivateRoute path="/dashboard" exact component={DashboardPage}/>
             <PrivateRoute path="/project/create" exact component={CreateProjectPage}/>
-            <PrivateRoute path="/project/:id" exact component={ProjectPage}/>
+            <PrivateRoute path="/project/:id" component={ProjectPage}/>
             <Route path="/login" exact component={LoginPage}/>
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" exact component={PublicContractPage}/>

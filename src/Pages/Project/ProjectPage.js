@@ -1,43 +1,38 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {Redirect, Route, Switch} from "react-router-dom";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import * as projectActions from "../../Core/Project/Project.actions";
-import {Page, Container} from "../../Elements";
+
+import ProjectEventsPage from "./ProjectEventsPage";
+import ProjectUsagePage from "./ProjectUsagePage";
+import ProjectAlertsPage from "./ProjectAlertsPage";
+import ProjectContractsPage from "./ProjectContractsPage";
+import ProjectReleasesPage from "./ProjectReleasesPage";
+import ProjectSettingsPage from "./ProjectSettingsPage";
 
 import './ProjectPage.css';
 
 class ProjectPage extends Component {
     render(){
+        const {project} = this.props;
+
+        if (!project) {
+            return null;
+        }
+
         return (
-            <Page id="ProjectPage">
-                <Container>
-                    <h2>Project setup</h2>
-                    <div className="ProjectSetupWrapper">
-                        <p>In order to monitor your contracts you need to install tenderly cli and have truffle configured</p>
-                        <p>To install tenderly</p>
-                        <p>On macOS</p>
-                        <code>
-                            brew tap tenderly/tenderly
-                            <br/>
-                            brew install tenderly
-                        </code>
-                        <p>To login into your tenderly account</p>
-                        <code>
-                            tenderly login
-                        </code>
-                        <p>In your project folder where truffle is configured run</p>
-                        <code>
-                            tenderly init
-                        </code>
-                        <p>Start monitoring your contracts by doing</p>
-                        <code>
-                            tenderly push
-                        </code>
-                    </div>
-                </Container>
-            </Page>
+            <Switch>
+                <Route path="/project/:id/events" component={ProjectEventsPage}/>
+                <Route path="/project/:id/usage" component={ProjectUsagePage}/>
+                <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
+                <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
+                <Route path="/project/:id/releases" component={ProjectReleasesPage}/>
+                <Route path="/project/:id/settings" component={ProjectSettingsPage}/>
+                <Redirect to={`/project/${project.id}/events`}/>
+            </Switch>
         )
     }
 }
