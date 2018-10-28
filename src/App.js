@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Provider} from "react-redux";
 import {BrowserRouter as Router} from "react-router-dom";
 import Cookies from 'js-cookie';
+import ReactGA from 'react-ga';
 
 import 'highlight.js/styles/dracula.css';
 import './Common/Styles/reset.css';
@@ -26,6 +27,9 @@ class App extends Component {
         this.setState({
             loaded: true,
         });
+
+        ReactGA.initialize('UA-125013494-2');
+        ReactGA.pageview(window.location.pathname + window.location.search);
     }
     render() {
         const {loaded} = this.state;
