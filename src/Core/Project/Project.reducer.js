@@ -1,4 +1,4 @@
-import {CREATE_PROJECT_ACTION, FETCH_PROJECTS_ACTION} from "./Project.actions";
+import {CREATE_PROJECT_ACTION, FETCH_PROJECT_ACTION, FETCH_PROJECTS_ACTION} from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
 const initialState = {
@@ -45,6 +45,24 @@ const ProjectReducer = (state = initialState, action) => {
                 },
             };
         }
+        case FETCH_PROJECT_ACTION:
+            let project;
+
+            if (state.projects[action.project.id]) {
+                const existingProject = state.projects[action.project.id];
+
+                project = existingProject.update(action.project);
+            } else {
+                project = action.project;
+            }
+
+            return {
+                ...state,
+                projects: {
+                    ...state.projects,
+                    [project.id]: project,
+                }
+            };
         default:
             return state;
     }

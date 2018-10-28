@@ -8,7 +8,7 @@ export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
 /**
  * @param {string} name
  * @param {string} slug
- * @param {string} [account]
+ * @param {string|null} [account]
  * @returns {Function}
  */
 export const createProject = (name, slug, account = null) => {
@@ -32,6 +32,9 @@ export const createProject = (name, slug, account = null) => {
     };
 };
 
+/**
+ * @param {string|null} [account]
+ */
 export const fetchProjects = (account = null) => {
     return async (dispatch, getState) => {
         const {auth: {user: {username}}} = getState();
@@ -54,6 +57,31 @@ export const fetchProjects = (account = null) => {
         dispatch({
             type: FETCH_PROJECTS_ACTION,
             projects,
+        });
+    }
+};
+
+/**
+ * @param {string} id
+ * @param {string|null} [account]
+ */
+export const fetchProject = (id, account = null) => {
+    return async (dispatch, getState) => {
+        const {auth: {user: {username}}} = getState();
+
+        const projectAccount = account || username;
+
+        const {data} = await Api.get(`/account/${projectAccount}/project/${id}`);
+
+        if (!data) {
+            return;
+        }
+
+        const project = new Project(data);
+
+        dispatch({
+            type: FETCH_PROJECT_ACTION,
+            project,
         });
     }
 };
