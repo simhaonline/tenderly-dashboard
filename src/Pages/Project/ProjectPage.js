@@ -18,6 +18,13 @@ import {ProjectNavigation} from "../../Components";
 import './ProjectPage.css';
 
 class ProjectPage extends Component {
+    componentDidMount() {
+        const {project, actions, projectId} = this.props;
+
+        if (!project) {
+            actions.fetchProject(projectId);
+        }
+    }
     render(){
         const {project} = this.props;
 
@@ -46,6 +53,7 @@ const mapStateToProps = (state, ownProps) => {
     const {match: {params: {id}}} = ownProps;
 
     return {
+        projectId: id,
         project: getProject(state, id),
     }
 };
