@@ -1,3 +1,8 @@
-.Card {
+@import "../../Common/Styles/colors";
 
+.Card {
+  padding: 15px 20px;
+  border: 1px solid $BorderColor;
+  background-color: transparentize($BlackColor, 0.75);
+  border-radius: 5px;
 }
