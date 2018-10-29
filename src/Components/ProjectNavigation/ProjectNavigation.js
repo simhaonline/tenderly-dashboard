@@ -6,8 +6,6 @@ import {Container, Button, Icon} from "../../Elements";
 import './ProjectNavigation.css';
 
 const ProjectNavigation = ({project}) => {
-    console.log(project);
-
     return (
         <Container>
             <div className="ProjectNavigation">
