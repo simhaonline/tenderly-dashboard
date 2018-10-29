@@ -5,4 +5,10 @@
   border: 1px solid $BorderColor;
   background-color: transparentize($BlackColor, 0.75);
   border-radius: 5px;
+
+  .CardHeading {
+    border-bottom: 1px solid $BorderColor;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+  }
 }
