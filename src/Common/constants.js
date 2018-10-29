@@ -13,6 +13,11 @@ export const NetworkApiToAppTypeMap = {
     [NetworkRouteTypes.KOVAN]: NetworkTypes.KOVAN,
 };
 
+export const NetworkLabelMap = {
+    [NetworkTypes.MAIN]: 'Main Network',
+    [NetworkTypes.KOVAN]: 'Kovan Testnet',
+};
+
 export const NetworkAppToApiTypeMap = {
     [NetworkTypes.MAIN]: NetworkRouteTypes.MAIN,
     [NetworkTypes.KOVAN]: NetworkRouteTypes.KOVAN,

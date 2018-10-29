@@ -1,3 +1,65 @@
-.ProjectUsageGraph {
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
 
+.ProjectUsageGraph {
+  width: 400px;
+
+  .GraphsWrapper {
+    .GraphItem {
+
+      .NetworkName {
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .GraphInfo {
+        display: flex;
+        align-items: center;
+
+        .InfoWrapper {
+          margin-right: 20px;
+          font-size: $FontSize100;
+          flex: 0 0 175px;
+
+          .InfoItem {
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+          }
+
+          hr {
+            margin: 5px 0;
+            border: none;
+            border-bottom: 1px solid $BorderColor;
+          }
+        }
+        .PieChartWrapper {
+
+        }
+      }
+    }
+  }
+
+  .GraphNav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 15px;
+
+    .GraphNavDot {
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      display: inline-block;
+      background-color: transparentize($WhiteColor, 0.5);
+
+      &.active {
+        background-color: $SecondaryColor600;
+      }
+
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
 }

@@ -1,15 +1,101 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {Pie, PieChart} from "recharts";
+import classNames from 'classnames';
 
-import {Card} from "../../Elements";
+import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
+
+import {Card, CardHeading, Icon} from "../../Elements";
 
 import './ProjectUsageGraph.css';
 
-const ProjectUsageGraph = ({data}) => {
-    return (
-        <Card className="ProjectUsageGraph">
-            Proejct graph
-        </Card>
-    );
+const networkGraphColorMap = {
+    [NetworkTypes.MAIN]: {
+        successful: '#00cebb',
+        failed: 'rgba(0, 206, 187, 0.5)',
+    },
+    [NetworkTypes.KOVAN]: {
+        successful: '#8700FF',
+        failed: 'rgba(135, 0, 255, 0.5)',
+    },
 };
+
+class ProjectUsageGraph extends Component {
+    constructor(props) {
+        super(props);
+
+        const {data} = props;
+
+        const networks = Object.keys(data.networkTransactions);
+
+        this.state = {
+            networks,
+            activeNetwork: networks[0],
+        }
+    }
+    render() {
+        const {data} = this.props;
+        const {networks, activeNetwork} = this.state;
+
+        const graphData = networks.reduce((graph, network) => {
+            graph[network] = [];
+
+            graph[network].push({
+                name: `${network}_successful`,
+                value: data.transactions[network].successful,
+                fill: networkGraphColorMap[network].successful,
+            });
+
+            graph[network].push({
+                name: `${network}_failed`,
+                value: data.transactions[network].failed,
+                fill: networkGraphColorMap[network].failed,
+            });
+
+            return graph;
+        }, {});
+
+        return (
+            <Card className="ProjectUsageGraph">
+                <CardHeading>
+                    <h3>Transactions (last 24h)</h3>
+                </CardHeading>
+                <div className="GraphsWrapper">
+                    {networks.map(network =>
+                        <div className="GraphItem" key={network}>
+                            <h5 className="NetworkName">{NetworkLabelMap[network]}</h5>
+                            <div className="GraphInfo">
+                                <div className="InfoWrapper">
+                                    <div className="InfoItem">Successful: <span className="ValueSuccess">{data.transactions[network].successful}</span></div>
+                                    <div className="InfoItem">Failed: <span className="ValueFail">{data.transactions[network].failed}</span></div>
+                                    <hr/>
+                                    <div className="InfoItem">Total: <span>{data.networkTransactions[network]}</span></div>
+                                </div>
+                                <PieChart width={130} height={130} >
+                                    <Pie data={graphData[network]} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={45} outerRadius={60} fill="#df0074" />
+                                </PieChart>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div className="GraphNav">
+                    <div>
+                        <Icon icon="chevron-left"/>
+                    </div>
+                    <div className="DotsWrapper">
+                        {networks.map(network =>
+                            <div className={classNames(
+                                'GraphNavDot',
+                                {'active': network === activeNetwork,}
+                            )} key={network}/>
+                        )}
+                    </div>
+                    <div>
+                        <Icon icon="chevron-right"/>
+                    </div>
+                </div>
+            </Card>
+        );
+    }
+}
 
 export default ProjectUsageGraph;
