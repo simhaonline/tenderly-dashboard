@@ -2,17 +2,46 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {NetworkTypes} from "../../Common/constants";
 
 import {Container, Page} from "../../Elements";
 import {ProjectUsageGraph} from "../../Components";
 
 class ProjectUsagePage extends Component {
     render() {
+        const usageData = {
+            totalTransactions: 214,
+            lastTransaction: {
+                [NetworkTypes.MAIN]: {
+                    txHash: '',
+                    timestamp: '',
+                },
+                [NetworkTypes.KOVAN]: {
+                    txHash: '',
+                    timestamp: '',
+                },
+            },
+            networkTransactions: {
+                [NetworkTypes.MAIN]: 23,
+                [NetworkTypes.KOVAN]: 191,
+            },
+            transactions: {
+                [NetworkTypes.MAIN]: {
+                    successful: 21,
+                    failed: 2,
+                },
+                [NetworkTypes.KOVAN]: {
+                    successful: 148,
+                    failed: 43,
+                },
+            },
+        };
+
         return (
             <Page id="ProjectPage">
                 <Container>
                     <h1>Usage</h1>
-                    <ProjectUsageGraph/>
+                    <ProjectUsageGraph data={usageData}/>
                 </Container>
             </Page>
         )
