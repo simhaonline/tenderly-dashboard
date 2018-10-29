@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 
-import {Container, Page} from "../../Elements";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
+
+import {Container, Page} from "../../Elements";
+import {ProjectUsageGraph} from "../../Components";
 
 class ProjectUsagePage extends Component {
     render() {
         return (
             <Page id="ProjectPage">
                 <Container>
-                    ProjectUsagePage
+                    <h1>Usage</h1>
+                    <ProjectUsageGraph/>
                 </Container>
             </Page>
         )
