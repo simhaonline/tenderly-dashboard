@@ -6,8 +6,21 @@ import './Button.css';
 
 function getButtonColorClass(color) {
     switch (color) {
+        case 'secondary':
+            return 'Secondary';
         default:
             return 'Primary';
+    }
+}
+
+function getButtonSizeClass(size) {
+    switch (size) {
+        case 'large':
+            return 'Large';
+        case 'small':
+            return 'Small';
+        default:
+            return '';
     }
 }
 
@@ -19,6 +32,7 @@ const Button = ({children, type, color, size, className, outline, stretch, to, .
     }
 
     const buttonColorClass = getButtonColorClass(color);
+    const buttonSizeClass = getButtonSizeClass(size);
 
     return (
         <ButtonTag className={classNames(
@@ -26,6 +40,7 @@ const Button = ({children, type, color, size, className, outline, stretch, to, .
             stretch ? 'Stretch' : '',
             className,
             buttonColorClass,
+            buttonSizeClass,
         )} type={type || 'button'} to={to} {...props}>
             {children}
         </ButtonTag>

@@ -7,7 +7,9 @@ import './ContractActions.css';
 const ContractActions = ({contract, routeNetwork}) => {
     return (
         <div className="ContractActions">
-            <Button className="EventListItem" to={`/contract/${routeNetwork}/${contract.id}/source`}>Contract Source</Button>
+            <Button className="EventListItem" outline to={`/contract/${routeNetwork}/${contract.id}/source`}>
+                <span>Contract Source</span>
+            </Button>
         </div>
     )
 };

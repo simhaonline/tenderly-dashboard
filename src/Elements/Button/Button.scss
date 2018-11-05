@@ -1,22 +1,57 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
-.Button {
-
-}
-
-.ButtonOutlined {
-  color: $WhiteColor;
-  border: 1px solid $WhiteColor;
+.Button, .ButtonOutlined {
+  padding: 10px 15px;
   border-radius: 5px;
   display: inline-flex;
   align-items: center;
-  padding: 10px 15px;
-  background-color: transparentize($BlackColor, 0.75);
   font-size: $FontSize300;
   cursor: pointer;
   transition: 0.2s;
   justify-content: center;
+  border: 1px solid $WhiteColor;
+  color: $WhiteColor;
+
+  &:hover {
+    color: $WhiteColor;
+  }
+
+  &.Stretch {
+    width: 100%;
+  }
+}
+
+.Button {
+  &.Primary {
+    border-color: $PrimaryColor600;
+    background-color: $PrimaryColor600;
+
+    &:hover {
+      background-color: darken($PrimaryColor600, 5);
+    }
+
+    &:active {
+      background-color: darken($PrimaryColor600, 8);
+    }
+  }
+
+  &.Secondary {
+    border-color: $SecondaryColor600;
+    background-color: $SecondaryColor600;
+
+    &:hover {
+      background-color: darken($SecondaryColor600, 5);
+    }
+
+    &:active {
+      background-color: darken($SecondaryColor600, 8);
+    }
+  }
+}
+
+.ButtonOutlined {
+  background-color: transparentize($BlackColor, 0.75);
 
   &:hover {
     background-color: transparentize($BlackColor, 0.65);
@@ -36,9 +71,5 @@
     &:active {
       box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.7);
     }
-  }
-
-  &.Stretch {
-    width: 100%;
   }
 }
