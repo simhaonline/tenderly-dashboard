@@ -1,13 +1,13 @@
 class Project {
     constructor(data) {
         /** @type string */
-        this.id = data.name;
+        this.id = data.slug;
 
         /** @type string */
         this.name = data.name;
 
         /** @type string */
-        this.slug = data.name;
+        this.slug = data.slug;
     }
 
     /**

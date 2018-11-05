@@ -7,18 +7,17 @@ export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
 
 /**
  * @param {string} name
- * @param {string} slug
  * @param {string|null} [account]
  * @returns {Function}
  */
-export const createProject = (name, slug, account = null) => {
+export const createProject = (name, account = null) => {
     return async (dispatch, getState) => {
         const {auth: {user: {username}}} = getState();
 
         const projectAccount = account || username;
 
         const {data} = await Api.post(`/account/${projectAccount}/project`, {
-            name: slug,
+            name: name,
         });
 
         const project = new Project(data);

@@ -20,22 +20,21 @@ class CreateProjectPage extends Component {
 
         initializeForm(this, {
             projectName: '',
-            projectSlug: '',
         });
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
     handleFormSubmit = async () => {
-        const {formData: {projectName, projectSlug}} = this.state;
+        const {formData: {projectName}} = this.state;
 
 
-        if (!projectName || !projectSlug) {
+        if (!projectName) {
             return;
         }
 
         const {actions} = this.props;
 
-        const project = await actions.createProject(projectName, projectSlug);
+        const project = await actions.createProject(projectName);
 
         this.setState({
             projectCreated: true,
@@ -44,16 +43,16 @@ class CreateProjectPage extends Component {
     };
 
     render() {
-        const {formData, projectCreated} = this.state;
+        const {formData, projectCreated, project} = this.state;
 
         if (projectCreated) {
-            // @TODO Redirect to individual project page
-            return <Redirect to="/dashboard"/>
+            return <Redirect to={`/project/${project.id}`}/>;
         }
 
         return (
             <Page>
                 <Container>
+                    <h2>Create Project</h2>
                     <CreateProjectForm formData={formData} onChange={this.handleFormUpdate} onSubmit={this.handleFormSubmit}/>
                 </Container>
             </Page>
