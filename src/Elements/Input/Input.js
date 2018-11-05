@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import './Input.css';
 
-const Input = ({children, value, type, field, label, onChange}) => {
+const Input = ({children, value, type, field, label, onChange, ...props}) => {
     const handleInputChange = (event) => {
         const newValue = event.target.value;
 
@@ -22,7 +22,7 @@ const Input = ({children, value, type, field, label, onChange}) => {
                     labelStateClassName,
                 )}>{label}</label>
             }
-            <input type={type || "text"} className="Input" id={`input-${field}`} name={field} value={value} onChange={handleInputChange}/>
+            <input type={type || "text"} className="Input" id={`input-${field}`} name={field} value={value} onChange={handleInputChange} {...props}/>
         </div>
     )
 };
