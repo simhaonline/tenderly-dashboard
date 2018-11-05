@@ -1,0 +1,74 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.SessionHeaderMenu {
+  .UserProfileMenu {
+    min-width: 200px;
+    position: relative;
+
+    .ProfileInfo {
+      display: flex;
+      align-items: center;
+      height: 59px;
+      padding: 0 15px;
+      cursor: pointer;
+
+      .UserAvatar {
+        border-radius: 20px;
+        margin-right: 10px;
+      }
+
+      .UserInfo {
+
+      }
+
+      .UserFullName {
+        font-weight: 700;
+        font-size: $FontSize200;
+      }
+
+      .UserEmail {
+        opacity: 0.8;
+        font-size: $FontSize100;
+      }
+
+      &:hover {
+        background-color: rgba(0,0,0,0.2);
+      }
+    }
+
+    .ProfileDropdown {
+      position: absolute;
+      top: 59px;
+      display: none;
+      background-color: #121726;
+      width: 100%;
+      padding: 10px 0;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+
+      .DropdownItem {
+        padding: 8px 15px;
+        width: 100%;
+        display: block;
+        cursor: pointer;
+        color: $WhiteColor;
+
+        &:hover {
+          color: $SecondaryColor600;
+          background-color: rgba(0,0,0,0.2);
+        }
+      }
+    }
+
+    &.OpenDropdown {
+      .ProfileInfo {
+        background-color: #121726;
+      }
+
+      .ProfileDropdown {
+        display: block;
+      }
+    }
+  }
+}
