@@ -10,7 +10,7 @@ const ProjectNavigation = ({project}) => {
         <Container>
             <div className="ProjectNavigation">
                 <div className="ProjectHeading">
-                    <Button to={"/dashboard"}>
+                    <Button to={"/dashboard"} outline>
                         <Icon icon="corner-up-left"/>
                     </Button>
                     <div className="ProjectName">

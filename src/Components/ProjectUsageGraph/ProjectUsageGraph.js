@@ -57,11 +57,20 @@ class ProjectUsageGraph extends Component {
         return (
             <Card className="ProjectUsageGraph">
                 <CardHeading>
-                    <h3>Transactions (last 24h)</h3>
+                    <div className="GraphHeading">
+                        <h3>Transactions</h3>
+                        <div className="LastDayChange">
+                            <Icon icon={"arrow-up"}/>
+                            <span>4.53% (24h)</span>
+                        </div>
+                    </div>
                 </CardHeading>
                 <div className="GraphsWrapper">
                     {networks.map(network =>
-                        <div className="GraphItem" key={network}>
+                        <div className={classNames(
+                            'GraphItem',
+                            {'Active': network === activeNetwork,}
+                        )} key={network}>
                             <h5 className="NetworkName">{NetworkLabelMap[network]}</h5>
                             <div className="GraphInfo">
                                 <div className="InfoWrapper">
@@ -78,7 +87,7 @@ class ProjectUsageGraph extends Component {
                     )}
                 </div>
                 <div className="GraphNav">
-                    <div>
+                    <div className="NavItem">
                         <Icon icon="chevron-left"/>
                     </div>
                     <div className="DotsWrapper">
@@ -89,7 +98,7 @@ class ProjectUsageGraph extends Component {
                             )} key={network}/>
                         )}
                     </div>
-                    <div>
+                    <div className="NavItem">
                         <Icon icon="chevron-right"/>
                     </div>
                 </div>

@@ -4,8 +4,26 @@
 .ProjectUsageGraph {
   width: 400px;
 
+  .GraphHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .LastDayChange {
+      font-size: $FontSize100;
+      color: $SecondaryColor600;
+      font-weight: 700;
+    }
+  }
+
   .GraphsWrapper {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+
     .GraphItem {
+      position: absolute;
+      height: 160px;
 
       .NetworkName {
         margin-bottom: 10px;
@@ -37,6 +55,10 @@
 
         }
       }
+
+      &:not(.Active) {
+        left: 100%;
+      }
     }
   }
 
@@ -45,6 +67,19 @@
     align-items: center;
     justify-content: center;
     padding-top: 15px;
+
+    .NavItem {
+      font-size: $FontSize500;
+      opacity: 0.75;
+
+      &:first-child {margin-right: 5px;}
+      &:last-child {margin-left: 5px;}
+    }
+
+    .DotsWrapper {
+      display: flex;
+      align-items: center;
+    }
 
     .GraphNavDot {
       width: 10px;
