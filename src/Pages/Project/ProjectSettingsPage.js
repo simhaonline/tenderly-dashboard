@@ -4,9 +4,13 @@ import {connect} from "react-redux";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectSettingsForm} from "../../Components";
+import {ProjectSettingsForm, ProjectSettingsActions} from "../../Components";
 
 class ProjectSettingsPage extends Component {
+    handleProjectAction = (action) => {
+        console.log(action);
+    };
+
     render() {
         const {project} = this.props;
 
@@ -14,6 +18,7 @@ class ProjectSettingsPage extends Component {
             <Page id="ProjectPage">
                 <Container>
                     <ProjectSettingsForm project={project}/>
+                    <ProjectSettingsActions onAction={this.handleProjectAction}/>
                 </Container>
             </Page>
         )

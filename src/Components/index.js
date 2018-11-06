@@ -17,3 +17,4 @@ export {default as CreateProjectForm} from './CreateProjectForm/CreateProjectFor
 export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigation';
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
+export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
