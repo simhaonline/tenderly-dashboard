@@ -1,30 +1,16 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
+import React from 'react';
 
 import {Card} from "../../Elements";
 
 import './ProjectSettingsForm.css';
 
-class ProjectSettingsForm extends Component {
-    constructor(props) {
-        super(props);
+const ProjectSettingsForm = ({onSubmit, onChange, project}) => {
+    return (
+        <Card className="ProjectSettingsForm">
+            <div>{project.name}</div>
+            <div>{project.slug}</div>
+        </Card>
+    );
+};
 
-    }
-    render() {
-        const {project} = this.props;
-
-        console.log(project);
-
-        return (
-            <Card className="ProjectSettingsForm">
-                <div>{project.name}</div>
-                <div>{project.slug}</div>
-            </Card>
-        );
-    }
-}
-
-export default connect(
-    null,
-    null,
-)(ProjectSettingsForm)
+export default ProjectSettingsForm;
