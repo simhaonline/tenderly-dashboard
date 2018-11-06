@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
 import * as eventActions from "../../Core/Event/Event.actions";
+import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
@@ -17,10 +18,14 @@ class ProjectEventsPage extends Component {
         };
     }
     async componentDidMount() {
-        const {contracts, project, actions} = this.props;
+        const {contracts, events, project, eventActions, contractActions} = this.props;
+
+        if (!events.length) {
+            await eventActions.fetchEventsForProject(project.id, 0);
+        }
 
         if (!contracts.length) {
-            await actions.fetchEventsForProject(project.id, 0);
+            await contractActions.fetchContractsForProject(project.id, 0);
         }
 
         this.setState({
@@ -67,12 +72,14 @@ const mapStateToProps = (state, ownProps) => {
     return {
         project: getProject(state, id),
         contracts: [],
+        events: [],
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators(eventActions, dispatch),
+        eventActions: bindActionCreators(eventActions, dispatch),
+        contractActions: bindActionCreators(contractActions, dispatch),
     }
 };
 
