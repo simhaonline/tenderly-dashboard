@@ -48,6 +48,19 @@
       background-color: darken($SecondaryColor600, 8);
     }
   }
+
+  &.Danger {
+    border-color: $RedColor600;
+    background-color: $RedColor600;
+
+    &:hover {
+      background-color: darken($RedColor600, 5);
+    }
+
+    &:active {
+      background-color: darken($RedColor600, 8);
+    }
+  }
 }
 
 .ButtonOutlined {
@@ -70,6 +83,18 @@
 
     &:active {
       box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.7);
+    }
+  }
+
+  &.Danger {
+    border-color: transparentize($RedColor600, 0.5);
+
+    &:hover {
+      border-color: $RedColor600;
+    }
+
+    &:active {
+      box-shadow: 0 0 0 3px transparentize($RedColor600, 0.7);
     }
   }
 }

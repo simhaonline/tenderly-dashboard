@@ -8,6 +8,8 @@ function getButtonColorClass(color) {
     switch (color) {
         case 'secondary':
             return 'Secondary';
+        case 'danger':
+            return 'Danger';
         default:
             return 'Primary';
     }
