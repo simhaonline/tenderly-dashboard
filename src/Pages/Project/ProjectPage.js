@@ -42,7 +42,6 @@ class ProjectPage extends Component {
 
     render(){
         const {project} = this.props;
-        console.log(this.state);
         const {nonExistingProject} = this.state;
 
         if (nonExistingProject) {
