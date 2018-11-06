@@ -15,6 +15,7 @@ export {default as EventStackTrace} from './EventStackTrace/EventStackTrace';
 export {default as DashboardProjectsList} from './DashboardProjectsList/DashboardProjectsList';
 export {default as CreateProjectForm} from './CreateProjectForm/CreateProjectForm';
 export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigation';
+export {default as ProjectContractList} from './ProjectContractList/ProjectContractList';
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
