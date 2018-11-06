@@ -16,3 +16,4 @@ export {default as DashboardProjectsList} from './DashboardProjectsList/Dashboar
 export {default as CreateProjectForm} from './CreateProjectForm/CreateProjectForm';
 export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigation';
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
+export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
