@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+
+import * as projectActions from "../../Core/Project/Project.actions";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
@@ -16,12 +19,16 @@ class ProjectSettingsPage extends Component {
         };
     }
 
-    handleProjectAction = (action) => {
+    handleProjectAction = async (action) => {
+        const {actions, project} = this.props;
+
         switch (action.type) {
             case "DELETE":
                 this.setState({
                     projectDeleted: true,
                 });
+
+                await actions.deleteProject(project.id);
                 break;
             default:
                 break;
@@ -55,7 +62,13 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(projectActions, dispatch),
+    }
+};
+
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps,
 )(ProjectSettingsPage);

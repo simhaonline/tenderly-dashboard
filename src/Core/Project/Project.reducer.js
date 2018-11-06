@@ -1,4 +1,9 @@
-import {CREATE_PROJECT_ACTION, FETCH_PROJECT_ACTION, FETCH_PROJECTS_ACTION} from "./Project.actions";
+import {
+    CREATE_PROJECT_ACTION,
+    DELETE_PROJECT_ACTION,
+    FETCH_PROJECT_ACTION,
+    FETCH_PROJECTS_ACTION
+} from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
 const initialState = {
@@ -61,6 +66,19 @@ const ProjectReducer = (state = initialState, action) => {
                 projects: {
                     ...state.projects,
                     [project.id]: project,
+                }
+            };
+        case DELETE_PROJECT_ACTION:
+            const deletedProject = action.projectId;
+
+            const computedProjectList = state.projects;
+
+            delete computedProjectList[deletedProject];
+
+            return {
+                ...state,
+                projects: {
+                    ...computedProjectList,
                 }
             };
         default:
