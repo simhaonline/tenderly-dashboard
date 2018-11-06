@@ -1,10 +1,33 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import {Container, Page} from "../../Elements";
+import * as eventActions from "../../Core/Event/Event.actions";
+
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
+import {Container, Page} from "../../Elements";
+
 class ProjectEventsPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loadedPage: false,
+        };
+    }
+    async componentDidMount() {
+        const {contracts, project, actions} = this.props;
+
+        if (!contracts.length) {
+            await actions.fetchEventsForProject(project.id, 0);
+        }
+
+        this.setState({
+            loadedPage: true,
+        });
+    }
+
     render() {
         return (
             <Page id="ProjectPage">
@@ -43,10 +66,17 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project: getProject(state, id),
+        contracts: [],
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(eventActions, dispatch),
     }
 };
 
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps,
 )(ProjectEventsPage);
