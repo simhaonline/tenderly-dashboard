@@ -18,7 +18,7 @@ export const createProject = (name, account = null) => {
         const projectAccount = account || username;
 
         const {data} = await Api.post(`/account/${projectAccount}/project`, {
-            name: name,
+            name,
         });
 
         const project = new Project(data);
