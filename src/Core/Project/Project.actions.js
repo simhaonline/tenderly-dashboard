@@ -71,18 +71,24 @@ export const fetchProject = (id, account = null) => {
 
         const projectAccount = account || username;
 
-        const {data} = await Api.get(`/account/${projectAccount}/project/${id}`);
+        try {
+            const {data} = await Api.get(`/account/${projectAccount}/project/${id}`);
 
-        if (!data) {
-            return;
+            if (!data) {
+                return null;
+            }
+
+            const project = new Project(data);
+
+            dispatch({
+                type: FETCH_PROJECT_ACTION,
+                project,
+            });
+
+            return project;
+        } catch (error) {
+            return null;
         }
-
-        const project = new Project(data);
-
-        dispatch({
-            type: FETCH_PROJECT_ACTION,
-            project,
-        });
     }
 };
 

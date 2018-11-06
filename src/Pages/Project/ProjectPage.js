@@ -18,15 +18,36 @@ import {ProjectNavigation} from "../../Components";
 import './ProjectPage.css';
 
 class ProjectPage extends Component {
-    componentDidMount() {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            nonExistingProject: false,
+        };
+    }
+
+    async componentDidMount() {
         const {project, actions, projectId} = this.props;
 
         if (!project) {
-            actions.fetchProject(projectId);
+            const fetchedProject = await actions.fetchProject(projectId);
+
+            if (!fetchedProject) {
+                this.setState({
+                    nonExistingProject: true,
+                })
+            }
         }
     }
+
     render(){
         const {project} = this.props;
+        console.log(this.state);
+        const {nonExistingProject} = this.state;
+
+        if (nonExistingProject) {
+            return <Redirect to="/dashboard"/>
+        }
 
         if (!project) {
             return null;
