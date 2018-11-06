@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 
-import {Container, Page} from "../../Elements";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
+
+import {Container, Page} from "../../Elements";
+import {ProjectSettingsForm} from "../../Components";
 
 class ProjectSettingsPage extends Component {
     render() {
+        const {project} = this.props;
+
         return (
             <Page id="ProjectPage">
                 <Container>
-                    ProjectSettingsPage
+                    <ProjectSettingsForm project={project}/>
                 </Container>
             </Page>
         )
