@@ -6,19 +6,18 @@ import {
 } from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
+import {EntityStatusTypes} from "../../Common/constants";
+
 const initialState = {
     projects: {},
+    contractsStatus: {},
     projectsLoaded: false,
 };
 
 const ProjectReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOG_OUT_ACTION: {
-            return {
-                ...state,
-                projectsLoaded: false,
-                projects: {},
-            }
+            return initialState;
         }
         case CREATE_PROJECT_ACTION:
             return {
@@ -26,39 +25,54 @@ const ProjectReducer = (state = initialState, action) => {
                 projects: {
                     ...state.projects,
                     [action.project.id]: action.project,
-                }
+                },
+                contractsStatus: {
+                    ...state.contractsStatus,
+                    [action.project.id]: EntityStatusTypes.NOT_LOADED,
+                },
             };
         case FETCH_PROJECTS_ACTION: {
-            const projects = action.projects.reduce((list, project) => {
+            const computedData = action.projects.reduce((data, project) => {
                 if (state.projects[project.id]) {
                     const existingProject = state.projects[project.id];
 
-                    list[project.id] = existingProject.update(project);
+                    data.projects[project.id] = existingProject.update(project);
                 } else {
-                    list[project.id] = project;
+                    data.projects[project.id] = project;
+                    data.contractsStatus[project.id] = EntityStatusTypes.NOT_LOADED;
                 }
 
-                return list;
-            }, {});
+                return data;
+            }, {
+                projects: {},
+                contractsStatus: {},
+            });
 
             return {
                 ...state,
                 projectsLoaded: true,
                 projects: {
                     ...state.projects,
-                    ...projects,
+                    ...computedData.projects,
                 },
+                contractsStatus: {
+                    ...state.contractsStatus,
+                    ...computedData.contractsStatus,
+                }
             };
         }
         case FETCH_PROJECT_ACTION:
             let project;
+            let contractStatus;
 
             if (state.projects[action.project.id]) {
                 const existingProject = state.projects[action.project.id];
 
                 project = existingProject.update(action.project);
+                contractStatus = state.contractsStatus[action.project.id];
             } else {
                 project = action.project;
+                contractStatus = EntityStatusTypes.NOT_LOADED;
             }
 
             return {
@@ -66,6 +80,10 @@ const ProjectReducer = (state = initialState, action) => {
                 projects: {
                     ...state.projects,
                     [project.id]: project,
+                },
+                contractsStatus: {
+                    ...state.contractsStatus,
+                    [project.id]: contractStatus,
                 }
             };
         case DELETE_PROJECT_ACTION:
@@ -79,7 +97,10 @@ const ProjectReducer = (state = initialState, action) => {
                 ...state,
                 projects: {
                     ...computedProjectList,
-                }
+                },
+                contractsStatus: {
+                    [deletedProject]: EntityStatusTypes.DELETED,
+                },
             };
         default:
             return state;
