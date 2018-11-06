@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 
-import {Button, Card, Dialog} from "../../Elements";
+import {Button, Card, CardHeading, Dialog} from "../../Elements";
 
 class ProjectSettingsActions extends Component {
     constructor(props) {
@@ -39,6 +39,9 @@ class ProjectSettingsActions extends Component {
         return (
             <Fragment>
                 <Card className="ProjectSettingsActions">
+                    <CardHeading>
+                        <h3>Project Actions</h3>
+                    </CardHeading>
                     <Button onClick={this.openDialog} color="danger" outline>
                         <span>Delete Project</span>
                     </Button>
