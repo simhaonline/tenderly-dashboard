@@ -25,7 +25,7 @@ class ProjectEventsPage extends Component {
         }
 
         if (!contracts.length) {
-            await contractActions.fetchContractsForProject(project.id, 0);
+            await contractActions.fetchContractsForProject(project.id);
         }
 
         this.setState({
