@@ -28,3 +28,11 @@ export const EtherscanLinkTypes = {
     TRANSACTION: 'transaction',
     ADDRESS: 'address',
 };
+
+export const EntityStatusTypes = {
+    NOT_LOADED: 'NOT_LOADED',
+    LOADED: 'LOADED',
+    NON_EXISTING: 'NON_EXISTING',
+    DELETED: 'DELETED',
+    ARCHIVED: 'ARCHIVED',
+};
