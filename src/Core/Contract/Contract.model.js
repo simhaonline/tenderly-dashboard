@@ -1,7 +1,7 @@
-import {ContractTypes, NetworkApiToAppTypeMap} from "../../Common/constants";
+import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 class Contract {
-    constructor(data, projectId) {
+    constructor(data, type, projectId) {
         /** @type string */
         this.id = data.deployment_information.address;
 
@@ -12,7 +12,7 @@ class Contract {
         this.name = data.contract_name;
 
         /** @type string */
-        this.type = ContractTypes.PRIVATE;
+        this.type = type;
 
         /** @type string */
         this.address = data.deployment_information.address;

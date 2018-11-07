@@ -1,7 +1,7 @@
 import {Api} from '../../Utils/Api';
-import {NetworkAppToApiTypeMap} from "../../Common/constants";
+import {ContractTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
 import Event from "../Event/Event.model";
-import PublicContract from "./PublicContract.model";
+import Contract from "../Contract/Contract.model";
 
 export const FETCH_PUBLIC_CONTRACTS_ACTION = 'FETCH_PUBLIC_CONTRACTS';
 export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
@@ -28,7 +28,7 @@ export const fetchPublicContracts = (network, page, query) => {
             return;
         }
 
-        const contracts = data.map(contract => PublicContract.responseTransformer(contract));
+        const contracts = data.map(contract => new Contract(contract, ContractTypes.PUBLIC_VERIFIED));
 
         dispatch({
             type: FETCH_PUBLIC_CONTRACTS_ACTION,
@@ -54,7 +54,7 @@ export const fetchPublicContract = (id, network) => {
             return;
         }
 
-        const contract = PublicContract.responseTransformer(data);
+        const contract = new Contract(data, ContractTypes.PUBLIC_VERIFIED);
 
         dispatch({
             type: FETCH_PUBLIC_CONTRACT_ACTION,
