@@ -25,8 +25,6 @@ export const fetchEventsForProject = (projectId, page = 0, account = null) => {
                 return null;
             }
 
-            console.log(data);
-
             const events = data.map(Event.responseTransformer);
 
             dispatch({

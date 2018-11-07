@@ -53,6 +53,14 @@ class Event {
         return lastTraceData;
     }
 
+    /**
+     * @param {Object} data
+     * @return {Event}
+     */
+    update(data) {
+        return this;
+    }
+
     static responseTransformer(responseData) {
         return new Event(responseData);
     }
