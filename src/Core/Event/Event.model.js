@@ -8,9 +8,6 @@ class Event {
         /** @type string */
         this.transactionId = data.transaction_id;
 
-        /** @type string */
-        this.contractId = data.contract_id;
-
         /** @type number */
         this.block = data.block_number;
 
@@ -18,6 +15,9 @@ class Event {
         this.timestamp = data.CreatedAt;
 
         const lastTraceData = Event.parseLastTraceData(this.trace);
+
+        /** @type string */
+        this.contractId = lastTraceData.contractId;
 
         /** @type number */
         this.lineNumber = lastTraceData.lineNumber;
@@ -47,6 +47,8 @@ class Event {
         lastTraceData.message = `Error: ${lastTrace.op}`;
 
         lastTraceData.description = lastTrace.code;
+
+        lastTraceData.contractId = lastTrace.contract;
 
         return lastTraceData;
     }
