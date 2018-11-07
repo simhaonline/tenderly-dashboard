@@ -2,6 +2,9 @@
 
 class Event {
     constructor(data) {
+        /** @type string */
+        this.id = data.transaction_id;
+
         /** @type Object[] */
         this.trace = data.StackTrace;
 

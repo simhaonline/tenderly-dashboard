@@ -1,6 +1,10 @@
 import {FETCH_PUBLIC_CONTRACT_EVENTS_ACTION} from "../PublicContracts/PublicContracts.actions";
+import {FETCH_EVENTS_FOR_PROJECT_ACTION} from "./Event.actions";
 
 const initialState = {
+    events: {},
+    projectEvents: {},
+    // Legacy below
     contractEvents: {},
     contractEventsLoaded: {},
 };
@@ -34,6 +38,41 @@ const EventReducer = (state = initialState, action) => {
                         [action.contractId]: true,
                     }
                 }
+            };
+        case FETCH_EVENTS_FOR_PROJECT_ACTION:
+            const events = action.events.reduce((data, event) => {
+                if (state.events[event.id]) {
+                    const existingEvent = state.events[event.id];
+
+                    data[event.id] = existingEvent.update(event);
+                    console.log('new');
+                } else {
+                    data[event.id] = event;
+                }
+
+                return data;
+            }, {});
+
+            const projectPageEvents = Object.keys(events);
+            const projectId = action.projectId;
+
+            console.log(action.page, projectPageEvents, projectId);
+
+            const existingProjectEvents = state.projectEvents[projectId] || {};
+
+            return {
+                ...state,
+                events: {
+                    ...state.events,
+                    ...events,
+                },
+                projectEvents: {
+                    ...state.projectEvents,
+                    [projectId]: {
+                        ...existingProjectEvents,
+                        [action.page]: projectPageEvents,
+                    }
+                },
             };
         default:
             return state;
