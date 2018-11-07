@@ -48,7 +48,7 @@ export const fetchPublicContract = (id, network) => {
     return async dispatch => {
         const apiNetwork = NetworkAppToApiTypeMap[network];
 
-        const {data} = await Api.get(`/public-contracts/${apiNetwork}/eth:${apiNetwork}::${id}`);
+        const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}`);
 
         if (!data) {
             return;
@@ -73,7 +73,7 @@ export const fetchPublicContractEvents = (id, network, after, limit = 20) => {
     return async dispatch => {
         const apiNetwork = NetworkAppToApiTypeMap[network];
 
-        const {data} = await Api.get(`/public-contracts/${apiNetwork}/eth:${apiNetwork}::${id}/events`, {
+        const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}/events`, {
             params: {
                 limit,
                 after,
