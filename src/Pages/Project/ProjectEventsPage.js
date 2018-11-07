@@ -6,6 +6,8 @@ import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page} from "../../Elements";
 import {ProjectEvents, ProjectSetupGuide} from "../../Components";
@@ -19,12 +21,10 @@ class ProjectEventsPage extends Component {
         };
     }
     async componentDidMount() {
-        const {contractsLoaded, events, project, eventActions, contractActions} = this.props;
+        const {contractsLoaded, project, eventActions, contractActions} = this.props;
 
         if (project.lastPushAt) {
-            if (!events.length) {
-                await eventActions.fetchEventsForProject(project.id, 0);
-            }
+            await eventActions.fetchEventsForProject(project.id, 0);
 
             if (!contractsLoaded) {
                 await contractActions.fetchContractsForProject(project.id);
@@ -38,7 +38,7 @@ class ProjectEventsPage extends Component {
 
     render() {
         const {loadedPage} = this.state;
-        const {project, events} = this.props;
+        const {project, events, contracts} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
 
@@ -46,7 +46,7 @@ class ProjectEventsPage extends Component {
             <Page id="ProjectPage">
                 <Container>
                     {!projectIsSetup && <ProjectSetupGuide/>}
-                    {projectIsSetup && loadedPage && <ProjectEvents events={events}/>}
+                    {projectIsSetup && loadedPage && <ProjectEvents events={events} contracts={contracts}/>}
                     {projectIsSetup && !loadedPage && <div>
                         Loading...
                     </div>}
@@ -61,9 +61,9 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project: getProject(state, id),
-        contracts: [],
+        contracts: getContractsForProject(state, id),
         contractsLoaded: areProjectContractsLoaded(state, id),
-        events: [],
+        events: getEventsForProject(state, id, 0),
     }
 };
 
