@@ -9,7 +9,7 @@ const ProjectContract = ({contract}) => {
     console.log(contract);
     return (
         <div className="ProjectContract">
-            <div>{contract.name}</div>
+            <h3>{contract.name}</h3>
             <div>{contract.getFileName()}</div>
             <div>
                 <h5>Deployment Info:</h5>
