@@ -6,7 +6,6 @@ import NetworkTag from "../NetworkTag/NetworkTag";
 import './ProjectContract.css';
 
 const ProjectContract = ({contract}) => {
-    console.log(contract);
     return (
         <div className="ProjectContract">
             <h3>{contract.name}</h3>
