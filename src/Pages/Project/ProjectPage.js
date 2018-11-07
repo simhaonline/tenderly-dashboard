@@ -15,8 +15,6 @@ import ProjectSettingsPage from "./ProjectSettingsPage";
 
 import {ProjectNavigation} from "../../Components";
 
-import './ProjectPage.css';
-
 class ProjectPage extends Component {
     constructor(props) {
         super(props);

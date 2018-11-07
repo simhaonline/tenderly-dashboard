@@ -19,4 +19,5 @@ export {default as ProjectContractList} from './ProjectContractList/ProjectContr
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
+export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';
 export {default as ProjectSettingsBilling} from './ProjectSettingsBilling/ProjectSettingsBilling';
