@@ -1,11 +1,15 @@
 import React from 'react';
 
-const ProjectContractList = ({contracts}) => {
-    console.log(contracts);
+import ProjectContract from "../ProjectContract/ProjectContract";
 
+import './ProjectContractList.css';
+
+const ProjectContractList = ({contracts}) => {
     return (
         <div className="ProjectContractList">
-            asdas
+            {contracts.map(contract =>
+                <ProjectContract key={contract.id} contract={contract}/>
+            )}
         </div>
     )
 };
