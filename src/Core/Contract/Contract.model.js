@@ -11,6 +11,7 @@ class Contract {
         /** @type string */
         this.name = data.contract_name;
 
+        /** @type string */
         this.type = ContractTypes.PRIVATE;
 
         /** @type string */
