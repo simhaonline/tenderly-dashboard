@@ -8,7 +8,7 @@ const ProjectContractList = ({contracts}) => {
     return (
         <div className="ProjectContractList">
             {contracts.map(contract =>
-                <ProjectContract key={contract.id} contract={contract}/>
+                <ProjectContract key={contract.id} contract={contract} className="ProjectContractListItem"/>
             )}
         </div>
     )

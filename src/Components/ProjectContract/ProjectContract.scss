@@ -1,3 +1,15 @@
-.ProjectContract {
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
 
+.ProjectContract {
+  width: 100%;
+  transition: 0.15s;
+  background-color: transparentize($BlackColor, 0.75);
+  border: 1px solid $BorderColor;
+  padding: 10px 15px;
+  border-radius: 5px;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
