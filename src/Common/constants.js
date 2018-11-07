@@ -46,3 +46,8 @@ export const EntityStatusTypes = {
     DELETED: 'DELETED',
     ARCHIVED: 'ARCHIVED',
 };
+
+export const ContractTypes = {
+    PRIVATE: 'PRIVATE',
+    PUBLIC_VERIFIED: 'PUBLIC_VERIFIED',
+};

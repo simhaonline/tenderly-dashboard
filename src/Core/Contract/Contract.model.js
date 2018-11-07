@@ -1,4 +1,4 @@
-import {NetworkApiToAppTypeMap} from "../../Common/constants";
+import {ContractTypes, NetworkApiToAppTypeMap} from "../../Common/constants";
 
 class Contract {
     constructor(data, projectId) {
@@ -11,11 +11,21 @@ class Contract {
         /** @type string */
         this.name = data.contract_name;
 
+        this.type = ContractTypes.PRIVATE;
+
         /** @type string */
         this.address = data.deployment_information.address;
 
         /** @type string */
         this.network = NetworkApiToAppTypeMap[data.deployment_information.network_id];
+
+        // @TODO Fix this to not be hardcoded
+        /** @type Date */
+        this.lastDeploymentAt = data.last_event_occurred_at;
+
+        // @TODO Fix this to not be hardcoded
+        /** @type number */
+        this.deploymentCount = 5;
 
         /** @type Date */
         this.lastEventAt = data.last_event_occurred_at;
