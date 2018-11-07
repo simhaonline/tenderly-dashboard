@@ -9,6 +9,9 @@ class Event {
         this.trace = data.StackTrace;
 
         /** @type string */
+        this.contractId = data.contract_address;
+
+        /** @type string */
         this.transactionId = data.transaction_id;
 
         /** @type number */
@@ -18,9 +21,6 @@ class Event {
         this.timestamp = data.CreatedAt;
 
         const lastTraceData = Event.parseLastTraceData(this.trace);
-
-        /** @type string */
-        this.contractId = lastTraceData.contractId;
 
         /** @type number */
         this.lineNumber = lastTraceData.lineNumber;

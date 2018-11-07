@@ -1,10 +1,10 @@
 import React from 'react';
 
+import EventList from "../EventList/EventList";
+
 import './ProjectEvents.css';
 
-const ProjectEvents = ({events, onFiltersUpdate}) => {
-    console.log(events);
-
+const ProjectEvents = ({events, contracts, onFiltersUpdate}) => {
     if (!events.length) {
         return (
             <div className="ProjectEventsEmtpySTat">
@@ -13,9 +13,15 @@ const ProjectEvents = ({events, onFiltersUpdate}) => {
         )
     }
 
+    const mappedContracts = contracts.reduce((data, contract) => {
+        data[contract.id] = contract;
+
+        return data;
+    }, {});
+
     return (
         <div className="ProjectEvents">
-            eeeevents
+            <EventList events={events} contracts={mappedContracts}/>
         </div>
     );
 };
