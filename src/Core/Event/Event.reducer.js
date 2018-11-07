@@ -45,7 +45,6 @@ const EventReducer = (state = initialState, action) => {
                     const existingEvent = state.events[event.id];
 
                     data[event.id] = existingEvent.update(event);
-                    console.log('new');
                 } else {
                     data[event.id] = event;
                 }
@@ -55,8 +54,6 @@ const EventReducer = (state = initialState, action) => {
 
             const projectPageEvents = Object.keys(events);
             const projectId = action.projectId;
-
-            console.log(action.page, projectPageEvents, projectId);
 
             const existingProjectEvents = state.projectEvents[projectId] || {};
 
