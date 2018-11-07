@@ -8,7 +8,7 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectSetupGuide} from "../../Components";
+import {ProjectEvents, ProjectSetupGuide} from "../../Components";
 
 class ProjectEventsPage extends Component {
     constructor(props) {
@@ -20,8 +20,6 @@ class ProjectEventsPage extends Component {
     }
     async componentDidMount() {
         const {contracts, events, project, eventActions, contractActions} = this.props;
-
-        console.log(project);
 
         if (project.lastPushAt) {
             if (!events.length) {
@@ -40,7 +38,7 @@ class ProjectEventsPage extends Component {
 
     render() {
         const {loadedPage} = this.state;
-        const {project} = this.props;
+        const {project, events} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
 
@@ -48,9 +46,7 @@ class ProjectEventsPage extends Component {
             <Page id="ProjectPage">
                 <Container>
                     {!projectIsSetup && <ProjectSetupGuide/>}
-                    {projectIsSetup && loadedPage && <div>
-                        Events go here
-                    </div>}
+                    {projectIsSetup && loadedPage && <ProjectEvents events={events}/>}
                     {projectIsSetup && !loadedPage && <div>
                         Loading...
                     </div>}
