@@ -8,6 +8,7 @@ import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/Proj
 
 import {Container, Page} from "../../Elements";
 import ProjectContractList from "../../Components/ProjectContractList/ProjectContractList";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 class ProjectContractsPage extends Component {
     async componentDidMount() {
@@ -20,8 +21,6 @@ class ProjectContractsPage extends Component {
 
     render() {
         const {contracts, contractsLoaded} = this.props;
-
-        console.log(contractsLoaded && !!contracts.length);
 
         return (
             <Page id="ProjectPage">
@@ -42,7 +41,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project: getProject(state, id),
-        contracts: [],
+        contracts: getContractsForProject(state, id),
         contractsLoaded: areProjectContractsLoaded(state, id),
     }
 };

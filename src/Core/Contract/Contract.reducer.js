@@ -5,6 +5,7 @@ import {EntityStatusTypes} from "../../Common/constants";
 const initialState = {
     contracts: {},
     contractStatus: {},
+    projectContractsMap: {},
 };
 
 const ContractReducer = (state = initialState, action) => {
@@ -27,6 +28,8 @@ const ContractReducer = (state = initialState, action) => {
                 contractStatus: {},
             });
 
+            const projectContractIds = Object.keys(computedData.contracts);
+
             return {
                 ...state,
                 contracts: {
@@ -36,6 +39,10 @@ const ContractReducer = (state = initialState, action) => {
                 contractStatus: {
                     ...state.contractStatus,
                     ...computedData.contractStatus,
+                },
+                projectContractsMap: {
+                    ...state.projectContractsMap,
+                    [action.projectId]: projectContractIds,
                 },
             };
         default:
