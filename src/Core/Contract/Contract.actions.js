@@ -1,4 +1,5 @@
 import {Api} from "../../Utils/Api";
+import Contract from './Contract.model';
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 
@@ -19,15 +20,14 @@ export const fetchContractsForProject = (projectId, account = null) => {
                 return null;
             }
 
-            console.log(data);
-
-            // const project = new Project(data);
+            const contracts = data.map(contract => new Contract(contract));
 
             dispatch({
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
+                contracts,
             });
 
-            return 'qwe';
+            return contracts;
         } catch (error) {
             return null;
         }
