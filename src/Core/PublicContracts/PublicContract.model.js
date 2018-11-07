@@ -3,7 +3,7 @@ import {NetworkApiToAppTypeMap} from "../../Common/constants";
 class PublicContract {
     constructor(data) {
         /** @type string */
-        this.id = data.ID;
+        this.id = data.deployment_information.address;
 
         /** @type string */
         this.name = data.contract_name;
