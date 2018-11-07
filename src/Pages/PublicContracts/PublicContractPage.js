@@ -7,7 +7,7 @@ import * as publicContractsActions from "../../Core/PublicContracts/PublicContra
 import {getPublicContractById, isPublicContractLoaded} from "../../Common/Selectors/PublicContractSelectors";
 import {getPublicContractEvents} from "../../Common/Selectors/EventSelectors";
 
-import {NetworkApiToAppTypeMap} from "../../Common/constants";
+import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container} from "../../Elements";
 import {EventList, ContractInformation, ContractActions} from "../../Components";
@@ -50,7 +50,7 @@ class PublicContractPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: { id, network }}} = ownProps;
 
-    const networkType = NetworkApiToAppTypeMap[network];
+    const networkType = NetworkRouteToAppTypeMap[network];
 
     return {
         contract: getPublicContractById(state, id),
