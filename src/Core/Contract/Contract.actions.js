@@ -20,7 +20,7 @@ export const fetchContractsForProject = (projectId, account = null) => {
                 return null;
             }
 
-            const contracts = data.map(contract => new Contract(contract));
+            const contracts = data.map(contract => new Contract(contract, projectId));
 
             dispatch({
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
