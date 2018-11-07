@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page} from "../../Elements";
 import {ProjectEvents, ProjectSetupGuide} from "../../Components";
@@ -19,14 +19,14 @@ class ProjectEventsPage extends Component {
         };
     }
     async componentDidMount() {
-        const {contracts, events, project, eventActions, contractActions} = this.props;
+        const {contractsLoaded, events, project, eventActions, contractActions} = this.props;
 
         if (project.lastPushAt) {
             if (!events.length) {
                 await eventActions.fetchEventsForProject(project.id, 0);
             }
 
-            if (!contracts.length) {
+            if (!contractsLoaded) {
                 await contractActions.fetchContractsForProject(project.id);
             }
 
@@ -62,6 +62,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         project: getProject(state, id),
         contracts: [],
+        contractsLoaded: areProjectContractsLoaded(state, id),
         events: [],
     }
 };
