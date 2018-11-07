@@ -26,7 +26,7 @@ class Contract {
 
         // @TODO Fix this to not be hardcoded
         /** @type number */
-        this.deploymentCount = 5;
+        this.deploymentCount = 1;
 
         /** @type Date */
         this.lastEventAt = data.last_event_occurred_at;
