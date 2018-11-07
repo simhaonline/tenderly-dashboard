@@ -5,6 +5,7 @@ import {
     FETCH_PROJECTS_ACTION
 } from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
+import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "../Contract/Contract.actions";
 
 import {EntityStatusTypes} from "../../Common/constants";
 
@@ -99,7 +100,16 @@ const ProjectReducer = (state = initialState, action) => {
                     ...computedProjectList,
                 },
                 contractsStatus: {
+                    ...state.contractsStatus,
                     [deletedProject]: EntityStatusTypes.DELETED,
+                },
+            };
+        case FETCH_CONTRACTS_FOR_PROJECT_ACTION:
+            return {
+                ...state,
+                contractsStatus: {
+                    ...state.contractsStatus,
+                    [action.projectId]: EntityStatusTypes.LOADED,
                 },
             };
         default:

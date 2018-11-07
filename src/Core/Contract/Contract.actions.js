@@ -25,6 +25,7 @@ export const fetchContractsForProject = (projectId, account = null) => {
             dispatch({
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
                 contracts,
+                projectId,
             });
 
             return contracts;
