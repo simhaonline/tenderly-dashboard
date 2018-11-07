@@ -1,8 +1,4 @@
-import {NetworkTypes} from "../../Common/constants";
-
-const publicContractNetworkMap = {
-    'kovan': NetworkTypes.KOVAN,
-};
+import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 class PublicContract {
     constructor(data) {
@@ -16,7 +12,7 @@ class PublicContract {
         this.address = data.deployment_information.address;
 
         /** @type string */
-        this.network = publicContractNetworkMap[data.deployment_information.network_id];
+        this.network = NetworkApiToAppTypeMap[data.deployment_information.network_id];
 
         /** @type Date */
         this.lastEventAt = data.last_event_occurred_at;

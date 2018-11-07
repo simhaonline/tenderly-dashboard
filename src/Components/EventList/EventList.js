@@ -3,14 +3,14 @@ import moment from "moment";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-import {EtherscanLinkTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import PageLink from "../PageLink/PageLink";
 
 import './EventList.css';
 
 const EventList = ({events, contract}) => {
-    const routeNetwork = NetworkAppToApiTypeMap[contract.network];
+    const routeNetwork = NetworkAppToRouteTypeMap[contract.network];
 
     return (
         <div className="EventListWrapper">

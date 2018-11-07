@@ -9,18 +9,28 @@ export const NetworkRouteTypes = {
 };
 
 export const NetworkApiToAppTypeMap = {
+    1: NetworkTypes.MAIN,
+    42: NetworkTypes.KOVAN,
+};
+
+export const NetworkAppToApiTypeMap = {
+    [NetworkTypes.MAIN]: 1,
+    [NetworkTypes.KOVAN]: 42,
+};
+
+export const NetworkRouteToAppTypeMap = {
     [NetworkRouteTypes.MAIN]: NetworkTypes.MAIN,
     [NetworkRouteTypes.KOVAN]: NetworkTypes.KOVAN,
+};
+
+export const NetworkAppToRouteTypeMap = {
+    [NetworkTypes.MAIN]: NetworkRouteTypes.MAIN,
+    [NetworkTypes.KOVAN]: NetworkRouteTypes.KOVAN,
 };
 
 export const NetworkLabelMap = {
     [NetworkTypes.MAIN]: 'Main Network',
     [NetworkTypes.KOVAN]: 'Kovan Testnet',
-};
-
-export const NetworkAppToApiTypeMap = {
-    [NetworkTypes.MAIN]: NetworkRouteTypes.MAIN,
-    [NetworkTypes.KOVAN]: NetworkRouteTypes.KOVAN,
 };
 
 export const EtherscanLinkTypes = {

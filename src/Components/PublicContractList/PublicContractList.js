@@ -3,10 +3,10 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 
 import './PublicContractList.css';
-import {NetworkAppToApiTypeMap} from "../../Common/constants";
+import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 const PublicContractListItem = ({contract}) => {
-    const networkType = NetworkAppToApiTypeMap[contract.network];
+    const networkType = NetworkAppToRouteTypeMap[contract.network];
 
     return (
         <Link className="PublicContractListItem" to={`/contract/${networkType}/${contract.id}`}>
