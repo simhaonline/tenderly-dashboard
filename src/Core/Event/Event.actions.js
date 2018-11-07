@@ -1,4 +1,5 @@
 import {Api} from "../../Utils/Api";
+import Event from './Event.model';
 
 export const FETCH_EVENTS_FOR_PROJECT_ACTION = 'FETCH_EVENTS_FOR_PROJECT';
 
@@ -26,10 +27,13 @@ export const fetchEventsForProject = (projectId, page = 0, account = null) => {
 
             console.log(data);
 
-            // const project = new Project(data);
+            const events = data.map(Event.responseTransformer);
 
             dispatch({
                 type: FETCH_EVENTS_FOR_PROJECT_ACTION,
+                events,
+                projectId,
+                page,
             });
 
             return 'asd';
