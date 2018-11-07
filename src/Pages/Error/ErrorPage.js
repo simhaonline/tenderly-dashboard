@@ -5,7 +5,7 @@ import {Redirect} from "react-router-dom";
 
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {NetworkApiToAppTypeMap} from "../../Common/constants";
+import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 import {getPublicContractById, isPublicContractLoaded} from "../../Common/Selectors/PublicContractSelectors";
 import {getPublicContractEvent} from "../../Common/Selectors/EventSelectors";
 
@@ -35,7 +35,7 @@ class ErrorPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: { id, network, errorId }}} = ownProps;
 
-    const networkType = NetworkApiToAppTypeMap[network];
+    const networkType = NetworkRouteToAppTypeMap[network];
 
     return {
         contract: getPublicContractById(state, id),
