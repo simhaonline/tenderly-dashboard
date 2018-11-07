@@ -35,12 +35,16 @@ class PublicContractPage extends Component {
             )
         }
 
+        const contractMap = {
+            [contract.id]: contract,
+        };
+
         return (
             <Page>
                 <Container>
                     <ContractInformation contract={contract}/>
                     <ContractActions contract={contract} routeNetwork={network}/>
-                    {events.length && <EventList events={events} contract={contract}/>}
+                    {events.length && <EventList events={events} contracts={contractMap}/>}
                 </Container>
             </Page>
         )

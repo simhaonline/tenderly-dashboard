@@ -5,6 +5,7 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import {ContractTypes, EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
+import NetworkTag from "../NetworkTag/NetworkTag";
 import PageLink from "../PageLink/PageLink";
 
 import './EventList.css';
@@ -52,6 +53,12 @@ const EventListItem = ({event, contract}) => {
                     <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.BLOCK} value={event.block}>{event.block}</EtherscanLink>
                 </div>
             </div>
+            {contract.type === ContractTypes.PRIVATE && <div className="ContractColumn ItemColumn">
+                <div>
+                    {contract.getFileName()}
+                </div>
+                <NetworkTag network={contract.network}/>
+            </div>}
         </PageLink>
     )
 };

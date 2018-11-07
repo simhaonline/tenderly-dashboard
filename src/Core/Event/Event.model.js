@@ -11,6 +11,11 @@ class Event {
         /** @type string */
         this.contractId = data.contract_address;
 
+        if (data.Method) {
+            /** @type string */
+            this.method = data.Method;
+        }
+
         /** @type string */
         this.transactionId = data.transaction_id;
 
@@ -26,10 +31,13 @@ class Event {
         this.lineNumber = lastTraceData.lineNumber;
 
         /** @type string */
-        this.message = lastTraceData.message;
+        this.message = Event.getPreviewMessage(data, lastTraceData);
 
         /** @type string */
         this.description = lastTraceData.description;
+
+        /** @type string */
+        this.opCode = lastTraceData.opCode;
     }
 
     /**
@@ -47,13 +55,21 @@ class Event {
 
         lastTraceData.lineNumber = lastTrace.line;
 
-        lastTraceData.message = `Error: ${lastTrace.op}`;
+        lastTraceData.opCode = lastTrace.op;
 
         lastTraceData.description = lastTrace.code;
 
         lastTraceData.contractId = lastTrace.contract;
 
         return lastTraceData;
+    }
+
+    static getPreviewMessage(responseData, lastTrace) {
+        if (responseData.Method) {
+            return `${lastTrace.opCode}: ${responseData.Method}()`;
+        }
+
+        return `Transaction Error: ${lastTrace.opCode}`;
     }
 
     /**
