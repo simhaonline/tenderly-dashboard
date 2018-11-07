@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page} from "../../Elements";
 import ProjectContractList from "../../Components/ProjectContractList/ProjectContractList";
@@ -21,10 +21,13 @@ class ProjectContractsPage extends Component {
     render() {
         const {contracts, contractsLoaded} = this.props;
 
+        console.log(contractsLoaded && !!contracts.length);
+
         return (
             <Page id="ProjectPage">
                 <Container>
-                    {(contractsLoaded && contracts.length) && <ProjectContractList contracts={contracts}/>}
+                    {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts}/>}
+                    {contractsLoaded && !contracts.length && <div>No contracts</div>}
                     {!contractsLoaded && <div>
                         Loading...
                     </div>}
@@ -40,7 +43,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         project: getProject(state, id),
         contracts: [],
-        contractsLoaded: false,
+        contractsLoaded: areProjectContractsLoaded(state, id),
     }
 };
 
