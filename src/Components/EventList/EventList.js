@@ -3,18 +3,33 @@ import moment from "moment";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {ContractTypes, EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import PageLink from "../PageLink/PageLink";
 
 import './EventList.css';
 
-const EventListItem = ({event, contract}) => {
-    console.log(event, contract);
+/**
+ * @param {Event} event
+ * @param {Contract} contract
+ * @return {string}
+ */
+function getEventPageLink(event, contract) {
     const routeNetwork = NetworkAppToRouteTypeMap[contract.network];
 
+    switch (contract.type) {
+        case ContractTypes.PRIVATE:
+            return `/project/${contract.projectId}/event/${routeNetwork}/${event.id}`;
+        case ContractTypes.PUBLIC_VERIFIED:
+            return `/contract/${routeNetwork}/${contract.id}/error/${event.transactionId}`;
+        default:
+            return '';
+    }
+}
+
+const EventListItem = ({event, contract}) => {
     return (
-        <PageLink className="EventListItem" to={`/contract/${routeNetwork}/${contract.id}/error/${event.transactionId}`}>
+        <PageLink className="EventListItem" to={getEventPageLink(event, contract)}>
             <div className="GeneralColumn ItemColumn">
                 <div className="Message">{event.message}</div>
                 <div className="Description">{event.description} | {contract.name}:{event.lineNumber}</div>
@@ -42,7 +57,6 @@ const EventListItem = ({event, contract}) => {
 };
 
 const EventList = ({events, contracts}) => {
-    console.log(contracts, events[0].contractId, contracts[events[0].contractId]);
     return (
         <div className="EventListWrapper">
             {events.map(event => <EventListItem key={event.transactionId} event={event} contract={contracts[event.contractId]} />)}

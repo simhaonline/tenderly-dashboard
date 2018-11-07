@@ -14,6 +14,7 @@ import ProjectReleasesPage from "./ProjectReleasesPage";
 import ProjectSettingsPage from "./ProjectSettingsPage";
 
 import {ProjectNavigation} from "../../Components";
+import EventPage from "../Event/EventPage";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -55,6 +56,7 @@ class ProjectPage extends Component {
                 <ProjectNavigation project={project}/>
                 <Switch>
                     <Route path="/project/:id/events" component={ProjectEventsPage}/>
+                    <Route path="/project/:id/event/:network/:eventId" component={EventPage}/>
                     <Route path="/project/:id/usage" component={ProjectUsagePage}/>
                     <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
                     <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
