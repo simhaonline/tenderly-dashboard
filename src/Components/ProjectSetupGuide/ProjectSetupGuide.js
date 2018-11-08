@@ -100,7 +100,7 @@ class ProjectSetupGuide extends Component {
                                 <code>tenderly login</code>
                             </div>
                             <div className="StepActions">
-                                <Button onClick={this.handleDialogClose} outline size="small">
+                                <Button onClick={this.handleDialogClose} outline size="small" color="secondary">
                                     <span>Cancel</span>
                                 </Button>
                                 <Button onClick={this.nextStep} color="secondary" size="small">
@@ -124,7 +124,7 @@ class ProjectSetupGuide extends Component {
                                 <code>tenderly init</code>
                             </div>
                             <div className="StepActions">
-                                <Button onClick={this.handleDialogClose} outline size="small">
+                                <Button onClick={this.handleDialogClose} outline size="small" color="secondary">
                                     <span>Cancel</span>
                                 </Button>
                                 <Button onClick={this.nextStep} color="secondary" size="small">
