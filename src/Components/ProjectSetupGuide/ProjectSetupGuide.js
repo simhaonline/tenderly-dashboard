@@ -53,7 +53,7 @@ class ProjectSetupGuide extends Component {
 
         const fetchedProject = await actions.fetchProject(projectId);
 
-        const projectSetup = !fetchedProject.lastPushAt;
+        const projectSetup = !!fetchedProject.lastPushAt;
 
         this.setState({
             verifying: false,
