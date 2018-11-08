@@ -21,6 +21,8 @@ function getButtonSizeClass(size) {
             return 'Large';
         case 'small':
             return 'Small';
+        case 'extra-small':
+            return 'ExtraSmall';
         default:
             return '';
     }
