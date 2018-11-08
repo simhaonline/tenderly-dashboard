@@ -18,3 +18,68 @@
     border-radius: 3px;
   }
 }
+
+.SetupProjectDialog {
+  .DialogStepsWrapper {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+  }
+
+  .DialogStepWrapper {
+    position: absolute;
+    width: 100%;
+    transition: 0.4s;
+
+    h3 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .StepContent {
+      margin-bottom: 20px;
+      height: 190px;
+    }
+
+    .StepActions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    &.Previous {
+      left: -100%;
+      opacity: 0;
+    }
+    &.Active {
+      left: 0;
+    }
+    &.Next {
+      left: 100%;
+      opacity: 0;
+    }
+  }
+  .DialogStepProgress {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .DialogStepProgressItem {
+    $DialogStepProgressItemSize: 10px;
+
+    background-color: transparentize($WhiteColor, 0.5);
+    transition: 0.3s;
+    width: $DialogStepProgressItemSize;
+    height: $DialogStepProgressItemSize;
+    border-radius: $DialogStepProgressItemSize / 2;
+
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+
+    &.Active {
+      background-color: #00cebb;
+      width: 3 * $DialogStepProgressItemSize;
+    }
+  }
+}
