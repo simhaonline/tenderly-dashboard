@@ -1,6 +1,9 @@
 @import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
 
 #AppHeader {
+  position: relative;
+
   .LogoWrapper {
     height: 59px;
     display: flex;
@@ -38,5 +41,31 @@
   .SessionWrapper {
     margin-left: auto;
     padding-right: 30px;
+  }
+
+  .KovanInformation {
+    $KovanInformationColor: transparentize($SecondaryColor600, 0.5);
+
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 60px;
+    border-top: 2px solid $KovanInformationColor;
+
+    .InfoTitle {
+      color: $WhiteColor;
+      background-color: $KovanInformationColor;
+      padding: 3px 10px 5px;
+      font-size: $FontSize100;
+      border-bottom-left-radius: 5px;
+      font-weight: 100;
+      border-bottom-right-radius: 5px;
+
+      strong {
+        font-weight: 400;
+        text-decoration: underline;
+      }
+    }
   }
 }
