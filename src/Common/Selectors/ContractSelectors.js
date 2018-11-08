@@ -14,3 +14,22 @@ export function getContractsForProject(state, projectId) {
 
     return contracts;
 }
+
+/**
+ * @param {Object} state
+ * @param {Event} event
+ * @return {Contract}
+ */
+export function getContractForEvent(state, event) {
+    if (!event) {
+        return null;
+    }
+
+    const contract = state.contract.contracts[event.contractId];
+
+    if (!contract) {
+        return null;
+    }
+
+    return contract;
+}

@@ -33,10 +33,11 @@ export function getPublicContractEvent(state, eventId, contractId, network) {
  * @param {Object} state
  * @param {string} projectId
  * @param {number} page
- * @return {Event[]}
+ * @returns {Event[]}
  */
 export function getEventsForProject(state, projectId, page) {
     const projectEvents = state.event.projectEvents[projectId];
+
     if (!projectEvents || !projectEvents[page]) {
         return [];
     }
@@ -44,4 +45,19 @@ export function getEventsForProject(state, projectId, page) {
     const events = projectEvents[page].map(eventId => state.event.events[eventId]);
 
     return events;
+}
+
+/**
+ * @param {Object} state
+ * @param {string} eventId
+ * @returns {Event}
+ */
+export function getEvent(state, eventId) {
+    const event = state.event.events[eventId];
+
+    if (!event) {
+        return null;
+    }
+
+    return event;
 }
