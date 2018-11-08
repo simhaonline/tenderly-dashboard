@@ -5,32 +5,39 @@ import {connect} from "react-redux";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page} from "../../Elements";
-import ProjectContractList from "../../Components/ProjectContractList/ProjectContractList";
-import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+import {ProjectSetupGuide, ProjectContractList} from "../../Components";
 
 class ProjectContractsPage extends Component {
     async componentDidMount() {
         const {actions, project, contractsLoaded} = this.props;
 
-        if (!contractsLoaded) {
+        const projectIsSetup = !!project.lastPushAt;
+
+        if (projectIsSetup && !contractsLoaded) {
             await actions.fetchContractsForProject(project.id);
         }
     }
 
     render() {
-        const {contracts, contractsLoaded} = this.props;
+        const {project, contracts, contractsLoaded} = this.props;
+
+        const projectIsSetup = !!project.lastPushAt;
 
         return (
             <Page id="ProjectPage">
-                <Container>
+                {projectIsSetup && <Container>
                     {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts}/>}
                     {contractsLoaded && !contracts.length && <div>No contracts</div>}
                     {!contractsLoaded && <div>
                         Loading...
                     </div>}
-                </Container>
+                </Container>}
+                {!projectIsSetup && <Container>
+                    <ProjectSetupGuide projectId={project.id}/>
+                </Container>}
             </Page>
         )
     }
