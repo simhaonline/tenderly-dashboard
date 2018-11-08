@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Button} from "../../Elements";
+import {EarlyAccessButton} from "../../Components";
 
 import './SessionHeaderMenu.css';
 
@@ -45,12 +46,10 @@ class SessionHeaderMenu extends Component {
         if (!auth.loggedIn && !auth.token) {
             return (
                 <div className="SessionHeaderMenu">
-                    <Button to="/login">
-                        login
+                    <Button to="/login" size="small">
+                        Login
                     </Button>
-                    <Button>
-                        Request early access
-                    </Button>
+                    <EarlyAccessButton size="small"/>
                 </div>
             )
         }

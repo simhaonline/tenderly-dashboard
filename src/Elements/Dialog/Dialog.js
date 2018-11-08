@@ -6,7 +6,7 @@ import './Dialog.css';
 
 Modal.setAppElement('#root');
 
-const Dialog = ({open = false, onClose, children, overlayClose = true, escapeClose = true, className}) => {
+const Dialog = ({open = false, onClose, children, onAfterOpen, overlayClose = true, escapeClose = true, className}) => {
     return (
         <Modal isOpen={open}
                onRequestClose={onClose}
@@ -16,6 +16,7 @@ const Dialog = ({open = false, onClose, children, overlayClose = true, escapeClo
                    "DialogContent",
                    className,
                )}
+               onAfterOpen={onAfterOpen}
                bodyOpenClassName="DialogOpened"
                shouldCloseOnOverlayClick={overlayClose}
                shouldCloseOnEsc={escapeClose}>

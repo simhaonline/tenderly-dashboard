@@ -3,6 +3,8 @@ export {default as Navigation} from './Navigation/Navigation';
 export {default as PrivateRoute} from './PrivateRoute/PrivateRoute';
 export {default as EtherscanLink} from './EtherscanLink/EtherscanLink';
 export {default as EventList} from './EventList/EventList';
+export {default as EarlyAccessButton} from './EarlyAccessButton/EarlyAccessButton';
+export {default as EarlyAccessSignUp} from './EarlyAccessSignUp/EarlyAccessSignUp';
 export {default as ContractSource} from './ContractSource/ContractSource';
 export {default as Code} from './Code/Code';
 export {default as PublicContractList} from './PublicContractList/PublicContractList';

@@ -7,6 +7,7 @@ import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Container, Button, Form, Input} from "../../Elements";
+import {EarlyAccessButton} from "../../Components";
 
 import './LoginPage.css';
 
@@ -58,7 +59,7 @@ class LoginPage extends Component {
                             <p>Join our limited private alpha program where we will be releasing updates to a small number of users as we develop them.</p>
                             <p>Based on your feedback Tenderly will evolve into the product that best suites your needs.</p>
                             <p>You can see a full list of <a href="https://tenderly.app#features">our features here</a>.</p>
-                            <Button>Sign up for Private Alpha access</Button>
+                            <EarlyAccessButton color="secondary" outline={false} label="Sign up for Private Alpha access"/>
                         </div>
                     </div>
                 </Container>
