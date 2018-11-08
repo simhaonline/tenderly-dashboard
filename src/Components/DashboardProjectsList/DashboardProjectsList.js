@@ -1,7 +1,9 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import moment from "moment";
 
 import {Button} from "../../Elements";
+import ProjectSetupGuide from "../ProjectSetupGuide/ProjectSetupGuide";
 
 import './DashboardProjectsList.css';
 
@@ -20,6 +22,14 @@ const DashboardProjectsList = ({projects, loaded}) => {
                     <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id}>
                         <div className="ProjectNameLabel">Project name:</div>
                         <div className="ProjectName">{project.name}</div>
+                        <div className="ProjectContractInfo">
+                            {!!project.lastPushAt && <div>
+                                Last contract deployed at: {moment(project.lastPushAt).format("MMM DD YYYY, HH:mm:ss")}
+                            </div>}
+                            {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
+                                <ProjectSetupGuide projectId={project.id} size="small" color="secondary"/>
+                            </div>}
+                        </div>
                     </Link>
                 )}
             </div>}
