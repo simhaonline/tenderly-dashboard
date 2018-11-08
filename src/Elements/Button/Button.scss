@@ -20,6 +20,16 @@
   &.Stretch {
     width: 100%;
   }
+
+  &.Small {
+    font-size: $FontSize200;
+    padding: 7px 10px;
+    border-radius: 5px;
+  }
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
 }
 
 .Button {
