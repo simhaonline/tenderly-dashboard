@@ -72,17 +72,13 @@ class ProjectSetupGuide extends Component {
 
     render() {
         const {dialogOpen, currentStep, verifying, finishedSetup, verifyAttempted} = this.state;
+        const {label, color, size, outline} = this.props;
 
         return (
             <Fragment>
-                <Card className="ProjectSetupGuide">
-                    <h2>Project setup</h2>
-                    <div className="ProjectSetupWrapper">
-                        <Button outline onClick={this.openDialog}>
-                            <span>Setup Project</span>
-                        </Button>
-                    </div>
-                </Card>
+                <Button outline={outline} onClick={this.openDialog} size={size} color={color}>
+                    <span>{label}</span>
+                </Button>
                 <Dialog open={dialogOpen} onClose={this.handleDialogClose} className="SetupProjectDialog" overlayClose={false}>
                     <div className="DialogStepsWrapper">
                         <div className={classNames(
@@ -171,6 +167,13 @@ class ProjectSetupGuide extends Component {
         );
     }
 }
+
+ProjectSetupGuide.defaultProps = {
+    label: 'Setup Project',
+    size: 'default',
+    color: 'primary',
+    outline: true,
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
