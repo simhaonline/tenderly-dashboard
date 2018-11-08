@@ -27,7 +27,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
                                 Last contract deployed at: {moment(project.lastPushAt).format("MMM DD YYYY, HH:mm:ss")}
                             </div>}
                             {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
-                                <ProjectSetupGuide projectId={project.id} size="small" color="secondary"/>
+                                <ProjectSetupGuide label="Push Contracts" projectId={project.id} size="extra-small" color="secondary"/>
                             </div>}
                         </div>
                     </Link>
