@@ -1,7 +1,11 @@
 import React, {Component, Fragment} from 'react';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 import classNames from 'classnames';
 
-import {Card, Dialog, Button} from "../../Elements";
+import * as projectActions from "../../Core/Project/Project.actions";
+
+import {Card, Dialog, Button, Icon} from "../../Elements";
 
 import './ProjectSetupGuide.css';
 
@@ -12,6 +16,9 @@ class ProjectSetupGuide extends Component {
         this.state = {
             dialogOpen: false,
             currentStep: 1,
+            verifying: false,
+            verifyAttempted: false,
+            finishedSetup: false,
         }
     }
 
@@ -25,6 +32,9 @@ class ProjectSetupGuide extends Component {
         this.setState({
             dialogOpen: true,
             currentStep: 1,
+            verifying: false,
+            verifyAttempted: false,
+            finishedSetup: false,
         });
     };
 
@@ -34,8 +44,34 @@ class ProjectSetupGuide extends Component {
         });
     };
 
+    verifyProjectPush = async () => {
+        const {projectId, actions} = this.props;
+
+        this.setState({
+            verifying: true,
+        });
+
+        const fetchedProject = await actions.fetchProject(projectId);
+
+        const projectSetup = !fetchedProject.lastPushAt;
+
+        this.setState({
+            verifying: false,
+            verifyAttempted: true,
+            finishedSetup: projectSetup,
+        });
+
+        if (projectSetup) {
+            setTimeout(() => {
+                this.handleDialogClose();
+            }, 3000);
+        }
+
+        console.log(fetchedProject);
+    };
+
     render() {
-        const {dialogOpen, currentStep} = this.state;
+        const {dialogOpen, currentStep, verifying, finishedSetup, verifyAttempted} = this.state;
 
         return (
             <Fragment>
@@ -106,13 +142,21 @@ class ProjectSetupGuide extends Component {
                             <h3>Start monitoring</h3>
                             <div className="StepContent">
                                 <code>tenderly push</code>
+                                {verifyAttempted && !finishedSetup && <div className="ActionMessage Warning">
+                                    <span>Whooops! Seems that your contracts have not been uploaded yet.</span>
+                                </div>}
+                                {finishedSetup && <div className="ActionMessage Success">
+                                    Success. Your contracts have been uploaded and are being tracked!
+                                </div>}
                             </div>
                             <div className="StepActions">
-                                <Button onClick={this.handleDialogClose} outline size="small">
+                                <Button onClick={this.handleDialogClose} outline size="small" color="secondary">
                                     <span>Do this later</span>
                                 </Button>
-                                <Button onClick={this.nextStep} color="secondary" size="small">
-                                    <span>Finish setup</span>
+                                <Button onClick={this.verifyProjectPush} color="secondary" size="small" disabled={verifying || finishedSetup}>
+                                    {verifying && <Icon icon="circle" className="VerifyIcon"/>}
+                                    {verifying && <span>Verifying</span>}
+                                    {!verifying && <span>Finish setup</span>}
                                 </Button>
                             </div>
                         </div>
@@ -128,4 +172,13 @@ class ProjectSetupGuide extends Component {
     }
 }
 
-export default ProjectSetupGuide;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(projectActions, dispatch),
+    }
+};
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(ProjectSetupGuide);

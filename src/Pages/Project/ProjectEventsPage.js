@@ -45,7 +45,7 @@ class ProjectEventsPage extends Component {
         return (
             <Page id="ProjectPage">
                 <Container>
-                    {!projectIsSetup && <ProjectSetupGuide/>}
+                    {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
                     {projectIsSetup && loadedPage && <ProjectEvents events={events} contracts={contracts}/>}
                     {projectIsSetup && !loadedPage && <div>
                         Loading...
