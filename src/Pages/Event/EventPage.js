@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
 
 import {getContractForEvent} from "../../Common/Selectors/ContractSelectors";
 import {getEvent} from "../../Common/Selectors/EventSelectors";
