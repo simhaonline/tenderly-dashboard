@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import * as projectActions from "../../Core/Project/Project.actions";
 
-import {Card, Dialog, Button, Icon} from "../../Elements";
+import {Dialog, Button, Icon} from "../../Elements";
 
 import './ProjectSetupGuide.css';
 
@@ -53,21 +53,21 @@ class ProjectSetupGuide extends Component {
 
         const fetchedProject = await actions.fetchProject(projectId);
 
-        const projectSetup = !!fetchedProject.lastPushAt;
+        setTimeout(() => {
+            const projectSetup = !!fetchedProject.lastPushAt;
 
-        this.setState({
-            verifying: false,
-            verifyAttempted: true,
-            finishedSetup: projectSetup,
-        });
+            this.setState({
+                verifying: false,
+                verifyAttempted: true,
+                finishedSetup: projectSetup,
+            });
 
-        if (projectSetup) {
-            setTimeout(() => {
-                this.handleDialogClose();
-            }, 3000);
-        }
-
-        console.log(fetchedProject);
+            if (projectSetup) {
+                setTimeout(() => {
+                    this.handleDialogClose();
+                }, 3000);
+            }
+        }, 1000);
     };
 
     render() {
@@ -114,7 +114,7 @@ class ProjectSetupGuide extends Component {
                         )}>
                             <h3>Now to setup the project</h3>
                             <div className="StepContent">
-                                <p>Go into your project</p>
+                                <p>Go into your project, root of truffle configuration</p>
                                 <code>cd example-project</code>
                                 <p>initalize your poejct</p>
                                 <code>tenderly init</code>
@@ -137,8 +137,10 @@ class ProjectSetupGuide extends Component {
                         )}>
                             <h3>Start monitoring</h3>
                             <div className="StepContent">
+                                <p>In order to track your contracts and map failed transactions to a specific line of code, we need you to provide us with the contract source code and where the contracts are deployed for the specified network.</p>
                                 <code>tenderly push</code>
-                                {verifyAttempted && !finishedSetup && <div className="ActionMessage Warning">
+                                <p>You can read more about pushing contracts in the <a href="https://docs.tenderly.app/#/commands/push">push command</a> documentation page.</p>
+                                {!verifying && verifyAttempted && !finishedSetup && <div className="ActionMessage Warning">
                                     <span>Whooops! Seems that your contracts have not been uploaded yet.</span>
                                 </div>}
                                 {finishedSetup && <div className="ActionMessage Success">

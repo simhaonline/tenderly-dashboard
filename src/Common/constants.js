@@ -1,3 +1,11 @@
+export const OSTypes = {
+    UNKNOWN: "Unknown",
+    WINDOWS: "Windows",
+    MAC: "MacOS",
+    UNIX: "UNIX",
+    LINUX: "Linux",
+};
+
 export const NetworkTypes = {
     MAIN: 'main_network',
     KOVAN: 'kovan_testnet',
