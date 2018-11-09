@@ -49,7 +49,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
                             </BarChart>}
                             {!project.lastPushAt && <div className="ProjectNotSetupState">
                                 <Icon icon="cloud-off"/>
-                                <span>Not contract pushed yet</span>
+                                <span>Not contracts pushed yet</span>
                             </div>}
                         </div>
                         <div className="ProjectContractInfo">
