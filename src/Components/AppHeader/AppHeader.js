@@ -23,7 +23,7 @@ class AppHeader extends Component {
                     <SessionHeaderMenu/>
                 </div>
                 <div className="KovanInformation">
-                    <div className="InfoTitle">Currently only <strong>Kovan Testnet</strong> is available</div>
+                    <div className="InfoTitle">Currently only <strong>Kovan Testnet</strong> is supported</div>
                 </div>
             </Header>
         )
