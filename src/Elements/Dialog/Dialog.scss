@@ -81,10 +81,21 @@
   .DialogHeader {
     background-color: transparentize($BlackColor, 0.8);
     padding: 20px 30px;
+    display: flex;
+    align-items: center;
 
-    h3 {
+    h1, h2, h3, h4, h5 {
       font-weight: 100;
       font-size: $FontSize600;
+    }
+
+    .TnIcon {
+      font-size: $FontSize600;
+      opacity: 0.75;
+
+      & + h1, & + h2, & + h3, & + h4, & + h5 {
+        margin-left: 20px;
+      }
     }
   }
 

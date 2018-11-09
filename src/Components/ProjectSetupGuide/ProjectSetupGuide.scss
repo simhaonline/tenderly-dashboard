@@ -14,9 +14,10 @@
 }
 
 .SetupProjectDialog {
+  $SetupProjectDialogHeight: 320px;
   .DialogStepsWrapper {
     position: relative;
-    height: 300px;
+    height: $SetupProjectDialogHeight;
     overflow: hidden;
   }
 
@@ -27,16 +28,17 @@
 
     .StepContent {
       margin-bottom: 20px;
-      height: 240px;
+      height: $SetupProjectDialogHeight - 60px;
 
       p {
         margin-top: 0;
-        opacity: 0.7;
+        margin-bottom: 25px;
+        opacity: 0.9;
       }
 
       code {
-        margin-bottom: 20px;
-        padding: 10px 15px;
+        margin-bottom: 25px;
+        padding: 12px 15px;
         border: 1px solid $BorderColor;
         font-family: $MonospaceFontFamily;
         background-color: transparentize($WhiteColor, 0.98);
