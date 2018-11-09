@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import classNames from 'classnames';
 
 import {PublicApi} from '../../Utils/Api';
-import {Button, Dialog, Icon} from '../../Elements';
+import {Button, Dialog, DialogBody, Icon} from '../../Elements';
 
 import './EarlyAccessSignUp.css';
 
@@ -139,7 +139,7 @@ class EarlyAccessSignUp extends Component {
 
         return (
             <Dialog open={open} onClose={onClose} onAfterOpen={this.modalOpenedHandler} className="EarlyAccessSignUpDialog">
-                <div className="SignUpWrapper">
+                <DialogBody className="SignUpWrapper">
                     <div className="SignUpInfo">
                         <div className="SignUpLogo">Tenderly</div>
                         <h4>Get Early Access!</h4>
@@ -192,7 +192,7 @@ class EarlyAccessSignUp extends Component {
                             <span>Done</span>
                         </Button>
                     </div>}
-                </div>
+                </DialogBody>
             </Dialog>
         )
     }

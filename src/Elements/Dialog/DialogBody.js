@@ -1,8 +1,12 @@
 import React from 'react';
+import classNames from 'classnames';
 
-const DialogBody = ({children}) => {
+const DialogBody = ({children, className}) => {
     return (
-        <div className="DialogBody">
+        <div className={classNames(
+            "DialogBody",
+            className,
+        )}>
             {children}
         </div>
     )
