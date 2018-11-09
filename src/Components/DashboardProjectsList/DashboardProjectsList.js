@@ -21,7 +21,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
         {name: 'Page G', events: 0.1,},
         {name: 'Page G', events: 0.1,},
         {name: 'Page G', events: 0.1,},
-        {name: 'Page G', events: 0.1,},
+        {name: 'Page G', events: 4,},
         {name: 'Page G', events: 0.1,},
         {name: 'Page G', events: 0.1,},
     ];
