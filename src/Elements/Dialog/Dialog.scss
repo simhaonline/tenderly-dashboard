@@ -1,3 +1,6 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
 .DialogOverlay {
   position: fixed;
   top: 0;
@@ -70,14 +73,19 @@
 .DialogContent {
   background-color: #121826;
   border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 5px;
+  border-radius: 10px;
   z-index: 1000;
   color: #fff;
   width: 600px;
 
   .DialogHeader {
-    background-color: rgba(0,0,0,0.4);
+    background-color: transparentize($BlackColor, 0.8);
     padding: 20px 30px;
+
+    h3 {
+      font-weight: 100;
+      font-size: $FontSize600;
+    }
   }
 
   .DialogBody {

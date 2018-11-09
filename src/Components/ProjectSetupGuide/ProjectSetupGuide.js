@@ -81,7 +81,9 @@ class ProjectSetupGuide extends Component {
                 </Button>
                 <Dialog open={dialogOpen} onClose={this.handleDialogClose} className="SetupProjectDialog" overlayClose={false}>
                     <DialogHeader>
-                        <h3>asdasd</h3>
+                        {currentStep === 1 && <h3>Let's get the right tools</h3>}
+                        {currentStep === 2 && <h3>Now to setup the project</h3>}
+                        {currentStep === 3 && <h3>Start monitoring</h3>}
                     </DialogHeader>
                     <DialogBody>
                         <div className="DialogStepsWrapper">
@@ -92,7 +94,6 @@ class ProjectSetupGuide extends Component {
                                     "Active": currentStep === 1,
                                 }
                             )}>
-                                <h3>Let's get the right tools</h3>
                                 <div className="StepContent">
                                     <p>install</p>
                                     <code>brew update && brew install tenderly</code>
@@ -100,10 +101,10 @@ class ProjectSetupGuide extends Component {
                                     <code>tenderly login</code>
                                 </div>
                                 <div className="StepActions">
-                                    <Button onClick={this.handleDialogClose} outline size="small" color="secondary">
+                                    <Button onClick={this.handleDialogClose} outline color="secondary">
                                         <span>Cancel</span>
                                     </Button>
-                                    <Button onClick={this.nextStep} color="secondary" size="small">
+                                    <Button onClick={this.nextStep} color="secondary">
                                         <span>Next</span>
                                     </Button>
                                 </div>
@@ -116,7 +117,6 @@ class ProjectSetupGuide extends Component {
                                     "Next": currentStep < 2,
                                 }
                             )}>
-                                <h3>Now to setup the project</h3>
                                 <div className="StepContent">
                                     <p>Go into your project, root of truffle configuration</p>
                                     <code>cd example-project</code>
@@ -124,10 +124,10 @@ class ProjectSetupGuide extends Component {
                                     <code>tenderly init</code>
                                 </div>
                                 <div className="StepActions">
-                                    <Button onClick={this.handleDialogClose} outline size="small" color="secondary">
+                                    <Button onClick={this.handleDialogClose} outline color="secondary">
                                         <span>Cancel</span>
                                     </Button>
-                                    <Button onClick={this.nextStep} color="secondary" size="small">
+                                    <Button onClick={this.nextStep} color="secondary">
                                         <span>Next</span>
                                     </Button>
                                 </div>
@@ -139,7 +139,6 @@ class ProjectSetupGuide extends Component {
                                     "Next": currentStep < 3,
                                 }
                             )}>
-                                <h3>Start monitoring</h3>
                                 <div className="StepContent">
                                     <p>In order to track your contracts and map failed transactions to a specific line of code, we need you to provide us with the contract source code and where the contracts are deployed for the specified network.</p>
                                     <code>tenderly push</code>
@@ -152,10 +151,10 @@ class ProjectSetupGuide extends Component {
                                     </div>}
                                 </div>
                                 <div className="StepActions">
-                                    <Button onClick={this.handleDialogClose} outline size="small" color="secondary">
+                                    <Button onClick={this.handleDialogClose} outline color="secondary">
                                         <span>Do this later</span>
                                     </Button>
-                                    <Button onClick={this.verifyProjectPush} color="secondary" size="small" disabled={verifying || finishedSetup}>
+                                    <Button onClick={this.verifyProjectPush} color="secondary" disabled={verifying || finishedSetup}>
                                         {verifying && <Icon icon="circle" className="VerifyIcon"/>}
                                         {verifying && <span>Verifying</span>}
                                         {!verifying && <span>Finish setup</span>}
