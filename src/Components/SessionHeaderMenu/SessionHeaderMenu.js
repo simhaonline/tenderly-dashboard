@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Button} from "../../Elements";
+import {Button, Icon, DialogHeader, Dialog, DialogBody} from "../../Elements";
 import {EarlyAccessButton} from "../../Components";
 
 import './SessionHeaderMenu.css';
@@ -17,6 +17,8 @@ class SessionHeaderMenu extends Component {
 
         this.state = {
             dropdownOpen: false,
+            feedbackDialogOpen: false,
+            supportDialogOpen: false,
         };
     }
     handleLogoutUser = () => {
@@ -37,9 +39,28 @@ class SessionHeaderMenu extends Component {
         });
     };
 
+    openFeedbackDialog = () => {
+        this.setState({
+            feedbackDialogOpen: true,
+        });
+    };
+
+    openSupportDialog = () => {
+        this.setState({
+            supportDialogOpen: true,
+        });
+    };
+
+    handleDialogClose = () => {
+        this.setState({
+            feedbackDialogOpen: false,
+            supportDialogOpen: false,
+        });
+    };
+
     render() {
         const {auth} = this.props;
-        const {dropdownOpen} = this.state;
+        const {dropdownOpen, feedbackDialogOpen, supportDialogOpen} = this.state;
 
         if (!auth.retrievedToken) return null;
 
@@ -76,9 +97,35 @@ class SessionHeaderMenu extends Component {
                         </div>
                     </div>
                     <div className="ProfileDropdown">
+                        <a className="DropdownItem" onClick={this.openFeedbackDialog}>Give feedback</a>
+                        <a className="DropdownItem" onClick={this.openSupportDialog}>Contact support</a>
                         <a className="DropdownItem" onClick={this.handleLogoutUser}>Logout</a>
                     </div>
                 </div>
+                <Dialog open={feedbackDialogOpen} onClose={this.handleDialogClose}>
+                    <DialogHeader>
+                        <h3>Give Feedback</h3>
+                    </DialogHeader>
+                    <DialogBody>
+                        <Button outline>
+                            <Icon icon="send"/>
+                            <span>Send</span>
+                        </Button>
+                    </DialogBody>
+                </Dialog>
+                <Dialog open={supportDialogOpen} onClose={this.handleDialogClose}>
+                    <DialogHeader>
+                        <h3>Contact Support</h3>
+                    </DialogHeader>
+                    <DialogBody>
+                        <div>
+                            <Button outline>
+                                <Icon icon="send"/>
+                                <span>Send</span>
+                            </Button>
+                        </div>
+                    </DialogBody>
+                </Dialog>
             </div>
         )
     }

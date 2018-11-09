@@ -13,6 +13,14 @@
   border: 1px solid $WhiteColor;
   color: $WhiteColor;
 
+  span + .TnIcon {
+    margin-left: 7px;
+  }
+
+  .TnIcon + span {
+    margin-left: 7px;
+  }
+
   &:hover {
     color: $WhiteColor;
   }
