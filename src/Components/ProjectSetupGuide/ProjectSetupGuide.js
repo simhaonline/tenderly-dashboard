@@ -131,7 +131,7 @@ class ProjectSetupGuide extends Component {
                                     <code>cd {projectId}</code>
                                     <p>Use the init command to link your local project with the dashboard.</p>
                                     <code>tenderly init</code>
-                                    <p>You can read more about <a href="https://docs.tenderly.app/#/how-tenderly-integrates">how Tenderly integrates with Truffle</a> in this link.</p>
+                                    <p>You can read more about <a rel="noopener noreferrer" href="https://docs.tenderly.app/#/how-tenderly-integrates">how Tenderly integrates with Truffle</a> in this link.</p>
                                 </div>
                                 <div className="StepActions">
                                     <Button onClick={this.handleDialogClose} outline color="secondary">
@@ -152,7 +152,7 @@ class ProjectSetupGuide extends Component {
                                 <div className="StepContent">
                                     <p>In order to track your contracts and map failed transactions to a specific line of code, we need you to provide us with the contract source code and where the contracts are deployed for the specified network.</p>
                                     <code>tenderly push</code>
-                                    <p>You can read more about pushing contracts in the <a href="https://docs.tenderly.app/#/commands/push" target="_blank">push command</a> documentation page.</p>
+                                    <p>You can read more about pushing contracts in the <a rel="noopener noreferrer" href="https://docs.tenderly.app/#/commands/push" target="_blank">push command</a> documentation page.</p>
                                     {!verifying && verifyAttempted && !finishedSetup && <div className="ActionMessage Warning">
                                         <span>Whooops! Seems that your contracts have not been uploaded yet.</span>
                                     </div>}

@@ -1,6 +1,8 @@
 import React, {Component, Fragment} from 'react';
 
-import {Button, Card, CardHeading, Dialog} from "../../Elements";
+import {Button, Card, CardHeading, Dialog, DialogHeader, DialogBody} from "../../Elements";
+
+import './ProjectSettingsActions.css';
 
 class ProjectSettingsActions extends Component {
     constructor(props) {
@@ -47,14 +49,20 @@ class ProjectSettingsActions extends Component {
                     </Button>
                 </Card>
                 <Dialog open={dialogOpen} onClose={this.handleDialogClose}>
-                    <h5>Are you sure you wish to delete this project?</h5>
-                    <p>By doing this you will lose a complete history of events and will not be able to recover them after.</p>
-                    <Button color="secondary" onClick={this.handleDialogClose}>
-                        <span>Cancel</span>
-                    </Button>
-                    <Button color="secondary" outline onClick={this.handleProjectDelete}>
-                        <span>Delete</span>
-                    </Button>
+                    <DialogHeader>
+                        <h5>Are you sure you wish to delete this project?</h5>
+                    </DialogHeader>
+                    <DialogBody className="DeleteDialogBody">
+                        <p>By doing this you will lose a complete history of events and will not be able to recover them after.</p>
+                        <div className="DeleteDialogActions">
+                            <Button color="secondary" onClick={this.handleDialogClose}>
+                                <span>Cancel</span>
+                            </Button>
+                            <Button color="secondary" outline onClick={this.handleProjectDelete}>
+                                <span>Delete</span>
+                            </Button>
+                        </div>
+                    </DialogBody>
                 </Dialog>
             </Fragment>
         );
