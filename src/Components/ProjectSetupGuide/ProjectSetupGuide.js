@@ -72,7 +72,7 @@ class ProjectSetupGuide extends Component {
 
     render() {
         const {dialogOpen, currentStep, verifying, finishedSetup, verifyAttempted} = this.state;
-        const {label, color, size, outline} = this.props;
+        const {label, color, size, outline, projectId} = this.props;
 
         return (
             <Fragment>
@@ -128,7 +128,7 @@ class ProjectSetupGuide extends Component {
                             )}>
                                 <div className="StepContent">
                                     <p>Go to the root of your smart contract project. Tenderly uses the Truffle framework to track where you contracts have been deployed.</p>
-                                    <code>cd example-project</code>
+                                    <code>cd {projectId}</code>
                                     <p>Use the init command to link your local project with the dashboard.</p>
                                     <code>tenderly init</code>
                                     <p>You can read more about <a href="https://docs.tenderly.app/#/how-tenderly-integrates">how Tenderly integrates with Truffle</a> in this link.</p>
