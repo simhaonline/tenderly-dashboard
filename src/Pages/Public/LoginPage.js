@@ -5,6 +5,7 @@ import {Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
+import * as appActions from "../../Core/App/App.actions";
 
 import {Page, Container, Button, Form, Input} from "../../Elements";
 import {EarlyAccessButton} from "../../Components";
@@ -22,6 +23,18 @@ class LoginPage extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
+    componentDidMount() {
+        const {appActions} = this.props;
+
+        appActions.setWholeScreenPage(true);
+    }
+
+    componentWillUnmount() {
+        const {appActions} = this.props;
+
+        appActions.setWholeScreenPage(false);
+    }
+
     handleFormSubmit = () => {
         const {formData: {email, password}} = this.state;
 
@@ -30,9 +43,9 @@ class LoginPage extends Component {
             return;
         }
 
-        const {actions} = this.props;
+        const {authActions} = this.props;
 
-        actions.loginUser(email, password);
+        authActions.loginUser(email, password);
     };
 
     render() {
@@ -71,12 +84,14 @@ class LoginPage extends Component {
 const mapStateToProps = (state) => {
     return {
         auth: state.auth,
+        app: state.app,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators(authActions, dispatch),
+        authActions: bindActionCreators(authActions, dispatch),
+        appActions: bindActionCreators(appActions, dispatch),
     }
 };
 

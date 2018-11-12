@@ -1,4 +1,5 @@
 import {OSTypes} from "../../Common/constants";
+import {SET_WHOLE_SCREEN_PAGE_ACTION} from "./App.actions";
 
 /**
  * @returns {string}
@@ -16,10 +17,16 @@ function getBrowserOS() {
 
 const initialState = {
     os: getBrowserOS(),
+    wholeScreenPage: false,
 };
 
 const AppReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_WHOLE_SCREEN_PAGE_ACTION:
+            return {
+                ...state,
+                wholeScreenPage: action.value,
+            };
         default:
             return state;
     }

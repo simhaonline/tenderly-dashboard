@@ -21,14 +21,14 @@ const ProjectNavigation = ({project}) => {
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/events`}>
                         <span>Events</span>
                     </NavLink>
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/usage`}>
-                        <span>Usage</span>
-                    </NavLink>
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`}>
                         <span>Contracts</span>
                     </NavLink>
+                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/usage`}>
+                        <span>Analytics</span>
+                    </NavLink>
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/releases`}>
-                        <span>Releases</span>
+                        <span>Deployment</span>
                     </NavLink>
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/alerts`}>
                         <span>Alerts</span>

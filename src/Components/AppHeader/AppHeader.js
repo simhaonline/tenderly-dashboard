@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {Link, withRouter} from "react-router-dom";
 
 import {Header} from "../../Elements";
 
@@ -10,6 +11,12 @@ import './AppHeader.css';
 
 class AppHeader extends Component {
     render() {
+        const {wholeScreenPage} = this.props;
+
+        if (wholeScreenPage) {
+            return null;
+        }
+
         return (
             <Header id="AppHeader">
                 <Link to="/" className="LogoWrapper">
@@ -30,4 +37,13 @@ class AppHeader extends Component {
     }
 }
 
-export default AppHeader;
+const mapStateToProps = (state) => {
+    return {
+        wholeScreenPage: state.app.wholeScreenPage,
+    }
+};
+
+export default withRouter(connect(
+    mapStateToProps,
+    null,
+)(AppHeader));
