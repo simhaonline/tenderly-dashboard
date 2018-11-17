@@ -17,7 +17,7 @@ const EtherscanLink = ({network, type, value, path = '', children, ...props}) =>
 
     if (!!path) {
         return (
-            <a target="_blank" href={`https://${etherscanPrefix}etherscan.io/${path}`} {...props}>
+            <a target="_blank" rel="noopener noreferrer" href={`https://${etherscanPrefix}etherscan.io/${path}`} {...props}>
                 {children}
             </a>
         );
@@ -26,7 +26,7 @@ const EtherscanLink = ({network, type, value, path = '', children, ...props}) =>
     const etherscanUrlPath = TypeToUrlPathMap[type];
 
     return (
-        <a target="_blank" href={`https://${etherscanPrefix}etherscan.io/${etherscanUrlPath}/${value}`} {...props}>
+        <a target="_blank" rel="noopener noreferrer" href={`https://${etherscanPrefix}etherscan.io/${etherscanUrlPath}/${value}`} {...props}>
             {children}
         </a>
     );

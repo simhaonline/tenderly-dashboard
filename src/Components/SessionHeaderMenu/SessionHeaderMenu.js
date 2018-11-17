@@ -97,9 +97,9 @@ class SessionHeaderMenu extends Component {
                         </div>
                     </div>
                     <div className="ProfileDropdown">
-                        <a className="DropdownItem" onClick={this.openFeedbackDialog}>Give feedback</a>
-                        <a className="DropdownItem" onClick={this.openSupportDialog}>Contact support</a>
-                        <a className="DropdownItem" onClick={this.handleLogoutUser}>Logout</a>
+                        <div className="DropdownItem" onClick={this.openFeedbackDialog}>Give feedback</div>
+                        <div className="DropdownItem" onClick={this.openSupportDialog}>Contact support</div>
+                        <div className="DropdownItem" onClick={this.handleLogoutUser}>Logout</div>
                     </div>
                 </div>
                 <Dialog open={feedbackDialogOpen} onClose={this.handleDialogClose}>
