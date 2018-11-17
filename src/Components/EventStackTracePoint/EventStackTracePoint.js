@@ -36,11 +36,13 @@ class EventStackTracePoint extends Component {
 
         const linesVisible = expanded ? 10 : 5;
 
+        console.log(point);
+
         return (
             <div className="EventStackTracePoint">
                 <div className="StackTracePointHeading" onClick={this.handleOpenToggle}>
-                    <div className="TraceMessage">{point.code}</div>
-                    <div className="TraceLineNumber">Line number: {point.line}</div>
+                    <Icon icon="circle" className="PointIcon"/>
+                    <div className="TraceMessage">{point.code} at {point.name}:{point.line}</div>
                 </div>
                 {open && <div className="StackTraceCode">
                     <Code line={point.line} linePreview={linesVisible} source={source}/>
