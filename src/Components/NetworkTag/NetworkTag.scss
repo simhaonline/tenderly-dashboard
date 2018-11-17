@@ -14,6 +14,12 @@
   }
 
   &.kovan {
-    background-color: transparentize($TertiaryColor600, 0.25);
+    background-color: transparentize($TertiaryColor600, 0.5);
+  }
+
+  &.Small {
+    padding: 2px 5px;
+    border-radius: 2px;
+    font-size: $FontSize100 * 0.9;
   }
 }
