@@ -69,7 +69,7 @@ class Event {
             return `${lastTrace.opCode}: ${responseData.Method}()`;
         }
 
-        return `Transaction Error: ${lastTrace.opCode}`;
+        return `Transaction failed: ${lastTrace.opCode}`;
     }
 
     /**
