@@ -33,40 +33,59 @@ const EventListItem = ({event, contract}) => {
         <PageLink className="EventListItem" to={getEventPageLink(event, contract)}>
             <div className="GeneralColumn ItemColumn">
                 <div className="Message">{event.message}</div>
-                <div className="Description">{event.description} | {contract.name}:{event.lineNumber}</div>
+                <div className="Description">{event.description} at {contract.name}:{event.lineNumber}</div>
             </div>
+            {contract.type === ContractTypes.PRIVATE && <div className="ContractColumn ItemColumn">
+                <a onClick={event => event.stopPropagation()} href={`/project/${contract.projectId}/contract/${contract.id}`} className="ContractName">
+                    {contract.getFileName()}
+                </a>
+            </div>}
+            {contract.type === ContractTypes.PRIVATE && <div className="NetworkColumn ItemColumn">
+                <NetworkTag network={contract.network} size="small"/>
+            </div>}
             <div className="TimeColumn ItemColumn">
-                <div className="InfoLabel">Occurred</div>
-                <div className="SmallInfo">
-                    <span>{moment(event.timestamp).format("MMM DD YYYY, HH:mm:ss")}</span>
-                </div>
+                <span>{moment(event.timestamp).fromNow()}</span>
             </div>
             <div className="TransactionColumn ItemColumn">
-                <div className="InfoLabel">Transaction</div>
-                <div className="SmallInfo">
-                    <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.TRANSACTION} value={event.transactionId} title={event.transactionId}>{generateShortAddress(event.transactionId)}</EtherscanLink>
+                <div>
+                    <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.TRANSACTION} value={event.transactionId} title={event.transactionId}>{generateShortAddress(event.transactionId, 8, 6)}</EtherscanLink>
                 </div>
             </div>
             <div className="BlockColumn ItemColumn">
-                <div className="InfoLabel">Block</div>
-                <div className="SmallInfo">
+                <div>
                     <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.BLOCK} value={event.block}>{event.block}</EtherscanLink>
                 </div>
             </div>
-            {contract.type === ContractTypes.PRIVATE && <div className="ContractColumn ItemColumn">
-                <div>
-                    {contract.getFileName()}
-                </div>
-                <NetworkTag network={contract.network}/>
-            </div>}
         </PageLink>
     )
 };
 
 const EventList = ({events, contracts}) => {
     return (
-        <div className="EventListWrapper">
-            {events.map(event => <EventListItem key={event.transactionId} event={event} contract={contracts[event.contractId]} />)}
+        <div className="EventList">
+            <div className="EventListHeader">
+                <div className="GeneralColumn ItemColumn">
+                    <span className="ColumnName">Event</span>
+                </div>
+                <div className="ContractColumn ItemColumn">
+                    <span className="ColumnName">Contract</span>
+                </div>
+                <div className="NetworkColumn ItemColumn">
+                    <span className="ColumnName">Network</span>
+                </div>
+                <div className="TimeColumn ItemColumn">
+                    <span className="ColumnName">Last Event</span>
+                </div>
+                <div className="TransactionColumn ItemColumn">
+                    <span className="ColumnName">Transaction</span>
+                </div>
+                <div className="BlockColumn ItemColumn">
+                    <span className="ColumnName">Block</span>
+                </div>
+            </div>
+            <div className="EventListWrapper">
+                {events.map(event => <EventListItem key={event.transactionId} event={event} contract={contracts[event.contractId]} />)}
+            </div>
         </div>
     );
 };
