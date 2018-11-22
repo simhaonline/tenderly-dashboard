@@ -57,6 +57,6 @@ export const EntityStatusTypes = {
 
 export const ContractTypes = {
     PRIVATE: 'PRIVATE',
-    PUBLIC_VERIFIED: 'VERIFIED',
+    VERIFIED: 'VERIFIED',
     NOT_VERIFIED: 'NOT_VERIFIED',
 };

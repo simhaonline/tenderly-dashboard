@@ -21,7 +21,7 @@ function getEventPageLink(event, contract) {
     switch (contract.type) {
         case ContractTypes.PRIVATE:
             return `/project/${contract.projectId}/event/${routeNetwork}/${event.id}`;
-        case ContractTypes.PUBLIC_VERIFIED:
+        case ContractTypes.VERIFIED:
             return `/contract/${routeNetwork}/${contract.id}/error/${event.transactionId}`;
         default:
             return '';
