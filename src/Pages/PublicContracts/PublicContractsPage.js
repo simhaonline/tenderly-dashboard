@@ -12,15 +12,6 @@ import {Page, Container} from "../../Elements";
 import {PublicContractList, PublicContractsInfo} from "../../Components";
 
 class PublicContractsPage extends Component {
-    /**
-     * @param {string} network
-     */
-    getNetworkPublicContracts(network) {
-        const {actions} = this.props;
-
-        actions.fetchPublicContracts(network, 0, '');
-    }
-
     componentDidMount() {
         const {networkType} = this.props;
 
@@ -37,6 +28,22 @@ class PublicContractsPage extends Component {
         }
     }
 
+    /**
+     * @param {string} network
+     */
+    getNetworkPublicContracts(network) {
+        const {actions} = this.props;
+
+        actions.fetchPublicContracts(network, 0, '');
+    }
+
+    /**
+     * @param {string} contractAddress
+     */
+    handleContractSearch = (contractAddress) => {
+        console.log('search this', contractAddress);
+    };
+
     render() {
         const {contracts, networkType} = this.props;
 
@@ -49,7 +56,7 @@ class PublicContractsPage extends Component {
         return (
             <Page>
                 <Container>
-                    <PublicContractsInfo network={networkType}/>
+                    <PublicContractsInfo network={networkType} onSearch={this.handleContractSearch}/>
                     <PublicContractList contracts={contracts}/>
                 </Container>
             </Page>
