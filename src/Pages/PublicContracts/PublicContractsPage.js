@@ -44,6 +44,13 @@ class PublicContractsPage extends Component {
         console.log('search this', contractAddress);
     };
 
+    /**
+     * @param {string} network
+     */
+    handleNetworkChange = (network) => {
+        console.log('network change', network)
+    };
+
     render() {
         const {contracts, networkType} = this.props;
 
@@ -56,7 +63,9 @@ class PublicContractsPage extends Component {
         return (
             <Page>
                 <Container>
-                    <PublicContractsInfo network={networkType} onSearch={this.handleContractSearch}/>
+                    <PublicContractsInfo network={networkType}
+                                         onSearch={this.handleContractSearch}
+                                         onNetworkChange={this.handleNetworkChange}/>
                     <PublicContractList contracts={contracts}/>
                 </Container>
             </Page>
