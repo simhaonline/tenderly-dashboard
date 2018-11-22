@@ -26,12 +26,14 @@ class LoginPage extends Component {
     componentDidMount() {
         const {appActions} = this.props;
 
+        // @TODO Move this to the <Page/> component to be used as a property
         appActions.setWholeScreenPage(true);
     }
 
     componentWillUnmount() {
         const {appActions} = this.props;
 
+        // @TODO Move this to the <Page/> component to be used as a property
         appActions.setWholeScreenPage(false);
     }
 
