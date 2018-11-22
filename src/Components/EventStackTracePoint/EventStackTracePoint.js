@@ -36,8 +36,6 @@ class EventStackTracePoint extends Component {
 
         const linesVisible = expanded ? 10 : 5;
 
-        console.log(point);
-
         return (
             <div className="EventStackTracePoint">
                 <div className="StackTracePointHeading" onClick={this.handleOpenToggle}>
