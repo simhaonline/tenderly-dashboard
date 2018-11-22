@@ -2,64 +2,88 @@
 @import "../../Common/Styles/typography";
 
 .PublicContractList {
-  display: flex;
-  flex-wrap: wrap;
+  border: 1px solid $BorderColor;
+  border-radius: 4px;
+
+  .ListHeader {
+    background-color: transparentize($BlackColor, 0.8);
+    border-bottom: 1px solid $BorderColor;
+    padding: 12px 15px;
+
+    .HeaderItemTitle {
+      font-weight: 600;
+      font-size: $FontSize200;
+      opacity: 0.9;
+    }
+  }
+
+  .ListHeader, .PublicContractListItem {
+    display: flex;
+    align-items: center;
+
+    .ItemColumn {
+      padding: 0 5px;
+    }
+
+    .VerificationColumn {
+      flex: 0 0 30px;
+    }
+
+    .MainInfoColumn {
+      flex: 1 1 0;
+    }
+
+    .TimestampColumn {
+      flex: 0 0 120px;
+    }
+
+    .EventsColumn {
+      flex: 0 0 120px;
+    }
+
+    .AddressColumn {
+      flex: 0 0 340px;
+    }
+  }
 
   .PublicContractListItem {
-    padding: 15px 20px;
+    padding: 15px 15px;
     color: $WhiteColor;
-    border: 1px solid $BorderColor;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    margin-right: 20px;
     cursor: pointer;
     transition: 0.15s;
-    display: flex;
-    flex-direction: column;
     flex: 0 0 450px;
+    background: transparentize($WhiteColor, 0.97);
 
-    .MainInfo {
-      margin-bottom: 12px;
-    }
+    .VerificationColumn {
+      text-align: center;
 
-    .EventInfo {
-      margin-bottom: 15px;
-      display: flex;
-
-      .EventInfoItem {
-        font-size: $FontSize100 * 0.8;
-
-        .InfoLabel {
-          text-transform: uppercase;
-          margin-bottom: 6px;
-        }
-
-        .InfoValue {
-          border-radius: 3px;
-          border: 1px solid transparentize($WhiteColor, 0.75);
-          padding: 3px 5px;
-          display: inline-block;
-        }
-
-        &:not(:last-child) {
-          margin-right: 20px;
-        }
+      .VerifiedContractIcon {
+        color: $SecondaryColor600;
       }
     }
 
-    .AddressInfo {
+    .AddressColumn {
       font-size: $FontSize100;
-
-      .InfoLabel {
-        color: transparentize($WhiteColor, 0.1);
-        text-transform: uppercase;
-        margin-bottom: 5px;
-      }
 
       .Address {
         color: $SecondaryColor600;
         font-family: $MonospaceFontFamily;
       }
+    }
+
+    .TimestampColumn, .EventsColumn {
+      .InfoValue {
+        opacity: 0.9;
+        font-size: $FontSize200;
+      }
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $BorderColor;
+    }
+
+    &:nth-child(2n) {
+      background: transparentize($WhiteColor, 0.98);
     }
 
     &:hover {

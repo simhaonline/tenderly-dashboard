@@ -2,29 +2,29 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import moment from "moment";
 
+import {ContractTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {Icon} from '../../Elements';
+
 import './PublicContractList.css';
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 const PublicContractListItem = ({contract}) => {
     const networkType = NetworkAppToRouteTypeMap[contract.network];
 
     return (
         <Link className="PublicContractListItem" to={`/contract/${networkType}/${contract.id}`}>
-            <div className="MainInfo">
+            <div className="VerificationColumn ItemColumn">
+                {contract.type === ContractTypes.VERIFIED && <Icon title="Verified Public Contract" icon="shield" className="VerifiedContractIcon"/>}
+            </div>
+            <div className="MainInfoColumn ItemColumn">
                 <h4 className="ContractName">{contract.name}</h4>
             </div>
-            <div className="EventInfo">
-                {!!contract.eventCount && <div className="EventInfoItem">
-                    <div className="InfoLabel">Total events:</div>
-                    <div className="InfoValue">{contract.eventCount} {contract.eventCount > 1 ? 'Events' : 'Event'}</div>
-                </div>}
-                {!!contract.lastEventAt && <div className="EventInfoItem">
-                    <div className="InfoLabel">Last event:</div>
-                    <div className="InfoValue">{moment(contract.lastEventAt).format("MMM DD YYYY, HH:mm:ss")}</div>
-                </div>}
-            </div>
-            <div className="AddressInfo" title={contract.address}>
-                <div className="InfoLabel">Address</div>
+            {!!contract.lastEventAt && <div className="TimestampColumn ItemColumn">
+                <div className="InfoValue">{moment(contract.lastEventAt).fromNow()}</div>
+            </div>}
+            {!!contract.eventCount && <div className="EventsColumn ItemColumn">
+                <div className="InfoValue">{contract.eventCount} {contract.eventCount > 1 ? 'Events' : 'Event'}</div>
+            </div>}
+            <div className="AddressColumn ItemColumn" title={contract.address}>
                 <div className="Address">{contract.address}</div>
             </div>
         </Link>
@@ -34,7 +34,24 @@ const PublicContractListItem = ({contract}) => {
 const PublicContractList = ({contracts}) => {
     return (
         <div className="PublicContractList">
-            {contracts.map(contract => <PublicContractListItem key={contract.id} contract={contract}/>)}
+            <div className="ListHeader">
+                <div className="VerificationColumn ItemColumn"/>
+                <div className="MainInfoColumn ItemColumn">
+                    <span className="HeaderItemTitle">Contract</span>
+                </div>
+                <div className="TimestampColumn ItemColumn">
+                    <span className="HeaderItemTitle">Last Event</span>
+                </div>
+                <div className="EventsColumn ItemColumn">
+                    <span className="HeaderItemTitle">Total Events</span>
+                </div>
+                <div className="AddressColumn ItemColumn">
+                    <span className="HeaderItemTitle">Address</span>
+                </div>
+            </div>
+            <div className="ListItems">
+                {contracts.map(contract => <PublicContractListItem key={contract.id} contract={contract}/>)}
+            </div>
         </div>
     )
 };
