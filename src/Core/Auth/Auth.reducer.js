@@ -1,9 +1,16 @@
-import {GET_USER_ACTION, LOG_IN_ACTION, LOG_OUT_ACTION, RETRIEVE_TOKEN_ACTION} from "./Auth.actions";
+import {
+    COMPLETE_ONBOARDING,
+    GET_USER_ACTION,
+    LOG_IN_ACTION,
+    LOG_OUT_ACTION,
+    RETRIEVE_TOKEN_ACTION
+} from "./Auth.actions";
 
 const initialState = {
     retrievedToken: false,
     token: null,
     loggedIn: false,
+    onboardingFinished: false,
     user: {}
 };
 
@@ -26,6 +33,11 @@ const AuthReducer = (state = initialState, action) => {
                 token: null,
                 loggedIn: false,
                 user: {},
+            };
+        case COMPLETE_ONBOARDING:
+            return {
+                ...state,
+                onboardingFinished: true,
             };
         case GET_USER_ACTION:
             return {

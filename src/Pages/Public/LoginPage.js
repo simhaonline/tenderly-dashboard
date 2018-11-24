@@ -39,7 +39,9 @@ class LoginPage extends Component {
         const {formData} = this.state;
         const {auth} = this.props;
 
-        if (auth.loggedIn) {
+        if (auth.loggedIn && !auth.onboardingFinished) {
+            return <Redirect to="/onboarding"/>
+        } else if (auth.loggedIn) {
             return <Redirect to="/dashboard"/>
         }
 

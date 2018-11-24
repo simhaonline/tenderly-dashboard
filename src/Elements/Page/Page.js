@@ -24,7 +24,7 @@ class Page extends Component {
     }
 
     render() {
-        const {children, ...props} = this.props;
+        const {children, wholeScreenPage, ...props} = this.props;
 
         return (
             <div className="Page" {...props}>

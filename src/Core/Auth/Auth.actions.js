@@ -8,6 +8,7 @@ export const LOG_IN_ACTION = 'LOG_IN';
 export const LOG_OUT_ACTION = 'LOG_OUT';
 export const REGISTER_ACTION = 'REGISTER';
 export const GET_USER_ACTION = 'GET_USER';
+export const COMPLETE_ONBOARDING = 'COMPLETE_ONBOARDING';
 export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
 
 /**
@@ -69,6 +70,14 @@ export const getUser = () => {
         dispatch({
             type: GET_USER_ACTION,
             user,
+        });
+    }
+};
+
+export const completeOnboarding = () => {
+    return async dispatch => {
+        dispatch({
+            type: COMPLETE_ONBOARDING,
         });
     }
 };
