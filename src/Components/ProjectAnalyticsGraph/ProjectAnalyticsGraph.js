@@ -1,9 +1,28 @@
 import React, {Component} from 'react';
 
-import {Card, CardHeading, CardBody} from "../../Elements";
+import {Card, CardHeading} from "../../Elements";
+import {AnalyticsResolutionTypes} from "../../Common/constants";
+
+const ResolutionOptions = [
+    {
+        value: AnalyticsResolutionTypes.HOUR,
+        label: 'Hour',
+    },
+    {
+        value: AnalyticsResolutionTypes.DAY,
+        label: 'Day',
+    },
+    {
+        value: AnalyticsResolutionTypes.WEEK,
+        label: 'Week',
+    },
+    {
+        value: AnalyticsResolutionTypes.MONTH,
+        label: 'Month',
+    },
+];
 
 class ProjectAnalyticsGraph extends Component {
-
     handleResolutionChange = (resolution) => {
         const {onResolutionChange} = this.props;
 
@@ -11,12 +30,16 @@ class ProjectAnalyticsGraph extends Component {
     };
 
     render() {
-        const {children, title} = this.props;
+        const {children, title, resolution} = this.props;
+
         return (
             <Card className="ProjectAnalyticsGraph">
                 <CardHeading>
                     <h4>{title}</h4>
                 </CardHeading>
+                <div className="GraphSubHeader">
+                    {resolution}
+                </div>
                 <div className="GraphBody">
                     {children}
                 </div>
@@ -26,6 +49,7 @@ class ProjectAnalyticsGraph extends Component {
 }
 
 ProjectAnalyticsGraph.defaultProps = {
+    resolution: AnalyticsResolutionTypes.DAY,
     onResolutionChange: () => {},
 };
 
