@@ -1,0 +1,76 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.OnboardingWelcomeStep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .OnboardingTitle {
+    margin-bottom: 60px;
+    font-weight: 400;
+    font-size: $FontSize600;
+  }
+
+  .CreationPillsWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    .CreationPill {
+      flex: 0 0 260px;
+      height: 300px;
+      border: 1px solid $BorderColor;
+      transition: 0.3s;
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      .PillIcon {
+        transition: 0.3s;
+        font-size: $FontSize600 * 1.5;
+        margin-bottom: 20px;
+      }
+
+      .PillTitle {
+        transition: 0.3s;
+        font-size: $FontSize400;
+        font-weight: 500;
+        margin-bottom: 15px;
+        opacity: 0.95;
+      }
+
+      .PillDescription {
+        opacity: 0.9;
+        font-size: $FontSize200;
+        font-weight: 100;
+        min-height: 80px;
+        margin: 0;
+      }
+
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
+
+      &:hover {
+        border-color: $PrimaryColor600;
+
+        .PillIcon, .PillTitle {
+          color: $PrimaryColor600;
+        }
+      }
+    }
+  }
+
+  .AdditionalInfo {
+    font-size: $FontSize100;
+    opacity: 0.6;
+  }
+}

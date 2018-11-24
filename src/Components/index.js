@@ -7,6 +7,9 @@ export {default as EarlyAccessButton} from './EarlyAccessButton/EarlyAccessButto
 export {default as EarlyAccessSignUp} from './EarlyAccessSignUp/EarlyAccessSignUp';
 export {default as ContractSource} from './ContractSource/ContractSource';
 export {default as Code} from './Code/Code';
+export {default as OnboardingWelcomeStep} from './Onboarding/OnboardingWelcomeStep';
+export {default as OnboardingCreateProjectStep} from './Onboarding/OnboardingCreateProjectStep';
+export {default as OnboardingCreateOrganizationStep} from './Onboarding/OnboardingCreateOrganizationStep';
 export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButton';
 export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButton';
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
