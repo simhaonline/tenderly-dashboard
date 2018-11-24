@@ -1,0 +1,31 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+$GoogleBlueColor: #4285f4;
+
+.GoogleLoginButton {
+  width: 100%;
+  font-size: $FontSize100;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $GoogleBlueColor;
+  color: #fff;
+  border: 1px solid darken($GoogleBlueColor, 4);
+  padding: 10px 5px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover, &:focus, &:active {
+    background-color: darken($GoogleBlueColor, 4);
+  }
+
+  &:focus, &:active {
+    box-shadow: 0 0 0 3px transparentize($GoogleBlueColor, 0.6);
+  }
+
+  .GoogleIcon {
+    margin-right: 5px;
+  }
+}

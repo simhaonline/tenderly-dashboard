@@ -8,7 +8,7 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 import * as appActions from "../../Core/App/App.actions";
 
 import {Page, Container, Button, Form, Input} from "../../Elements";
-import {EarlyAccessButton} from "../../Components";
+import {EarlyAccessButton, GoogleLoginButton} from "../../Components";
 
 import './LoginPage.css';
 
@@ -67,6 +67,14 @@ class LoginPage extends Component {
                                 <Input label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
                                 <Input type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
                                 <Button outline stretch type="submit">Login</Button>
+                                <div className="ThirdPartLoginWrapper">
+                                    <div className="ButtonWrapper">
+                                        <GoogleLoginButton/>
+                                    </div>
+                                    <div className="ButtonWrapper">
+                                        <GoogleLoginButton/>
+                                    </div>
+                                </div>
                             </Form>
                         </div>
                         <div className="SignUpWrapper">

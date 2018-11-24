@@ -12,6 +12,19 @@
     flex: 0 0 350px;
   }
 
+  .ThirdPartLoginWrapper {
+    margin-top: 20px;
+    display: flex;
+
+    .ButtonWrapper {
+      flex: 1 0 0;
+
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
+  }
+
   .SignUpWrapper {
 
   }
