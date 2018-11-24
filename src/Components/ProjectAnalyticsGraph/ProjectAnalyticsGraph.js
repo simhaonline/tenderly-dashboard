@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import classNames from 'classnames';
 
 import {Card, CardHeading, SegmentedControls} from "../../Elements";
 import {AnalyticsResolutionTypes} from "../../Common/constants";
@@ -30,10 +31,13 @@ class ProjectAnalyticsGraph extends Component {
     };
 
     render() {
-        const {children, title, resolution} = this.props;
+        const {children, title, resolution, className} = this.props;
 
         return (
-            <Card className="ProjectAnalyticsGraph">
+            <Card className={classNames(
+                "ProjectAnalyticsGraph",
+                className,
+            )}>
                 <CardHeading>
                     <h4>{title}</h4>
                 </CardHeading>
