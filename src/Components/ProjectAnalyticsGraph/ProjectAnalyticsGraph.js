@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Card, CardHeading} from "../../Elements";
+import {Card, CardHeading, SegmentedControls} from "../../Elements";
 import {AnalyticsResolutionTypes} from "../../Common/constants";
 
 const ResolutionOptions = [
@@ -38,7 +38,7 @@ class ProjectAnalyticsGraph extends Component {
                     <h4>{title}</h4>
                 </CardHeading>
                 <div className="GraphSubHeader">
-                    {resolution}
+                    <SegmentedControls options={ResolutionOptions} value={resolution} onChange={this.handleResolutionChange}/>
                 </div>
                 <div className="GraphBody">
                     {children}
