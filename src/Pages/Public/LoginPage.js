@@ -5,7 +5,6 @@ import {Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
-import * as appActions from "../../Core/App/App.actions";
 
 import {Page, Container, Button, Form, Input} from "../../Elements";
 import {EarlyAccessButton, GoogleLoginButton, GitHubLoginButton} from "../../Components";
@@ -21,20 +20,6 @@ class LoginPage extends Component {
             password: '',
         });
         this.handleFormUpdate = updateFormField.bind(this);
-    }
-
-    componentDidMount() {
-        const {appActions} = this.props;
-
-        // @TODO Move this to the <Page/> component to be used as a property
-        appActions.setWholeScreenPage(true);
-    }
-
-    componentWillUnmount() {
-        const {appActions} = this.props;
-
-        // @TODO Move this to the <Page/> component to be used as a property
-        appActions.setWholeScreenPage(false);
     }
 
     handleFormSubmit = () => {
@@ -59,7 +44,7 @@ class LoginPage extends Component {
         }
 
         return (
-            <Page id="LoginPage">
+            <Page id="LoginPage" wholeScreenPage>
                 <Container>
                     <div className="LoginPageContent">
                         <div className="LoginFormWrapper">
@@ -101,7 +86,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         authActions: bindActionCreators(authActions, dispatch),
-        appActions: bindActionCreators(appActions, dispatch),
     }
 };
 
