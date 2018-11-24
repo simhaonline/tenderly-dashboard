@@ -61,3 +61,10 @@ export const ContractTypes = {
     VERIFIED: 'VERIFIED',
     NOT_VERIFIED: 'NOT_VERIFIED',
 };
+
+export const AnalyticsResolutionTypes = {
+    HOUR: 'HOUR',
+    DAY: 'DAY',
+    WEEK: 'WEEK',
+    MONTH: 'MONTH',
+};
