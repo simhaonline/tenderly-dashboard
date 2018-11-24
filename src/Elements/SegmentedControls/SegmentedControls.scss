@@ -15,7 +15,7 @@
     transition: 0.15s;
 
     &:hover {
-      background-color: transparentize($SecondaryColor600, 0.2);
+      color: $SecondaryColor600;
     }
 
     &:not(:last-child) {
@@ -24,7 +24,7 @@
 
     &.Active {
       cursor: default;
-      background-color: transparentize($WhiteColor, 0.95);
+      background-color: transparentize($WhiteColor, 0.92);
       color: $SecondaryColor600;
     }
   }
