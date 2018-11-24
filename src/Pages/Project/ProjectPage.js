@@ -12,9 +12,10 @@ import ProjectAlertsPage from "./ProjectAlertsPage";
 import ProjectContractsPage from "./ProjectContractsPage";
 import ProjectReleasesPage from "./ProjectReleasesPage";
 import ProjectSettingsPage from "./ProjectSettingsPage";
+import ProjectContractPage from "./ProjectContractPage";
+import EventPage from "../Event/EventPage";
 
 import {ProjectNavigation} from "../../Components";
-import EventPage from "../Event/EventPage";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -60,6 +61,7 @@ class ProjectPage extends Component {
                     <Route path="/project/:id/usage" component={ProjectUsagePage}/>
                     <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
                     <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
+                    <Route path="/project/:id/contract/:contractId" component={ProjectContractPage}/>
                     <Route path="/project/:id/releases" component={ProjectReleasesPage}/>
                     <Route path="/project/:id/settings" component={ProjectSettingsPage}/>
                     <Redirect to={`/project/${project.id}/events`}/>

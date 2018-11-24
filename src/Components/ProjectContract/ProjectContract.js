@@ -2,12 +2,13 @@ import React from 'react';
 import moment from "moment";
 
 import NetworkTag from "../NetworkTag/NetworkTag";
+import PageLink from "../PageLink/PageLink";
 
 import './ProjectContract.css';
 
 const ProjectContract = ({contract}) => {
     return (
-        <div className="ProjectContract">
+        <PageLink className="ProjectContract" to={`/project/${contract.projectId}/contract/${contract.id}`}>
             <h3>{contract.name}</h3>
             <div>{contract.getFileName()}</div>
             <div>
@@ -27,7 +28,7 @@ const ProjectContract = ({contract}) => {
                     <NetworkTag network={contract.network}/>
                 </div>
             </div>
-        </div>
+        </PageLink>
     )
 };
 
