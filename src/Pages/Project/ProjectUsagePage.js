@@ -5,10 +5,12 @@ import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {NetworkTypes} from "../../Common/constants";
 
 import {Container, Page} from "../../Elements";
-import {ProjectUsageGraph} from "../../Components";
+import {ProjectUsageGraph, ProjectTransactionAnalytics} from "../../Components";
 
 class ProjectUsagePage extends Component {
     render() {
+        const {project} = this.props;
+
         const usageData = {
             totalTransactions: 214,
             lastTransaction: {
@@ -41,6 +43,8 @@ class ProjectUsagePage extends Component {
             <Page id="ProjectPage">
                 <Container>
                     <h1>Usage</h1>
+                    <hr/>
+                    <ProjectTransactionAnalytics projectId={project.id}/>
                     <ProjectUsageGraph data={usageData}/>
                 </Container>
             </Page>
