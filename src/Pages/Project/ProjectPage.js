@@ -58,7 +58,7 @@ class ProjectPage extends Component {
                 <Switch>
                     <Route path="/project/:id/events" component={ProjectEventsPage}/>
                     <Route path="/project/:id/event/:network/:eventId" component={EventPage}/>
-                    <Route path="/project/:id/usage" component={ProjectUsagePage}/>
+                    <Route path="/project/:id/analytics" component={ProjectUsagePage}/>
                     <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
                     <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
                     <Route path="/project/:id/contract/:contractId" component={ProjectContractPage}/>
