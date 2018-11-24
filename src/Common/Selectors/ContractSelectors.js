@@ -1,5 +1,37 @@
 /**
  * @param {Object} state
+ * @param {string} contractId
+ * @return {Contract|null}
+ */
+import {EntityStatusTypes} from "../constants";
+
+export function getContractById(state, contractId) {
+    const contract = state.contract.contracts[contractId];
+
+    if (!contract) {
+        return null;
+    }
+
+    return contract;
+}
+
+/**
+ * @param {object} state
+ * @param {string} contractId
+ * @return {string}
+ */
+export function getContractStatus(state, contractId) {
+    let contractStatus = state.contract.contractStatus[contractId];
+
+    if (!contractStatus) {
+        contractStatus = EntityStatusTypes.NOT_LOADED;
+    }
+
+    return contractStatus;
+}
+
+/**
+ * @param {Object} state
  * @param {string} projectId
  * @returns {Contract[]}
  */
