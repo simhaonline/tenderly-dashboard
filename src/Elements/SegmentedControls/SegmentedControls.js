@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import './SegmentedControls.css';
+
 const SegmentedControls = ({value, options, onChange}) => {
     const onOptionClick = (option) => (() => {
         if (option.value !== value) {

@@ -1,0 +1,31 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.SegmentedControls {
+  display: inline-flex;
+  border: 1px solid $BorderColor;
+  border-radius: 3px;
+  overflow: hidden;
+
+  .ControlOption {
+    flex: 0 0 auto;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: $FontSize200;
+    transition: 0.15s;
+
+    &:hover {
+      background-color: transparentize($SecondaryColor600, 0.2);
+    }
+
+    &:not(:last-child) {
+      border-right: 1px solid $BorderColor;
+    }
+
+    &.Active {
+      cursor: default;
+      background-color: transparentize($WhiteColor, 0.95);
+      color: $SecondaryColor600;
+    }
+  }
+}
