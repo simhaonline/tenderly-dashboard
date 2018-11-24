@@ -49,6 +49,7 @@ export const EtherscanLinkTypes = {
 
 export const EntityStatusTypes = {
     NOT_LOADED: 'NOT_LOADED',
+    LOADING: 'LOADING',
     LOADED: 'LOADED',
     NON_EXISTING: 'NON_EXISTING',
     DELETED: 'DELETED',
