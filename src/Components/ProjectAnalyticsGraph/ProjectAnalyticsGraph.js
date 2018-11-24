@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import {Card, CardHeading, SegmentedControls} from "../../Elements";
 import {AnalyticsResolutionTypes} from "../../Common/constants";
 
+import './ProjectAnalyticsGraph.css';
+
 const ResolutionOptions = [
     {
         value: AnalyticsResolutionTypes.HOUR,
@@ -39,7 +41,7 @@ class ProjectAnalyticsGraph extends Component {
                 className,
             )}>
                 <CardHeading>
-                    <h4>{title}</h4>
+                    <h3>{title}</h3>
                 </CardHeading>
                 <div className="GraphSubHeader">
                     <SegmentedControls options={ResolutionOptions} value={resolution} onChange={this.handleResolutionChange}/>
