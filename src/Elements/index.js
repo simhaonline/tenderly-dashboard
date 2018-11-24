@@ -9,5 +9,6 @@ export {default as Button} from './Button/Button';
 export {default as Card} from './Card/Card';
 export {default as CardHeading} from './Card/CardHeading';
 export {default as Form} from './Form/Form';
+export {default as SegmentedControls} from './SegmentedControls/SegmentedControls';
 export {default as Input} from './Input/Input';
 export {default as Container} from './Container/Container';
