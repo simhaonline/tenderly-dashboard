@@ -8,6 +8,7 @@ export {default as EarlyAccessSignUp} from './EarlyAccessSignUp/EarlyAccessSignU
 export {default as ContractSource} from './ContractSource/ContractSource';
 export {default as Code} from './Code/Code';
 export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButton';
+export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButton';
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as PublicContractsSwitcher} from './PublicContractsSwitcher/PublicContractsSwitcher';
 export {default as PublicContractsInfo} from './PublicContractsInfo/PublicContractsInfo';

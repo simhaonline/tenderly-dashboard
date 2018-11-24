@@ -1,0 +1,31 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+$GitHubMainColor: #333333;
+
+.GitHubLoginButton {
+  width: 100%;
+  font-size: $FontSize100;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $GitHubMainColor;
+  color: #fff;
+  border: 1px solid darken($GitHubMainColor, 3);
+  padding: 10px 5px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover, &:focus, &:active {
+    background-color: darken($GitHubMainColor, 3);
+  }
+
+  &:focus, &:active {
+    box-shadow: 0 0 0 3px transparentize($GitHubMainColor, 0.7);
+  }
+
+  .GitHubIcon {
+    margin-right: 5px;
+  }
+}
