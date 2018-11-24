@@ -7,7 +7,7 @@ import {NetworkTypes} from "../../Common/constants";
 import {Container, Page} from "../../Elements";
 import {ProjectUsageGraph, ProjectTransactionAnalytics} from "../../Components";
 
-class ProjectUsagePage extends Component {
+class ProjectAnalyticsPage extends Component {
     render() {
         const {project} = this.props;
 
@@ -63,4 +63,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
     mapStateToProps,
     null
-)(ProjectUsagePage);
+)(ProjectAnalyticsPage);

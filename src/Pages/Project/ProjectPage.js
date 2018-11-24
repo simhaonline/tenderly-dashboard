@@ -7,7 +7,7 @@ import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import * as projectActions from "../../Core/Project/Project.actions";
 
 import ProjectEventsPage from "./ProjectEventsPage";
-import ProjectUsagePage from "./ProjectUsagePage";
+import ProjectAnalyticsPage from "./ProjectAnalyticsPage";
 import ProjectAlertsPage from "./ProjectAlertsPage";
 import ProjectContractsPage from "./ProjectContractsPage";
 import ProjectReleasesPage from "./ProjectReleasesPage";
@@ -58,7 +58,7 @@ class ProjectPage extends Component {
                 <Switch>
                     <Route path="/project/:id/events" component={ProjectEventsPage}/>
                     <Route path="/project/:id/event/:network/:eventId" component={EventPage}/>
-                    <Route path="/project/:id/analytics" component={ProjectUsagePage}/>
+                    <Route path="/project/:id/analytics" component={ProjectAnalyticsPage}/>
                     <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
                     <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
                     <Route path="/project/:id/contract/:contractId" component={ProjectContractPage}/>
