@@ -6,7 +6,7 @@ class FeatureFlag extends Component {
         const {user, children} = this.props;
 
 
-        if (!user.email.includes('@tenderly.app')) {
+        if (!user.email || !user.email.includes('@tenderly.app')) {
             return null;
         }
 

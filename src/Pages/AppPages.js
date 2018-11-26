@@ -26,11 +26,11 @@ const AppPages = () => {
             <PrivateRoute path="/project/:id" component={ProjectPage}/>
             <PrivateRoute path="/onboarding" exact component={OnboardingPage}/>
             <Route path="/login" exact component={LoginPage}/>
-            <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
-            <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
-            <Route path="/contract/:network/:id/source" exact component={PublicContractSourcePage}/>
-            <Route path="/contract/:network/:id/error/:errorId" exact component={ErrorPage}/>
-            <Redirect exact from="/" to="/public-contracts/kovan"/>
+            <PrivateRoute path="/public-contracts/:network" exact component={PublicContractsPage}/>
+            <PrivateRoute path="/contract/:network/:id" exact component={PublicContractPage}/>
+            <PrivateRoute path="/contract/:network/:id/source" exact component={PublicContractSourcePage}/>
+            <PrivateRoute path="/contract/:network/:id/error/:errorId" exact component={ErrorPage}/>
+            <Redirect exact from="/" to="/login"/>
             <Route component={noMatchPage}/>
         </Switch>
     )

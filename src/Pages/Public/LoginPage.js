@@ -7,7 +7,7 @@ import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Container, Button, Form, Input} from "../../Elements";
-import {EarlyAccessButton, GoogleLoginButton, GitHubLoginButton} from "../../Components";
+import {EarlyAccessButton, GoogleLoginButton, GitHubLoginButton, FeatureFlag} from "../../Components";
 
 import './LoginPage.css';
 
@@ -46,7 +46,7 @@ class LoginPage extends Component {
         }
 
         return (
-            <Page id="LoginPage" wholeScreenPage>
+            <Page id="LoginPage">
                 <Container>
                     <div className="LoginPageContent">
                         <div className="LoginFormWrapper">
@@ -54,14 +54,16 @@ class LoginPage extends Component {
                                 <Input label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
                                 <Input type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
                                 <Button outline color="secondary    " stretch type="submit">Login</Button>
-                                <div className="ThirdPartLoginWrapper">
-                                    <div className="ButtonWrapper">
-                                        <GoogleLoginButton/>
+                                <FeatureFlag>
+                                    <div className="ThirdPartLoginWrapper">
+                                        <div className="ButtonWrapper">
+                                            <GoogleLoginButton/>
+                                        </div>
+                                        <div className="ButtonWrapper">
+                                            <GitHubLoginButton/>
+                                        </div>
                                     </div>
-                                    <div className="ButtonWrapper">
-                                        <GitHubLoginButton/>
-                                    </div>
-                                </div>
+                                </FeatureFlag>
                             </Form>
                             <div className="DocumentsWrapper">
                                 <a href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>

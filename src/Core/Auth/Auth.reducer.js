@@ -10,7 +10,7 @@ const initialState = {
     retrievedToken: false,
     token: null,
     loggedIn: false,
-    onboardingFinished: false,
+    onboardingFinished: true,
     user: {}
 };
 
