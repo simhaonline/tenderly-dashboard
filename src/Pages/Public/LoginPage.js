@@ -64,9 +64,9 @@ class LoginPage extends Component {
                                 </div>
                             </Form>
                             <div className="DocumentsWrapper">
-                                <a href="https://tenderly.app/terms-of-service" target="_blank">Terms of Service</a>
+                                <a href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
                                 <span className="Separator">•</span>
-                                <a href="https://tenderly.app/privacy-policy" target="_blank">Privacy Policy</a>
+                                <a href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                             </div>
                         </div>
                         <div className="SignUpWrapper">
