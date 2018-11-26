@@ -65,14 +65,7 @@ class SessionHeaderMenu extends Component {
         if (!auth.retrievedToken) return null;
 
         if (!auth.loggedIn && !auth.token) {
-            return (
-                <div className="SessionHeaderMenu">
-                    <Button to="/login" size="small">
-                        Login
-                    </Button>
-                    <EarlyAccessButton size="small"/>
-                </div>
-            )
+            return null;
         }
 
         const {user, loggedIn} = auth;
