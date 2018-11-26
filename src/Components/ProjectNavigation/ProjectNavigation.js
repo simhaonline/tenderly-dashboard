@@ -2,6 +2,7 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 
 import {Container, Button, Icon} from "../../Elements";
+import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './ProjectNavigation.css';
 
@@ -24,15 +25,17 @@ const ProjectNavigation = ({project}) => {
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`}>
                         <span>Contracts</span>
                     </NavLink>
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/analytics`}>
-                        <span>Analytics</span>
-                    </NavLink>
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/releases`}>
-                        <span>Deployment</span>
-                    </NavLink>
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/alerts`}>
-                        <span>Alerts</span>
-                    </NavLink>
+                    <FeatureFlag>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/analytics`}>
+                            <span>Analytics</span>
+                        </NavLink>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/releases`}>
+                            <span>Deployment</span>
+                        </NavLink>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/alerts`}>
+                            <span>Alerts</span>
+                        </NavLink>
+                    </FeatureFlag>
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/settings`}>
                         <span>Settings</span>
                     </NavLink>
