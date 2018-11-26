@@ -16,9 +16,9 @@ const RecentArticles = () => {
             </div>
             <hr/>
             <div className="ArticlesList">
-                <a href="https://medium.com/tenderly/improving-smart-contract-development-with-tenderly-and-human-readable-stack-traces-16abfad5dd15" target="_blank" className="ArticleItem">
+                <a href="https://medium.com/tenderly/improving-smart-costract-development-with-tenderly-and-human-readable-stack-traces-16abfad5dd15" without rel="noopener noreferrer" target="_blank" className="ArticleItem">
                     <div className="ArticlePreviewWrapper">
-                        <img src="https://cdn-images-1.medium.com/max/2000/1*KjlNJ_UvYf68bRjCijGMjw.jpeg" className="ArticleImage" alt="Blog Image"/>
+                        <img src="https://cdn-images-1.medium.com/max/2000/1*KjlNJ_UvYf68bRjCijGMjw.jpeg" className="ArticleImage" alt="Blog"/>
                     </div>
                     <div className="ArticleInfo">
                         <h5 className="ArticleTitle">Improving Smart Contract development with Tenderly and human readable stack traces</h5>
