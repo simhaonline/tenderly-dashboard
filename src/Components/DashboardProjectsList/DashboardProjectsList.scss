@@ -23,8 +23,6 @@
     .ProjectNameWrapper {
       flex: 0 0 auto;
       padding-bottom: 15px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid $BorderColor;
       color: $WhiteColor;
 
       .ProjectName {
@@ -38,8 +36,11 @@
     }
 
     .ProjectChartWrapper {
+      border-top: 1px solid $BorderColor;
+      border-bottom: 1px solid $BorderColor;
+      padding-top: 10px;
       margin: 0 -6px;
-      height: 80px;
+      height: 90px;
     }
 
     .ProjectNotSetupState {
@@ -64,7 +65,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border-top: 1px solid $BorderColor;
       padding: 14px 0 16px;
       flex: 1 1 0;
     }

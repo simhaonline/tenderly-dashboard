@@ -5,6 +5,7 @@ import {Bar, BarChart, YAxis} from "recharts";
 
 import {Button, Icon} from "../../Elements";
 import ProjectSetupGuide from "../ProjectSetupGuide/ProjectSetupGuide";
+import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './DashboardProjectsList.css';
 
@@ -42,16 +43,18 @@ const DashboardProjectsList = ({projects, loaded}) => {
                             <div className="ProjectName">{project.name}</div>
                             <div className="ProjectId">{project.id}</div>
                         </div>
-                        <div className="ProjectChartWrapper">
-                            {!!project.lastPushAt && <BarChart width={220} height={80} data={data}>
-                                <YAxis type="number" domain={[0,  dataMax => Math.max(dataMax, 8)]} hide/>
-                                <Bar dataKey='events' fill='#df0074'/>
-                            </BarChart>}
-                            {!project.lastPushAt && <div className="ProjectNotSetupState">
-                                <Icon icon="cloud-off"/>
-                                <span>Not contracts pushed yet</span>
-                            </div>}
-                        </div>
+                        <FeatureFlag>
+                            <div className="ProjectChartWrapper">
+                                {!!project.lastPushAt && <BarChart width={220} height={80} data={data}>
+                                    <YAxis type="number" domain={[0,  dataMax => Math.max(dataMax, 8)]} hide/>
+                                    <Bar dataKey='events' fill='#df0074'/>
+                                </BarChart>}
+                                {!project.lastPushAt && <div className="ProjectNotSetupState">
+                                    <Icon icon="cloud-off"/>
+                                    <span>Not contracts pushed yet</span>
+                                </div>}
+                            </div>
+                        </FeatureFlag>
                         <div className="ProjectContractInfo">
                             {!!project.lastPushAt && <div className="LastDeployInfo">
                                 Last deployment: <span>{moment(project.lastPushAt).fromNow()}</span>
