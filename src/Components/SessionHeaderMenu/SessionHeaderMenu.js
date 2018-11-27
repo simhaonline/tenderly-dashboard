@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Button, Icon, DialogHeader, Dialog, DialogBody} from "../../Elements";
-import {EarlyAccessButton} from "../../Components";
 
 import './SessionHeaderMenu.css';
 

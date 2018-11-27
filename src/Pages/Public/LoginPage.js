@@ -6,7 +6,7 @@ import {Redirect} from "react-router-dom";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Container, Button, Form, Input} from "../../Elements";
+import {Page, Button, Form, Input} from "../../Elements";
 import {EarlyAccessButton, GoogleLoginButton, GitHubLoginButton, FeatureFlag} from "../../Components";
 
 import './LoginPage.css';
@@ -46,8 +46,7 @@ class LoginPage extends Component {
         }
 
         return (
-            <Page id="LoginPage">
-                <Container>
+            <Page id="LoginPage" padding={false}>
                     <div className="LoginPageContent">
                         <div className="LoginFormWrapper">
                             <Form onSubmit={this.handleFormSubmit}>
@@ -79,7 +78,6 @@ class LoginPage extends Component {
                             <EarlyAccessButton color="secondary" outline={false} label="Sign up for Private Alpha access"/>
                         </div>
                     </div>
-                </Container>
             </Page>
         )
     }
