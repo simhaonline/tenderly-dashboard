@@ -6,6 +6,7 @@ import ReactGA from 'react-ga';
 
 import 'highlight.js/styles/dracula.css';
 import './Common/Styles/reset.css';
+import './Common/Styles/base.css';
 
 import * as authActions from "./Core/Auth/Auth.actions";
 

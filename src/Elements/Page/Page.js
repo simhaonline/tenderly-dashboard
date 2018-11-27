@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import classNames from 'classnames';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
@@ -24,15 +25,24 @@ class Page extends Component {
     }
 
     render() {
-        const {children, wholeScreenPage, ...props} = this.props;
+        const {children, wholeScreenPage, padding, ...props} = this.props;
 
         return (
-            <div className="Page" {...props}>
+            <div className={classNames(
+                "Page",
+                {
+                    "NoPadding": !padding,
+                }
+            )} {...props}>
                 {children}
             </div>
         );
     }
 }
+
+Page.defaultProps = {
+    padding: true,
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
