@@ -1,6 +1,15 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
+@keyframes SignUpShow {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
 #LoginPage {
   display: flex;
 }
@@ -8,33 +17,50 @@
 .LoginPageContent {
   flex: 1 1 0;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .LoginFormWrapper {
-    flex: 0 0 50%;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: relative;
+  }
+
+  .LogoWrapper {
+    margin-bottom: 30px;
+
+    .Logo {
+      font-weight: 100;
+      font-size: $FontSize600 * 2;
+    }
   }
 
   .LoginForm {
     padding: 30px 20px 30px;
-    background-color: lighten(#171e31, 3);
+    background-color: lighten(#171e31, 6);
     border-radius: 6px;
     box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.9);
-    width: 100%;
-    max-width: 400px;
+    width: 400px;
+    min-height: 400px;
+    z-index: 2;
+    position: relative;
 
     .FormHeading {
       font-weight: 100;
-      font-size: $FontSize600;
+      font-size: $FontSize600 * 1.2;
       margin: 0 0 30px;
       text-align: center;
     }
 
+    .FormDescription {
+      opacity: 0.75;
+      font-size: $FontSize200;
+      margin-bottom: 20px;
+    }
+
     .LoginButtonWrapper {
       margin-top: 30px;
+      border-top: 1px solid $BorderColor;
+      padding-top: 30px;
     }
   }
 
@@ -54,8 +80,18 @@
   }
 
   .SignUpWrapper {
-    flex: 0 0 50%;
-    padding: 40px;
+    position: absolute;
+    top: 20px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    left: 0;
+    background-color: lighten(#171e31, 3);
+    box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.9);
+    width: 300px;
+    padding: 30px;
+    min-height: 360px;
+    z-index: 1;
+    animation: 0.5s 0.3s SignUpShow forwards cubic-bezier(0.23, 1, 0.32, 1);
   }
 
   .DocumentsWrapper {

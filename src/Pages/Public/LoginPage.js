@@ -35,6 +35,12 @@ class LoginPage extends Component {
         authActions.loginUser(email, password);
     };
 
+    isLoginButtonDisabled = () => {
+        const {formData} = this.state;
+
+        return !formData.email || !formData.password;
+    };
+
     render() {
         const {formData} = this.state;
         const {auth} = this.props;
@@ -45,16 +51,23 @@ class LoginPage extends Component {
             return <Redirect to="/dashboard"/>
         }
 
+        const loginButtonDisabled = this.isLoginButtonDisabled();
+
         return (
             <Page id="LoginPage" padding={false} wholeScreenPage>
                 <div className="LoginPageContent">
+                    <div className="LogoWrapper">
+                        <h1 className="Logo">Tenderly</h1>
+                    </div>
                     <div className="LoginFormWrapper">
+
                         <Form onSubmit={this.handleFormSubmit} className="LoginForm">
                             <h3 className="FormHeading">Welcome back!</h3>
-                            <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
+                            <p className="FormDescription">Enter your credentials below to login into the dashboard.</p>
+                            <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
                             <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
                             <div className="LoginButtonWrapper">
-                                <Button stretch type="submit">Login</Button>
+                                <Button disabled={loginButtonDisabled} stretch type="submit">Login</Button>
                             </div>
                             <FeatureFlag>
                                 <div className="ThirdPartLoginWrapper">
@@ -67,18 +80,17 @@ class LoginPage extends Component {
                                 </div>
                             </FeatureFlag>
                         </Form>
-                        <div className="DocumentsWrapper">
-                            <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-                            <span className="Separator">•</span>
-                            <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                        <div className="SignUpWrapper">
+                            <h2>Join our Private Alpha Program</h2>
+                            <p>Join our limited private alpha program where we will be releasing updates to a small number of users as we develop them.</p>
+                            <p>You can see a full list of <a href="https://tenderly.app#features">our features here</a>.</p>
+                            <EarlyAccessButton label="Sign up"/>
                         </div>
                     </div>
-                    <div className="SignUpWrapper">
-                        <h2>Join our Private Alpha Program</h2>
-                        <p>Join our limited private alpha program where we will be releasing updates to a small number of users as we develop them.</p>
-                        <p>Based on your feedback Tenderly will evolve into the product that best suites your needs.</p>
-                        <p>You can see a full list of <a href="https://tenderly.app#features">our features here</a>.</p>
-                        <EarlyAccessButton color="secondary" label="Sign up for Private Alpha access"/>
+                    <div className="DocumentsWrapper">
+                        <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                        <span className="Separator">•</span>
+                        <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                     </div>
                 </div>
             </Page>
