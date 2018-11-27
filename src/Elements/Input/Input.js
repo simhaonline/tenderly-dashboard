@@ -1,10 +1,21 @@
-import React from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
+
+import Icon from "../Icon/Icon";
 
 import './Input.css';
 
-const Input = ({children, value, type, field, label, onChange, ...props}) => {
-    const handleInputChange = (event) => {
+class InputElement extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            focused: false,
+        }
+    }
+
+    handleInputChange = (event) => {
+        const {field, onChange} = this.props;
         const newValue = event.target.value;
 
         if (onChange && field) {
@@ -12,19 +23,42 @@ const Input = ({children, value, type, field, label, onChange, ...props}) => {
         }
     };
 
-    const labelStateClassName = value ? 'focused' : '';
+    handleInputFocus = () => {
+        this.setState({
+            focused: true,
+        });
 
-    return (
-        <div className="InputWrapper">
-            {!!label && <label htmlFor={`input-${field}`} className={
-                classNames(
-                    "InputLabel",
-                    labelStateClassName,
-                )}>{label}</label>
-            }
-            <input type={type || "text"} className="Input" id={`input-${field}`} name={field} value={value} onChange={handleInputChange} {...props}/>
-        </div>
-    )
-};
+    };
 
-export default Input;
+    handleInputBlur = () => {
+        this.setState({
+            focused: false,
+        });
+    };
+
+    render() {
+        const {value, type, field, label, icon} = this.props;
+        const {focused} = this.state;
+
+        return (
+            <div className={classNames("InputWrapper", {
+                'Active': (value || focused),
+                'Focused': focused,
+            })}>
+                {!!icon && <Icon icon={icon} className="InputIcon"/>}
+                {(!!label && !value) && <label htmlFor={`input-${field}`} className={"InputLabel"}>{label}</label>
+                }
+                <input type={type || "text"}
+                       className="Input"
+                       id={`input-${field}`}
+                       name={field}
+                       value={value}
+                       onChange={this.handleInputChange}
+                       onFocus={this.handleInputFocus}
+                       onBlur={this.handleInputBlur}/>
+            </div>
+        );
+    }
+}
+
+export default InputElement;

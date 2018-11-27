@@ -1,37 +1,45 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
-
 .InputWrapper {
-  background-color: transparentize($WhiteColor, 0.95);
-  border: 1px solid transparentize($PrimaryColor600, 0.5);
+  background: #171e31;
+  border: 1px solid #1e2841;
   position: relative;
-  border-radius: 3px;
+  border-radius: 4px;
   transition: 0.15s;
+  margin-top: 30px;
 
   .Input {
     background-color: transparent;
     border: none;
     width: 100%;
-    padding: 10px 15px;
-    color: transparentize($WhiteColor, 0.15);
-    font-size: $FontSize300;
+    padding: 9px 15px 11px 40px;
+    color: $WhiteColor;
+    font-size: $FontSize200;
+    cursor: pointer;
 
     &:focus, &:hover, &:active {
       outline: none;
     }
   }
 
+  .InputIcon {
+    transform-origin: center;
+    position: absolute;
+    left: 14px;
+    top: 10px;
+    transform: scale(0.1);
+    opacity: 0;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
   .InputLabel {
     cursor: text;
     position: absolute;
     left: 15px;
-    transition: 0.15s;
-    top: 9px;
-
-    &.focused {
-      top: -11px;
-    }
+    transition: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-size: $FontSize300;
+    top: 8px;
   }
 
   &:not(:last-child) {
@@ -39,10 +47,28 @@
   }
 
   &:hover {
-    background-color: transparentize($WhiteColor, 0.92);
+    background-color: lighten(#171e31, 2);
   }
 
-  &.focused {
-    background-color: transparentize($WhiteColor, 0.9);
+  &.Focused {
+    box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
+
+    .InputLabel {
+      left: 40px;
+    }
+
+    .InputIcon {
+    }
+  }
+
+  &.Active {
+    border-color: $PrimaryColor600;
+
+    .InputIcon {
+      color: $PrimaryColor600;
+      transition-delay: 0.05s;
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 }
