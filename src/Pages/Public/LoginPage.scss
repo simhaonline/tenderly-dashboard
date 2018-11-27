@@ -12,11 +12,33 @@
   .LoginFormWrapper {
     flex: 0 0 50%;
     padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .LoginForm {
+    padding: 30px 20px 30px;
+    background-color: lighten(#171e31, 3);
+    border-radius: 6px;
+    box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.9);
+    width: 100%;
+    max-width: 400px;
+
+    .FormHeading {
+      font-weight: 100;
+      font-size: $FontSize600;
+      margin: 0 0 30px;
+      text-align: center;
+    }
   }
 
   .ThirdPartLoginWrapper {
     margin-top: 20px;
     display: flex;
+    border-top: 1px solid $BorderColor;
+    padding-top: 20px;
 
     .ButtonWrapper {
       flex: 1 0 0;
@@ -34,7 +56,8 @@
 
   .DocumentsWrapper {
     text-align: center;
-    font-size: $FontSize200;
+    font-size: $FontSize100;
+    margin-top: 10px;
 
     .DocumentLink {
       color: $WhiteColor;

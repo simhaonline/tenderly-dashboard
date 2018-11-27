@@ -1,6 +1,7 @@
 import React from 'react';
+import classNames from 'classnames';
 
-const Form = ({children, onSubmit}) => {
+const Form = ({children, onSubmit, className}) => {
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
@@ -10,7 +11,10 @@ const Form = ({children, onSubmit}) => {
     };
 
     return (
-        <form onSubmit={handleFormSubmit} className="Form">
+        <form onSubmit={handleFormSubmit} className={classNames(
+            "Form",
+            className,
+        )}>
             {children}
         </form>
     )
