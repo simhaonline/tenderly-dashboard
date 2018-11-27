@@ -47,37 +47,37 @@ class LoginPage extends Component {
 
         return (
             <Page id="LoginPage" padding={false}>
-                    <div className="LoginPageContent">
-                        <div className="LoginFormWrapper">
-                            <Form onSubmit={this.handleFormSubmit}>
-                                <Input label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
-                                <Input type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
-                                <Button outline color="secondary    " stretch type="submit">Login</Button>
-                                <FeatureFlag>
-                                    <div className="ThirdPartLoginWrapper">
-                                        <div className="ButtonWrapper">
-                                            <GoogleLoginButton/>
-                                        </div>
-                                        <div className="ButtonWrapper">
-                                            <GitHubLoginButton/>
-                                        </div>
+                <div className="LoginPageContent">
+                    <div className="LoginFormWrapper">
+                        <Form onSubmit={this.handleFormSubmit} className="LoginForm">
+                            <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
+                            <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+                            <Button  stretch type="submit">Login</Button>
+                            <FeatureFlag>
+                                <div className="ThirdPartLoginWrapper">
+                                    <div className="ButtonWrapper">
+                                        <GoogleLoginButton/>
                                     </div>
-                                </FeatureFlag>
-                            </Form>
-                            <div className="DocumentsWrapper">
-                                <a href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-                                <span className="Separator">•</span>
-                                <a href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-                            </div>
-                        </div>
-                        <div className="SignUpWrapper">
-                            <h2>Join our Private Alpha Program</h2>
-                            <p>Join our limited private alpha program where we will be releasing updates to a small number of users as we develop them.</p>
-                            <p>Based on your feedback Tenderly will evolve into the product that best suites your needs.</p>
-                            <p>You can see a full list of <a href="https://tenderly.app#features">our features here</a>.</p>
-                            <EarlyAccessButton color="secondary" outline={false} label="Sign up for Private Alpha access"/>
+                                    <div className="ButtonWrapper">
+                                        <GitHubLoginButton/>
+                                    </div>
+                                </div>
+                            </FeatureFlag>
+                        </Form>
+                        <div className="DocumentsWrapper">
+                            <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                            <span className="Separator">•</span>
+                            <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                     </div>
+                    <div className="SignUpWrapper">
+                        <h2>Join our Private Alpha Program</h2>
+                        <p>Join our limited private alpha program where we will be releasing updates to a small number of users as we develop them.</p>
+                        <p>Based on your feedback Tenderly will evolve into the product that best suites your needs.</p>
+                        <p>You can see a full list of <a href="https://tenderly.app#features">our features here</a>.</p>
+                        <EarlyAccessButton color="secondary" label="Sign up for Private Alpha access"/>
+                    </div>
+                </div>
             </Page>
         )
     }
