@@ -46,7 +46,7 @@ class LoginPage extends Component {
         }
 
         return (
-            <Page id="LoginPage" padding={false}>
+            <Page id="LoginPage" padding={false} wholeScreenPage>
                 <div className="LoginPageContent">
                     <div className="LoginFormWrapper">
                         <Form onSubmit={this.handleFormSubmit} className="LoginForm">
