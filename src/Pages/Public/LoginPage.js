@@ -53,7 +53,9 @@ class LoginPage extends Component {
                             <h3 className="FormHeading">Welcome back!</h3>
                             <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate}/>
                             <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
-                            <Button  stretch type="submit">Login</Button>
+                            <div className="LoginButtonWrapper">
+                                <Button stretch type="submit">Login</Button>
+                            </div>
                             <FeatureFlag>
                                 <div className="ThirdPartLoginWrapper">
                                     <div className="ButtonWrapper">
