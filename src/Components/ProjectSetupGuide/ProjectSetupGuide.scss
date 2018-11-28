@@ -14,7 +14,7 @@
 }
 
 .SetupProjectDialog {
-  $SetupProjectDialogHeight: 320px;
+  $SetupProjectDialogHeight: 330px;
   .DialogStepsWrapper {
     position: relative;
     height: $SetupProjectDialogHeight;
@@ -28,7 +28,7 @@
 
     .StepContent {
       margin-bottom: 20px;
-      height: $SetupProjectDialogHeight - 60px;
+      height: $SetupProjectDialogHeight - 65px;
 
       p {
         margin-top: 0;
