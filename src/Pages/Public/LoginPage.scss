@@ -10,6 +10,15 @@
   }
 }
 
+@keyframes PocIconAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
 #LoginPage {
   display: flex;
 }
@@ -121,6 +130,34 @@
     .Separator {
       margin: 0 10px;
       opacity: 0.5;
+    }
+  }
+
+  .PocLinkWrapper {
+    margin-top: 20px;
+
+    .PocLink {
+      border-radius: 20px;
+      background-color: transparentize($PrimaryColor600, 0.8);
+      border: 1px solid $PrimaryColor600;
+      color: $WhiteColor;
+      padding: 10px 15px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+
+      .PocIcon {
+        margin-right: 8px;
+        transform-origin: center;
+      }
+
+      &:hover {
+        background-color: transparentize($PrimaryColor600, 0.6);
+
+        .PocIcon {
+          animation: 2s PocIconAnimation linear infinite;
+        }
+      }
     }
   }
 }

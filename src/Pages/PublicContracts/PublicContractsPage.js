@@ -3,7 +3,7 @@ import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import {NetworkRouteToAppTypeMap, NetworkRouteTypes} from "../../Common/constants";
+import {NetworkRouteToAppTypeMap, NetworkRouteTypes, NetworkTypes} from "../../Common/constants";
 import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicContractSelectors";
 
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
@@ -74,9 +74,13 @@ class PublicContractsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: { network }}} = ownProps;
+    const {match: {params: { network }, path}} = ownProps;
 
-    const networkType = NetworkRouteToAppTypeMap[network];
+    let networkType = NetworkRouteToAppTypeMap[network];
+
+    if (path.includes('poc-demo')) {
+        networkType = NetworkTypes.KOVAN;
+    }
 
     return {
         contracts: getNetworkPublicContractsForPage(state, networkType, 0),

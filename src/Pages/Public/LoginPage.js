@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Button, Form, Input, Alert} from "../../Elements";
+import {Page, Button, Form, Input, Alert, Icon} from "../../Elements";
 import {EarlyAccessButton, GoogleLoginButton, GitHubLoginButton, FeatureFlag} from "../../Components";
 
 import './LoginPage.css';
@@ -111,6 +111,12 @@ class LoginPage extends Component {
                         <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
                         <span className="Separator">•</span>
                         <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                    </div>
+                    <div className="PocLinkWrapper">
+                        <Link to="/poc-demo" className="PocLink">
+                            <Icon icon="trinity" className="PocIcon"/>
+                            <span>Try our PoC Demo</span>
+                        </Link>
                     </div>
                 </div>
             </Page>
