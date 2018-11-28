@@ -12,14 +12,21 @@ class Project {
         /** @type Date */
         this.lastPushAt = data.last_push_at;
 
+        /** @type boolean */
+        this.isSetup = !!data.last_push_at;
+
         /** @type Date */
         this.createdAt = data.created_at;
     }
 
     /**
-     * @returns {Project}
+     * @param {Object} data
+     * @return {Project}
      */
-    update() {
+    update(data) {
+        this.lastPushAt = data.last_push_at;
+        this.isSetup = !!data.last_push_at;
+
         return this;
     }
 }
