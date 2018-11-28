@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import {PublicApi, Api} from '../../Utils/Api';
 
 import User from "./User.model";
+import {ActionResponse} from "../../Common";
 
 export const LOG_IN_ACTION = 'LOG_IN';
 export const LOG_OUT_ACTION = 'LOG_OUT';
@@ -31,24 +32,31 @@ const removeAuthHeader = () => {
 /**
  * @param {string} username
  * @param {string} password
+ * @returns {ActionResponse}
  */
 export const loginUser = (username, password) => {
     return async dispatch => {
-        const {data} = await PublicApi.post(`/login`, {
-            username,
-            password,
-        });
+        try {
+            const {data} = await PublicApi.post(`/login`, {
+                username,
+                password,
+            });
 
-        if (!data) {
-            return;
+            if (!data) {
+                return;
+            }
+
+            dispatch({
+                type: LOG_IN_ACTION,
+                token: data.token,
+            });
+            dispatch(setAuthHeader(data.token));
+            dispatch(getUser());
+
+            return new ActionResponse(true, data.token);
+        } catch (error) {
+            return new ActionResponse(false, error.response.data);
         }
-
-        dispatch({
-            type: LOG_IN_ACTION,
-            token: data.token,
-        });
-        dispatch(setAuthHeader(data.token));
-        dispatch(getUser());
     }
 };
 
