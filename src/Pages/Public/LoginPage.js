@@ -6,7 +6,7 @@ import {Redirect} from "react-router-dom";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Button, Form, Input} from "../../Elements";
+import {Page, Button, Form, Input, Alert} from "../../Elements";
 import {EarlyAccessButton, GoogleLoginButton, GitHubLoginButton, FeatureFlag} from "../../Components";
 
 import './LoginPage.css';
@@ -15,6 +15,11 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            loginFailed: false,
+            loginAttempts: 0,
+        };
+
         initializeForm(this, {
             email: '',
             password: '',
@@ -22,9 +27,8 @@ class LoginPage extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
-    handleFormSubmit = () => {
-        const {formData: {email, password}} = this.state;
-
+    handleFormSubmit = async () => {
+        const {formData: {email, password}, loginAttempts} = this.state;
 
         if (!email || !password) {
             return;
@@ -32,7 +36,22 @@ class LoginPage extends Component {
 
         const {authActions} = this.props;
 
-        authActions.loginUser(email, password);
+        this.setState({
+            loginFailed: false,
+            loginAttempts: loginAttempts + 1,
+        });
+
+        const actionResponse = await authActions.loginUser(email, password);
+
+        if (!actionResponse.success) {
+            this.setState({
+                loginFailed: true,
+                formData: {
+                    email,
+                    password: '',
+                }
+            });
+        }
     };
 
     isLoginButtonDisabled = () => {
@@ -42,7 +61,7 @@ class LoginPage extends Component {
     };
 
     render() {
-        const {formData} = this.state;
+        const {formData, loginFailed} = this.state;
         const {auth} = this.props;
 
         if (auth.loggedIn && !auth.onboardingFinished) {
@@ -66,6 +85,7 @@ class LoginPage extends Component {
                             <p className="FormDescription">Enter your credentials below to login into the dashboard.</p>
                             <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
                             <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+                            {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
                             <div className="LoginButtonWrapper">
                                 <Button disabled={loginButtonDisabled} stretch type="submit">Login</Button>
                             </div>
