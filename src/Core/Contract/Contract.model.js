@@ -22,7 +22,7 @@ class Contract {
 
         // @TODO Fix this to not be hardcoded
         /** @type Date */
-        this.lastDeploymentAt = data.last_event_occurred_at;
+        this.lastDeploymentAt = data.created_at;
 
         // @TODO Fix this to not be hardcoded
         /** @type number */
