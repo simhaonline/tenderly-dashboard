@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Button, Icon, DialogHeader, Dialog, DialogBody} from "../../Elements";
+import {Button, Icon, DialogHeader, Dialog, DialogBody, TextArea} from "../../Elements";
 
 import './SessionHeaderMenu.css';
 
@@ -101,6 +101,7 @@ class SessionHeaderMenu extends Component {
                         <h3>Give Feedback</h3>
                     </DialogHeader>
                     <DialogBody>
+                        <TextArea/>
                         <Button outline>
                             <Icon icon="send"/>
                             <span>Send</span>
@@ -110,8 +111,10 @@ class SessionHeaderMenu extends Component {
                 <Dialog open={supportDialogOpen} onClose={this.handleDialogClose}>
                     <DialogHeader>
                         <h3>Contact Support</h3>
+
                     </DialogHeader>
                     <DialogBody>
+                        <TextArea/>
                         <div>
                             <Button outline>
                                 <Icon icon="send"/>
