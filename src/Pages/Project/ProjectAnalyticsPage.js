@@ -42,8 +42,6 @@ class ProjectAnalyticsPage extends Component {
         return (
             <Page id="ProjectPage">
                 <Container>
-                    <h1>Usage</h1>
-                    <hr/>
                     <ProjectTransactionAnalytics projectId={project.id}/>
                     <ProjectUsageGraph data={usageData}/>
                 </Container>
