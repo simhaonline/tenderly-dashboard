@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from "moment";
+import {Link} from "react-router-dom";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
@@ -36,9 +37,9 @@ const EventListItem = ({event, contract}) => {
                 <div className="Description">{event.description} at {contract.name}:{event.lineNumber}</div>
             </div>
             {contract.type === ContractTypes.PRIVATE && <div className="ContractColumn ItemColumn">
-                <a onClick={event => event.stopPropagation()} href={`/project/${contract.projectId}/contract/${contract.id}`} className="ContractName">
+                <Link onClick={event => event.stopPropagation()} to={`/project/${contract.projectId}/contract/${contract.id}`} className="ContractName">
                     {contract.getFileName()}
-                </a>
+                </Link>
             </div>}
             {contract.type === ContractTypes.PRIVATE && <div className="NetworkColumn ItemColumn">
                 <NetworkTag network={contract.network} size="small"/>
