@@ -15,7 +15,7 @@ const EventInformation = ({event, network}) => {
                 <div className="Timestamp">Occurred at: <span>{moment(event.timestamp).format("MMM DD YYYY, HH:mm:ss")}</span></div>
             </div>
             <div className="OtherInfo">
-                <div className="InfoItem">Transaction: <EtherscanLink network={network} type={EtherscanLinkTypes.TRANSACTION} value={event.transactionId}>{generateShortAddress(event.transactionId, 20)}</EtherscanLink></div>
+                <div className="InfoItem">Transaction: <EtherscanLink network={network} type={EtherscanLinkTypes.TRANSACTION} value={event.transactionId}>{generateShortAddress(event.transactionId, 8, 8)}</EtherscanLink></div>
                 <div className="InfoItem">Block: <EtherscanLink network={network} type={EtherscanLinkTypes.BLOCK} value={event.block}>{event.block}</EtherscanLink></div>
             </div>
         </div>
