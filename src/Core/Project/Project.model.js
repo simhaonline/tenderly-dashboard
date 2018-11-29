@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 class Project {
     constructor(data) {
         /** @type string */
@@ -20,12 +22,13 @@ class Project {
     }
 
     /**
-     * @param {Object} data
+     * @param {Project} project
      * @return {Project}
      */
-    update(data) {
-        this.lastPushAt = data.last_push_at;
-        this.isSetup = !!data.last_push_at;
+    update(project) {
+        const updateProperties = _.pick(project, ['lastPushAt', 'isSetup']);
+
+        Object.assign(this, updateProperties);
 
         return this;
     }
