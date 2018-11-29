@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {Link} from "react-router-dom";
 import md5 from "md5";
 import classNames from 'classnames';
 
@@ -88,7 +89,8 @@ class SessionHeaderMenu extends Component {
                             <div className="UserEmail">{user.email}</div>
                         </div>
                     </div>
-                    <div className="ProfileDropdown">
+                    <div className="ProfileDropdown" onClick={this.handleDropdownToggle}>
+                        <Link className="DropdownItem" to={'/account'}>Account</Link>
                         <div className="DropdownItem" onClick={this.openFeedbackDialog}>Give feedback</div>
                         <div className="DropdownItem" onClick={this.openSupportDialog}>Contact support</div>
                         <div className="DropdownItem" onClick={this.handleLogoutUser}>Logout</div>
