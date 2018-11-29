@@ -2,8 +2,8 @@
 
 .Card {
   padding: 15px 20px;
-  border: 1px solid $BorderColor;
-  background-color: transparentize($BlackColor, 0.75);
+  background-color: #212a46;
+  box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.85);
   border-radius: 5px;
 
   .CardHeading {
