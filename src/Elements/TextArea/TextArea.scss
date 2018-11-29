@@ -1,0 +1,32 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.TextAreaWrapper {
+  width: 100%;
+  background: #171e31;
+  border: 1px solid #1e2841;
+  position: relative;
+  border-radius: 4px;
+  transition: 0.15s;
+
+  .TextArea {
+    resize: none;
+    background-color: transparent;
+    border: none;
+    font-size: $FontSize200;
+    color: $WhiteColor;
+    padding: 8px 15px;
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  &.Focused {
+    box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
+  }
+
+  &.Active {
+    border-color: $PrimaryColor600;
+  }
+}
