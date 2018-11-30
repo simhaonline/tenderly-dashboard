@@ -75,11 +75,10 @@ class LoginPage extends Component {
         return (
             <Page id="LoginPage" padding={false} wholeScreenPage>
                 <div className="LoginPageContent">
-                    <div className="LogoWrapper">
-                        <h1 className="Logo">Tenderly</h1>
-                    </div>
                     <div className="LoginFormWrapper">
-
+                        <div className="LogoWrapper">
+                            <h1 className="Logo">Tenderly</h1>
+                        </div>
                         <Form onSubmit={this.handleFormSubmit} className="LoginForm">
                             <h3 className="FormHeading">Welcome back!</h3>
                             <p className="FormDescription">Enter your credentials below to login into the dashboard.</p>
@@ -100,23 +99,23 @@ class LoginPage extends Component {
                                 </div>
                             </FeatureFlag>
                         </Form>
-                        <div className="SignUpWrapper">
-                            <h2 className="SignUpHeading">Sign up for our Alpha Program!</h2>
-                            <p className="SignUpText">Join our private alpha program where we will be releasing updates to a small number of users as we develop them.</p>
-                            <p className="SignUpText">You can see a full list of <a href="https://tenderly.app#features">features here</a> that we plan to develop.</p>
-                            <EarlyAccessButton label="Sign up for Alpha"/>
+                        <div className="DocumentsWrapper">
+                            <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                            <span className="Separator">•</span>
+                            <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                        </div>
+                        <div className="PocLinkWrapper">
+                            <Link to="/poc-demo" className="PocLink">
+                                <Icon icon="trinity" className="PocIcon"/>
+                                <span>Try our PoC Demo</span>
+                            </Link>
                         </div>
                     </div>
-                    <div className="DocumentsWrapper">
-                        <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-                        <span className="Separator">•</span>
-                        <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-                    </div>
-                    <div className="PocLinkWrapper">
-                        <Link to="/poc-demo" className="PocLink">
-                            <Icon icon="trinity" className="PocIcon"/>
-                            <span>Try our PoC Demo</span>
-                        </Link>
+                    <div className="SignUpWrapper">
+                        <h2 className="SignUpHeading">Sign up for our Alpha Program!</h2>
+                        <p className="SignUpText">Join our private alpha program where we will be releasing updates to a small number of users as we develop them.</p>
+                        <p className="SignUpText">You can see a full list of <a href="https://tenderly.app#features">features here</a> that we plan to develop.</p>
+                        <EarlyAccessButton label="Sign up for Alpha"/>
                     </div>
                 </div>
             </Page>

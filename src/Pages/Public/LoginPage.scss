@@ -3,10 +3,10 @@
 
 @keyframes SignUpShow {
   0% {
-    left: 0;
+    left: -300px;
   }
   100% {
-    left: 100%;
+    left: 0;
   }
 }
 
@@ -21,21 +21,30 @@
 
 #LoginPage {
   display: flex;
-}
-
-.LoginPageContent {
-  flex: 1 1 0;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
+  @media (max-width: 720px) {
+    justify-content: flex-start;
+  }
+}
+
+.LoginPageContent {
+  display: flex;
+  margin-right: -300px;
+
   .LoginFormWrapper {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
 
   .LogoWrapper {
     margin-bottom: 30px;
+    text-align: center;
 
     .Logo {
       font-weight: 100;
@@ -89,16 +98,17 @@
   }
 
   .SignUpWrapper {
-    position: absolute;
-    top: 20px;
+    position: relative;
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    left: 0;
     background-color: lighten(#171e31, 3);
     box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.9);
     width: 300px;
     padding: 30px;
     min-height: 360px;
+    margin-top: 115px;
+    margin-bottom: 120px;
+    left: -300px;
     z-index: 1;
     animation: 0.5s 0.3s SignUpShow forwards cubic-bezier(0.23, 1, 0.32, 1);
 
@@ -158,6 +168,24 @@
           animation: 2s PocIconAnimation linear infinite;
         }
       }
+    }
+  }
+
+  @media (max-width: 1040px) {
+    margin-right: 0;
+  }
+
+  @media (max-width: 720px) {
+    padding-top: 50px;
+    display: block;
+
+    .SignUpWrapper {
+      margin: 20px auto;
+      border-radius: 6px;
+    }
+
+    .LoginForm {
+      width: 100%;
     }
   }
 }
