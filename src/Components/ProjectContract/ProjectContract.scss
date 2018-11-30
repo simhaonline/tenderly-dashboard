@@ -2,14 +2,66 @@
 @import "../../Common/Styles/typography";
 
 .ProjectContract {
-  width: 100%;
-  transition: 0.15s;
-  background-color: transparentize($BlackColor, 0.75);
-  border: 1px solid $BorderColor;
-  padding: 10px 15px;
-  border-radius: 5px;
+  cursor: pointer;
+
+  .ContentWrapper {
+    display: flex;
+    align-items: center;
+    margin: 0 -10px;
+    position: relative;
+    padding: 5px 0;
+
+    .ContractNetworkTag {
+      position: absolute;
+      left: 10px;
+      top: -20px;
+    }
+
+    .ItemColumn {
+      padding: 0 10px;
+    }
+
+    .GeneralInfoColumn {
+      flex: 1 1 0;
+
+      .ContractName {
+        font-weight: 400;
+      }
+
+      .ContractAddress {
+        margin-top: 6px;
+        font-size: $FontSize100;
+        font-family: $MonospaceFontFamily;
+      }
+    }
+
+    .EventsColumn {
+      flex: 0 0 120px;
+    }
+
+    .DeploymentInfoColumn, .LastEventColumn {
+      flex: 0 0 120px;
+    }
+
+    .InfoLabel {
+      text-transform: uppercase;
+      opacity: 0.5;
+      font-size: $FontSize100;
+      margin-bottom: 2px;
+    }
+
+    .ActionsColumn {
+      flex: 0 0 200px;
+
+      .Action {
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
 
   &:not(:last-child) {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 }
