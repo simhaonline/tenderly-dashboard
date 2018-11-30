@@ -19,7 +19,7 @@ const networkTagSizeToClassNameMap = {
     small: 'Small',
 };
 
-const NetworkTag = ({size, network, prefix}) => {
+const NetworkTag = ({size, network, prefix, className}) => {
     let networkLabel = networkTypeToLabelMap[network];
     const networkClassName = networkTypeToClassNameMap[network];
     const sizeClassName = networkTagSizeToClassNameMap[size];
@@ -33,6 +33,7 @@ const NetworkTag = ({size, network, prefix}) => {
             "NetworkTag",
             networkClassName,
             sizeClassName,
+            className,
         )}>
             {networkLabel}
         </span>
