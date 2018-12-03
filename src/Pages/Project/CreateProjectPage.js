@@ -18,14 +18,10 @@ class CreateProjectPage extends Component {
             project: null,
         };
 
-        initializeForm(this, {
-            projectName: '',
-        });
-        this.handleFormUpdate = updateFormField.bind(this);
     }
 
-    handleFormSubmit = async () => {
-        const {formData: {projectName}} = this.state;
+    handleFormSubmit = async (data) => {
+        const {projectName} = data;
 
 
         if (!projectName) {
@@ -43,7 +39,7 @@ class CreateProjectPage extends Component {
     };
 
     render() {
-        const {formData, projectCreated, project} = this.state;
+        const {projectCreated, project} = this.state;
 
         if (projectCreated) {
             return <Redirect to={`/project/${project.id}`}/>;
@@ -53,7 +49,7 @@ class CreateProjectPage extends Component {
             <Page>
                 <Container>
                     <h2>Create Project</h2>
-                    <CreateProjectForm formData={formData} onChange={this.handleFormUpdate} onSubmit={this.handleFormSubmit}/>
+                    <CreateProjectForm onSubmit={this.handleFormSubmit}/>
                 </Container>
             </Page>
         )
