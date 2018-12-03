@@ -13,8 +13,10 @@ class CreateProjectForm extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
-    generateProjectUrl = () => {
+    generateProjectUrl = (projectName) => {
+        const projectSlug = projectName.toLowerCase().replace(/[\W_]+/g, "-");
 
+        return projectSlug;
     };
 
     handleFormSubmit = () => {
@@ -29,9 +31,9 @@ class CreateProjectForm extends Component {
 
         return (
             <Form onSubmit={this.handleFormSubmit}>
-                <Input value={projectName} label="Project name" icon="project" field={"projectName"} onChange={this.handleFormUpdate}/>
-                <div></div>
-                <Button type="submit">
+                <Input value={projectName} label="Project name" icon="project" field={"projectName"} onChange={this.handleFormUpdate} autoComplete="off"/>
+                <div>Project URL: https://tenderly.app/project/<span>{this.generateProjectUrl(projectName)}</span></div>
+                <Button type="submit" disabled={!projectName}>
                     <span>Create</span>
                 </Button>
             </Form>
