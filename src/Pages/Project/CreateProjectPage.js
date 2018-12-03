@@ -3,7 +3,6 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
-import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as projectActions from '../../Core/Project/Project.actions';
 
 import {Page, Container} from "../../Elements";
