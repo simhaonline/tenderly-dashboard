@@ -37,7 +37,7 @@ class InputElement extends Component {
     };
 
     render() {
-        const {value, type, field, label, icon, autoFocus} = this.props;
+        const {value, type, field, label, icon, autoFocus, autoComplete} = this.props;
         const {focused} = this.state;
 
         return (
@@ -53,6 +53,7 @@ class InputElement extends Component {
                        id={`input-${field}`}
                        name={field}
                        autoFocus={autoFocus}
+                       autoComplete={autoComplete}
                        value={value}
                        onChange={this.handleInputChange}
                        onFocus={this.handleInputFocus}
