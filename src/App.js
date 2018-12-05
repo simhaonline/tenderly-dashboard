@@ -12,7 +12,7 @@ import * as authActions from "./Core/Auth/Auth.actions";
 
 import {store} from './Core';
 
-import {AppHeader} from "./Components";
+import {AppHeader, FeatureFlagControls} from "./Components";
 import {AppPages} from "./Pages";
 
 class App extends Component {
@@ -43,6 +43,7 @@ class App extends Component {
                     <div className="App">
                         <AppHeader/>
                         <AppPages/>
+                        <FeatureFlagControls/>
                     </div>
                 </Router>
             </Provider>
