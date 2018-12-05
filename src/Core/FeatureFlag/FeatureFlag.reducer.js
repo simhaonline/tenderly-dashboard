@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {GET_USER_ACTION} from "../Auth/Auth.actions";
 import {FeatureFlagTypes} from "../../Common/constants";
 import {TOGGLE_FEATURE_FLAG_ACTION} from "./FeatureFlag.actions";
@@ -16,7 +14,11 @@ const FeatureFlagReducer = (state = initialState, action) => {
             let flags = {};
 
             if (isInternalUser) {
-                flags = _.mapValues(FeatureFlagTypes, () => { return true; });
+                const possibleFlags = Object.values(FeatureFlagTypes);
+                flags = possibleFlags.reduce((map, key) => {
+                    map[key] = true;
+                    return map;
+                }, {});
             }
 
             return {
