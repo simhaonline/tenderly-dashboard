@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import classNames from 'classnames';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 import {Icon, Toggle} from "../../Elements";
 import * as featureFlagActions from '../../Core/FeatureFlag/FeatureFlag.actions';
@@ -23,6 +24,14 @@ class FeatureFlagControls extends Component {
         this.setState({
             open: !this.state.open,
         })
+    };
+
+    closeControls = () => {
+        if (this.state.open) {
+            this.setState({
+                open: false,
+            });
+        }
     };
 
     toggleFeatureFlag = (flag) => {
@@ -48,26 +57,28 @@ class FeatureFlagControls extends Component {
         }));
 
         return (
-            <div className="FeatureFlagControls">
-                <div className="FlagControlsToggle" onClick={this.toggleControlsOpen}>
-                    <Icon icon="moon"/>
+            <OutsideClickHandler onOutsideClick={this.closeControls}>
+                <div className="FeatureFlagControls">
+                    <div className="FlagControlsToggle" onClick={this.toggleControlsOpen}>
+                        <Icon icon="moon"/>
+                    </div>
+                    <div className={classNames(
+                        "FlagControlsWrapper",
+                        {
+                            "Open": open,
+                        }
+                    )}>
+                        {flagControls.map(flag => <div className="FlagControlWrapper" key={flag.key} onClick={() => this.toggleFeatureFlag(flag)}>
+                            <div className="ControlLabel">
+                                <span>{flag.label}</span>
+                            </div>
+                            <div className="ControlToggle">
+                                <Toggle value={flag.active}/>
+                            </div>
+                        </div>)}
+                    </div>
                 </div>
-                <div className={classNames(
-                    "FlagControlsWrapper",
-                    {
-                        "Open": open,
-                    }
-                )}>
-                    {flagControls.map(flag => <div className="FlagControlWrapper" key={flag.key} onClick={() => this.toggleFeatureFlag(flag)}>
-                        <div className="ControlLabel">
-                            <span>{flag.label}</span>
-                        </div>
-                        <div className="ControlToggle">
-                            <Toggle value={flag.active}/>
-                        </div>
-                    </div>)}
-                </div>
-            </div>
+            </OutsideClickHandler>
         )
     }
 }
