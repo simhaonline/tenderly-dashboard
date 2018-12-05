@@ -1,0 +1,38 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+$ToggleSwitchButtonSize: 16px;
+$ToggleSwitchPadding: 2px;
+
+.Toggle {
+  position: relative;
+  border: 1px solid $BorderColor;
+  background-color: lighten(#171e31, 2);
+  padding: $ToggleSwitchPadding;
+  height: $ToggleSwitchButtonSize + 2 * $ToggleSwitchPadding + 2;
+  border-radius: 12px;
+  transition: 0.2s;
+  width: 2 * $ToggleSwitchButtonSize + 2 * $ToggleSwitchPadding + 2;
+
+  .ToggleSwitch {
+    position: absolute;
+    height: $ToggleSwitchButtonSize;
+    top: $ToggleSwitchPadding;
+    left: $ToggleSwitchPadding;
+    border-radius: $ToggleSwitchButtonSize / 2;
+    background-color: $BorderColor;
+    right: $ToggleSwitchButtonSize + $ToggleSwitchPadding;
+    transition: 0.2s;
+  }
+
+  &.Active {
+    border-color: $PrimaryColor600;
+    background-color: #171e31;
+
+    .ToggleSwitch {
+      right: $ToggleSwitchPadding;
+      left: $ToggleSwitchButtonSize + $ToggleSwitchPadding;
+      background-color: $PrimaryColor600;
+    }
+  }
+}
