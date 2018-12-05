@@ -48,7 +48,7 @@ class ProjectSettingsPage extends Component {
             <Page id="ProjectPage">
                 <Container>
                     <ProjectSettingsForm project={project}/>
-                    <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                    <FeatureFlag flag={FeatureFlagTypes.BILLING}>
                         <ProjectSettingsBilling/>
                     </FeatureFlag>
                     <ProjectSettingsActions onAction={this.handleProjectAction}/>
