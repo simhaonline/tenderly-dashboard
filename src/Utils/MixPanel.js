@@ -6,20 +6,24 @@ const _mixpanel = mixpanel;
 
 class MixPanel {
     static initialize() {
-        _mixpanel.init(mixpanelToken);
+        if (process.env.NODE_ENV !== 'development') {
+            _mixpanel.init(mixpanelToken);
+        }
     }
 
     /**
      * @param {User} user
      */
     static setUser(user) {
-        _mixpanel.identify(user.id);
-        _mixpanel.people.set({
-            "$email": user.email,
-            "$username": user.username,
-            "$first_name": user.firstName,
-            "$last_name": user.lastName,
-        });
+        if (process.env.NODE_ENV !== 'development') {
+            _mixpanel.identify(user.id);
+            _mixpanel.people.set({
+                "$email": user.email,
+                "$username": user.username,
+                "$first_name": user.firstName,
+                "$last_name": user.lastName,
+            });
+        }
     }
 
     /**
@@ -27,7 +31,9 @@ class MixPanel {
      * @param {Object} [data]
      */
     static track(event, data = {}) {
-        _mixpanel.track(event, data)
+        if (process.env.NODE_ENV !== 'development') {
+            _mixpanel.track(event, data)
+        }
     }
 }
 
