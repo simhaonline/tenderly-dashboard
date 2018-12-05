@@ -28,6 +28,10 @@ $FeatureFlagToggleButtonSize: 46px;
     &:hover {
       background-color: darken($PrimaryColor600, 3);
     }
+
+    &:active {
+      box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
+    }
   }
 
   .FlagControlsWrapper {
