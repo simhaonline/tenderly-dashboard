@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
@@ -10,7 +10,7 @@ import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectEvents, ProjectSetupGuide} from "../../Components";
+import {ProjectEvents, ProjectSetupGuide, ProjectEventFilters} from "../../Components";
 
 class ProjectEventsPage extends Component {
     constructor(props) {
@@ -20,6 +20,7 @@ class ProjectEventsPage extends Component {
             loadedPage: false,
         };
     }
+
     async componentDidMount() {
         const {contractsLoaded, project, eventActions, contractActions} = this.props;
 
@@ -46,7 +47,10 @@ class ProjectEventsPage extends Component {
             <Page id="ProjectPage">
                 <Container>
                     {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
-                    {projectIsSetup && loadedPage && <ProjectEvents events={events} contracts={contracts}/>}
+                    {projectIsSetup && loadedPage && <Fragment>
+                        <ProjectEventFilters/>
+                        <ProjectEvents events={events} contracts={contracts}/>
+                    </Fragment>}
                     {projectIsSetup && !loadedPage && <div>
                         Loading...
                     </div>}

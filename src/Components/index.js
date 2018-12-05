@@ -30,6 +30,7 @@ export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGrap
 export {default as ProjectAnalyticsGraph} from './ProjectAnalyticsGraph/ProjectAnalyticsGraph';
 export {default as ProjectTransactionAnalytics} from './ProjectTransactionAnalytics/ProjectTransactionAnalytics';
 export {default as ProjectEvents} from './ProjectEvents/ProjectEvents';
+export {default as ProjectEventFilters} from './ProjectEventFilters/ProjectEventFilters';
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
 export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';
