@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 class FeatureFlag extends Component {
@@ -13,6 +14,10 @@ class FeatureFlag extends Component {
         return children;
     }
 }
+
+FeatureFlag.propTypes = {
+    flag: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = (state) => {
     return {
