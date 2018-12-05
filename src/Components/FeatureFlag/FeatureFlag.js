@@ -4,10 +4,9 @@ import {connect} from "react-redux";
 
 class FeatureFlag extends Component {
     render() {
-        const {user, children} = this.props;
+        const {children, flags, flag} = this.props;
 
-
-        if (!user.email || !user.email.includes('@tenderly.app')) {
+        if (!flags[flag]) {
             return null;
         }
 
@@ -21,7 +20,7 @@ FeatureFlag.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.auth.user,
+        flags: state.featureFlag.flags,
     }
 };
 
