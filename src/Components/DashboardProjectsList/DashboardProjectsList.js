@@ -57,7 +57,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
                         </FeatureFlag>
                         <div className="ProjectContractInfo">
                             {!!project.lastPushAt && <div className="LastDeployInfo">
-                                Last deployment: <span>{moment(project.lastPushAt).fromNow()}</span>
+                                Last push: <span>{moment(project.lastPushAt).fromNow()}</span>
                             </div>}
                             {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
                                 <ProjectSetupGuide label="Push Contracts" projectId={project.id} size="extra-small" color="secondary"/>
