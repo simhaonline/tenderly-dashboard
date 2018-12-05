@@ -53,7 +53,7 @@ $FeatureFlagToggleButtonSize: 46px;
       left: -10px;
       padding-bottom: 50px;
       border-radius: 6px;
-      border-bottom-left-radius: 25px;
+      border-bottom-left-radius: $FeatureFlagToggleButtonSize / 2 + 10px;
     }
   }
 
