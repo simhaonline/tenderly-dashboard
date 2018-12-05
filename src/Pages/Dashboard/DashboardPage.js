@@ -7,6 +7,7 @@ import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
 
 import {Page, Container} from "../../Elements";
 import {DashboardProjectsList, RecentArticles, FeatureFlag} from "../../Components";
+import {FeatureFlagTypes} from "../../Common/constants";
 
 class DashboardPage extends Component {
     componentDidMount() {
@@ -23,7 +24,7 @@ class DashboardPage extends Component {
             <Page>
                 <Container>
                     <DashboardProjectsList projects={projects} loaded={projectsLoaded}/>
-                    <FeatureFlag>
+                    <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                         <RecentArticles/>
                     </FeatureFlag>
                 </Container>

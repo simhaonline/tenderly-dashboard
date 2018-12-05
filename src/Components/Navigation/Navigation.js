@@ -5,6 +5,7 @@ import {Icon} from "../../Elements";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './Navigation.css';
+import {FeatureFlagTypes} from "../../Common/constants";
 
 class Navigation extends Component {
     render() {
@@ -14,7 +15,7 @@ class Navigation extends Component {
                     <Icon icon="project" className="NavIcon"/>
                     Dashboard
                 </NavLink>
-                <FeatureFlag>
+                <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                     <NavLink className="HeaderNavItem" exact to="/public-contracts/kovan">
                         <Icon icon="diamond" className="NavIcon"/>
                         Contracts

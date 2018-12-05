@@ -9,6 +9,7 @@ import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page} from "../../Elements";
 import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag} from "../../Components";
+import {FeatureFlagTypes} from "../../Common/constants";
 
 class ProjectSettingsPage extends Component {
     constructor(props) {
@@ -47,7 +48,7 @@ class ProjectSettingsPage extends Component {
             <Page id="ProjectPage">
                 <Container>
                     <ProjectSettingsForm project={project}/>
-                    <FeatureFlag>
+                    <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                         <ProjectSettingsBilling/>
                     </FeatureFlag>
                     <ProjectSettingsActions onAction={this.handleProjectAction}/>

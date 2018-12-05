@@ -8,6 +8,7 @@ import ProjectSetupGuide from "../ProjectSetupGuide/ProjectSetupGuide";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './DashboardProjectsList.css';
+import {FeatureFlagTypes} from "../../Common/constants";
 
 const DashboardProjectsList = ({projects, loaded}) => {
     const data = [
@@ -43,7 +44,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
                             <div className="ProjectName">{project.name}</div>
                             <div className="ProjectId">{project.id}</div>
                         </div>
-                        <FeatureFlag>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                             <div className="ProjectChartWrapper">
                                 {!!project.lastPushAt && <BarChart width={220} height={80} data={data}>
                                     <YAxis type="number" domain={[0,  dataMax => Math.max(dataMax, 8)]} hide/>

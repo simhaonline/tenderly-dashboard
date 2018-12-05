@@ -5,6 +5,7 @@ import {Container, Button, Icon} from "../../Elements";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './ProjectNavigation.css';
+import {FeatureFlagTypes} from "../../Common/constants";
 
 const ProjectNavigation = ({project}) => {
     return (
@@ -25,7 +26,7 @@ const ProjectNavigation = ({project}) => {
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`}>
                         <span>Contracts</span>
                     </NavLink>
-                    <FeatureFlag>
+                    <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                         <NavLink className="NavigationItem" exact to={`/project/${project.id}/analytics`}>
                             <span>Analytics</span>
                         </NavLink>

@@ -90,7 +90,7 @@ class LoginPage extends Component {
                             <div className="LoginButtonWrapper">
                                 <Button disabled={loginButtonDisabled} stretch type="submit">Login</Button>
                             </div>
-                            <FeatureFlag>
+                            <FeatureFlag flag="OAuth">
                                 <div className="ThirdPartLoginWrapper">
                                     <div className="ButtonWrapper">
                                         <GoogleLoginButton/>
