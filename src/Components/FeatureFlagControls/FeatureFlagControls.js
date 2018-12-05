@@ -3,7 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import classNames from 'classnames';
 
-import {Icon} from "../../Elements";
+import {Icon, Toggle} from "../../Elements";
 import * as featureFlagActions from '../../Core/FeatureFlag/FeatureFlag.actions';
 import {FeatureFlagTypes} from "../../Common/constants";
 
@@ -63,7 +63,7 @@ class FeatureFlagControls extends Component {
                             <span>{flag.label}</span>
                         </div>
                         <div className="ControlToggle">
-                            {flag.active ? 'on' : 'off'}
+                            <Toggle value={flag.active}/>
                         </div>
                     </div>)}
                 </div>
