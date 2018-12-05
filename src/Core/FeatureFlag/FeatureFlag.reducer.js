@@ -33,6 +33,7 @@ const FeatureFlagReducer = (state = initialState, action) => {
                 ...state,
                 flags: {
                     ...state.flags,
+                    [action.featureFlag]: action.status,
                 },
             };
         default:
