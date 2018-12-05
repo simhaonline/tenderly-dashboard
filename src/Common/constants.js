@@ -68,3 +68,7 @@ export const AnalyticsResolutionTypes = {
     WEEK: 'WEEK',
     MONTH: 'MONTH',
 };
+
+export const FeatureFlagTypes = {
+    COMING_SOON: 'coming_soon',
+};
