@@ -10,7 +10,7 @@ import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectEvents, ProjectSetupGuide, ProjectEventFilters} from "../../Components";
+import {ProjectEvents, ProjectSetupGuide, ProjectEventFilters, ProjectEventActions} from "../../Components";
 
 class ProjectEventsPage extends Component {
     constructor(props) {
@@ -49,6 +49,7 @@ class ProjectEventsPage extends Component {
                     {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
                     {projectIsSetup && loadedPage && <Fragment>
                         <ProjectEventFilters/>
+                        <ProjectEventActions/>
                         <ProjectEvents events={events} contracts={contracts}/>
                     </Fragment>}
                     {projectIsSetup && !loadedPage && <div>
