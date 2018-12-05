@@ -9,6 +9,7 @@ import './Common/Styles/reset.css';
 import './Common/Styles/base.css';
 
 import * as authActions from "./Core/Auth/Auth.actions";
+import MixPanel from "./Utils/MixPanel";
 
 import {store} from './Core';
 
@@ -23,14 +24,15 @@ class App extends Component {
     async componentDidMount() {
         const tokenCookie = Cookies.get('token');
 
+        MixPanel.initialize();
+        ReactGA.initialize('UA-125013494-2');
+        ReactGA.pageview(window.location.pathname + window.location.search);
+
         await store.dispatch(authActions.retrieveToken(tokenCookie));
 
         this.setState({
             loaded: true,
         });
-
-        ReactGA.initialize('UA-125013494-2');
-        ReactGA.pageview(window.location.pathname + window.location.search);
     }
     render() {
         const {loaded} = this.state;

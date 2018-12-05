@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 
 import {PublicApi, Api} from '../../Utils/Api';
+import MixPanel from "../../Utils/MixPanel";
 
 import User from "./User.model";
 import {ActionResponse} from "../../Common";
@@ -74,6 +75,8 @@ export const getUser = () => {
         const {data} = await Api.get('/user');
 
         const user = new User(data);
+
+        MixPanel.setUser(user);
 
         dispatch({
             type: GET_USER_ACTION,
