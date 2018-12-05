@@ -62,9 +62,11 @@ class LoginPage extends Component {
 
     render() {
         const {formData, loginFailed} = this.state;
-        const {auth} = this.props;
+        const {auth, location: {state}} = this.props;
 
-        if (auth.loggedIn && !auth.onboardingFinished) {
+        if (auth.loggedIn && state && state.from) {
+            return <Redirect to={state.from}/>
+        } else if (auth.loggedIn && !auth.onboardingFinished) {
             return <Redirect to="/onboarding"/>
         } else if (auth.loggedIn) {
             return <Redirect to="/dashboard"/>
