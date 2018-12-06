@@ -66,14 +66,14 @@ const mapStateToProps = (state, ownProps) => {
 
     const searchParams = new URLSearchParams(search);
 
-    const queryPage = parseInt(searchParams.get('page'));
+    const queryPage = parseInt(searchParams.get('page')) || 0;
 
     return {
         project: getProject(state, id),
         contracts: getContractsForProject(state, id),
         contractsLoaded: areProjectContractsLoaded(state, id),
-        events: getEventsForProject(state, id, 0),
-        page: queryPage || 0,
+        events: getEventsForProject(state, id, queryPage),
+        page: queryPage,
     }
 };
 
