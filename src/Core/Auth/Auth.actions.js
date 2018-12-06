@@ -18,7 +18,7 @@ export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
  */
 const setAuthHeader = (token) => {
     return async dispatch => {
-        Cookies.set('token', token, { path: '/' });
+        Cookies.set('token', token, { path: '/', expires: 30 });
         Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 };
