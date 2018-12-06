@@ -21,12 +21,22 @@ class ProjectEventActions extends Component {
         });
     };
 
+    handleRefreshPage = () => {
+        const {onRefresh, page} = this.props;
+
+        MixPanel.track('Project Events - Refresh Page', {
+            currentPage: page,
+        });
+
+        onRefresh();
+    };
+
     render() {
         const {projectId, page} = this.props;
 
         return (
             <div className="ProjectEventActions">
-                <Button outline size="small">
+                <Button outline size="small" onClick={this.handleRefreshPage}>
                     <Icon icon="refresh-cw"/>
                 </Button>
                 <div className="PaginationControls">
@@ -47,5 +57,9 @@ class ProjectEventActions extends Component {
         );
     }
 }
+
+ProjectEventActions.defaultProps = {
+    onRefresh: () => {},
+};
 
 export default ProjectEventActions;
