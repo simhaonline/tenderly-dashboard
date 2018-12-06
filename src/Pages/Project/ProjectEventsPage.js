@@ -18,11 +18,13 @@ class ProjectEventsPage extends Component {
 
         this.state = {
             loadedPage: false,
+            page: props.page || 0,
         };
     }
 
     async componentDidMount() {
-        const {contractsLoaded, project, eventActions, contractActions, page} = this.props;
+        const {contractsLoaded, project, eventActions, contractActions} = this.props;
+        const {page} = this.state;
 
         if (project.lastPushAt) {
             await eventActions.fetchEventsForProject(project.id, page);
@@ -37,9 +39,23 @@ class ProjectEventsPage extends Component {
         }
     }
 
+    static getDerivedStateFromProps(props, state) {
+        const {eventActions, page: propsPage, project } = props;
+        const {page: statePage} = state;
+
+        if (propsPage !== statePage) {
+            eventActions.fetchEventsForProject(project.id, propsPage);
+        }
+
+        return {
+            ...state,
+            page: propsPage,
+        };
+    }
+
     render() {
-        const {loadedPage} = this.state;
-        const {project, events, contracts, page} = this.props;
+        const {loadedPage, page} = this.state;
+        const {project, events, contracts} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
 
@@ -66,7 +82,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const searchParams = new URLSearchParams(search);
 
-    const queryPage = parseInt(searchParams.get('page')) || 0;
+    const queryPage = parseInt(searchParams.get('page'));
 
     return {
         project: getProject(state, id),
