@@ -18,7 +18,7 @@ class ProjectEventsPage extends Component {
 
         this.state = {
             loadedPage: false,
-            page: props.page || 0,
+            page: props.page,
         };
     }
 
@@ -82,7 +82,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const searchParams = new URLSearchParams(search);
 
-    const queryPage = parseInt(searchParams.get('page'));
+    const queryPage = parseInt(searchParams.get('page')) || 0;
 
     return {
         project: getProject(state, id),
