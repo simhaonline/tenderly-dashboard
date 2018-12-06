@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
+import {EventActionTypes} from "../../Common/constants";
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
@@ -18,6 +19,7 @@ class ProjectEventsPage extends Component {
 
         this.state = {
             loadedPage: false,
+            loadingPage: false,
             page: props.page,
         };
     }
@@ -39,25 +41,50 @@ class ProjectEventsPage extends Component {
         }
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const {eventActions, page: propsPage, project } = props;
-        const {page: statePage} = state;
-
-        if (propsPage !== statePage) {
-            eventActions.fetchEventsForProject(project.id, propsPage);
-        }
-
-        return {
-            ...state,
-            page: propsPage,
-        };
-    }
-
     handleRefreshEvents = async () => {
         const {page} = this.state;
-        const {project, eventActions} = this.props;
+
+        await this.fetchEventsForPage(page);
+    };
+
+    /**
+     * @param {Number} nextPage
+     * @returns {Promise<void>}
+     */
+    handlePageChange = async (nextPage) => {
+        this.setState({
+            page: nextPage,
+        });
+
+        await this.fetchEventsForPage(nextPage);
+    };
+
+    handleEventAction = (action) => {
+        switch (action.type) {
+            case EventActionTypes.REFRESH:
+                return this.handleRefreshEvents();
+            case EventActionTypes.PREVIOUS_PAGE:
+            case EventActionTypes.NEXT_PAGE:
+                return this.handlePageChange(action.nextPage);
+            default:
+                return;
+        }
+    };
+
+    fetchEventsForPage = async (page) => {
+        const {project, eventActions, history} = this.props;
+
+        this.setState({
+            loadingPage: true,
+        });
+
+        history.push(`?page=${page}`);
 
         await eventActions.fetchEventsForProject(project.id, page);
+
+        this.setState({
+            loadingPage: false,
+        });
     };
 
     render() {
@@ -72,7 +99,7 @@ class ProjectEventsPage extends Component {
                     {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
                     {projectIsSetup && loadedPage && <Fragment>
                         <ProjectEventFilters contracts={contracts}/>
-                        <ProjectEventActions projectId={project.id} page={page} onRefresh={this.handleRefreshEvents}/>
+                        <ProjectEventActions page={page} onAction={this.handleEventAction}/>
                         <ProjectEvents events={events} contracts={contracts}/>
                     </Fragment>}
                     {projectIsSetup && !loadedPage && <div>

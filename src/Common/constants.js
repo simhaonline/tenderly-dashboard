@@ -73,3 +73,9 @@ export const FeatureFlagTypes = {
     COMING_SOON: 'coming_soon',
     BILLING: 'billing',
 };
+
+export const EventActionTypes = {
+    REFRESH: 'REFRESH',
+    NEXT_PAGE: 'NEXT_PAGE',
+    PREVIOUS_PAGE: 'PREVIOUS_PAGE',
+};
