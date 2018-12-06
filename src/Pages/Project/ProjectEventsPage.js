@@ -53,6 +53,13 @@ class ProjectEventsPage extends Component {
         };
     }
 
+    handleRefreshEvents = async () => {
+        const {page} = this.state;
+        const {project, eventActions} = this.props;
+
+        await eventActions.fetchEventsForProject(project.id, page);
+    };
+
     render() {
         const {loadedPage, page} = this.state;
         const {project, events, contracts} = this.props;
@@ -65,7 +72,7 @@ class ProjectEventsPage extends Component {
                     {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
                     {projectIsSetup && loadedPage && <Fragment>
                         <ProjectEventFilters contracts={contracts}/>
-                        <ProjectEventActions projectId={project.id} page={page}/>
+                        <ProjectEventActions projectId={project.id} page={page} onRefresh={this.handleRefreshEvents}/>
                         <ProjectEvents events={events} contracts={contracts}/>
                     </Fragment>}
                     {projectIsSetup && !loadedPage && <div>
