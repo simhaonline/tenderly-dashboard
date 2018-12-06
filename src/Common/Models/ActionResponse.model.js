@@ -1,14 +1,14 @@
 class ActionResponse {
     /**
      * @param {boolean} success
-     * @param {*} data
+     * @param {*} [data]
      */
     constructor(success, data) {
         /** @type boolean */
         this.success = success;
 
         /** @type * */
-        this.data = data;
+        this.data = data || null;
     }
 }
 
