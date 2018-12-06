@@ -18,14 +18,16 @@ class ProjectEventsPage extends Component {
 
         this.state = {
             loadedPage: false,
+            page: 0,
         };
     }
 
     async componentDidMount() {
         const {contractsLoaded, project, eventActions, contractActions} = this.props;
+        const {page} = this.state;
 
         if (project.lastPushAt) {
-            await eventActions.fetchEventsForProject(project.id, 0);
+            await eventActions.fetchEventsForProject(project.id, page);
 
             if (!contractsLoaded) {
                 await contractActions.fetchContractsForProject(project.id);
