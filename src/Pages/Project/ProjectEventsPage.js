@@ -18,13 +18,11 @@ class ProjectEventsPage extends Component {
 
         this.state = {
             loadedPage: false,
-            page: 0,
         };
     }
 
     async componentDidMount() {
-        const {contractsLoaded, project, eventActions, contractActions} = this.props;
-        const {page} = this.state;
+        const {contractsLoaded, project, eventActions, contractActions, page} = this.props;
 
         if (project.lastPushAt) {
             await eventActions.fetchEventsForProject(project.id, page);
@@ -41,7 +39,7 @@ class ProjectEventsPage extends Component {
 
     render() {
         const {loadedPage} = this.state;
-        const {project, events, contracts} = this.props;
+        const {project, events, contracts, page} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
 
@@ -50,8 +48,8 @@ class ProjectEventsPage extends Component {
                 <Container>
                     {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
                     {projectIsSetup && loadedPage && <Fragment>
-                        <ProjectEventFilters/>
-                        <ProjectEventActions/>
+                        <ProjectEventFilters contracts={contracts}/>
+                        <ProjectEventActions projectId={project.id} page={page}/>
                         <ProjectEvents events={events} contracts={contracts}/>
                     </Fragment>}
                     {projectIsSetup && !loadedPage && <div>
@@ -64,13 +62,18 @@ class ProjectEventsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id}}} = ownProps;
+    const {match: {params: {id}}, location: {search}} = ownProps;
+
+    const searchParams = new URLSearchParams(search);
+
+    const queryPage = parseInt(searchParams.get('page'));
 
     return {
         project: getProject(state, id),
         contracts: getContractsForProject(state, id),
         contractsLoaded: areProjectContractsLoaded(state, id),
         events: getEventsForProject(state, id, 0),
+        page: queryPage || 0,
     }
 };
 
