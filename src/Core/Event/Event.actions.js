@@ -1,5 +1,6 @@
 import {Api} from "../../Utils/Api";
 import Event from './Event.model';
+import {ActionResponse} from "../../Common";
 
 export const FETCH_EVENTS_FOR_PROJECT_ACTION = 'FETCH_EVENTS_FOR_PROJECT';
 
@@ -22,7 +23,7 @@ export const fetchEventsForProject = (projectId, page = 0, account = null) => {
             });
 
             if (!data) {
-                return null;
+                return new ActionResponse(false);
             }
 
             const events = data.map(Event.responseTransformer);
@@ -34,9 +35,9 @@ export const fetchEventsForProject = (projectId, page = 0, account = null) => {
                 page,
             });
 
-            return 'asd';
+            return new ActionResponse(true, events);
         } catch (error) {
-            return null;
+            return new ActionResponse(false, error);
         }
     }
 };
