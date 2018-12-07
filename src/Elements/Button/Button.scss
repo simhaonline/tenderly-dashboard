@@ -104,7 +104,7 @@
   }
 
   &.Primary {
-    border-color: transparentize($PrimaryColor600, 0.5);
+    border-color: transparentize($PrimaryColor600, 0.3);
 
     &:hover {
       border-color: $PrimaryColor600;
