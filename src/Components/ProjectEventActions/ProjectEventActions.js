@@ -5,6 +5,9 @@ import MixPanel from "../../Utils/MixPanel";
 import {Button, Icon} from "../../Elements";
 import {EventActionTypes} from "../../Common/constants";
 
+import './ProjectEventActions.css';
+import PaginationControls from "../PaginationControls/PaginationControls";
+
 class ProjectEventActions extends Component {
     handlePreviousEventsPage = () => {
         const {onAction, page} = this.props;
@@ -45,18 +48,21 @@ class ProjectEventActions extends Component {
     };
 
     render() {
+        const {page, loading} = this.props;
+
         return (
             <div className="ProjectEventActions">
-                <Button outline size="small" onClick={this.handleRefreshPage}>
-                    <Icon icon="refresh-cw"/>
-                </Button>
-                <div className="PaginationControls">
-                    <Button outline size="small" onClick={this.handlePreviousEventsPage}>
-                        <Icon icon="arrow-left"/>
+                <div className="GeneralActions">
+                    <Button outline size="small" onClick={this.handleRefreshPage} disabled={loading}>
+                        <Icon icon="refresh-cw"/>
+                        <span>Refresh</span>
                     </Button>
-                    <Button outline size="small" onClick={this.handleNextEventsPage}>
-                        <Icon icon="arrow-right"/>
-                    </Button>
+                </div>
+                <div className="PaginationControlsWrapper">
+                    <PaginationControls onPrevious={this.handlePreviousEventsPage}
+                                        onNext={this.handleNextEventsPage}
+                                        current={page}
+                                        disabled={loading}/>
                 </div>
             </div>
         );
