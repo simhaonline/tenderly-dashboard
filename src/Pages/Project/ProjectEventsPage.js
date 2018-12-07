@@ -88,7 +88,7 @@ class ProjectEventsPage extends Component {
     };
 
     render() {
-        const {loadedPage, page} = this.state;
+        const {loadedPage, loadingPage, page} = this.state;
         const {project, events, contracts} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
@@ -99,8 +99,8 @@ class ProjectEventsPage extends Component {
                     {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
                     {projectIsSetup && loadedPage && <Fragment>
                         <ProjectEventFilters contracts={contracts}/>
-                        <ProjectEventActions page={page} onAction={this.handleEventAction}/>
-                        <ProjectEvents events={events} contracts={contracts}/>
+                        <ProjectEventActions page={page} onAction={this.handleEventAction} loading={loadingPage}/>
+                        <ProjectEvents events={events} contracts={contracts} loading={loadingPage}/>
                     </Fragment>}
                     {projectIsSetup && !loadedPage && <div>
                         Loading...
