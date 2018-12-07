@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import * as Sentry from "@sentry/browser";
 
 import {PublicApi, Api} from '../../Utils/Api';
 import MixPanel from "../../Utils/MixPanel";
@@ -77,6 +78,13 @@ export const getUser = () => {
         const user = new User(data);
 
         MixPanel.setUser(user);
+
+        Sentry.configureScope(scope => {
+            scope.setUser({
+                id: user.id,
+                email: user.email,
+            });
+        });
 
         dispatch({
             type: GET_USER_ACTION,
