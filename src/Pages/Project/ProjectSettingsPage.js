@@ -11,6 +11,8 @@ import {Container, Page} from "../../Elements";
 import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher} from "../../Components";
 import {FeatureFlagTypes} from "../../Common/constants";
 
+import './ProjectSettingsPage.css';
+
 const SettingsSegments = [
     {
         label: 'General',
@@ -49,6 +51,15 @@ class ProjectSettingsPage extends Component {
         }
     };
 
+    /**
+     * @param {String} segment
+     */
+    handleSegmentSwitch = (segment) => {
+        this.setState({
+            currentSegment: segment,
+        });
+    };
+
     render() {
         const {project} = this.props;
         const {projectDeleted, currentSegment} = this.state;
@@ -58,18 +69,20 @@ class ProjectSettingsPage extends Component {
         }
 
         return (
-            <Page id="ProjectPage">
-                <Container>
+            <Page id="ProjectSettingsPage">
+                <Container className="SettingsContainer">
                     <div className="SettingsSwitcherWrapper">
-                        <PageSegmentSwitcher current={currentSegment} options={SettingsSegments}/>
+                        <PageSegmentSwitcher current={currentSegment} options={SettingsSegments} onSelect={this.handleSegmentSwitch}/>
                     </div>
-                    <div className="SettingsSegmentContent">
+                    {currentSegment === 'general' && <div className="SettingsSegmentContent">
                         <ProjectSettingsForm project={project}/>
-                        <FeatureFlag flag={FeatureFlagTypes.BILLING}>
-                            <ProjectSettingsBilling/>
-                        </FeatureFlag>
                         <ProjectSettingsActions onAction={this.handleProjectAction}/>
-                    </div>
+                    </div>}
+                    <FeatureFlag flag={FeatureFlagTypes.BILLING}>
+                        {currentSegment === 'billing' && <div className="SettingsSegmentContent">
+                            <ProjectSettingsBilling/>
+                        </div>}
+                    </FeatureFlag>
                 </Container>
             </Page>
         )

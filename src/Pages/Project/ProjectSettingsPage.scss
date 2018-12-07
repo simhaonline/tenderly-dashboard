@@ -1,0 +1,19 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+#ProjectSettingsPage {
+  .SettingsContainer {
+    display: flex;
+
+    .SettingsSwitcherWrapper {
+      flex: 0 0 auto;
+      padding-right: 30px;
+    }
+
+    .SettingsSegmentContent {
+      flex: 1 1 0;
+      padding-left: 30px;
+      border-left: 1px solid $BorderColor;
+    }
+  }
+}
