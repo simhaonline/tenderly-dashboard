@@ -18,9 +18,12 @@ import {store} from './Core';
 import {AppHeader, FeatureFlagControls} from "./Components";
 import {AppPages} from "./Pages";
 
-Sentry.init({
-    dsn: 'https://7a6943685b344dae8c67e98c4ad39b63@sentry.io/1332206',
-});
+if (process.env.NODE_ENV !== 'development') {
+    Sentry.init({
+        dsn: 'https://7a6943685b344dae8c67e98c4ad39b63@sentry.io/1332206',
+    });
+}
+
 
 class App extends Component {
     state = {
