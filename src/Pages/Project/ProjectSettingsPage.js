@@ -8,8 +8,20 @@ import * as projectActions from "../../Core/Project/Project.actions";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag} from "../../Components";
+import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher} from "../../Components";
 import {FeatureFlagTypes} from "../../Common/constants";
+
+const SettingsSegments = [
+    {
+        label: 'General',
+        value: 'general',
+    },
+    {
+        label: 'Billing',
+        value: 'billing',
+        featureFlag: FeatureFlagTypes.BILLING,
+    },
+];
 
 class ProjectSettingsPage extends Component {
     constructor(props) {
@@ -17,6 +29,7 @@ class ProjectSettingsPage extends Component {
 
         this.state = {
             projectDeleted: false,
+            currentSegment: 'general',
         };
     }
 
@@ -38,7 +51,7 @@ class ProjectSettingsPage extends Component {
 
     render() {
         const {project} = this.props;
-        const {projectDeleted} = this.state;
+        const {projectDeleted, currentSegment} = this.state;
 
         if (projectDeleted) {
             return <Redirect to="/dashboard"/>
@@ -47,11 +60,16 @@ class ProjectSettingsPage extends Component {
         return (
             <Page id="ProjectPage">
                 <Container>
-                    <ProjectSettingsForm project={project}/>
-                    <FeatureFlag flag={FeatureFlagTypes.BILLING}>
-                        <ProjectSettingsBilling/>
-                    </FeatureFlag>
-                    <ProjectSettingsActions onAction={this.handleProjectAction}/>
+                    <div className="SettingsSwitcherWrapper">
+                        <PageSegmentSwitcher current={currentSegment} options={SettingsSegments}/>
+                    </div>
+                    <div className="SettingsSegmentContent">
+                        <ProjectSettingsForm project={project}/>
+                        <FeatureFlag flag={FeatureFlagTypes.BILLING}>
+                            <ProjectSettingsBilling/>
+                        </FeatureFlag>
+                        <ProjectSettingsActions onAction={this.handleProjectAction}/>
+                    </div>
                 </Container>
             </Page>
         )

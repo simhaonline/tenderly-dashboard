@@ -1,0 +1,42 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.PageSegmentSwitcher {
+  max-width: 240px;
+
+  .SwitchOption {
+    border: 1px solid $BorderColor;
+    border-radius: 4px;
+    background-color: transparentize($BlackColor, 0.8);
+    transition: 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    .SwitchLabel {
+      flex: 1 1 0;
+    }
+
+    .SwitchIcon {
+      transition: 0.2s;
+      opacity: 0.5;
+    }
+
+    &:hover {
+      background-color: transparentize($BlackColor, 0.65);
+    }
+
+    &.Active {
+      border-color: $PrimaryColor600;
+
+      .SwitchIcon {
+        opacity: 1;
+      }
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}

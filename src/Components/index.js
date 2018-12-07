@@ -36,3 +36,4 @@ export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSetti
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
 export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';
 export {default as ProjectSettingsBilling} from './ProjectSettingsBilling/ProjectSettingsBilling';
+export {default as PageSegmentSwitcher} from './PageSegmentSwitcher/PageSegmentSwitcher';
