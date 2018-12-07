@@ -41,23 +41,27 @@ export const fetchProjects = (account = null) => {
 
         const projectAccount = account || username;
 
-        const {data} = await Api.get(`/account/${projectAccount}/projects`);
+        try {
+            const {data} = await Api.get(`/account/${projectAccount}/projects`);
 
-        if (!data) {
+            if (!data || !data.projects.length) {
+                dispatch({
+                    type: FETCH_PROJECTS_ACTION,
+                    projects: [],
+                });
+
+                return;
+            }
+
+            const projects = data.projects.map(project => new Project(project));
+
             dispatch({
                 type: FETCH_PROJECTS_ACTION,
-                projects: [],
+                projects,
             });
+        } catch (e) {
 
-            return;
         }
-
-        const projects = data.map(project => new Project(project));
-
-        dispatch({
-            type: FETCH_PROJECTS_ACTION,
-            projects,
-        });
     }
 };
 
