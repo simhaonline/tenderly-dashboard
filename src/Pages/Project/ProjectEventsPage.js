@@ -5,6 +5,8 @@ import {connect} from "react-redux";
 import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
+import EventFilters from "../../Utils/EventFilters";
+
 import {EventActionTypes} from "../../Common/constants";
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
@@ -18,6 +20,7 @@ class ProjectEventsPage extends Component {
         super(props);
 
         this.state = {
+            filters: {},
             loadedPage: false,
             loadingPage: false,
             page: props.page,
@@ -48,6 +51,18 @@ class ProjectEventsPage extends Component {
     };
 
     /**
+     * @param {EventFilter} filter
+     */
+    handleFiltersChange = (filter) => {
+        this.setState({
+            filters: {
+                ...this.state.filters,
+                [filter.type]: filter,
+            }
+        });
+    };
+
+    /**
      * @param {Number} nextPage
      * @returns {Promise<void>}
      */
@@ -71,6 +86,10 @@ class ProjectEventsPage extends Component {
         }
     };
 
+    /**
+     * @param {number} page
+     * @returns {Promise<void>}
+     */
     fetchEventsForPage = async (page) => {
         const {project, eventActions, history} = this.props;
 
@@ -88,19 +107,23 @@ class ProjectEventsPage extends Component {
     };
 
     render() {
-        const {loadedPage, loadingPage, page} = this.state;
+        const {loadedPage, loadingPage, page, filters} = this.state;
         const {project, events, contracts} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
+
+        const activeFilters = Object.values(filters).filter(filter => filter.value.length);
+
+        const filteredEvents = EventFilters.filterEvents(events, activeFilters);
 
         return (
             <Page id="ProjectPage">
                 <Container>
                     {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
                     {projectIsSetup && loadedPage && <Fragment>
-                        <ProjectEventFilters contracts={contracts}/>
+                        <ProjectEventFilters contracts={contracts} onFiltersChange={this.handleFiltersChange}/>
                         <ProjectEventActions page={page} onAction={this.handleEventAction} loading={loadingPage}/>
-                        <ProjectEvents events={events} contracts={contracts} loading={loadingPage}/>
+                        <ProjectEvents events={filteredEvents} contracts={contracts} loading={loadingPage}/>
                     </Fragment>}
                     {projectIsSetup && !loadedPage && <div>
                         Loading...
