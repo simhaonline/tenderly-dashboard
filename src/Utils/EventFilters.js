@@ -7,8 +7,16 @@ class EventFilters {
      * @returns {Event[]}
      */
     static filterEventsByQuery(events, query) {
-        console.log(events, query);
-        return events;
+        return events.filter(event => {
+            const comparableProperties = [
+                event.transactionId,
+                event.block.toString(),
+                event.message.toLowerCase(),
+                event.description.toLowerCase(),
+            ];
+
+            return comparableProperties.some(prop => prop.includes(query));
+        });
     }
 
     /**
@@ -23,6 +31,8 @@ class EventFilters {
            switch (filter.type) {
                case EventFilterTypes.QUERY:
                    filteredEvents = EventFilters.filterEventsByQuery(events, filter.value);
+                   break;
+               default:
                    break;
            }
         });
