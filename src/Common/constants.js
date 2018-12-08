@@ -79,3 +79,8 @@ export const EventActionTypes = {
     NEXT_PAGE: 'NEXT_PAGE',
     PREVIOUS_PAGE: 'PREVIOUS_PAGE',
 };
+
+export const EventFilterTypes = {
+    QUERY: 'QUERY',
+    CONTRACTS: 'CONTRACTS',
+};
