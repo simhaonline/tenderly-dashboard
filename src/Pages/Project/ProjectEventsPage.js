@@ -121,7 +121,9 @@ class ProjectEventsPage extends Component {
                 <Container>
                     {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
                     {projectIsSetup && loadedPage && <Fragment>
-                        <ProjectEventFilters contracts={contracts} onFiltersChange={this.handleFiltersChange}/>
+                        <ProjectEventFilters contracts={contracts}
+                                             onFiltersChange={this.handleFiltersChange}
+                                             activeFilters={activeFilters}/>
                         <ProjectEventActions page={page} onAction={this.handleEventAction} loading={loadingPage}/>
                         <ProjectEvents events={filteredEvents} contracts={contracts} loading={loadingPage}/>
                     </Fragment>}
