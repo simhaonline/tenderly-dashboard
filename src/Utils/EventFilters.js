@@ -21,6 +21,19 @@ class EventFilters {
 
     /**
      * @param {Event[]} events
+     * @param {string[]} contractIds
+     * @returns {Event[]}
+     */
+    static filterEventsByContracts(events, contractIds) {
+        console.log(contractIds);
+
+        return events.filter(event => {
+            return contractIds.some(id => id === event.contractId);
+        });
+    }
+
+    /**
+     * @param {Event[]} events
      * @param {EventFilter[]} filters
      * @returns {Event[]}
      */
@@ -30,7 +43,10 @@ class EventFilters {
         filters.forEach(filter => {
            switch (filter.type) {
                case EventFilterTypes.QUERY:
-                   filteredEvents = EventFilters.filterEventsByQuery(events, filter.value);
+                   filteredEvents = EventFilters.filterEventsByQuery(filteredEvents, filter.value);
+                   break;
+               case EventFilterTypes.CONTRACTS:
+                   filteredEvents = EventFilters.filterEventsByContracts(filteredEvents, filter.value);
                    break;
                default:
                    break;
