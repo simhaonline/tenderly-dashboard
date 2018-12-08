@@ -25,8 +25,6 @@ class EventFilters {
      * @returns {Event[]}
      */
     static filterEventsByContracts(events, contractIds) {
-        console.log(contractIds);
-
         return events.filter(event => {
             return contractIds.some(id => id === event.contractId);
         });
