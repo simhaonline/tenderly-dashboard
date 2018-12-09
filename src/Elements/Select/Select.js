@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import classNames from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
 
+import './Select.css';
+
 class Select extends Component {
     constructor(props) {
         super(props);
@@ -61,8 +63,8 @@ class Select extends Component {
                         <div className="DropdownOptionsWrapper">
                             {options.map(option => <div className={classNames("DropdownOption", {
                                 "MultipleOption": multiple,
+                                "Active": value.includes(option.value),
                             })} key={option.value} onClick={() => {this.handleSelection(option.value)}}>
-                                {multiple && <input type="checkbox"/>}
                                 <span>{option.label}</span>
                             </div>)}
                         </div>
