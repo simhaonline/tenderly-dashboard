@@ -24,14 +24,18 @@ export const createProject = (name, account = null) => {
             name,
         });
 
-        const project = new Project(data);
+        if (!data.project) {
+            return new ActionResponse(false);
+        }
+
+        const project = new Project(data.project);
 
         dispatch({
             type: CREATE_PROJECT_ACTION,
             project,
         });
 
-        return project;
+        return new ActionResponse(true, project);
     };
 };
 
