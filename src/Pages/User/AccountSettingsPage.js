@@ -7,8 +7,6 @@ class AccountSettingsPage extends Component {
     render() {
         const {user} = this.props;
 
-        console.log(user);
-
         return (
             <Page>
                 <Container>
