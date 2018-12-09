@@ -7,6 +7,7 @@ export {default as EarlyAccessButton} from './EarlyAccessButton/EarlyAccessButto
 export {default as EarlyAccessSignUp} from './EarlyAccessSignUp/EarlyAccessSignUp';
 export {default as ContractSource} from './ContractSource/ContractSource';
 export {default as Code} from './Code/Code';
+export {default as ProgressiveButton} from './ProgressiveButton/ProgressiveButton';
 export {default as FeatureFlag} from './FeatureFlag/FeatureFlag';
 export {default as FeatureFlagControls} from './FeatureFlagControls/FeatureFlagControls';
 export {default as RecentArticles} from './RecentArticles/RecentArticles';
