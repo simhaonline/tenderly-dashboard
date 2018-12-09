@@ -113,11 +113,15 @@ const ProjectReducer = (state = initialState, action) => {
                 },
             };
         case UPDATE_PROJECT_ACTION:
+            const existingProject = state.projects[action.project.id];
+
+            const updatedProject = existingProject.update(action.project);
+
             return {
                 ...state,
                 projects: {
                     ...state.projects,
-                    [action.project.id]: action.project,
+                    [action.project.id]: updatedProject,
                 },
             };
         default:
