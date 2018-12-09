@@ -4,6 +4,7 @@ import {bindActionCreators} from "redux";
 import {Link} from "react-router-dom";
 import md5 from "md5";
 import classNames from 'classnames';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
@@ -37,6 +38,12 @@ class SessionHeaderMenu extends Component {
 
         this.setState({
             dropdownOpen: !dropdownOpen,
+        });
+    };
+
+    closeDropdown = () => {
+        this.setState({
+            dropdownOpen: false,
         });
     };
 
@@ -77,26 +84,28 @@ class SessionHeaderMenu extends Component {
 
         return (
             <div className="SessionHeaderMenu">
-                <div className={classNames(
-                    "UserProfileMenu",
-                    {
-                        "OpenDropdown": dropdownOpen,
-                    }
-                )}>
-                    <div className="ProfileInfo" onClick={this.handleDropdownToggle}>
-                        <img src={`https://www.gravatar.com/avatar/${avatarHash}?s=32`} alt="User Avatar" className="UserAvatar"/>
-                        <div className="UserInfo">
-                            <div className="UserFullName">{user.getFullName()}</div>
-                            <div className="UserEmail">{user.email}</div>
+                <OutsideClickHandler onOutsideClick={this.closeDropdown}>
+                    <div className={classNames(
+                        "UserProfileMenu",
+                        {
+                            "OpenDropdown": dropdownOpen,
+                        }
+                    )}>
+                        <div className="ProfileInfo" onClick={this.handleDropdownToggle}>
+                            <img src={`https://www.gravatar.com/avatar/${avatarHash}?s=32`} alt="User Avatar" className="UserAvatar"/>
+                            <div className="UserInfo">
+                                <div className="UserFullName">{user.getFullName()}</div>
+                                <div className="UserEmail">{user.email}</div>
+                            </div>
+                        </div>
+                        <div className="ProfileDropdown" onClick={this.handleDropdownToggle}>
+                            <Link className="DropdownItem" to={'/account'}>Account</Link>
+                            <div className="DropdownItem" onClick={this.openFeedbackDialog}>Give feedback</div>
+                            <div className="DropdownItem" onClick={this.openSupportDialog}>Contact support</div>
+                            <div className="DropdownItem" onClick={this.handleLogoutUser}>Logout</div>
                         </div>
                     </div>
-                    <div className="ProfileDropdown" onClick={this.handleDropdownToggle}>
-                        <Link className="DropdownItem" to={'/account'}>Account</Link>
-                        <div className="DropdownItem" onClick={this.openFeedbackDialog}>Give feedback</div>
-                        <div className="DropdownItem" onClick={this.openSupportDialog}>Contact support</div>
-                        <div className="DropdownItem" onClick={this.handleLogoutUser}>Logout</div>
-                    </div>
-                </div>
+                </OutsideClickHandler>
                 <FeedbackDialog open={feedbackDialogOpen} onClose={this.handleDialogClose} user={user}/>
                 <SupportDialog open={supportDialogOpen} onClose={this.handleDialogClose} user={user}/>
             </div>
