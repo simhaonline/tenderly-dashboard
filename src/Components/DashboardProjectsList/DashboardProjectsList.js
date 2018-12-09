@@ -9,6 +9,11 @@ import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './DashboardProjectsList.css';
 import {FeatureFlagTypes} from "../../Common/constants";
+import MixPanel from "../../Utils/MixPanel";
+
+const handleProjectItemClick = () => {
+    MixPanel.track('Navigate to Project');
+};
 
 const DashboardProjectsList = ({projects, loaded}) => {
     const data = [
@@ -39,7 +44,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
             </div>}
             {(loaded && projects.length !== 0) && <div className="ProjectList">
                 {projects.map(project =>
-                    <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id}>
+                    <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id} onClick={handleProjectItemClick}>
                         <div className="ProjectNameWrapper">
                             <div className="ProjectName">{project.name}</div>
                             <div className="ProjectId">{project.id}</div>
