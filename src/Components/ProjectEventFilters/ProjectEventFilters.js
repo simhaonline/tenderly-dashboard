@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {EventFilterTypes} from "../../Common/constants";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
-import {Input, Toggle} from "../../Elements";
+import {Input, Select} from "../../Elements";
 
 import './ProjectEventFilters.css';
 
@@ -46,34 +46,28 @@ class ProjectEventFilters extends Component {
     };
 
     /**
-     * @param {Contract} contract
+     * @param {string} field
+     * @param {(string[])} value
      */
-    handleContractToggle = (contract) => {
+    handleContractToggle = (field, value) => {
         const {onFiltersChange} = this.props;
-        const {formData: {contracts: filterContracts}} = this.state;
 
-        let contracts = [];
-
-        if (filterContracts.includes(contract.id)) {
-            contracts = filterContracts.filter(filter => filter !== contract.id);
-        } else {
-            contracts = [
-                ...filterContracts,
-                contract.id,
-            ];
-        }
-
-        this.handleFormUpdate('contracts', contracts);
+        this.handleFormUpdate(field, value);
 
         onFiltersChange({
             type: EventFilterTypes.CONTRACTS,
-            value: contracts,
+            value,
         });
     };
 
     render() {
         const {contracts} = this.props;
         const {formData: {searchQuery, contracts: filterContracts}} = this.state;
+
+        const contractSelectOptions = contracts.map(contract => ({
+            value: contract.id,
+            label: contract.name,
+        }));
 
         return (
             <div className="ProjectEventFilters">
@@ -85,12 +79,7 @@ class ProjectEventFilters extends Component {
                 </div>
                 <div className="DropdownColumn">
                     <span>Contract dropdown</span>
-                    <div>
-                        {contracts.map(contract => <div key={contract.id} onClick={() => {this.handleContractToggle(contract)}}>
-                            {contract.name}
-                            <Toggle value={filterContracts.includes(contract.id)}/>
-                        </div>)}
-                    </div>
+                    <Select field="contracts" options={contractSelectOptions} multiple value={filterContracts} onChange={this.handleContractToggle}/>
                 </div>
             </div>
         )
