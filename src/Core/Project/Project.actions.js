@@ -1,8 +1,11 @@
 import {Api} from "../../Utils/Api";
+import {ActionResponse} from "../../Common";
+
 import Project from "./Project.model";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const DELETE_PROJECT_ACTION = 'DELETE_PROJECT';
+export const UPDATE_PROJECT_ACTION = 'UPDATE_PROJECT';
 export const FETCH_PROJECT_ACTION = 'FETCH_PROJECT';
 export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
 
@@ -114,5 +117,21 @@ export const deleteProject = (id, account = null) => {
         });
 
         return true;
+    }
+};
+
+/**
+ * @param {Project} project
+ */
+export const setProjectSetupViewed = (project) => {
+    return dispatch => {
+        const updatedProject = project.viewSetup();
+
+        dispatch({
+            type: UPDATE_PROJECT_ACTION,
+            project: updatedProject,
+        });
+
+        return new ActionResponse(true, project);
     }
 };

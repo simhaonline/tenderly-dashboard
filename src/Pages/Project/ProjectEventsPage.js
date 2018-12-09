@@ -119,7 +119,7 @@ class ProjectEventsPage extends Component {
         return (
             <Page id="ProjectPage">
                 <Container>
-                    {!projectIsSetup && <ProjectSetupGuide projectId={project.id}/>}
+                    {!projectIsSetup && <ProjectSetupGuide project={project} open={!project.setupViewed}/>}
                     {projectIsSetup && loadedPage && <Fragment>
                         <ProjectEventFilters contracts={contracts}
                                              onFiltersChange={this.handleFiltersChange}

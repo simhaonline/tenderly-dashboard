@@ -61,7 +61,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
                                 Last push: <span>{moment(project.lastPushAt).fromNow()}</span>
                             </div>}
                             {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
-                                <ProjectSetupGuide label="Push Contracts" projectId={project.id} size="extra-small" color="secondary"/>
+                                <ProjectSetupGuide label="Push Contracts" project={project} size="extra-small" color="secondary"/>
                             </div>}
                         </div>
                     </Link>

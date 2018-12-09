@@ -17,8 +17,20 @@ class Project {
         /** @type boolean */
         this.isSetup = !!data.last_push_at;
 
+        /** @type boolean */
+        this.setupViewed = !!data.last_push_at;
+
         /** @type Date */
         this.createdAt = data.created_at;
+    }
+
+    /**
+     * @returns {Project}
+     */
+    viewSetup() {
+        this.setupViewed = true;
+
+        return this;
     }
 
     /**

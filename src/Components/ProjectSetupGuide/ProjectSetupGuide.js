@@ -14,11 +14,20 @@ class ProjectSetupGuide extends Component {
         super(props);
 
         this.state = {
-            dialogOpen: false,
+            dialogOpen: props.open,
             currentStep: 1,
             verifying: false,
             verifyAttempted: false,
             finishedSetup: false,
+        }
+    }
+
+    componentDidMount() {
+        const {actions, project} = this.props;
+        const {dialogOpen} = this.state;
+
+        if (!project.setupViewed && dialogOpen) {
+            actions.setProjectSetupViewed(project);
         }
     }
 
@@ -29,6 +38,12 @@ class ProjectSetupGuide extends Component {
     };
 
     openDialog = () => {
+        const {actions, project} = this.props;
+
+        if (!project.setupViewed) {
+            actions.setProjectSetupViewed(project);
+        }
+
         this.setState({
             dialogOpen: true,
             currentStep: 1,
@@ -45,13 +60,13 @@ class ProjectSetupGuide extends Component {
     };
 
     verifyProjectPush = async () => {
-        const {projectId, actions} = this.props;
+        const {project, actions} = this.props;
 
         this.setState({
             verifying: true,
         });
 
-        const fetchedProject = await actions.fetchProject(projectId);
+        const fetchedProject = await actions.fetchProject(project.id);
 
         setTimeout(() => {
             const projectSetup = !!fetchedProject.lastPushAt;
@@ -72,7 +87,7 @@ class ProjectSetupGuide extends Component {
 
     render() {
         const {dialogOpen, currentStep, verifying, finishedSetup, verifyAttempted} = this.state;
-        const {label, color, size, outline, projectId} = this.props;
+        const {label, color, size, outline, project} = this.props;
 
         return (
             <Fragment>
@@ -128,7 +143,7 @@ class ProjectSetupGuide extends Component {
                             )}>
                                 <div className="StepContent">
                                     <p>Go to the root of your smart contract project. Tenderly uses the Truffle framework to track where you contracts have been deployed.</p>
-                                    <code>cd {projectId}</code>
+                                    <code>cd {project.id}</code>
                                     <p>Use the init command to link your local project with the dashboard.</p>
                                     <code>tenderly init</code>
                                     <p>You can read more about <a rel="noopener noreferrer" href="https://docs.tenderly.app/#/how-tenderly-integrates">how Tenderly integrates with Truffle</a> in this link.</p>
@@ -185,6 +200,7 @@ class ProjectSetupGuide extends Component {
 }
 
 ProjectSetupGuide.defaultProps = {
+    open: false,
     label: 'Setup Project',
     size: 'default',
     color: 'primary',

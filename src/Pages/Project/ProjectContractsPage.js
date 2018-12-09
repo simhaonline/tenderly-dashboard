@@ -36,7 +36,7 @@ class ProjectContractsPage extends Component {
                     </div>}
                 </Container>}
                 {!projectIsSetup && <Container>
-                    <ProjectSetupGuide projectId={project.id}/>
+                    <ProjectSetupGuide project={project}/>
                 </Container>}
             </Page>
         )
