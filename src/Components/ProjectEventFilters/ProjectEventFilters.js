@@ -16,6 +16,18 @@ class ProjectEventFilters extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
+    componentDidMount() {
+        const {activeFilters} = this.props;
+
+        activeFilters.forEach(filter => {
+            if (filter.type === EventFilterTypes.QUERY) {
+                this.handleFormUpdate('searchQuery', filter.value)
+            } else if (filter.type === EventFilterTypes.CONTRACTS) {
+                this.handleFormUpdate('contracts', filter.value)
+            }
+        });
+    }
+
     /**
      * @param {string} field
      * @param {string} value
