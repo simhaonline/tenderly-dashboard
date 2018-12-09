@@ -113,7 +113,6 @@ const ProjectReducer = (state = initialState, action) => {
                 },
             };
         case UPDATE_PROJECT_ACTION:
-            console.log(action);
             return {
                 ...state,
                 projects: {
