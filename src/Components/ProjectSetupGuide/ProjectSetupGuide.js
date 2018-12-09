@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import classNames from 'classnames';
 
 import * as projectActions from "../../Core/Project/Project.actions";
+import MixPanel from "../../Utils/MixPanel";
 
 import {Dialog, DialogHeader, DialogBody, Button, Icon} from "../../Elements";
 
@@ -26,12 +27,18 @@ class ProjectSetupGuide extends Component {
         const {actions, project} = this.props;
         const {dialogOpen} = this.state;
 
-        if (!project.setupViewed && dialogOpen) {
-            actions.setProjectSetupViewed(project);
+        if (dialogOpen) {
+            MixPanel.track('Viewed Initial Project Setup Guide');
+
+            if (!project.setupViewed) {
+                actions.setProjectSetupViewed(project);
+            }
         }
     }
 
     handleDialogClose = () => {
+        MixPanel.track(`Project Setup Guide - Close Dialog`);
+
         this.setState({
             dialogOpen: false,
         });
@@ -44,6 +51,8 @@ class ProjectSetupGuide extends Component {
             actions.setProjectSetupViewed(project);
         }
 
+        MixPanel.track('Viewed Project Setup Guide via Button');
+
         this.setState({
             dialogOpen: true,
             currentStep: 1,
@@ -54,6 +63,8 @@ class ProjectSetupGuide extends Component {
     };
 
     nextStep = () => {
+        MixPanel.track(`Project Setup Guide - Next Step: ${this.state.currentStep + 1}`);
+
         this.setState({
             currentStep: this.state.currentStep + 1,
         });
@@ -66,10 +77,18 @@ class ProjectSetupGuide extends Component {
             verifying: true,
         });
 
+        MixPanel.track('Project Setup Guide - Verify Setup');
+
         const fetchedProject = await actions.fetchProject(project.id);
 
         setTimeout(() => {
             const projectSetup = !!fetchedProject.lastPushAt;
+
+            if (projectSetup) {
+                MixPanel.track('Project Setup Guide - Verification failed');
+            } else {
+                MixPanel.track('Project Setup Guide - Verification success');
+            }
 
             this.setState({
                 verifying: false,
