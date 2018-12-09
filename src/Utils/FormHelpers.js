@@ -1,5 +1,5 @@
 /**
- * @param component
+ * @param {Component} component
  * @param {Object} formData
  */
 export function initializeForm(component, formData) {
@@ -7,6 +7,17 @@ export function initializeForm(component, formData) {
         ...component.state,
         formData,
     };
+}
+
+/**
+ * @param {Component} component
+ * @param {Object} formData
+ */
+export function resetForm(component, formData) {
+    component.setState({
+        ...component.state,
+        formData,
+    });
 }
 
 /**
