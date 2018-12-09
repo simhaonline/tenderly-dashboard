@@ -7,7 +7,7 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import EventFilters from "../../Utils/EventFilters";
 
-import {EventActionTypes} from "../../Common/constants";
+import {EventActionTypes, EventFilterTypes} from "../../Common/constants";
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
@@ -28,8 +28,23 @@ class ProjectEventsPage extends Component {
     }
 
     async componentDidMount() {
-        const {contractsLoaded, project, eventActions, contractActions} = this.props;
+        const {contractsLoaded, project, eventActions, contractActions, location: {search}} = this.props;
         const {page} = this.state;
+
+        const searchParams = new URLSearchParams(search);
+
+        const contractFilter = searchParams.get('contract');
+
+        if (contractFilter) {
+            this.setState({
+                filters: {
+                    [EventFilterTypes.CONTRACTS]: {
+                        type: EventFilterTypes.CONTRACTS,
+                        value: [contractFilter],
+                    },
+                },
+            })
+        }
 
         if (project.lastPushAt) {
             await eventActions.fetchEventsForProject(project.id, page);
