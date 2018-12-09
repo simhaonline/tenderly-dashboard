@@ -12,6 +12,8 @@ class AccountSettingsPage extends Component {
                 <Container>
                     <Card>
                         Account
+                        <div>{user.firstName} {user.lastName}</div>
+                        {user.username}
                     </Card>
                 </Container>
             </Page>
