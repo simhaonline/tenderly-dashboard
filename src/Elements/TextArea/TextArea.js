@@ -35,7 +35,7 @@ class TextArea extends Component {
     };
 
     render() {
-        const {value} = this.props;
+        const {value, autoFocus, field} = this.props;
         const {focused} = this.state;
 
         return (
@@ -45,6 +45,9 @@ class TextArea extends Component {
             })}>
                 <textarea className="TextArea"
                           value={value}
+                          id={`textarea-${field}`}
+                          name={field}
+                          autoFocus={autoFocus}
                           onChange={this.handleInputChange}
                           onFocus={this.handleInputFocus}
                           onBlur={this.handleInputBlur}/>
