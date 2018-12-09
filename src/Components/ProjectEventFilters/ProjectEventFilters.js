@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 
+import {EventFilterTypes} from "../../Common/constants";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
 import {Input, Toggle} from "../../Elements";
-import {EventFilterTypes} from "../../Common/constants";
+
+import './ProjectEventFilters.css';
 
 class ProjectEventFilters extends Component {
     constructor(props) {

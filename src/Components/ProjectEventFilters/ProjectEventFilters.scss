@@ -1,0 +1,13 @@
+.ProjectEventFilters {
+  display: flex;
+  align-items: center;
+
+  .QueryColumn {
+    flex: 0 0 450px;
+  }
+
+  .DropdownColumn {
+    flex: 0 0 auto;
+    margin-left: 30px;
+  }
+}
