@@ -27,10 +27,16 @@ class Select extends Component {
         const {onChange, field, multiple, value} = this.props;
 
         if (multiple) {
-            onChange(field, [
-                ...value,
-                item,
-            ]);
+            if (value.includes(item)) {
+                const newValue = value.filter(data => data !== item);
+
+                onChange(field, newValue);
+            } else {
+                onChange(field, [
+                    ...value,
+                    item,
+                ]);
+            }
         } else {
             onChange(field, item);
         }
@@ -55,7 +61,7 @@ class Select extends Component {
                         <div className="DropdownOptionsWrapper">
                             {options.map(option => <div className={classNames("DropdownOption", {
                                 "MultipleOption": multiple,
-                            })} key={option.value} onClick={() => {this.handleSelection(item.value)}}>
+                            })} key={option.value} onClick={() => {this.handleSelection(option.value)}}>
                                 {multiple && <input type="checkbox"/>}
                                 <span>{option.label}</span>
                             </div>)}
