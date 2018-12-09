@@ -7,7 +7,8 @@ import classNames from 'classnames';
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Button, Icon, DialogHeader, Dialog, DialogBody, TextArea} from "../../Elements";
+import FeedbackDialog from "../FeedbackDialog/FeedbackDialog";
+import SupportDialog from "../SupportDialog/SupportDialog";
 
 import './SessionHeaderMenu.css';
 
@@ -96,33 +97,8 @@ class SessionHeaderMenu extends Component {
                         <div className="DropdownItem" onClick={this.handleLogoutUser}>Logout</div>
                     </div>
                 </div>
-                <Dialog open={feedbackDialogOpen} onClose={this.handleDialogClose}>
-                    <DialogHeader>
-                        <h3>Give Feedback</h3>
-                    </DialogHeader>
-                    <DialogBody>
-                        <TextArea/>
-                        <Button outline>
-                            <Icon icon="send"/>
-                            <span>Send</span>
-                        </Button>
-                    </DialogBody>
-                </Dialog>
-                <Dialog open={supportDialogOpen} onClose={this.handleDialogClose}>
-                    <DialogHeader>
-                        <h3>Contact Support</h3>
-
-                    </DialogHeader>
-                    <DialogBody>
-                        <TextArea/>
-                        <div>
-                            <Button outline>
-                                <Icon icon="send"/>
-                                <span>Send</span>
-                            </Button>
-                        </div>
-                    </DialogBody>
-                </Dialog>
+                <FeedbackDialog open={feedbackDialogOpen} onClose={this.handleDialogClose}/>
+                <SupportDialog open={supportDialogOpen} onClose={this.handleDialogClose}/>
             </div>
         )
     }
