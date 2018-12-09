@@ -40,9 +40,11 @@ class Project {
     update(project) {
         const updateProperties = _.pick(project, ['name', 'lastPushAt', 'isSetup']);
 
-        Object.assign(this, updateProperties);
+        const newProject = new Project({});
 
-        return this;
+        Object.assign(newProject, this, updateProperties);
+
+        return newProject;
     }
 }
 
