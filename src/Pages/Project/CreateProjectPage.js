@@ -22,19 +22,20 @@ class CreateProjectPage extends Component {
     handleFormSubmit = async (data) => {
         const {projectName} = data;
 
-
         if (!projectName) {
             return;
         }
 
         const {actions} = this.props;
 
-        const project = await actions.createProject(projectName);
+        const {success, data: project} = await actions.createProject(projectName);
 
-        this.setState({
-            projectCreated: true,
-            project,
-        })
+        if (success) {
+            this.setState({
+                projectCreated: true,
+                project,
+            });
+        }
     };
 
     render() {
