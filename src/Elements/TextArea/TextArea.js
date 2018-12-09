@@ -35,16 +35,17 @@ class TextArea extends Component {
     };
 
     render() {
-        const {value, autoFocus, field} = this.props;
+        const {value, autoFocus, field, className, placeholder} = this.props;
         const {focused} = this.state;
 
         return (
-            <div className={classNames("TextAreaWrapper", {
+            <div className={classNames("TextAreaWrapper", className, {
                 'Active': (value || focused),
                 'Focused': focused,
             })}>
                 <textarea className="TextArea"
                           value={value}
+                          placeholder={placeholder}
                           id={`textarea-${field}`}
                           name={field}
                           autoFocus={autoFocus}
