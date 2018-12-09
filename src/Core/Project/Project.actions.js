@@ -139,3 +139,31 @@ export const setProjectSetupViewed = (project) => {
         return new ActionResponse(true, project);
     }
 };
+
+/**
+ * @param {string} id
+ * @param {Object} data
+ * @param {string|null} [account]
+ */
+export const updateProject = (id, data, account = null) => {
+    return async (dispatch, getState) => {
+        const {auth: {user: {username}}} = getState();
+
+        const projectAccount = account || username;
+
+        try {
+            const {data: responseData} = await Api.post(`/account/${projectAccount}/project/${id}`, data);
+
+            const project = new Project(responseData);
+
+            dispatch({
+                type: UPDATE_PROJECT_ACTION,
+                project,
+            });
+
+            return new ActionResponse(true, project);
+        } catch (error) {
+            return new ActionResponse(false, error);
+        }
+    }
+};

@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+import * as projectActions from "../../Core/Project/Project.actions";
 
 import {Card, CardHeading, Input} from "../../Elements";
+
 import ProgressiveButton from "../ProgressiveButton/ProgressiveButton";
 
 import './ProjectSettingsForm.css';
@@ -18,7 +22,12 @@ class ProjectSettingsForm extends Component {
     }
 
     handleSettingsUpdate = async () => {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const {project, actions} = this.props;
+        const {formData: {projectName}} = this.state;
+
+        await actions.updateProject(project.id, {
+            name: projectName,
+        });
     };
 
     render() {
@@ -40,4 +49,13 @@ class ProjectSettingsForm extends Component {
     }
 }
 
-export default ProjectSettingsForm;
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: bindActionCreators(projectActions, dispatch),
+    }
+};
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(ProjectSettingsForm);
