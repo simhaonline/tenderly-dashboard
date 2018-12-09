@@ -38,7 +38,7 @@ class Project {
      * @return {Project}
      */
     update(project) {
-        const updateProperties = _.pick(project, ['lastPushAt', 'isSetup']);
+        const updateProperties = _.pick(project, ['name', 'lastPushAt', 'isSetup']);
 
         Object.assign(this, updateProperties);
 
