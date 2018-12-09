@@ -23,8 +23,8 @@
     position: absolute;
     top: calc(100% + 10px);
     opacity: 0;
-    transition: 0.15s;
-    //background: #171e31;
+    transform: translateY(15px);
+    transition: 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
     background-color: #212a46;
     border-radius: 4px;
     width: 100%;
@@ -62,10 +62,12 @@
     .CurrentSelection {
       background-color: lighten(#171e31, 2);
       border-color: $PrimaryColor600;
+      box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
     }
 
     .SelectDropdown {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 }
