@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+
+import * as appActions from "../../Core/App/App.actions";
+import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
 
 import {Form, Button, Dialog, DialogBody, DialogHeader, Icon, TextArea} from "../../Elements";
 
 import './FeedbackDialog.css';
-import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
 
 class FeedbackDialog extends Component {
     constructor(props) {
@@ -20,15 +24,15 @@ class FeedbackDialog extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
-    handleSendFeedback = () => {
-        const {onClose} = this.props;
+    handleSendFeedback = async () => {
+        const {user, actions, onClose} = this.props;
         const {formData: {message}} = this.state;
 
         this.setState({
             sending: true,
         });
 
-        console.log(message);
+        await actions.sendFeedback(user, message);
 
         this.setState({
             feedbackSent: true,
@@ -59,7 +63,12 @@ class FeedbackDialog extends Component {
                 </DialogHeader>
                 <DialogBody>
                     <Form onSubmit={this.handleSendFeedback}>
-                        <TextArea onChange={this.handleFormUpdate} field="message" value={message} autoFocus/>
+                        <TextArea onChange={this.handleFormUpdate}
+                                  field="message"
+                                  value={message}
+                                  autoFocus
+                                  placeholder="Have any suggestions? We value every feedback as it helps us improve our application so that you can get the most out of it."
+                                  className="FeedbackMessage"/>
                         {feedbackSent && <p>Feedback sent!</p>}
                         <Button type="submit" outline onClick={this.handleSendFeedback} disabled={feedbackSent || sending}>
                             <Icon icon="send"/>
@@ -77,4 +86,13 @@ FeedbackDialog.defaultProps = {
     onClose: () => {},
 };
 
-export default FeedbackDialog;
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: bindActionCreators(appActions, dispatch),
+    }
+};
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(FeedbackDialog);

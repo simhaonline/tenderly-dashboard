@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
+
+import * as appActions from "../../Core/App/App.actions";
 
 import {Form, Button, Dialog, DialogBody, DialogHeader, Icon, TextArea} from "../../Elements";
 import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
@@ -20,15 +24,15 @@ class SupportDialog extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
-    handleSendFeedback = () => {
-        const {onClose} = this.props;
+    handleSendFeedback = async () => {
+        const {user, actions, onClose} = this.props;
         const {formData: {message}} = this.state;
 
         this.setState({
             sending: true,
         });
 
-        console.log(message);
+        await actions.sendSupportTicket(user, message);
 
         this.setState({
             ticketSent: true,
@@ -82,4 +86,13 @@ SupportDialog.defaultProps = {
     onClose: () => {},
 };
 
-export default SupportDialog;
+const mapDispatchToProps = dispatch => {
+    return {
+        actions: bindActionCreators(appActions, dispatch),
+    }
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(SupportDialog);
