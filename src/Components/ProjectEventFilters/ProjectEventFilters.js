@@ -78,7 +78,6 @@ class ProjectEventFilters extends Component {
                            value={searchQuery} onChange={this.handleSearchQueryChange}/>
                 </div>
                 <div className="DropdownColumn">
-                    <span>Contract dropdown</span>
                     <Select field="contracts" options={contractSelectOptions} multiple value={filterContracts} onChange={this.handleContractToggle}/>
                 </div>
             </div>
