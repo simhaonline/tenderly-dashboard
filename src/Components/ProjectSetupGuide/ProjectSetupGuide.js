@@ -226,6 +226,12 @@ ProjectSetupGuide.defaultProps = {
     outline: true,
 };
 
+const mapStateToProps = state => {
+    return {
+        os: state.app.os,
+    }
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(projectActions, dispatch),
@@ -233,6 +239,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
 )(ProjectSetupGuide);
