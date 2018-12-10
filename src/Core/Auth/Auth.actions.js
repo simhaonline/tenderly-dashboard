@@ -75,7 +75,11 @@ export const getUser = () => {
     return async dispatch => {
         const {data} = await Api.get('/user');
 
-        const user = new User(data);
+        if (!data.user) {
+            return;
+        }
+
+        const user = new User(data.user);
 
         MixPanel.setUser(user);
 
