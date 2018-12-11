@@ -95,7 +95,7 @@ ProgressiveButton.defaultProps = {
     progressLabel: '',
     finishedIcon: 'check',
     finishedLabel: 'Done',
-    resetTimeout: 3000,
+    resetTimeout: 2000,
     onClick: async () => {},
 };
 
