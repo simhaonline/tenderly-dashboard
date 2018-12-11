@@ -3,8 +3,9 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import classNames from 'classnames';
 
-import * as projectActions from "../../Core/Project/Project.actions";
 import MixPanel from "../../Utils/MixPanel";
+import {OSTypes} from "../../Common/constants";
+import * as projectActions from "../../Core/Project/Project.actions";
 
 import {Dialog, DialogHeader, DialogBody, Button, Icon} from "../../Elements";
 
@@ -106,7 +107,7 @@ class ProjectSetupGuide extends Component {
 
     render() {
         const {dialogOpen, currentStep, verifying, finishedSetup, verifyAttempted} = this.state;
-        const {label, color, size, outline, project} = this.props;
+        const {label, color, size, outline, project, os} = this.props;
 
         return (
             <Fragment>
@@ -138,8 +139,13 @@ class ProjectSetupGuide extends Component {
                                 }
                             )}>
                                 <div className="StepContent">
-                                    <p>To get started, we need to first get the Tenderly CLI tool. You can install it via the following command from your terminal.</p>
-                                    <code>brew update && brew install tenderly</code>
+                                    {os !== OSTypes.WINDOWS && <p>To get started, we need to first get the Tenderly CLI tool. You can install it via the following command from your terminal.</p>}
+                                    {os === OSTypes.WINDOWS && <Fragment>
+                                        <p>To get started, we need to first get the Tenderly CLI tool.</p>
+                                        <p>You can install it by going to the the <a target="_blank" rel="noopener noreferrer" href={"https://github.com/Tenderly/tenderly-cli/releases"}>GitHub Releases</a> page and downloading the latest binary for Windows and putting in the inside your $PATH.</p>
+                                    </Fragment>}
+                                    {os === OSTypes.MAC && <code>brew tap tenderly/tenderly && brew install tenderly</code>}
+                                    {(os === OSTypes.UNIX || os === OSTypes.LINUX) && <code>curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sh</code>}
                                     <p>After installing the CLI you need to authenticate via your account email and password.</p>
                                     <code>tenderly login</code>
                                 </div>
@@ -165,7 +171,7 @@ class ProjectSetupGuide extends Component {
                                     <code>cd {project.id}</code>
                                     <p>Use the init command to link your local project with the dashboard.</p>
                                     <code>tenderly init</code>
-                                    <p>You can read more about <a rel="noopener noreferrer" href="https://docs.tenderly.app/#/how-tenderly-integrates">how Tenderly integrates with Truffle</a> in this link.</p>
+                                    <p>You can read more about <a target="_blank" rel="noopener noreferrer" href="https://docs.tenderly.app/#/how-tenderly-integrates">how Tenderly integrates with Truffle</a> in this link.</p>
                                 </div>
                                 <div className="StepActions">
                                     <Button onClick={this.handleDialogClose} outline color="secondary">
