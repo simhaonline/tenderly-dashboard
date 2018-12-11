@@ -19,7 +19,7 @@ const SettingsSegments = [
         value: 'general',
     },
     {
-        label: 'Billing',
+        label: 'Plan',
         value: 'billing',
         featureFlag: FeatureFlagTypes.BILLING,
     },

@@ -7,7 +7,7 @@ class ProjectSettingsBilling extends Component {
         return (
             <Card className="ProjectSettingsBilling">
                 <CardHeading>
-                    <h3>Billing</h3>
+                    <h3>Billing Plan</h3>
                 </CardHeading>
             </Card>
         );
