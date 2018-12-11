@@ -6,6 +6,8 @@ import classNames from 'classnames';
 import MixPanel from "../../Utils/MixPanel";
 import {OSTypes} from "../../Common/constants";
 import * as projectActions from "../../Core/Project/Project.actions";
+import * as eventActions from "../../Core/Event/Event.actions";
+import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Dialog, DialogHeader, DialogBody, Button, Icon} from "../../Elements";
 
@@ -72,7 +74,7 @@ class ProjectSetupGuide extends Component {
     };
 
     verifyProjectPush = async () => {
-        const {project, actions} = this.props;
+        const {project, actions, eventActions, contractActions} = this.props;
 
         this.setState({
             verifying: true,
@@ -82,15 +84,18 @@ class ProjectSetupGuide extends Component {
 
         const fetchedProject = await actions.fetchProject(project.id);
 
+        const projectSetup = !!fetchedProject.lastPushAt;
+
+        if (projectSetup) {
+            MixPanel.track('Project Setup Guide - Verification success');
+
+            eventActions.fetchEventsForProject(project.id, 0);
+            contractActions.fetchContractsForProject(project.id);
+        } else {
+            MixPanel.track('Project Setup Guide - Verification failed');
+        }
+
         setTimeout(() => {
-            const projectSetup = !!fetchedProject.lastPushAt;
-
-            if (projectSetup) {
-                MixPanel.track('Project Setup Guide - Verification failed');
-            } else {
-                MixPanel.track('Project Setup Guide - Verification success');
-            }
-
             this.setState({
                 verifying: false,
                 verifyAttempted: true,
@@ -241,6 +246,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(projectActions, dispatch),
+        eventActions: bindActionCreators(eventActions, dispatch),
+        contractActions: bindActionCreators(contractActions, dispatch),
     }
 };
 
