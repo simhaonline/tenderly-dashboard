@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import {Form, Input, Button} from "../../Elements";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
+import './CreateProjectForm.css';
+
 class CreateProjectForm extends Component {
     constructor(props) {
         super(props);
@@ -30,12 +32,18 @@ class CreateProjectForm extends Component {
         const {formData: {projectName}} = this.state;
 
         return (
-            <Form onSubmit={this.handleFormSubmit}>
-                <Input value={projectName} label="Project name" icon="project" field={"projectName"} onChange={this.handleFormUpdate} autoComplete="off"/>
-                <div>Project URL: https://tenderly.app/project/<span>{this.generateProjectUrl(projectName)}</span></div>
-                <Button type="submit" disabled={!projectName}>
-                    <span>Create</span>
-                </Button>
+            <Form onSubmit={this.handleFormSubmit} className="CreateProjectForm">
+                <Input value={projectName} label="Project name" icon="project" field={"projectName"} onChange={this.handleFormUpdate} autoComplete="off" autoFocus/>
+                <div className="SlugPreviewWrapper">
+                    <div className="UrlLabel">Project URL Preview</div>
+                    <div className="UrlPreview">https://tenderly.app/project/<span className="ProjectSlug">{this.generateProjectUrl(projectName)}</span></div>
+                    <div className="UrlNote">* Slugs can not be changed later</div>
+                </div>
+                <div className="SubmitButtonWrapper">
+                    <Button type="submit" disabled={!projectName}>
+                        <span>Create Project</span>
+                    </Button>
+                </div>
             </Form>
         );
     }

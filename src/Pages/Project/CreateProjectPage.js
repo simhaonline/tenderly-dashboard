@@ -5,8 +5,10 @@ import {Redirect} from "react-router-dom";
 
 import * as projectActions from '../../Core/Project/Project.actions';
 
-import {Page, Container} from "../../Elements";
+import {Page, Container, Card, CardHeading} from "../../Elements";
 import {CreateProjectForm} from "../../Components";
+
+import './CreateProjectPage.css';
 
 class CreateProjectPage extends Component {
     constructor(props) {
@@ -46,10 +48,16 @@ class CreateProjectPage extends Component {
         }
 
         return (
-            <Page>
-                <Container>
-                    <h2>Create Project</h2>
-                    <CreateProjectForm onSubmit={this.handleFormSubmit}/>
+            <Page id="CreateProjectPage">
+                <Container className="PageContainer">
+                        <div className="FormWrapper">
+                            <Card>
+                                <CardHeading>
+                                    <h3>Create Project</h3>
+                                </CardHeading>
+                                <CreateProjectForm onSubmit={this.handleFormSubmit}/>
+                            </Card>
+                        </div>
                 </Container>
             </Page>
         )

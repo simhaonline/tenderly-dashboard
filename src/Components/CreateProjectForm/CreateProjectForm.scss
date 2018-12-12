@@ -1,0 +1,38 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.CreateProjectForm {
+
+  .UrlLabel {
+    text-transform: uppercase;
+    font-size: $FontSize100;
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+
+  .UrlPreview {
+    border: 1px solid $BorderColor;
+    background-color: transparentize($BlackColor, 0.75);
+    padding: 10px 10px;
+    border-radius: 3px;
+    font-weight: 300;
+    font-size: $FontSize200;
+
+    .ProjectSlug {
+      font-weight: 600;
+    }
+  }
+
+  .UrlNote {
+    margin-top: 5px;
+    padding-left: 10px;
+    opacity: 0.5;
+    font-size: $FontSize100;
+  }
+
+  .SubmitButtonWrapper {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+}
