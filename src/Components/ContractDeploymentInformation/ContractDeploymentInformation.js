@@ -6,7 +6,6 @@ import {Button, Card} from "../../Elements";
 import './ContractDeploymentInformation.css';
 
 const ContractDeploymentInformation = ({contract}) => {
-    console.log(contract);
     return (
         <div className="ContractDeploymentInformation">
             <Card className="InfoRow">
