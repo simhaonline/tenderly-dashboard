@@ -20,22 +20,26 @@ export const createProject = (name, account = null) => {
 
         const projectAccount = account || username;
 
-        const {data} = await Api.post(`/account/${projectAccount}/project`, {
-            name,
-        });
+        try {
+            const {data} = await Api.post(`/account/${projectAccount}/project`, {
+                name,
+            });
 
-        if (!data.project) {
-            return new ActionResponse(false);
+            if (!data.project) {
+                return new ActionResponse(false);
+            }
+
+            const project = new Project(data.project);
+
+            dispatch({
+                type: CREATE_PROJECT_ACTION,
+                project,
+            });
+
+            return new ActionResponse(true, project);
+        } catch (error) {
+            return new ActionResponse(false, error.response.data);
         }
-
-        const project = new Project(data.project);
-
-        dispatch({
-            type: CREATE_PROJECT_ACTION,
-            project,
-        });
-
-        return new ActionResponse(true, project);
     };
 };
 
