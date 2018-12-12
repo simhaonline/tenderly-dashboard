@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import MixPanel from "../../Utils/MixPanel";
+
 import {Form, Input, Button} from "../../Elements";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
@@ -24,6 +26,8 @@ class CreateProjectForm extends Component {
     handleFormSubmit = () => {
         const {onSubmit} = this.props;
         const {formData} = this.state;
+
+        MixPanel.track('Create Project - Submit Form');
 
         onSubmit(formData);
     };
