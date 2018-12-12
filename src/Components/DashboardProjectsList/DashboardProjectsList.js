@@ -15,6 +15,10 @@ const handleProjectItemClick = () => {
     MixPanel.track('Navigate to Project');
 };
 
+const handleCreateProjectClick = () => {
+    MixPanel.track('Navigate to Create Project');
+};
+
 const DashboardProjectsList = ({projects, loaded}) => {
     const data = [
         {name: 'Page A', events: 0.1,},
@@ -73,7 +77,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
                 )}
             </div>}
             {(loaded && projects.length !== 0) && <div>
-                <Button size="small" outline to="/project/create">Create Project</Button>
+                <Button size="small" outline to="/project/create" onClick={handleCreateProjectClick}>Create Project</Button>
             </div>}
             {!loaded && <div className="LoadingProjects">
                 Loading...
