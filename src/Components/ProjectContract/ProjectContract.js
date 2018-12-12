@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from "moment";
 
+import MixPanel from "../../Utils/MixPanel";
+
 import {EtherscanLinkTypes} from "../../Common/constants";
 
 import {Card, Button} from "../../Elements";
@@ -10,10 +12,20 @@ import EtherscanLink from "../EtherscanLink/EtherscanLink";
 
 import './ProjectContract.css';
 
+const handleProjectContractClick = () => {
+    MixPanel.track('Contracts Page - Navigate to Contract');
+};
+
+const handleContractEventsClick = (event) => {
+    event.stopPropagation();
+
+    MixPanel.track('Contracts Page - View Contract Events');
+};
+
 const ProjectContract = ({contract}) => {
     const hasEvents = !!contract.eventCount;
     return (
-        <PageLink className="ProjectContract" to={`/project/${contract.projectId}/contract/${contract.id}`}>
+        <PageLink className="ProjectContract" to={`/project/${contract.projectId}/contract/${contract.id}`} onClick={handleProjectContractClick}>
             <Card>
                 <div className="ContentWrapper">
                     <NetworkTag network={contract.network} size="small" className="ContractNetworkTag"/>
@@ -41,7 +53,7 @@ const ProjectContract = ({contract}) => {
                         <div title={moment(contract.lastDeploymentAt).format("MMM DD YYYY, HH:mm:ss")}>{moment(contract.lastDeploymentAt).fromNow()}</div>
                     </div>}
                     <div className="ActionsColumn ItemColumn">
-                        {hasEvents && <Button size="small" outline color="secondary" onClick={event => event.stopPropagation()}
+                        {hasEvents && <Button size="small" outline color="secondary" onClick={handleContractEventsClick}
                                 to={`/project/${contract.projectId}/events?contract=${contract.id}`} className="Action">View
                             <span>Events</span>
                         </Button>}
