@@ -1,0 +1,39 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.ContractDeploymentInformation {
+  display: flex;
+  margin-bottom: 20px;
+  .InfoRow {
+    display: flex;
+    flex: 1;
+    margin-bottom: 0;
+
+    .InfoColumn {
+      &:not(:last-child) {
+        padding-right: 25px;
+        border-right: 1px solid $BorderColor;
+      }
+
+      &:not(:first-child) {
+        padding-left: 25px;
+      }
+    }
+
+    .InfoLabel {
+      text-transform: uppercase;
+      opacity: 0.5;
+      font-size: $FontSize100;
+      margin-bottom: 2px;
+    }
+
+    .InfoValue {}
+  }
+
+  .ActionsRow {
+    margin-left: 20px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+}

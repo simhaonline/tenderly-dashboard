@@ -21,13 +21,9 @@
 
       .DetailLabel {
         text-transform: uppercase;
-        opacity: 0.75;
-        margin-bottom: 3px;
+        opacity: 0.5;
+        margin-bottom: 2px;
         font-size: $FontSize100;
-      }
-
-      .DetailValue {
-        color: $SecondaryColor600;
       }
     }
   }

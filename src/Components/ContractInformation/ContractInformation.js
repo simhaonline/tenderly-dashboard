@@ -3,6 +3,8 @@ import {Link} from "react-router-dom";
 
 import {EtherscanLinkTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
 
+import {Card} from "../../Elements";
+
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import NetworkTag from "../NetworkTag/NetworkTag";
 
@@ -17,7 +19,7 @@ const ContractInformation = ({contract}) => {
                 <h2><Link to={`/contract/${networkType}/${contract.id}`}>{contract.name}</Link></h2>
                 <div><NetworkTag network={contract.network}/></div>
             </div>
-            <div className="ContractDetails">
+            <Card className="ContractDetails">
                 <div className="DetailsWrapper">
                     <div className="DetailLabel">Address:</div>
                     <div className="DetailValue">
@@ -28,7 +30,7 @@ const ContractInformation = ({contract}) => {
                     <div className="DetailLabel">Solidity Verson:</div>
                     <div className="DetailValue">{contract.solidity}</div>
                 </div>
-            </div>
+            </Card>
         </div>
     )
 };
