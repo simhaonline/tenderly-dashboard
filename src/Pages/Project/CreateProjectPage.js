@@ -25,7 +25,9 @@ class CreateProjectPage extends Component {
         const {projectName} = data;
 
         if (!projectName) {
-            return;
+            return {
+                success: false,
+            };
         }
 
         const {actions} = this.props;
@@ -37,6 +39,11 @@ class CreateProjectPage extends Component {
                 projectCreated: true,
                 project,
             });
+        }
+
+        return {
+            success,
+            data: project,
         }
     };
 

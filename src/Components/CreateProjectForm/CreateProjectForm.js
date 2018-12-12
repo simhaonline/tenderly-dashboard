@@ -11,6 +11,11 @@ class CreateProjectForm extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            creating: false,
+            error: null,
+        };
+
         initializeForm(this, {
             projectName: '',
         });
@@ -23,17 +28,28 @@ class CreateProjectForm extends Component {
         return projectSlug;
     };
 
-    handleFormSubmit = () => {
+    handleFormSubmit = async () => {
         const {onSubmit} = this.props;
         const {formData} = this.state;
 
         MixPanel.track('Create Project - Submit Form');
 
-        onSubmit(formData);
+        this.setState({
+            creating: true,
+        });
+
+        const response = await onSubmit(formData);
+
+        if (!response.success) {
+            this.setState({
+                creating: false,
+                error: response.data,
+            });
+        }
     };
 
     render() {
-        const {formData: {projectName}} = this.state;
+        const {formData: {projectName}, creating} = this.state;
 
         return (
             <Form onSubmit={this.handleFormSubmit} className="CreateProjectForm">
@@ -44,7 +60,7 @@ class CreateProjectForm extends Component {
                     <div className="UrlNote">* Slugs can not be changed later</div>
                 </div>
                 <div className="SubmitButtonWrapper">
-                    <Button type="submit" disabled={!projectName}>
+                    <Button type="submit" disabled={!projectName || creating}>
                         <span>Create Project</span>
                     </Button>
                 </div>
