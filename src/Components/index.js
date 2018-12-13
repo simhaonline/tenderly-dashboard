@@ -37,5 +37,6 @@ export {default as ProjectEventActions} from './ProjectEventActions/ProjectEvent
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
 export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';
+export {default as ProjectSetupEmptyState} from './ProjectSetupEmptyState/ProjectSetupEmptyState';
 export {default as ProjectSettingsBilling} from './ProjectSettingsBilling/ProjectSettingsBilling';
 export {default as PageSegmentSwitcher} from './PageSegmentSwitcher/PageSegmentSwitcher';
