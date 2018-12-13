@@ -9,6 +9,7 @@ class ProgressiveButton extends Component {
         this.state = {
             inProgress: false,
             finished: false,
+            error: false,
             timeout: null,
         }
     }
@@ -25,17 +26,19 @@ class ProgressiveButton extends Component {
             inProgress: true,
         });
 
-        await onClick();
+        const successfulAction = await onClick();
 
         this.setState({
             inProgress: false,
-            finished: true,
+            finished: !!successfulAction,
+            error: !successfulAction,
         });
 
         const timeout = setTimeout(() => {
             this.setState({
                 inProgress: false,
                 finished: false,
+                error: false,
             });
         }, resetTimeout);
 
@@ -59,16 +62,19 @@ class ProgressiveButton extends Component {
             outline,
             icon,
             label,
+            disabled,
             progressIcon,
             progressLabel,
             finishedIcon,
             finishedLabel,
+            errorIcon,
+            errorLabel,
         } = this.props;
-        const {inProgress, finished} = this.state;
+        const {inProgress, finished, error} = this.state;
 
         return (
-            <Button size={size} color={color} outline={outline} disabled={inProgress} onClick={this.handleButtonClick}>
-                {!inProgress && !finished && <Fragment>
+            <Button size={size} color={color} outline={outline} disabled={inProgress || disabled} onClick={this.handleButtonClick}>
+                {!inProgress && !finished && !error && <Fragment>
                     {!!icon && <Icon icon={icon}/>}
                     {!!label && <span>{label}</span>}
                 </Fragment>}
@@ -79,6 +85,10 @@ class ProgressiveButton extends Component {
                 {finished && <Fragment>
                     {!!finishedIcon && <Icon icon={finishedIcon}/>}
                     {!!finishedLabel && <span>{finishedLabel}</span>}
+                </Fragment>}
+                {error && <Fragment>
+                    {!!errorIcon && <Icon icon={errorIcon}/>}
+                    {!!errorLabel && <span>{errorLabel}</span>}
                 </Fragment>}
             </Button>
         );
@@ -91,10 +101,13 @@ ProgressiveButton.defaultProps = {
     outline: false,
     icon: '',
     label: '',
+    disabled: false,
     progressIcon: '',
     progressLabel: '',
     finishedIcon: 'check',
     finishedLabel: 'Done',
+    errorIcon: 'x',
+    errorLabel: 'Whoops',
     resetTimeout: 2000,
     onClick: async () => {},
 };
