@@ -13,7 +13,7 @@ import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectEvents, ProjectSetupGuide, ProjectEventFilters, ProjectEventActions} from "../../Components";
+import {ProjectEvents, ProjectSetupEmptyState, ProjectEventFilters, ProjectEventActions} from "../../Components";
 
 class ProjectEventsPage extends Component {
     constructor(props) {
@@ -134,7 +134,7 @@ class ProjectEventsPage extends Component {
         return (
             <Page id="ProjectPage">
                 <Container>
-                    {!projectIsSetup && <ProjectSetupGuide project={project} open={!project.setupViewed}/>}
+                    {!projectIsSetup && <ProjectSetupEmptyState project={project} open={!project.setupViewed}/>}
                     {projectIsSetup && loadedPage && <Fragment>
                         <ProjectEventFilters contracts={contracts}
                                              onFiltersChange={this.handleFiltersChange}

@@ -8,7 +8,7 @@ import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/Proj
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectSetupGuide, ProjectContractList} from "../../Components";
+import {ProjectSetupEmptyState, ProjectContractList} from "../../Components";
 
 class ProjectContractsPage extends Component {
     async componentDidMount() {
@@ -36,7 +36,7 @@ class ProjectContractsPage extends Component {
                     </div>}
                 </Container>}
                 {!projectIsSetup && <Container>
-                    <ProjectSetupGuide project={project}/>
+                    <ProjectSetupEmptyState project={project}/>
                 </Container>}
             </Page>
         )
