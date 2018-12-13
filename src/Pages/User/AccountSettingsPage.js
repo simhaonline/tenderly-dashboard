@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 
-import {Page, Container, Card} from "../../Elements";
 import {FeatureFlagTypes} from "../../Common/constants";
-import {PageSegmentSwitcher} from "../../Components";
+import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
+
+import {Page, Container, Card, CardHeading, Input, Alert} from "../../Elements";
+import {PageSegmentSwitcher, ProgressiveButton} from "../../Components";
+
+import './AccountSettingsPage.css';
 
 const SettingsSegments = [
     {
@@ -27,35 +31,104 @@ class AccountSettingsPage extends Component {
 
         this.state = {
             currentSegment: 'general',
-        }
+            error: null,
+        };
+
+        initializeForm(this, {
+            currentPassword: '',
+            newPassword: '',
+            repeatNewPassword: '',
+        });
+        this.handleFormUpdate = updateFormField.bind(this);
     }
+
+    resetPasswordForm = () => {
+        resetForm(this, {
+            currentPassword: '',
+            newPassword: '',
+            repeatNewPassword: '',
+        });
+
+        this.setState({
+            error: null,
+        });
+    };
 
     /**
      * @param {String} segment
      */
     handleSegmentSwitch = (segment) => {
+        this.resetPasswordForm();
+
         this.setState({
             currentSegment: segment,
         });
     };
 
+    handleChangePasswordSubmit = async () => {
+        const {formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
+
+        if (newPassword !== repeatNewPassword) {
+            this.setState({
+                error: {
+                    message: 'New passwords do not match. Make sure you have entered the correct passwords.'
+                }
+            });
+
+            return false;
+        }
+
+        this.setState({
+            error: null,
+        });
+
+        return true;
+    };
+
     render() {
-        const {currentSegment} = this.state;
+        const {currentSegment, error, formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
         const {user} = this.props;
 
+        const isPasswordFormValid = !!currentPassword && !!newPassword && !!newPassword;
+
         return (
-            <Page>
-                <Container>
-                    <div>
-                        <PageSegmentSwitcher current={currentSegment} options={SettingsSegments} onSelect={this.handleSegmentSwitch}/>
+            <Page id="AccountSettingsPage">
+                <Container className="SettingsContainer">
+                    <div className="SettingsSwitcherWrapper">
+                        <PageSegmentSwitcher current={currentSegment} options={SettingsSegments}
+                                             onSelect={this.handleSegmentSwitch}/>
                     </div>
-                    <div>
+                    {currentSegment === 'general' && <div className="SettingsSegmentContent">
                         <Card>
-                            Account
+                            <CardHeading>
+                                <h3>General</h3>
+                            </CardHeading>
                             <div>{user.firstName} {user.lastName}</div>
                             {user.username}
                         </Card>
-                    </div>
+                    </div>}
+                    {currentSegment === 'security' && <div className="SettingsSegmentContent">
+                        <Card>
+                            <CardHeading>
+                                <h3>Security</h3>
+                            </CardHeading>
+                            <div className="ChangePasswordWrapper">
+                                <h4>Change Password</h4>
+                                <Input icon="lock" type="password" field="currentPassword" value={currentPassword}
+                                       label="Current Password" onChange={this.handleFormUpdate}/>
+                                <hr/>
+                                <Input icon="lock" type="password" field="newPassword" value={newPassword}
+                                       label="New Password" onChange={this.handleFormUpdate}/>
+                                <Input icon="lock" type="password" field="repeatNewPassword" value={repeatNewPassword}
+                                       label="Repeat New Password" onChange={this.handleFormUpdate}/>
+                                {error && <Alert color="danger" animation={true}>{error.message}</Alert>}
+                                <ProgressiveButton size="small" outline label="Change Password"
+                                                   progressLabel="Updating..." finishedLabel="Password Updated"
+                                                   color="primary" disabled={!isPasswordFormValid}
+                                                   onClick={this.handleChangePasswordSubmit}/>
+                            </div>
+                        </Card>
+                    </div>}
                 </Container>
             </Page>
         )

@@ -1,0 +1,33 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+#AccountSettingsPage {
+  .SettingsContainer {
+    display: flex;
+
+    .SettingsSwitcherWrapper {
+      flex: 0 0 auto;
+      padding-right: 30px;
+    }
+
+    .SettingsSegmentContent {
+      flex: 1 1 0;
+      padding-left: 30px;
+      border-left: 1px solid $BorderColor;
+    }
+  }
+
+  .ChangePasswordWrapper {
+    max-width: 400px;
+
+    h4 {
+      margin-bottom: 10px;
+    }
+
+    hr {
+      border: none;
+      border-bottom: 1px solid $BorderColor;
+      margin-bottom: 20px;
+    }
+  }
+}
