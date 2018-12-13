@@ -9,7 +9,7 @@
     height: 59px;
     display: flex;
     align-items: center;
-    padding: 5px 10px;
+    padding: 5px 12px;
     margin-left: 20px;
     margin-right: 20px;
     transition: 0.2s;
@@ -18,11 +18,12 @@
       font-size: 20px;
       font-weight: 700;
       color: #fff;
+      height: 18px;
     }
 
     .AppState {
       color: #fff;
-      margin-left: 10px;
+      margin-left: 15px;
       font-size: 10px;
       border: 1px solid $SecondaryColor600;
       border-radius: 3px;

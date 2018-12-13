@@ -7,6 +7,8 @@ import {Header} from "../../Elements";
 import Navigation from "../Navigation/Navigation";
 import SessionHeaderMenu from "../SessionHeaderMenu/SessionHeaderMenu";
 
+import LogoImage from './logo-horizontal.svg';
+
 import './AppHeader.css';
 
 class AppHeader extends Component {
@@ -20,7 +22,7 @@ class AppHeader extends Component {
         return (
             <Header id="AppHeader">
                 <Link to="/" className="LogoWrapper">
-                    <span className="AppLogo">Tenderly</span>
+                    <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
                     <span className="AppState">Alpha v0.1</span>
                 </Link>
                 <div className="NavWrapper">
