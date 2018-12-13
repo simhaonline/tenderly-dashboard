@@ -28,6 +28,8 @@ class ProjectSettingsForm extends Component {
         await actions.updateProject(project.id, {
             name: projectName,
         });
+
+        return true;
     };
 
     render() {
