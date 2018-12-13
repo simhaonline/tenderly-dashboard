@@ -1,22 +1,22 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
+$StackLinesCodeWidth: 80px;
+$StackContainerVerticalPadding: 25px;
+
 .CodeWrapper {
   overflow: hidden;
   position: relative;
-  border-radius: 3px;
+  border-radius: 5px;
+  background-color: #171e31;
   border: 1px solid rgba(255, 255, 255, 0.1);
   font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 
   .StackLines {
-    width: 80px;
-  }
-
-  .StackCode {
-    line-height: 21px;
-    font-size: $FontSize200;
-    margin: 0;
-    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    width: $StackLinesCodeWidth;
+    padding: $StackContainerVerticalPadding 0;
+    border-right: 1px solid transparentize($WhiteColor, 0.9);
+    background-color: transparentize($BlackColor, 0.9);
   }
 
   .StackLine {
@@ -24,23 +24,23 @@
     font-size: $FontSize200;
     text-align: right;
     padding: 0 15px;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: rgba(0, 0, 0, 0.1);
-    color: rgba(255, 255, 255, 0.75);
+    color: transparentize($WhiteColor, 0.25);
 
     &.active {
-      border-right: 2px solid #df0074;
-      background-color: rgba(223, 0, 116, 0.2);
+      border-right: 2px solid $PrimaryColor600;
+      background-color: transparentize($PrimaryColor600, 0.8);
       font-weight: bold;
+      margin-right: -1px;
+      padding-right: 14px;
       color: #fff;
 
       &:before {
         content: "";
         height: 21px;
         position: absolute;
-        width: calc(100% - 80px);
-        left: 80px;
-        background-color: rgba(223, 0, 116, 0.2);
+        width: calc(100% - #{$StackLinesCodeWidth});
+        left: $StackLinesCodeWidth;
+        background-color: transparentize($PrimaryColor600, 0.8);
       }
     }
   }
@@ -50,11 +50,15 @@
     position: absolute;
     top: 0;
     left: 80px;
-    width: calc(100% - 100px);
-    padding: 0 15px;
+    width: calc(100% - #{$StackLinesCodeWidth});
+    padding: $StackContainerVerticalPadding 15px;
+    line-height: 21px;
+    font-size: $FontSize200;
+    margin: 0;
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 
     &::selection, & *::selection {
-      background-color: rgba(223, 0, 116, 0.5);
+      background-color: transparentize($PrimaryColor600, 0.5);
     }
   }
 }
