@@ -1,20 +1,19 @@
 import React from 'react';
 
-import {Icon, Button} from "../../Elements";
+import {Icon, Button, Card, CardHeading} from "../../Elements";
 
 import './RecentArticles.css';
 
 const RecentArticles = () => {
     return (
-        <div className="RecentArticles">
-            <div className="ArticlesHeading">
-                <h2>Recent Articles</h2>
+        <Card className="RecentArticles">
+            <CardHeading className="ArticlesHeading">
+                <h3>Recent Articles</h3>
                 <Button outline size="small" href="https://medium.com/tenderly" target="_blank">
                     <Icon icon="medium"/>
                     <span>Read more</span>
                 </Button>
-            </div>
-            <hr/>
+            </CardHeading>
             <div className="ArticlesList">
                 <a href="https://medium.com/tenderly/improving-smart-costract-development-with-tenderly-and-human-readable-stack-traces-16abfad5dd15" rel="noopener noreferrer" target="_blank" className="ArticleItem">
                     <div className="ArticlePreviewWrapper">
@@ -25,7 +24,7 @@ const RecentArticles = () => {
                     </div>
                 </a>
             </div>
-        </div>
+        </Card>
     )
 };
 
