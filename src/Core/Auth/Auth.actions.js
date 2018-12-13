@@ -110,7 +110,7 @@ export const changePassword = (oldPassword, newPassword) => {
                 "new_password": newPassword,
             });
 
-            return new ActionResponse(true);
+            return new ActionResponse(data.ok);
         } catch (error) {
             return new ActionResponse(false, error.response.data);
         }
