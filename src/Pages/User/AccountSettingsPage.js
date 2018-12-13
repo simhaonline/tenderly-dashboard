@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 import {FeatureFlagTypes} from "../../Common/constants";
 import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
+
+import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Container, Card, CardHeading, Input, Alert} from "../../Elements";
 import {PageSegmentSwitcher, ProgressiveButton} from "../../Components";
@@ -67,6 +70,7 @@ class AccountSettingsPage extends Component {
 
     handleChangePasswordSubmit = async () => {
         const {formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
+        const {actions} = this.props;
 
         if (newPassword !== repeatNewPassword) {
             this.setState({
@@ -82,7 +86,21 @@ class AccountSettingsPage extends Component {
             error: null,
         });
 
-        return true;
+        const actionResponse = await actions.changePassword(currentPassword, newPassword);
+
+        if (!actionResponse.success && actionResponse.data.error) {
+            this.setState({
+                error: {
+                    message: actionResponse.data.error.message,
+                }
+            });
+        }
+
+        if (actionResponse.success) {
+            this.resetPasswordForm();
+        }
+
+        return actionResponse.success;
     };
 
     render() {
@@ -141,7 +159,13 @@ const mapStateToProps = (state) => {
     };
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(authActions, dispatch),
+    }
+};
+
 export default connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
 )(AccountSettingsPage);
