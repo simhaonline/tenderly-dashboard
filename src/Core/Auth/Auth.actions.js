@@ -97,6 +97,26 @@ export const getUser = () => {
     }
 };
 
+/**
+ * @param {String} oldPassword
+ * @param {String} newPassword
+ * @returns {Function}
+ */
+export const changePassword = (oldPassword, newPassword) => {
+    return async dispatch => {
+        try {
+            const {data} = await Api.post('/user/change-password', {
+                "old_password": oldPassword,
+                "new_password": newPassword,
+            });
+
+            return new ActionResponse(true);
+        } catch (error) {
+            return new ActionResponse(false, error.response.data);
+        }
+    }
+};
+
 export const completeOnboarding = () => {
     return async dispatch => {
         dispatch({
