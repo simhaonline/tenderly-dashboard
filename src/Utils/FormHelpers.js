@@ -16,7 +16,10 @@ export function initializeForm(component, formData) {
 export function resetForm(component, formData) {
     component.setState({
         ...component.state,
-        formData,
+        formData: {
+            ...component.state.formData,
+            ...formData,
+        },
     });
 }
 
