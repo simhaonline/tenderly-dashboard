@@ -26,7 +26,7 @@ const ProjectContract = ({contract}) => {
     const hasEvents = !!contract.eventCount;
     return (
         <PageLink className="ProjectContract" to={`/project/${contract.projectId}/contract/${contract.id}`} onClick={handleProjectContractClick}>
-            <Card>
+            <Card clickable>
                 <div className="ContentWrapper">
                     <NetworkTag network={contract.network} size="small" className="ContractNetworkTag"/>
                     <div className="GeneralInfoColumn ItemColumn">
