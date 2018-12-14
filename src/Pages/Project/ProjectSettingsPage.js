@@ -8,10 +8,8 @@ import * as projectActions from "../../Core/Project/Project.actions";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher} from "../../Components";
+import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher, PageSegments, PageSegmentContent} from "../../Components";
 import {FeatureFlagTypes} from "../../Common/constants";
-
-import './ProjectSettingsPage.css';
 
 const SettingsSegments = [
     {
@@ -70,19 +68,19 @@ class ProjectSettingsPage extends Component {
 
         return (
             <Page id="ProjectSettingsPage">
-                <Container className="SettingsContainer">
-                    <div className="SettingsSwitcherWrapper">
+                <Container>
+                    <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={SettingsSegments} onSelect={this.handleSegmentSwitch}/>
-                    </div>
-                    {currentSegment === 'general' && <div className="SettingsSegmentContent">
-                        <ProjectSettingsForm project={project}/>
-                        <ProjectSettingsActions onAction={this.handleProjectAction}/>
-                    </div>}
-                    <FeatureFlag flag={FeatureFlagTypes.BILLING}>
-                        {currentSegment === 'billing' && <div className="SettingsSegmentContent">
-                            <ProjectSettingsBilling/>
-                        </div>}
-                    </FeatureFlag>
+                        {currentSegment === 'general' && <PageSegmentContent>
+                            <ProjectSettingsForm project={project}/>
+                            <ProjectSettingsActions onAction={this.handleProjectAction}/>
+                        </PageSegmentContent>}
+                        <FeatureFlag flag={FeatureFlagTypes.BILLING}>
+                            {currentSegment === 'billing' && <PageSegmentContent>
+                                <ProjectSettingsBilling/>
+                            </PageSegmentContent>}
+                        </FeatureFlag>
+                    </PageSegments>
                 </Container>
             </Page>
         )
