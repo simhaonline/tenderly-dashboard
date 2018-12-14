@@ -8,7 +8,7 @@ import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelper
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Container, Card, CardHeading, Input, Alert} from "../../Elements";
-import {PageSegmentSwitcher, ProgressiveButton} from "../../Components";
+import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton} from "../../Components";
 
 import './AccountSettingsPage.css';
 
@@ -111,42 +111,42 @@ class AccountSettingsPage extends Component {
 
         return (
             <Page id="AccountSettingsPage">
-                <Container className="SettingsContainer">
-                    <div className="SettingsSwitcherWrapper">
+                <Container>
+                    <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={SettingsSegments}
                                              onSelect={this.handleSegmentSwitch}/>
-                    </div>
-                    {currentSegment === 'general' && <div className="SettingsSegmentContent">
-                        <Card>
-                            <CardHeading>
-                                <h3>General</h3>
-                            </CardHeading>
-                            <div>{user.firstName} {user.lastName}</div>
-                            {user.username}
-                        </Card>
-                    </div>}
-                    {currentSegment === 'security' && <div className="SettingsSegmentContent">
-                        <Card>
-                            <CardHeading>
-                                <h3>Security</h3>
-                            </CardHeading>
-                            <div className="ChangePasswordWrapper">
-                                <h4>Change Password</h4>
-                                <Input icon="lock" type="password" field="currentPassword" value={currentPassword}
-                                       label="Current Password" onChange={this.handleFormUpdate}/>
-                                <hr/>
-                                <Input icon="lock" type="password" field="newPassword" value={newPassword}
-                                       label="New Password" onChange={this.handleFormUpdate}/>
-                                <Input icon="lock" type="password" field="repeatNewPassword" value={repeatNewPassword}
-                                       label="Repeat New Password" onChange={this.handleFormUpdate}/>
-                                {error && <Alert color="danger" animation={true}>{error.message}</Alert>}
-                                <ProgressiveButton size="small" outline label="Change Password"
-                                                   progressLabel="Updating..." finishedLabel="Password Updated"
-                                                   color="primary" disabled={!isPasswordFormValid}
-                                                   onClick={this.handleChangePasswordSubmit}/>
-                            </div>
-                        </Card>
-                    </div>}
+                        {currentSegment === 'general' && <PageSegmentContent>
+                            <Card>
+                                <CardHeading>
+                                    <h3>General</h3>
+                                </CardHeading>
+                                <div>{user.firstName} {user.lastName}</div>
+                                {user.username}
+                            </Card>
+                        </PageSegmentContent>}
+                        {currentSegment === 'security' && <PageSegmentContent>
+                            <Card>
+                                <CardHeading>
+                                    <h3>Security</h3>
+                                </CardHeading>
+                                <div className="ChangePasswordWrapper">
+                                    <h4>Change Password</h4>
+                                    <Input icon="lock" type="password" field="currentPassword" value={currentPassword}
+                                           label="Current Password" onChange={this.handleFormUpdate}/>
+                                    <hr/>
+                                    <Input icon="lock" type="password" field="newPassword" value={newPassword}
+                                           label="New Password" onChange={this.handleFormUpdate}/>
+                                    <Input icon="lock" type="password" field="repeatNewPassword" value={repeatNewPassword}
+                                           label="Repeat New Password" onChange={this.handleFormUpdate}/>
+                                    {error && <Alert color="danger" animation={true}>{error.message}</Alert>}
+                                    <ProgressiveButton size="small" outline label="Change Password"
+                                                       progressLabel="Updating..." finishedLabel="Password Updated"
+                                                       color="primary" disabled={!isPasswordFormValid}
+                                                       onClick={this.handleChangePasswordSubmit}/>
+                                </div>
+                            </Card>
+                        </PageSegmentContent>}
+                    </PageSegments>
                 </Container>
             </Page>
         )
