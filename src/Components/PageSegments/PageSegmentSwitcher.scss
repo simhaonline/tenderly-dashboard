@@ -2,7 +2,8 @@
 @import "../../Common/Styles/typography";
 
 .PageSegmentSwitcher {
-  width: 240px;
+  flex: 0 0 240px;
+  margin-right: 30px;
 
   .SwitchOption {
     border: 1px solid $BorderColor;

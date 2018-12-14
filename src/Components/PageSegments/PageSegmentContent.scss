@@ -1,0 +1,8 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.PageSegmentContent {
+  flex: 1 1 0;
+  padding-left: 30px;
+  border-left: 1px solid $BorderColor;
+}
