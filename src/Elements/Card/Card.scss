@@ -12,6 +12,15 @@
     margin-bottom: 15px;
   }
 
+  &.Clickable {
+    cursor: pointer;
+    transition: 200ms;
+
+    &:hover {
+      background-color: darken(#212a46, 2);
+    }
+  }
+
   &:not(:last-child) {
     margin-bottom: 20px;
   }
