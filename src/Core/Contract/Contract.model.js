@@ -2,8 +2,11 @@ import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 class Contract {
     constructor(data, type, projectId) {
+        const contractAddress = data.deployment_information? data.deployment_information.address : data.address;
+        const contractNetwork = data.deployment_information? data.deployment_information.network_id : data.network_id;
+
         /** @type string */
-        this.id = data.address;
+        this.id = contractAddress;
 
         /** @type string */
         this.projectId = projectId;
@@ -15,10 +18,10 @@ class Contract {
         this.type = type;
 
         /** @type string */
-        this.address = data.address;
+        this.address = contractAddress;
 
         /** @type string */
-        this.network = NetworkApiToAppTypeMap[data.network_id];
+        this.network = NetworkApiToAppTypeMap[contractNetwork];
 
         // @TODO Fix this to not be hardcoded
         /** @type Date */
