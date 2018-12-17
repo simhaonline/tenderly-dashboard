@@ -3,7 +3,7 @@ import {NetworkApiToAppTypeMap} from "../../Common/constants";
 class Contract {
     constructor(data, type, projectId) {
         /** @type string */
-        this.id = data.deployment_information.address;
+        this.id = data.address;
 
         /** @type string */
         this.projectId = projectId;
@@ -15,10 +15,10 @@ class Contract {
         this.type = type;
 
         /** @type string */
-        this.address = data.deployment_information.address;
+        this.address = data.address;
 
         /** @type string */
-        this.network = NetworkApiToAppTypeMap[data.deployment_information.network_id];
+        this.network = NetworkApiToAppTypeMap[data.network_id];
 
         // @TODO Fix this to not be hardcoded
         /** @type Date */
