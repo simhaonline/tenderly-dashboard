@@ -172,7 +172,7 @@ class ProjectSetupGuide extends Component {
                                 }
                             )}>
                                 <div className="StepContent">
-                                    <p>Go to the root of your smart contract project. Tenderly uses the Truffle framework to track where you contracts have been deployed.</p>
+                                    <p>Go to the root of your smart contract project. Tenderly uses the Truffle framework to track where your contracts have been deployed.</p>
                                     <code>cd {project.id}</code>
                                     <p>Use the init command to link your local project with the dashboard.</p>
                                     <code>tenderly init</code>
