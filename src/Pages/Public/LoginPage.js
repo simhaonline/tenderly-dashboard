@@ -128,7 +128,6 @@ class LoginPage extends Component {
 const mapStateToProps = (state) => {
     return {
         auth: state.auth,
-        app: state.app,
     };
 };
 
