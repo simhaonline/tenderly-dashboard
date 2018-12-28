@@ -46,7 +46,7 @@ class Select extends Component {
     };
 
     render() {
-        const {options, value, multiple} = this.props;
+        const {options, value, multiple, selectLabel} = this.props;
         const {open} = this.state;
 
         return (
@@ -55,7 +55,7 @@ class Select extends Component {
             })}>
                 <OutsideClickHandler onOutsideClick={this.closeDropdown}>
                     <div className="CurrentSelection" onClick={this.toggleDropdown}>
-                        {!value.length && <span>Select option</span>}
+                        {!value.length && <span>{selectLabel}</span>}
                         {!!value.length && !multiple && <span>{value}</span>}
                         {!!value.length && multiple && <span>{value.length} items selected</span>}
                     </div>
@@ -79,6 +79,7 @@ Select.defaultProps = {
     value: '',
     multiple: false,
     onChange: () => {},
+    selectLabel: 'Select option',
 };
 
 export default Select;
