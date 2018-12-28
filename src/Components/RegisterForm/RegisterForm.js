@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {Redirect} from "react-router-dom";
+import classNames from 'classnames';
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
@@ -11,26 +13,59 @@ class RegisterForm extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            currentStep: 'account',
+        };
         initializeForm(this, {
             firstName: '',
             lastName: '',
             email: '',
+            registered: false,
             password: '',
             repeatPassword: '',
         });
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
+    handleSubmitAccountInfo = () => {
+        this.setState({
+            currentStep: 'password',
+        });
+    };
+
+    handleSubmitPasswordInfo = () => {
+        this.setState({
+            registered: true,
+        });
+    };
+
     render() {
-        const {formData} = this.state;
+        const {formData, currentStep, registered} = this.state;
+
+        if (registered) {
+            return <Redirect to={'/dashboard'}/>
+        }
 
         return (
             <div className="RegisterForm">
-                <div>
-                    <RegisterAccountForm form={formData} onChange={this.handleFormUpdate} onSubmit={() => {}}/>
-                </div>
-                <div>
-                    <RegisterPasswordForm form={formData} onChange={this.handleFormUpdate} onSubmit={() => {}}/>
+                <div className="FormStepsWrapper">
+                    <div className={classNames(
+                        "FormStep",
+                        {
+                            "Active": currentStep === 'account',
+                            "Previous": currentStep === 'password',
+                        },
+                    )}>
+                        <RegisterAccountForm form={formData} onChange={this.handleFormUpdate} onSubmit={this.handleSubmitAccountInfo}/>
+                    </div>
+                    <div className={classNames(
+                        "FormStep",
+                        {
+                            "Active": currentStep === 'password',
+                        },
+                    )}>
+                        <RegisterPasswordForm form={formData} onChange={this.handleFormUpdate} onSubmit={this.handleSubmitPasswordInfo}/>
+                    </div>
                 </div>
             </div>
         )
