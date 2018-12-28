@@ -117,7 +117,7 @@ class LoginPage extends Component {
                         <h2 className="SignUpHeading">Sign up for our Alpha Program!</h2>
                         <p className="SignUpText">Join our private alpha program where we will be releasing updates to a small number of users as we develop them.</p>
                         <p className="SignUpText">You can see a full list of <a href="https://tenderly.app#features">features here</a> that we plan to develop.</p>
-                        <Button to="/register">Register</Button>
+                        <Button to="/register" outline size="small">Create an Account</Button>
                     </div>
                 </div>
             </Page>
