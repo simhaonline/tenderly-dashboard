@@ -69,7 +69,7 @@ class Contract {
             return null;
         }
 
-        const versionRegex = /solidity \^(.*);/g;
+        const versionRegex = /solidity (.*);/g;
 
         const matches = versionRegex.exec(source);
 
