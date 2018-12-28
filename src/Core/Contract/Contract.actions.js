@@ -23,7 +23,7 @@ export const fetchContractsForProject = (projectId, account = null) => {
 
             const contracts = data.map(contract => new Contract(contract, ContractTypes.PRIVATE, projectId));
 
-            dispatch({
+            await dispatch({
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
                 contracts,
                 projectId,
