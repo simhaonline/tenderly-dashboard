@@ -26,7 +26,7 @@ const RegisterPasswordForm = ({form, onChange, onSubmit}) => {
                     <PasswordStrengthScore score={passwordStrength.score}/>
                 </div>
             </div>
-            <Button disabled={!password || !repeatPassword}>
+            <Button disabled={!password || !repeatPassword} onPress={onSubmit}>
                 <span>Create Account</span>
             </Button>
         </Card>

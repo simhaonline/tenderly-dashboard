@@ -11,7 +11,7 @@ const RegisterAccountForm = ({form, onChange, onSubmit}) => {
                 <Input/>
                 <Input/>
                 <Input/>
-                <Button>
+                <Button onClick={onSubmit}>
                     <span>Next</span>
                     <Icon icon="arrow-right"/>
                 </Button>
