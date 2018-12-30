@@ -6,7 +6,7 @@ import {PasswordStrengthScore} from "../index";
 
 import './RegisterPasswordForm.css';
 
-const RegisterPasswordForm = ({form, onChange, onSubmit}) => {
+const RegisterPasswordForm = ({form, onChange, onSubmit, onBack}) => {
     const {email, firstName, lastName, password, repeatPassword} = form;
     const passwordStrength = zxcvbn(password, [email, firstName, lastName]);
 
@@ -26,9 +26,14 @@ const RegisterPasswordForm = ({form, onChange, onSubmit}) => {
                     <PasswordStrengthScore score={passwordStrength.score}/>
                 </div>
             </div>
-            <Button disabled={!password || !repeatPassword} onClick={onSubmit}>
-                <span>Create Account</span>
-            </Button>
+            <div>
+                <Button onClick={onBack} outline>
+                    <span>Back</span>
+                </Button>
+                <Button disabled={!password || !repeatPassword} onClick={onSubmit}>
+                    <span>Create Account</span>
+                </Button>
+            </div>
         </Card>
     );
 };

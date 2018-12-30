@@ -33,6 +33,12 @@ class RegisterForm extends Component {
         });
     };
 
+    handlePasswordBackup = () => {
+        this.setState({
+            currentStep: 'account',
+        });
+    };
+
     handleSubmitPasswordInfo = () => {
         this.setState({
             registered: true,
@@ -64,7 +70,10 @@ class RegisterForm extends Component {
                             "Active": currentStep === 'password',
                         },
                     )}>
-                        <RegisterPasswordForm form={formData} onChange={this.handleFormUpdate} onSubmit={this.handleSubmitPasswordInfo}/>
+                        <RegisterPasswordForm form={formData}
+                                              onChange={this.handleFormUpdate}
+                                              onBack={this.handlePasswordBackup}
+                                              onSubmit={this.handleSubmitPasswordInfo}/>
                     </div>
                 </div>
             </div>
