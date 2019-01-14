@@ -32,23 +32,24 @@
 
 .LoginPageContent {
   display: flex;
-  margin-right: -300px;
+  // @Todo return after
+  //margin-right: -300px;
 
   .LoginFormWrapper {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    //justify-content: center;
+    padding: 30px 0;
     flex-direction: column;
   }
 
   .LogoWrapper {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-align: center;
 
-    .Logo {
-      font-weight: 100;
-      font-size: $FontSize600 * 2;
+    .AppLogo {
+      height: 120px;
     }
   }
 
@@ -144,7 +145,7 @@
   }
 
   .PocLinkWrapper {
-    margin-top: 20px;
+    margin: 20px 0 30px;
 
     .PocLink {
       border-radius: 20px;
