@@ -25,6 +25,8 @@ const GoogleLoginButton = () => {
             render={renderProps => (
                 <GoogleButton onClick={renderProps.onClick}>This is my custom Google button</GoogleButton>
             )}
+            accessType="offline"
+            responseType="code"
             buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
