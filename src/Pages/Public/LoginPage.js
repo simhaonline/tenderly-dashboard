@@ -7,7 +7,7 @@ import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Button, Form, Input, Alert, Icon} from "../../Elements";
-import {GoogleLoginButton, GitHubLoginButton, FeatureFlag} from "../../Components";
+import {GoogleLoginButton, GitHubLoginButton} from "../../Components";
 
 import LogoImage from "./logo-vertical.svg";
 
@@ -56,6 +56,14 @@ class LoginPage extends Component {
         }
     };
 
+    /**
+     * @param {string} service
+     * @param {string} code
+     */
+    handleOAuth = ({type, code}) => {
+        console.log(type, code);
+    };
+
     isLoginButtonDisabled = () => {
         const {formData} = this.state;
 
@@ -92,16 +100,14 @@ class LoginPage extends Component {
                             <div className="LoginButtonWrapper">
                                 <Button disabled={loginButtonDisabled} stretch type="submit">Login</Button>
                             </div>
-                            <FeatureFlag flag="OAuth">
-                                <div className="ThirdPartLoginWrapper">
-                                    <div className="ButtonWrapper">
-                                        <GoogleLoginButton/>
-                                    </div>
-                                    <div className="ButtonWrapper">
-                                        <GitHubLoginButton/>
-                                    </div>
+                            <div className="ThirdPartLoginWrapper">
+                                <div className="ButtonWrapper">
+                                    <GoogleLoginButton onAuthentication={this.handleOAuth}/>
                                 </div>
-                            </FeatureFlag>
+                                <div className="ButtonWrapper">
+                                    <GitHubLoginButton onAuthentication={this.handleOAuth}/>
+                                </div>
+                            </div>
                         </Form>
                         <div className="DocumentsWrapper">
                             <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
