@@ -4,6 +4,7 @@ import {GoogleLogin} from 'react-google-login';
 import {Icon} from "../../Elements";
 
 import './GoogleLoginButton.css';
+import {OAuthServiceTypeMap} from "../../Common/constants";
 
 const GoogleButton = ({...props}) => {
     return (
@@ -14,16 +15,27 @@ const GoogleButton = ({...props}) => {
     )
 };
 
-const GoogleLoginButton = () => {
+const GoogleLoginButton = ({onAuthentication}) => {
     const responseGoogle = (response) => {
-        console.log(response);
+        const {code, error} = response;
+
+        if (error) {
+            return;
+        }
+
+        if (onAuthentication && code) {
+            onAuthentication({
+                type: OAuthServiceTypeMap.GOOGLE,
+                code,
+            })
+        }
     };
 
     return (
         <GoogleLogin
             clientId="980264057874-3qrk46vt233qbq96d3816mhalkl7eefm.apps.googleusercontent.com"
             render={renderProps => (
-                <GoogleButton onClick={renderProps.onClick}>This is my custom Google button</GoogleButton>
+                <GoogleButton onClick={renderProps.onClick}/>
             )}
             accessType="offline"
             responseType="code"
