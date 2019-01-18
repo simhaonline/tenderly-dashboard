@@ -86,3 +86,8 @@ export const EventFilterTypes = {
     QUERY: 'QUERY',
     CONTRACTS: 'CONTRACTS',
 };
+
+export const OAuthServiceTypeMap = {
+    GITHUB: 'github',
+    GOOGLE: 'google',
+};
