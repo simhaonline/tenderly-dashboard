@@ -13,6 +13,7 @@ import ProjectPage from "./Project/ProjectPage";
 import OnboardingPage from "./Onboarding/OnboardingPage";
 import AccountSettingsPage from "./User/AccountSettingsPage";
 import RegisterPage from "./Public/RegisterPage";
+import OAuthPage from "./Public/OAuthPage";
 
 const noMatchPage = () => (
     <div>
@@ -29,6 +30,7 @@ const AppPages = () => {
             <PrivateRoute path="/onboarding" exact component={OnboardingPage}/>
             <PrivateRoute path="/account" exact component={AccountSettingsPage}/>
             <Route path="/login" exact component={LoginPage}/>
+            <Route path="/oauth/:service" exact component={OAuthPage}/>
             <Route path="/register" exact component={RegisterPage}/>
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
