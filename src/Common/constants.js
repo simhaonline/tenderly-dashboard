@@ -91,3 +91,9 @@ export const OAuthServiceTypeMap = {
     GITHUB: 'github',
     GOOGLE: 'google',
 };
+
+export const APP_HOST = process.env.REACT_APP_HOST;
+
+export const APP_PORT = process.env.REACT_APP_PORT;
+
+export const APP_BASE_URL = `${APP_HOST}:${APP_PORT}`;
