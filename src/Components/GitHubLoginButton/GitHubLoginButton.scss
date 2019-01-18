@@ -19,6 +19,7 @@ $GitHubMainColor: #333333;
 
   &:hover, &:focus, &:active {
     background-color: darken($GitHubMainColor, 3);
+    color: $WhiteColor;
   }
 
   &:focus, &:active {
