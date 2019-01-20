@@ -10,6 +10,7 @@ const initialState = {
     retrievedToken: false,
     token: null,
     loggedIn: false,
+    usernameSet: false,
     onboardingFinished: true,
     user: {}
 };
@@ -43,6 +44,7 @@ const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loggedIn: true,
+                usernameSet: !action.user.username,
                 user: action.user,
             };
         default:

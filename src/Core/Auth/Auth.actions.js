@@ -141,3 +141,33 @@ export const retrieveToken = (token) => {
         });
     }
 };
+
+/**
+ * @param {string} service
+ * @param {string} code
+ */
+export const authenticateOAuth = (service, code) => {
+    return async dispatch => {
+        try {
+            const {data} = await PublicApi.post(`/oauth`, {
+                type: service,
+                code,
+            });
+
+            if (!data) {
+                return;
+            }
+
+            dispatch({
+                type: LOG_IN_ACTION,
+                token: data.token,
+            });
+            dispatch(setAuthHeader(data.token));
+            dispatch(getUser());
+
+            return new ActionResponse(true, data.token);
+        } catch (error) {
+            return new ActionResponse(false, error.response.data);
+        }
+    }
+};
