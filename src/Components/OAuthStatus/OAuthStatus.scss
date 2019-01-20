@@ -1,0 +1,33 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.OAuthStatus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 0;
+
+  .OAuthFailedWrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    .OAuthGitHubButton {
+      width: auto;
+    }
+  }
+
+  .OAuthStatusMessage {
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 2px;
+    font-size: $FontSize200;
+    max-width: 300px;
+    text-align: center;
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+}
