@@ -75,11 +75,11 @@ class LoginPage extends Component {
         const {auth, location: {state}} = this.props;
 
         if (auth.loggedIn && state && state.from) {
-            return <Redirect to={state.from}/>
+            return <Redirect to={state.from}/>;
         } else if (auth.loggedIn && !auth.onboardingFinished) {
-            return <Redirect to="/onboarding"/>
+            return <Redirect to="/onboarding"/>;
         } else if (auth.loggedIn) {
-            return <Redirect to="/dashboard"/>
+            return <Redirect to="/dashboard"/>;
         }
 
         const loginButtonDisabled = this.isLoginButtonDisabled();
@@ -105,7 +105,7 @@ class LoginPage extends Component {
                                     <GoogleLoginButton onAuthentication={this.handleOAuth}/>
                                 </div>
                                 <div className="ButtonWrapper">
-                                    <GitHubLoginButton onAuthentication={this.handleOAuth}/>
+                                    <GitHubLoginButton/>
                                 </div>
                             </div>
                         </Form>
