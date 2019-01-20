@@ -1,26 +1,71 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {Redirect} from "react-router-dom";
+
+import {OAuthStatusMap} from "../../Common/constants";
 
 import {Page, Container} from "../../Elements";
-import {bindActionCreators} from "redux";
+import OAuthStatus from "../../Components/OAuthStatus/OAuthStatus";
+
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 class OAuthPage extends Component {
-    componentDidMount() {
-        const {service, code} = this.props;
+    constructor(props) {
+        super(props);
 
-        console.log(service, code);
+        this.state = {
+            authenticating: false,
+        };
+    }
+
+
+    async componentDidMount() {
+        const {service, code, actions} = this.props;
 
         if (service && code) {
+            this.setState({
+                authenticating: true,
+            });
 
+            const response = await actions.authenticateOAuth(service, code);
+
+            setTimeout(() => {
+                this.setState({
+                    authenticating: false,
+                    authResponse: response,
+                });
+
+            }, 1500);
         }
     }
 
     render() {
+        const {authenticating, authResponse} = this.state;
+        const {service, auth} = this.props;
+
+        let currentStatus;
+
+        if (authenticating) {
+            currentStatus = OAuthStatusMap.AUTHENTICATING;
+        } else if (authResponse && !authResponse.success) {
+            currentStatus = OAuthStatusMap.FAILED;
+        } else if (authResponse && authResponse.success) {
+            if (!auth.usernameSet) {
+                currentStatus = OAuthStatusMap.USERNAME_REQUIRED;
+            } else {
+                currentStatus = OAuthStatusMap.SUCCESS;
+            }
+        }
+
+        if (currentStatus === OAuthStatusMap.SUCCESS) {
+            return <Redirect to="/dashboard"/>;
+        }
+
         return (
             <Page wholeScreenPage>
                 <Container>
-                    Welcome to OAuth
+                    <OAuthStatus service={service} status={currentStatus}/>
                 </Container>
             </Page>
         );
@@ -37,12 +82,13 @@ const mapStateToProps = (state, ownProps) => {
     return {
         service,
         code: authCode,
+        auth: state.auth,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        authActions: bindActionCreators(authActions, dispatch),
+        actions: bindActionCreators(authActions, dispatch),
     }
 };
 
