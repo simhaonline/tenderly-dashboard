@@ -9,7 +9,7 @@ import './GitHubLoginButton.css';
 const GITHUB_BASE_URL = 'https://github.com/login/oauth/authorize';
 const GITHUB_REDIRECT_URL = `${APP_BASE_URL}/oauth/${OAuthServiceTypeMap.GITHUB}`;
 
-const GitHubButton = ({onAuthentication, ...props}) => {
+const GitHubButton = ({label, ...props}) => {
     const GitHubData = {
         client_id: GITHUB_CLIENT_ID,
         redirect_uri: GITHUB_REDIRECT_URL,
@@ -22,9 +22,13 @@ const GitHubButton = ({onAuthentication, ...props}) => {
     return (
         <a className="GitHubLoginButton" {...props} href={loginUri}>
             <Icon icon="github" className="GitHubIcon"/>
-            <span>Login with GitHub</span>
+            <span>{label}</span>
         </a>
     )
+};
+
+GitHubButton.defaultProps = {
+    label: 'Login with GitHub',
 };
 
 export default GitHubButton;
