@@ -92,6 +92,18 @@ export const OAuthServiceTypeMap = {
     GOOGLE: 'google',
 };
 
+export const OAuthServiceLabelMap = {
+    [OAuthServiceTypeMap.GOOGLE]: 'Google',
+    [OAuthServiceTypeMap.GITHUB]: 'GitHub',
+};
+
+export const OAuthStatusMap = {
+    AUTHENTICATING: 'oauth_authenticating',
+    FAILED: 'oauth_failed',
+    SUCCESS: 'oauth_success',
+    USERNAME_REQUIRED: 'oauth_username',
+};
+
 export const APP_HOST = process.env.REACT_APP_HOST;
 
 export const APP_PORT = process.env.REACT_APP_PORT;
