@@ -60,8 +60,10 @@ class LoginPage extends Component {
      * @param {string} service
      * @param {string} code
      */
-    handleOAuth = ({type, code}) => {
-        console.log(type, code);
+    handleOAuth = async ({type, code}) => {
+        const {authActions} = this.props;
+
+        await authActions.authenticateOAuth(type, code)
     };
 
     isLoginButtonDisabled = () => {
