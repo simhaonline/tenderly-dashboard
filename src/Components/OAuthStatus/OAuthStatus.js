@@ -3,8 +3,6 @@ import {Link} from "react-router-dom";
 
 import {OAuthServiceLabelMap, OAuthServiceTypeMap, OAuthStatusMap} from "../../Common/constants";
 
-import {Icon} from "../../Elements";
-
 import {GitHubLoginButton} from "../index";
 import OAuthLoader from "../OAuthLoader/OAuthLoader";
 import SetUsernameForm from "../SetUsernameForm/SetUsernameForm";
