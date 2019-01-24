@@ -15,13 +15,22 @@ class OAuthPage extends Component {
         super(props);
 
         this.state = {
+            alreadyLoggedIn: false,
             authenticating: false,
         };
     }
 
 
     async componentDidMount() {
-        const {service, code, actions} = this.props;
+        const {service, code, actions, auth} = this.props;
+
+        if (auth.loggedIn) {
+            this.setState({
+                alreadyLoggedIn: true,
+            });
+
+            return;
+        }
 
         if (service && code) {
             this.setState({
@@ -41,8 +50,12 @@ class OAuthPage extends Component {
     }
 
     render() {
-        const {authenticating, authResponse} = this.state;
+        const {authenticating, authResponse, alreadyLoggedIn} = this.state;
         const {service, auth} = this.props;
+
+        if (alreadyLoggedIn) {
+            return <Redirect to="/"/>;
+        }
 
         let currentStatus;
 
