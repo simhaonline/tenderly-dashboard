@@ -14,6 +14,7 @@ const GitHubButton = ({className, label, ...props}) => {
     const GitHubData = {
         client_id: GITHUB_CLIENT_ID,
         redirect_uri: GITHUB_REDIRECT_URL,
+        scope: 'user:email',
     };
 
     const searchParams = new URLSearchParams(GitHubData);
