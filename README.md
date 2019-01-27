@@ -24,6 +24,8 @@ By default the `.env` file is setup to point to the local Tenderly project. If y
 REACT_APP_API_URL=https://custom.domain:1337
 ```
 
+When changing environment variables in development note that you have to reset `yarn start` in order for the changes to take effect.
+
 Read more on the [official doumentaion](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#what-other-env-files-can-be-used).
 
 ### Adding Dependencies
