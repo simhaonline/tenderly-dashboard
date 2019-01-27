@@ -8,11 +8,15 @@ export const OSTypes = {
 
 export const NetworkTypes = {
     MAIN: 'main_network',
+    ROPSTEN: 'ropsten_testnet',
+    RINKEBY: 'rinkeby_testnet',
     KOVAN: 'kovan_testnet',
 };
 
 export const NetworkRouteTypes = {
     MAIN: 'main',
+    ROPSTEN: 'ropsten',
+    RINKEBY: 'rinkeby',
     KOVAN: 'kovan',
 };
 
@@ -23,21 +27,29 @@ export const NetworkApiToAppTypeMap = {
 
 export const NetworkAppToApiTypeMap = {
     [NetworkTypes.MAIN]: 1,
+    [NetworkTypes.ROPSTEN]: 3,
+    [NetworkTypes.RINKEBY]: 4,
     [NetworkTypes.KOVAN]: 42,
 };
 
 export const NetworkRouteToAppTypeMap = {
     [NetworkRouteTypes.MAIN]: NetworkTypes.MAIN,
+    [NetworkTypes.ROPSTEN]: NetworkRouteTypes.ROPSTEN,
+    [NetworkTypes.RINKEBY]: NetworkRouteTypes.RINKEBY,
     [NetworkRouteTypes.KOVAN]: NetworkTypes.KOVAN,
 };
 
 export const NetworkAppToRouteTypeMap = {
     [NetworkTypes.MAIN]: NetworkRouteTypes.MAIN,
+    [NetworkTypes.ROPSTEN]: NetworkRouteTypes.ROPSTEN,
+    [NetworkTypes.RINKEBY]: NetworkRouteTypes.RINKEBY,
     [NetworkTypes.KOVAN]: NetworkRouteTypes.KOVAN,
 };
 
 export const NetworkLabelMap = {
     [NetworkTypes.MAIN]: 'Main Network',
+    [NetworkTypes.ROPSTEN]: 'Ropsten Testnet',
+    [NetworkTypes.RINKEBY]: 'Rinkeby Testnet',
     [NetworkTypes.KOVAN]: 'Kovan Testnet',
 };
 
