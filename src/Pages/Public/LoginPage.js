@@ -102,14 +102,14 @@ class LoginPage extends Component {
                             <div className="LoginButtonWrapper">
                                 <Button disabled={loginButtonDisabled} stretch type="submit">Login</Button>
                             </div>
-                            <div className="ThirdPartLoginWrapper">
-                                <div className="ButtonWrapper">
-                                    <GoogleLoginButton onAuthentication={this.handleOAuth}/>
-                                </div>
-                                <div className="ButtonWrapper">
-                                    <GitHubLoginButton/>
-                                </div>
-                            </div>
+                            {/*<div className="ThirdPartLoginWrapper">*/}
+                                {/*<div className="ButtonWrapper">*/}
+                                    {/*<GoogleLoginButton onAuthentication={this.handleOAuth}/>*/}
+                                {/*</div>*/}
+                                {/*<div className="ButtonWrapper">*/}
+                                    {/*<GitHubLoginButton/>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
                         </Form>
                         <div className="DocumentsWrapper">
                             <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
