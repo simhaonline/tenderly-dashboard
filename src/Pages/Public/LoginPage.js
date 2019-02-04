@@ -98,8 +98,8 @@ class LoginPage extends Component {
                             <p className="FormDescription">Enter your credentials below to login into the dashboard.</p>
                             <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
                             <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
-                            <div>
-                                <Link to="/account-recovery">Forgot password?</Link>
+                            <div className="InputActionWrapper">
+                                <Link to="/account-recovery" className="InputAction">Forgot password?</Link>
                             </div>
                             {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
                             <div className="LoginButtonWrapper">
@@ -120,9 +120,8 @@ class LoginPage extends Component {
                             <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                         <div className="PocLinkWrapper">
-                            <Link to="/poc-demo" className="PocLink">
-                                <Icon icon="trinity" className="PocIcon"/>
-                                <span>Try our PoC Demo</span>
+                            <Link to="/register" className="PocLink">
+                                <span>Create Account</span>
                             </Link>
                         </div>
                     </div>
