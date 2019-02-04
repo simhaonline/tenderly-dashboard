@@ -31,9 +31,6 @@ class AppHeader extends Component {
                 <div className="SessionWrapper">
                     <SessionHeaderMenu/>
                 </div>
-                <div className="KovanInformation">
-                    <div className="InfoTitle">Currently supports <strong>Mainnet</strong>, <strong>Ropsten Testnet</strong>, <strong>Rinkeby Testnet</strong> and <strong>Kovan Testnet</strong> </div>
-                </div>
             </Header>
         )
     }
