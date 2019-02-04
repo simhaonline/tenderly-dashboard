@@ -55,6 +55,8 @@ export const loginUser = (username, password) => {
             dispatch(setAuthHeader(data.token));
             dispatch(getUser());
 
+            MixPanel.track('Logged into dashboard');
+
             return new ActionResponse(true, data.token);
         } catch (error) {
             return new ActionResponse(false, error.response.data);
@@ -163,7 +165,11 @@ export const authenticateOAuth = (service, code) => {
                 token: data.token,
             });
             dispatch(setAuthHeader(data.token));
-            dispatch(getUser());
+            await dispatch(getUser());
+
+            MixPanel.track('Authenticated to Dashboard via OAuth', {
+                service,
+            });
 
             return new ActionResponse(true, data.token);
         } catch (error) {
