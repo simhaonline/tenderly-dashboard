@@ -23,7 +23,7 @@ class AppHeader extends Component {
             <Header id="AppHeader">
                 <Link to="/" className="LogoWrapper">
                     <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
-                    <span className="AppState">Alpha</span>
+                    <span className="AppState">BETA</span>
                 </Link>
                 <div className="NavWrapper">
                     <Navigation/>
