@@ -55,7 +55,7 @@ export const fetchProjects = (account = null) => {
         try {
             const {data} = await Api.get(`/account/${projectAccount}/projects`);
 
-            if (!data || !data.projects.length) {
+            if (!data || !data.projects || !data.projects.length) {
                 dispatch({
                     type: FETCH_PROJECTS_ACTION,
                     projects: [],
