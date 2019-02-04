@@ -125,3 +125,5 @@ export const APP_BASE_URL = `${APP_HOST}${APP_PORT ? `:${APP_PORT}` : ''}`;
 export const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 export const GITHUB_CLIENT_ID = process.env.REACT_APP_GITHUB_CLIENT_ID;
+
+export const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
