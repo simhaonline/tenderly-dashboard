@@ -4,9 +4,10 @@ import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+import MixPanel from "../../Utils/MixPanel";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Button, Form, Input, Alert, Icon} from "../../Elements";
+import {Page, Button, Form, Input, Alert} from "../../Elements";
 import {GoogleLoginButton, GitHubLoginButton} from "../../Components";
 
 import LogoImage from "./logo-vertical.svg";
@@ -120,7 +121,7 @@ class LoginPage extends Component {
                             <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                         <div className="PocLinkWrapper">
-                            <Link to="/register" className="PocLink">
+                            <Link to="/register" className="PocLink" onClick={() => {MixPanel.track('Login Flow - Create Account')}}>
                                 <span>Create Account</span>
                             </Link>
                         </div>
