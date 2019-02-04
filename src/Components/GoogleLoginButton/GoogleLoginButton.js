@@ -40,6 +40,7 @@ const GoogleLoginButton = ({onAuthentication}) => {
             )}
             accessType="offline"
             responseType="code"
+            prompt="select_account"
             buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
