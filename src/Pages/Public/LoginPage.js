@@ -98,6 +98,9 @@ class LoginPage extends Component {
                             <p className="FormDescription">Enter your credentials below to login into the dashboard.</p>
                             <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
                             <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+                            <div>
+                                <Link to="/account-recovery">Forgot password?</Link>
+                            </div>
                             {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
                             <div className="LoginButtonWrapper">
                                 <Button disabled={loginButtonDisabled} stretch type="submit">Login</Button>
