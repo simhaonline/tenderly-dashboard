@@ -1,10 +1,11 @@
 import React from 'react';
 import {GoogleLogin} from 'react-google-login';
 
+import {GOOGLE_CLIENT_ID, OAuthServiceTypeMap} from "../../Common/constants";
+
 import {Icon} from "../../Elements";
 
 import './GoogleLoginButton.css';
-import {OAuthServiceTypeMap} from "../../Common/constants";
 
 const GoogleButton = ({...props}) => {
     return (
@@ -33,7 +34,7 @@ const GoogleLoginButton = ({onAuthentication}) => {
 
     return (
         <GoogleLogin
-            clientId="980264057874-3qrk46vt233qbq96d3816mhalkl7eefm.apps.googleusercontent.com"
+            clientId={GOOGLE_CLIENT_ID}
             render={renderProps => (
                 <GoogleButton onClick={renderProps.onClick}/>
             )}
