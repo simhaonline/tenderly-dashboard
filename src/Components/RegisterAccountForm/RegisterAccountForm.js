@@ -10,13 +10,14 @@ const RegisterAccountForm = ({form, onChange, onSubmit}) => {
             <Form onSubmit={onSubmit}>
                 <div className="NameInputWrapper">
                     <div className="NameInputColumn">
-                        <Input field="firstName" onChange={onChange} value={form.firstName} label="First name" icon="user"/>
+                        <Input field="firstName" onChange={onChange} value={form.firstName} label="First name"/>
                     </div>
                     <div className="NameInputColumn">
-                        <Input field="lastName" onChange={onChange} value={form.lastName} label="Last name" icon="user"/>
+                        <Input field="lastName" onChange={onChange} value={form.lastName} label="Last name"/>
                     </div>
                 </div>
                 <Input field="email" onChange={onChange} value={form.email} label="E-mail" icon="mail"/>
+                <Input field="username" onChange={onChange} value={form.username} label="E-mail" icon="user"/>
                 <Button onClick={onSubmit}>
                     <span>Next</span>
                     <Icon icon="arrow-right"/>

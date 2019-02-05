@@ -20,6 +20,7 @@ class RegisterForm extends Component {
             firstName: '',
             lastName: '',
             email: '',
+            username: '',
             registered: false,
             password: '',
             repeatPassword: '',
