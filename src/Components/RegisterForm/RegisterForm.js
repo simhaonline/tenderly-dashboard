@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
-import {Redirect} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
 
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
-import {Button, Card, Form, Checkbox, Input} from "../../Elements";
+import {Button, Card, Icon, Form, Checkbox, Input} from "../../Elements";
 
 import './RegisterForm.css';
+
+const UsernameStatusMap = {
+    UNKNOWN: 'unknown',
+    INVALID: 'invalid',
+    VALID: 'valid',
+};
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -20,6 +26,7 @@ class RegisterForm extends Component {
             lastName: '',
             email: '',
             username: '',
+            usernameStatus: UsernameStatusMap.UNKNOWN,
             password: '',
             repeatPassword: '',
             termsAgreed: false,
@@ -35,9 +42,9 @@ class RegisterForm extends Component {
     };
 
     isFormInvalid = () => {
-        const {formData: {firstName, lastName, email, username, password, repeatPassword, termsAgreed}} = this.state;
+        const {formData: {firstName, lastName, email, username, password, repeatPassword, termsAgreed, usernameStatus}} = this.state;
 
-        return !firstName || !lastName || !email || !username || !password || !repeatPassword || !termsAgreed;
+        return !firstName || !lastName || !email || !username || !password || !repeatPassword || !termsAgreed || usernameStatus !== UsernameStatusMap.VALID;
     };
 
     render() {
@@ -57,7 +64,7 @@ class RegisterForm extends Component {
                         <Form onSubmit={this.handleRegistrationSubmit}>
                             <div className="NameInputWrapper">
                                 <div className="NameInputColumn">
-                                    <Input field="firstName" onChange={this.handleFormUpdate} value={formData.firstName} label="First name"/>
+                                    <Input field="firstName" autoFocus onChange={this.handleFormUpdate} value={formData.firstName} label="First name"/>
                                 </div>
                                 <div className="NameInputColumn">
                                     <Input field="lastName" onChange={this.handleFormUpdate} value={formData.lastName} label="Last name"/>
@@ -80,7 +87,10 @@ class RegisterForm extends Component {
                         </Form>
                     </Card>
                     <div>
-
+                        <Link to="/login">
+                            <Icon icon="log-in"/>
+                            Back to Login
+                        </Link>
                     </div>
                 </div>
             </div>
