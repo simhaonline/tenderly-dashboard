@@ -16,6 +16,17 @@
     color: $WhiteColor;
     font-size: $FontSize200;
     cursor: pointer;
+    border-radius: 3px;
+
+    &:-webkit-autofill,
+    &:-internal-autofill-previewed,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active  {
+      -webkit-box-shadow: 0 0 0 30px lighten(#171e31, 1.5) inset;
+      -webkit-text-fill-color: $WhiteColor;
+      background-color: lighten(#171e31, 1.5) !important;
+    }
 
     &:focus, &:hover, &:active {
       outline: none;
