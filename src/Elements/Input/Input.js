@@ -44,6 +44,7 @@ class InputElement extends Component {
             <div className={classNames("InputWrapper", {
                 'Active': !!value,
                 'Focused': focused,
+                'WithIcon': !!icon,
             })}>
                 {!!icon && <Icon icon={icon} className="InputIcon"/>}
                 {(!!label && !value) && <label htmlFor={`input-${field}`} className={"InputLabel"}>{label}</label>

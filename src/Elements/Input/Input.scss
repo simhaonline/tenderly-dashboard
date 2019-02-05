@@ -12,7 +12,7 @@
     background-color: transparent;
     border: none;
     width: 100%;
-    padding: 9px 15px 11px 40px;
+    padding: 9px 15px 11px;
     color: $WhiteColor;
     font-size: $FontSize200;
     cursor: pointer;
@@ -56,10 +56,6 @@
   &.Focused {
     box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
     border-color: $PrimaryColor600;
-
-    .InputLabel {
-      left: 40px;
-    }
   }
 
   &.Active, &.Focused {
@@ -68,6 +64,16 @@
       transition-delay: 0.05s;
       transform: scale(1);
       opacity: 1;
+    }
+
+    &.WithIcon {
+      .InputLabel {
+        left: 40px;
+      }
+
+      .Input {
+        padding-left: 40px;
+      }
     }
   }
 }
