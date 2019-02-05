@@ -42,7 +42,7 @@ class InputElement extends Component {
 
         return (
             <div className={classNames("InputWrapper", {
-                'Active': (value || focused),
+                'Active': !!value,
                 'Focused': focused,
             })}>
                 {!!icon && <Icon icon={icon} className="InputIcon"/>}
