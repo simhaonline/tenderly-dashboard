@@ -6,6 +6,11 @@ export const OSTypes = {
     LINUX: "Linux",
 };
 
+export const ActionErrorTypes = {
+    GENERAL: 'error',
+    API: 'api_error',
+};
+
 export const NetworkTypes = {
     MAIN: 'main_network',
     ROPSTEN: 'ropsten_testnet',

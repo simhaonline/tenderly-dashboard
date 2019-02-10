@@ -1,4 +1,4 @@
-class ActionResponse {
+export default class ActionResponse {
     /**
      * @param {boolean} success
      * @param {*} [data]
@@ -11,23 +11,3 @@ class ActionResponse {
         this.data = data || null;
     }
 }
-
-class SuccessActionResponse extends ActionResponse {
-    /**
-     * @param {*} data
-     */
-    constructor(data) {
-        super(true, data);
-    }
-}
-
-class ErrorActionResponse extends ActionResponse {
-    /**
-     * @param {*} data
-     */
-    constructor(data) {
-        super(false, data);
-    }
-}
-
-export default ActionResponse;
