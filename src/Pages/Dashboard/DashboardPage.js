@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {Redirect} from "react-router-dom";
 
 import * as projectActions from "../../Core/Project/Project.actions";
 import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
@@ -11,14 +12,18 @@ import {FeatureFlagTypes} from "../../Common/constants";
 
 class DashboardPage extends Component {
     componentDidMount() {
-        const {projectsLoaded, actions} = this.props;
+        const {projectsLoaded, usernameSet, actions} = this.props;
 
-        if (!projectsLoaded) {
+        if (!projectsLoaded && usernameSet) {
             actions.fetchProjects();
         }
     }
     render() {
-        const {projectsLoaded, projects} = this.props;
+        const {projectsLoaded, projects, usernameSet} = this.props;
+
+        if (!usernameSet) {
+            return <Redirect to="/onboarding"/>
+        }
 
         return (
             <Page>
@@ -37,6 +42,7 @@ const mapStateToProps = (state) => {
     return {
         projectsLoaded: state.project.projectsLoaded,
         projects: getDashboardProjects(state),
+        usernameSet: state.auth.usernameSet,
     }
 };
 

@@ -10,9 +10,12 @@ import {OnboardingWelcomeStep, OnboardingCreateOrganizationStep, OnboardingCreat
 
 import './OnboardingPage.css';
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+import OnboardingSetUsernameStep from "../../Components/Onboarding/OnboardingSetUsernameStep";
 
 const OnboardingPageSteps = {
-    WELCOME: 'WELCOME',
+    HOME: 'HOME',
+    SET_USERNAME: 'SET_USERNAME',
+    INSTALL_CLI: 'INSTALL_CLI',
     CREATE_PROJECT: 'CREATE_PROJECT',
     CREATE_ORGANIZATION: 'CREATE_ORGANIZATION',
 };
@@ -22,7 +25,9 @@ class OnboardingPage extends Component {
         super(props);
 
         this.state = {
-            step: OnboardingPageSteps.WELCOME,
+            step: props.auth.usernameSet ? OnboardingPageSteps.HOME : OnboardingPageSteps.SET_USERNAME,
+            cliInstalled: false,
+            usernameSet: false,
             projectCreated: false,
             organizationCreated: false,
         };
@@ -45,20 +50,21 @@ class OnboardingPage extends Component {
         const {auth} = this.props;
         const {step} = this.state;
 
-        if (auth.onboardingFinished) {
+        if (auth.usernameSet) {
             return <Redirect to="/dashboard"/>
         }
 
         return (
-            <Page id="OnboardingPage" wholeScreenPage>
+            <Page id="OnboardingPage">
                 <Container>
-                    {step === OnboardingPageSteps.WELCOME && <OnboardingWelcomeStep user={auth.user}/>}
+                    {step === OnboardingPageSteps.HOME && <OnboardingWelcomeStep user={auth.user}/>}
+                    {step === OnboardingPageSteps.SET_USERNAME && <OnboardingSetUsernameStep/>}
                     {step === OnboardingPageSteps.CREATE_PROJECT && <OnboardingCreateProjectStep/>}
                     {step === OnboardingPageSteps.CREATE_ORGANIZATION && <OnboardingCreateOrganizationStep/>}
-                    <div className="SkipButton" onClick={this.handleSkipOnboarding}>
-                        <span>Skip</span>
-                        <Icon icon="arrow-right"/>
-                    </div>
+                    {/*<div className="SkipButton" onClick={this.handleSkipOnboarding}>*/}
+                        {/*<span>Skip</span>*/}
+                        {/*<Icon icon="arrow-right"/>*/}
+                    {/*</div>*/}
                 </Container>
             </Page>
         )

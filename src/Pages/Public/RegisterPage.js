@@ -23,8 +23,7 @@ class RegisterPage extends Component {
     handleRegistrationSubmit = async (data) => {
         const {actions} = this.props;
 
-        const response = await actions.registerUser(data);
-
+        await actions.registerUser(data);
     };
 
     /**

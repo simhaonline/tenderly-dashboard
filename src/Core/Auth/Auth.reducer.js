@@ -11,6 +11,7 @@ const initialState = {
     token: null,
     loggedIn: false,
     usernameSet: false,
+    passwordSet: false,
     onboardingFinished: true,
     user: {}
 };
@@ -46,6 +47,7 @@ const AuthReducer = (state = initialState, action) => {
                 ...state,
                 loggedIn: true,
                 usernameSet: !!action.user.username,
+                passwordSet: action.passwordSet,
                 user: action.user,
             };
         default:

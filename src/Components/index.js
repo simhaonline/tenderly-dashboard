@@ -10,6 +10,7 @@ export {default as Code} from './Code/Code';
 export {default as RegisterForm} from './RegisterForm/RegisterForm';
 export {default as PasswordStrengthScore} from './PasswordStrengthScore/PasswordStrengthScore';
 export {default as ProgressiveButton} from './ProgressiveButton/ProgressiveButton';
+export {default as UsernameStatusInfo} from './UsernameStatusInfo/UsernameStatusInfo';
 export {default as FeatureFlag} from './FeatureFlag/FeatureFlag';
 export {default as FeatureFlagControls} from './FeatureFlagControls/FeatureFlagControls';
 export {default as RecentArticles} from './RecentArticles/RecentArticles';

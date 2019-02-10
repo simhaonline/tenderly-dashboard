@@ -6,22 +6,15 @@ import {bindActionCreators} from "redux";
 import _ from 'lodash';
 
 import * as authActions from "../../Core/Auth/Auth.actions";
+import {UsernameStatusMap} from "../../Common/constants";
 
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import {Button, Card, Icon, Form, Checkbox, Input} from "../../Elements";
-import {GitHubLoginButton, GoogleLoginButton} from "../index";
+import {GitHubLoginButton, GoogleLoginButton, UsernameStatusInfo} from "../index";
 
 import './RegisterForm.css';
-
-const UsernameStatusMap = {
-    UNKNOWN: 'unknown',
-    INVALID: 'invalid',
-    TAKEN: 'taken',
-    VALID: 'valid',
-    VALIDATING: 'validating',
-};
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -59,15 +52,6 @@ class RegisterForm extends Component {
      * @param {string} username
      */
     validateUsername = _.debounce(async (username) => {
-        if (username.length === 0) {
-            this.setState({
-                usernameStatus: UsernameStatusMap.UNKNOWN,
-            });
-
-            return;
-        }
-
-
         const {actions} = this.props;
 
         this.setState({
@@ -76,16 +60,12 @@ class RegisterForm extends Component {
 
         const response = await actions.validateUsername(username);
 
+        console.log(response);
+
         if (response.success) {
-            if (response.data.isTaken) {
-                this.setState({
-                    usernameStatus: UsernameStatusMap.TAKEN,
-                });
-            } else if (!response.data.isTaken) {
-                this.setState({
-                    usernameStatus: UsernameStatusMap.VALID,
-                });
-            }
+            this.setState({
+                usernameStatus: response.data.status,
+            });
         }
     }, 1000);
 
@@ -127,24 +107,7 @@ class RegisterForm extends Component {
                             <Input field="email" onChange={this.handleFormUpdate} value={formData.email} label="E-mail" icon="mail"/>
                             <hr/>
                             <Input field="username" onChange={this.handleUsernameChange} value={formData.username} label="Username" icon="user"/>
-                            {usernameStatus !== UsernameStatusMap.UNKNOWN && <div className="UsernameStatusWrapper">
-                                {usernameStatus === UsernameStatusMap.VALIDATING && <div className="UsernameStatusText">
-                                    <Icon icon="loader" className="UsernameValidationIcon"/>
-                                    <span>Checking username...</span>
-                                </div>}
-                                {usernameStatus === UsernameStatusMap.INVALID && <div className="InvalidUsername UsernameStatusText">
-                                    <Icon icon="alert-triangle" className="UsernameValidationIcon"/>
-                                    <span></span>
-                                </div>}
-                                {usernameStatus === UsernameStatusMap.TAKEN && <div className="TakenUsername UsernameStatusText">
-                                    <Icon icon="info" className="UsernameValidationIcon"/>
-                                    <span>Unfortunately this username has already been taken.<br/>Please try another one.</span>
-                                </div>}
-                                {usernameStatus === UsernameStatusMap.VALID && <div className="ValidUsername UsernameStatusText">
-                                    <Icon icon="check-circle" className="UsernameValidationIcon"/>
-                                    <span>This username is available.</span>
-                                </div>}
-                            </div>}
+                            {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
                             <hr/>
                             <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
                             <Input icon="lock" type="password" label="Repeat password" field="repeatPassword" value={formData.repeatPassword} onChange={this.handleFormUpdate}/>

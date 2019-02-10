@@ -1,0 +1,30 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.UsernameStatusInfo {
+  margin-bottom: 20px;
+  margin-top: -10px;
+
+  .UsernameStatusText {
+    display: flex;
+    align-items: center;
+    font-size: $FontSize200;
+
+    .UsernameValidationIcon {
+      margin-right: 10px;
+      font-size: $FontSize300;
+    }
+  }
+
+  .InvalidUsername {
+    color: $RedColor600;
+  }
+
+  .ValidUsername {
+    color: $GreenColor600;
+  }
+
+  .TakenUsername {
+    color: $YellowColor600;
+  }
+}

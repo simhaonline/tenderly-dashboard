@@ -6,6 +6,7 @@ import MixPanel from "../../Utils/MixPanel";
 
 import User from "./User.model";
 import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
+import {UsernameStatusMap} from "../../Common/constants";
 
 export const LOG_IN_ACTION = 'LOG_IN';
 export const LOG_OUT_ACTION = 'LOG_OUT';
@@ -134,6 +135,7 @@ export const getUser = () => {
             dispatch({
                 type: GET_USER_ACTION,
                 user,
+                passwordSet: data.user.password_is_set,
             });
 
             return new SuccessActionResponse(user);
@@ -234,6 +236,12 @@ export const authenticateOAuth = (service, code) => {
 export const validateUsername = (username) => {
     return async dispatch => {
         try {
+            if (username.length === 0) {
+                return new SuccessActionResponse({
+                    status: UsernameStatusMap.UNKNOWN,
+                });
+            }
+
             const {data} = await PublicApi.post('/check-username', {
                 username,
             });
@@ -242,8 +250,14 @@ export const validateUsername = (username) => {
                 return new ErrorActionResponse();
             }
 
+            if (data.is_used) {
+                return new SuccessActionResponse({
+                    status: UsernameStatusMap.TAKEN,
+                });
+            }
+
             return new SuccessActionResponse({
-                isTaken: data.is_used,
+                status: UsernameStatusMap.VALID,
             });
         } catch (error) {
             return new ErrorActionResponse(error);
