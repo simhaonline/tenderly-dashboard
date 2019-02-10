@@ -12,4 +12,22 @@ class ActionResponse {
     }
 }
 
+class SuccessActionResponse extends ActionResponse {
+    /**
+     * @param {*} data
+     */
+    constructor(data) {
+        super(true, data);
+    }
+}
+
+class ErrorActionResponse extends ActionResponse {
+    /**
+     * @param {*} data
+     */
+    constructor(data) {
+        super(false, data);
+    }
+}
+
 export default ActionResponse;
