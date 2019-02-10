@@ -5,7 +5,7 @@ import {PublicApi, Api} from '../../Utils/Api';
 import MixPanel from "../../Utils/MixPanel";
 
 import User from "./User.model";
-import {ActionResponse} from "../../Common";
+import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
 
 export const LOG_IN_ACTION = 'LOG_IN';
 export const LOG_OUT_ACTION = 'LOG_OUT';
@@ -73,29 +73,38 @@ export const logoutUser = () => {
     }
 };
 
+/**
+ * @returns {ActionResponse}
+ */
 export const getUser = () => {
     return async dispatch => {
-        const {data} = await Api.get('/user');
+        try {
+            const {data} = await Api.get('/user');
 
-        if (!data.user) {
-            return;
-        }
+            if (!data.user) {
+                return;
+            }
 
-        const user = new User(data.user);
+            const user = new User(data.user);
 
-        MixPanel.setUser(user);
+            MixPanel.setUser(user);
 
-        Sentry.configureScope(scope => {
-            scope.setUser({
-                id: user.id,
-                email: user.email,
+            Sentry.configureScope(scope => {
+                scope.setUser({
+                    id: user.id,
+                    email: user.email,
+                });
             });
-        });
 
-        dispatch({
-            type: GET_USER_ACTION,
-            user,
-        });
+            dispatch({
+                type: GET_USER_ACTION,
+                user,
+            });
+
+            return new SuccessActionResponse(user);
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
     }
 };
 
@@ -134,7 +143,11 @@ export const retrieveToken = (token) => {
     return async dispatch => {
         if (token) {
             dispatch(setAuthHeader(token));
-            await dispatch(getUser());
+            const response = await dispatch(getUser());
+
+            if (!response.success) {
+                dispatch(removeAuthHeader())
+            }
         }
 
         dispatch({
@@ -147,6 +160,7 @@ export const retrieveToken = (token) => {
 /**
  * @param {string} service
  * @param {string} code
+ * @returns {ActionResponse}
  */
 export const authenticateOAuth = (service, code) => {
     return async dispatch => {
