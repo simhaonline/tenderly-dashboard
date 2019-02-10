@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import {Redirect, Link} from "react-router-dom";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import _ from 'lodash';
+
+import * as authActions from "../../Core/Auth/Auth.actions";
 
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
@@ -13,7 +18,9 @@ import './RegisterForm.css';
 const UsernameStatusMap = {
     UNKNOWN: 'unknown',
     INVALID: 'invalid',
+    TAKEN: 'taken',
     VALID: 'valid',
+    VALIDATING: 'validating',
 };
 
 class RegisterForm extends Component {
@@ -21,14 +28,13 @@ class RegisterForm extends Component {
         super(props);
 
         this.state = {
-            currentStep: 'account',
+            usernameStatus: UsernameStatusMap.UNKNOWN,
         };
         initializeForm(this, {
             firstName: '',
             lastName: '',
             email: '',
             username: '',
-            usernameStatus: UsernameStatusMap.UNKNOWN,
             password: '',
             repeatPassword: '',
             termsAgreed: false,
@@ -37,16 +43,56 @@ class RegisterForm extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
-                handleRegistrationSubmit = () => {
+    handleRegistrationSubmit = () => {
         this.setState({
             registered: true,
         });
     };
 
     isFormInvalid = () => {
-        const {formData: {firstName, lastName, email, username, password, repeatPassword, termsAgreed, usernameStatus}} = this.state;
+        const {formData: {firstName, lastName, email, username, password, repeatPassword, termsAgreed}, usernameStatus} = this.state;
 
         return !firstName || !lastName || !email || !username || !password || !repeatPassword || !termsAgreed || usernameStatus !== UsernameStatusMap.VALID;
+    };
+
+    /**
+     * @param {string} username
+     */
+    validateUsername = _.debounce(async (username) => {
+        if (username.length === 0) {
+            this.setState({
+                usernameStatus: UsernameStatusMap.UNKNOWN,
+            });
+
+            return;
+        }
+
+
+        const {actions} = this.props;
+
+        this.setState({
+            usernameStatus: UsernameStatusMap.VALIDATING,
+        });
+
+        const response = await actions.validateUsername(username);
+
+        if (response.success) {
+            if (response.data.isTaken) {
+                this.setState({
+                    usernameStatus: UsernameStatusMap.TAKEN,
+                });
+            } else if (!response.data.isTaken) {
+                this.setState({
+                    usernameStatus: UsernameStatusMap.VALID,
+                });
+            }
+        }
+    }, 1000);
+
+    handleUsernameChange = async (field, value) => {
+        this.handleFormUpdate(field, value);
+
+        await this.validateUsername(value);
     };
 
     /**
@@ -60,7 +106,7 @@ class RegisterForm extends Component {
     };
 
     render() {
-        const {formData, registered} = this.state;
+        const {formData, registered, usernameStatus} = this.state;
 
         if (registered) {
             return <Redirect to={'/dashboard'}/>
@@ -84,7 +130,25 @@ class RegisterForm extends Component {
                             </div>
                             <Input field="email" onChange={this.handleFormUpdate} value={formData.email} label="E-mail" icon="mail"/>
                             <hr/>
-                            <Input field="username" onChange={this.handleFormUpdate} value={formData.username} label="Username" icon="user"/>
+                            <Input field="username" onChange={this.handleUsernameChange} value={formData.username} label="Username" icon="user"/>
+                            {usernameStatus !== UsernameStatusMap.UNKNOWN && <div className="UsernameStatusWrapper">
+                                {usernameStatus === UsernameStatusMap.VALIDATING && <div className="UsernameStatusText">
+                                    <Icon icon="loader" className="UsernameValidationIcon"/>
+                                    <span>Checking username...</span>
+                                </div>}
+                                {usernameStatus === UsernameStatusMap.INVALID && <div className="InvalidUsername UsernameStatusText">
+                                    <Icon icon="alert-triangle" className="UsernameValidationIcon"/>
+                                    <span></span>
+                                </div>}
+                                {usernameStatus === UsernameStatusMap.TAKEN && <div className="TakenUsername UsernameStatusText">
+                                    <Icon icon="info" className="UsernameValidationIcon"/>
+                                    <span>Unfortunately this username has already been taken.<br/>Please try another one.</span>
+                                </div>}
+                                {usernameStatus === UsernameStatusMap.VALID && <div className="ValidUsername UsernameStatusText">
+                                    <Icon icon="check-circle" className="UsernameValidationIcon"/>
+                                    <span>This username is available.</span>
+                                </div>}
+                            </div>}
                             <hr/>
                             <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
                             <Input icon="lock" type="password" label="Repeat password" field="repeatPassword" value={formData.repeatPassword} onChange={this.handleFormUpdate}/>
@@ -122,4 +186,19 @@ RegisterForm.propTypes = {
     onOAuth: PropTypes.func.isRequired,
 };
 
-export default RegisterForm;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(authActions, dispatch),
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(RegisterForm);

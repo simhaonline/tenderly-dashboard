@@ -191,3 +191,27 @@ export const authenticateOAuth = (service, code) => {
         }
     }
 };
+
+/**
+ * @param {string} username
+ * @return {Function}
+ */
+export const validateUsername = (username) => {
+    return async dispatch => {
+        try {
+            const {data} = await PublicApi.post('/check-username', {
+                username,
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            return new SuccessActionResponse({
+                isTaken: data.is_used,
+            });
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    }
+};
