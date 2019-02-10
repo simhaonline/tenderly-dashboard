@@ -7,16 +7,16 @@ import {Icon} from "../../Elements";
 
 import './GoogleLoginButton.css';
 
-const GoogleButton = ({...props}) => {
+const GoogleButton = ({label, ...props}) => {
     return (
         <button className="GoogleLoginButton" {...props}>
             <Icon icon="google" className="GoogleIcon"/>
-            <span>Login with Google</span>
+            <span>{label}</span>
         </button>
     )
 };
 
-const GoogleLoginButton = ({onAuthentication}) => {
+const GoogleLoginButton = ({onAuthentication, label}) => {
     const responseGoogle = (response) => {
         const {code, error} = response;
 
@@ -36,7 +36,7 @@ const GoogleLoginButton = ({onAuthentication}) => {
         <GoogleLogin
             clientId={GOOGLE_CLIENT_ID}
             render={renderProps => (
-                <GoogleButton onClick={renderProps.onClick}/>
+                <GoogleButton onClick={renderProps.onClick} label={label}/>
             )}
             accessType="offline"
             responseType="code"
@@ -46,6 +46,10 @@ const GoogleLoginButton = ({onAuthentication}) => {
             onFailure={responseGoogle}
         />
     );
+};
+
+GoogleLoginButton.defaultProps = {
+    label: 'Login with Google',
 };
 
 export default GoogleLoginButton;
