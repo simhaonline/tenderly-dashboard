@@ -17,7 +17,7 @@ const OAuthStatus = ({status, service, onUsernameSubmit = () => {}}) => {
                     There was a problem trying to authenticate with {OAuthServiceLabelMap[service]}
                 </div>
                 {service === OAuthServiceTypeMap.GITHUB && <GitHubLoginButton label="Retry Authentication" className="OAuthGitHubButton"/>}
-                <div>
+                <div className="OAuthLinks">
                     <Link to="/login">Login</Link>
                     <Link to="/register">Register</Link>
                 </div>
