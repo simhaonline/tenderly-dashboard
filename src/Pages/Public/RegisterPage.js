@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Container} from "../../Elements";
+import {Container, Page} from "../../Elements";
 import {RegisterForm} from "../../Components";
 import {Redirect} from "react-router-dom";
 
@@ -23,7 +23,7 @@ class RegisterPage extends Component {
     handleRegistrationSubmit = async (data) => {
         const {actions} = this.props;
 
-        await actions.registerUser(data);
+        return await actions.registerUser(data);
     };
 
     /**

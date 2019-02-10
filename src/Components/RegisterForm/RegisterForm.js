@@ -11,7 +11,7 @@ import {UsernameStatusMap} from "../../Common/constants";
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
-import {Button, Card, Icon, Form, Checkbox, Input} from "../../Elements";
+import {Button, Card, Icon, Form, Checkbox, Input, Alert} from "../../Elements";
 import {GitHubLoginButton, GoogleLoginButton, UsernameStatusInfo} from "../index";
 
 import './RegisterForm.css';
@@ -22,6 +22,8 @@ class RegisterForm extends Component {
 
         this.state = {
             usernameStatus: UsernameStatusMap.UNKNOWN,
+            registrationFailed: false,
+            errorMessage: null,
         };
         initializeForm(this, {
             firstName: '',
@@ -35,11 +37,34 @@ class RegisterForm extends Component {
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
-    handleRegistrationSubmit = () => {
+    handleRegistrationSubmit = async () => {
         const {onSubmit} = this.props;
         const {formData} = this.state;
 
-        onSubmit(formData);
+        if (formData.password !== formData.repeatPassword) {
+            this.setState({
+                registrationFailed: true,
+                errorMessage: 'Passwords do not match!',
+            });
+
+            return;
+        } else {
+            this.setState({
+                registrationFailed: false,
+                errorMessage: null,
+            });
+        }
+
+        const response = await onSubmit(formData);
+
+        console.log(response);
+
+        if (!response.success) {
+            this.setState({
+                registrationFailed: true,
+                errorMessage: 'E-mail or username is already in use.',
+            });
+        }
     };
 
     isFormInvalid = () => {
@@ -59,8 +84,6 @@ class RegisterForm extends Component {
         });
 
         const response = await actions.validateUsername(username);
-
-        console.log(response);
 
         if (response.success) {
             this.setState({
@@ -86,7 +109,7 @@ class RegisterForm extends Component {
     };
 
     render() {
-        const {formData, usernameStatus} = this.state;
+        const {formData, usernameStatus, registrationFailed, errorMessage} = this.state;
 
         return (
             <div className="RegisterForm">
@@ -96,6 +119,7 @@ class RegisterForm extends Component {
                     </div>
                     <Card className="RegisterAccountForm">
                         <Form onSubmit={this.handleRegistrationSubmit}>
+                            {registrationFailed && <Alert color="danger" animation={true}>{errorMessage}</Alert>}
                             <div className="NameInputWrapper">
                                 <div className="NameInputColumn">
                                     <Input field="firstName" autoFocus onChange={this.handleFormUpdate} value={formData.firstName} label="First name"/>
