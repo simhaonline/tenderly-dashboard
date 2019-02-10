@@ -78,7 +78,7 @@
     .LoginButtonWrapper {
       margin-top: 15px;
       border-top: 1px solid $BorderColor;
-      padding-top: 30px;
+      padding-top: 20px;
     }
   }
 
@@ -146,6 +146,7 @@
   .InputActionWrapper {
     text-align: right;
     margin-top: -15px;
+    margin-bottom: 10px;
 
     .InputAction {
       font-size: $FontSize100;
