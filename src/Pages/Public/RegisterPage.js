@@ -6,13 +6,25 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Container} from "../../Elements";
 import {RegisterForm} from "../../Components";
+import {Redirect} from "react-router-dom";
 
 class RegisterPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            registered: false,
+        }
+    }
+
     /**
      * @param {Object} data
      */
-    handleRegistrationSubmit = (data) => {
-        console.log('register', data);
+    handleRegistrationSubmit = async (data) => {
+        const {actions} = this.props;
+
+        const response = await actions.registerUser(data);
+
     };
 
     /**
@@ -26,6 +38,12 @@ class RegisterPage extends Component {
     };
 
     render() {
+        const {auth} = this.props;
+
+        if (auth.loggedIn) {
+            return <Redirect to="/dashboard"/>;
+        }
+
         return (
             <Page padding={false} wholeScreenPage>
                 <Container>

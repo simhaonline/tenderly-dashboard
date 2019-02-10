@@ -64,6 +64,41 @@ export const loginUser = (username, password) => {
     }
 };
 
+/**
+ * @param {Object} userData
+ * @return {Function}
+ */
+export const registerUser = (userData) => {
+    return async dispatch => {
+        try {
+            const {data} = await PublicApi.post('/register', {
+                first_name: userData.firstName,
+                last_name: userData.lastName,
+                username: userData.username,
+                email: userData.email,
+                password: userData.password,
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            dispatch({
+                type: REGISTER_ACTION,
+                token: data.token,
+            });
+            dispatch(setAuthHeader(data.token));
+            dispatch(getUser());
+
+            MixPanel.track('Registered account');
+
+            return new ActionResponse(true, data.token);
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    };
+};
+
 export const logoutUser = () => {
     return async dispatch => {
         dispatch({
