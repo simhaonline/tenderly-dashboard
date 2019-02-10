@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {Redirect, Link} from "react-router-dom";
+import PropTypes from "prop-types";
 
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import {Button, Card, Icon, Form, Checkbox, Input} from "../../Elements";
+import {GitHubLoginButton, GoogleLoginButton} from "../index";
 
 import './RegisterForm.css';
 
@@ -47,6 +49,16 @@ class RegisterForm extends Component {
         return !firstName || !lastName || !email || !username || !password || !repeatPassword || !termsAgreed || usernameStatus !== UsernameStatusMap.VALID;
     };
 
+    /**
+     * @param {string} service
+     * @param {string} code
+     */
+    handleOAuth = async ({type, code}) => {
+        const {onOAuth} = this.props;
+
+        await onOAuth(type, code)
+    };
+
     render() {
         const {formData, registered} = this.state;
 
@@ -81,14 +93,21 @@ class RegisterForm extends Component {
                                     <span>I agree to the Tenderly <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></span>
                                 }/>
                             </div>
-                            <Button onClick={this.handleRegistrationSubmit} disabled={this.isFormInvalid()}>
-                                <span>Create Account</span>
-                            </Button>
+                            <div className="FormActionsWrapper">
+                                <Button onClick={this.handleRegistrationSubmit} disabled={this.isFormInvalid()}>
+                                    <span>Create Account</span>
+                                </Button>
+                            </div>
+                            <hr/>
+                            <div className="OAuthButtonsWrapper">
+                                <GoogleLoginButton label="Register with Google" onAuthentication={this.handleOAuth}/>
+                                <GitHubLoginButton label="Register with GitHub"/>
+                            </div>
                         </Form>
                     </Card>
-                    <div>
-                        <Link to="/login">
-                            <Icon icon="log-in"/>
+                    <div className="FormSubActions">
+                        <Link to="/login" className="LoginLink">
+                            <Icon icon="log-in" className="LoginLinkIcon"/>
                             Back to Login
                         </Link>
                     </div>
@@ -97,5 +116,10 @@ class RegisterForm extends Component {
         )
     }
 }
+
+RegisterForm.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    onOAuth: PropTypes.func.isRequired,
+};
 
 export default RegisterForm;
