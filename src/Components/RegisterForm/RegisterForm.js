@@ -38,15 +38,15 @@ class RegisterForm extends Component {
             password: '',
             repeatPassword: '',
             termsAgreed: false,
-            registered: false,
         });
         this.handleFormUpdate = updateFormField.bind(this);
     }
 
     handleRegistrationSubmit = () => {
-        this.setState({
-            registered: true,
-        });
+        const {onSubmit} = this.props;
+        const {formData} = this.state;
+
+        onSubmit(formData);
     };
 
     isFormInvalid = () => {
@@ -106,11 +106,7 @@ class RegisterForm extends Component {
     };
 
     render() {
-        const {formData, registered, usernameStatus} = this.state;
-
-        if (registered) {
-            return <Redirect to={'/dashboard'}/>
-        }
+        const {formData, usernameStatus} = this.state;
 
         return (
             <div className="RegisterForm">
