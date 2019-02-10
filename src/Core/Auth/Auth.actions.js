@@ -287,6 +287,8 @@ export const setUsername = (username) => {
                 return new ErrorActionResponse();
             }
 
+            MixPanel.track('User set his username');
+
             const newUser = user.updateUsername(username);
 
             dispatch({
