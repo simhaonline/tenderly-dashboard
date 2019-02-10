@@ -4,16 +4,15 @@
 $GoogleBlueColor: #4285f4;
 
 .GoogleLoginButton {
-  width: 100%;
   font-size: $FontSize100;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: $GoogleBlueColor;
-  color: #fff;
+  color: $WhiteColor;
   border: 1px solid darken($GoogleBlueColor, 4);
-  padding: 10px 5px;
+  padding: 10px 15px;
   cursor: pointer;
   transition: 0.2s;
 
