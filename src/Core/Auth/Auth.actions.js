@@ -5,7 +5,8 @@ import {PublicApi, Api} from '../../Utils/Api';
 import MixPanel from "../../Utils/MixPanel";
 
 import User from "./User.model";
-import {ActionResponse} from "../../Common";
+import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
+import {UsernameStatusMap} from "../../Common/constants";
 
 export const LOG_IN_ACTION = 'LOG_IN';
 export const LOG_OUT_ACTION = 'LOG_OUT';
@@ -13,6 +14,7 @@ export const REGISTER_ACTION = 'REGISTER';
 export const GET_USER_ACTION = 'GET_USER';
 export const COMPLETE_ONBOARDING = 'COMPLETE_ONBOARDING';
 export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
+export const SET_USERNAME_ACTION = 'SET_USERNAME';
 
 /**
  * @param {string} token
@@ -55,11 +57,48 @@ export const loginUser = (username, password) => {
             dispatch(setAuthHeader(data.token));
             dispatch(getUser());
 
+            MixPanel.track('Logged into dashboard');
+
             return new ActionResponse(true, data.token);
         } catch (error) {
             return new ActionResponse(false, error.response.data);
         }
     }
+};
+
+/**
+ * @param {Object} userData
+ * @return {Function}
+ */
+export const registerUser = (userData) => {
+    return async dispatch => {
+        try {
+            const {data} = await PublicApi.post('/register', {
+                first_name: userData.firstName,
+                last_name: userData.lastName,
+                username: userData.username,
+                email: userData.email,
+                password: userData.password,
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            dispatch({
+                type: REGISTER_ACTION,
+                token: data.token,
+            });
+            dispatch(setAuthHeader(data.token));
+            dispatch(getUser());
+
+            MixPanel.track('Registered account');
+
+            return new ActionResponse(true, data.token);
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    };
 };
 
 export const logoutUser = () => {
@@ -71,29 +110,39 @@ export const logoutUser = () => {
     }
 };
 
+/**
+ * @returns {ActionResponse}
+ */
 export const getUser = () => {
     return async dispatch => {
-        const {data} = await Api.get('/user');
+        try {
+            const {data} = await Api.get('/user');
 
-        if (!data.user) {
-            return;
-        }
+            if (!data.user) {
+                return;
+            }
 
-        const user = new User(data.user);
+            const user = new User(data.user);
 
-        MixPanel.setUser(user);
+            MixPanel.setUser(user);
 
-        Sentry.configureScope(scope => {
-            scope.setUser({
-                id: user.id,
-                email: user.email,
+            Sentry.configureScope(scope => {
+                scope.setUser({
+                    id: user.id,
+                    email: user.email,
+                });
             });
-        });
 
-        dispatch({
-            type: GET_USER_ACTION,
-            user,
-        });
+            dispatch({
+                type: GET_USER_ACTION,
+                user,
+                passwordSet: data.user.password_is_set,
+            });
+
+            return new SuccessActionResponse(user);
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
     }
 };
 
@@ -132,7 +181,11 @@ export const retrieveToken = (token) => {
     return async dispatch => {
         if (token) {
             dispatch(setAuthHeader(token));
-            await dispatch(getUser());
+            const response = await dispatch(getUser());
+
+            if (!response.success) {
+                dispatch(removeAuthHeader())
+            }
         }
 
         dispatch({
@@ -145,6 +198,7 @@ export const retrieveToken = (token) => {
 /**
  * @param {string} service
  * @param {string} code
+ * @returns {ActionResponse}
  */
 export const authenticateOAuth = (service, code) => {
     return async dispatch => {
@@ -163,11 +217,84 @@ export const authenticateOAuth = (service, code) => {
                 token: data.token,
             });
             dispatch(setAuthHeader(data.token));
-            dispatch(getUser());
+            await dispatch(getUser());
+
+            MixPanel.track('Authenticated to Dashboard via OAuth', {
+                service,
+            });
 
             return new ActionResponse(true, data.token);
         } catch (error) {
             return new ActionResponse(false, error.response.data);
+        }
+    }
+};
+
+/**
+ * @param {string} username
+ * @return {Function}
+ */
+export const validateUsername = (username) => {
+    return async dispatch => {
+        try {
+            if (username.length === 0) {
+                return new SuccessActionResponse({
+                    status: UsernameStatusMap.UNKNOWN,
+                });
+            }
+
+            const {data} = await PublicApi.post('/check-username', {
+                username,
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            if (data.is_used) {
+                return new SuccessActionResponse({
+                    status: UsernameStatusMap.TAKEN,
+                });
+            }
+
+            return new SuccessActionResponse({
+                status: UsernameStatusMap.VALID,
+            });
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {string} username
+ * @return {Function}
+ */
+export const setUsername = (username) => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
+        if (!username.length) {
+            return new ErrorActionResponse();
+        }
+
+        try {
+            const {data} = await Api.post('/user/change-username', {
+                username,
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            const newUser = user.updateUsername(username);
+
+            dispatch({
+               type: SET_USERNAME_ACTION,
+               user: newUser,
+            });
+        } catch (error) {
+            throw new ErrorActionResponse(error);
         }
     }
 };

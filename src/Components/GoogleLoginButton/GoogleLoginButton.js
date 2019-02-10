@@ -1,21 +1,22 @@
 import React from 'react';
 import {GoogleLogin} from 'react-google-login';
 
+import {GOOGLE_CLIENT_ID, OAuthServiceTypeMap} from "../../Common/constants";
+
 import {Icon} from "../../Elements";
 
 import './GoogleLoginButton.css';
-import {OAuthServiceTypeMap} from "../../Common/constants";
 
-const GoogleButton = ({...props}) => {
+const GoogleButton = ({label, ...props}) => {
     return (
         <button className="GoogleLoginButton" {...props}>
             <Icon icon="google" className="GoogleIcon"/>
-            <span>Login with Google</span>
+            <span>{label}</span>
         </button>
     )
 };
 
-const GoogleLoginButton = ({onAuthentication}) => {
+const GoogleLoginButton = ({onAuthentication, label}) => {
     const responseGoogle = (response) => {
         const {code, error} = response;
 
@@ -33,17 +34,22 @@ const GoogleLoginButton = ({onAuthentication}) => {
 
     return (
         <GoogleLogin
-            clientId="980264057874-3qrk46vt233qbq96d3816mhalkl7eefm.apps.googleusercontent.com"
+            clientId={GOOGLE_CLIENT_ID}
             render={renderProps => (
-                <GoogleButton onClick={renderProps.onClick}/>
+                <GoogleButton onClick={renderProps.onClick} label={label}/>
             )}
             accessType="offline"
             responseType="code"
+            prompt="select_account"
             buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
         />
     );
+};
+
+GoogleLoginButton.defaultProps = {
+    label: 'Login with Google',
 };
 
 export default GoogleLoginButton;

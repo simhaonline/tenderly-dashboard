@@ -1,26 +1,66 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
 .RegisterForm {
-  padding: 50px;
+  padding: 50px 10px;
+
+  hr {
+    margin: 20px 0;
+    border: none;
+    border-bottom: 1px solid $BorderColor;
+  }
+
+  .LogoWrapper {
+    margin-bottom: 20px;
+    text-align: center;
+
+    .AppLogo {
+      height: 120px;
+    }
+  }
 
   .FormStepsWrapper {
     max-width: 500px;
     margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-    height: 300px;
+  }
 
-    .FormStep {
-      position: absolute;
-      left: 120%;
-      width: 100%;
-      transition: 0.2s cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  .NameInputWrapper {
+    display: flex;
+    margin-bottom: 20px;
 
-      &.Active {
-        left: 0;
+    .NameInputColumn {
+      flex: 1 1 0;
+
+      &:first-child {
+        margin-right: 20px;
       }
+    }
+  }
 
-      &.Previous {
-        left: - 120%;
-      }
+  .FormActionsWrapper {
+    display: flex;
+  }
+
+  .OAuthButtonsWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .GitHubLoginButton {
+      margin-left: 15px;
+    }
+  }
+
+  .FormSubActions {
+    padding: 0 15px;
+  }
+
+  .LoginLink {
+    font-size: $FontSize200;
+    opacity: 0.8;
+
+    .LoginLinkIcon {
+      margin-right: 5px;
     }
   }
 }

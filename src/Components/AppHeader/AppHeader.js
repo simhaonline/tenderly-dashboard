@@ -23,16 +23,13 @@ class AppHeader extends Component {
             <Header id="AppHeader">
                 <Link to="/" className="LogoWrapper">
                     <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
-                    <span className="AppState">Alpha</span>
+                    <span className="AppState">BETA</span>
                 </Link>
                 <div className="NavWrapper">
                     <Navigation/>
                 </div>
                 <div className="SessionWrapper">
                     <SessionHeaderMenu/>
-                </div>
-                <div className="KovanInformation">
-                    <div className="InfoTitle">Currently supports <strong>Mainnet</strong>, <strong>Ropsten Testnet</strong>, <strong>Rinkeby Testnet</strong> and <strong>Kovan Testnet</strong> </div>
                 </div>
             </Header>
         )

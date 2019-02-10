@@ -6,6 +6,11 @@ export const OSTypes = {
     LINUX: "Linux",
 };
 
+export const ActionErrorTypes = {
+    GENERAL: 'error',
+    API: 'api_error',
+};
+
 export const NetworkTypes = {
     MAIN: 'main_network',
     ROPSTEN: 'ropsten_testnet',
@@ -116,6 +121,14 @@ export const OAuthStatusMap = {
     USERNAME_REQUIRED: 'oauth_username',
 };
 
+export const UsernameStatusMap = {
+    UNKNOWN: 'unknown',
+    INVALID: 'invalid',
+    TAKEN: 'taken',
+    VALID: 'valid',
+    VALIDATING: 'validating',
+};
+
 export const APP_HOST = process.env.REACT_APP_HOST;
 
 export const APP_PORT = process.env.REACT_APP_PORT;
@@ -125,3 +138,5 @@ export const APP_BASE_URL = `${APP_HOST}${APP_PORT ? `:${APP_PORT}` : ''}`;
 export const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 export const GITHUB_CLIENT_ID = process.env.REACT_APP_GITHUB_CLIENT_ID;
+
+export const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;

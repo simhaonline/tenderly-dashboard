@@ -1,4 +1,4 @@
-class ActionResponse {
+export default class ActionResponse {
     /**
      * @param {boolean} success
      * @param {*} [data]
@@ -11,5 +11,3 @@ class ActionResponse {
         this.data = data || null;
     }
 }
-
-export default ActionResponse;

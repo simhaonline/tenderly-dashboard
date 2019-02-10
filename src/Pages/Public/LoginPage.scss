@@ -59,7 +59,6 @@
     border-radius: 6px;
     box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.9);
     width: 400px;
-    min-height: 400px;
     z-index: 2;
     position: relative;
 
@@ -77,9 +76,9 @@
     }
 
     .LoginButtonWrapper {
-      margin-top: 30px;
+      margin-top: 15px;
       border-top: 1px solid $BorderColor;
-      padding-top: 30px;
+      padding-top: 20px;
     }
   }
 
@@ -144,6 +143,16 @@
     }
   }
 
+  .InputActionWrapper {
+    text-align: right;
+    margin-top: -15px;
+    margin-bottom: 10px;
+
+    .InputAction {
+      font-size: $FontSize100;
+    }
+  }
+
   .PocLinkWrapper {
     margin: 20px 0 30px;
 
@@ -152,7 +161,7 @@
       background-color: transparentize($PrimaryColor600, 0.8);
       border: 1px solid $PrimaryColor600;
       color: $WhiteColor;
-      padding: 10px 15px;
+      padding: 10px 20px;
       transition: 0.2s;
       display: flex;
       align-items: center;

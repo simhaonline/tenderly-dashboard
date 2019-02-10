@@ -2,8 +2,8 @@ import {
     COMPLETE_ONBOARDING,
     GET_USER_ACTION,
     LOG_IN_ACTION,
-    LOG_OUT_ACTION,
-    RETRIEVE_TOKEN_ACTION
+    LOG_OUT_ACTION, REGISTER_ACTION,
+    RETRIEVE_TOKEN_ACTION, SET_USERNAME_ACTION
 } from "./Auth.actions";
 
 const initialState = {
@@ -11,6 +11,7 @@ const initialState = {
     token: null,
     loggedIn: false,
     usernameSet: false,
+    passwordSet: false,
     onboardingFinished: true,
     user: {}
 };
@@ -24,6 +25,7 @@ const AuthReducer = (state = initialState, action) => {
                 token: action.token,
             };
         case LOG_IN_ACTION:
+        case REGISTER_ACTION:
             return {
                 ...state,
                 token: action.token,
@@ -45,8 +47,16 @@ const AuthReducer = (state = initialState, action) => {
                 ...state,
                 loggedIn: true,
                 usernameSet: !!action.user.username,
+                passwordSet: action.passwordSet,
                 user: action.user,
             };
+        case SET_USERNAME_ACTION: {
+            return {
+                ...state,
+                usernameSet: true,
+                user: action.user,
+            };
+        }
         default:
             return state;
     }

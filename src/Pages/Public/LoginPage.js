@@ -4,9 +4,10 @@ import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+import MixPanel from "../../Utils/MixPanel";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Button, Form, Input, Alert, Icon} from "../../Elements";
+import {Page, Button, Form, Input, Alert} from "../../Elements";
 import {GoogleLoginButton, GitHubLoginButton} from "../../Components";
 
 import LogoImage from "./logo-vertical.svg";
@@ -63,7 +64,7 @@ class LoginPage extends Component {
     handleOAuth = async ({type, code}) => {
         const {authActions} = this.props;
 
-        await authActions.authenticateOAuth(type, code)
+        await authActions.authenticateOAuth(type, code);
     };
 
     isLoginButtonDisabled = () => {
@@ -98,18 +99,21 @@ class LoginPage extends Component {
                             <p className="FormDescription">Enter your credentials below to login into the dashboard.</p>
                             <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
                             <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+                            <div className="InputActionWrapper">
+                                <Link to="/account-recovery" className="InputAction">Forgot password?</Link>
+                            </div>
                             {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
                             <div className="LoginButtonWrapper">
                                 <Button disabled={loginButtonDisabled} stretch type="submit">Login</Button>
                             </div>
-                            {/*<div className="ThirdPartLoginWrapper">*/}
-                                {/*<div className="ButtonWrapper">*/}
-                                    {/*<GoogleLoginButton onAuthentication={this.handleOAuth}/>*/}
-                                {/*</div>*/}
-                                {/*<div className="ButtonWrapper">*/}
-                                    {/*<GitHubLoginButton/>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
+                            <div className="ThirdPartLoginWrapper">
+                                <div className="ButtonWrapper">
+                                    <GoogleLoginButton onAuthentication={this.handleOAuth}/>
+                                </div>
+                                <div className="ButtonWrapper">
+                                    <GitHubLoginButton/>
+                                </div>
+                            </div>
                         </Form>
                         <div className="DocumentsWrapper">
                             <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
@@ -117,9 +121,8 @@ class LoginPage extends Component {
                             <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                         <div className="PocLinkWrapper">
-                            <Link to="/poc-demo" className="PocLink">
-                                <Icon icon="trinity" className="PocIcon"/>
-                                <span>Try our PoC Demo</span>
+                            <Link to="/register" className="PocLink" onClick={() => {MixPanel.track('Login Flow - Create Account')}}>
+                                <span>Create Account</span>
                             </Link>
                         </div>
                     </div>

@@ -14,5 +14,6 @@ export {default as CardHeading} from './Card/CardHeading';
 export {default as Form} from './Form/Form';
 export {default as SegmentedControls} from './SegmentedControls/SegmentedControls';
 export {default as Input} from './Input/Input';
+export {default as Checkbox} from './Checkbox/Checkbox';
 export {default as TextArea} from './TextArea/TextArea';
 export {default as Container} from './Container/Container';
