@@ -133,7 +133,7 @@ export const APP_HOST = process.env.REACT_APP_HOST;
 
 export const APP_PORT = process.env.REACT_APP_PORT;
 
-export const APP_BASE_URL = `${APP_HOST}${APP_PORT ? `:${APP_PORT}` : ''}`;
+export const GITHUB_CALLBACK_URL = process.env.REACT_APP_GITHUB_CALLBACK_URL;
 
 export const API_BASE_URL = process.env.REACT_APP_API_URL;
 

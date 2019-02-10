@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import {APP_BASE_URL, GITHUB_CLIENT_ID, OAuthServiceTypeMap} from "../../Common/constants";
+import {GITHUB_CALLBACK_URL, GITHUB_CLIENT_ID, OAuthServiceTypeMap} from "../../Common/constants";
 
 import {Icon} from "../../Elements";
 
 import './GitHubLoginButton.css';
 
 const GITHUB_BASE_URL = 'https://github.com/login/oauth/authorize';
-const GITHUB_REDIRECT_URL = `${APP_BASE_URL}/oauth/${OAuthServiceTypeMap.GITHUB}`;
+const GITHUB_REDIRECT_URL = `${GITHUB_CALLBACK_URL}/oauth/${OAuthServiceTypeMap.GITHUB}`;
 
 const GitHubButton = ({className, label, ...props}) => {
     const GitHubData = {
