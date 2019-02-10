@@ -121,6 +121,14 @@ export const OAuthStatusMap = {
     USERNAME_REQUIRED: 'oauth_username',
 };
 
+export const UsernameStatusMap = {
+    UNKNOWN: 'unknown',
+    INVALID: 'invalid',
+    TAKEN: 'taken',
+    VALID: 'valid',
+    VALIDATING: 'validating',
+};
+
 export const APP_HOST = process.env.REACT_APP_HOST;
 
 export const APP_PORT = process.env.REACT_APP_PORT;
