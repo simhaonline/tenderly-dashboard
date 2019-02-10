@@ -64,7 +64,7 @@ class LoginPage extends Component {
     handleOAuth = async ({type, code}) => {
         const {authActions} = this.props;
 
-        await authActions.authenticateOAuth(type, code)
+        await authActions.authenticateOAuth(type, code);
     };
 
     isLoginButtonDisabled = () => {

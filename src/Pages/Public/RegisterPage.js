@@ -8,12 +8,29 @@ import {Page, Container} from "../../Elements";
 import {RegisterForm} from "../../Components";
 
 class RegisterPage extends Component {
+    /**
+     * @param {Object} data
+     */
+    handleRegistrationSubmit = (data) => {
+        console.log('register', data);
+    };
+
+    /**
+     * @param {string} type
+     * @param {string} code
+     */
+    handleOAuthRegistration = async (type, code) => {
+        const {actions} = this.props;
+
+        await actions.authenticateOAuth(type, code);
+    };
 
     render() {
         return (
             <Page padding={false} wholeScreenPage>
                 <Container>
-                    <RegisterForm/>
+                    <RegisterForm onSubmit={this.handleRegistrationSubmit}
+                                  onOAuth={this.handleOAuthRegistration}/>
                 </Container>
             </Page>
         )
