@@ -14,6 +14,7 @@ export const REGISTER_ACTION = 'REGISTER';
 export const GET_USER_ACTION = 'GET_USER';
 export const COMPLETE_ONBOARDING = 'COMPLETE_ONBOARDING';
 export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
+export const SET_USERNAME_ACTION = 'SET_USERNAME';
 
 /**
  * @param {string} token
@@ -261,6 +262,39 @@ export const validateUsername = (username) => {
             });
         } catch (error) {
             return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {string} username
+ * @return {Function}
+ */
+export const setUsername = (username) => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
+        if (!username.length) {
+            return new ErrorActionResponse();
+        }
+
+        try {
+            const {data} = await Api.post('/user/change-username', {
+                username,
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            const newUser = user.updateUsername(username);
+
+            dispatch({
+               type: SET_USERNAME_ACTION,
+               user: newUser,
+            });
+        } catch (error) {
+            throw new ErrorActionResponse(error);
         }
     }
 };

@@ -48,6 +48,13 @@ class OnboardingSetUsernameStep extends Component {
         await this.validateUsername(value);
     };
 
+    setUsername = async () => {
+        const {actions} = this.props;
+        const {username} = this.state;
+
+        await actions.setUsername(username);
+    };
+
     render() {
         const {usernameStatus, username} = this.state;
 
@@ -59,7 +66,7 @@ class OnboardingSetUsernameStep extends Component {
                 </div>
                     <Input field="username" onChange={this.handleUsernameChange} value={username} label="Username" icon="user"/>
                     {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
-                <Button disabled={usernameStatus !== UsernameStatusMap.VALID}>
+                <Button disabled={usernameStatus !== UsernameStatusMap.VALID} onClick={this.setUsername}>
                     <span>Set username</span>
                 </Button>
             </Card>

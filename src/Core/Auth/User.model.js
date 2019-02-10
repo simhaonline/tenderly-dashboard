@@ -19,6 +19,15 @@ class User {
     getFullName() {
         return `${this.firstName} ${this.lastName}`
     }
+
+    /**
+     * @param {string} username
+     */
+    updateUsername(username) {
+        this.username = username;
+
+        return this;
+    }
 }
 
 export default User;
