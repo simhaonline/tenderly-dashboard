@@ -7,7 +7,7 @@ import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelper
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Container, Card, CardHeading, Input, Alert} from "../../Elements";
+import {Page, Container, Card, CardHeading, Input, Alert, Code} from "../../Elements";
 import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton} from "../../Components";
 
 import './AccountSettingsPage.css';
@@ -117,7 +117,7 @@ class AccountSettingsPage extends Component {
 
     render() {
         const {currentSegment, error, formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
-        const {user} = this.props;
+        const {user, token} = this.props;
 
         const isPasswordFormValid = !!currentPassword && !!newPassword && !!newPassword;
 
@@ -137,6 +137,15 @@ class AccountSettingsPage extends Component {
                             </Card>
                         </PageSegmentContent>}
                         {currentSegment === SettingsSegmentsTypes.SECURITY && <PageSegmentContent>
+                            <Card>
+                                <CardHeading>
+                                    <h3>Auth Tokens</h3>
+                                </CardHeading>
+                                <div>
+                                    <p>You can use this token to login to our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a></p>
+                                    <Code>{token}</Code>
+                                </div>
+                            </Card>
                             <Card>
                                 <CardHeading>
                                     <h3>Security</h3>
@@ -168,6 +177,7 @@ class AccountSettingsPage extends Component {
 const mapStateToProps = (state) => {
     return {
         user: state.auth.user,
+        token: state.auth.token,
     };
 };
 
