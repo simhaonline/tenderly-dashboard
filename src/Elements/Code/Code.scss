@@ -1,3 +1,15 @@
-.Code {
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
 
+.Code {
+  width: 100%;
+  word-break: break-all;
+  font-size: $FontSize100;
+  line-height: $FontSize600;
+  padding: 12px 15px;
+  border: 1px solid $BorderColor;
+  font-family: $MonospaceFontFamily;
+  display: block;
+  border-radius: 4px;
+  background-color: #171e31;
 }
