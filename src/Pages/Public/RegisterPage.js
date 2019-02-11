@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 
 import * as authActions from "../../Core/Auth/Auth.actions";
+import MixPanel from "../../Utils/MixPanel";
 
 import {Container, Page} from "../../Elements";
 import {RegisterForm} from "../../Components";
-import {Redirect} from "react-router-dom";
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -14,6 +15,18 @@ class RegisterPage extends Component {
 
         this.state = {
             registered: false,
+        }
+    }
+
+    componentDidMount() {
+        const {location: {search}} = this.props;
+
+        const searchParams = new URLSearchParams(search);
+
+        const source = searchParams.get('source');
+
+        if (source) {
+            MixPanel.track(`Create Account from source: ${source}`);
         }
     }
 
