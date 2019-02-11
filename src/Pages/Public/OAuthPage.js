@@ -64,11 +64,7 @@ class OAuthPage extends Component {
         } else if (authResponse && !authResponse.success) {
             currentStatus = OAuthStatusMap.FAILED;
         } else if (authResponse && authResponse.success) {
-            if (!auth.usernameSet) {
-                currentStatus = OAuthStatusMap.USERNAME_REQUIRED;
-            } else {
-                currentStatus = OAuthStatusMap.SUCCESS;
-            }
+            currentStatus = OAuthStatusMap.SUCCESS;
         }
 
         if (currentStatus === OAuthStatusMap.SUCCESS) {
