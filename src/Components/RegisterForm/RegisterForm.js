@@ -57,8 +57,6 @@ class RegisterForm extends Component {
 
         const response = await onSubmit(formData);
 
-        console.log(response);
-
         if (!response.success) {
             this.setState({
                 registrationFailed: true,
