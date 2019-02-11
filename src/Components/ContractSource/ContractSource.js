@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Code from "../Code/Code";
+import CodePreview from "../CodePreview/CodePreview";
 
 const ContractSource = ({contract, line}) => {
     return (
         <div className="ContractSource">
-            <Code source={contract.source} line={line}/>
+            <CodePreview source={contract.source} line={line}/>
         </div>
     );
 };

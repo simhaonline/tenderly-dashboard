@@ -6,7 +6,7 @@ export {default as EventList} from './EventList/EventList';
 export {default as EarlyAccessButton} from './EarlyAccessButton/EarlyAccessButton';
 export {default as EarlyAccessSignUp} from './EarlyAccessSignUp/EarlyAccessSignUp';
 export {default as ContractSource} from './ContractSource/ContractSource';
-export {default as Code} from './Code/Code';
+export {default as CodePreview} from './CodePreview/CodePreview';
 export {default as RegisterForm} from './RegisterForm/RegisterForm';
 export {default as PasswordStrengthScore} from './PasswordStrengthScore/PasswordStrengthScore';
 export {default as ProgressiveButton} from './ProgressiveButton/ProgressiveButton';

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {Icon} from "../../Elements";
-import Code from "../Code/Code";
+import CodePreview from "../CodePreview/CodePreview";
 
 import './EventStackTracePoint.css';
 import {Link} from "react-router-dom";
@@ -43,7 +43,7 @@ class EventStackTracePoint extends Component {
                     <div className="TraceMessage">{point.code} at {point.name}:{point.line}</div>
                 </div>
                 {open && <div className="StackTraceCode">
-                    <Code line={point.line} linePreview={linesVisible} source={source}/>
+                    <CodePreview line={point.line} linePreview={linesVisible} source={source}/>
                     <Link className="SourceLink" to={`../source?line=${point.line}`}>
                         <Icon icon="terminal" className="LinkIcon"/>
                         <span>Contract Source</span>
