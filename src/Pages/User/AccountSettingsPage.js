@@ -143,7 +143,10 @@ class AccountSettingsPage extends Component {
                                 </CardHeading>
                                 <div>
                                     <p>You can use this token to login to our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a></p>
+                                    <h4>Token</h4>
                                     <Code>{token}</Code>
+                                    <p>Or you can paste the following command into your terminal and login.</p>
+                                    <Code enableCopy>tenderly login --authentication-method=token --token={token}</Code>
                                 </div>
                             </Card>
                             <Card>
