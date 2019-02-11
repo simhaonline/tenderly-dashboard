@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import hljs from "highlight.js";
 import hljsDefineSolidity from "highlightjs-solidity";
 
-import './Code.css';
+import './CodePreview.css';
 
 hljsDefineSolidity(hljs);
 hljs.initHighlightingOnLoad();
