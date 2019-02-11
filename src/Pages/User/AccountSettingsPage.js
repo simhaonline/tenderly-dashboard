@@ -12,18 +12,24 @@ import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton
 
 import './AccountSettingsPage.css';
 
+const SettingsSegmentsTypes = {
+    GENERAL: 'general',
+    SECURITY: 'security',
+    BILLING: 'billing',
+};
+
 const SettingsSegments = [
     {
         label: 'General',
-        value: 'general',
+        value: SettingsSegmentsTypes.GENERAL,
     },
     {
         label: 'Security',
-        value: 'security',
+        value: SettingsSegmentsTypes.SECURITY,
     },
     {
         label: 'Billing',
-        value: 'billing',
+        value: SettingsSegmentsTypes.BILLING,
         featureFlag: FeatureFlagTypes.BILLING,
     },
 ];
@@ -32,8 +38,14 @@ class AccountSettingsPage extends Component {
     constructor(props) {
         super(props);
 
+        const tabValues = Object.values(SettingsSegmentsTypes);
+
+        const {match: {params: {tab}}} = props;
+
+        const currentSegment = tab && tabValues.includes(tab) ? tab : SettingsSegmentsTypes.GENERAL;
+
         this.state = {
-            currentSegment: 'general',
+            currentSegment,
             error: null,
         };
 
@@ -115,7 +127,7 @@ class AccountSettingsPage extends Component {
                     <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={SettingsSegments}
                                              onSelect={this.handleSegmentSwitch}/>
-                        {currentSegment === 'general' && <PageSegmentContent>
+                        {currentSegment === SettingsSegmentsTypes.GENERAL && <PageSegmentContent>
                             <Card>
                                 <CardHeading>
                                     <h3>General</h3>
@@ -124,7 +136,7 @@ class AccountSettingsPage extends Component {
                                 {user.username}
                             </Card>
                         </PageSegmentContent>}
-                        {currentSegment === 'security' && <PageSegmentContent>
+                        {currentSegment === SettingsSegmentsTypes.SECURITY && <PageSegmentContent>
                             <Card>
                                 <CardHeading>
                                     <h3>Security</h3>

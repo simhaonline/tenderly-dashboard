@@ -5,7 +5,7 @@ import {Redirect} from "react-router-dom";
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Container, Icon} from "../../Elements";
+import {Page, Container} from "../../Elements";
 import {OnboardingWelcomeStep, OnboardingCreateOrganizationStep, OnboardingCreateProjectStep} from "../../Components";
 
 import './OnboardingPage.css';

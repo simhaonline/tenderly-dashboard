@@ -25,7 +25,7 @@ const AppPages = () => {
             <PrivateRoute path="/project/create" exact component={CreateProjectPage}/>
             <PrivateRoute path="/project/:id" component={ProjectPage}/>
             <PrivateRoute path="/onboarding" exact component={OnboardingPage}/>
-            <PrivateRoute path="/account" exact component={AccountSettingsPage}/>
+            <PrivateRoute path="/account/:tab?" component={AccountSettingsPage}/>
             <Route path="/login" exact component={LoginPage}/>
             <Route path="/oauth/:service" exact component={OAuthPage}/>
             <Route path="/register" exact component={RegisterPage}/>

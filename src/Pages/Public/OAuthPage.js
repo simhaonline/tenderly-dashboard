@@ -51,7 +51,7 @@ class OAuthPage extends Component {
 
     render() {
         const {authenticating, authResponse, alreadyLoggedIn} = this.state;
-        const {service, auth} = this.props;
+        const {service} = this.props;
 
         if (alreadyLoggedIn) {
             return <Redirect to="/"/>;
