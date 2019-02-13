@@ -46,3 +46,4 @@ export {default as PageSegments} from './PageSegments/PageSegments';
 export {default as PageSegmentSwitcher} from './PageSegments/PageSegmentSwitcher';
 export {default as PageSegmentContent} from './PageSegments/PageSegmentContent';
 export {default as AccountRecoveryForm} from './AccountRecoveryForm/AccountRecoveryForm';
+export {default as ResetPasswordForm} from './ResetPasswordForm/ResetPasswordForm';
