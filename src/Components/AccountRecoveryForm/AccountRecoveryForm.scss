@@ -1,0 +1,29 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.AccountRecoveryForm {
+  max-width: 500px;
+  margin: 0 auto;
+
+  .LogoWrapper {
+    margin-bottom: 20px;
+    text-align: center;
+
+    .AppLogo {
+      height: 120px;
+    }
+  }
+
+  .FormSubActions {
+    padding: 0 15px;
+
+    .LoginLink {
+      font-size: $FontSize200;
+      opacity: 0.8;
+
+      .LoginLinkIcon {
+        margin-right: 5px;
+      }
+    }
+  }
+}
