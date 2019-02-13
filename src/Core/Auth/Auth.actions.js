@@ -188,6 +188,30 @@ export const recoverAccount = (email) => {
     }
 };
 
+/**
+ * @param code
+ * @param newPassword
+ * @return {Function}
+ */
+export const resetPassword = (code, newPassword) => {
+    return async dispatch => {
+        try {
+            const {data} = await PublicApi.post('/reset-password-set', {
+                code,
+                new_password: newPassword,
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    };
+};
+
 export const completeOnboarding = () => {
     return async dispatch => {
         dispatch({
