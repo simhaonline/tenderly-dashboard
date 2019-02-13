@@ -60,7 +60,7 @@ class ResetPasswordForm extends Component {
         if (!response.success) {
             this.setState({
                 error: true,
-                errorMessage: 'There was a problem trying ',
+                errorMessage: 'There was a problem trying to set your new password. Please try again.',
             });
 
             return;
