@@ -87,7 +87,7 @@ class AccountRecoveryForm extends Component {
                     {recoveryMailSent && <Alert color="success" animation={true}>Recovery e-mail has been successfully sent to {recoveryMailSentEmail}.</Alert>}
                     <p>We will send a recovery e-mail to this address with instructions how to recover your account.</p>
                     <Form onSubmit={this.handleFormSubmit}>
-                        <Input field="email" value={email} onChange={this.handleFormUpdate} label="E-mail" icon="mail"/>
+                        <Input autoFocus field="email" value={email} onChange={this.handleFormUpdate} label="E-mail" icon="mail"/>
                         <Button onClick={this.handleFormSubmit} disabled={!this.isFormValid()}>Recover Account</Button>
                     </Form>
                 </Card>
