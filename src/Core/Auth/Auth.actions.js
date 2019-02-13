@@ -166,6 +166,28 @@ export const changePassword = (oldPassword, newPassword) => {
     }
 };
 
+/**
+ * @param {string} email
+ * @return {Function}
+ */
+export const recoverAccount = (email) => {
+    return async dispatch => {
+        try {
+            if (!email) {
+                return new ErrorActionResponse('Invalid e-mail address.');
+            }
+
+            const {data} = await PublicApi.post('/reset-password', {
+                email,
+            });
+
+            return new SuccessActionResponse(data);
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
 export const completeOnboarding = () => {
     return async dispatch => {
         dispatch({
