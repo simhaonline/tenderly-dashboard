@@ -9,12 +9,12 @@ import './Alert.css';
  */
 function getAlertColorClass(color) {
     switch (color) {
-        case 'secondary':
-            return 'Secondary';
+        case 'success':
+            return 'Success';
         case 'danger':
             return 'Danger';
         default:
-            return 'Primary';
+            return '';
     }
 }
 
