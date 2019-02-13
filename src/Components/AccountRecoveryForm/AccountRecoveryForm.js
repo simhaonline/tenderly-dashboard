@@ -48,6 +48,8 @@ class AccountRecoveryForm extends Component {
         this.setState({
             recoveryMailSent: false,
             recoveryMailSentEmail: '',
+            error: false,
+            errorMessage: '',
         });
 
         const response = await onSubmit({
