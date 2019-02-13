@@ -89,7 +89,7 @@ class ResetPasswordForm extends Component {
                         <p>Set your new password for your account.</p>
                         <Input autoFocus type="password" field="password" value={password} onChange={this.handleFormUpdate} label="New password"/>
                         <Input type="password" field="repeatedPassword" value={repeatedPassword} onChange={this.handleFormUpdate} label="Repeat new password"/>
-                        <Button type="submit" disabled={!password || !repeatedPassword} onClick={this.handleFormSubmit}>
+                        <Button type="submit" disabled={!password || !repeatedPassword}>
                             <span>Set Password</span>
                         </Button>
                     </Form>}
