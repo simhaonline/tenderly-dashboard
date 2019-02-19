@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import {UsernameStatusMap} from "../../Common/constants";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Card, Button, Input} from "../../Elements";
+import {Card, Button, Input, CardHeading} from "../../Elements";
 import {UsernameStatusInfo} from "../index";
 
 import "./OnboardingSetUsernameStep.css";
@@ -60,12 +60,12 @@ class OnboardingSetUsernameStep extends Component {
 
         return (
             <Card className="OnboardingSetUsernameStep">
-                <div>
-                    <span>One last thing is needed in order to start using your dashboard.</span>
-                    <span>Let's setup a username</span>
-                </div>
-                    <Input field="username" onChange={this.handleUsernameChange} value={username} label="Username" icon="user"/>
-                    {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
+                <CardHeading>
+                    <h3>Username</h3>
+                </CardHeading>
+                <p>One last thing is needed in order to start using your dashboard. Let's setup a username for your account.</p>
+                <Input field="username" onChange={this.handleUsernameChange} value={username} label="Username" icon="user"/>
+                {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
                 <Button disabled={usernameStatus !== UsernameStatusMap.VALID} onClick={this.setUsername}>
                     <span>Set username</span>
                 </Button>
