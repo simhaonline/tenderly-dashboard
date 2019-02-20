@@ -89,7 +89,7 @@ class ProjectSetupGuide extends Component {
         if (projectSetup) {
             MixPanel.track('Project Setup Guide - Verification success');
 
-            eventActions.fetchEventsForProject(project.id, 0);
+            eventActions.fetchEventsForProject(project.id, 1);
             contractActions.fetchContractsForProject(project.id);
         } else {
             MixPanel.track('Project Setup Guide - Verification failed');

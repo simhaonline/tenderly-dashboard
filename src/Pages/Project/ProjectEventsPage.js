@@ -156,7 +156,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const searchParams = new URLSearchParams(search);
 
-    const queryPage = parseInt(searchParams.get('page')) || 0;
+    const queryPage = parseInt(searchParams.get('page')) || 1;
 
     return {
         project: getProject(state, id),
