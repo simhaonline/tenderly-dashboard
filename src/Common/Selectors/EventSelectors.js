@@ -2,11 +2,11 @@
  * @param {Object} state
  * @param {string} id
  * @param {string} network
- * @param {number} limit
- * @param {number} offset
+ * @param {number} perPage
+ * @param {number} page
  * @returns {Event[]}
  */
-export function getPublicContractEvents(state, id, network, limit=20, offset=0) {
+export function getPublicContractEvents(state, id, network, perPage=20, page=1) {
     if (!state.event.contractEvents[network] || !state.event.contractEvents[network][id]) {
         return [];
     }
