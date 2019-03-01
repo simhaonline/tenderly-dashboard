@@ -25,7 +25,7 @@ class ErrorPage extends Component {
                 <Container>
                     <ContractInformation contract={contract}/>
                     <EventInformation event={event} network={contract.network}/>
-                    <EventStackTrace trace={event.trace} source={contract.data.source}/>
+                    <EventStackTrace trace={event.trace} source={contract.source}/>
                 </Container>
             </Page>
         )
