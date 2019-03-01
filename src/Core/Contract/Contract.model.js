@@ -37,12 +37,12 @@ class Contract {
         /** @type number */
         this.eventCount = data.number_of_exceptions;
 
-        if (data.source) {
+        if (data.data.source) {
             /** @type string */
-            this.source = data.source;
+            this.source = data.data.source;
 
             /** @type string */
-            this.solidity = Contract.getSolidityVersion(data.source);
+            this.solidity = Contract.getSolidityVersion(data.data.source);
         }
     }
 

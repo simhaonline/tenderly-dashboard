@@ -39,7 +39,7 @@ class EventPage extends Component {
             <Page>
                 <Container>
                     <EventInformation event={event} network={contract.network}/>
-                    <EventStackTrace trace={event.trace} source={contract.source}/>
+                    <EventStackTrace trace={event.trace} source={contract.data.source}/>
                 </Container>
             </Page>
         );
