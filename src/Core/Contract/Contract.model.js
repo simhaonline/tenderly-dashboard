@@ -37,7 +37,7 @@ class Contract {
         /** @type number */
         this.eventCount = data.number_of_exceptions;
 
-        if (data.data.source) {
+        if (data.data) {
             /** @type string */
             this.source = data.data.source;
 
