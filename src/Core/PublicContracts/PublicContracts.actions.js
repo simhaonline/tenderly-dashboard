@@ -20,7 +20,6 @@ export const fetchPublicContracts = (network, page, query) => {
             params: {
                 page,
                 query,
-                numberOfErrors: 1,
             }
         });
 
