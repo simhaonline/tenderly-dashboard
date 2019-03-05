@@ -38,7 +38,7 @@ class ProjectEventActions extends Component {
     handleRefreshPage = () => {
         const {onAction, page} = this.props;
 
-        MixPanel.track('projecT_events_refresh_data', {
+        MixPanel.track('project_events_refresh_data', {
             currentPage: page,
         });
 
