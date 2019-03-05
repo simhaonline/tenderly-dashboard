@@ -266,7 +266,7 @@ export const authenticateOAuth = (service, code) => {
             dispatch(setAuthHeader(data.token));
             await dispatch(getUser());
 
-            if (data.newUser) {
+            if (data.is_new_user) {
                 MixPanel.track('registered_new_account');
                 MixPanel.track('registered_via_oauth', {
                     service,
