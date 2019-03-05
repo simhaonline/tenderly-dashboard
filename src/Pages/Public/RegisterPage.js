@@ -15,6 +15,7 @@ class RegisterPage extends Component {
 
         this.state = {
             registered: false,
+            source: null,
         }
     }
 
@@ -26,9 +27,19 @@ class RegisterPage extends Component {
         const source = searchParams.get('source');
 
         if (source) {
-            MixPanel.track(`Create Account from source: ${source}`);
+            this.setState({
+                source,
+            });
         }
     }
+
+    trackRegisteredAccountForSource = () => {
+        const {source} = this.state;
+
+        if (source) {
+            MixPanel.track(`registered_from_source_${source}`);
+        }
+    };
 
     /**
      * @param {Object} data
@@ -36,7 +47,13 @@ class RegisterPage extends Component {
     handleRegistrationSubmit = async (data) => {
         const {actions} = this.props;
 
-        return await actions.registerUser(data);
+        const response = await actions.registerUser(data);
+
+        if (response.success) {
+            this.trackRegisteredAccountForSource();
+        }
+
+        return response;
     };
 
     /**
@@ -46,7 +63,11 @@ class RegisterPage extends Component {
     handleOAuthRegistration = async (type, code) => {
         const {actions} = this.props;
 
-        await actions.authenticateOAuth(type, code);
+        const response = await actions.authenticateOAuth(type, code);
+
+        if (response.success) {
+            this.trackRegisteredAccountForSource();
+        }
     };
 
     render() {

@@ -12,11 +12,11 @@ import {FeatureFlagTypes} from "../../Common/constants";
 import MixPanel from "../../Utils/MixPanel";
 
 const handleProjectItemClick = () => {
-    MixPanel.track('Navigate to Project');
+    MixPanel.track('navigate_project');
 };
 
 const handleCreateProjectClick = () => {
-    MixPanel.track('Navigate to Create Project');
+    MixPanel.track('navigate_create_project');
 };
 
 const DashboardProjectsList = ({projects, loaded}) => {

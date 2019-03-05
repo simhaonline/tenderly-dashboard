@@ -31,7 +31,7 @@ class ProjectSetupGuide extends Component {
         const {dialogOpen} = this.state;
 
         if (dialogOpen) {
-            MixPanel.track('Viewed Initial Project Setup Guide');
+            MixPanel.track('viewed_initial_project_setup');
 
             if (!project.setupViewed) {
                 actions.setProjectSetupViewed(project);
@@ -40,7 +40,7 @@ class ProjectSetupGuide extends Component {
     }
 
     handleDialogClose = () => {
-        MixPanel.track(`Project Setup Guide - Close Dialog`);
+        MixPanel.track(`project_setup_close`);
 
         this.setState({
             dialogOpen: false,
@@ -54,7 +54,7 @@ class ProjectSetupGuide extends Component {
             actions.setProjectSetupViewed(project);
         }
 
-        MixPanel.track('Viewed Project Setup Guide via Button');
+        MixPanel.track('pressed_project_setup_button');
 
         this.setState({
             dialogOpen: true,
@@ -66,7 +66,7 @@ class ProjectSetupGuide extends Component {
     };
 
     nextStep = () => {
-        MixPanel.track(`Project Setup Guide - Next Step: ${this.state.currentStep + 1}`);
+        MixPanel.track(`project_setup_next_step_${this.state.currentStep + 1}`);
 
         this.setState({
             currentStep: this.state.currentStep + 1,
@@ -80,19 +80,19 @@ class ProjectSetupGuide extends Component {
             verifying: true,
         });
 
-        MixPanel.track('Project Setup Guide - Verify Setup');
+        MixPanel.track('project_setup_verify_setup');
 
         const fetchedProject = await actions.fetchProject(project.id);
 
         const projectSetup = !!fetchedProject.lastPushAt;
 
         if (projectSetup) {
-            MixPanel.track('Project Setup Guide - Verification success');
+            MixPanel.track('project_setup_verification_success');
 
             eventActions.fetchEventsForProject(project.id, 1);
             contractActions.fetchContractsForProject(project.id);
         } else {
-            MixPanel.track('Project Setup Guide - Verification failed');
+            MixPanel.track('project_setup_verification_failed');
         }
 
         setTimeout(() => {

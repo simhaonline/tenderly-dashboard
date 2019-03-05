@@ -121,7 +121,7 @@ class LoginPage extends Component {
                             <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                         <div className="PocLinkWrapper">
-                            <Link to="/register" className="PocLink" onClick={() => {MixPanel.track('Login Flow - Create Account')}}>
+                            <Link to="/register" className="PocLink" onClick={() => {MixPanel.track('navigate_register')}}>
                                 <span>Create Account</span>
                             </Link>
                         </div>

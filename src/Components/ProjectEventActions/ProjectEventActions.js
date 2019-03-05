@@ -12,7 +12,7 @@ class ProjectEventActions extends Component {
     handlePreviousEventsPage = () => {
         const {onAction, page} = this.props;
 
-        MixPanel.track('Project Events - Previous Page', {
+        MixPanel.track('project_events_previous_page', {
             currentPage: page,
         });
 
@@ -25,7 +25,7 @@ class ProjectEventActions extends Component {
     handleNextEventsPage = () => {
         const {onAction, page} = this.props;
 
-        MixPanel.track('Project Events - Next Page', {
+        MixPanel.track('project_events_next_page', {
             currentPage: page,
         });
 
@@ -38,7 +38,7 @@ class ProjectEventActions extends Component {
     handleRefreshPage = () => {
         const {onAction, page} = this.props;
 
-        MixPanel.track('Project Events - Refresh Page', {
+        MixPanel.track('projecT_events_refresh_data', {
             currentPage: page,
         });
 

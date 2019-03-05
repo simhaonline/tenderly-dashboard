@@ -13,13 +13,13 @@ import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import './ProjectContract.css';
 
 const handleProjectContractClick = () => {
-    MixPanel.track('Contracts Page - Navigate to Contract');
+    MixPanel.track('contracts_page_navigate_contract');
 };
 
 const handleContractEventsClick = (event) => {
     event.stopPropagation();
 
-    MixPanel.track('Contracts Page - View Contract Events');
+    MixPanel.track('contracts_page_view_events');
 };
 
 const ProjectContract = ({contract}) => {

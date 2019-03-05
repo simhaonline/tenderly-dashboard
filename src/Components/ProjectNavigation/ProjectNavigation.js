@@ -11,7 +11,7 @@ import './ProjectNavigation.css';
 
 const ProjectNavigation = ({project}) => {
     const trackNavigationItem = (navItem) => {
-        MixPanel.track(`Navigate to Project - ${navItem}`);
+        MixPanel.track(`navigate_project_${navItem}`);
     };
 
     return (
