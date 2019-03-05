@@ -71,12 +71,14 @@
 }
 
 .DialogContent {
-  background-color: #121826;
+  background-color: #212a46;
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 10px;
   z-index: 1000;
   color: #fff;
   width: 600px;
+  overflow: hidden;
+  box-shadow: 4px 4px 8px 0 transparentize($BlackColor, 0.7);
 
   .DialogHeader {
     background-color: transparentize($BlackColor, 0.8);

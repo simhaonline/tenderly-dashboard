@@ -37,7 +37,9 @@ class RegisterPage extends Component {
         const {source} = this.state;
 
         if (source) {
-            MixPanel.track(`registered_from_source_${source}`);
+            MixPanel.track(`registered_from_source`, {
+                source,
+            });
         }
     };
 
