@@ -26,28 +26,28 @@ const ProjectNavigation = ({project}) => {
                     </div>
                 </div>
                 <div className="NavigationItems">
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/events`} onClick={() => trackNavigationItem('Events')}>
+                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/events`} onClick={() => trackNavigationItem('events')}>
                         <span>Events</span>
                     </NavLink>
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`} onClick={() => trackNavigationItem('Contracts')}>
+                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`} onClick={() => trackNavigationItem('contracts')}>
                         <span>Contracts</span>
                     </NavLink>
                     <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
-                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/analytics`} onClick={() => trackNavigationItem('Analytics')}>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/analytics`} onClick={() => trackNavigationItem('analytics')}>
                             <span>Analytics</span>
                         </NavLink>
                     </FeatureFlag>
                     <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/releases`} onClick={() => trackNavigationItem('Deployment')}>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/releases`} onClick={() => trackNavigationItem('deployment')}>
                             <span>Deployment</span>
                         </NavLink>
                     </FeatureFlag>
                     <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/alerts`} onClick={() => trackNavigationItem('Alerts')}>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/alerts`} onClick={() => trackNavigationItem('alerts')}>
                             <span>Alerts</span>
                         </NavLink>
                     </FeatureFlag>
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/settings`} onClick={() => trackNavigationItem('Settings')}>
+                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/settings`} onClick={() => trackNavigationItem('settings')}>
                         <span>Settings</span>
                     </NavLink>
                 </div>
