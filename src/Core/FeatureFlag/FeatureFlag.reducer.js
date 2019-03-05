@@ -16,7 +16,7 @@ const FeatureFlagReducer = (state = initialState, action) => {
             if (isInternalUser) {
                 const possibleFlags = Object.values(FeatureFlagTypes);
                 flags = possibleFlags.reduce((map, key) => {
-                    map[key] = true;
+                    map[key] = false;
                     return map;
                 }, {});
             }
