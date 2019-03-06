@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {Icon} from "../../Elements";
+
 import './Loaders.css';
 
 export const CircularLoader = () => {
@@ -30,5 +32,14 @@ export const DotLoader = () => {
             </div>
         </div>
 
+    )
+};
+
+export const EthereumLoader = () => {
+    return (
+        <div className="EthereumLoader">
+            <Icon icon="ethereum" className="EthereumIcon"/>
+            <div className="Spinner"/>
+        </div>
     )
 };
