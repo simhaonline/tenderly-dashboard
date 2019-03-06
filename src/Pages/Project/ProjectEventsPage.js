@@ -43,7 +43,7 @@ class ProjectEventsPage extends Component {
                         value: [contractFilter],
                     },
                 },
-            })
+            });
         }
 
         if (project.lastPushAt) {
