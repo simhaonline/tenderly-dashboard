@@ -3,6 +3,7 @@ import * as Sentry from "@sentry/browser";
 
 import {PublicApi, Api} from '../../Utils/Api';
 import MixPanel from "../../Utils/MixPanel";
+import FullStory from "../../Utils/FullStory";
 
 import User from "./User.model";
 import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
@@ -126,6 +127,7 @@ export const getUser = () => {
             const user = new User(data.user);
 
             MixPanel.setUser(user);
+            FullStory.identifyUser(user);
 
             Sentry.configureScope(scope => {
                 scope.setUser({
