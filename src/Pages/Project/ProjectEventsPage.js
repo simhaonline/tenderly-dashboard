@@ -53,9 +53,9 @@ class ProjectEventsPage extends Component {
                 await contractActions.fetchContractsForProject(project.id);
             }
 
-            // this.setState({
-            //     loadedPage: true,
-            // });
+            this.setState({
+                loadedPage: true,
+            });
         }
     }
 
