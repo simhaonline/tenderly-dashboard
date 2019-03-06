@@ -9,3 +9,26 @@ export const CircularLoader = () => {
         </div>
     )
 };
+
+export const DotLoader = () => {
+    return (
+        <div className="DotLoader">
+            <div className="DotContainer">
+                <div className="Dot"/>
+                <div className="Dot"/>
+                <div className="Dot"/>
+            </div>
+            <div className="DotContainer">
+                <div className="Dot"/>
+                <div className="Dot"/>
+                <div className="Dot"/>
+            </div>
+            <div className="DotContainer">
+                <div className="Dot"/>
+                <div className="Dot"/>
+                <div className="Dot"/>
+            </div>
+        </div>
+
+    )
+};

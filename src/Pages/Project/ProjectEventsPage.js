@@ -13,7 +13,7 @@ import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page} from "../../Elements";
-import {ProjectEvents, ProjectSetupEmptyState, ProjectEventFilters, ProjectEventActions} from "../../Components";
+import {ProjectEvents, ProjectSetupEmptyState, ProjectEventFilters, ProjectEventActions, ProjectContentLoader} from "../../Components";
 
 class ProjectEventsPage extends Component {
     constructor(props) {
@@ -53,9 +53,9 @@ class ProjectEventsPage extends Component {
                 await contractActions.fetchContractsForProject(project.id);
             }
 
-            this.setState({
-                loadedPage: true,
-            });
+            // this.setState({
+            //     loadedPage: true,
+            // });
         }
     }
 
@@ -142,9 +142,7 @@ class ProjectEventsPage extends Component {
                         <ProjectEventActions page={page} onAction={this.handleEventAction} loading={loadingPage}/>
                         <ProjectEvents events={filteredEvents} contracts={contracts} loading={loadingPage}/>
                     </Fragment>}
-                    {projectIsSetup && !loadedPage && <div>
-                        Loading...
-                    </div>}
+                    {projectIsSetup && !loadedPage && <ProjectContentLoader text="Fetching events for your project..."/>}
                 </Container>
             </Page>
         )

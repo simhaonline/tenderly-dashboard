@@ -54,3 +54,105 @@ $CircularLoaderSize: 150px;
     }
   }
 }
+
+
+@keyframes DotWrapperAnimation {
+  0% {
+    transform: rotate(0deg);
+
+  }
+  100% {
+    transform: rotate(-359deg);
+  }
+}
+
+@keyframes DotAnimation1 {
+  0% {
+    transform: translate(0, 0);
+
+  }
+  100% {
+    transform: translate(-40px, 67px);
+  }
+}
+
+@keyframes DotAnimation2 {
+  0% {
+    transform: translate(0, 0);
+
+  }
+  100% {
+    transform: translate(77px, 0);
+  }
+}
+
+@keyframes DotAnimation3 {
+  0% {
+    transform: translate(0, 0);
+
+  }
+  100% {
+    transform: translate(-39px, -67px);
+  }
+}
+
+.DotLoader {
+  transform-origin: center;
+  animation: DotWrapperAnimation 10s linear infinite;
+
+  &, .DotContainer {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+
+  .DotContainer {
+    position: absolute;
+    border-radius: 50px;
+
+    &:nth-child(2) {
+      transform: rotate(40deg);
+
+      .Dot {
+        //animation-delay: -0.35s;
+        animation-delay: -0.5s;
+      }
+    }
+    &:nth-child(3) {
+      transform: rotate(80deg);
+
+      .Dot {
+        //animation-delay: -0.35s;
+        animation-delay: -1s;
+      }
+    }
+  }
+
+  .Dot {
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border: 1px solid transparentize($PrimaryColor600, 0.2);
+    box-shadow: 0 0 3px 1px transparentize($PrimaryColor600, 0.3);
+    border-radius: 5px;
+    transform: translate(0, 0);
+
+    &:nth-child(1) {
+      top: 0;
+      left: calc(50% - 5px);
+      animation: DotAnimation1 2s infinite;
+    }
+
+    &:nth-child(2) {
+      bottom: calc(28% - 5px);
+      left: calc(11% - 5px);
+      animation: DotAnimation2 2s infinite;
+    }
+
+    &:nth-child(3) {
+      bottom: calc(28% - 5px);
+      right: calc(11% - 5px);
+      animation: DotAnimation3 2s infinite;
+    }
+  }
+}
