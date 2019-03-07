@@ -13,49 +13,51 @@ export const ActionErrorTypes = {
 
 export const NetworkTypes = {
     MAIN: 'main_network',
+    KOVAN: 'kovan_testnet',
     ROPSTEN: 'ropsten_testnet',
     RINKEBY: 'rinkeby_testnet',
-    KOVAN: 'kovan_testnet',
 };
 
 export const NetworkRouteTypes = {
     MAIN: 'main',
+    KOVAN: 'kovan',
     ROPSTEN: 'ropsten',
     RINKEBY: 'rinkeby',
-    KOVAN: 'kovan',
-};
-
-export const NetworkApiToAppTypeMap = {
-    1: NetworkTypes.MAIN,
-    42: NetworkTypes.KOVAN,
 };
 
 export const NetworkAppToApiTypeMap = {
     [NetworkTypes.MAIN]: 1,
+    [NetworkTypes.KOVAN]: 42,
     [NetworkTypes.ROPSTEN]: 3,
     [NetworkTypes.RINKEBY]: 4,
-    [NetworkTypes.KOVAN]: 42,
+};
+
+export const NetworkApiToAppTypeMap = {
+    [NetworkAppToApiTypeMap[NetworkTypes.MAIN]]: NetworkTypes.MAIN,
+    [NetworkAppToApiTypeMap[NetworkTypes.KOVAN]]: NetworkTypes.KOVAN,
+    [NetworkAppToApiTypeMap[NetworkTypes.ROPSTEN]]: NetworkTypes.ROPSTEN,
+    [NetworkAppToApiTypeMap[NetworkTypes.RINKEBY]]: NetworkTypes.RINKEBY,
 };
 
 export const NetworkRouteToAppTypeMap = {
     [NetworkRouteTypes.MAIN]: NetworkTypes.MAIN,
+    [NetworkRouteTypes.KOVAN]: NetworkTypes.KOVAN,
     [NetworkTypes.ROPSTEN]: NetworkRouteTypes.ROPSTEN,
     [NetworkTypes.RINKEBY]: NetworkRouteTypes.RINKEBY,
-    [NetworkRouteTypes.KOVAN]: NetworkTypes.KOVAN,
 };
 
 export const NetworkAppToRouteTypeMap = {
     [NetworkTypes.MAIN]: NetworkRouteTypes.MAIN,
+    [NetworkTypes.KOVAN]: NetworkRouteTypes.KOVAN,
     [NetworkTypes.ROPSTEN]: NetworkRouteTypes.ROPSTEN,
     [NetworkTypes.RINKEBY]: NetworkRouteTypes.RINKEBY,
-    [NetworkTypes.KOVAN]: NetworkRouteTypes.KOVAN,
 };
 
 export const NetworkLabelMap = {
     [NetworkTypes.MAIN]: 'Main Network',
+    [NetworkTypes.KOVAN]: 'Kovan Testnet',
     [NetworkTypes.ROPSTEN]: 'Ropsten Testnet',
     [NetworkTypes.RINKEBY]: 'Rinkeby Testnet',
-    [NetworkTypes.KOVAN]: 'Kovan Testnet',
 };
 
 export const EtherscanLinkTypes = {
