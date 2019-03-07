@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import './SegmentedControls.css';
 
-const SegmentedControls = ({value, options, onChange}) => {
+const SegmentedControls = ({value, options, onChange, className}) => {
     const onOptionClick = (option) => (() => {
         if (option.value !== value) {
             onChange(option.value);
@@ -12,7 +12,10 @@ const SegmentedControls = ({value, options, onChange}) => {
     });
 
     return (
-        <div className="SegmentedControls">
+        <div className={classNames(
+            "SegmentedControls",
+            className,
+        )}>
             {options.map(option => <div className={classNames(
                 "ControlOption",
                 {
