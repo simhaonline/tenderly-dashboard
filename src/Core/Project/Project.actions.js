@@ -1,7 +1,8 @@
 import {Api} from "../../Utils/Api";
-import {ActionResponse} from "../../Common";
+import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import Project from "./Project.model";
+import {NetworkAppToApiTypeMap} from "../../Common/constants";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const DELETE_PROJECT_ACTION = 'DELETE_PROJECT';
@@ -168,6 +169,35 @@ export const updateProject = (id, data, account = null) => {
             return new ActionResponse(true, project);
         } catch (error) {
             return new ActionResponse(false, error);
+        }
+    }
+};
+
+/**
+ * @param {string} projectId
+ * @param {string} networkType
+ * @param {string} address
+ * @return {Function}
+ */
+export const addVerifiedContractToProject = (projectId, networkType, address) => {
+    return async (dispatch, getState) => {
+        try {
+            const {auth: {user: {username}}} = getState();
+
+            const networkId = NetworkAppToApiTypeMap[networkType];
+
+            const {data: responseData} = await Api.post(`/account/${username}/project/${projectId}/address`, {
+                network_id: networkId,
+                address,
+            });
+
+            if (!responseData || !responseData.ok) {
+                return new ErrorActionResponse();
+            }
+
+            return new SuccessActionResponse(responseData);
+        } catch (error) {
+            return new ErrorActionResponse(error);
         }
     }
 };
