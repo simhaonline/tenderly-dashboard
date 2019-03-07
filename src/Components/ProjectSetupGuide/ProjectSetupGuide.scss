@@ -31,11 +31,16 @@
     .StepContent {
       margin-bottom: 20px;
       height: $SetupProjectDialogHeight - 65px;
+      overflow-y: auto;
 
       p {
         margin-top: 0;
         margin-bottom: 25px;
         opacity: 0.9;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
 
       code {
