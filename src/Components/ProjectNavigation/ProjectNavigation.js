@@ -27,7 +27,7 @@ const ProjectNavigation = ({project}) => {
                 </div>
                 <div className="NavigationItems">
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/events`} onClick={() => trackNavigationItem('events')}>
-                        <span>Events</span>
+                        <span>Errors</span>
                     </NavLink>
                     <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`} onClick={() => trackNavigationItem('contracts')}>
                         <span>Contracts</span>
