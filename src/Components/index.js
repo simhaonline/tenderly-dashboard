@@ -49,3 +49,4 @@ export {default as AccountRecoveryForm} from './AccountRecoveryForm/AccountRecov
 export {default as ResetPasswordForm} from './ResetPasswordForm/ResetPasswordForm';
 export {CircularLoader, DotLoader, EthereumLoader} from './Loaders/Loaders';
 export {default as ProjectContentLoader} from './ProjectContentLoader/ProjectContentLoader';
+export {default as NetworkSegmentedPicker} from './NetworkSegmentedPicker/NetworkSegmentedPicker';

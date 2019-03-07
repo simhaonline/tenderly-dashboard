@@ -13,7 +13,7 @@ const ProjectSetupEmptyState = ({project, open}) => {
                 <img src={EmptyStateImage} className="EmptyStateImage" alt="Empty state" />
             </div>
             <h4 className="EmptyStateHeadline">One last thing left</h4>
-            <p className="EmptyStateDescription">In order to monitor your Smart Contracts for events, we need you to finish the project setup guide.</p>
+            <p className="EmptyStateDescription">In order to monitor your Smart Contracts for errors, we need you to finish the project setup guide.</p>
             <div className="EmptyStateActions">
                 <ProjectSetupGuide project={project} open={open}/>
             </div>
