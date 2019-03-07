@@ -11,8 +11,8 @@ const NetworkSegmentedOptions = Object.values(NetworkTypes).map(networkType => {
     }
 });
 
-const NetworkSegmentedPicker = ({value, onChange}) => (
-    <SegmentedControls options={NetworkSegmentedOptions} value={value} onChange={onChange}/>
+const NetworkSegmentedPicker = ({...props}) => (
+    <SegmentedControls options={NetworkSegmentedOptions} {...props}/>
 );
 
 export default NetworkSegmentedPicker;
