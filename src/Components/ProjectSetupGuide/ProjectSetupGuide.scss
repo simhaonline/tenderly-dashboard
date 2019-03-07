@@ -25,6 +25,8 @@
     position: absolute;
     width: 100%;
     transition: 0.4s;
+    left: 100%;
+    opacity: 0;
 
     .StepContent {
       margin-bottom: 20px;
@@ -83,6 +85,7 @@
     }
     &.Active {
       left: 0;
+      opacity: 1;
     }
     &.Next {
       left: 100%;
@@ -109,8 +112,76 @@
     }
 
     &.Active {
-      background-color: #00cebb;
+      background-color: $SecondaryColor600;
       width: 3 * $DialogStepProgressItemSize;
+    }
+  }
+
+  .ProjectSetupPickerWrapper {
+    display: flex;
+
+    .ProjectSetupItem {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid $BorderColor;
+      padding: 30px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:not(:last-child) {
+        margin-right: 30px;
+      }
+
+      .IconWrapper {
+        font-size: $FontSize600 * 1.5;
+        color: transparentize($WhiteColor, 0.5);
+        margin-bottom: 20px;
+        transition: 0.2s;
+      }
+
+      .SetupTypeName {
+        font-weight: 500;
+        margin-bottom: 10px;
+        font-size: $FontSize400;
+      }
+      .SetupTypeDescription {
+        font-weight: 100;
+        font-size: $FontSize200;
+        text-align: center;
+        letter-spacing: 1.2px;
+      }
+
+      &:hover {
+        box-shadow: 0 0 5px 1px transparentize($SecondaryColor600, 0.5);
+        border-color: $SecondaryColor600;
+
+        .IconWrapper {
+          color: $WhiteColor;
+        }
+      }
+    }
+  }
+
+  .ManualContractForm {
+    .ContractNetworkPicker {
+      margin-bottom: 20px;
+    }
+  }
+
+  .AddingContractLoader {
+    .LoaderText {
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 100;
+      letter-spacing: 3px;
+      font-size: $FontSize100;
+
+      &:first-child {
+        margin-bottom: 15px;
+      }
     }
   }
 }

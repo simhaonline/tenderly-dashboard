@@ -4,14 +4,33 @@ import {connect} from "react-redux";
 import classNames from 'classnames';
 
 import MixPanel from "../../Utils/MixPanel";
-import {OSTypes} from "../../Common/constants";
+import {NetworkTypes, OSTypes} from "../../Common/constants";
 import * as projectActions from "../../Core/Project/Project.actions";
 import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
-import {Dialog, DialogHeader, DialogBody, Button, Icon} from "../../Elements";
+import {Dialog, DialogHeader, DialogBody, Button, Icon, Input, Alert} from "../../Elements";
+import {EthereumLoader, NetworkSegmentedPicker, ProgressiveButton} from '..';
 
 import './ProjectSetupGuide.css';
+import NetworkTag from "../NetworkTag/NetworkTag";
+
+const ProjectSetupType = {
+    MANUAL: 'manual',
+    CLI: 'cli',
+};
+
+const ProjectSetupSteps = {
+    [ProjectSetupType.MANUAL]: {
+        ADDRESS: 1,
+        CONFIRM: 2,
+    },
+    [ProjectSetupType.CLI]: {
+        INSTALL: 1,
+        INITIALIZE: 2,
+        PUSH: 3,
+    },
+};
 
 class ProjectSetupGuide extends Component {
     constructor(props) {
@@ -19,7 +38,12 @@ class ProjectSetupGuide extends Component {
 
         this.state = {
             dialogOpen: props.open,
-            currentStep: 1,
+            currentStep: 0,
+            setupType: null,
+            manualNetwork: NetworkTypes.MAIN,
+            manualContractAddress: '',
+            addManualContractError: null,
+            addingManualContract: false,
             verifying: false,
             verifyAttempted: false,
             finishedSetup: false,
@@ -58,10 +82,34 @@ class ProjectSetupGuide extends Component {
 
         this.setState({
             dialogOpen: true,
-            currentStep: 1,
+            currentStep: 0,
+            setupType: null,
+            manualNetwork: NetworkTypes.MAIN,
+            addManualContractError: null,
+            manualContractAddress: '',
+            addingManualContract: false,
             verifying: false,
             verifyAttempted: false,
             finishedSetup: false,
+        });
+    };
+
+    selectSetupType = (type) => {
+        this.setState({
+            setupType: type,
+            currentStep: 1,
+        });
+    };
+
+    handleManualNetworkChange = (value) => {
+        this.setState({
+            manualNetwork: value,
+        });
+    };
+
+    handleInputChange = (field, value) => {
+        this.setState({
+            [field]: value,
         });
     };
 
@@ -110,8 +158,54 @@ class ProjectSetupGuide extends Component {
         }, 1000);
     };
 
+    handleAddManualContract = async () => {
+        const {project, actions, eventActions, contractActions} = this.props;
+        const {manualNetwork, manualContractAddress} = this.state;
+
+        if (!manualNetwork || !manualContractAddress) {
+            return;
+        }
+
+        this.setState({
+            addingManualContract: true,
+            addManualContractError: null,
+        });
+
+        const response = await actions.addVerifiedContractToProject(project.id, manualNetwork, manualContractAddress);
+
+        console.log(response);
+
+        if (response.success) {
+            await eventActions.fetchEventsForProject(project.id, 1);
+            await contractActions.fetchContractsForProject(project.id);
+
+            this.setState({
+                addingManualContract: false,
+            });
+            this.nextStep();
+        } else {
+            this.setState({
+                addManualContractError: 'There was a problem trying to add your contract from Etherscan. Please try again later or contract our support.',
+                addingManualContract: false,
+            });
+        }
+
+        return response.success;
+    };
+
     render() {
-        const {dialogOpen, currentStep, verifying, finishedSetup, verifyAttempted} = this.state;
+        const {
+            dialogOpen,
+            currentStep,
+            verifying,
+            finishedSetup,
+            verifyAttempted,
+            setupType,
+            manualNetwork,
+            manualContractAddress,
+            addManualContractError,
+            addingManualContract
+        } = this.state;
         const {label, color, size, outline, project, os} = this.props;
 
         return (
@@ -121,15 +215,27 @@ class ProjectSetupGuide extends Component {
                 </Button>
                 <Dialog open={dialogOpen} onClose={this.handleDialogClose} className="SetupProjectDialog" overlayClose={false}>
                     <DialogHeader>
-                        {currentStep === 1 && <Fragment>
+                        {currentStep === 0 && <Fragment>
+                            <Icon icon="layers"/>
+                            <h3>Project Setup</h3>
+                        </Fragment>}
+                        {setupType === ProjectSetupType.MANUAL && currentStep === 1 && <Fragment>
+                            <Icon icon="file-text"/>
+                            <h3>Contract</h3>
+                        </Fragment>}
+                        {setupType === ProjectSetupType.MANUAL && currentStep === 2 && <Fragment>
+                            <Icon icon="check-square"/>
+                            <h3>Contract added</h3>
+                        </Fragment>}
+                        {setupType === ProjectSetupType.CLI && currentStep === 1 && <Fragment>
                             <Icon icon="archive"/>
                             <h3>Let's get the right tools</h3>
                         </Fragment>}
-                        {currentStep === 2 && <Fragment>
+                        {setupType === ProjectSetupType.CLI && currentStep === 2 && <Fragment>
                             <Icon icon="settings"/>
                             <h3>Now to setup the project</h3>
                         </Fragment>}
-                        {currentStep === 3 && <Fragment>
+                        {setupType === ProjectSetupType.CLI && currentStep === 3 && <Fragment>
                             <Icon icon="upload-cloud"/>
                             <h3>Start monitoring</h3>
                         </Fragment>}
@@ -139,8 +245,89 @@ class ProjectSetupGuide extends Component {
                             <div className={classNames(
                                 "DialogStepWrapper",
                                 {
-                                    "Previous": currentStep > 1,
-                                    "Active": currentStep === 1,
+                                    "Previous": currentStep > 0,
+                                    "Active": currentStep === 0,
+                                }
+                            )}>
+                                <div className="StepContent">
+                                    <div className="ProjectSetupPickerWrapper">
+                                        <div className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.MANUAL)}>
+                                            <div className="IconWrapper">
+                                                <Icon icon="file-text"/>
+                                            </div>
+                                            <div className="SetupTypeName">Manually</div>
+                                            <div className="SetupTypeDescription">If your contract is publicly verified on Etherscan, you can enter the contract address and start monitoring it in the dashboard.</div>
+                                        </div>
+                                        <div className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>
+                                            <div className="IconWrapper">
+                                                <Icon icon="terminal"/>
+                                            </div>
+                                            <div className="SetupTypeName">CLI</div>
+                                            <div className="SetupTypeDescription">Upload your Smart Contract using our CLI tool that reads your Truffle build to setup monitoring for your deployed contracts.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="StepActions">
+                                    <Button onClick={this.handleDialogClose} outline color="secondary">
+                                        <span>Setup project later</span>
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className={classNames(
+                                "DialogStepWrapper",
+                                {
+                                    "Previous": setupType === ProjectSetupType.MANUAL && currentStep > 1,
+                                    "Active": setupType === ProjectSetupType.MANUAL && currentStep === 1,
+                                    "Next": currentStep < 1,
+                                }
+                            )}>
+                                <div className="StepContent">
+                                    {!addingManualContract && <div className="ManualContractForm">
+                                        {!!addManualContractError && <Alert color="danger" animation>
+                                            {addManualContractError}
+                                        </Alert>}
+                                        <NetworkSegmentedPicker value={manualNetwork} onChange={this.handleManualNetworkChange} className="ContractNetworkPicker"/>
+                                        <Input value={manualContractAddress} placeholder="0x1A77CC30E8d7Cb528520cda6B29279E7D859896A" icon="file-text" field="manualContractAddress" onChange={this.handleInputChange}/>
+                                    </div>}
+                                    {addingManualContract && <div className="AddingContractLoader">
+                                        <div className="LoaderText"><NetworkTag network={manualNetwork}/></div>
+                                        <div className="LoaderText">Adding contract {manualContractAddress}</div>
+                                        <EthereumLoader/>
+                                    </div>}
+                                </div>
+                                <div className="StepActions">
+                                    <Button onClick={this.handleDialogClose} outline color="secondary">
+                                        <span>Cancel</span>
+                                    </Button>
+                                    <ProgressiveButton disabled={!manualContractAddress} label="Add contract" progressLabel="Adding contract" color="secondary" onClick={this.handleAddManualContract}/>
+                                </div>
+                            </div>
+                            <div className={classNames(
+                                "DialogStepWrapper",
+                                {
+                                    "Previous": setupType === ProjectSetupType.MANUAL && currentStep > 2,
+                                    "Active": setupType === ProjectSetupType.MANUAL && currentStep === 2,
+                                    "Next": currentStep < 2,
+                                }
+                            )}>
+                                <div className="StepContent">
+                                    contract added
+                                </div>
+                                <div className="StepActions">
+                                    <Button onClick={this.handleDialogClose} outline color="secondary">
+                                        <span>Cancel</span>
+                                    </Button>
+                                    <Button onClick={this.nextStep} color="secondary">
+                                        <span>Next</span>
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className={classNames(
+                                "DialogStepWrapper",
+                                {
+                                    "Previous": setupType === ProjectSetupType.CLI && currentStep > 1,
+                                    "Active": setupType === ProjectSetupType.CLI && currentStep === 1,
+                                    "Next": currentStep < 1,
                                 }
                             )}>
                                 <div className="StepContent">
@@ -166,8 +353,8 @@ class ProjectSetupGuide extends Component {
                             <div className={classNames(
                                 "DialogStepWrapper",
                                 {
-                                    "Previous": currentStep > 2,
-                                    "Active": currentStep === 2,
+                                    "Previous": setupType === ProjectSetupType.CLI && currentStep > 2,
+                                    "Active": setupType === ProjectSetupType.CLI && currentStep === 2,
                                     "Next": currentStep < 2,
                                 }
                             )}>
@@ -190,7 +377,7 @@ class ProjectSetupGuide extends Component {
                             <div className={classNames(
                                 "DialogStepWrapper",
                                 {
-                                    "Active": currentStep === 3,
+                                    "Active": setupType === ProjectSetupType.CLI && currentStep === 3,
                                     "Next": currentStep < 3,
                                 }
                             )}>
@@ -217,11 +404,11 @@ class ProjectSetupGuide extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="DialogStepProgress">
-                            <div className={classNames("DialogStepProgressItem", {"Active": currentStep === 1,})}/>
-                            <div className={classNames("DialogStepProgressItem", {"Active": currentStep === 2,})}/>
-                            <div className={classNames("DialogStepProgressItem", {"Active": currentStep === 3,})}/>
-                        </div>
+                        {setupType !== null && <div className="DialogStepProgress">
+                            {Object.values(ProjectSetupSteps[setupType]).map(step =>
+                                <div key={step} className={classNames("DialogStepProgressItem", {"Active": currentStep === step,})}/>
+                            )}
+                        </div>}
                     </DialogBody>
                 </Dialog>
             </Fragment>
