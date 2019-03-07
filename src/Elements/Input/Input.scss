@@ -87,4 +87,14 @@
       }
     }
   }
+
+  &.Disabled {
+    border-color: $BorderColor;
+    background-color: transparentize($WhiteColor, 0.92);
+    color: $BlackColor;
+
+    .Input {
+      cursor: no-drop;
+    }
+  }
 }

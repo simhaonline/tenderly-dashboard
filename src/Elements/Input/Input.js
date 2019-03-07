@@ -15,7 +15,12 @@ class InputElement extends Component {
     }
 
     handleInputChange = (event) => {
-        const {field, onChange} = this.props;
+        const {field, onChange, disabled} = this.props;
+
+        if (disabled) {
+            return;
+        }
+
         const newValue = event.target.value;
 
         if (onChange && field) {
@@ -37,7 +42,7 @@ class InputElement extends Component {
     };
 
     render() {
-        const {value, type, field, label, icon, autoFocus, autoComplete} = this.props;
+        const {value, type, field, label, icon, autoFocus, autoComplete, placeholder, disabled} = this.props;
         const {focused} = this.state;
 
         return (
@@ -45,6 +50,7 @@ class InputElement extends Component {
                 'Active': !!value,
                 'Focused': focused,
                 'WithIcon': !!icon,
+                'Disabled': disabled,
             })}>
                 {!!icon && <Icon icon={icon} className="InputIcon"/>}
                 {(!!label && !value) && <label htmlFor={`input-${field}`} className={"InputLabel"}>{label}</label>
@@ -53,9 +59,11 @@ class InputElement extends Component {
                        className="Input"
                        id={`input-${field}`}
                        name={field}
+                       placeholder={placeholder}
                        autoFocus={autoFocus}
                        autoComplete={autoComplete}
                        value={value}
+                       disabled={disabled}
                        onChange={this.handleInputChange}
                        onFocus={this.handleInputFocus}
                        onBlur={this.handleInputBlur}/>
