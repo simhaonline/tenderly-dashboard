@@ -5,7 +5,12 @@ import {Redirect} from "react-router-dom";
 import {getContractById, getContractStatus} from "../../Common/Selectors/ContractSelectors";
 
 import {Page, Container, Card, CardHeading} from "../../Elements";
-import {ContractInformation, ContractSource, ContractDeploymentInformation} from "../../Components";
+import {
+    ContractInformation,
+    ContractSource,
+    ContractDeploymentInformation,
+    ProjectContentLoader
+} from "../../Components";
 import {EntityStatusTypes} from "../../Common/constants";
 
 class ProjectContractPage extends Component {
@@ -38,7 +43,7 @@ class ProjectContractPage extends Component {
         return (
             <Page>
                 <Container>
-                    {!isContractFetched && <div>Loading...</div>}
+                    {!isContractFetched && <ProjectContentLoader text="Fetching your contracts..."/>}
                     {isContractFetched && <Fragment>
                         <ContractInformation contract={contract}/>
                         <ContractDeploymentInformation contract={contract}/>
