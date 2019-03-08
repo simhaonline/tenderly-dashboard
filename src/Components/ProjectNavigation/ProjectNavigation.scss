@@ -10,9 +10,84 @@
     display: flex;
     align-items: center;
 
-    .ProjectName {
-      margin-left: 10px;
-      font-size: $FontSize600;
+    .ProjectPicker {
+      position: relative;
+    }
+
+    .CurrentProject {
+      cursor: pointer;
+      transition: 0.1s;
+      border: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: $FontSize500;
+
+      .ProjectName {}
+      .DropdownIcon {
+        margin-left: 10px;
+        opacity: 0.6;
+      }
+
+      &:hover {
+        background-color: transparentize($BlackColor, 0.2);
+        border: 1px solid $BorderColor;
+      }
+    }
+
+    .ProjectsDropdown {
+      position: absolute;
+      top: calc(100% + 10px);
+      background-color: #212a46;
+      border-radius: 6px;
+      width: 200px;
+      padding: 10px 0;
+      box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.5);
+      z-index: 99999;
+
+      .LoaderWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100px;
+      }
+
+      .ProjectDropdownItem {
+        cursor: pointer;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child) {
+          margin-bottom: 5px;
+        }
+
+        .ProjectIcon {
+          margin-right: 10px;
+        }
+        .ProjectName {
+          font-size: $FontSize300;
+          font-weight: 600;
+        }
+        .ProjectSlug {
+          font-weight: 100;
+          font-size: $FontSize200;
+        }
+
+        &:hover {
+          background-color: transparentize($BlackColor, 0.8);
+        }
+
+        &.Active {
+          background-color: transparentize($BlackColor, 0.6);
+          cursor: default;
+
+          .ProjectIcon, .ProjectName {
+            color: $PrimaryColor600;
+          }
+        }
+      }
     }
   }
 

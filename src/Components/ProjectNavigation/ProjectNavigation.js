@@ -4,6 +4,7 @@ import {NavLink, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import classNames from 'classnames';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 import MixPanel from "../../Utils/MixPanel";
 import {FeatureFlagTypes} from "../../Common/constants";
@@ -41,9 +42,16 @@ class ProjectNavigation extends Component {
         }
     };
 
+    closeProjectsDropdown = () => {
+        this.setState({
+            projectsDropdownOpen: false,
+        });
+    };
+
     switchProject = (project) => {
         this.setState({
             currentProject: project.id,
+            projectsDropdownOpen: false,
         });
     };
 
@@ -62,26 +70,29 @@ class ProjectNavigation extends Component {
                         <Button to={"/dashboard"} outline>
                             <Icon icon="corner-up-left"/>
                         </Button>
-                        <div className="ProjectPicker">
-                            <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
-                                <div className="ProjectName">{project.name}</div>
-                                <div className="DropdownIcon">
-                                    <Icon icon="chevron-down"/>
-                                </div>
-                            </div>
-                            {projectsDropdownOpen && <div className="ProjectsDropdown">
-                                {!projectsLoaded && <div className="LoaderWrapper">
-                                    <SimpleLoader/>
-                                </div>}
-                                {projectsLoaded && projects.map(project => <div key={project.id} className={classNames(
-                                    "ProjectDropdownItem",
-                                    {"Active": currentProject === project.id}
-                                )} onClick={() => this.switchProject(project)}>
+                        <OutsideClickHandler onOutsideClick={this.closeProjectsDropdown}>
+                            <div className="ProjectPicker">
+                                <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
                                     <div className="ProjectName">{project.name}</div>
-                                    <div className="ProjectSlug">{project.slug}</div>
-                                </div>)}
-                            </div>}
-                        </div>
+                                    <Icon icon="chevron-down" className="DropdownIcon"/>
+                                </div>
+                                {projectsDropdownOpen && <div className="ProjectsDropdown">
+                                    {!projectsLoaded && <div className="LoaderWrapper">
+                                        <SimpleLoader/>
+                                    </div>}
+                                    {projectsLoaded && projects.map(project => <div key={project.id} className={classNames(
+                                        "ProjectDropdownItem",
+                                        {"Active": currentProject === project.id}
+                                    )} onClick={() => this.switchProject(project)}>
+                                        <Icon icon="project" className="ProjectIcon"/>
+                                        <div>
+                                            <div className="ProjectName">{project.name}</div>
+                                            <div className="ProjectSlug">{project.slug}</div>
+                                        </div>
+                                    </div>)}
+                                </div>}
+                            </div>
+                        </OutsideClickHandler>
                     </div>
                     <div className="NavigationItems">
                         <NavLink className="NavigationItem" exact to={`/project/${project.id}/events`} onClick={() => this.trackNavigationItem('events')}>
