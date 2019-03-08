@@ -15,7 +15,7 @@ import ProjectSettingsPage from "./ProjectSettingsPage";
 import ProjectContractPage from "./ProjectContractPage";
 import EventPage from "../Event/EventPage";
 
-import {ProjectNavigation} from "../../Components";
+import {ProjectNavigation, ProjectPageLoader} from "../../Components";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -49,7 +49,7 @@ class ProjectPage extends Component {
         }
 
         if (!project) {
-            return null;
+            return <ProjectPageLoader/>;
         }
 
         return (

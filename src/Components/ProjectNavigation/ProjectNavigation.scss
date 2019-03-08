@@ -31,7 +31,7 @@
       }
 
       &:hover {
-        background-color: transparentize($BlackColor, 0.2);
+        background-color: transparentize($BlackColor, 0.8);
         border: 1px solid $BorderColor;
       }
     }

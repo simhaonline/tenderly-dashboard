@@ -10,7 +10,7 @@ import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Dialog, DialogHeader, DialogBody, Button, Icon, Input, Alert} from "../../Elements";
-import {EthereumLoader, NetworkSegmentedPicker, ProgressiveButton} from '..';
+import {EthereumLoader, NetworkSegmentedPicker} from '..';
 
 import './ProjectSetupGuide.css';
 import NetworkTag from "../NetworkTag/NetworkTag";
@@ -64,6 +64,7 @@ class ProjectSetupGuide extends Component {
     }
 
     handleDialogClose = () => {
+        console.log('close dialog');
         MixPanel.track(`project_setup_close`);
 
         this.setState({
@@ -173,24 +174,16 @@ class ProjectSetupGuide extends Component {
 
         const response = await actions.addVerifiedContractToProject(project.id, manualNetwork, manualContractAddress);
 
-        console.log(response);
-
         if (response.success) {
             await eventActions.fetchEventsForProject(project.id, 1);
             await contractActions.fetchContractsForProject(project.id);
-
-            this.setState({
-                addingManualContract: false,
-            });
-            this.nextStep();
+            await actions.fetchProject(project.id);
         } else {
             this.setState({
                 addManualContractError: 'There was a problem trying to add your contract from Etherscan. Please try again later or contract our support.',
                 addingManualContract: false,
             });
         }
-
-        return response.success;
     };
 
     render() {
@@ -302,7 +295,10 @@ class ProjectSetupGuide extends Component {
                                     <Button onClick={this.handleDialogClose} outline color="secondary">
                                         <span>Cancel</span>
                                     </Button>
-                                    <ProgressiveButton disabled={!manualContractAddress} label="Add contract" progressLabel="Adding contract" color="secondary" onClick={this.handleAddManualContract}/>
+                                    <Button disabled={!manualContractAddress || addingManualContract} color="secondary" onClick={this.handleAddManualContract}>
+                                        {!addingManualContract && <span>Add contract</span>}
+                                        {addingManualContract && <span>Add contract</span>}
+                                    </Button>
                                 </div>
                             </div>
                             <div className={classNames(
@@ -317,11 +313,8 @@ class ProjectSetupGuide extends Component {
                                     contract added
                                 </div>
                                 <div className="StepActions">
-                                    <Button onClick={this.handleDialogClose} outline color="secondary">
-                                        <span>Cancel</span>
-                                    </Button>
-                                    <Button onClick={this.nextStep} color="secondary">
-                                        <span>Next</span>
+                                    <Button onClick={this.handleDialogClose} color="secondary">
+                                        <span>Finish</span>
                                     </Button>
                                 </div>
                             </div>

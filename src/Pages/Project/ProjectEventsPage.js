@@ -123,9 +123,11 @@ class ProjectEventsPage extends Component {
 
     render() {
         const {loadedPage, loadingPage, page, filters} = this.state;
-        const {project, events, contracts} = this.props;
+        const {project, events, contracts, contractsLoaded} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
+        // @TODO This should be done better tbh.
+        const projectIsLoaded = loadedPage || contractsLoaded;
 
         const activeFilters = Object.values(filters).filter(filter => filter.value.length);
 
@@ -135,14 +137,14 @@ class ProjectEventsPage extends Component {
             <Page id="ProjectPage">
                 <Container>
                     {!projectIsSetup && <ProjectSetupEmptyState project={project} open={!project.setupViewed}/>}
-                    {projectIsSetup && loadedPage && <Fragment>
+                    {projectIsSetup && projectIsLoaded && <Fragment>
                         <ProjectEventFilters contracts={contracts}
                                              onFiltersChange={this.handleFiltersChange}
                                              activeFilters={activeFilters}/>
                         <ProjectEventActions page={page} onAction={this.handleEventAction} loading={loadingPage}/>
                         <ProjectEvents events={filteredEvents} contracts={contracts} loading={loadingPage}/>
                     </Fragment>}
-                    {projectIsSetup && !loadedPage && <ProjectContentLoader text="Fetching events for your project..."/>}
+                    {projectIsSetup && !projectIsLoaded && <ProjectContentLoader text="Fetching events for your project..."/>}
                 </Container>
             </Page>
         )

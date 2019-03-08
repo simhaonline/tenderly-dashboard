@@ -67,7 +67,7 @@ class ProjectNavigation extends Component {
             <Container>
                 <div className="ProjectNavigation">
                     <div className="ProjectHeading">
-                        <Button to={"/dashboard"} outline>
+                        <Button to={"/dashboard"} outline color="secondary">
                             <Icon icon="corner-up-left"/>
                         </Button>
                         <OutsideClickHandler onOutsideClick={this.closeProjectsDropdown}>
