@@ -93,6 +93,7 @@ export const FeatureFlagTypes = {
     BILLING: 'billing',
     ALERTS: 'alerts',
     ANALYTICS: 'analytics',
+    DEBUGGER: 'debugger',
 };
 
 export const EventActionTypes = {

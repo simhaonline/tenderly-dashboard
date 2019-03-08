@@ -41,7 +41,7 @@
       top: calc(100% + 10px);
       background-color: #212a46;
       border-radius: 8px;
-      width: 200px;
+      min-width: 220px;
       padding: 10px 0;
       box-shadow: 1px 1px 6px 0 transparentize($BlackColor, 0.5);
       z-index: 99999;
