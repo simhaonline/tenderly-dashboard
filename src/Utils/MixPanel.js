@@ -17,12 +17,6 @@ class MixPanel {
     static setUser(user) {
         if (process.env.NODE_ENV !== 'development') {
             _mixpanel.identify(user.id);
-            _mixpanel.people.set({
-                "$email": user.email,
-                "$username": user.username,
-                "$first_name": user.firstName,
-                "$last_name": user.lastName,
-            });
         }
     }
 

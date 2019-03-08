@@ -32,8 +32,6 @@ class CreateProjectForm extends Component {
         const {onSubmit} = this.props;
         const {formData} = this.state;
 
-        MixPanel.track('create_project');
-
         this.setState({
             creating: true,
         });

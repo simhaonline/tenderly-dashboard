@@ -58,8 +58,6 @@ export const loginUser = (username, password) => {
             dispatch(setAuthHeader(data.token));
             dispatch(getUser());
 
-            MixPanel.track('authenticated_login');
-
             return new ActionResponse(true, data.token);
         } catch (error) {
             return new ActionResponse(false, error.response.data);
@@ -92,9 +90,6 @@ export const registerUser = (userData) => {
             });
             dispatch(setAuthHeader(data.token));
             dispatch(getUser());
-
-            MixPanel.track('registered_new_account');
-            MixPanel.track('registered_via_sign_up');
 
             return new ActionResponse(true, data.token);
         } catch (error) {
@@ -268,17 +263,6 @@ export const authenticateOAuth = (service, code) => {
             dispatch(setAuthHeader(data.token));
             await dispatch(getUser());
 
-            if (data.is_new_user) {
-                MixPanel.track('registered_new_account');
-                MixPanel.track('registered_via_oauth', {
-                    service,
-                });
-            } else {
-                MixPanel.track('authenticated_oauth', {
-                    service,
-                });
-            }
-
             return new ActionResponse(true, data.token);
         } catch (error) {
             return new ActionResponse(false, error.response.data);
@@ -342,8 +326,6 @@ export const setUsername = (username) => {
             if (!data) {
                 return new ErrorActionResponse();
             }
-
-            MixPanel.track('set_username');
 
             const newUser = user.updateUsername(username);
 
