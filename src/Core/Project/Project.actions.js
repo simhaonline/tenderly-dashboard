@@ -187,7 +187,7 @@ export const addVerifiedContractToProject = (projectId, networkType, address) =>
             const networkId = NetworkAppToApiTypeMap[networkType];
 
             const {data: responseData} = await Api.post(`/account/${username}/project/${projectId}/address`, {
-                network_id: networkId,
+                network_id: networkId.toString(),
                 address,
             });
 
