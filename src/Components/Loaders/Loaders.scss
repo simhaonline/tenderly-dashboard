@@ -234,5 +234,44 @@ $CircularLoaderSize: 150px;
   }
 }
 
+@keyframes SimpleLoaderRotation {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(0.6);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.SimpleLoader {
+  position: relative;
+
+  > div {
+    animation-fill-mode: both;
+    border: 2px solid transparentize($PrimaryColor600, 0.25);
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-radius: 100%;
+    height: 35px;
+    width: 35px;
+    animation: SimpleLoaderRotation 1s 0s ease-in-out infinite;
+
+    &:last-child {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 15px;
+      height: 15px;
+      border-width: 1px;
+      animation-duration: 0.5s;
+      border-color: $PrimaryColor600 transparent $PrimaryColor600 transparent;
+      animation-direction: reverse;
+    }
+  }
+}
+
 
 

@@ -43,3 +43,10 @@ export const EthereumLoader = () => {
         </div>
     )
 };
+
+export const SimpleLoader = () => (
+    <div className="SimpleLoader">
+        <div/>
+        <div/>
+    </div>
+);
