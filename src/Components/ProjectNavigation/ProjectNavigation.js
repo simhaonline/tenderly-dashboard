@@ -1,6 +1,6 @@
 import React , {Component} from 'react';
 import PropTypes from 'prop-types';
-import {NavLink, Redirect} from "react-router-dom";
+import {NavLink, Redirect, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import classNames from 'classnames';
@@ -143,7 +143,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps,
-)(ProjectNavigation);
+)(ProjectNavigation));
