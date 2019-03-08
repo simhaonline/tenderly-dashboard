@@ -43,7 +43,7 @@ class ProjectContractPage extends Component {
         return (
             <Page>
                 <Container>
-                    {!isContractFetched && <ProjectContentLoader text="Fetching your contracts..."/>}
+                    {!isContractFetched && <ProjectContentLoader text="Fetching contract..."/>}
                     {isContractFetched && <Fragment>
                         <ContractInformation contract={contract}/>
                         <ContractDeploymentInformation contract={contract}/>
