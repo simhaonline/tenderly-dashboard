@@ -1,14 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import {NetworkTypes} from "../../Common/constants";
+import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
 
 import './NetworkTag.css';
-
-const networkTypeToLabelMap = {
-    [NetworkTypes.MAIN]: 'Main Network',
-    [NetworkTypes.KOVAN]: 'Kovan Testnet',
-};
 
 const networkTypeToClassNameMap = {
     [NetworkTypes.MAIN]: 'main',
@@ -20,7 +15,7 @@ const networkTagSizeToClassNameMap = {
 };
 
 const NetworkTag = ({size, network, prefix, className}) => {
-    let networkLabel = networkTypeToLabelMap[network];
+    let networkLabel = NetworkLabelMap[network];
     const networkClassName = networkTypeToClassNameMap[network];
     const sizeClassName = networkTagSizeToClassNameMap[size];
 
