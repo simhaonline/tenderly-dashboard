@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 
-import MixPanel from "../../Utils/MixPanel";
-
 import {Form, Input, Button} from "../../Elements";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 

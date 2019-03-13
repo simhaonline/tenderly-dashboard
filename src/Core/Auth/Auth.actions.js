@@ -22,7 +22,12 @@ export const SET_USERNAME_ACTION = 'SET_USERNAME';
  */
 const setAuthHeader = (token) => {
     return async dispatch => {
-        Cookies.set('token', token, { path: '/', expires: 30 });
+        if (process.env.NODE_ENV === 'production') {
+            Cookies.set('token', token, { path: '/', expires: 30 });
+        } else {
+            Cookies.set('token', token, { path: '/', expires: 30, domain: '.tenderly.app' });
+        }
+
         Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 };
@@ -30,6 +35,7 @@ const setAuthHeader = (token) => {
 const removeAuthHeader = () => {
     return async dispatch => {
         Cookies.remove('token');
+        Cookies.remove('token', {domain: '.tenderly.app'});
         Api.defaults.headers.common['Authorization'] = null;
     }
 };
