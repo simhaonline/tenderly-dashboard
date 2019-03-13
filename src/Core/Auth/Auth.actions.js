@@ -22,7 +22,7 @@ export const SET_USERNAME_ACTION = 'SET_USERNAME';
  */
 const setAuthHeader = (token) => {
     return async dispatch => {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV !== 'development') {
             Cookies.set('token', token, { path: '/', expires: 30, domain: '.tenderly.app'});
         } else {
             Cookies.set('token', token, { path: '/', expires: 30});
