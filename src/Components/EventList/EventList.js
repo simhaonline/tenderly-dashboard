@@ -30,6 +30,23 @@ function getEventPageLink(event, contract) {
 }
 
 const EventListItem = ({event, contract}) => {
+    if (!contract) {
+        return <div className="EventListItem">
+            <div className="GeneralColumn ItemColumn">
+                <div className="Message">{event.message}</div>
+                <div className="Description">{event.description}</div>
+            </div>
+            <div className="TimeColumn ItemColumn">
+                <span>{moment(event.timestamp).fromNow()}</span>
+            </div>
+            <div className="TransactionColumn ItemColumn">
+                <div>{generateShortAddress(event.transactionId, 8, 6)}</div>
+            </div>
+            <div className="BlockColumn ItemColumn">
+                <div>{event.block}</div>
+            </div>
+        </div>
+    }
     return (
         <PageLink className="EventListItem" to={getEventPageLink(event, contract)}>
             <div className="GeneralColumn ItemColumn">
