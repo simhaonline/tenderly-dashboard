@@ -64,7 +64,6 @@ class ProjectSetupGuide extends Component {
     }
 
     handleDialogClose = () => {
-        console.log('close dialog');
         MixPanel.track(`project_setup_close`);
 
         this.setState({

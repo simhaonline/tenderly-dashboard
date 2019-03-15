@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import * as Sentry from "@sentry/browser";
+import jwt from "jsonwebtoken";
 
 import {PublicApi, Api} from '../../Utils/Api';
 import MixPanel from "../../Utils/MixPanel";
@@ -116,7 +117,7 @@ export const logoutUser = () => {
 /**
  * @returns {ActionResponse}
  */
-export const getUser = () => {
+export const getUser = (token) => {
     return async dispatch => {
         try {
             const {data} = await Api.get('/user');
@@ -126,9 +127,18 @@ export const getUser = () => {
             }
 
             const user = new User(data.user);
+            let impersonating = false;
 
-            MixPanel.setUser(user);
-            FullStory.identifyUser(user);
+            if (token) {
+                const decodedToken = jwt.decode(token);
+
+                impersonating = !!decodedToken.impersonate;
+            }
+
+            if (!impersonating) {
+                MixPanel.setUser(user);
+                FullStory.identifyUser(user);
+            }
 
             Sentry.configureScope(scope => {
                 scope.setUser({
@@ -231,7 +241,7 @@ export const retrieveToken = (token) => {
     return async dispatch => {
         if (token) {
             dispatch(setAuthHeader(token));
-            const response = await dispatch(getUser());
+            const response = await dispatch(getUser(token));
 
             if (!response.success) {
                 dispatch(removeAuthHeader())

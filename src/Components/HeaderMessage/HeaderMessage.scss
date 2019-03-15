@@ -1,0 +1,18 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.HeaderMessage {
+  flex: 0 0 20px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: $WhiteColor;
+  font-family: $MonospaceFontFamily;
+  font-size: $FontSize100;
+
+  &.Purple {
+    background-color: $TertiaryColor600;
+  }
+}
