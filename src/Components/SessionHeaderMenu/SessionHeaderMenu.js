@@ -82,6 +82,10 @@ class SessionHeaderMenu extends Component {
 
         const avatarHash = md5(user.email);
 
+        const userHasName = !!user.getFullName().trim();
+
+        console.log(userHasName);
+
         return (
             <div className="SessionHeaderMenu">
                 <OutsideClickHandler onOutsideClick={this.closeDropdown}>
@@ -94,7 +98,8 @@ class SessionHeaderMenu extends Component {
                         <div className="ProfileInfo" onClick={this.handleDropdownToggle}>
                             <img src={`https://www.gravatar.com/avatar/${avatarHash}?s=32`} alt="User Avatar" className="UserAvatar"/>
                             <div className="UserInfo">
-                                <div className="UserFullName">{user.getFullName()}</div>
+                                {userHasName && <div className="UserFullName">{user.getFullName()}</div>}
+                                {!userHasName && <div className="UserFullName">{user.email}</div>}
                                 <div className="UserEmail">{user.email}</div>
                             </div>
                         </div>

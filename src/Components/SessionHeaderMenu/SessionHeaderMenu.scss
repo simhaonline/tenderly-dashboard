@@ -12,6 +12,7 @@
       height: 59px;
       padding: 0 15px;
       cursor: pointer;
+      max-width: 230px;
 
       .UserAvatar {
         border-radius: 20px;
@@ -19,18 +20,22 @@
       }
 
       .UserInfo {
-
+        overflow: hidden;
       }
 
       .UserFullName {
         font-weight: 700;
         font-size: $FontSize200;
         margin-bottom: 2px;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
 
       .UserEmail {
         opacity: 0.8;
         font-size: $FontSize100;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
 
       &:hover {
