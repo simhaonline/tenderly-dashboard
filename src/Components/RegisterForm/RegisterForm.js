@@ -26,8 +26,8 @@ class RegisterForm extends Component {
             errorMessage: null,
         };
         initializeForm(this, {
-            firstName: '',
-            lastName: '',
+            firstName: ' ',
+            lastName: ' ',
             email: '',
             username: '',
             password: '',
@@ -66,9 +66,9 @@ class RegisterForm extends Component {
     };
 
     isFormInvalid = () => {
-        const {formData: {firstName, lastName, email, username, password, repeatPassword, termsAgreed}, usernameStatus} = this.state;
+        const {formData: {email, username, password, repeatPassword, termsAgreed}, usernameStatus} = this.state;
 
-        return !firstName || !lastName || !email || !username || !password || !repeatPassword || !termsAgreed || usernameStatus !== UsernameStatusMap.VALID;
+        return !email || !username || !password || !repeatPassword || !termsAgreed || usernameStatus !== UsernameStatusMap.VALID;
     };
 
     /**
@@ -118,16 +118,7 @@ class RegisterForm extends Component {
                     <Card className="RegisterAccountForm">
                         <Form onSubmit={this.handleRegistrationSubmit}>
                             {registrationFailed && <Alert color="danger" animation={true}>{errorMessage}</Alert>}
-                            <div className="NameInputWrapper">
-                                <div className="NameInputColumn">
-                                    <Input field="firstName" autoFocus onChange={this.handleFormUpdate} value={formData.firstName} label="First name"/>
-                                </div>
-                                <div className="NameInputColumn">
-                                    <Input field="lastName" onChange={this.handleFormUpdate} value={formData.lastName} label="Last name"/>
-                                </div>
-                            </div>
-                            <Input field="email" onChange={this.handleFormUpdate} value={formData.email} label="E-mail" icon="mail"/>
-                            <hr/>
+                            <Input autoFocus field="email" onChange={this.handleFormUpdate} value={formData.email} label="E-mail" icon="mail"/>
                             <Input field="username" onChange={this.handleUsernameChange} value={formData.username} label="Username" icon="user"/>
                             {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
                             <hr/>
