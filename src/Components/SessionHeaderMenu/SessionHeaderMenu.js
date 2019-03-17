@@ -84,8 +84,6 @@ class SessionHeaderMenu extends Component {
 
         const userHasName = !!user.getFullName().trim();
 
-        console.log(userHasName);
-
         return (
             <div className="SessionHeaderMenu">
                 <OutsideClickHandler onOutsideClick={this.closeDropdown}>
