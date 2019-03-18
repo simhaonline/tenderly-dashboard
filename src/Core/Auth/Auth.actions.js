@@ -24,7 +24,7 @@ export const SET_USERNAME_ACTION = 'SET_USERNAME';
 const setAuthHeader = (token) => {
     return async dispatch => {
         if (process.env.NODE_ENV !== 'development') {
-            Cookies.set('token', token, { path: '/', expires: 30, domain: '.tenderly.app'});
+            Cookies.set('token', token, { path: '/', expires: 30, domain: '.tenderly.dev'});
         } else {
             Cookies.set('token', token, { path: '/', expires: 30});
         }
@@ -36,7 +36,7 @@ const setAuthHeader = (token) => {
 const removeAuthHeader = () => {
     return async dispatch => {
         Cookies.remove('token');
-        Cookies.remove('token', {domain: '.tenderly.app'});
+        Cookies.remove('token', {domain: '.tenderly.dev'});
         Api.defaults.headers.common['Authorization'] = null;
     }
 };
