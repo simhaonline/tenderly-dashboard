@@ -97,7 +97,7 @@ class SessionHeaderMenu extends Component {
                             <img src={`https://www.gravatar.com/avatar/${avatarHash}?s=32`} alt="User Avatar" className="UserAvatar"/>
                             <div className="UserInfo">
                                 {userHasName && <div className="UserFullName">{user.getFullName()}</div>}
-                                {!userHasName && <div className="UserFullName">{user.email}</div>}
+                                {!userHasName && <div className="UserFullName">{user.username}</div>}
                                 <div className="UserEmail">{user.email}</div>
                             </div>
                         </div>
