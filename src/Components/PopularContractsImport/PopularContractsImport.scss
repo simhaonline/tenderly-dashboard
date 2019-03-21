@@ -5,12 +5,28 @@ $PopularContractWidth: 250px;
 
 .PopularContractsImport {
 
-  .PopularContractWrapper:not(:last-child) {
-    margin-bottom: 15px;
+  .SectionHeading {
+    margin-bottom: 5px;
+  }
+
+  .SectionDescription {
+    font-weight: 100;
+    margin: 0;
+  }
+
+  .ContractsWrapper {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .PopularContractWrapper {
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: $PopularContractWidth;
   }
 
   .PopularContract {
-    width: $PopularContractWidth;
     display: flex;
     align-items: center;
     transition: 0.15s ease-in;

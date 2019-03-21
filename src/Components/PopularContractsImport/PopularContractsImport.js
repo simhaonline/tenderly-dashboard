@@ -4,7 +4,7 @@ import Blockies from 'react-blockies';
 import {EtherscanLinkTypes, NetworkAppToRouteTypeMap, NetworkTypes} from "../../Common/constants";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-import {Icon, Card} from "../../Elements";
+import {Card} from "../../Elements";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 
 import './PopularContractsImport.css';
@@ -40,7 +40,7 @@ const PopularContract = ({slug}) => {
     const networkId = NetworkAppToRouteTypeMap[contract.network];
 
     return (
-        <PageLink to={`/contract/${networkId}/${contract.address}`} className="PopularContractWrapper">
+        <PageLink to={`/contract/${networkId}/${contract.address.toLowerCase()}`} className="PopularContractWrapper">
             <Card className="PopularContract" clickable>
                 <Blockies
                     seed={contract.address}
