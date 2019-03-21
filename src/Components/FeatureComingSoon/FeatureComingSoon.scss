@@ -1,0 +1,30 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.FeatureComingSoon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+
+  .FeatureIcon {
+    font-size: $FontSize600 * 2;
+    opacity: 0.5;
+    margin-bottom: 20px;
+  }
+  .FeatureName {
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 3px;
+    font-size: $FontSize600;
+    margin-bottom: 30px;
+  }
+  .FeatureDescription {
+    max-width: 400px;
+    text-align: center;
+    font-weight: 100;
+    opacity: 0.75;
+    font-size: $FontSize400;
+  }
+}
