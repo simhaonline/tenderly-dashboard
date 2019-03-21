@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import Blockies from 'react-blockies';
-import {Redirect} from "react-router-dom";
 
-import {EtherscanLinkTypes, NetworkTypes} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToRouteTypeMap, NetworkTypes} from "../../Common/constants";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import {Icon, Card} from "../../Elements";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 
 import './PopularContractsImport.css';
+import PageLink from "../PageLink/PageLink";
 
 const PopularContractSlugs = {
     MAKER_DAU: 'maker_dao',
@@ -30,77 +30,49 @@ const PopularContracts = {
     },
 };
 
-const PopularContract = ({slug, onClick, contractBeingImported = {}}) => {
+const PopularContract = ({slug}) => {
     const contract = PopularContracts[slug];
 
     if (!contract) {
         return null;
     }
 
-    console.log(contractBeingImported);
+    const networkId = NetworkAppToRouteTypeMap[contract.network];
 
     return (
-        <Card className="PopularContract" onClick={() => onClick(contract)}>
-            <Blockies
-                seed={contract.address}
-                size={8}
-                scale={5}
-                className="ContractBlockie"
-            />
-            <div className="ContractInfo">
-                <h5 className="ContractName">{contract.name}</h5>
-                <div className="ContractAddress">
-                    <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.ADDRESS} value={contract.address}>
-                        {generateShortAddress(contract.address, 8, 6)}
-                    </EtherscanLink>
+        <PageLink to={`/contract/${networkId}/${contract.address}`} className="PopularContractWrapper">
+            <Card className="PopularContract" clickable>
+                <Blockies
+                    seed={contract.address}
+                    size={8}
+                    scale={5}
+                    className="ContractBlockie"
+                />
+                <div className="ContractInfo">
+                    <h5 className="ContractName">{contract.name}</h5>
+                    <div className="ContractAddress">
+                        <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.ADDRESS} value={contract.address}>
+                            {generateShortAddress(contract.address, 8, 6)}
+                        </EtherscanLink>
+                    </div>
                 </div>
-            </div>
-            <div className="ContractActionWrapper">
-                <div className="ContractAction">
-                    <Icon icon="download" className="ActionIcon"/>
-                    <span>Import Contract</span>
-                </div>
-            </div>
-        </Card>
+            </Card>
+        </PageLink>
     )
 };
 
 class PopularContractsImport extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            importingContract: false,
-            contract: null,
-            createdProject: null,
-        };
-    }
-
-    handleContractClick = (contract) => {
-        console.log('asd', contract);
-        this.setState({
-            importingContract: true,
-            contract,
-        });
-    };
-
     render() {
-        const {importingContract, createdProject, contract} = this.state;
-
-        if (createdProject) {
-            return <Redirect to={`/project/${createdProject.id}`}/>
-        }
-
         return (
             <div className="PopularContractsImport">
-                <h2>Popular Contracts</h2>
-                {Object.values(PopularContractSlugs).map(slug =>
-                    <PopularContract key={slug}
-                                     slug={slug}
-                                     onClick={this.handleContractClick}
-                                     contractBeingImported={contract}
-                                     disabled={importingContract}/>
-                )}
+                <h2 className="SectionHeading">Popular Contracts</h2>
+                <p className="SectionDescription">You can also check out of some the popular verified pulic contracts.</p>
+                <div className="ContractsWrapper">
+                    {Object.values(PopularContractSlugs).map(slug =>
+                        <PopularContract key={slug}
+                                         slug={slug}/>
+                    )}
+                </div>
             </div>
         );
     }
