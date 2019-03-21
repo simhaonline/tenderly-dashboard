@@ -74,9 +74,10 @@ const DashboardProjectsList = ({projects, loaded}) => {
                         </div>
                     </Link>
                 )}
-            </div>}
-            {(loaded && projects.length !== 0) && <div>
-                <Button size="small" outline to="/project/create" onClick={handleCreateProjectClick}>Create Project</Button>
+                <Link to={`/project/create`} className="ProjectListItem CreateProjectItem" onClick={handleCreateProjectClick}>
+                    <Icon icon="plus" className="CreateIcon"/>
+                    <span>Create Project</span>
+                </Link>
             </div>}
             {!loaded && <div className="LoadingProjects">
                 Loading...
