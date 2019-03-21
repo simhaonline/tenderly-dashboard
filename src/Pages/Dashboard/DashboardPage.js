@@ -3,12 +3,13 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Redirect} from "react-router-dom";
 
+import {FeatureFlagTypes} from "../../Common/constants";
+
 import * as projectActions from "../../Core/Project/Project.actions";
 import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
 
 import {Page, Container} from "../../Elements";
-import {DashboardProjectsList, RecentArticles, FeatureFlag} from "../../Components";
-import {FeatureFlagTypes} from "../../Common/constants";
+import {DashboardProjectsList, RecentArticles, FeatureFlag, PopularContractsImport} from "../../Components";
 
 class DashboardPage extends Component {
     componentDidMount() {
@@ -29,9 +30,17 @@ class DashboardPage extends Component {
             <Page>
                 <Container>
                     <DashboardProjectsList projects={projects} loaded={projectsLoaded}/>
-                    <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                        <RecentArticles/>
-                    </FeatureFlag>
+                    <div>
+                        <div>
+                            <PopularContractsImport/>
+                        </div>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                            <div>
+                                <RecentArticles/>
+                            </div>
+                        </FeatureFlag>
+                    </div>
+
                 </Container>
             </Page>
         )

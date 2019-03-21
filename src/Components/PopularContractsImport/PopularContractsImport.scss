@@ -1,0 +1,66 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+$PopularContractPadding: 15px;
+$PopularContractImageSize: 40px;
+$PopularContractWidth: 250px;
+
+.PopularContractsImport {
+  .PopularContract {
+    padding: 2 * $PopularContractPadding + $PopularContractImageSize $PopularContractPadding $PopularContractPadding;
+    width: $PopularContractWidth;
+    position: relative;
+    height: 3 * $PopularContractPadding + 2 * $PopularContractImageSize;
+
+    .ContractBlockie {
+      border-radius: 3px;
+      position: absolute;
+      left: ($PopularContractWidth - $PopularContractImageSize) / 2;
+      top: $PopularContractPadding;
+      transition: 0.15s ease-in;
+    }
+
+    .ContractInfo {
+      flex: 1 1 0;
+      text-align: center;
+      width: calc(100% - #{2 * $PopularContractPadding});
+      position: absolute;
+      top: 2 * $PopularContractPadding + $PopularContractImageSize;
+      left: $PopularContractPadding;
+      transition: 0.15s ease-in;
+      height: $PopularContractImageSize;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .ContractActionWrapper {
+      padding: 10px 5px;
+    }
+
+    .ContractAction {
+      opacity: 0;
+      transition: 0.15s ease-in-out;
+
+      .ActionIcon {
+        margin-right: 5px;
+      }
+    }
+
+    &:hover {
+      .ContractAction {
+        opacity: 0.8;
+      }
+
+      .ContractBlockie {
+        left: $PopularContractPadding;
+      }
+
+      .ContractInfo {
+        width: calc(100% - #{3 * $PopularContractPadding + $PopularContractImageSize});
+        top: $PopularContractPadding;
+        left: 2 * $PopularContractPadding + $PopularContractImageSize;
+      }
+    }
+  }
+}

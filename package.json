@@ -19,6 +19,7 @@
     "prop-types": "^15.6.2",
     "qs": "^6.5.2",
     "react": "^16.5.0",
+    "react-blockies": "^1.4.1",
     "react-dom": "^16.5.0",
     "react-ga": "^2.5.3",
     "react-google-login": "^4.0.0",
