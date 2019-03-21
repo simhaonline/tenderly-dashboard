@@ -8,7 +8,7 @@ const ProjectEvents = ({events, contracts, onFiltersUpdate}) => {
     if (!events.length) {
         return (
             <div className="ProjectEventsEmtpySTat">
-                No events
+                No errors
             </div>
         )
     }

@@ -144,7 +144,7 @@ class ProjectEventsPage extends Component {
                         <ProjectEventActions page={page} onAction={this.handleEventAction} loading={loadingPage}/>
                         <ProjectEvents events={filteredEvents} contracts={contracts} loading={loadingPage}/>
                     </Fragment>}
-                    {projectIsSetup && !projectIsLoaded && <ProjectContentLoader text="Fetching events for your project..."/>}
+                    {projectIsSetup && !projectIsLoaded && <ProjectContentLoader text="Fetching errors for your project..."/>}
                 </Container>
             </Page>
         )
