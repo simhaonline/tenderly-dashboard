@@ -30,13 +30,6 @@ const AuthReducer = (state = initialState, action) => {
                 ...state,
                 token: action.token,
             };
-        case LOG_OUT_ACTION:
-            return {
-                ...state,
-                token: null,
-                loggedIn: false,
-                user: {},
-            };
         case COMPLETE_ONBOARDING:
             return {
                 ...state,
@@ -57,6 +50,8 @@ const AuthReducer = (state = initialState, action) => {
                 user: action.user,
             };
         }
+        case LOG_OUT_ACTION:
+            return initialState;
         default:
             return state;
     }
