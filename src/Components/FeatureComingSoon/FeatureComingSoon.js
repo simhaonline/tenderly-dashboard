@@ -18,7 +18,7 @@ class FeatureComingSoon extends Component {
                     <Icon icon="analytics" className="FeatureIcon"/>
                     <div className="FeatureName">Analytics</div>
                 </Fragment>}
-                <div className="FeatureDescription">This feature is currently in development. Stay tuned for more information.</div>
+                <div className="FeatureDescription">This feature is currently in development.<br/>Stay tuned for updates.</div>
             </div>
         );
     }
