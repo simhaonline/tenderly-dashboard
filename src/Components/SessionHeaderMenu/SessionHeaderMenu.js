@@ -94,7 +94,7 @@ class SessionHeaderMenu extends Component {
                         }
                     )}>
                         <div className="ProfileInfo" onClick={this.handleDropdownToggle}>
-                            <img src={`https://www.gravatar.com/avatar/${avatarHash}?s=32`} alt="User Avatar" className="UserAvatar"/>
+                            <img src={`https://www.gravatar.com/avatar/${avatarHash}?s=32&d=identicon`} alt="User Avatar" className="UserAvatar"/>
                             <div className="UserInfo">
                                 {userHasName && <div className="UserFullName">{user.getFullName()}</div>}
                                 {!userHasName && <div className="UserFullName">{user.username}</div>}
