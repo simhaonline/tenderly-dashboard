@@ -52,7 +52,7 @@ const PopularContract = ({slug}) => {
                     <h5 className="ContractName">{contract.name}</h5>
                     <div className="ContractAddress">
                         <EtherscanLink onClick={event => event.stopPropagation()} network={contract.network} type={EtherscanLinkTypes.ADDRESS} value={contract.address}>
-                            {generateShortAddress(contract.address, 8, 6)}
+                            {generateShortAddress(contract.address, 10, 6)}
                         </EtherscanLink>
                     </div>
                 </div>
@@ -66,7 +66,7 @@ class PopularContractsImport extends Component {
         return (
             <div className="PopularContractsImport">
                 <h2 className="SectionHeading">Popular Contracts</h2>
-                <p className="SectionDescription">You can also check out of some the popular verified pulic contracts.</p>
+                <p className="SectionDescription">You can also check out of some the popular contracts that are verified.</p>
                 <div className="ContractsWrapper">
                     {Object.values(PopularContractSlugs).map(slug =>
                         <PopularContract key={slug}
