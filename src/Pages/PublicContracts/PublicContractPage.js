@@ -10,7 +10,7 @@ import {getPublicContractEvents} from "../../Common/Selectors/EventSelectors";
 import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container} from "../../Elements";
-import {EventList, ContractInformation, ContractActions} from "../../Components";
+import {EventList, ContractInformation, ContractActions, ProjectPageLoader} from "../../Components";
 
 class PublicContractPage extends Component {
     componentDidMount() {
@@ -29,9 +29,7 @@ class PublicContractPage extends Component {
 
         if (!contract) {
             return (
-                <Page>
-                    Fetching data...
-                </Page>
+                <ProjectPageLoader text="Fetching Contract Data..."/>
             )
         }
 
