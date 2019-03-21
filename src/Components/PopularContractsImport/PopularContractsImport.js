@@ -66,7 +66,7 @@ class PopularContractsImport extends Component {
         return (
             <div className="PopularContractsImport">
                 <h2 className="SectionHeading">Popular Contracts</h2>
-                <p className="SectionDescription">You can also check out of some the popular contracts that are verified.</p>
+                <p className="SectionDescription">You can also monitor some of the popular contracts that are verified publicly.</p>
                 <div className="ContractsWrapper">
                     {Object.values(PopularContractSlugs).map(slug =>
                         <PopularContract key={slug}
