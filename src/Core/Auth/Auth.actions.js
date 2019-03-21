@@ -313,6 +313,12 @@ export const validateUsername = (username) => {
                 });
             }
 
+            if (data.hasOwnProperty('is_valid') && !data.is_valid) {
+                return new SuccessActionResponse({
+                    status: UsernameStatusMap.INVALID,
+                });
+            }
+
             return new SuccessActionResponse({
                 status: UsernameStatusMap.VALID,
             });

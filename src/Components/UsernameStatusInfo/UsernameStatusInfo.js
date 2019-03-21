@@ -16,7 +16,7 @@ const UsernameStatusInfo = ({status}) => {
             </div>}
             {status === UsernameStatusMap.INVALID && <div className="InvalidUsername UsernameStatusText">
                 <Icon icon="alert-triangle" className="UsernameValidationIcon"/>
-                <span></span>
+                <span>This is not a valid username. Please use only letters, number, dashes and underscores.</span>
             </div>}
             {status === UsernameStatusMap.TAKEN && <div className="TakenUsername UsernameStatusText">
                 <Icon icon="info" className="UsernameValidationIcon"/>
