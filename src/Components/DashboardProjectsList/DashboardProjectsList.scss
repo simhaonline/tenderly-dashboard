@@ -3,12 +3,27 @@
 
 .DashboardProjectsList {
   margin-bottom: 40px;
+
+  .SectionHeading {
+    margin-bottom: 20px;
+  }
+
+  .LoadingProjects {
+    height: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ProjectListEmptyState {
+    height: 145px;
+  }
 }
 
 .ProjectList {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 20px;
+
 
   .ProjectListItem {
     flex: 0 0 250px;

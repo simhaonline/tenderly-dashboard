@@ -10,6 +10,7 @@ import FeatureFlag from "../FeatureFlag/FeatureFlag";
 import './DashboardProjectsList.css';
 import {FeatureFlagTypes} from "../../Common/constants";
 import MixPanel from "../../Utils/MixPanel";
+import {SimpleLoader} from "..";
 
 const handleProjectItemClick = () => {
     MixPanel.track('navigate_project');
@@ -39,7 +40,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
 
     return (
         <div className="DashboardProjectsList">
-            <h2>Projects</h2>
+            <h2 className="SectionHeading">Projects</h2>
             {(loaded && projects.length === 0) && <div className="ProjectListEmptyState">
                 <h5>No project created yet!</h5>
                 <p>Create a project and upload your Smart Contract to start tracking them</p>
@@ -80,7 +81,7 @@ const DashboardProjectsList = ({projects, loaded}) => {
                 </Link>
             </div>}
             {!loaded && <div className="LoadingProjects">
-                Loading...
+                <SimpleLoader/>
             </div>}
         </div>
     )
