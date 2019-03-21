@@ -101,21 +101,18 @@ class ProjectNavigation extends Component {
                         <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`} onClick={() => this.trackNavigationItem('contracts')}>
                             <span>Contracts</span>
                         </NavLink>
-                        <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
-                            <NavLink className="NavigationItem" exact to={`/project/${project.id}/analytics`} onClick={() => this.trackNavigationItem('analytics')}>
-                                <span>Analytics</span>
-                            </NavLink>
-                        </FeatureFlag>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/analytics`} onClick={() => this.trackNavigationItem('analytics')}>
+                            <span>Analytics</span>
+                        </NavLink>
                         <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                             <NavLink className="NavigationItem" exact to={`/project/${project.id}/releases`} onClick={() => this.trackNavigationItem('deployment')}>
                                 <span>Deployment</span>
                             </NavLink>
                         </FeatureFlag>
-                        <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                            <NavLink className="NavigationItem" exact to={`/project/${project.id}/alerts`} onClick={() => this.trackNavigationItem('alerts')}>
-                                <span>Alerts</span>
-                            </NavLink>
-                        </FeatureFlag>
+
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/alerts`} onClick={() => this.trackNavigationItem('alerts')}>
+                            <span>Alerts</span>
+                        </NavLink>
                         <NavLink className="NavigationItem" exact to={`/project/${project.id}/settings`} onClick={() => this.trackNavigationItem('settings')}>
                             <span>Settings</span>
                         </NavLink>

@@ -4,7 +4,8 @@ import {connect} from "react-redux";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page, Card, CardHeading} from "../../Elements";
-import {PageSegments, PageSegmentSwitcher, PageSegmentContent} from "../../Components";
+import {PageSegments, PageSegmentSwitcher, PageSegmentContent, FeatureFlag, FeatureComingSoon} from "../../Components";
+import {FeatureFlagTypes} from "../../Common/constants";
 
 const PageSegmentsOptions = [
     {
@@ -51,39 +52,44 @@ class ProjectAlertsPage extends Component {
 
         return (
             <Page id="ProjectPage">
-                <Container>
-                    <PageSegments>
-                        <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
-                        {currentSegment === 'events' && <PageSegmentContent>
-                            <Card>
-                                <CardHeading>
-                                    <h3>Events</h3>
-                                </CardHeading>
-                            </Card>
-                        </PageSegmentContent>}
-                        {currentSegment === 'analytics' && <PageSegmentContent>
-                            <Card>
-                                <CardHeading>
-                                    <h3>Analytics</h3>
-                                </CardHeading>
-                            </Card>
-                        </PageSegmentContent>}
-                        {currentSegment === 'deployment' && <PageSegmentContent>
-                            <Card>
-                                <CardHeading>
-                                    <h3>Deployment</h3>
-                                </CardHeading>
-                            </Card>
-                        </PageSegmentContent>}
-                        {currentSegment === 'integrations' && <PageSegmentContent>
-                            <Card>
-                                <CardHeading>
-                                    <h3>Integrations</h3>
-                                </CardHeading>
-                            </Card>
-                        </PageSegmentContent>}
-                    </PageSegments>
-                </Container>
+                <FeatureFlag flag={FeatureFlagTypes.ALERTS} reverse>
+                    <FeatureComingSoon feature="alerting"/>
+                </FeatureFlag>
+                <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
+                    <Container>
+                        <PageSegments>
+                            <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
+                            {currentSegment === 'events' && <PageSegmentContent>
+                                <Card>
+                                    <CardHeading>
+                                        <h3>Events</h3>
+                                    </CardHeading>
+                                </Card>
+                            </PageSegmentContent>}
+                            {currentSegment === 'analytics' && <PageSegmentContent>
+                                <Card>
+                                    <CardHeading>
+                                        <h3>Analytics</h3>
+                                    </CardHeading>
+                                </Card>
+                            </PageSegmentContent>}
+                            {currentSegment === 'deployment' && <PageSegmentContent>
+                                <Card>
+                                    <CardHeading>
+                                        <h3>Deployment</h3>
+                                    </CardHeading>
+                                </Card>
+                            </PageSegmentContent>}
+                            {currentSegment === 'integrations' && <PageSegmentContent>
+                                <Card>
+                                    <CardHeading>
+                                        <h3>Integrations</h3>
+                                    </CardHeading>
+                                </Card>
+                            </PageSegmentContent>}
+                        </PageSegments>
+                    </Container>
+                </FeatureFlag>
             </Page>
         )
     }
