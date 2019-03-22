@@ -21,10 +21,16 @@ class User {
     }
 
     /**
-     * @param {string} username
+     * @param {Object} data
      */
-    updateUsername(username) {
-        this.username = username;
+    update(data) {
+        const updateKeys = Object.keys(data);
+
+        updateKeys.forEach(update => {
+            if (this.hasOwnProperty(update)) {
+                this[update] = data[update];
+            }
+        });
 
         return this;
     }

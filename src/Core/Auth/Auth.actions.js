@@ -17,6 +17,7 @@ export const GET_USER_ACTION = 'GET_USER';
 export const COMPLETE_ONBOARDING = 'COMPLETE_ONBOARDING';
 export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
 export const SET_USERNAME_ACTION = 'SET_USERNAME';
+export const UPDATE_USER_ACTION = 'UPDATE_USER';
 
 /**
  * @param {string} token
@@ -343,14 +344,60 @@ export const setUsername = (username) => {
                 return new ErrorActionResponse();
             }
 
-            const newUser = user.updateUsername(username);
+            const newUser = user.update({
+                username,
+            });
 
             dispatch({
                type: SET_USERNAME_ACTION,
                user: newUser,
             });
+
+            return new SuccessActionResponse(newUser);
         } catch (error) {
-            throw new ErrorActionResponse(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ *
+ * @param {Object} updates
+ * @return {Function}
+ */
+export const updateUser = (updates) => {
+    return async (dispatch, getState) => {
+        try {
+            const payload = {};
+
+            if (updates.firstName) {
+                payload.first_name = updates.firstName;
+            }
+
+            if (updates.lastName) {
+                payload.last_name = updates.lastName;
+            }
+
+            const {data} = await Api.patch('/user/change-details', payload);
+
+            if (!data || !data.success) {
+                return new ErrorActionResponse();
+            }
+
+            const {auth: {user}} = getState();
+
+            const newUser = user.update({
+                ...updates,
+            });
+
+            dispatch({
+                type: UPDATE_USER_ACTION,
+                user: newUser,
+            });
+
+            return new SuccessActionResponse(newUser);
+        } catch (error) {
+            return new ErrorActionResponse(error);
         }
     }
 };
