@@ -1,0 +1,14 @@
+.UserInformationForm {
+  .FormRow {
+    display: flex;
+    margin-bottom: 20px;
+
+    .FormColumn {
+      flex: 1 1 0;
+
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
+    }
+  }
+}

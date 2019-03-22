@@ -53,3 +53,4 @@ export {default as ProjectPageLoader} from './ProjectPageLoader/ProjectPageLoade
 export {default as ProjectContentLoader} from './ProjectContentLoader/ProjectContentLoader';
 export {default as NetworkSegmentedPicker} from './NetworkSegmentedPicker/NetworkSegmentedPicker';
 export {default as FeatureComingSoon} from './FeatureComingSoon/FeatureComingSoon';
+export {default as UserInformationForm} from './UserInformationForm/UserInformationForm';
