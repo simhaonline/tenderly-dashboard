@@ -23,7 +23,7 @@ function getEventPageLink(event, contract) {
         case ContractTypes.PRIVATE:
             return `/project/${contract.projectId}/event/${routeNetwork}/${event.id}`;
         case ContractTypes.VERIFIED:
-            return `/contract/${routeNetwork}/${contract.id}/error/${event.transactionId}`;
+            return `/contract/${routeNetwork}/${contract.id}/tx/${event.transactionId}`;
         default:
             return '';
     }

@@ -3,15 +3,15 @@ import classNames from 'classnames';
 
 import './Card.css';
 
-const Card = ({children, className, clickable}) => {
+const Card = ({children, className, clickable, onClick}) => {
     return (
         <div className={classNames(
             "Card",
             className,
             {
-                "Clickable": clickable,
+                "Clickable": clickable || !!onClick,
             },
-        )}>
+        )} onClick={onClick}>
             {children}
         </div>
     )

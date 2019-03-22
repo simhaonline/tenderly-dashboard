@@ -4,9 +4,9 @@ import {connect} from "react-redux";
 
 class FeatureFlag extends Component {
     render() {
-        const {children, flags, flag} = this.props;
+        const {children, flags, flag, reverse} = this.props;
 
-        if (!flags[flag]) {
+        if (!reverse === !flags[flag]) {
             return null;
         }
 
@@ -16,6 +16,7 @@ class FeatureFlag extends Component {
 
 FeatureFlag.propTypes = {
     flag: PropTypes.string.isRequired,
+    reverse: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {

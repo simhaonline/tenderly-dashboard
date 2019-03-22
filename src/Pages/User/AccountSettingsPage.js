@@ -8,7 +8,7 @@ import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelper
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Container, Card, CardHeading, Input, Alert, Code} from "../../Elements";
-import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton} from "../../Components";
+import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton, UserInformationForm} from "../../Components";
 
 import './AccountSettingsPage.css';
 
@@ -117,7 +117,7 @@ class AccountSettingsPage extends Component {
 
     render() {
         const {currentSegment, error, formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
-        const {user, token} = this.props;
+        const {token} = this.props;
 
         const isPasswordFormValid = !!currentPassword && !!newPassword && !!newPassword;
 
@@ -130,10 +130,9 @@ class AccountSettingsPage extends Component {
                         {currentSegment === SettingsSegmentsTypes.GENERAL && <PageSegmentContent>
                             <Card>
                                 <CardHeading>
-                                    <h3>General</h3>
+                                    <h3>Profile Information</h3>
                                 </CardHeading>
-                                <div>{user.firstName} {user.lastName}</div>
-                                {user.username}
+                                <UserInformationForm/>
                             </Card>
                         </PageSegmentContent>}
                         {currentSegment === SettingsSegmentsTypes.SECURITY && <PageSegmentContent>

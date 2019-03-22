@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-import {EtherscanLinkTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {Card} from "../../Elements";
 
@@ -11,7 +11,7 @@ import NetworkTag from "../NetworkTag/NetworkTag";
 import './ContractInformation.css';
 
 const ContractInformation = ({contract}) => {
-    const networkType = NetworkAppToApiTypeMap[contract.network];
+    const networkType = NetworkAppToRouteTypeMap[contract.network];
 
     return (
         <div className="ContractInformation">

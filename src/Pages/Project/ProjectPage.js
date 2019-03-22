@@ -49,7 +49,7 @@ class ProjectPage extends Component {
         }
 
         if (!project) {
-            return <ProjectPageLoader/>;
+            return <ProjectPageLoader text="Fetching Project..."/>;
         }
 
         return (

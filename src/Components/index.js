@@ -28,6 +28,7 @@ export {default as ContractActions} from './ContractActions/ContractActions';
 export {default as EventInformation} from './EventInformation/EventInformation';
 export {default as EventStackTrace} from './EventStackTrace/EventStackTrace';
 export {default as DashboardProjectsList} from './DashboardProjectsList/DashboardProjectsList';
+export {default as PopularContractsImport} from './PopularContractsImport/PopularContractsImport';
 export {default as CreateProjectForm} from './CreateProjectForm/CreateProjectForm';
 export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigation';
 export {default as ProjectContractList} from './ProjectContractList/ProjectContractList';
@@ -51,3 +52,5 @@ export {CircularLoader, DotLoader, EthereumLoader, SimpleLoader} from './Loaders
 export {default as ProjectPageLoader} from './ProjectPageLoader/ProjectPageLoader';
 export {default as ProjectContentLoader} from './ProjectContentLoader/ProjectContentLoader';
 export {default as NetworkSegmentedPicker} from './NetworkSegmentedPicker/NetworkSegmentedPicker';
+export {default as FeatureComingSoon} from './FeatureComingSoon/FeatureComingSoon';
+export {default as UserInformationForm} from './UserInformationForm/UserInformationForm';

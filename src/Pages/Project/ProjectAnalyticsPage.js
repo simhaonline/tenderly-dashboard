@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
-import {NetworkTypes} from "../../Common/constants";
+import {FeatureFlagTypes, NetworkTypes} from "../../Common/constants";
 
 import {Container, Page} from "../../Elements";
-import {ProjectUsageGraph, ProjectTransactionAnalytics} from "../../Components";
+import {ProjectUsageGraph, ProjectTransactionAnalytics, FeatureFlag, FeatureComingSoon} from "../../Components";
 
 class ProjectAnalyticsPage extends Component {
     render() {
@@ -41,10 +41,15 @@ class ProjectAnalyticsPage extends Component {
 
         return (
             <Page id="ProjectPage">
-                <Container>
-                    <ProjectTransactionAnalytics projectId={project.id}/>
-                    <ProjectUsageGraph data={usageData}/>
-                </Container>
+                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
+                    <FeatureComingSoon feature="analytics"/>
+                </FeatureFlag>
+                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
+                    <Container>
+                        <ProjectTransactionAnalytics projectId={project.id}/>
+                        <ProjectUsageGraph data={usageData}/>
+                    </Container>
+                </FeatureFlag>
             </Page>
         )
     }

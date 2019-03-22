@@ -97,4 +97,14 @@
       cursor: no-drop;
     }
   }
+
+  &.ReadOnly {
+    border-color: $BorderColor;
+    pointer-events: none;
+    background-color: lighten(#171e31, 3);
+
+    .Input {
+      cursor: auto;
+    }
+  }
 }

@@ -1,0 +1,56 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+$PopularContractWidth: 250px;
+
+.PopularContractsImport {
+
+  .SectionHeading {
+    margin-bottom: 5px;
+  }
+
+  .SectionDescription {
+    font-weight: 100;
+    margin: 0;
+  }
+
+  .ContractsWrapper {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .PopularContractWrapper {
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: $PopularContractWidth;
+  }
+
+  .PopularContract {
+    display: flex;
+    align-items: center;
+    transition: 0.15s ease-in;
+
+    .ContractBlockie {
+      border-radius: 3px;
+    }
+
+    .ContractInfo {
+      flex: 1 1 0;
+      margin-left: 15px;
+
+      .ContractName {
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+
+      .ContractAddress {
+        font-size: $FontSize200;
+      }
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+  }
+}

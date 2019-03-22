@@ -15,9 +15,9 @@ class InputElement extends Component {
     }
 
     handleInputChange = (event) => {
-        const {field, onChange, disabled} = this.props;
+        const {field, onChange, disabled, readOnly} = this.props;
 
-        if (disabled) {
+        if (disabled || readOnly) {
             return;
         }
 
@@ -42,15 +42,16 @@ class InputElement extends Component {
     };
 
     render() {
-        const {value, type, field, label, icon, autoFocus, autoComplete, placeholder, disabled} = this.props;
+        const {value, type, field, label, icon, autoFocus, autoComplete, placeholder, disabled, readOnly} = this.props;
         const {focused} = this.state;
 
         return (
             <div className={classNames("InputWrapper", {
                 'Active': !!value,
-                'Focused': focused,
+                'Focused': focused && !disabled,
                 'WithIcon': !!icon,
                 'Disabled': disabled,
+                'ReadOnly': readOnly,
             })}>
                 {!!icon && <Icon icon={icon} className="InputIcon"/>}
                 {(!!label && !value) && <label htmlFor={`input-${field}`} className={"InputLabel"}>{label}</label>
@@ -61,6 +62,7 @@ class InputElement extends Component {
                        name={field}
                        placeholder={placeholder}
                        autoFocus={autoFocus}
+                       readOnly={readOnly}
                        autoComplete={autoComplete}
                        value={value}
                        disabled={disabled}

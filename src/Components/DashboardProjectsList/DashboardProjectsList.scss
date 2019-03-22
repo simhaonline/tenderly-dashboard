@@ -1,10 +1,29 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
+.DashboardProjectsList {
+  margin-bottom: 40px;
+
+  .SectionHeading {
+    margin-bottom: 20px;
+  }
+
+  .LoadingProjects {
+    height: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ProjectListEmptyState {
+    height: 145px;
+  }
+}
+
 .ProjectList {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 20px;
+
 
   .ProjectListItem {
     flex: 0 0 250px;
@@ -80,6 +99,32 @@
         color: $WhiteColor;
         font-weight: 600;
         margin-left: 3px;
+      }
+    }
+
+    &.CreateProjectItem {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 125px;
+      border: 1px dashed $BorderColor;
+      opacity: 0.5;
+
+      .CreateIcon {
+        font-size: $FontSize600;
+        margin-bottom: 10px;
+        opacity: 0.5;
+      }
+
+      span {
+        text-transform: uppercase;
+        font-weight: 100;
+        letter-spacing: 3px;
+        font-size: $FontSize100;
+      }
+
+      &:hover {
+        opacity: 0.75;
       }
     }
 
