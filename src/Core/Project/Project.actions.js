@@ -5,6 +5,7 @@ import Project from "./Project.model";
 import {NetworkAppToApiTypeMap} from "../../Common/constants";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
+export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
 export const DELETE_PROJECT_ACTION = 'DELETE_PROJECT';
 export const UPDATE_PROJECT_ACTION = 'UPDATE_PROJECT';
 export const FETCH_PROJECT_ACTION = 'FETCH_PROJECT';
@@ -41,6 +42,17 @@ export const createProject = (name, account = null) => {
         } catch (error) {
             return new ActionResponse(false, error.response.data);
         }
+    };
+};
+
+/**
+ * @return {Function}
+ */
+export const createExampleProject = () => {
+    return dispatch => {
+        dispatch({
+            type: CREATE_EXAMPLE_PROJECT_ACTION,
+        });
     };
 };
 

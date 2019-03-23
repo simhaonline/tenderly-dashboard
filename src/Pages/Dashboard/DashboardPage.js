@@ -19,6 +19,13 @@ class DashboardPage extends Component {
             actions.fetchProjects();
         }
     }
+
+    handleTryExample = () => {
+        const {actions} = this.props;
+
+        actions.createExampleProject();
+    };
+
     render() {
         const {projectsLoaded, projects, usernameSet} = this.props;
 
@@ -29,7 +36,7 @@ class DashboardPage extends Component {
         return (
             <Page>
                 <Container>
-                    <DashboardProjectsList projects={projects} loaded={projectsLoaded}/>
+                    <DashboardProjectsList onTryExample={this.handleTryExample} projects={projects} loaded={projectsLoaded}/>
                     <div>
                         <div>
                             <PopularContractsImport/>
