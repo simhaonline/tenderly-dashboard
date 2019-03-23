@@ -1,4 +1,5 @@
 import {
+    CREATE_EXAMPLE_PROJECT_ACTION,
     CREATE_PROJECT_ACTION,
     DELETE_PROJECT_ACTION,
     FETCH_PROJECT_ACTION,
@@ -30,6 +31,18 @@ const ProjectReducer = (state = initialState, action) => {
                 contractsStatus: {
                     ...state.contractsStatus,
                     [action.project.id]: EntityStatusTypes.NOT_LOADED,
+                },
+            };
+        case CREATE_EXAMPLE_PROJECT_ACTION:
+            return {
+                ...state,
+                projects: {
+                    ...state.projects,
+                    [action.project.id]: action.project,
+                },
+                contractsStatus: {
+                    ...state.contractsStatus,
+                    [action.project.id]: EntityStatusTypes.LOADED,
                 },
             };
         case FETCH_PROJECTS_ACTION: {

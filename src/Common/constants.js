@@ -75,6 +75,12 @@ export const EntityStatusTypes = {
     ARCHIVED: 'ARCHIVED',
 };
 
+export const ProjectTypes = {
+    PRIVATE: 'PRIVATE',
+    PUBLIC: 'PUBLIC',
+    DEMO: 'DEMO'
+};
+
 export const ContractTypes = {
     PRIVATE: 'PRIVATE',
     VERIFIED: 'VERIFIED',

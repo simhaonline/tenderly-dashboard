@@ -37,7 +37,7 @@ class App extends Component {
         ReactGA.initialize('UA-125013494-2');
         ReactGA.pageview(window.location.pathname + window.location.search);
 
-        await store.dispatch(authActions.retrieveToken(tokenCookie));
+        await store.dispatch(authActions.retrieveToken(tokenCookie, true));
 
         this.setState({
             loaded: true,

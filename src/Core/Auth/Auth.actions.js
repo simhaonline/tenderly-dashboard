@@ -10,6 +10,8 @@ import User from "./User.model";
 import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
 import {UsernameStatusMap} from "../../Common/constants";
 
+import {dispatchExampleProject} from "../Project/Project.actions";
+
 export const LOG_IN_ACTION = 'LOG_IN';
 export const LOG_OUT_ACTION = 'LOG_OUT';
 export const REGISTER_ACTION = 'REGISTER';
@@ -116,6 +118,7 @@ export const logoutUser = () => {
 };
 
 /**
+ * @param {string} token
  * @returns {ActionResponse}
  */
 export const getUser = (token) => {
@@ -237,8 +240,9 @@ export const completeOnboarding = () => {
 
 /**
  * @param {string} token
+ * @param {boolean} initial
  */
-export const retrieveToken = (token) => {
+export const retrieveToken = (token, initial = false) => {
     return async dispatch => {
         if (token) {
             dispatch(setAuthHeader(token));
@@ -246,6 +250,10 @@ export const retrieveToken = (token) => {
 
             if (!response.success) {
                 dispatch(removeAuthHeader())
+            }
+
+            if (initial && response.success && response.data.showDemo) {
+                dispatchExampleProject(dispatch);
             }
         }
 

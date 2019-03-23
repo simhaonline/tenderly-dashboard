@@ -2,7 +2,7 @@ import {Api} from "../../Utils/Api";
 import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import Project from "./Project.model";
-import {NetworkAppToApiTypeMap} from "../../Common/constants";
+import {NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -46,13 +46,44 @@ export const createProject = (name, account = null) => {
 };
 
 /**
+ * @param {Function} dispatch
+ * @return {SuccessActionResponse}
+ */
+export const dispatchExampleProject = dispatch => {
+    const exampleProject = new Project({
+        slug: 'example-project',
+        name: 'Example Project',
+        last_push_at: Date.now(),
+        created_at: Date.now(),
+        type: ProjectTypes.DEMO,
+    });
+
+    dispatch({
+        type: CREATE_EXAMPLE_PROJECT_ACTION,
+        project: exampleProject,
+    });
+
+    return new SuccessActionResponse(exampleProject);
+};
+
+/**
  * @return {Function}
  */
 export const createExampleProject = () => {
-    return dispatch => {
-        dispatch({
-            type: CREATE_EXAMPLE_PROJECT_ACTION,
-        });
+    return async dispatch => {
+        try {
+            const {data} = await Api.patch('/user/change-details', {
+                hide_demo: false,
+            });
+
+            if (!data || !data.success) {
+                return new ErrorActionResponse();
+            }
+
+            return dispatchExampleProject(dispatch);
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
     };
 };
 

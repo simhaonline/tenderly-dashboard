@@ -14,6 +14,9 @@ class User {
 
         /** @type string */
         this.username = data.username;
+
+        /** @type boolean */
+        this.showDemo = !data.hide_demo;
     }
 
     getFullName() {

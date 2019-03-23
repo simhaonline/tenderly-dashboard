@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import {ProjectTypes} from "../../Common/constants";
 
 class Project {
     constructor(data) {
@@ -22,6 +23,9 @@ class Project {
 
         /** @type Date */
         this.createdAt = data.created_at;
+
+        /** @type string */
+        this.type = data.type || ProjectTypes.PRIVATE;
     }
 
     /**
