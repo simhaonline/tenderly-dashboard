@@ -49,7 +49,7 @@ class CreateProjectForm extends Component {
 
         return (
             <Form onSubmit={this.handleFormSubmit} className="CreateProjectForm">
-                <Input value={projectName} label="Project name" icon="project" field={"projectName"} onChange={this.handleFormUpdate} autoComplete="off" autoFocus/>
+                <Input value={projectName} label="Project name" icon="single-project" field={"projectName"} onChange={this.handleFormUpdate} autoComplete="off" autoFocus/>
                 <div className="SlugPreviewWrapper">
                     <div className="UrlLabel">Project URL Preview</div>
                     <div className="UrlPreview">https://tenderly.app/project/<span className="ProjectSlug">{this.generateProjectUrl(projectName)}</span></div>
