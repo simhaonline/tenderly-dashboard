@@ -1,6 +1,7 @@
 import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "./Contract.actions";
 
 import {EntityStatusTypes} from "../../Common/constants";
+import {CREATE_EXAMPLE_PROJECT_ACTION} from "../Project/Project.actions";
 
 const initialState = {
     contracts: {},
@@ -10,9 +11,9 @@ const initialState = {
 
 const ContractReducer = (state = initialState, action) => {
     switch (action.type) {
+        case CREATE_EXAMPLE_PROJECT_ACTION:
         case FETCH_CONTRACTS_FOR_PROJECT_ACTION:
             const computedData = action.contracts.reduce((data, contract) => {
-
                 if (state.contracts[contract.id]) {
                     const existingContract = state.contracts[contract.id];
 

@@ -2,7 +2,8 @@ import {Api} from "../../Utils/Api";
 import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import Project from "./Project.model";
-import {NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
+import {ContractTypes, NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
+import Contract from "../Contract/Contract.model";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -58,9 +59,29 @@ export const dispatchExampleProject = dispatch => {
         type: ProjectTypes.DEMO,
     });
 
+    const exampleContracts = [
+        new Contract({
+            address: '0xd3ff81f0ffc4e59b49349ddbc0c31562595a80a7',
+            contract_name: 'Example Contract',
+            network_id: 1,
+            created_at: Date.now(),
+            number_of_exceptions: 0,
+        }, ContractTypes.PRIVATE, exampleProject.id),
+        new Contract({
+            address: '0x4B17B0750920ABA4ECf8aFCD4C7d4985F8180f7B',
+            contract_name: 'Example Contract',
+            network_id: 42,
+            created_at: Date.now(),
+            last_event_occurred_at: Date.now(),
+            number_of_exceptions: 1,
+        }, ContractTypes.PRIVATE, exampleProject.id)
+    ];
+
     dispatch({
         type: CREATE_EXAMPLE_PROJECT_ACTION,
         project: exampleProject,
+        projectId: exampleProject.id,
+        contracts: exampleContracts,
     });
 
     return new SuccessActionResponse(exampleProject);
