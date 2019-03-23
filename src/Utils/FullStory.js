@@ -3,8 +3,7 @@ class FullStory {
      * @param {User} user
      */
     static identifyUser(user) {
-        // This is an example script - don't forget to change it!
-        if (window.FS) {
+        if (process.env.NODE_ENV !== 'development' && window.FS) {
             window.FS.identify(user.id, {
                 displayName: user.getFullName(),
                 email: user.email,
