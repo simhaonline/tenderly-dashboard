@@ -7,7 +7,7 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import EventFilters from "../../Utils/EventFilters";
 
-import {EventActionTypes, EventFilterTypes} from "../../Common/constants";
+import {EventActionTypes, EventFilterTypes, ProjectTypes} from "../../Common/constants";
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getEventsForProject} from "../../Common/Selectors/EventSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
@@ -19,8 +19,25 @@ class ProjectEventsPage extends Component {
     constructor(props) {
         super(props);
 
+        const {location: {search}} = props;
+
+        const searchParams = new URLSearchParams(search);
+
+        const contractFilter = searchParams.get('contract');
+
+        let filters = {};
+
+        if (contractFilter) {
+            filters = {
+                [EventFilterTypes.CONTRACTS]: {
+                    type: EventFilterTypes.CONTRACTS,
+                    value: [contractFilter],
+                },
+            };
+        }
+
         this.state = {
-            filters: {},
+            filters,
             loadedPage: false,
             loadingPage: false,
             page: props.page,
@@ -28,35 +45,20 @@ class ProjectEventsPage extends Component {
     }
 
     async componentDidMount() {
-        const {contractsLoaded, project, eventActions, contractActions, location: {search}} = this.props;
+        const {contractsLoaded, project, eventActions, contractActions} = this.props;
         const {page} = this.state;
 
-        const searchParams = new URLSearchParams(search);
-
-        const contractFilter = searchParams.get('contract');
-
-        if (contractFilter) {
-            this.setState({
-                filters: {
-                    [EventFilterTypes.CONTRACTS]: {
-                        type: EventFilterTypes.CONTRACTS,
-                        value: [contractFilter],
-                    },
-                },
-            });
-        }
-
-        if (project.lastPushAt) {
+        if (project.lastPushAt && project.type !== ProjectTypes.DEMO) {
             await eventActions.fetchEventsForProject(project.id, page);
 
             if (!contractsLoaded) {
                 await contractActions.fetchContractsForProject(project.id);
             }
-
-            this.setState({
-                loadedPage: true,
-            });
         }
+
+        this.setState({
+            loadedPage: true,
+        });
     }
 
     handleRefreshEvents = async () => {
