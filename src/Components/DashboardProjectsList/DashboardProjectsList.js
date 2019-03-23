@@ -20,7 +20,7 @@ const handleCreateProjectClick = () => {
     MixPanel.track('navigate_create_project');
 };
 
-const DashboardProjectsList = ({projects, loaded}) => {
+const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     const data = [
         {name: 'Page A', events: 0.1,},
         {name: 'Page B', events: 0.1,},
@@ -42,9 +42,13 @@ const DashboardProjectsList = ({projects, loaded}) => {
         <div className="DashboardProjectsList">
             <h2 className="SectionHeading">Projects</h2>
             {(loaded && projects.length === 0) && <div className="ProjectListEmptyState">
-                <h5>No project created yet!</h5>
-                <p>Create a project and upload your Smart Contract to start tracking them</p>
-                <Button to="/project/create">Create Project</Button>
+                <Icon icon="single-project" className="EmptyStateIcon"/>
+                <h5 className="EmptyStateHeadline">Create your first project</h5>
+                <p className="EmptyStateDescription">Upload your smart contracts or import them from Etherscan and start monitoring them. View transactions that fail in real-time and be alerted when ever that happens.</p>
+                <div>
+                    <Button className="EmptyStateButton" size="small" color="secondary" onClick={onTryExample} outline>Try Example Project</Button>
+                    <Button className="EmptyStateButton" size="small" color="secondary" to="/project/create">Create a Project</Button>
+                </div>
             </div>}
             {(loaded && projects.length !== 0) && <div className="ProjectList">
                 {projects.map(project =>
