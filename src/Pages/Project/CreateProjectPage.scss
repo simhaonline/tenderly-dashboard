@@ -4,5 +4,18 @@
   .FormWrapper {
     margin: 30px auto;
     max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .Card {
+      width: 100%;
+    }
+
+    .GoBackLink {
+      .TnIcon {
+        margin-right: 5px;
+      }
+    }
   }
 }

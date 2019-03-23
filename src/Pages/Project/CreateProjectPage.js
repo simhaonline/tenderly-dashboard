@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 import * as projectActions from '../../Core/Project/Project.actions';
 
-import {Page, Container, Card, CardHeading} from "../../Elements";
+import {Page, Container, Card, CardHeading, Icon} from "../../Elements";
 import {CreateProjectForm} from "../../Components";
 
 import './CreateProjectPage.css';
@@ -64,6 +64,10 @@ class CreateProjectPage extends Component {
                                 </CardHeading>
                                 <CreateProjectForm onSubmit={this.handleFormSubmit}/>
                             </Card>
+                            <Link to="/dashboard" className="GoBackLink">
+                                <Icon icon="arrow-left"/>
+                                <span>Go back</span>
+                            </Link>
                         </div>
                 </Container>
             </Page>
