@@ -16,7 +16,7 @@
   border-radius: 5px;
   font-size: $FontSize200;
 
-  &.Success {
+  &.Info {
     background-color: transparentize($SecondaryColor600, 0.92);
     border: 1px solid transparentize($SecondaryColor600, 0.5);
   }

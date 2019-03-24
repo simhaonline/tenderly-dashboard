@@ -9,8 +9,8 @@ import './Alert.css';
  */
 function getAlertColorClass(color) {
     switch (color) {
-        case 'success':
-            return 'Success';
+        case 'info':
+            return 'Info';
         case 'danger':
             return 'Danger';
         default:

@@ -1,8 +1,11 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
+.ProjectNavigationWrapper {
+  padding: 15px 30px 0;
+}
+
 .ProjectNavigation {
-  padding-top: 15px;
   border-bottom: 1px solid $BorderColor;
 
   .ProjectHeading {

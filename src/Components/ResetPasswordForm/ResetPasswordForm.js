@@ -94,7 +94,7 @@ class ResetPasswordForm extends Component {
                         </Button>
                     </Form>}
                     {newPasswordSet && <div>
-                        <Alert color="success">You new password has been successfully set. You can now login to the dashboard with your new password.</Alert>
+                        <Alert color="info">You new password has been successfully set. You can now login to the dashboard with your new password.</Alert>
                         <Button to="/login" color="secondary" outline>
                             <Icon icon="log-in"/>
                             <span>Login</span>

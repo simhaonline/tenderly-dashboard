@@ -7,11 +7,11 @@ import classNames from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import MixPanel from "../../Utils/MixPanel";
-import {FeatureFlagTypes} from "../../Common/constants";
+import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
 import * as projectActions from "../../Core/Project/Project.actions";
 
-import {Container, Button, Icon} from "../../Elements";
+import {Container, Button, Icon, Alert} from "../../Elements";
 import {SimpleLoader, FeatureFlag} from "..";
 
 import './ProjectNavigation.css';
@@ -64,8 +64,11 @@ class ProjectNavigation extends Component {
         }
 
         return (
-            <Container>
-                <div className="ProjectNavigation">
+            <div className="ProjectNavigationWrapper">
+                <Container className="ProjectNavigation">
+                    {project.type === ProjectTypes.DEMO && <Alert color="info">
+                        <span>This is a demo project and all of data shown is just mocked data.</span>
+                    </Alert>}
                     <div className="ProjectHeading">
                         <Button to={"/dashboard"} outline color="secondary">
                             <Icon icon="corner-up-left"/>
@@ -117,8 +120,8 @@ class ProjectNavigation extends Component {
                             <span>Settings</span>
                         </NavLink>
                     </div>
-                </div>
-            </Container>
+                </Container>
+            </div>
         );
     }
 }
