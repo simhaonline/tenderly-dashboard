@@ -62,7 +62,6 @@ class App extends Component {
                     <div className="App">
                         <AppHeader/>
                         <AppPages/>
-                        <FeatureFlagControls/>
                     </div>
                 </Router>
             </Provider>
