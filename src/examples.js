@@ -62,7 +62,7 @@ export const exampleProjectPayload = {
 };
 
 export const exampleContract1Payload = {
-    address: '0x06012c8cf97bead5deae237070f9587f8e7a266d',
+    address: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
     contract_name: 'ExampleContract',
     network_id: 1,
     created_at: Date.now(),
@@ -73,7 +73,7 @@ export const exampleContract1Payload = {
 };
 
 export const exampleContract2Payload = {
-    address: '0x4B17B0750920ABA4ECf8aFCD4C7d4985F8180f7B',
+    address: '0x4B17B0750920ABA4ECf5aFCD4C7d4985F8180f7B',
     contract_name: 'ExampleContract',
     network_id: 42,
     created_at: Date.now(),
@@ -85,15 +85,15 @@ export const exampleContract2Payload = {
 };
 
 export const exampleEvent1Paylod = {
-    transaction_id: '0x574491ab4ab459868e91de6abf501e6eae72a3b7cf489b60e4c23436c4cf2679',
-    contract_address: '0x06012c8cf97bead5deae237070f9587f8e7a266d',
+    transaction_id: '0x574491ab4ab459848e91de6abf501e6eae72a3b7cf489b60e4c23436c4cf2679',
+    contract_address: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
     block_number: '7430607',
     CreatedAt: Date.now(),
     Method: 'transferToReserve',
     StackTrace: [
         {
             code: "require(storedFunds > amount)",
-            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266d",
+            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
             length: 36,
             line: 29,
             name: "ExampleContract",
@@ -104,7 +104,7 @@ export const exampleEvent1Paylod = {
         {
             code: "transferToReserve(amount)",
             method: 'sendFunds',
-            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266d",
+            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
             length: 36,
             line: 36,
             name: "ExampleContract",
@@ -114,7 +114,7 @@ export const exampleEvent1Paylod = {
         {
             code: "sendFunds(amount, to)",
             method: "extractFunds",
-            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266d",
+            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
             length: 36,
             line: 49,
             name: "ExampleContract",
@@ -124,7 +124,7 @@ export const exampleEvent1Paylod = {
         {
             code: "extractFunds(uint amount, address src, address to)",
             calling_method: true,
-            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266d",
+            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
             caller_address: '',
             line: 46,
             name: "ExampleContract",
