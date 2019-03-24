@@ -1,4 +1,5 @@
 import {FETCH_PUBLIC_CONTRACT_ACTION, FETCH_PUBLIC_CONTRACTS_ACTION} from "./PublicContracts.actions";
+import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
 
 const initialState = {
@@ -9,6 +10,9 @@ const initialState = {
 
 const PublicContractsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOG_OUT_ACTION: {
+            return initialState;
+        }
         case FETCH_PUBLIC_CONTRACTS_ACTION:
             const contracts = action.contracts.reduce((list, contract) => {
                 if (state.contracts[contract.id]) {

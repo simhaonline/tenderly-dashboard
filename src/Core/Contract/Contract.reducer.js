@@ -2,6 +2,7 @@ import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "./Contract.actions";
 
 import {EntityStatusTypes} from "../../Common/constants";
 import {CREATE_EXAMPLE_PROJECT_ACTION} from "../Project/Project.actions";
+import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
 const initialState = {
     contracts: {},
@@ -11,6 +12,8 @@ const initialState = {
 
 const ContractReducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOG_OUT_ACTION:
+            return initialState;
         case CREATE_EXAMPLE_PROJECT_ACTION:
         case FETCH_CONTRACTS_FOR_PROJECT_ACTION:
             const computedData = action.contracts.reduce((data, contract) => {
