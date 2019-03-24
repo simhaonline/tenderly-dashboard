@@ -47,7 +47,7 @@
       position: absolute;
       top: 59px;
       display: none;
-      background-color: #121726;
+      background-color: darken(#121726, 3);
       width: 100%;
       padding: 10px 0;
       border-bottom-left-radius: 4px;
@@ -70,11 +70,13 @@
 
     &.OpenDropdown {
       .ProfileInfo {
-        background-color: #121726;
+        background-color: darken(#121726, 3);
+        box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.75);
       }
 
       .ProfileDropdown {
         display: block;
+        box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.75);
       }
     }
   }
