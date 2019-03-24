@@ -31,11 +31,19 @@ class App extends Component {
     };
 
     async componentDidMount() {
-        const tokenCookie = Cookies.get('token');
+        let tokenCookie = Cookies.get('token');
 
         MixPanel.initialize();
         ReactGA.initialize('UA-125013494-2');
         ReactGA.pageview(window.location.pathname + window.location.search);
+
+        const searchParams = new URLSearchParams(window.location.search);
+
+        const loginToken = searchParams.get('login_token');
+
+        if (!tokenCookie && !!loginToken) {
+            tokenCookie = loginToken;
+        }
 
         await store.dispatch(authActions.retrieveToken(tokenCookie, true));
 
