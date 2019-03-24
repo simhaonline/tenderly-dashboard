@@ -60,7 +60,10 @@ const AuthReducer = (state = initialState, action) => {
             };
         }
         case LOG_OUT_ACTION:
-            return initialState;
+            return {
+                ...initialState,
+                retrievedToken: true,
+            };
         default:
             return state;
     }
