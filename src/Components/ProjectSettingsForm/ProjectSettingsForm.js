@@ -10,6 +10,7 @@ import {Card, CardHeading, Input} from "../../Elements";
 import ProgressiveButton from "../ProgressiveButton/ProgressiveButton";
 
 import './ProjectSettingsForm.css';
+import {ProjectTypes} from "../../Common/constants";
 
 class ProjectSettingsForm extends Component {
     constructor(props) {
@@ -42,10 +43,10 @@ class ProjectSettingsForm extends Component {
                     <h3>Overview</h3>
                 </CardHeading>
                 <div>
-                    <Input field="projectName" value={projectName} onChange={this.handleFormUpdate} icon="edit-3" label="Project name"/>
+                    <Input disabled={project.type === ProjectTypes.DEMO} field="projectName" value={projectName} onChange={this.handleFormUpdate} icon="edit-3" label="Project name"/>
                 </div>
                 <div>{project.slug}</div>
-                <ProgressiveButton label="Save" progressLabel="Saving" color="primary" onClick={this.handleSettingsUpdate}/>
+                <ProgressiveButton disabled={project.type === ProjectTypes.DEMO} label="Save" progressLabel="Saving" color="primary" onClick={this.handleSettingsUpdate}/>
             </Card>
         );
     }
