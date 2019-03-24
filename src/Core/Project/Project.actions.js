@@ -2,8 +2,15 @@ import {Api} from "../../Utils/Api";
 import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import Project from "./Project.model";
-import {ContractTypes, NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
 import Contract from "../Contract/Contract.model";
+import Event from '../Event/Event.model';
+import {ContractTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
+import {
+    exampleContract1Payload,
+    exampleContract2Payload,
+    exampleEvent1Paylod,
+    exampleProjectPayload
+} from "../../examples";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -51,30 +58,15 @@ export const createProject = (name, account = null) => {
  * @return {SuccessActionResponse}
  */
 export const dispatchExampleProject = dispatch => {
-    const exampleProject = new Project({
-        slug: 'example-project',
-        name: 'Example Project',
-        last_push_at: Date.now(),
-        created_at: Date.now(),
-        type: ProjectTypes.DEMO,
-    });
+    const exampleProject = new Project(exampleProjectPayload);
 
     const exampleContracts = [
-        new Contract({
-            address: '0xd3ff81f0ffc4e59b49349ddbc0c31562595a80a7',
-            contract_name: 'Example Contract',
-            network_id: 1,
-            created_at: Date.now(),
-            number_of_exceptions: 0,
-        }, ContractTypes.PRIVATE, exampleProject.id),
-        new Contract({
-            address: '0x4B17B0750920ABA4ECf8aFCD4C7d4985F8180f7B',
-            contract_name: 'Example Contract',
-            network_id: 42,
-            created_at: Date.now(),
-            last_event_occurred_at: Date.now(),
-            number_of_exceptions: 1,
-        }, ContractTypes.PRIVATE, exampleProject.id)
+        new Contract(exampleContract1Payload, ContractTypes.PRIVATE, exampleProject.id),
+        new Contract(exampleContract2Payload, ContractTypes.PRIVATE, exampleProject.id)
+    ];
+
+    const exampleEvents = [
+        new Event(exampleEvent1Paylod),
     ];
 
     dispatch({
@@ -82,6 +74,8 @@ export const dispatchExampleProject = dispatch => {
         project: exampleProject,
         projectId: exampleProject.id,
         contracts: exampleContracts,
+        events: exampleEvents,
+        page: 1,
     });
 
     return new SuccessActionResponse(exampleProject);
