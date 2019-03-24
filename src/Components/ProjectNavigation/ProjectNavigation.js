@@ -67,7 +67,7 @@ class ProjectNavigation extends Component {
             <div className="ProjectNavigationWrapper">
                 <Container className="ProjectNavigation">
                     {project.type === ProjectTypes.DEMO && <Alert color="info">
-                        <span>This is a demo project and all of data shown is just mocked data.</span>
+                        <span>This is a demo project and all of the shown data is mocked.</span>
                     </Alert>}
                     <div className="ProjectHeading">
                         <Button to={"/dashboard"} outline color="secondary">
