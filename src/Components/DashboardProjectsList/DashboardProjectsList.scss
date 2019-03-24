@@ -77,7 +77,17 @@
       .ProjectName {
         font-size: $FontSize300;
         margin-bottom: 5px;
+
+        .DemoTag {
+          color: $WhiteColor;
+          background-color: $TertiaryColor600;
+          border-radius: 2px;
+          font-size: $FontSize200;
+          margin-right: 5px;
+          padding: 0 5px;
+        }
       }
+
       .ProjectId {
         font-size: $FontSize100;
         font-weight: 100;

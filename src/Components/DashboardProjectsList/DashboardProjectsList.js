@@ -8,7 +8,7 @@ import ProjectSetupGuide from "../ProjectSetupGuide/ProjectSetupGuide";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './DashboardProjectsList.css';
-import {FeatureFlagTypes} from "../../Common/constants";
+import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 import MixPanel from "../../Utils/MixPanel";
 import {SimpleLoader} from "..";
 
@@ -54,7 +54,10 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
                 {projects.map(project =>
                     <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id} onClick={handleProjectItemClick}>
                         <div className="ProjectNameWrapper">
-                            <div className="ProjectName">{project.name}</div>
+                            <div className="ProjectName">
+                                {project.type === ProjectTypes.DEMO && <span className="DemoTag">Demo</span>}
+                                <span>{project.name}</span>
+                            </div>
                             <div className="ProjectId">{project.id}</div>
                         </div>
                         <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
