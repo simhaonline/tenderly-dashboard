@@ -4,13 +4,15 @@ import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../
 import Project from "./Project.model";
 import Contract from "../Contract/Contract.model";
 import Event from '../Event/Event.model';
-import {ContractTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
+import {ContractTypes, NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
 import {
     exampleContract1Payload,
     exampleContract2Payload,
     exampleEvent1Paylod,
     exampleProjectPayload
 } from "../../examples";
+import {updateUser} from "../Auth/Auth.actions";
+import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -26,7 +28,8 @@ export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
  */
 export const createProject = (name, account = null) => {
     return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
+        const state = getState();
+        const {auth: {user: {username, showDemo}}} = state;
 
         const projectAccount = account || username;
 
@@ -37,6 +40,12 @@ export const createProject = (name, account = null) => {
 
             if (!data.project) {
                 return new ActionResponse(false);
+            }
+
+            if (showDemo) {
+                const demoProject = getProject(state, exampleProjectPayload.slug);
+
+                await dispatch(deleteProject(demoProject));
             }
 
             const project = new Project(data.project);
@@ -87,11 +96,11 @@ export const dispatchExampleProject = dispatch => {
 export const createExampleProject = () => {
     return async dispatch => {
         try {
-            const {data} = await Api.patch('/user/change-details', {
-                hide_demo: false,
-            });
+            const response = await dispatch(updateUser({
+                showDemo: true,
+            }));
 
-            if (!data || !data.success) {
+            if (!response.success) {
                 return new ErrorActionResponse();
             }
 
@@ -167,20 +176,26 @@ export const fetchProject = (id, account = null) => {
 };
 
 /**
- * @param {string} id
+ * @param {Project} project
  * @param {string|null} [account]
  */
-export const deleteProject = (id, account = null) => {
+export const deleteProject = (project, account = null) => {
     return async (dispatch, getState) => {
         const {auth: {user: {username}}} = getState();
 
         const projectAccount = account || username;
 
-        await Api.delete(`/account/${projectAccount}/project/${id}`);
+        if (project.type === ProjectTypes.DEMO) {
+            await dispatch(updateUser({
+                showDemo: false,
+            }));
+        } else {
+            await Api.delete(`/account/${projectAccount}/project/${project.id}`);
+        }
 
         dispatch({
             type: DELETE_PROJECT_ACTION,
-            projectId: id,
+            projectId: project.id,
         });
 
         return true;

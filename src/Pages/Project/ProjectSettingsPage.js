@@ -42,7 +42,7 @@ class ProjectSettingsPage extends Component {
                     projectDeleted: true,
                 });
 
-                await actions.deleteProject(project.id);
+                await actions.deleteProject(project);
                 break;
             default:
                 break;

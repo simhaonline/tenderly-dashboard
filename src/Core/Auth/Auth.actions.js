@@ -392,6 +392,10 @@ export const updateUser = (updates) => {
                 payload.last_name = updates.lastName;
             }
 
+            if (updates.hasOwnProperty('showDemo')) {
+                payload.hide_demo = !updates.showDemo;
+            }
+
             const {data} = await Api.patch('/user/change-details', payload);
 
             if (!data || !data.success) {
