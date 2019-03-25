@@ -13,6 +13,7 @@ import {
 } from "../../examples";
 import {updateUser} from "../Auth/Auth.actions";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {formatProjectSlug} from "../../Utils/Formatters";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -32,6 +33,15 @@ export const createProject = (name, account = null) => {
         const {auth: {user: {username, showDemo}}} = state;
 
         const projectAccount = account || username;
+
+        const existingProjects = Object.keys(state.project.projects);
+        const projectSlug = formatProjectSlug(name);
+
+        if (existingProjects.includes(projectSlug)) {
+            return new ErrorActionResponse({
+                message: 'Project with this slug already exists.'
+            });
+        }
 
         try {
             const {data} = await Api.post(`/account/${projectAccount}/project`, {
@@ -57,7 +67,7 @@ export const createProject = (name, account = null) => {
 
             return new ActionResponse(true, project);
         } catch (error) {
-            return new ActionResponse(false, error.response.data);
+            return new ErrorActionResponse(error);
         }
     };
 };

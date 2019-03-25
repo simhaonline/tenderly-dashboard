@@ -5,7 +5,7 @@ import {Link, Redirect} from "react-router-dom";
 
 import * as projectActions from '../../Core/Project/Project.actions';
 
-import {Page, Container, Card, CardHeading, Icon} from "../../Elements";
+import {Page, Container, Card, CardHeading, Icon, Alert} from "../../Elements";
 import {CreateProjectForm} from "../../Components";
 
 import './CreateProjectPage.css';
@@ -17,12 +17,17 @@ class CreateProjectPage extends Component {
         this.state = {
             projectCreated: false,
             project: null,
+            error: null,
         };
 
     }
 
     handleFormSubmit = async (data) => {
         const {projectName} = data;
+
+        this.setState({
+            error: null,
+        });
 
         if (!projectName) {
             return {
@@ -39,6 +44,10 @@ class CreateProjectPage extends Component {
                 projectCreated: true,
                 project,
             });
+        } else {
+            this.setState({
+                error: project.error,
+            });
         }
 
         return {
@@ -48,7 +57,7 @@ class CreateProjectPage extends Component {
     };
 
     render() {
-        const {projectCreated, project} = this.state;
+        const {projectCreated, project, error} = this.state;
 
         if (projectCreated) {
             return <Redirect to={`/project/${project.id}`}/>;
@@ -62,6 +71,9 @@ class CreateProjectPage extends Component {
                                 <CardHeading>
                                     <h3>Create Project</h3>
                                 </CardHeading>
+                                {!!error && <Alert color="danger">
+                                    <span>{error.message}</span>
+                                </Alert>}
                                 <CreateProjectForm onSubmit={this.handleFormSubmit}/>
                             </Card>
                             <Link to="/dashboard" className="GoBackLink">

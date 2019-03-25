@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import {Form, Input, Button} from "../../Elements";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+import {formatProjectSlug} from "../../Utils/Formatters";
 
 import './CreateProjectForm.css';
 
@@ -19,12 +20,6 @@ class CreateProjectForm extends Component {
         });
         this.handleFormUpdate = updateFormField.bind(this);
     }
-
-    generateProjectUrl = (projectName) => {
-        const projectSlug = projectName.toLowerCase().replace(/[\W_]+/g, "-");
-
-        return projectSlug;
-    };
 
     handleFormSubmit = async () => {
         const {onSubmit} = this.props;
@@ -52,7 +47,7 @@ class CreateProjectForm extends Component {
                 <Input value={projectName} label="Project name" icon="single-project" field={"projectName"} onChange={this.handleFormUpdate} autoComplete="off" autoFocus/>
                 <div className="SlugPreviewWrapper">
                     <div className="UrlLabel">Project URL Preview</div>
-                    <div className="UrlPreview">https://tenderly.app/project/<span className="ProjectSlug">{this.generateProjectUrl(projectName)}</span></div>
+                    <div className="UrlPreview">https://tenderly.app/project/<span className="ProjectSlug">{formatProjectSlug(projectName)}</span></div>
                     <div className="UrlNote">* Slugs can not be changed later</div>
                 </div>
                 <div className="SubmitButtonWrapper">

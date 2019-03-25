@@ -9,7 +9,7 @@ function parseActionError(error) {
         return {
             type: ActionErrorTypes.API,
             status,
-            error: data,
+            error: data.error ? data.error : data,
         }
     }
 
