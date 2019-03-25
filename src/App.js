@@ -15,7 +15,7 @@ import MixPanel from "./Utils/MixPanel";
 
 import {store} from './Core';
 
-import {AppHeader, FeatureFlagControls} from "./Components";
+import {AppHeader} from "./Components";
 import {AppPages} from "./Pages";
 
 if (process.env.NODE_ENV !== 'development') {
