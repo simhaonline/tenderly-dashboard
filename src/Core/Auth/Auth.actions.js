@@ -66,7 +66,7 @@ export const loginUser = (username, password) => {
                 token: data.token,
             });
             dispatch(setAuthHeader(data.token));
-            dispatch(getUser());
+            await dispatch(getUser());
 
             return new ActionResponse(true, data.token);
         } catch (error) {
@@ -99,7 +99,7 @@ export const registerUser = (userData) => {
                 token: data.token,
             });
             dispatch(setAuthHeader(data.token));
-            dispatch(getUser());
+            await dispatch(getUser());
 
             return new ActionResponse(true, data.token);
         } catch (error) {
@@ -118,7 +118,7 @@ export const logoutUser = () => {
 };
 
 /**
- * @param {string} token
+ * @param {string} [token]
  * @returns {ActionResponse}
  */
 export const getUser = (token) => {
@@ -127,7 +127,7 @@ export const getUser = (token) => {
             const {data} = await Api.get('/user');
 
             if (!data.user) {
-                return;
+                return new ErrorActionResponse();
             }
 
             const user = new User(data.user);
@@ -137,6 +137,10 @@ export const getUser = (token) => {
                 const decodedToken = jwt.decode(token);
 
                 impersonating = !!decodedToken.impersonate;
+            }
+
+            if (user.showDemo) {
+                dispatchExampleProject(dispatch)
             }
 
             if (!impersonating) {
@@ -250,10 +254,6 @@ export const retrieveToken = (token, initial = false) => {
 
             if (!response.success) {
                 dispatch(removeAuthHeader())
-            }
-
-            if (initial && response.success && response.data.showDemo) {
-                dispatchExampleProject(dispatch);
             }
         }
 
