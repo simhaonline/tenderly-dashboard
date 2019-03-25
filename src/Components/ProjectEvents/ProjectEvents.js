@@ -1,15 +1,18 @@
 import React from 'react';
 
+import {Icon, Card} from "../../Elements";
 import EventList from "../EventList/EventList";
 
 import './ProjectEvents.css';
 
-const ProjectEvents = ({events, contracts, onFiltersUpdate}) => {
+const ProjectEvents = ({events, contracts}) => {
     if (!events.length) {
         return (
-            <div className="ProjectEventsEmtpySTat">
-                No errors
-            </div>
+            <Card className="ProjectEventsEmptyState">
+                <Icon icon="transaction" className="EmptyStateIcon"/>
+                <div className="EmptyStateHeading">Phew! Sit back and relax</div>
+                <div className="EmptyStateDescription">There are currently no captured failed transactions. As soon as one happens it will appear here.</div>
+            </Card>
         )
     }
 
