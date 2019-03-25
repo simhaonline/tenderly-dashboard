@@ -8,6 +8,8 @@ import './NetworkTag.css';
 const networkTypeToClassNameMap = {
     [NetworkTypes.MAIN]: 'main',
     [NetworkTypes.KOVAN]: 'kovan',
+    [NetworkTypes.ROPSTEN]: 'ropsten',
+    [NetworkTypes.RINKEBY]: 'rinkeby',
 };
 
 const networkTagSizeToClassNameMap = {

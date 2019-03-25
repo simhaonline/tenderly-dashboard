@@ -14,7 +14,15 @@
   }
 
   &.kovan {
-    background-color: transparentize($TertiaryColor600, 0.5);
+    background-color: transparentize($TertiaryColor600, 0.4);
+  }
+
+  &.ropsten {
+    background-color: transparentize($PrimaryColor600, 0.4);
+  }
+
+  &.rinkeby {
+    background-color: transparentize($YellowColor600, 0.4);
   }
 
   &.Small {

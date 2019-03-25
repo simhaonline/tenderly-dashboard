@@ -1,4 +1,4 @@
-import {ProjectTypes} from "./Common/constants";
+import {NetworkAppToApiTypeMap, NetworkTypes, ProjectTypes} from "./Common/constants";
 
 
 const exampleContractSource = `pragma solidity ^0.4.25;
@@ -64,7 +64,7 @@ export const exampleProjectPayload = {
 export const exampleContract1Payload = {
     address: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
     contract_name: 'ExampleContract',
-    network_id: 1,
+    network_id: NetworkAppToApiTypeMap[NetworkTypes.MAIN],
     created_at: Date.now(),
     number_of_exceptions: 1,
     data: {
@@ -75,7 +75,7 @@ export const exampleContract1Payload = {
 export const exampleContract2Payload = {
     address: '0x4B17B0750920ABA4ECf5aFCD4C7d4985F8180f7B',
     contract_name: 'ExampleContract',
-    network_id: 42,
+    network_id: NetworkAppToApiTypeMap[NetworkTypes.KOVAN],
     created_at: Date.now(),
     last_event_occurred_at: Date.now(),
     number_of_exceptions: 0,
