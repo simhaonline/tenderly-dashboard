@@ -116,9 +116,9 @@ class LoginPage extends Component {
                             </div>
                         </Form>
                         <div className="DocumentsWrapper">
-                            <a className="DocumentLink" href="https://tenderly.app/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                            <a className="DocumentLink" href="https://tenderly.dev/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
                             <span className="Separator">•</span>
-                            <a className="DocumentLink" href="https://tenderly.app/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                            <a className="DocumentLink" href="https://tenderly.dev/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                         <div className="PocLinkWrapper">
                             <Link to="/register" className="PocLink" onClick={() => {MixPanel.track('navigate_register')}}>

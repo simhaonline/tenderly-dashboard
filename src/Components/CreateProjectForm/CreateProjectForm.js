@@ -47,7 +47,7 @@ class CreateProjectForm extends Component {
                 <Input value={projectName} label="Project name" icon="single-project" field={"projectName"} onChange={this.handleFormUpdate} autoComplete="off" autoFocus/>
                 <div className="SlugPreviewWrapper">
                     <div className="UrlLabel">Project URL Preview</div>
-                    <div className="UrlPreview">https://tenderly.app/project/<span className="ProjectSlug">{formatProjectSlug(projectName)}</span></div>
+                    <div className="UrlPreview">https://dashboard.tenderly.dev/project/<span className="ProjectSlug">{formatProjectSlug(projectName)}</span></div>
                     <div className="UrlNote">* Slugs can not be changed later</div>
                 </div>
                 <div className="SubmitButtonWrapper">
