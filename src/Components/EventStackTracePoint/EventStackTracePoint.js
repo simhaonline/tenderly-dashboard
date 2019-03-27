@@ -38,11 +38,15 @@ class EventStackTracePoint extends Component {
 
         return (
             <div className="EventStackTracePoint">
-                <div className="StackTracePointHeading" onClick={this.handleOpenToggle}>
+                {point.opCode !== 'CALL' && <div className="StackTracePointHeading Clickable" onClick={this.handleOpenToggle}>
                     <Icon icon="circle" className="PointIcon"/>
-                    <div className="TraceMessage">{point.code} at {point.name}:{point.line}</div>
-                </div>
-                {open && <div className="StackTraceCode">
+                    <div className="TraceMessage">{point.method} at {point.contractName}:{point.line}</div>
+                </div>}
+                {point.opCode === 'CALL' && <div className="StackTracePointHeading">
+                    <Icon icon="arrow-right-circle" className="PointIcon"/>
+                    <div className="TraceMessage">{point.contract} called {point.method}</div>
+                </div>}
+                {(point.belongsToContract && point.opCode !== 'CALL' && open) && <div className="StackTraceCode">
                     <CodePreview line={point.line} linePreview={linesVisible} source={source}/>
                     <Link className="SourceLink" to={`../source?line=${point.line}`}>
                         <Icon icon="terminal" className="LinkIcon"/>
