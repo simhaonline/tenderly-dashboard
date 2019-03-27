@@ -1,0 +1,18 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.ProjectSettingsForm {
+  .SlugPreview {
+    margin: 20px 0;
+    border: 1px solid $BorderColor;
+    background-color: transparentize($BlackColor, 0.75);
+    padding: 10px 15px;
+    border-radius: 3px;
+    font-weight: 300;
+    font-size: $FontSize200;
+
+    .ProjectSlug {
+      font-weight: 600;
+    }
+  }
+}
