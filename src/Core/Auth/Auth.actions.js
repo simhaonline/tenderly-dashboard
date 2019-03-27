@@ -70,7 +70,7 @@ export const loginUser = (username, password) => {
 
             return new ActionResponse(true, data.token);
         } catch (error) {
-            return new ActionResponse(false, error.response.data);
+            return new ErrorActionResponse(error);
         }
     }
 };
@@ -183,7 +183,7 @@ export const changePassword = (oldPassword, newPassword) => {
 
             return new ActionResponse(data.ok);
         } catch (error) {
-            return new ActionResponse(false, error.response.data);
+            return new ErrorActionResponse(error);
         }
     }
 };
@@ -290,7 +290,7 @@ export const authenticateOAuth = (service, code) => {
 
             return new ActionResponse(true, data.token);
         } catch (error) {
-            return new ActionResponse(false, error.response.data);
+            return new ErrorActionResponse(error);
         }
     }
 };
