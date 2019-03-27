@@ -34,7 +34,11 @@ class App extends Component {
         let tokenCookie = Cookies.get('token');
 
         MixPanel.initialize();
-        ReactGA.initialize('UA-125013494-2');
+        ReactGA.initialize('UA-125013494-1', {
+            gaOptions: {
+                name: 'dashboard',
+            },
+        });
         ReactGA.pageview(window.location.pathname + window.location.search);
 
         const searchParams = new URLSearchParams(window.location.search);
