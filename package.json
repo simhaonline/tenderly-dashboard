@@ -6,6 +6,7 @@
     "@sentry/browser": "^4.4.1",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "fetch-streaming": "^0.1.2",
     "highlight.js": "^9.12.0",
     "highlightjs-solidity": "^1.0.6",
     "js-cookie": "^2.2.0",

@@ -5132,6 +5132,11 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
+fetch-streaming@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/fetch-streaming/-/fetch-streaming-0.1.2.tgz#2527d2c69472faae501cc3b08940741d0b9dc5ae"
+  integrity sha1-JSfSxpRy+q5QHMOwiUB0HQudxa4=
+
 figgy-pudding@^3.1.0, figgy-pudding@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.5.1.tgz#862470112901c727a0e495a80744bd5baa1d6790"
