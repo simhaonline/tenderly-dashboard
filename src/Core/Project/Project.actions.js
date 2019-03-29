@@ -275,7 +275,7 @@ export const addVerifiedContractToProject = (projectId, networkType, address, pr
                 address,
             }, progressCallback);
 
-            if (!responseData) {
+            if (!responseData || !responseData[responseData.length -1].status) {
                 return new ErrorActionResponse();
             }
 

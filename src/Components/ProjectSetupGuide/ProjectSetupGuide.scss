@@ -14,7 +14,7 @@
 }
 
 .SetupProjectDialog {
-  $SetupProjectDialogHeight: 330px;
+  $SetupProjectDialogHeight: 360px;
   .DialogStepsWrapper {
     position: relative;
     height: $SetupProjectDialogHeight;
@@ -178,15 +178,77 @@
   }
 
   .AddingContractLoader {
-    .LoaderText {
-      text-transform: uppercase;
-      text-align: center;
-      font-weight: 100;
-      letter-spacing: 3px;
-      font-size: $FontSize100;
+    .AddingContractStepsWrapper {
+      border: 1px solid $BorderColor;
+      border-radius: 5px;
+      background-color: transparentize($BlackColor, 0.8);
 
-      &:first-child {
-        margin-bottom: 15px;
+      .AddingContractStep {
+        display: flex;
+        align-items: center;
+        opacity: 0.5;
+        transition: 0.2s ease-in;
+        padding: 12px 15px;
+        position: relative;
+
+        .StepIcon {
+          background-color: transparentize($BlackColor, 0.7);
+          width: 30px;
+          height: 30px;
+          font-size: $FontSize100;
+          transition: 0.2s ease-in;
+          border: 1px solid transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 3px;
+          margin-right: 10px;
+        }
+
+        &:not(:last-child) {
+          border-bottom: 1px solid $BorderColor;
+        }
+
+        .StepLabel {
+          flex: 1 1 0;
+        }
+
+        .StepProgress {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .SimpleLoader {
+          transform: scale(0.8);
+        }
+
+        &.Success, &.Error, &.InProgress {
+          opacity: 1;
+        }
+
+        &.InProgress {
+          .StepIcon {
+            border: 1px solid transparentize($SecondaryColor600, 0.25);
+            color: $WhiteColor;
+          }
+        }
+
+        &.Success {
+          .StepIcon {
+            background-color: transparentize($SecondaryColor600, 0.25);
+            color: $WhiteColor;
+          }
+        }
+
+        &.Error {
+          .StepIcon {
+            background-color: transparentize($RedColor600, 0.4);
+            color: $WhiteColor;
+          }
+        }
       }
     }
   }

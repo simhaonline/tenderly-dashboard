@@ -45,7 +45,13 @@ class StreamingApiProvider {
                 ...options.headers,
             },
         }, stream => {
-            callback(JSON.parse(stream));
+            if (typeof stream === typeof Object) {
+                return stream;
+            }
+
+            if (typeof stream === 'string') {
+                callback(JSON.parse(stream));
+            }
         });
 
         return {
