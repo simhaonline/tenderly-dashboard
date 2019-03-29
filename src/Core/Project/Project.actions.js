@@ -1,4 +1,4 @@
-import {Api} from "../../Utils/Api";
+import {Api, StreamingApi} from "../../Utils/Api";
 import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import Project from "./Project.model";
@@ -260,21 +260,22 @@ export const updateProject = (id, data, account = null) => {
  * @param {string} projectId
  * @param {string} networkType
  * @param {string} address
+ * @param {Function} progressCallback
  * @return {Function}
  */
-export const addVerifiedContractToProject = (projectId, networkType, address) => {
+export const addVerifiedContractToProject = (projectId, networkType, address, progressCallback = () => {}) => {
     return async (dispatch, getState) => {
         try {
             const {auth: {user: {username}}} = getState();
 
             const networkId = NetworkAppToApiTypeMap[networkType];
 
-            const {data: responseData} = await Api.post(`/account/${username}/project/${projectId}/address`, {
+            const {data: responseData} = await StreamingApi.post(`/account/${username}/project/${projectId}/streaming-address`, {
                 network_id: networkId.toString(),
                 address,
-            });
+            }, progressCallback);
 
-            if (!responseData || !responseData.ok) {
+            if (!responseData) {
                 return new ErrorActionResponse();
             }
 
