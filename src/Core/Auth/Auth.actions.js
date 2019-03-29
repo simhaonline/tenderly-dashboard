@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import * as Sentry from "@sentry/browser";
 import jwt from "jsonwebtoken";
 
-import {PublicApi, Api} from '../../Utils/Api';
+import {PublicApi, Api, StreamingApi} from '../../Utils/Api';
 import MixPanel from "../../Utils/MixPanel";
 import FullStory from "../../Utils/FullStory";
 
@@ -33,6 +33,7 @@ const setAuthHeader = (token) => {
         }
 
         Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        StreamingApi.setAuthentication(token);
     }
 };
 
