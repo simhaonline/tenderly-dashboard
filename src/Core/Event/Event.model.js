@@ -36,7 +36,7 @@ export class TracePoint {
      */
     static computeFromStackTrace(stackTrace, contract) {
         return stackTrace.map(trace => new TracePoint(trace, contract))
-            .filter(trace => !!trace.contract);
+            .filter(trace => !!trace.contract && !!trace.line);
     }
 }
 
