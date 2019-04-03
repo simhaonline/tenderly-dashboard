@@ -73,6 +73,10 @@ class Contract {
 
         const matches = versionRegex.exec(source);
 
+        if (!matches || !matches[1]) {
+            return null;
+        }
+
         return matches[1];
     }
 }
