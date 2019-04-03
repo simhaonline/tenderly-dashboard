@@ -136,10 +136,10 @@ class ProjectSetupGuide extends Component {
     };
 
     previousStep = () => {
-        MixPanel.track(`project_setup_previous_step_${this.state.currentStep + 1}`);
+        MixPanel.track(`project_setup_previous_step_${this.state.currentStep - 1}`);
 
         this.setState({
-            currentStep: this.state.currentStep = 1,
+            currentStep: this.state.currentStep - 1,
         });
     };
 
