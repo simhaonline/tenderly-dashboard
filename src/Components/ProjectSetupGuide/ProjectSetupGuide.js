@@ -9,7 +9,7 @@ import * as projectActions from "../../Core/Project/Project.actions";
 import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
-import {Dialog, DialogHeader, DialogBody, Button, Icon, Input, Alert} from "../../Elements";
+import {Dialog, DialogHeader, DialogBody, Button, Icon, Input} from "../../Elements";
 import {SimpleLoader, NetworkSegmentedPicker} from '..';
 
 import './ProjectSetupGuide.css';
