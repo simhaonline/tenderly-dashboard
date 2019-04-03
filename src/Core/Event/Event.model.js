@@ -65,19 +65,22 @@ class Event {
         /** @type Date */
         this.timestamp = data.CreatedAt;
 
-        const lastTraceData = Event.parseLastTraceData(this.trace);
+        if (this.trace.length) {
+            /** @type TracePoint */
+            const lastTraceData = Event.parseLastTraceData(this.trace);
 
-        /** @type number */
-        this.lineNumber = lastTraceData.line;
+            /** @type number */
+            this.lineNumber = lastTraceData.line;
 
-        /** @type string */
-        this.message = Event.getPreviewMessage(data, lastTraceData);
+            /** @type string */
+            this.message = Event.getPreviewMessage(data, lastTraceData);
 
-        /** @type string */
-        this.description = lastTraceData.method;
+            /** @type string */
+            this.description = lastTraceData.method;
 
-        /** @type string */
-        this.opCode = lastTraceData.opCode;
+            /** @type string */
+            this.opCode = lastTraceData.opCode;
+        }
     }
 
     /**
