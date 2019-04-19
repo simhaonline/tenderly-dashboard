@@ -6,6 +6,21 @@
   padding-bottom: 20px;
   margin-bottom: 20px;
 
+  .ContractName {
+    display: flex;
+    align-items: center;
+
+    .BackButton {
+      margin-right: 15px;
+    }
+
+    .NetworkWrapper {
+      margin-right: 15px;
+    }
+
+    .NameWrapper {}
+  }
+
   .ContractDetails {
     display: flex;
     margin-top: 20px;

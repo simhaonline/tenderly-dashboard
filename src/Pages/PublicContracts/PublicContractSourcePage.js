@@ -37,7 +37,7 @@ class PublicContractSourcePage extends Component {
         return (
             <Page>
                 <Container>
-                    <ContractInformation contract={contract}/>
+                    <ContractInformation contract={contract} back/>
                     <ContractSource contract={contract} line={line}/>
                 </Container>
             </Page>

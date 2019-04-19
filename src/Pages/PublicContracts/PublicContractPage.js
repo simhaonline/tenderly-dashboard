@@ -50,7 +50,7 @@ class PublicContractPage extends Component {
         return (
             <Page>
                 <Container>
-                    <ContractInformation contract={contract}/>
+                    <ContractInformation contract={contract} back/>
                     <ContractActions contract={contract} routeNetwork={network}/>
                     {eventsLoaded && <EventList events={events} contracts={contractMap}/>}
                     {!eventsLoaded && <ProjectContentLoader text="Fetching errors for contract..."/>}
