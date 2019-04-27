@@ -98,7 +98,10 @@ class ProjectNavigation extends Component {
                         </OutsideClickHandler>
                     </div>
                     <div className="NavigationItems">
-                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/events`} onClick={() => this.trackNavigationItem('events')}>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/transactions`} onClick={() => this.trackNavigationItem('transactions')}>
+                            <span>Transactions</span>
+                        </NavLink>
+                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/errors`} onClick={() => this.trackNavigationItem('errors')}>
                             <span>Errors</span>
                         </NavLink>
                         <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`} onClick={() => this.trackNavigationItem('contracts')}>

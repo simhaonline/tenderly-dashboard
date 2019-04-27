@@ -10,7 +10,7 @@ const ContractDeploymentInformation = ({contract}) => {
         <div className="ContractDeploymentInformation">
             <Card className="InfoRow">
                 {contract.eventCount > 0 && <div className="InfoColumn">
-                    <div className="InfoLabel">No. of Events</div>
+                    <div className="InfoLabel">No. of Errors</div>
                     <div className="InfoValue">{contract.eventCount}</div>
                 </div>}
                 {contract.eventCount > 0 && <div className="InfoColumn">
@@ -23,8 +23,8 @@ const ContractDeploymentInformation = ({contract}) => {
                 </div>
             </Card>
             {contract.eventCount > 0 && <Card className="ActionsRow">
-                {contract.eventCount > 0 && <Button size="small" to={`/project/${contract.projectId}/events?contract=${contract.id}`}>
-                    View Events
+                {contract.eventCount > 0 && <Button size="small" to={`/project/${contract.projectId}/errors?contract=${contract.id}`}>
+                    View Errors
                 </Button>}
             </Card>}
         </div>
