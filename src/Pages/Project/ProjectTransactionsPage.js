@@ -4,13 +4,27 @@ import {connect} from "react-redux";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page} from "../../Elements";
+import {ProjectContentLoader, TransactionsList} from "../../Components";
 
 class ProjectTransactionsPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+            projectSetup: false,
+            transactions: [],
+        };
+    }
+
     render() {
+        const {loading, transactions, projectSetup} = this.state;
+
         return (
             <Page id="ProjectPage">
                 <Container>
-                    Test
+                    {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
+                    {!loading && <TransactionsList transactions={transactions}/>}
                 </Container>
             </Page>
         )
