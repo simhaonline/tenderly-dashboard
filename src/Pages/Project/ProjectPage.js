@@ -6,6 +6,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import * as projectActions from "../../Core/Project/Project.actions";
 
+import ProjectTransactionsPage from "./ProjectTransactionsPage";
 import ProjectEventsPage from "./ProjectEventsPage";
 import ProjectAnalyticsPage from "./ProjectAnalyticsPage";
 import ProjectAlertsPage from "./ProjectAlertsPage";
@@ -56,6 +57,7 @@ class ProjectPage extends Component {
             <Fragment>
                 <ProjectNavigation project={project}/>
                 <Switch>
+                    <Route path="/project/:id/transactions" component={ProjectTransactionsPage}/>
                     <Route path="/project/:id/events" component={ProjectEventsPage}/>
                     <Route path="/project/:id/event/:network/:eventId" component={EventPage}/>
                     <Route path="/project/:id/analytics" component={ProjectAnalyticsPage}/>
@@ -64,7 +66,7 @@ class ProjectPage extends Component {
                     <Route path="/project/:id/contract/:contractId" component={ProjectContractPage}/>
                     <Route path="/project/:id/releases" component={ProjectReleasesPage}/>
                     <Route path="/project/:id/settings" component={ProjectSettingsPage}/>
-                    <Redirect to={`/project/${project.id}/events`}/>
+                    <Redirect to={`/project/${project.id}/transactions`}/>
                 </Switch>
             </Fragment>
         )
