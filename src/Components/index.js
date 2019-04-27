@@ -54,3 +54,5 @@ export {default as ProjectContentLoader} from './ProjectContentLoader/ProjectCon
 export {default as NetworkSegmentedPicker} from './NetworkSegmentedPicker/NetworkSegmentedPicker';
 export {default as FeatureComingSoon} from './FeatureComingSoon/FeatureComingSoon';
 export {default as UserInformationForm} from './UserInformationForm/UserInformationForm';
+export {default as TransactionsList} from './TransactionsList/TransactionsList';
+export {default as TransactionsListItem} from './TransactionsListItem/TransactionsListItem';
