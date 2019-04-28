@@ -21,7 +21,7 @@ export class Transaction {
         this.to = data.to;
 
         /** @type number */
-        this.gas = data.gas;
+        this.gasLimit = data.gasLimit;
 
         /** @type number */
         this.gasPrice = data.gasPrice;
@@ -43,7 +43,7 @@ export class Transaction {
             block: response.BlockNumber,
             from: response.From,
             to: response.To,
-            gas: response.Gas,
+            gasLimit: response.Gas,
             gasPrice: response.GasPrice,
             gasUsed: response.GasUsed,
             nonce: response.Nonce,

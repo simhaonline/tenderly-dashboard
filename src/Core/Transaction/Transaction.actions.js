@@ -37,7 +37,7 @@ const dummyTransactions = [
         Hash: "0x00014094ad1ab0ed7a99c142b4b3cfe8da5a894280ccafd052f439fd1b6b7d0b",
         Index: 38,
         Input: "0xca722cdc981a6d9fc6d19e2af13f4af349c702908af32dd81f9e5b3db6a50959278adc764fbe9e68333a24c68933af30d0b046d8ea5de0fcca3a20509fa5782cdad8d82e",
-        NetworkID: "1",
+        NetworkID: "42",
         Nonce: 898995,
         Status: false,
         To: "0xd1ceeeeee83f8bcf3bedad437202b6154e9f5405",
