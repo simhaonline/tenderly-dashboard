@@ -1,24 +1,29 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 import {getContractForEvent} from "../../Common/Selectors/ContractSelectors";
 import {getEvent} from "../../Common/Selectors/EventSelectors";
+import {areProjectContractsLoaded} from "../../Common/Selectors/ProjectSelectors";
 
 import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 
+import * as eventActions from "../../Core/Event/Event.actions";
+import * as contractActions from "../../Core/Contract/Contract.actions";
+
 import {Page, Container} from "../../Elements";
-import {EventInformation, EventStackTrace} from "../../Components";
+import {EventInformation, EventStackTrace, ProjectContentLoader} from "../../Components";
 
 class EventPage extends Component {
     async componentDidMount() {
-        const {event, contract} = this.props;
+        const {event, contract, projectId, contractActions, eventActions, network, eventId} = this.props;
 
         if (!event) {
-            // @TODO Fetch missing event
+            await eventActions.fetchEventForProject(projectId, network, eventId);
         }
 
         if (!contract) {
-            // @TODO Fetch missing contract
+            await contractActions.fetchContractsForProject(projectId);
         }
     }
 
@@ -29,7 +34,7 @@ class EventPage extends Component {
             return (
                 <Page>
                     <Container>
-                        Loading...
+                        <ProjectContentLoader text="Fetching error information..."/>
                     </Container>
                 </Page>
             );
@@ -51,17 +56,26 @@ const mapStateToProps = (state, ownProps) => {
 
     const networkType = NetworkRouteToAppTypeMap[network];
 
-    const event =  getEvent(state, eventId);
+    const event = getEvent(state, eventId);
 
     return {
         event,
+        eventId,
         contract: getContractForEvent(state, event),
+        contractsLoaded: areProjectContractsLoaded(state, id),
         projectId: id,
         network: networkType,
     }
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        eventActions: bindActionCreators(eventActions, dispatch),
+        contractActions: bindActionCreators(contractActions, dispatch),
+    }
+};
+
 export default connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
 )(EventPage);

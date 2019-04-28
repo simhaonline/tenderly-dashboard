@@ -1,5 +1,5 @@
 import {FETCH_PUBLIC_CONTRACT_EVENTS_ACTION} from "../PublicContracts/PublicContracts.actions";
-import {FETCH_EVENTS_FOR_PROJECT_ACTION} from "./Event.actions";
+import {FETCH_EVENT_FOR_PROJECT_ACTION, FETCH_EVENTS_FOR_PROJECT_ACTION} from "./Event.actions";
 import {CREATE_EXAMPLE_PROJECT_ACTION} from "../Project/Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
@@ -75,6 +75,25 @@ const EventReducer = (state = initialState, action) => {
                         ...existingProjectEvents,
                         [action.page]: projectPageEvents,
                     }
+                },
+            };
+        case FETCH_EVENT_FOR_PROJECT_ACTION:
+            const event = action.event;
+            const data = {};
+
+            if (state.events[event.id]) {
+                const existingEvent = state.events[event.id];
+
+                data[event.id] = existingEvent.update(event);
+            } else {
+                data[event.id] = event;
+            }
+
+            return {
+                ...state,
+                events: {
+                    ...state.events,
+                    ...data,
                 },
             };
         default:
