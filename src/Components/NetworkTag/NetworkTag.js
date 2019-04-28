@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
@@ -16,10 +17,14 @@ const networkTagSizeToClassNameMap = {
     small: 'Small',
 };
 
-const NetworkTag = ({size, network, prefix, className}) => {
+const NetworkTag = ({size, network, prefix, className, short}) => {
     let networkLabel = NetworkLabelMap[network];
     const networkClassName = networkTypeToClassNameMap[network];
     const sizeClassName = networkTagSizeToClassNameMap[size];
+
+    if (short) {
+        networkLabel = networkLabel.split(' ')[0];
+    }
 
     if (prefix) {
         networkLabel = `${prefix} ${networkLabel}`;
@@ -35,6 +40,18 @@ const NetworkTag = ({size, network, prefix, className}) => {
             {networkLabel}
         </span>
     )
+};
+
+NetworkTag.propTypes = {
+    network: PropTypes.string.isRequired,
+    size: PropTypes.string,
+    prefix: PropTypes.string,
+    className: PropTypes.string,
+    short: PropTypes.bool,
+};
+
+NetworkTag.defaultProps = {
+    short: false,
 };
 
 export default NetworkTag;
