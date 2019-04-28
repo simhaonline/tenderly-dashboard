@@ -13,6 +13,7 @@ const TransactionStatusTag = ({status, type}) => {
                 Failed: !status,
             },
         )}>
+            <div className="StatusDot"/>
             {status ? 'Success' : 'Failed'}
         </div>
     );

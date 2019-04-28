@@ -22,7 +22,9 @@ const TransactionsList = ({transactions}) => {
 };
 
 TransactionsList.propTypes = {
-    transactions: PropTypes.array,
+    transactions: PropTypes.array.isRequired,
+    currentPage: PropTypes.number,
+    onPageChange: PropTypes.func,
 };
 
 export default TransactionsList;

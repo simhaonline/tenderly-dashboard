@@ -61,6 +61,10 @@ class ProjectTransactionsPage extends Component {
 
     };
 
+    handlePageChange = () => {
+
+    };
+
     render() {
         const {loading, transactions, projectSetup, lastFetch, filters, page} = this.state;
         const {contracts} = this.props;
@@ -71,7 +75,7 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && <Fragment>
                         <TransactionFilters lastSync={lastFetch} activeFilters={filters} onFilter={this.handleFilterChange}/>
-                        <TransactionsList transactions={transactions} contracts={contracts} currentPage={page}/>
+                        <TransactionsList transactions={transactions} contracts={contracts} currentPage={page} onPageChange={this.handlePageChange}/>
                     </Fragment>}
                 </Container>
             </Page>

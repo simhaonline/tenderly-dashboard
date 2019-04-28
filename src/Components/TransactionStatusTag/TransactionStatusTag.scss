@@ -1,19 +1,30 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
+$TransactionStatusDotSize: 10px;
+
 .TransactionStatusTag {
   color: $WhiteColor;
   padding: 4px 8px;
   border-radius: 3px;
-  display: inline-block;
-  text-transform: uppercase;
+  display: inline-flex;
   font-size: $FontSize100;
+  border: 1px solid $BorderColor;
+  align-items: center;
+  min-width: 78px;
 
-  &.Success {
+  .StatusDot {
+    width: $TransactionStatusDotSize;
+    height: $TransactionStatusDotSize;
+    border-radius: $TransactionStatusDotSize / 2;
+    margin-right: 5px;
+  }
+
+  &.Success .StatusDot {
     background-color: transparentize($SecondaryColor600, 0.2);
   }
 
-  &.Failed {
+  &.Failed .StatusDot {
     background-color: transparentize($RedColor600, 0.2);
   }
 }
