@@ -6,7 +6,7 @@ export const FETCH_EVENTS_FOR_PROJECT_ACTION = 'FETCH_EVENTS_FOR_PROJECT';
 
 /**
  * @param {string} projectId
- * * @param {number} page
+ * @param {number} page
  * @param {string|null} [account]
  */
 export const fetchEventsForProject = (projectId, page = 1, account = null) => {
