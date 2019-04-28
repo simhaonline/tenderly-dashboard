@@ -1,0 +1,19 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.TransactionStatusTag {
+  color: $WhiteColor;
+  padding: 4px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: $FontSize100;
+
+  &.Success {
+    background-color: transparentize($SecondaryColor600, 0.2);
+  }
+
+  &.Failed {
+    background-color: transparentize($RedColor600, 0.2);
+  }
+}
