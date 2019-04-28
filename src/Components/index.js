@@ -56,3 +56,4 @@ export {default as FeatureComingSoon} from './FeatureComingSoon/FeatureComingSoo
 export {default as UserInformationForm} from './UserInformationForm/UserInformationForm';
 export {default as TransactionsList} from './TransactionsList/TransactionsList';
 export {default as TransactionsListItem} from './TransactionsListItem/TransactionsListItem';
+export {default as TransactionFilters} from './TransactionFilters/TransactionFilters';

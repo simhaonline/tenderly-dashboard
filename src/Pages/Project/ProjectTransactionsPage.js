@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import moment from "moment";
@@ -8,7 +8,7 @@ import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 
 import {Container, Page} from "../../Elements";
-import {ProjectContentLoader, TransactionsList} from "../../Components";
+import {ProjectContentLoader, TransactionsList, TransactionFilters} from "../../Components";
 
 class ProjectTransactionsPage extends Component {
     constructor(props) {
@@ -29,8 +29,6 @@ class ProjectTransactionsPage extends Component {
 
         const transactions = await actions.fetchTransactionsForProject(project.id, filters, page);
 
-        console.log('page', transactions);
-
         this.setState({
             loading: false,
             transactions,
@@ -38,14 +36,21 @@ class ProjectTransactionsPage extends Component {
         });
     }
 
+    handleFilterChange = () => {
+
+    };
+
     render() {
-        const {loading, transactions, projectSetup, lastFetch} = this.state;
+        const {loading, transactions, projectSetup, lastFetch, filters} = this.state;
 
         return (
             <Page id="ProjectPage">
                 <Container>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
-                    {!loading && <TransactionsList transactions={transactions}/>}
+                    {!loading && <Fragment>
+                        <TransactionFilters lastSync={lastFetch} activeFilters={filters} onFilter={this.handleFilterChange}/>
+                        <TransactionsList transactions={transactions}/>
+                    </Fragment>}
                 </Container>
             </Page>
         )
