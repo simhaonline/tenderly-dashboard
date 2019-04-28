@@ -1,7 +1,11 @@
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 export class Transaction {
-    constructor(data) {
+    /**
+     * @param {Object} data
+     * @param {string} projectId
+     */
+    constructor(data, projectId) {
         /**
          * Defines whether the transaction was successful or not.
          * @type boolean
@@ -34,20 +38,23 @@ export class Transaction {
 
         /** @type string */
         this.network = NetworkApiToAppTypeMap[data.networkId];
+
+        /** @type string */
+        this.projectId = projectId;
     }
 
-    static buildFromResponse(response) {
+    static buildFromResponse(response, projectId) {
         return new Transaction({
-            status: response.Status,
-            txHash: response.Hash,
-            block: response.BlockNumber,
-            from: response.From,
-            to: response.To,
-            gasLimit: response.Gas,
-            gasPrice: response.GasPrice,
-            gasUsed: response.GasUsed,
-            nonce: response.Nonce,
-            networkId: parseInt(response.NetworkID),
-        });
+            status: response.status,
+            txHash: response.hash,
+            block: response.block_number,
+            from: response.from,
+            to: response.to,
+            gasLimit: response.gas,
+            gasPrice: response.gas_price,
+            gasUsed: response.gas_used,
+            nonce: response.nonce,
+            networkId: parseInt(response.network_id),
+        }, projectId);
     }
 }

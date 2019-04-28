@@ -3,4 +3,50 @@
 
 .TransactionsList {
   border: 1px solid $BorderColor;
+  border-radius: 5px;
+  overflow: hidden;
+
+  .TransactionsListHeader {
+    border-bottom: 1px solid $BorderColor;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: transparentize($BlackColor, 0.8);
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+
+    .ItemColumn
+
+    .ColumnName {
+      font-weight: 600;
+      font-size: $FontSize200;
+      opacity: 0.9;
+    }
+  }
+
+  .TransactionsListHeader, .TransactionsListItem {
+    .ItemColumn {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .StatusColumn {
+      flex:  0 0 120px;
+    }
+
+    .TxHashColumn, .BlockColumn {
+      flex: 0 0 200px;
+    }
+
+    .NetworkColumn {
+      flex: 0 0 150px;
+    }
+
+    .ActionColumn {
+      flex: 1 1 0;
+    }
+  }
 }

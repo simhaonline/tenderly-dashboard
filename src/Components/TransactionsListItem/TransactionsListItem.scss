@@ -8,10 +8,25 @@
     align-items: center;
     border-bottom: 1px solid $BorderColor;
     padding: 10px 15px;
+
+    .ExpandWrapper {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 50%;
+      border: 1px solid $BorderColor;
+
+      &:hover {
+        background-color: transparentize($BlackColor, 0.5);
+      }
+    }
   }
 
   .ExpandedInfoWrapper {
-    padding: 20px;
+    padding: 30px 20px;
     background-color: transparentize($BlackColor, 0.75);
     border-bottom: 1px solid $BorderColor;
     user-select: none;

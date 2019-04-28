@@ -55,7 +55,7 @@ const ProjectContract = ({contract}) => {
                     <div className="ActionsColumn ItemColumn">
                         {hasEvents && <Button size="small" outline color="secondary" onClick={handleContractEventsClick}
                                 to={`/project/${contract.projectId}/errors?contract=${contract.id}`} className="Action">
-                            <span>View Events</span>
+                            <span>View Errors</span>
                         </Button>}
                         <Button size="small" outline color="secondary" onClick={event => event.stopPropagation()}
                                 to={`/project/${contract.projectId}/contract/${contract.id}/source`}

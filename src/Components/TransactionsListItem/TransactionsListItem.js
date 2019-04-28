@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
 
-import {EtherscanLinkTypes} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import {Transaction} from "../../Core/Transaction/Transaction.model";
 
@@ -48,24 +50,31 @@ class TransactionsListItem extends Component {
         return (
             <div className="TransactionsListItem">
                 <div className="MainInfoWrapper">
-                    <div className="">
+                    <div className="StatusColumn ItemColumn">
                         <TransactionStatusTag status={transaction.status}/>
                     </div>
-                    <div className="">
+                    <div className="TxHashColumn ItemColumn">
                         <EtherscanLink value={transaction.txHash} network={transaction.network} type={EtherscanLinkTypes.TRANSACTION}>
-                            {transaction.txHash}
+                            {generateShortAddress(transaction.txHash, 8, 6)}
                         </EtherscanLink>
                     </div>
-                    <div className="">
+                    <div className="BlockColumn ItemColumn">
                         <EtherscanLink value={transaction.block} network={transaction.network} type={EtherscanLinkTypes.BLOCK}>
                             {transaction.block}
                         </EtherscanLink>
                     </div>
-                    <div>
-                        <NetworkTag network={transaction.network} short/>
+                    <div className="NetworkColumn ItemColumn">
+                        <NetworkTag network={transaction.network} size="small"/>
                     </div>
-                    <div className="ExpandWrapper" onClick={this.handleExpandToggle}>
-                        <Icon icon="chevron-down"/>
+                    <div className="ActionColumn ItemColumn">
+                        {!transaction.status && <Link to={`/project/${transaction.projectId}/error/${NetworkAppToRouteTypeMap[transaction.network]}/${transaction.txHash}`}>
+                            View Stack Trace
+                        </Link>}
+                    </div>
+                    <div className="ExpandColumn ItemColumn">
+                        <div className="ExpandWrapper" onClick={this.handleExpandToggle}>
+                            <Icon icon="chevron-down"/>
+                        </div>
                     </div>
                 </div>
                 {expanded && <div className="ExpandedInfoWrapper">

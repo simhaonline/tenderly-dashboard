@@ -34,7 +34,19 @@ class ProjectTransactionsPage extends Component {
         let transactions = [];
 
         if (project.type !== ProjectTypes.DEMO) {
-            transactions = await txActions.fetchTransactionsForProject(project.id, filters, page);
+            const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page);
+
+            if (!actionResponse.success) {
+                this.setState({
+                    loading: false,
+                    error: true,
+                    lastFetch: moment.now(),
+                });
+
+                return;
+            }
+
+            transactions = actionResponse.data;
 
             if (!contractsLoaded) {
                 await contractActions.fetchContractsForProject(project.id);
@@ -66,7 +78,7 @@ class ProjectTransactionsPage extends Component {
     };
 
     render() {
-        const {loading, transactions, projectSetup, lastFetch, filters, page} = this.state;
+        const {loading, transactions, lastFetch, filters, page} = this.state;
         const {contracts} = this.props;
 
         return (

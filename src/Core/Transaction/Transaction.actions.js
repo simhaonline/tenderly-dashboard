@@ -1,4 +1,4 @@
-import {ErrorActionResponse} from "../../Common";
+import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {Api} from "../../Utils/Api";
 
 import {Transaction} from "./Transaction.model";
@@ -57,16 +57,18 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
         const {auth: {user: {username}}} = getState();
 
         try {
-            // const {data} = await Api.get(`/account/${username}/project/${projectId}/events`, {
-            //     params: {
-            //         page,
-            //     },
-            // });
+            const {data} = await Api.get(`/account/${username}/project/${projectId}/transactions`, {
+                params: {
+                    page,
+                    limit,
+                },
+            });
 
-            const transactions = dummyTransactions.map(tx => Transaction.buildFromResponse({
-                ...tx,
-                Project: projectId,
-            }));
+            if (!data) {
+                return new SuccessActionResponse([]);
+            }
+
+            const transactions = data.map(tx => Transaction.buildFromResponse(tx, projectId));
 
             dispatch({
                 type: FETCH_TRANSACTIONS_FOR_PROJECT_ACTION,
@@ -74,7 +76,7 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
                 transactions,
             });
 
-            return transactions;
+            return new SuccessActionResponse(transactions);
         } catch (error) {
             return new ErrorActionResponse(error);
         }
