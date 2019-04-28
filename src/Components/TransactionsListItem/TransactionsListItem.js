@@ -1,16 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import './TransactionsListItem.scss';
 
-class TransactionsListItem extends Component {
-    render() {
-        return (
-            <div className="TransactionsListItem">
-
-            </div>
-        );
-    }
-}
-
+const TransactionsListItem = ({transaction}) => {
+    return (
+        <div className="TransactionsListItem">
+            {transaction.txHash}
+        </div>
+    );
+};
 
 export default TransactionsListItem;

@@ -33,6 +33,7 @@ class ProjectTransactionsPage extends Component {
 
         this.setState({
             loading: false,
+            transactions,
             lastFetch: moment.now(),
         });
     }
