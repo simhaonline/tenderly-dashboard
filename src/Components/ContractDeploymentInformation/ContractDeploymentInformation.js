@@ -14,7 +14,7 @@ const ContractDeploymentInformation = ({contract}) => {
                     <div className="InfoValue">{contract.eventCount}</div>
                 </div>}
                 {contract.eventCount > 0 && <div className="InfoColumn">
-                    <div className="InfoLabel">Last Event</div>
+                    <div className="InfoLabel">Last Error</div>
                     <div className="InfoValue">{moment(contract.lastEventAt).fromNow()}</div>
                 </div>}
                 <div className="InfoColumn">

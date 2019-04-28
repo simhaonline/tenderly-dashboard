@@ -40,12 +40,12 @@ const ProjectContract = ({contract}) => {
                         </EtherscanLink>
                     </div>
                     <div className="EventsColumn ItemColumn">
-                        <div className="InfoLabel">No. of Events:</div>
+                        <div className="InfoLabel">No. of Errors:</div>
                         {hasEvents && <div>{contract.eventCount}</div>}
                         {!hasEvents && <div>/</div>}
                     </div>
                     {contract.lastEventAt && <div className="LastEventColumn ItemColumn">
-                        <div className="InfoLabel">Last event:</div>
+                        <div className="InfoLabel">Last error:</div>
                         <div>{moment(contract.lastEventAt).fromNow()}</div>
                     </div>}
                     {contract.lastDeploymentAt && <div className="DeploymentInfoColumn ItemColumn">
