@@ -49,6 +49,8 @@ class Select extends Component {
         const {options, value, multiple, selectLabel} = this.props;
         const {open} = this.state;
 
+        const selectedOption = options.find(option => option.value === value);
+
         return (
             <div className={classNames("Select", {
                 "OpenDropdown": open,
@@ -56,8 +58,8 @@ class Select extends Component {
                 <OutsideClickHandler onOutsideClick={this.closeDropdown}>
                     <div className="CurrentSelection" onClick={this.toggleDropdown}>
                         {!value.length && <span>{selectLabel}</span>}
-                        {!!value.length && !multiple && <span>{value}</span>}
-                        {!!value.length && multiple && <span>{value.length} items selected</span>}
+                        {!multiple && !!selectedOption && <span>{selectedOption.label}</span>}
+                        {multiple && !!value.length && <span>{value.length} items selected</span>}
                     </div>
                     <div className="SelectDropdown">
                         <div className="DropdownOptionsWrapper">
