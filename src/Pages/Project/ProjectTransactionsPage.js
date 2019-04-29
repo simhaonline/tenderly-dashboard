@@ -52,12 +52,6 @@ class ProjectTransactionsPage extends Component {
             if (!contractsLoaded) {
                 await contractActions.fetchContractsForProject(project.id);
             }
-
-            this.setState({
-                loading: false,
-                transactions,
-                lastFetch: moment.now(),
-            });
         } else {
             // @TODO Logic for getting demo transactions
             // transactions = getDemoTransactions();
@@ -91,6 +85,10 @@ class ProjectTransactionsPage extends Component {
             return;
         }
 
+        this.setState({
+            transactions: actionResponse.data,
+            lastFetch: moment.now(),
+        });
     }, 500);
 
     handlePageChange = () => {
