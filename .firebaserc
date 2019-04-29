@@ -5,8 +5,11 @@
   "targets": {
     "tenderly-project": {
       "hosting": {
-        "dashboard": [
+        "production": [
           "tenderly-dashboard"
+        ],
+        "staging": [
+          "tenderly-dashboard-preview"
         ]
       }
     }
