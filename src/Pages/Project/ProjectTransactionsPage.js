@@ -86,7 +86,7 @@ class ProjectTransactionsPage extends Component {
                 <Container>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && <Fragment>
-                        <TransactionFilters lastSync={lastFetch} activeFilters={filters} onFilter={this.handleFilterChange}/>
+                        <TransactionFilters lastSync={lastFetch} activeFilters={filters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>
                         <TransactionsList transactions={transactions} contracts={contracts} currentPage={page} onPageChange={this.handlePageChange}/>
                     </Fragment>}
                 </Container>
