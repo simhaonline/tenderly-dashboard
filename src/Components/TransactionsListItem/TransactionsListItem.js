@@ -25,13 +25,16 @@ class TransactionsListItem extends Component {
     constructor(props) {
         super(props);
 
-        const {transaction} = props;
+        const {transaction, contracts} = props;
+
+        const txContract = contracts.find(contract => contract.id === transaction.to);
 
         const gasUsedPercentage = transaction.gasUsed / transaction.gasLimit * 100;
 
         this.state = {
             expanded: false,
             gasUsedPercentage,
+            txContract,
         }
     }
 
@@ -45,7 +48,7 @@ class TransactionsListItem extends Component {
 
     render() {
         const {transaction} = this.props;
-        const {expanded, gasUsedPercentage} = this.state;
+        const {expanded, gasUsedPercentage, txContract} = this.state;
 
         return (
             <div className="TransactionsListItem">
@@ -84,10 +87,20 @@ class TransactionsListItem extends Component {
                             {transaction.from}
                         </EtherscanLink>
                         <Icon icon="arrow-right-circle" className="InfoIcon"/>
-                        <EtherscanLink network={transaction.network} value={transaction.to}
-                                       type={EtherscanLinkTypes.ADDRESS}>
-                            {transaction.to}
-                        </EtherscanLink>
+                        {txContract ?
+                            <div>
+                                <Link to={`/project/${txContract.projectId}/contract/${txContract.id}`}>
+                                    {txContract.name}
+                                </Link>
+                                <span> (<EtherscanLink network={transaction.network} value={transaction.to}
+                                                      type={EtherscanLinkTypes.ADDRESS}>
+                                    {generateShortAddress(transaction.to, 8, 6)}
+                                </EtherscanLink>)</span>
+                            </div>
+                            : <EtherscanLink network={transaction.network} value={transaction.to}
+                                             type={EtherscanLinkTypes.ADDRESS}>
+                                {transaction.to}
+                            </EtherscanLink>}
                     </div>
                     <div className="PillsWrapper">
                         <TransactionInfoPill label={'Gas Limit'} value={transaction.gasLimit}/>
