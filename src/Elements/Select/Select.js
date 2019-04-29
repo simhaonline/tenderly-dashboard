@@ -41,6 +41,7 @@ class Select extends Component {
             }
         } else {
             onChange(field, item);
+            this.closeDropdown();
         }
 
     };
