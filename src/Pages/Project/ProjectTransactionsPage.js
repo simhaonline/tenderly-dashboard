@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import moment from "moment";
+import _ from 'lodash';
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {ProjectTypes} from "../../Common/constants";
@@ -23,7 +24,7 @@ class ProjectTransactionsPage extends Component {
             page: props.page,
             projectSetup: false,
             transactions: [],
-            filters: [],
+            filters: {},
         };
     }
 
@@ -69,9 +70,28 @@ class ProjectTransactionsPage extends Component {
         });
     }
 
-    handleFilterChange = () => {
+    handleFilterChange = (filter) => {
+        this.setState({
+            filters: {
+                ...this.state.filters,
+                [filter.type]: filter,
+            }
+        });
 
+        this.fetchTransactions();
     };
+
+    fetchTransactions = _.debounce(async () => {
+        const {project, txActions} = this.props;
+        const {filters, page} = this.state;
+
+        const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page);
+
+        if (!actionResponse.success) {
+            return;
+        }
+
+    }, 500);
 
     handlePageChange = () => {
 
@@ -81,12 +101,14 @@ class ProjectTransactionsPage extends Component {
         const {loading, transactions, lastFetch, filters, page} = this.state;
         const {contracts} = this.props;
 
+        const activeFilters = Object.values(filters).filter(filter => filter.value.length);
+
         return (
             <Page id="ProjectPage">
                 <Container>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && <Fragment>
-                        <TransactionFilters lastSync={lastFetch} activeFilters={filters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>
+                        <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>
                         <TransactionsList transactions={transactions} contracts={contracts} currentPage={page} onPageChange={this.handlePageChange}/>
                     </Fragment>}
                 </Container>

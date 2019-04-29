@@ -1,4 +1,4 @@
-import {NetworkApiToAppTypeMap} from "../../Common/constants";
+import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
 
 class Contract {
     constructor(data, type, projectId) {
@@ -51,6 +51,10 @@ class Contract {
      */
     getFileName() {
         return `${this.name}.sol`;
+    }
+
+    getApiId() {
+        return `eth:${NetworkAppToApiTypeMap[this.network]}:${this.id}`;
     }
 
     /**

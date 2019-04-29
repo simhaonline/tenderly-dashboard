@@ -113,6 +113,12 @@ export const EventFilterTypes = {
     CONTRACTS: 'CONTRACTS',
 };
 
+export const TransactionFilterTypes = {
+    QUERY: 'QUERY',
+    CONTRACTS: 'CONTRACTS',
+    STATUS: 'STATUS',
+};
+
 export const OAuthServiceTypeMap = {
     GITHUB: 'github',
     GOOGLE: 'google',

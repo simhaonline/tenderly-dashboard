@@ -1,0 +1,20 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.TransactionFilters {
+  display: flex;
+  margin-bottom: 30px;
+
+  .FilterGroup {
+    flex: 0 0 auto;
+    margin-right: 20px;
+
+    .FilterLabel {
+      font-weight: 100;
+      font-size: $FontSize100;
+      margin-bottom: 10px;
+      opacity: 0.75;
+      text-transform: uppercase;
+    }
+  }
+}

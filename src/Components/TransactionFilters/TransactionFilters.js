@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {TransactionFilterTypes} from "../../Common/constants";
+
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
 import {Input, Select} from "../../Elements";
@@ -28,10 +30,10 @@ class TransactionFilters extends Component {
 
         this.handleFormUpdate(field, value);
 
-        // onFiltersChange({
-        //     type: EventFilterTypes.QUERY,
-        //     value,
-        // });
+        onFiltersChange({
+            type: TransactionFilterTypes.QUERY,
+            value,
+        });
     };
 
     /**
@@ -43,10 +45,25 @@ class TransactionFilters extends Component {
 
         this.handleFormUpdate(field, value);
 
-        // onFiltersChange({
-        //     type: EventFilterTypes.CONTRACTS,
-        //     value,
-        // });
+        onFiltersChange({
+            type: TransactionFilterTypes.CONTRACTS,
+            value,
+        });
+    };
+
+    /**
+     * @param {string} field
+     * @param {(string[])} value
+     */
+    handleStatusSelect = (field, value) => {
+        const {onFiltersChange} = this.props;
+
+        this.handleFormUpdate(field, value);
+
+        onFiltersChange({
+            type: TransactionFilterTypes.STATUS,
+            value,
+        });
     };
 
     render() {
@@ -54,7 +71,7 @@ class TransactionFilters extends Component {
         const {formData: {searchQuery, contracts: filterContracts, status}} = this.state;
 
         const contractSelectOptions = contracts.map(contract => ({
-            value: contract.id,
+            value: contract.getApiId(),
             label: contract.name,
         }));
 
@@ -75,12 +92,14 @@ class TransactionFilters extends Component {
 
         return (
             <div className="TransactionFilters">
-                <Input icon="search"
-                       label="Search events by txHash, contract address or string"
-                       field="searchQuery"
-                       value={searchQuery} onChange={this.handleSearchQueryChange}/>
-                <Select field="contracts" selectLabel="Select contracts" options={contractSelectOptions} multiple value={filterContracts} onChange={this.handleContractToggle}/>
-                <Select field="status" selectLabel="Select Status" options={statusSelectOptions} value={status} onChange={this.handleContractToggle}/>
+                <div className="FilterGroup">
+                    <div className="FilterLabel">Filter by Status</div>
+                    <Select field="status" selectLabel="Select Status" options={statusSelectOptions} value={status} onChange={this.handleStatusSelect}/>
+                </div>
+                <div className="FilterGroup">
+                    <div className="FilterLabel">Filter by Contract</div>
+                    <Select field="contracts" selectLabel="Select contracts" options={contractSelectOptions} multiple value={filterContracts} onChange={this.handleContractToggle}/>
+                </div>
             </div>
         );
     }
