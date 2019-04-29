@@ -5,7 +5,7 @@ import {TransactionsListItem} from "../index";
 
 import './TransactionsList.scss';
 
-const TransactionsList = ({transactions}) => {
+const TransactionsList = ({transactions, contracts}) => {
     if (!transactions.length) {
         return (
             <div className="TransactionsListEmptySTate">
@@ -33,7 +33,7 @@ const TransactionsList = ({transactions}) => {
                     <span className="ColumnName">Actions</span>
                 </div>
             </div>
-            {transactions.map(tx => <TransactionsListItem key={tx.txHash} transaction={tx}/>)}
+            {transactions.map(tx => <TransactionsListItem key={tx.txHash} transaction={tx} contracts={contracts}/>)}
         </div>
     )
 };
