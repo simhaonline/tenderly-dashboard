@@ -65,3 +65,22 @@ export function getContractForEvent(state, event) {
 
     return contract;
 }
+
+/**
+ * @param {Object} state
+ * @param {Transaction} transaction
+ * @return {Contract}
+ */
+export function getContractForTransaction(state, transaction) {
+    if (!transaction) {
+        return null;
+    }
+
+    const contract = state.contract.contracts[transaction.to];
+
+    if (!contract) {
+        return null;
+    }
+
+    return contract;
+}
