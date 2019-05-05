@@ -19,10 +19,18 @@ const TransactionReducer = (state = initialState, action) => {
                 transactions: {
                     ...state.transactions,
                     ...transactions,
-                }
+                },
             };
         case FETCH_TRANSACTION_ACTION:
-            return state;
+            const transaction = action.transaction;
+
+            return {
+                ...state,
+                transactions: {
+                    ...state.transactions,
+                    [transaction.txHash]: transaction,
+                },
+            };
         case LOG_OUT_ACTION:
             return initialState;
         default:

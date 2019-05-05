@@ -66,7 +66,13 @@ export const fetchTransactionForProject = (projectId, txHash) => {
         const {auth: {user: {username}}} = getState();
 
         try {
-            const transaction = {};
+            const {data} = await Api.get(`/account/${username}/project/${projectId}/transactions/${txHash}`);
+
+            if (!data) {
+                return new SuccessActionResponse([]);
+            }
+
+            const transaction = Transaction.buildFromResponse(data, projectId);
 
             dispatch({
                 type: FETCH_TRANSACTION_ACTION,
