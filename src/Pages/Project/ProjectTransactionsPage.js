@@ -102,7 +102,7 @@ class ProjectTransactionsPage extends Component {
         const activeFilters = Object.values(filters).filter(filter => filter.value.length);
 
         return (
-            <Page id="ProjectPage">
+            <Page id="ProjectTransactionsPage">
                 <Container>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && <Fragment>
