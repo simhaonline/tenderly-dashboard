@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
+import moment from 'moment';
 
 import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
@@ -68,6 +69,9 @@ class TransactionsListItem extends Component {
                     </div>
                     <div className="NetworkColumn ItemColumn">
                         <NetworkTag network={transaction.network} size="small"/>
+                    </div>
+                    <div className="TimestampColumn ItemColumn">
+                        {moment(transaction.timestamp).fromNow()}
                     </div>
                     <div className="ActionColumn ItemColumn">
                         <Link to={`/project/${transaction.projectId}/tx/${transaction.txHash}`}>

@@ -29,6 +29,9 @@ const TransactionsList = ({transactions, contracts}) => {
                 <div className="NetworkColumn ItemColumn">
                     <span className="ColumnName">Network</span>
                 </div>
+                <div className="TimestampColumn ItemColumn">
+                    <span className="ColumnName">Timestamp</span>
+                </div>
                 <div className="ActionColumn ItemColumn">
                     <span className="ColumnName">Actions</span>
                 </div>

@@ -37,11 +37,15 @@
       flex:  0 0 120px;
     }
 
-    .TxHashColumn, .BlockColumn {
+    .TxHashColumn {
       flex: 0 0 200px;
     }
 
-    .NetworkColumn {
+    .BlockColumn {
+      flex: 0 0 100px;
+    }
+
+    .NetworkColumn, .TimestampColumn {
       flex: 0 0 150px;
     }
 

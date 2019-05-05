@@ -41,6 +41,9 @@ export class Transaction {
 
         /** @type string */
         this.projectId = projectId;
+
+        /** @type string */
+        this.timestamp = data.timestamp;
     }
 
     static buildFromResponse(response, projectId) {
@@ -54,6 +57,7 @@ export class Transaction {
             gasPrice: response.gas_price,
             gasUsed: response.gas_used,
             nonce: response.nonce,
+            timestamp: response.timestamp,
             networkId: parseInt(response.network_id),
         }, projectId);
     }
