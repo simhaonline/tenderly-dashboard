@@ -55,3 +55,26 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
         }
     }
 };
+
+/**
+ * @param {string} projectId
+ * @param {string} txHash
+ * @return {Function<SuccessActionResponse|ErrorActionResponse>}
+ */
+export const fetchTransactionForProject = (projectId, txHash) => {
+    return async (dispatch, getState) => {
+        const {auth: {user: {username}}} = getState();
+
+        try {
+            const transaction = {};
+
+            dispatch({
+                type: FETCH_TRANSACTION_ACTION,
+                projectId,
+                transaction,
+            });
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    }
+};
