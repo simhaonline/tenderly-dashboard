@@ -70,8 +70,11 @@ class TransactionsListItem extends Component {
                         <NetworkTag network={transaction.network} size="small"/>
                     </div>
                     <div className="ActionColumn ItemColumn">
+                        <Link to={`/project/${transaction.projectId}/tx/${transaction.txHash}`}>
+                            View
+                        </Link>
                         {!transaction.status && <Link to={`/project/${transaction.projectId}/error/${NetworkAppToRouteTypeMap[transaction.network]}/${transaction.txHash}`}>
-                            View Stack Trace
+                            Stack Trace
                         </Link>}
                     </div>
                     <div className="ExpandColumn ItemColumn">

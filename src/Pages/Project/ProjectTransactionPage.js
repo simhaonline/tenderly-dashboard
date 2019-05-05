@@ -28,6 +28,8 @@ const mapStateToProps = (state, ownProps) => {
 
     const transaction = getTransaction(state, txHash);
 
+    console.log(transaction);
+
     return {
         project: getProject(state, id),
         transaction,

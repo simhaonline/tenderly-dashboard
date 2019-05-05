@@ -4,7 +4,7 @@
  * @return {Transaction}
  */
 export function getTransaction(state, txHash) {
-    if (!event) {
+    if (!txHash) {
         return null;
     }
 
