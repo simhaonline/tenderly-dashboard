@@ -144,7 +144,7 @@ export const UsernameStatusMap = {
     VALIDATING: 'validating',
 };
 
-export const FIVE_MIN_INTERVAL = 5 * 60 * 1000;
+export const FIVE_MIN_INTERVAL = 5 * 1 * 1000;
 
 export const APP_HOST = process.env.REACT_APP_HOST;
 

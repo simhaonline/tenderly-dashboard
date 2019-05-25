@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import moment from "moment";
 import _ from 'lodash';
+import { toast } from 'react-toastify';
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {FIVE_MIN_INTERVAL, ProjectTypes} from "../../Common/constants";
@@ -53,7 +54,10 @@ class ProjectTransactionsPage extends Component {
                 await contractActions.fetchContractsForProject(project.id);
             }
 
-            const refreshSubscriber = setInterval(this.fetchTransactions, FIVE_MIN_INTERVAL);
+            const refreshSubscriber = setInterval(() => {
+                this.fetchTransactions();
+                toast.info("Transactions list updated.");
+            }, FIVE_MIN_INTERVAL);
 
             this.setState({
                 refreshSubscriber,

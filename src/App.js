@@ -4,9 +4,10 @@ import {BrowserRouter as Router} from "react-router-dom";
 import Cookies from 'js-cookie';
 import ReactGA from 'react-ga';
 import * as Sentry from "@sentry/browser";
-
+import {ToastContainer} from "react-toastify";
 
 import 'highlight.js/styles/dracula.css';
+import 'react-toastify/dist/ReactToastify.css';
 import './Common/Styles/reset.css';
 import './Common/Styles/base.css';
 
@@ -23,7 +24,6 @@ if (process.env.NODE_ENV !== 'development') {
         dsn: 'https://7a6943685b344dae8c67e98c4ad39b63@sentry.io/1332206',
     });
 }
-
 
 class App extends Component {
     state = {
@@ -66,6 +66,7 @@ class App extends Component {
                     <div className="App">
                         <AppHeader/>
                         <AppPages/>
+                        <ToastContainer closeButton={false} position="bottom-right" hideProgressBar/>
                     </div>
                 </Router>
             </Provider>
