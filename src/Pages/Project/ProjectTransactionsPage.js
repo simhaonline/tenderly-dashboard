@@ -5,7 +5,7 @@ import moment from "moment";
 import _ from 'lodash';
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
-import {ProjectTypes} from "../../Common/constants";
+import {FIVE_MIN_INTERVAL, ProjectTypes} from "../../Common/constants";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
@@ -52,6 +52,12 @@ class ProjectTransactionsPage extends Component {
             if (!contractsLoaded) {
                 await contractActions.fetchContractsForProject(project.id);
             }
+
+            const refreshSubscriber = setInterval(this.fetchTransactions, FIVE_MIN_INTERVAL);
+
+            this.setState({
+                refreshSubscriber,
+            });
         } else {
             // @TODO Logic for getting demo transactions
             // transactions = getDemoTransactions();
@@ -62,6 +68,14 @@ class ProjectTransactionsPage extends Component {
             transactions,
             lastFetch: moment.now(),
         });
+    }
+
+    componentWillUnmount() {
+        const {refreshSubscriber} = this.state;
+
+        if (refreshSubscriber) {
+            clearInterval(refreshSubscriber);
+        }
     }
 
     handleFilterChange = (filter) => {
