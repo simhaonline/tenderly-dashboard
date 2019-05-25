@@ -17,6 +17,9 @@ class User {
 
         /** @type boolean */
         this.showDemo = !data.hide_demo;
+
+        /** @type boolean */
+        this.passwordSet = data.password_is_set;
     }
 
     getFullName() {

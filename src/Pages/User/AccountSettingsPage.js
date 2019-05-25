@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -82,7 +82,7 @@ class AccountSettingsPage extends Component {
 
     handleChangePasswordSubmit = async () => {
         const {formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
-        const {actions} = this.props;
+        const {actions, user} = this.props;
 
         if (newPassword !== repeatNewPassword) {
             this.setState({
@@ -98,7 +98,13 @@ class AccountSettingsPage extends Component {
             error: null,
         });
 
-        const actionResponse = await actions.changePassword(currentPassword, newPassword);
+        let actionResponse;
+
+        if (user.passwordSet) {
+            actionResponse = await actions.changePassword(currentPassword, newPassword);
+        } else {
+            actionResponse = await actions.setPassword(newPassword);
+        }
 
         if (!actionResponse.success && actionResponse.data.error) {
             this.setState({
@@ -117,7 +123,7 @@ class AccountSettingsPage extends Component {
 
     render() {
         const {currentSegment, error, formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
-        const {token} = this.props;
+        const {token, user} = this.props;
 
         const isPasswordFormValid = !!currentPassword && !!newPassword && !!newPassword;
 
@@ -154,9 +160,11 @@ class AccountSettingsPage extends Component {
                                 </CardHeading>
                                 <div className="ChangePasswordWrapper">
                                     <h4>Change Password</h4>
-                                    <Input icon="lock" type="password" field="currentPassword" value={currentPassword}
-                                           label="Current Password" onChange={this.handleFormUpdate}/>
-                                    <hr/>
+                                    {user.passwordSet && <Fragment>
+                                        <Input icon="lock" type="password" field="currentPassword" value={currentPassword}
+                                               label="Current Password" onChange={this.handleFormUpdate}/>
+                                        <hr/>
+                                    </Fragment>}
                                     <Input icon="lock" type="password" field="newPassword" value={newPassword}
                                            label="New Password" onChange={this.handleFormUpdate}/>
                                     <Input icon="lock" type="password" field="repeatNewPassword" value={repeatNewPassword}

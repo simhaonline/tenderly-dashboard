@@ -19,6 +19,7 @@ export const GET_USER_ACTION = 'GET_USER';
 export const COMPLETE_ONBOARDING = 'COMPLETE_ONBOARDING';
 export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
 export const SET_USERNAME_ACTION = 'SET_USERNAME';
+export const SET_PASSWORD_ACTION = 'SET_PASSWORD';
 export const UPDATE_USER_ACTION = 'UPDATE_USER';
 
 /**
@@ -180,6 +181,28 @@ export const changePassword = (oldPassword, newPassword) => {
             const {data} = await Api.post('/user/change-password', {
                 "old_password": oldPassword,
                 "new_password": newPassword,
+            });
+
+            return new ActionResponse(data.ok);
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {String} newPassword
+ * @returns {Function}
+ */
+export const setPassword = (newPassword) => {
+    return async dispatch => {
+        try {
+            const {data} = await Api.post('/user/change-password', {
+                "new_password": newPassword,
+            });
+
+            dispatch({
+               type: SET_PASSWORD_ACTION,
             });
 
             return new ActionResponse(data.ok);

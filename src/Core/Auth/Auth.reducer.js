@@ -4,7 +4,7 @@ import {
     LOG_IN_ACTION,
     LOG_OUT_ACTION,
     REGISTER_ACTION,
-    RETRIEVE_TOKEN_ACTION,
+    RETRIEVE_TOKEN_ACTION, SET_PASSWORD_ACTION,
     SET_USERNAME_ACTION,
     UPDATE_USER_ACTION
 } from "./Auth.actions";
@@ -57,6 +57,18 @@ const AuthReducer = (state = initialState, action) => {
                 ...state,
                 usernameSet: true,
                 user: action.user,
+            };
+        }
+        case SET_PASSWORD_ACTION: {
+            const user = state.user;
+
+            const updatedUser = user.update({
+                passwordSet: true,
+            });
+
+            return {
+                ...state,
+                user: updatedUser,
             };
         }
         case LOG_OUT_ACTION:
