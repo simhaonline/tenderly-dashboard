@@ -84,6 +84,11 @@ export const fetchTransactionForProject = (projectId, txHash) => {
                 transaction,
                 callTrace,
             });
+
+            return new SuccessActionResponse({
+                transaction,
+                callTrace,
+            });
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);

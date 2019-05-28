@@ -60,3 +60,4 @@ export {default as TransactionsList} from './TransactionsList/TransactionsList';
 export {default as TransactionsListItem} from './TransactionsListItem/TransactionsListItem';
 export {default as TransactionFilters} from './TransactionFilters/TransactionFilters';
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
+export {default as PageError} from './PageError/PageError';
