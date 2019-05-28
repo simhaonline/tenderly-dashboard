@@ -3,6 +3,8 @@ import {FETCH_TRANSACTION_ACTION, FETCH_TRANSACTIONS_FOR_PROJECT_ACTION} from ".
 
 const initialState = {
     transactions: {},
+    callTraces: {},
+    callTraceStatus: {},
 };
 
 const TransactionReducer = (state = initialState, action) => {

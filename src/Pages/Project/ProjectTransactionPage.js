@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 import {getContractForTransaction} from "../../Common/Selectors/ContractSelectors";
-import {getTransaction} from "../../Common/Selectors/TransactionSelectors";
+import {getTransaction, getTransactionCallTrace} from "../../Common/Selectors/TransactionSelectors";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
@@ -13,9 +13,9 @@ import {ProjectContentLoader} from "../../Components";
 
 class ProjectTransactionPage extends Component {
     async componentDidMount() {
-        const {transaction, contract, projectId, contractActions, txActions, txHash} = this.props;
+        const {transaction, callTrace, contract, projectId, contractActions, txActions, txHash} = this.props;
 
-        if (!transaction) {
+        if (!transaction || !callTrace) {
             await txActions.fetchTransactionForProject(projectId, txHash);
         }
 
@@ -25,9 +25,9 @@ class ProjectTransactionPage extends Component {
     }
 
     render() {
-        const {transaction, contract} = this.props;
+        const {transaction, callTrace, contract} = this.props;
 
-        if (!transaction || !contract) {
+        if (!transaction || !callTrace || !contract) {
             return (
                 <Page>
                     <Container>
@@ -36,6 +36,8 @@ class ProjectTransactionPage extends Component {
                 </Page>
             );
         }
+
+        console.log(transaction);
 
         return (
             <Page id="ProjectTransactionsPage">
@@ -52,12 +54,11 @@ const mapStateToProps = (state, ownProps) => {
 
     const transaction = getTransaction(state, txHash);
 
-    console.log(transaction);
-
     return {
         projectId: id,
         txHash,
         transaction,
+        callTrace: getTransactionCallTrace(state, txHash),
         contract: getContractForTransaction(state, transaction),
     }
 };

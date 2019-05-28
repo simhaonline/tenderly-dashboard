@@ -46,6 +46,11 @@ export class Transaction {
         this.timestamp = data.timestamp;
     }
 
+    /**
+     * @param {Object} response
+     * @param {string} projectId
+     * @return {Transaction}
+     */
     static buildFromResponse(response, projectId) {
         return new Transaction({
             status: response.status,
