@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
 import CodePreview from "../CodePreview/CodePreview";
+
+import './TracePreview.css';
 
 class TracePreview extends Component {
     constructor(props) {
@@ -22,11 +26,14 @@ class TracePreview extends Component {
         const {open} = this.state;
 
         return (
-            <div>
-                <div onClick={this.togglePreview}>
+            <div className="TracePreview">
+                <div onClick={this.togglePreview} className={classNames(
+                    "TracePreviewHeading",
+                    `Depth${depth}`,
+                )}>
                     {depth} -  trace {trace.lineNumber}
                 </div>
-                {open && <div>
+                {open && <div className="TracePreviewCodeWrapper">
                     <CodePreview line={trace.lineNumber} linePreview={5} source={source}/>
                 </div>}
                 {!!trace.calls && trace.calls.map((trace, index) =>

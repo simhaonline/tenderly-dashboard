@@ -1,0 +1,16 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.TracePreview {
+  .TracePreviewHeading {
+    @for $i from 0 through 10 {
+      &.Depth#{$i} {
+        padding-left: 20px * $i;
+      }
+    }
+  }
+
+  .TracePreviewCodeWrapper {
+
+  }
+}
