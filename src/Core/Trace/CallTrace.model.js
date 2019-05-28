@@ -25,8 +25,6 @@ export class CallTrace {
 
         const callTrace = Trace.buildFromRawCallTrace(rawCallTrace);
 
-        console.log(callTrace);
-
         return new CallTrace({
             txHash: response.hash,
             callTrace,

@@ -25,8 +25,6 @@ export class Trace {
             calls = rawCallTrace.calls.map(Trace.buildFromRawCallTrace);
         }
 
-        console.log(rawCallTrace);
-
         return new Trace({
             functionName: rawCallTrace.func_name,
             lineNumber: rawCallTrace.line_number,
