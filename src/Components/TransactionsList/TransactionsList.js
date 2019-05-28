@@ -4,12 +4,15 @@ import PropTypes from 'prop-types';
 import {TransactionsListItem} from "../index";
 
 import './TransactionsList.scss';
+import {Card, Icon} from "../../Elements";
 
 const TransactionsList = ({transactions, contracts}) => {
     if (!transactions.length) {
         return (
-            <div className="TransactionsListEmptySTate">
-                empty in here
+            <div className="TransactionsListEmptyState">
+                <Icon icon="transaction" className="EmptyStateIcon"/>
+                <div className="EmptyStateHeading">Looks empty in here</div>
+                <div className="EmptyStateDescription">There are currently no captured incoming transactions to the contracts in this project. As soon as one happens it will appear here.</div>
             </div>
         );
     }
