@@ -22,7 +22,7 @@ class TracePreview extends Component {
     };
 
     render() {
-        const {trace, depth, source} = this.props;
+        const {trace, depth, contract} = this.props;
         const {open} = this.state;
 
         return (
@@ -31,13 +31,13 @@ class TracePreview extends Component {
                     "TracePreviewHeading",
                     `Depth${depth}`,
                 )}>
-                    {depth} -  trace {trace.lineNumber}
+                    <span className="BoldedText">{trace.functionName}</span> <span className="MutedText">in {contract.name}:{trace.lineNumber}</span>
                 </div>
                 {open && <div className="TracePreviewCodeWrapper">
-                    <CodePreview line={trace.lineNumber} linePreview={5} source={source}/>
+                    <CodePreview line={trace.lineNumber} linePreview={5} source={contract.source}/>
                 </div>}
                 {!!trace.calls && trace.calls.map((trace, index) =>
-                    <TracePreview trace={trace} key={index} depth={depth + 1} source={source}/>
+                    <TracePreview trace={trace} key={index} depth={depth + 1} contract={contract}/>
                 )}
             </div>
         );
@@ -47,7 +47,7 @@ class TracePreview extends Component {
 PropTypes.propTypes = {
     trace: PropTypes.object.isRequired,
     depth: PropTypes.number.isRequired,
-    source: PropTypes.string.isRequired,
+    contract: PropTypes.object.isRequired,
     open: PropTypes.bool,
 };
 

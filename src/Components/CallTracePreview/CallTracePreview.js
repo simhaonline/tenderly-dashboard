@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {CardHeading, Card} from "../../Elements";
+
 import TracePreview from "../TracePreview/TracePreview";
 
 import './CallTracePreview.css';
-import Card from "../../Elements/Card/Card";
 
 class CallTracePreview extends Component {
     render() {
@@ -12,7 +13,10 @@ class CallTracePreview extends Component {
 
         return (
             <Card className="CallTracePreview">
-call            <TracePreview trace={callTrace.trace} depth={0} open={true} source={contract.source}/>
+                <CardHeading>
+                    <h3>Call Trace</h3>
+                </CardHeading>
+                <TracePreview trace={callTrace.trace} depth={0} open={true} contract={contract}/>
             </Card>
         );
     }

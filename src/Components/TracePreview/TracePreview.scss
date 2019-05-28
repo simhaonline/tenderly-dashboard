@@ -1,16 +1,50 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
+$TracePreviewSpacing: 0px;
+
 .TracePreview {
+  margin-bottom: $TracePreviewSpacing;
+
   .TracePreviewHeading {
+    background-color: #171e31;
+    margin-bottom: $TracePreviewSpacing;
+    padding: 8px 15px;
+    border: 1px solid $BorderColor;
+    border-bottom: none;
+    cursor: pointer;
+    transition: 0.1s;
+
     @for $i from 0 through 10 {
       &.Depth#{$i} {
-        padding-left: 20px * $i;
+        padding-left: 15px + 25px * $i;
       }
+    }
+
+    .BoldedText {
+      font-weight: 600;
+    }
+
+    .MutedText {
+      opacity: 0.65;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      background-color: darken(#171e31, 3);
     }
   }
 
   .TracePreviewCodeWrapper {
+    &:not(:last-child) {
+      margin-bottom: $TracePreviewSpacing;
+    }
+  }
 
+  &:last-child {
+    margin-bottom: 0;
   }
 }

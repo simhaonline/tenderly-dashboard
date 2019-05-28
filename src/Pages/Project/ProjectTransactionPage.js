@@ -40,7 +40,6 @@ class ProjectTransactionPage extends Component {
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
-                    Hello {transaction.txHash}
                     <CallTracePreview callTrace={callTrace} contract={contract}/>
                 </Container>
             </Page>
