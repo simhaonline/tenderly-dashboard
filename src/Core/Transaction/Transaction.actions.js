@@ -1,8 +1,9 @@
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
+import {TransactionFilterTypes} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
 import {Transaction} from "./Transaction.model";
-import {TransactionFilterTypes} from "../../Common/constants";
+import {CallTrace} from "../Trace/CallTrace.model";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_ACTION = 'FETCH_TRANSACTION_PROJECT';
@@ -74,10 +75,13 @@ export const fetchTransactionForProject = (projectId, txHash) => {
 
             const transaction = Transaction.buildFromResponse(data, projectId);
 
+            const callTrace = CallTrace.buildFromResponse(data);
+
             dispatch({
                 type: FETCH_TRANSACTION_ACTION,
                 projectId,
                 transaction,
+                callTrace,
             });
         } catch (error) {
             return new ErrorActionResponse(error);

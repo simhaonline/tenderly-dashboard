@@ -4,7 +4,6 @@ import {FETCH_TRANSACTION_ACTION, FETCH_TRANSACTIONS_FOR_PROJECT_ACTION} from ".
 const initialState = {
     transactions: {},
     callTraces: {},
-    callTraceStatus: {},
 };
 
 const TransactionReducer = (state = initialState, action) => {
@@ -13,7 +12,7 @@ const TransactionReducer = (state = initialState, action) => {
             const transactions = {};
 
             action.transactions.forEach(tx => {
-                transactions[tx.txHash] = tx;
+                transactions[tx.id] = tx;
             });
 
             return {
@@ -25,12 +24,17 @@ const TransactionReducer = (state = initialState, action) => {
             };
         case FETCH_TRANSACTION_ACTION:
             const transaction = action.transaction;
+            const callTrace = action.callTrace;
 
             return {
                 ...state,
+                callTraces: {
+                    ...state.callTraces,
+                    [callTrace.id]: callTrace
+                },
                 transactions: {
                     ...state.transactions,
-                    [transaction.txHash]: transaction,
+                    [transaction.id]: transaction,
                 },
             };
         case LOG_OUT_ACTION:

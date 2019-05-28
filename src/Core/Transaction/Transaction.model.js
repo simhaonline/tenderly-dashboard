@@ -6,6 +6,9 @@ export class Transaction {
      * @param {string} projectId
      */
     constructor(data, projectId) {
+        /** @type string */
+        this.id = data.txHash;
+
         /**
          * Defines whether the transaction was successful or not.
          * @type boolean
