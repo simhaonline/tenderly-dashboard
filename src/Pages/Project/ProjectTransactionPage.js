@@ -9,7 +9,7 @@ import * as transactionActions from "../../Core/Transaction/Transaction.actions"
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Page, Container} from "../../Elements";
-import {ProjectContentLoader} from "../../Components";
+import {ProjectContentLoader, CallTracePreview} from "../../Components";
 
 class ProjectTransactionPage extends Component {
     async componentDidMount() {
@@ -41,6 +41,7 @@ class ProjectTransactionPage extends Component {
             <Page id="ProjectTransactionsPage">
                 <Container>
                     Hello {transaction.txHash}
+                    <CallTracePreview callTrace={callTrace} contract={contract}/>
                 </Container>
             </Page>
         );

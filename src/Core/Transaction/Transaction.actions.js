@@ -52,6 +52,7 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
 
             return new SuccessActionResponse(transactions);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }
@@ -84,6 +85,7 @@ export const fetchTransactionForProject = (projectId, txHash) => {
                 callTrace,
             });
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }

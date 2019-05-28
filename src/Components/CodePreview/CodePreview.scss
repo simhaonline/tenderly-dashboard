@@ -14,7 +14,6 @@ $StackContainerVerticalPadding: 25px;
 
   .StackLines {
     width: $StackLinesCodeWidth;
-    padding: $StackContainerVerticalPadding 0;
     border-right: 1px solid transparentize($WhiteColor, 0.9);
     background-color: transparentize($BlackColor, 0.9);
   }
@@ -51,7 +50,7 @@ $StackContainerVerticalPadding: 25px;
     top: 0;
     left: 80px;
     width: calc(100% - #{$StackLinesCodeWidth});
-    padding: $StackContainerVerticalPadding 15px;
+    padding: 0 15px;
     line-height: 21px;
     font-size: $FontSize200;
     margin: 0;
@@ -59,6 +58,15 @@ $StackContainerVerticalPadding: 25px;
 
     &::selection, & *::selection {
       background-color: transparentize($PrimaryColor600, 0.5);
+    }
+  }
+
+  &.FullPreview {
+    .StackLines {
+      padding: $StackContainerVerticalPadding 0;
+    }
+    .StackCode {
+      padding: $StackContainerVerticalPadding 15px;
     }
   }
 }

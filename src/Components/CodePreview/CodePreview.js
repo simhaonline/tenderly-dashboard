@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import classNames from 'classnames';
 import hljs from "highlight.js";
 import hljsDefineSolidity from "highlightjs-solidity";
 
@@ -37,7 +38,12 @@ class Code extends Component {
         }
 
         return (
-            <div className="CodeWrapper" style={wrapperStyle}>
+            <div className={classNames(
+                "CodeWrapper",
+                {
+                    FullPreview: !linePreview,
+                }
+            )} style={wrapperStyle}>
                 <div className="StackLines">
                     {lineNumbers.map(num =>
                         <div key={num.number} id={`line-${num.number}`} className={`StackLine ${num.active? 'active': ''}`}>{num.number}</div>

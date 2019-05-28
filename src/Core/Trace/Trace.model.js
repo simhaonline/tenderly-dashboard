@@ -22,7 +22,7 @@ export class Trace {
         let calls;
 
         if (rawCallTrace.calls) {
-            calls = rawCallTrace.calls.map(this.buildFromRawCallTrace);
+            calls = rawCallTrace.calls.map(Trace.buildFromRawCallTrace);
         }
 
         console.log(rawCallTrace);
