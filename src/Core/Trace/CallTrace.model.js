@@ -1,3 +1,5 @@
+import {Trace} from "./Trace.model";
+
 export class CallTrace {
     /**
      * @param {Object} data
@@ -6,8 +8,8 @@ export class CallTrace {
         /** @type string */
         this.id = data.txHash;
 
-        /** @type Trace[] */
-        this.trace = [];
+        /** @type Trace */
+        this.trace = data.callTrace;
     }
 
     /**
@@ -15,9 +17,19 @@ export class CallTrace {
      * @return {CallTrace}
      */
     static buildFromResponse(response) {
-        console.log(response);
+        if (!response.transaction_info || !response.transaction_info.call_trace) {
+            return null;
+        }
+
+        const rawCallTrace = response.transaction_info.call_trace;
+
+        const callTrace = Trace.buildFromRawCallTrace(rawCallTrace);
+
+        console.log(callTrace);
+
         return new CallTrace({
             txHash: response.hash,
+            callTrace,
         });
     };
 }

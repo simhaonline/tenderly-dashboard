@@ -37,8 +37,6 @@ class ProjectTransactionPage extends Component {
             );
         }
 
-        console.log(transaction);
-
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
