@@ -138,7 +138,7 @@ class ProjectEventsPage extends Component {
         return (
             <Page id="ProjectPage">
                 <Container>
-                    {!projectIsSetup && <ProjectSetupEmptyState project={project} open={!project.setupViewed}/>}
+                    {!projectIsSetup && <ProjectSetupEmptyState project={project}/>}
                     {projectIsSetup && projectIsLoaded && <Fragment>
                         <ProjectEventFilters contracts={contracts}
                                              onFiltersChange={this.handleFiltersChange}

@@ -12,7 +12,7 @@ import * as transactionActions from "../../Core/Transaction/Transaction.actions"
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Container, Page} from "../../Elements";
-import {ProjectContentLoader, TransactionsList, TransactionFilters} from "../../Components";
+import {ProjectContentLoader, TransactionsList, TransactionFilters, ProjectSetupEmptyState} from "../../Components";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 class ProjectTransactionsPage extends Component {
@@ -115,7 +115,9 @@ class ProjectTransactionsPage extends Component {
 
     render() {
         const {loading, transactions, lastFetch, filters, page} = this.state;
-        const {contracts} = this.props;
+        const {contracts, project} = this.props;
+
+        const projectIsSetup = !!project.lastPushAt;
 
         const activeFilters = Object.values(filters).filter(filter => filter.value.length);
 
@@ -123,8 +125,9 @@ class ProjectTransactionsPage extends Component {
             <Page id="ProjectTransactionsPage">
                 <Container>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
-                    {!loading && <Fragment>
-                        <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>
+                    {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project}/>}
+                    {!loading && projectIsSetup && <Fragment>
+                        {!!transactions.length && <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
                         <TransactionsList transactions={transactions} contracts={contracts} currentPage={page} onPageChange={this.handlePageChange}/>
                     </Fragment>}
                 </Container>
