@@ -1,39 +1,39 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
+.TransactionsListEmptyState {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+
+  .EmptyStateIcon {
+    font-size: $FontSize600 * 2;
+    opacity: 0.75;
+    color: $SecondaryColor600;
+    margin-bottom: 20px;
+  }
+  .EmptyStateHeading {
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 3px;
+    font-size: $FontSize500;
+    margin-bottom: 15px;
+  }
+  .EmptyStateDescription {
+    max-width: 400px;
+    text-align: center;
+    font-weight: 100;
+    opacity: 0.75;
+    font-size: $FontSize300;
+  }
+}
+
 .TransactionsList {
   border: 1px solid $BorderColor;
   border-radius: 5px;
   overflow: hidden;
-
-  .TransactionsListEmptyState {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 20px;
-
-    .EmptyStateIcon {
-      font-size: $FontSize600 * 2;
-      opacity: 0.75;
-      color: $SecondaryColor600;
-      margin-bottom: 20px;
-    }
-    .EmptyStateHeading {
-      text-transform: uppercase;
-      font-weight: 100;
-      letter-spacing: 3px;
-      font-size: $FontSize500;
-      margin-bottom: 15px;
-    }
-    .EmptyStateDescription {
-      max-width: 400px;
-      text-align: center;
-      font-weight: 100;
-      opacity: 0.75;
-      font-size: $FontSize300;
-    }
-  }
 
   .TransactionsListHeader {
     border-bottom: 1px solid $BorderColor;
@@ -43,8 +43,6 @@
     display: flex;
     align-items: center;
     padding: 12px 15px;
-
-    .ItemColumn
 
     .ColumnName {
       font-weight: 600;
