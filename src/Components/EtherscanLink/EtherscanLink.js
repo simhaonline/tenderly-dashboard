@@ -4,6 +4,8 @@ import {EtherscanLinkTypes, NetworkTypes} from "../../Common/constants";
 
 const NetworkToPrefixMap = {
     [NetworkTypes.KOVAN]: 'kovan.',
+    [NetworkTypes.RINKEBY]: 'rinkeby.',
+    [NetworkTypes.ROPSTEN]: 'ropsten.',
 };
 
 const TypeToUrlPathMap = {
