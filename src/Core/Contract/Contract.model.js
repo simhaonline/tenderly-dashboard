@@ -39,10 +39,10 @@ class Contract {
 
         if (data.data) {
             /** @type string */
-            this.source = data.data.source;
+            this.source = data.data.contract_info[data.data.main_contract].source;
 
             /** @type string */
-            this.solidity = Contract.getSolidityVersion(data.data.source);
+            this.solidity = Contract.getSolidityVersion(data.data.contract_info[data.data.main_contract].source);
         }
     }
 
