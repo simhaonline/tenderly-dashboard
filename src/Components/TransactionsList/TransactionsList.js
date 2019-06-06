@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {TransactionsListItem} from "../index";
 
 import './TransactionsList.scss';
-import {Card, Icon} from "../../Elements";
+import {Icon} from "../../Elements";
 
 const TransactionsList = ({transactions, contracts}) => {
     if (!transactions.length) {
