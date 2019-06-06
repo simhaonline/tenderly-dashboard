@@ -7,7 +7,7 @@ import './EventInformation.css';
 import {EtherscanLinkTypes} from "../../Common/constants";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-const EventInformation = ({event, network}) => {
+const EventInformation = ({event, contract}) => {
     return (
         <div className="EventInformation">
             <div className="MainInfo">
@@ -15,8 +15,16 @@ const EventInformation = ({event, network}) => {
                 <div className="Timestamp">Occurred at: <span>{moment(event.timestamp).format("MMM DD YYYY, HH:mm:ss")}</span></div>
             </div>
             <div className="OtherInfo">
-                <div className="InfoItem">Transaction: <EtherscanLink network={network} type={EtherscanLinkTypes.TRANSACTION} value={event.transactionId}>{generateShortAddress(event.transactionId, 8, 8)}</EtherscanLink></div>
-                <div className="InfoItem">Block: <EtherscanLink network={network} type={EtherscanLinkTypes.BLOCK} value={event.block}>{event.block}</EtherscanLink></div>
+                <div className="InfoItem">
+                    Transaction:
+                    {contract && <EtherscanLink network={contract.network} type={EtherscanLinkTypes.TRANSACTION} value={event.transactionId}>{generateShortAddress(event.transactionId, 8, 8)}</EtherscanLink>}
+                    {!contract && <span>{generateShortAddress(event.transactionId, 8, 8)}</span>}
+                </div>
+                <div className="InfoItem">
+                    Block:
+                    {contract && <EtherscanLink network={contract.network} type={EtherscanLinkTypes.BLOCK} value={event.block}>{event.block}</EtherscanLink>}
+                    {!contract && <span>{event.block}</span>}
+                </div>
             </div>
         </div>
     )
