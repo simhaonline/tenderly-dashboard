@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -15,6 +15,14 @@ import {Page, Container} from "../../Elements";
 import {EventInformation, EventStackTrace, ProjectContentLoader} from "../../Components";
 
 class EventPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+        };
+    }
+
     async componentDidMount() {
         const {event, contract, projectId, contractActions, eventActions, network, eventId} = this.props;
 
@@ -25,12 +33,17 @@ class EventPage extends Component {
         if (!contract) {
             await contractActions.fetchContractsForProject(projectId);
         }
+
+        this.setState({
+            loading: false,
+        })
     }
 
     render() {
         const {event, contract} = this.props;
+        const {loading} = this.state;
 
-        if (!event || !contract) {
+        if (loading) {
             return (
                 <Page>
                     <Container>
@@ -43,8 +56,10 @@ class EventPage extends Component {
         return (
             <Page>
                 <Container>
-                    <EventInformation event={event} network={contract.network}/>
-                    <EventStackTrace trace={event.trace} source={contract.source}/>
+                    {!!event && <Fragment>
+                        <EventInformation event={event} contract={contract}/>
+                        <EventStackTrace trace={event.trace} source={contract ? contract.source : null}/>
+                    </Fragment>}
                 </Container>
             </Page>
         );
