@@ -18,7 +18,7 @@ const EventInformation = ({event, contract}) => {
                 <div className="InfoItem">
                     Transaction:
                     {contract && <EtherscanLink network={contract.network} type={EtherscanLinkTypes.TRANSACTION} value={event.transactionId}>{generateShortAddress(event.transactionId, 8, 8)}</EtherscanLink>}
-                    {!contract && <span>{generateShortAddress(event.transactionId, 8, 8)}</span>}
+                    {!contract && <span>{event.transactionId}</span>}
                 </div>
                 <div className="InfoItem">
                     Block:
