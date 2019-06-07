@@ -34,7 +34,7 @@ class TracePreview extends Component {
                     <span className="BoldedText">{trace.functionName}</span> <span className="MutedText">in {contract.name}:{trace.lineNumber}</span>
                 </div>
                 {open && <div className="TracePreviewCodeWrapper">
-                    <CodePreview line={trace.lineNumber} linePreview={5} source={contract.source}/>
+                    <CodePreview line={trace.lineNumber} linePreview={5} source={contract.getMainFileSource()}/>
                 </div>}
                 {!!trace.calls && trace.calls.map((trace, index) =>
                     <TracePreview trace={trace} key={index} depth={depth + 1} contract={contract}/>

@@ -33,7 +33,7 @@ class Contract {
 
         // @TODO Fix this to not be hardcoded
         /** @type Date */
-        this.lastDeploymentAt = data.created_at;
+        this.lastDeploymentAt = data.createdAt;
 
         /** @type number */
         this.errorCount = data.errorCount;
@@ -52,20 +52,6 @@ class Contract {
 
         /** @type Date */
         this.verifiedAt = data.verifiedAt ? moment(this.verifiedAt) : null;
-
-        if (this.mainFile) {
-            /**
-             * @deprecated
-             * @type string
-             */
-            this.source = this.mainFile.source;
-
-            /**
-             * @deprecated
-             * @type string
-             */
-            this.solidity = this.mainFile.solidityVersion;
-        }
     }
 
     /**
@@ -126,7 +112,6 @@ class Contract {
         }
 
         const con = new Contract({
-            ...data,
             name: data.contract_name,
             address: data.address,
             networkId: data.network_id,

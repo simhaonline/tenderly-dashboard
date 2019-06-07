@@ -58,7 +58,7 @@ class EventPage extends Component {
                 <Container>
                     {!!event && <Fragment>
                         <EventInformation event={event} contract={contract}/>
-                        <EventStackTrace trace={event.trace} source={contract ? contract.source : null}/>
+                        <EventStackTrace trace={event.trace} source={contract ? contract.getMainFileSource() : null}/>
                     </Fragment>}
                 </Container>
             </Page>
