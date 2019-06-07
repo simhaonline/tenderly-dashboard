@@ -3,15 +3,15 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
 import {getContractById, getContractStatus} from "../../Common/Selectors/ContractSelectors";
+import {EntityStatusTypes} from "../../Common/constants";
 
-import {Page, Container, Card, CardHeading} from "../../Elements";
+import {Page, Container} from "../../Elements";
 import {
     ContractInformation,
-    ContractSource,
     ContractDeploymentInformation,
-    ProjectContentLoader
+    ProjectContentLoader,
+    ContractFiles,
 } from "../../Components";
-import {EntityStatusTypes} from "../../Common/constants";
 
 class ProjectContractPage extends Component {
     componentDidMount() {
@@ -47,12 +47,7 @@ class ProjectContractPage extends Component {
                     {isContractFetched && <Fragment>
                         <ContractInformation contract={contract}/>
                         <ContractDeploymentInformation contract={contract}/>
-                        <Card>
-                            <CardHeading>
-                                <h3>Source Code</h3>
-                            </CardHeading>
-                            <ContractSource contract={contract}/>
-                        </Card>
+                        <ContractFiles contract={contract}/>
                     </Fragment>}
                 </Container>
             </Page>

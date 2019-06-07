@@ -61,3 +61,4 @@ export {default as TransactionsListItem} from './TransactionsListItem/Transactio
 export {default as TransactionFilters} from './TransactionFilters/TransactionFilters';
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
 export {default as PageError} from './PageError/PageError';
+export {default as ContractFiles} from './ContractFiles/ContractFiles';
