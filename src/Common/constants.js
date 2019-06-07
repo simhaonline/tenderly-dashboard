@@ -11,6 +11,9 @@ export const ActionErrorTypes = {
     API: 'api_error',
 };
 
+/**
+ * @enum {string}
+ */
 export const NetworkTypes = {
     MAIN: 'main_network',
     KOVAN: 'kovan_testnet',
@@ -42,8 +45,8 @@ export const NetworkApiToAppTypeMap = {
 export const NetworkRouteToAppTypeMap = {
     [NetworkRouteTypes.MAIN]: NetworkTypes.MAIN,
     [NetworkRouteTypes.KOVAN]: NetworkTypes.KOVAN,
-    [NetworkTypes.ROPSTEN]: NetworkRouteTypes.ROPSTEN,
-    [NetworkTypes.RINKEBY]: NetworkRouteTypes.RINKEBY,
+    [NetworkRouteTypes.ROPSTEN]: NetworkTypes.ROPSTEN,
+    [NetworkRouteTypes.RINKEBY]: NetworkTypes.RINKEBY,
 };
 
 export const NetworkAppToRouteTypeMap = {
