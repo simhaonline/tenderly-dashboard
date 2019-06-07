@@ -90,6 +90,28 @@ class Contract {
     }
 
     /**
+     * @return {string|null}
+     */
+    getMainFileSource() {
+        if (!this.mainFile) {
+            return null;
+        }
+
+        return this.mainFile.source;
+    }
+
+    /**
+     * @return {string|null}
+     */
+    getMainFileSolidityVersion() {
+        if (!this.mainFile) {
+            return null;
+        }
+
+        return this.mainFile.solidityVersion;
+    }
+
+    /**
      * @param {Object} data
      * @param {string} [projectId]
      * @return {Contract}
