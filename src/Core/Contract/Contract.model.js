@@ -118,6 +118,7 @@ class Contract {
             creationTx: data.creation_tx,
             isPublic: data.public,
             createdAt: data.created_at,
+            errorCount: data.number_of_exceptions,
             lastEventAt: data.last_event_occurred_at,
             verifiedAt: data.verification_date,
             files,
