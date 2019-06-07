@@ -12,9 +12,15 @@ class Code extends Component {
     state = {
         ref: React.createRef(),
     };
+
     componentDidMount() {
         hljs.highlightBlock(this.state.ref.current);
     }
+
+    componentDidUpdate() {
+        hljs.highlightBlock(this.state.ref.current);
+    }
+
     render() {
         const {source, line, linePreview} = this.props;
 
