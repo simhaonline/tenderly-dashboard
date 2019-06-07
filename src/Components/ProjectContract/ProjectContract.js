@@ -3,7 +3,7 @@ import moment from "moment";
 
 import MixPanel from "../../Utils/MixPanel";
 
-import {EtherscanLinkTypes} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {Card, Button} from "../../Elements";
 import NetworkTag from "../NetworkTag/NetworkTag";
@@ -24,8 +24,11 @@ const handleContractEventsClick = (event) => {
 
 const ProjectContract = ({contract}) => {
     const hasEvents = !!contract.errorCount;
+
+    const networkRoute = NetworkAppToRouteTypeMap[contract.network];
+
     return (
-        <PageLink className="ProjectContract" to={`/project/${contract.projectId}/contract/${contract.id}`} onClick={handleProjectContractClick}>
+        <PageLink className="ProjectContract" to={`/project/${contract.projectId}/contract/${networkRoute}/${contract.id}`} onClick={handleProjectContractClick}>
             <Card clickable>
                 <div className="ContentWrapper">
                     <NetworkTag network={contract.network} size="small" className="ContractNetworkTag"/>
