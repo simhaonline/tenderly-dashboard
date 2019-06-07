@@ -3,6 +3,10 @@ import ActionResponse from "./ActionResponse.model";
 import {ActionErrorTypes} from "../constants";
 
 function parseActionError(error) {
+    if (!error) {
+        return '';
+    }
+
     if (error.response) {
         const {status, data} = error.response;
 
@@ -21,7 +25,7 @@ function parseActionError(error) {
 
 export default class ErrorActionResponse extends ActionResponse {
     /**
-     * @param {*} error
+     * @param {*} [error]
      */
     constructor(error) {
         const parsedError = parseActionError(error);
