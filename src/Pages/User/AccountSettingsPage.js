@@ -125,7 +125,11 @@ class AccountSettingsPage extends Component {
         const {currentSegment, error, formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
         const {token, user} = this.props;
 
-        const isPasswordFormValid = !!currentPassword && !!newPassword && !!newPassword;
+        let isPasswordFormValid = !!newPassword && !!repeatNewPassword;
+
+        if (user.passwordSet && !currentPassword) {
+            isPasswordFormValid = false;
+        }
 
         return (
             <Page id="AccountSettingsPage">
