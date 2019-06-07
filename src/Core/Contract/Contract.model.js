@@ -111,7 +111,7 @@ class Contract {
             mainFile = files[data.data.main_contract];
         }
 
-        const con = new Contract({
+        return new Contract({
             name: data.contract_name,
             address: data.address,
             networkId: data.network_id,
@@ -123,10 +123,6 @@ class Contract {
             files,
             mainFile,
         }, projectId);
-
-        console.log(con, data);
-
-        return con;
     }
 }
 
