@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import moment from 'moment';
 
-import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes} from "../../Common/constants";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import {Transaction} from "../../Core/Transaction/Transaction.model";
@@ -77,9 +77,6 @@ class TransactionsListItem extends Component {
                         <Link to={`/project/${transaction.projectId}/tx/${transaction.txHash}`}>
                             View
                         </Link>
-                        {!transaction.status && <Link to={`/project/${transaction.projectId}/error/${NetworkAppToRouteTypeMap[transaction.network]}/${transaction.txHash}`}>
-                            Stack Trace
-                        </Link>}
                     </div>
                     <div className="ExpandColumn ItemColumn">
                         <div className="ExpandWrapper" onClick={this.handleExpandToggle}>

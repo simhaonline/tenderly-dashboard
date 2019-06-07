@@ -90,6 +90,7 @@ export const AnalyticsResolutionTypes = {
 
 export const FeatureFlagTypes = {
     COMING_SOON: 'coming_soon',
+    ERRORS: 'errors',
     BILLING: 'billing',
     ALERTS: 'alerts',
     ANALYTICS: 'analytics',

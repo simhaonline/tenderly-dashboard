@@ -101,9 +101,11 @@ class ProjectNavigation extends Component {
                         <NavLink className="NavigationItem" exact to={`/project/${project.id}/transactions`} onClick={() => this.trackNavigationItem('transactions')}>
                             <span>Transactions</span>
                         </NavLink>
-                        <NavLink className="NavigationItem" exact to={`/project/${project.id}/errors`} onClick={() => this.trackNavigationItem('errors')}>
-                            <span>Errors</span>
-                        </NavLink>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                            <NavLink className="NavigationItem" exact to={`/project/${project.id}/errors`} onClick={() => this.trackNavigationItem('errors')}>
+                                <span>Errors</span>
+                            </NavLink>
+                        </FeatureFlag>
                         <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`} onClick={() => this.trackNavigationItem('contracts')}>
                             <span>Contracts</span>
                         </NavLink>
