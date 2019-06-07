@@ -125,7 +125,7 @@ class ProjectTransactionsPage extends Component {
             <Page id="ProjectTransactionsPage">
                 <Container>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
-                    {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project}/>}
+                    {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
                         {!!transactions.length && <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
                         <TransactionsList transactions={transactions} contracts={contracts} currentPage={page} onPageChange={this.handlePageChange}/>

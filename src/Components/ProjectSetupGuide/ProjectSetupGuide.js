@@ -144,7 +144,7 @@ class ProjectSetupGuide extends Component {
     };
 
     verifyProjectPush = async () => {
-        const {project, actions, eventActions, contractActions} = this.props;
+        const {project, actions, contractActions, onSetup} = this.props;
 
         this.setState({
             verifying: true,
@@ -159,8 +159,8 @@ class ProjectSetupGuide extends Component {
         if (projectSetup) {
             MixPanel.track('project_setup_verification_success');
 
-            eventActions.fetchEventsForProject(project.id, 1);
             contractActions.fetchContractsForProject(project.id);
+            onSetup();
         } else {
             MixPanel.track('project_setup_verification_failed');
         }
@@ -211,7 +211,7 @@ class ProjectSetupGuide extends Component {
     };
 
     handleAddManualContract = async () => {
-        const {project, actions, eventActions, contractActions} = this.props;
+        const {project, actions, onSetup, contractActions} = this.props;
         const {manualNetwork, manualContractAddress} = this.state;
 
         if (!manualNetwork || !manualContractAddress) {
@@ -235,7 +235,8 @@ class ProjectSetupGuide extends Component {
 
         if (response.success) {
             await contractActions.fetchContractsForProject(project.id);
-            await eventActions.fetchEventsForProject(project.id, 1);
+            onSetup();
+
             this.setState({
                 addingManualContractStep: "fetching_project",
             });

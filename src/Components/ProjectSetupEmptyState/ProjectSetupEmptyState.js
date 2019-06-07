@@ -6,7 +6,7 @@ import EmptyStateImage from './project-setup-empty-state.svg';
 
 import './ProjectSetupEmptyState.css';
 
-const ProjectSetupEmptyState = ({project, open}) => {
+const ProjectSetupEmptyState = ({project, open, onSetup}) => {
     return (
         <div className="ProjectSetupEmptyState">
             <div className="EmptyStateImageWrapper">
@@ -15,7 +15,7 @@ const ProjectSetupEmptyState = ({project, open}) => {
             <h4 className="EmptyStateHeadline">One last thing left</h4>
             <p className="EmptyStateDescription">In order to monitor your Smart Contracts for errors, we need you to finish the project setup guide.</p>
             <div className="EmptyStateActions">
-                <ProjectSetupGuide project={project} open={open}/>
+                <ProjectSetupGuide project={project} open={open} onSetup={onSetup}/>
             </div>
         </div>
     );
@@ -23,6 +23,7 @@ const ProjectSetupEmptyState = ({project, open}) => {
 
 ProjectSetupEmptyState.defaultProps = {
     open: false,
+    onSetup: () => {},
 };
 
 export default ProjectSetupEmptyState;
