@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 
 import {getContractForTransaction} from "../../Common/Selectors/ContractSelectors";
 import {getTransaction, getTransactionCallTrace} from "../../Common/Selectors/TransactionSelectors";
+import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
@@ -83,14 +84,17 @@ class ProjectTransactionPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id, txHash}}} = ownProps;
+    const {match: {params: {id, txHash, network}}} = ownProps;
 
     const transaction = getTransaction(state, txHash);
 
+    const networkType = NetworkRouteToAppTypeMap[network];
+
     return {
-        projectId: id,
         txHash,
         transaction,
+        networkType,
+        projectId: id,
         callTrace: getTransactionCallTrace(state, txHash),
         contract: getContractForTransaction(state, transaction),
     }

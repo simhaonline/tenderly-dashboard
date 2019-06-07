@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
 import {getContractById, getContractStatus} from "../../Common/Selectors/ContractSelectors";
-import {EntityStatusTypes} from "../../Common/constants";
+import {EntityStatusTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container} from "../../Elements";
 import {
@@ -56,9 +56,12 @@ class ProjectContractPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id, contractId}}} = ownProps;
+    const {match: {params: {id, contractId, network}}} = ownProps;
+
+    const networkType = NetworkRouteToAppTypeMap[network];
 
     return {
+        networkType,
         projectId: id,
         contract: getContractById(state, contractId),
         contractStatus: getContractStatus(state, contractId),
