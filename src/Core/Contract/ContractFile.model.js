@@ -1,10 +1,13 @@
 class ContractFile {
     constructor(data) {
         /** @type string */
-        this.id = data.id;
+        this.id = data.name;
 
         /** @type string */
-        this.address = data.address;
+        this.source = data.source;
+
+        /** @type string */
+        this.solidityVersion = data.solidityVersion;
 
         /** @type string */
         this.name = data.name;
@@ -17,9 +20,37 @@ class ContractFile {
         return `${this.name}.sol`;
     }
 
-    static buildFromResponse(data) {
-        return new ContractFile({
+    /**
+     * @param {string} source
+     * @returns {string|null}
+     */
+    static getSolidityVersion(source) {
+        if (!source) {
+            return null;
+        }
 
+        const versionRegex = /solidity (.*);/g;
+
+        const matches = versionRegex.exec(source);
+
+        if (!matches || !matches[1]) {
+            return null;
+        }
+
+        return matches[1];
+    }
+
+    /**
+     * @param {Object} data
+     * @return {ContractFile}
+     */
+    static buildFromResponse(data) {
+        const solidityVersion = ContractFile.getSolidityVersion(data.source);
+
+        return new ContractFile({
+            name: data.name,
+            source: data.source,
+            solidityVersion,
         });
     }
 }

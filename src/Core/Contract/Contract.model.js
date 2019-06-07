@@ -2,6 +2,8 @@ import moment from "moment";
 
 import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
 
+import ContractFile from "./ContractFile.model";
+
 class Contract {
     /**
      * @param {Object} data
@@ -15,7 +17,7 @@ class Contract {
         this.projectId = projectId;
 
         /** @type boolean */
-        this.isPublic = data.public;
+        this.isPublic = data.isPublic;
 
         /** @type {string} */
         this.name = data.name;
@@ -33,10 +35,6 @@ class Contract {
         /** @type Date */
         this.lastDeploymentAt = data.created_at;
 
-        // @TODO Fix this to not be hardcoded
-        /** @type number */
-        this.deploymentCount = 1;
-
         /** @type number */
         this.errorCount = data.errorCount;
 
@@ -44,7 +42,7 @@ class Contract {
         this.files = data.files;
 
         /** @type ContractFile */
-        this.mainFile = data.files;
+        this.mainFile = data.mainFile;
 
         /** @type Date */
         this.lastEventAt = data.lastEventAt ? moment(this.lastEventAt) : null;
@@ -55,18 +53,18 @@ class Contract {
         /** @type Date */
         this.verifiedAt = data.verifiedAt ? moment(this.verifiedAt) : null;
 
-        if (data.data) {
+        if (this.mainFile) {
             /**
              * @deprecated
              * @type string
              */
-            this.source = data.data.contract_info[data.data.main_contract].source;
+            this.source = this.mainFile.source;
 
             /**
              * @deprecated
              * @type string
              */
-            this.solidity = Contract.getSolidityVersion(data.data.contract_info[data.data.main_contract].source);
+            this.solidity = this.mainFile.solidityVersion;
         }
     }
 
@@ -89,41 +87,31 @@ class Contract {
     }
 
     /**
-     * @param {string} source
-     * @returns {string|null}
-     */
-    static getSolidityVersion(source) {
-        if (!source) {
-            return null;
-        }
-
-        const versionRegex = /solidity (.*);/g;
-
-        const matches = versionRegex.exec(source);
-
-        if (!matches || !matches[1]) {
-            return null;
-        }
-
-        return matches[1];
-    }
-
-    /**
      * @param {Object} data
      * @param {string} [projectId]
      * @return {Contract}
      */
     static buildFromResponse(data, projectId) {
+        let files = [];
+        let mainFile;
+
+        if (data.data && data.data.contract_info) {
+            files = data.data.contract_info.map(ContractFile.buildFromResponse);
+            mainFile = files[data.data.main_contract];
+        }
+
         const con = new Contract({
             ...data,
             name: data.contract_name,
             address: data.address,
             networkId: data.network_id,
             creationTx: data.creation_tx,
-            public: data.public,
+            isPublic: data.public,
             createdAt: data.created_at,
             lastEventAt: data.last_event_occurred_at,
             verifiedAt: data.verification_date,
+            files,
+            mainFile,
         }, projectId);
 
         console.log(con, data);
