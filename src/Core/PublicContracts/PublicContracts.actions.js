@@ -1,5 +1,5 @@
 import {Api} from '../../Utils/Api';
-import {ContractTypes, NetworkAppToApiTypeMap} from "../../Common/constants";
+import {NetworkAppToApiTypeMap} from "../../Common/constants";
 import Event from "../Event/Event.model";
 import Contract from "../Contract/Contract.model";
 

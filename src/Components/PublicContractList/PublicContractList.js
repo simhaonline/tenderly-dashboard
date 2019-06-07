@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import moment from "moment";
 
-import {ContractTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 import {Icon} from '../../Elements';
 
 import './PublicContractList.css';

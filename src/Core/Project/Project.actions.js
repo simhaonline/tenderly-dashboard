@@ -4,7 +4,7 @@ import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../
 import Project from "./Project.model";
 import Contract from "../Contract/Contract.model";
 import Event from '../Event/Event.model';
-import {ContractTypes, NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
+import {NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
 import {
     exampleContract1Payload,
     exampleContract2Payload,

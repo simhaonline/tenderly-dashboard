@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-import {ContractTypes, EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import NetworkTag from "../NetworkTag/NetworkTag";
 import PageLink from "../PageLink/PageLink";

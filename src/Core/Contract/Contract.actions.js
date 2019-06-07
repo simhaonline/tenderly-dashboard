@@ -1,6 +1,5 @@
 import {Api} from "../../Utils/Api";
 import Contract from './Contract.model';
-import {ContractTypes} from "../../Common/constants";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 

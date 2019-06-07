@@ -81,15 +81,6 @@ export const ProjectTypes = {
     DEMO: 'DEMO'
 };
 
-/**
- * @enum {string}
- */
-export const ContractTypes = {
-    PRIVATE: 'PRIVATE',
-    VERIFIED: 'VERIFIED',
-    NOT_VERIFIED: 'NOT_VERIFIED',
-};
-
 export const AnalyticsResolutionTypes = {
     HOUR: 'HOUR',
     DAY: 'DAY',
