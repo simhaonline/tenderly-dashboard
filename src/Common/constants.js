@@ -81,6 +81,9 @@ export const ProjectTypes = {
     DEMO: 'DEMO'
 };
 
+/**
+ * @enum {string}
+ */
 export const ContractTypes = {
     PRIVATE: 'PRIVATE',
     VERIFIED: 'VERIFIED',

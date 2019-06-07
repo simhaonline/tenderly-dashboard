@@ -80,8 +80,8 @@ export const dispatchExampleProject = dispatch => {
     const exampleProject = new Project(exampleProjectPayload);
 
     const exampleContracts = [
-        new Contract(exampleContract1Payload, ContractTypes.PRIVATE, exampleProject.id),
-        new Contract(exampleContract2Payload, ContractTypes.PRIVATE, exampleProject.id)
+        Contract.buildFromResponse(exampleContract1Payload, ContractTypes.PRIVATE, exampleProject.id),
+        Contract.buildFromResponse(exampleContract2Payload, ContractTypes.PRIVATE, exampleProject.id)
     ];
 
     const exampleEvents = [

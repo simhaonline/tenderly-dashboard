@@ -1,6 +1,11 @@
 import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
 
 class Contract {
+    /**
+     * @param {Object} data
+     * @param {ContractTypes} type
+     * @param {string} [projectId]
+     */
     constructor(data, type, projectId) {
         const contractAddress = data.deployment_information? data.deployment_information.address : data.address;
         const contractNetwork = data.deployment_information? data.deployment_information.network_id : data.network_id;
@@ -11,10 +16,10 @@ class Contract {
         /** @type string */
         this.projectId = projectId;
 
-        /** @type string */
+        /** @type {string} */
         this.name = data.contract_name;
 
-        /** @type string */
+        /** @type {ContractTypes} */
         this.type = type;
 
         /** @type string */
@@ -36,6 +41,12 @@ class Contract {
 
         /** @type number */
         this.eventCount = data.number_of_exceptions;
+
+        /** @type ContractFile[] */
+        this.files = data.files;
+
+        /** @type ContractFile */
+        this.mainFile = data.files;
 
         if (data.data) {
             /** @type string */
@@ -82,6 +93,16 @@ class Contract {
         }
 
         return matches[1];
+    }
+
+    /**
+     * @param {Object} data
+     * @param {ContractTypes} type
+     * @param {string} [projectId]
+     * @return {Contract}
+     */
+    static buildFromResponse(data, type, projectId) {
+        return new Contract(data, type, projectId);
     }
 }
 
