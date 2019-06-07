@@ -66,6 +66,7 @@ export const exampleContract1Payload = {
     contract_name: 'ExampleContract',
     network_id: NetworkAppToApiTypeMap[NetworkTypes.MAIN],
     created_at: Date.now(),
+    public: false,
     number_of_exceptions: 1,
     data: {
         source: exampleContractSource,
@@ -77,6 +78,7 @@ export const exampleContract2Payload = {
     contract_name: 'ExampleContract',
     network_id: NetworkAppToApiTypeMap[NetworkTypes.KOVAN],
     created_at: Date.now(),
+    public: false,
     last_event_occurred_at: Date.now(),
     number_of_exceptions: 0,
     data: {

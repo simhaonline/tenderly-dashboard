@@ -58,6 +58,7 @@ class App extends Component {
     render() {
         const {loaded} = this.state;
 
+        // @TODO Create loader here
         if (!loaded) return null;
 
         return (

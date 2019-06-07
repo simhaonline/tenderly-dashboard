@@ -23,7 +23,7 @@ const handleContractEventsClick = (event) => {
 };
 
 const ProjectContract = ({contract}) => {
-    const hasEvents = !!contract.eventCount;
+    const hasEvents = !!contract.errorCount;
     return (
         <PageLink className="ProjectContract" to={`/project/${contract.projectId}/contract/${contract.id}`} onClick={handleProjectContractClick}>
             <Card clickable>
@@ -41,7 +41,7 @@ const ProjectContract = ({contract}) => {
                     </div>
                     <div className="EventsColumn ItemColumn">
                         <div className="InfoLabel">No. of Errors:</div>
-                        {hasEvents && <div>{contract.eventCount}</div>}
+                        {hasEvents && <div>{contract.errorCount}</div>}
                         {!hasEvents && <div>/</div>}
                     </div>
                     {contract.lastEventAt && <div className="LastEventColumn ItemColumn">

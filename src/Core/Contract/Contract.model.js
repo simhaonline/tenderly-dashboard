@@ -1,32 +1,33 @@
+import moment from "moment";
+
 import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
 
 class Contract {
     /**
      * @param {Object} data
-     * @param {ContractTypes} type
      * @param {string} [projectId]
      */
-    constructor(data, type, projectId) {
-        const contractAddress = data.deployment_information? data.deployment_information.address : data.address;
-        const contractNetwork = data.deployment_information? data.deployment_information.network_id : data.network_id;
-
+    constructor(data, projectId) {
         /** @type string */
-        this.id = contractAddress;
+        this.id = data.address;
 
         /** @type string */
         this.projectId = projectId;
 
+        /** @type boolean */
+        this.isPublic = data.public;
+
         /** @type {string} */
-        this.name = data.contract_name;
-
-        /** @type {ContractTypes} */
-        this.type = type;
+        this.name = data.name;
 
         /** @type string */
-        this.address = contractAddress;
+        this.address = data.address;
 
         /** @type string */
-        this.network = NetworkApiToAppTypeMap[contractNetwork];
+        this.creationTx = data.creationTx;
+
+        /** @type string */
+        this.network = NetworkApiToAppTypeMap[data.networkId];
 
         // @TODO Fix this to not be hardcoded
         /** @type Date */
@@ -36,11 +37,8 @@ class Contract {
         /** @type number */
         this.deploymentCount = 1;
 
-        /** @type Date */
-        this.lastEventAt = data.last_event_occurred_at;
-
         /** @type number */
-        this.eventCount = data.number_of_exceptions;
+        this.errorCount = data.errorCount;
 
         /** @type ContractFile[] */
         this.files = data.files;
@@ -48,11 +46,26 @@ class Contract {
         /** @type ContractFile */
         this.mainFile = data.files;
 
+        /** @type Date */
+        this.lastEventAt = data.lastEventAt ? moment(this.lastEventAt) : null;
+
+        /** @type Date */
+        this.createdAt = data.createdAt ? moment(this.createdAt) : null;
+
+        /** @type Date */
+        this.verifiedAt = data.verifiedAt ? moment(this.verifiedAt) : null;
+
         if (data.data) {
-            /** @type string */
+            /**
+             * @deprecated
+             * @type string
+             */
             this.source = data.data.contract_info[data.data.main_contract].source;
 
-            /** @type string */
+            /**
+             * @deprecated
+             * @type string
+             */
             this.solidity = Contract.getSolidityVersion(data.data.contract_info[data.data.main_contract].source);
         }
     }
@@ -97,12 +110,25 @@ class Contract {
 
     /**
      * @param {Object} data
-     * @param {ContractTypes} type
      * @param {string} [projectId]
      * @return {Contract}
      */
-    static buildFromResponse(data, type, projectId) {
-        return new Contract(data, type, projectId);
+    static buildFromResponse(data, projectId) {
+        const con = new Contract({
+            ...data,
+            name: data.contract_name,
+            address: data.address,
+            networkId: data.network_id,
+            creationTx: data.creation_tx,
+            public: data.public,
+            createdAt: data.created_at,
+            lastEventAt: data.last_event_occurred_at,
+            verifiedAt: data.verification_date,
+        }, projectId);
+
+        console.log(con, data);
+
+        return con;
     }
 }
 

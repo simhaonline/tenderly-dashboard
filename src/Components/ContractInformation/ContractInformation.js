@@ -38,7 +38,7 @@ class ContractInformation extends Component {
                         </div>
                     </div>
                     <div className="DetailsWrapper">
-                        <div className="DetailLabel">Solidity Verson:</div>
+                        <div className="DetailLabel">Solidity Version:</div>
                         <div className="DetailValue">{contract.solidity}</div>
                     </div>
                 </Card>

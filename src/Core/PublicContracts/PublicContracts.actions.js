@@ -27,7 +27,7 @@ export const fetchPublicContracts = (network, page, query) => {
             return;
         }
 
-        const contracts = data.map(contract => Contract.buildFromResponse(contract, ContractTypes.VERIFIED));
+        const contracts = data.map(contract => Contract.buildFromResponse(contract));
 
         dispatch({
             type: FETCH_PUBLIC_CONTRACTS_ACTION,
@@ -53,7 +53,7 @@ export const fetchPublicContract = (id, network) => {
             return;
         }
 
-        const contract = Contract.buildFromResponse(data, ContractTypes.VERIFIED);
+        const contract = Contract.buildFromResponse(data);
 
         dispatch({
             type: FETCH_PUBLIC_CONTRACT_ACTION,

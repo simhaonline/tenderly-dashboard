@@ -19,16 +19,18 @@ import './EventList.css';
 function getEventPageLink(event, contract) {
     const routeNetwork = NetworkAppToRouteTypeMap[contract.network];
 
-    switch (contract.type) {
-        case ContractTypes.PRIVATE:
-            return `/project/${contract.projectId}/error/${routeNetwork}/${event.id}`;
-        case ContractTypes.VERIFIED:
-            return `/contract/${routeNetwork}/${contract.id}/tx/${event.transactionId}`;
-        default:
-            return '';
+    if (contract.isPublic) {
+        return `/contract/${routeNetwork}/${contract.id}/tx/${event.transactionId}`;
     }
+
+    return `/project/${contract.projectId}/error/${routeNetwork}/${event.id}`;
 }
 
+/**
+ * @param {Event} event
+ * @param {Contract} contract
+ * @constructor
+ */
 const EventListItem = ({event, contract}) => {
     if (!contract) {
         return <div className="EventListItem">
@@ -53,12 +55,12 @@ const EventListItem = ({event, contract}) => {
                 <div className="Message">{event.message}</div>
                 <div className="Description">{event.description} at {contract.name}:{event.lineNumber}</div>
             </div>
-            {contract.type === ContractTypes.PRIVATE && <div className="ContractColumn ItemColumn">
+            {!contract.isPublic && <div className="ContractColumn ItemColumn">
                 <Link onClick={event => event.stopPropagation()} to={`/project/${contract.projectId}/contract/${contract.id}`} className="ContractName">
                     {contract.getFileName()}
                 </Link>
             </div>}
-            {contract.type === ContractTypes.PRIVATE && <div className="NetworkColumn ItemColumn">
+            {!contract.isPublic && <div className="NetworkColumn ItemColumn">
                 <NetworkTag network={contract.network} size="small"/>
             </div>}
             <div className="TimeColumn ItemColumn">

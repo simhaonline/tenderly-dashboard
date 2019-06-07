@@ -5,15 +5,19 @@ import {Button, Card} from "../../Elements";
 
 import './ContractDeploymentInformation.css';
 
+/**
+ * @param {Contract} contract
+ * @constructor
+ */
 const ContractDeploymentInformation = ({contract}) => {
     return (
         <div className="ContractDeploymentInformation">
             <Card className="InfoRow">
-                {contract.eventCount > 0 && <div className="InfoColumn">
+                {contract.errorCount > 0 && <div className="InfoColumn">
                     <div className="InfoLabel">No. of Errors</div>
-                    <div className="InfoValue">{contract.eventCount}</div>
+                    <div className="InfoValue">{contract.errorCount}</div>
                 </div>}
-                {contract.eventCount > 0 && <div className="InfoColumn">
+                {contract.errorCount > 0 && <div className="InfoColumn">
                     <div className="InfoLabel">Last Error</div>
                     <div className="InfoValue">{moment(contract.lastEventAt).fromNow()}</div>
                 </div>}
@@ -22,8 +26,8 @@ const ContractDeploymentInformation = ({contract}) => {
                     <div className="InfoValue">{moment(contract.lastDeploymentAt).format("MMM DD YYYY, HH:mm:ss")}</div>
                 </div>
             </Card>
-            {contract.eventCount > 0 && <Card className="ActionsRow">
-                {contract.eventCount > 0 && <Button size="small" to={`/project/${contract.projectId}/errors?contract=${contract.id}`}>
+            {contract.errorCount > 0 && <Card className="ActionsRow">
+                {contract.errorCount > 0 && <Button size="small" to={`/project/${contract.projectId}/errors?contract=${contract.id}`}>
                     View Errors
                 </Button>}
             </Card>}

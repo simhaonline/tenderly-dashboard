@@ -7,13 +7,17 @@ import {Icon} from '../../Elements';
 
 import './PublicContractList.css';
 
+/**
+ * @param {Contract} contract
+ * @constructor
+ */
 const PublicContractListItem = ({contract}) => {
     const networkType = NetworkAppToRouteTypeMap[contract.network];
 
     return (
         <Link className="PublicContractListItem" to={`/contract/${networkType}/${contract.id}`}>
             <div className="VerificationColumn ItemColumn">
-                {contract.type === ContractTypes.VERIFIED && <Icon title="Verified Public Contract" icon="shield" className="VerifiedContractIcon"/>}
+                {contract.isPublic && <Icon title="Verified Public Contract" icon="shield" className="VerifiedContractIcon"/>}
             </div>
             <div className="MainInfoColumn ItemColumn">
                 <h4 className="ContractName">{contract.name}</h4>
@@ -21,8 +25,8 @@ const PublicContractListItem = ({contract}) => {
             {!!contract.lastEventAt && <div className="TimestampColumn ItemColumn">
                 <div className="InfoValue">{moment(contract.lastEventAt).fromNow()}</div>
             </div>}
-            {!!contract.eventCount && <div className="EventsColumn ItemColumn">
-                <div className="InfoValue">{contract.eventCount} {contract.eventCount > 1 ? 'Events' : 'Event'}</div>
+            {!!contract.errorCount && <div className="EventsColumn ItemColumn">
+                <div className="InfoValue">{contract.errorCount} {contract.errorCount > 1 ? 'Events' : 'Event'}</div>
             </div>}
             <div className="AddressColumn ItemColumn" title={contract.address}>
                 <div className="Address">{contract.address}</div>
