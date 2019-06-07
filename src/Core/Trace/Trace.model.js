@@ -25,9 +25,11 @@ export class Trace {
             calls = rawCallTrace.calls.map(Trace.buildFromRawCallTrace);
         }
 
+        console.log(rawCallTrace);
+
         return new Trace({
-            functionName: rawCallTrace.func_name,
-            lineNumber: rawCallTrace.line_number,
+            functionName: rawCallTrace.function_name,
+            lineNumber: rawCallTrace.caller_line_number || rawCallTrace.function_line_number,
         }, calls);
     }
 }
