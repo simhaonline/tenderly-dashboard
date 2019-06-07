@@ -75,6 +75,9 @@ class Contract {
         return `${this.name}.sol`;
     }
 
+    /**
+     * @return {string}
+     */
     getApiId() {
         return `eth:${NetworkAppToApiTypeMap[this.network]}:${this.id}`;
     }
