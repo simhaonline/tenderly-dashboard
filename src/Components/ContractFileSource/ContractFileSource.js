@@ -3,16 +3,16 @@ import React from 'react';
 import CodePreview from "../CodePreview/CodePreview";
 
 /**
- * @param {Contract} contract
+ * @param {ContractFile} file
  * @param {number} [line]
  * @constructor
  */
-const ContractSource = ({contract, line}) => {
+const ContractFileSource = ({file, line}) => {
     return (
         <div className="ContractSource">
-            <CodePreview source={contract.getMainFileSource()} line={line}/>
+            <CodePreview source={file.source} line={line}/>
         </div>
     );
 };
 
-export default ContractSource;
+export default ContractFileSource;
