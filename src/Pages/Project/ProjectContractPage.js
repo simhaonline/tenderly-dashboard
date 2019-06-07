@@ -1,6 +1,9 @@
 import React, {Component, Fragment} from "react";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+import {bindActionCreators} from "redux";
+
+import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {getContractById, getContractStatus} from "../../Common/Selectors/ContractSelectors";
 import {EntityStatusTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
@@ -15,10 +18,10 @@ import {
 
 class ProjectContractPage extends Component {
     componentDidMount() {
-        const {contractStatus} = this.props;
+        const {contractStatus, networkType, contractId, actions, projectId} = this.props;
 
         if (contractStatus === EntityStatusTypes.NOT_LOADED) {
-
+            actions.fetchContractForProject(projectId, contractId, networkType);
         }
     }
 
@@ -62,13 +65,20 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         networkType,
+        contractId,
         projectId: id,
         contract: getContractById(state, contractId),
         contractStatus: getContractStatus(state, contractId),
     }
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(contractActions, dispatch),
+    }
+};
+
 export default connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
 )(ProjectContractPage);

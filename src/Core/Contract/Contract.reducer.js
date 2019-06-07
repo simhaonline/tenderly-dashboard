@@ -1,4 +1,4 @@
-import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "./Contract.actions";
+import {FETCH_CONTRACT_FOR_PROJECT_ACTION, FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "./Contract.actions";
 
 import {EntityStatusTypes} from "../../Common/constants";
 import {CREATE_EXAMPLE_PROJECT_ACTION} from "../Project/Project.actions";
@@ -47,6 +47,20 @@ const ContractReducer = (state = initialState, action) => {
                 projectContractsMap: {
                     ...state.projectContractsMap,
                     [action.projectId]: projectContractIds,
+                },
+            };
+        case FETCH_CONTRACT_FOR_PROJECT_ACTION:
+            const contract = action.contract;
+
+            return {
+                ...state,
+                contracts: {
+                    ...state.contracts,
+                    [contract.id]: contract,
+                },
+                contractStatus: {
+                    ...state.contractStatus,
+                    [contract.id]: EntityStatusTypes.LOADED,
                 },
             };
         default:
