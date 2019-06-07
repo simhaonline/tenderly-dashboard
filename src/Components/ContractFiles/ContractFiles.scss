@@ -1,0 +1,58 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.ContractFiles {
+  display: flex;
+
+  .FilesList {
+    flex: 0 0 auto;
+    margin-right: 20px;
+
+    .ContractFileWrapper {
+      width: 200px;
+      cursor: pointer;
+      border: 1px solid $BorderColor;
+      border-radius: 4px;
+      margin-bottom: 5px;
+      padding: 10px 15px;
+      background-color: transparentize($BlackColor, 0.8);
+      transition: 0.1s;
+      position: relative;
+      overflow: hidden;
+
+      .FileName {
+        font-weight: 600;
+        margin-bottom: 2px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .FileVersion {
+        font-size: $FontSize200;
+        opacity: 0.5;
+      }
+
+      &:hover {
+        background-color: transparentize($BlackColor, 0.7);
+      }
+
+      &.Active {
+        background-color: transparentize($BlackColor, 0.5);
+
+        &:before {
+          background-color: $PrimaryColor600;
+          position: absolute;
+          width: 6px;
+          border-radius: 3px;
+          top: 5px;
+          bottom: 5px;
+          left: -3px;
+          content: "";
+        }
+      }
+    }
+  }
+
+  .ContractFileSource {
+    flex: 1 1 0;
+  }
+}

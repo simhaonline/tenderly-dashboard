@@ -9,7 +9,7 @@ import CodePreview from "../CodePreview/CodePreview";
  */
 const ContractFileSource = ({file, line}) => {
     return (
-        <div className="ContractSource">
+        <div className="ContractFileSource">
             <CodePreview source={file.source} line={line}/>
         </div>
     );

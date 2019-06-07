@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {Card, CardHeading} from "../../Elements";
 import {ContractFileSource} from "../index";
+
+import './ContractFiles.scss';
 
 class ContractFiles extends Component {
     constructor(props) {
@@ -28,17 +31,22 @@ class ContractFiles extends Component {
         return (
             <Card>
                 <CardHeading>
-                    <h3>Source Code</h3>
+                    <h3>Contract Files</h3>
                 </CardHeading>
-                <div>
-                    <div>
-                        {contract.files.map(file => <div key={file.id} onClick={() => this.setSelectedFile(file)}>
-                            <div>{file.getFileName()}</div>
-                            <div>Solidity Version: {file.solidityVersion}</div>
+                <div className="ContractFiles">
+                    <div className="FilesList">
+                        {contract.files.map(file => <div key={file.id}
+                                                         onClick={() => this.setSelectedFile(file)}
+                                                         className={classNames(
+                                                             "ContractFileWrapper",
+                                                             {"Active": selectedFile.id === file.id},
+                                                         )}>
+                            <div className="FileName">{file.getFileName()}</div>
+                            <div className="FileVersion">Solidity Version: {file.solidityVersion}</div>
                         </div>)}
                     </div>
+                    <ContractFileSource file={selectedFile}/>
                 </div>
-                <ContractFileSource file={selectedFile}/>
             </Card>
         );
     }

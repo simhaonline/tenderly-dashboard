@@ -5,7 +5,7 @@ import {TransactionFilterTypes} from "../../Common/constants";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
-import {Input, Select} from "../../Elements";
+import {Select} from "../../Elements";
 
 import './TransactionFilters.scss';
 
@@ -68,7 +68,7 @@ class TransactionFilters extends Component {
 
     render() {
         const {contracts} = this.props;
-        const {formData: {searchQuery, contracts: filterContracts, status}} = this.state;
+        const {formData: {contracts: filterContracts, status}} = this.state;
 
         const contractSelectOptions = contracts.map(contract => ({
             value: contract.getApiId(),
