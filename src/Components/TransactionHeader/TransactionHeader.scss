@@ -25,4 +25,27 @@
   }
 }
 
-.TransactionHeaderCard {}
+.TransactionHeaderCard {
+  .HashInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid $BorderColor;
+  }
+
+  .CallerInfo {
+    padding: 15px 10px;
+    display: flex;
+    align-items: flex-end;
+
+    .CallerLabel {
+      margin-bottom: 5px;
+    }
+
+    .DirectionIconWrapper {
+      margin: 0 15px;
+      opacity: 0.75;
+    }
+  }
+}

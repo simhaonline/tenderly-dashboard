@@ -10,13 +10,16 @@ import './TransactionHeader.scss';
 
 const TransactionHeader = ({transaction, contract}) => {
     let backLink;
+    let contractLink;
+
+    const networkRoute  = NetworkAppToRouteTypeMap[contract.network];
 
     if (contract.isPublic) {
-        const networkRoute  = NetworkAppToRouteTypeMap[contract.network];
-
         backLink = `/contract/${networkRoute}/${contract.id}`;
+        contractLink = `/contract/${networkRoute}/${contract.id}`;
     } else {
-        backLink = `/project/${contract.projectId}/transactions`
+        backLink = `/project/${contract.projectId}/transactions`;
+        contractLink = `/project/${contract.projectId}/contract/${networkRoute}/${contract.id}`;
     }
 
     return (
@@ -28,7 +31,23 @@ const TransactionHeader = ({transaction, contract}) => {
                 <h2>Transaction</h2>
             </div>
             <Card className="TransactionHeaderCard">
-                {transaction.txHash}
+                <div className="HashInfo">
+                    <span>Transaction Hash:</span>
+                    <span className="TxHash">{transaction.txHash}</span>
+                </div>
+                <div className="CallerInfo">
+                    <div>
+                        <div className="MutedText CallerLabel">From:</div>
+                        <div>{transaction.from}</div>
+                    </div>
+                    <div className="DirectionIconWrapper">
+                        <Icon icon="arrow-right-circle"/>
+                    </div>
+                    <div>
+                        <div className="MutedText CallerLabel">To:</div>
+                        <Link to={contractLink}>{contract.name} ({transaction.to})</Link>
+                    </div>
+                </div>
             </Card>
         </Fragment>
     )
