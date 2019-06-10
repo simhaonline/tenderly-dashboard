@@ -111,7 +111,7 @@ export const fetchTransactionsForPublicContract = (contractAddress, network) => 
         try {
             const networkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/public-contract/${networkId}/address/${contractAddress}`);
+            const {data} = await Api.get(`/public-contract/${networkId}/address/${contractAddress}/transactions`);
 
             if (!data) {
                 return new ErrorActionResponse();
