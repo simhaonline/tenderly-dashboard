@@ -1,0 +1,16 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.TransactionInfoSidebar {
+  .TxInfoItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .TxInfoSeparator {
+    margin: 15px 0;
+    border-bottom: 1px solid $BorderColor;
+  }
+}

@@ -7,7 +7,7 @@ const TransactionHeader = ({transaction, contract}) => {
     console.log(contract);
     return (
         <Card className="TransactionInfoSidebar">
-
+            {transaction.txHash}
         </Card>
     )
 };
