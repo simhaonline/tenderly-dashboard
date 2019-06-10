@@ -2,6 +2,7 @@ import {Api} from '../../Utils/Api';
 import {NetworkAppToApiTypeMap} from "../../Common/constants";
 import Event from "../Event/Event.model";
 import Contract from "../Contract/Contract.model";
+import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 export const FETCH_PUBLIC_CONTRACTS_ACTION = 'FETCH_PUBLIC_CONTRACTS';
 export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
@@ -45,20 +46,27 @@ export const fetchPublicContracts = (network, page, query) => {
  */
 export const fetchPublicContract = (id, network) => {
     return async dispatch => {
-        const apiNetwork = NetworkAppToApiTypeMap[network];
+        try {
+            const apiNetwork = NetworkAppToApiTypeMap[network];
 
-        const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}`);
+            const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}`);
 
-        if (!data) {
-            return;
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            const contract = Contract.buildFromResponse(data);
+
+            dispatch({
+                type: FETCH_PUBLIC_CONTRACT_ACTION,
+                contract,
+            });
+
+            return new SuccessActionResponse(contract);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
         }
-
-        const contract = Contract.buildFromResponse(data);
-
-        dispatch({
-            type: FETCH_PUBLIC_CONTRACT_ACTION,
-            contract,
-        });
     }
 };
 

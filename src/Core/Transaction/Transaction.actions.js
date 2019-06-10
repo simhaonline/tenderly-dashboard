@@ -127,6 +127,7 @@ export const fetchTransactionsForPublicContract = (contractAddress, network) => 
 
             return new SuccessActionResponse(transactions);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }
@@ -162,6 +163,7 @@ export const fetchTransactionForPublicContract = (txHash, network) => {
                 callTrace,
             });
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }
