@@ -40,16 +40,3 @@ export function isPublicContractLoaded(state, id) {
     return state.publicContracts.contractsLoaded[id];
 }
 
-/**
- * @param {Object} state
- * @param {string} contractId
- * @param {string} networkType
- * @returns {boolean}
- */
-export function arePublicContractEventsLoaded(state, contractId, networkType) {
-    if (!state.event.contractEventsLoaded[networkType] || !state.event.contractEventsLoaded[networkType][contractId]) {
-        return false;
-    }
-
-    return state.event.contractEventsLoaded[networkType][contractId];
-}

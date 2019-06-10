@@ -1,21 +1,5 @@
 /**
  * @param {Object} state
- * @param {string} id
- * @param {string} network
- * @param {number} perPage
- * @param {number} page
- * @returns {Event[]}
- */
-export function getPublicContractEvents(state, id, network, perPage=20, page=1) {
-    if (!state.event.contractEvents[network] || !state.event.contractEvents[network][id]) {
-        return [];
-    }
-
-    return Object.values(state.event.contractEvents[network][id]);
-}
-
-/**
- * @param {Object} state
  * @param {string} eventId
  * @param {string} contractId
  * @param {string} network
@@ -42,9 +26,7 @@ export function getEventsForProject(state, projectId, page) {
         return [];
     }
 
-    const events = projectEvents[page].map(eventId => state.event.events[eventId]);
-
-    return events;
+    return projectEvents[page].map(eventId => state.event.events[eventId]);
 }
 
 /**

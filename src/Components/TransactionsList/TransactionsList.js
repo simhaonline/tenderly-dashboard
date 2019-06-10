@@ -6,7 +6,7 @@ import {TransactionsListItem} from "../index";
 import './TransactionsList.scss';
 import {Icon} from "../../Elements";
 
-const TransactionsList = ({transactions, contracts}) => {
+const TransactionsList = ({transactions, contracts, publicContracts}) => {
     if (!transactions.length) {
         return (
             <div className="TransactionsListEmptyState">
@@ -39,7 +39,7 @@ const TransactionsList = ({transactions, contracts}) => {
                     <span className="ColumnName">Actions</span>
                 </div>
             </div>
-            {transactions.map(tx => <TransactionsListItem key={tx.txHash} transaction={tx} contracts={contracts}/>)}
+            {transactions.map(tx => <TransactionsListItem key={tx.txHash} transaction={tx} contracts={contracts} publicContract={publicContracts}/>)}
         </div>
     )
 };
@@ -48,6 +48,11 @@ TransactionsList.propTypes = {
     transactions: PropTypes.array.isRequired,
     currentPage: PropTypes.number,
     onPageChange: PropTypes.func,
+    publicContracts: PropTypes.bool,
+};
+
+TransactionsList.defaultProps = {
+    publicContracts: false,
 };
 
 export default TransactionsList;

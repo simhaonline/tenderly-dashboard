@@ -5,7 +5,6 @@ import {PrivateRoute} from "../Components";
 import PublicContractsPage from "./PublicContracts/PublicContractsPage";
 import PublicContractPage from "./PublicContracts/PublicContractPage";
 import PublicContractSourcePage from "./PublicContracts/PublicContractSourcePage";
-import ErrorPage from "./Error/ErrorPage";
 import LoginPage from "./Public/LoginPage";
 import DashboardPage from "./Dashboard/DashboardPage";
 import CreateProjectPage from "./Project/CreateProjectPage";
@@ -17,6 +16,7 @@ import OAuthPage from "./Public/OAuthPage";
 import NotFoundPage from "./Public/NotFoundPage";
 import AccountRecoveryPage from "./Public/AccountRecoveryPage";
 import ResetPasswordPage from "./Public/ResetPasswordPage";
+import PublicContractTransactionPage from "./PublicContracts/PublicContractTransactionPage";
 
 const AppPages = () => {
     return (
@@ -34,7 +34,7 @@ const AppPages = () => {
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
             <Route path="/contract/:network/:id/source" exact component={PublicContractSourcePage}/>
-            <Route path="/contract/:network/:id/tx/:errorId" exact component={ErrorPage}/>
+            <Route path="/contract/:network/:id/tx/:errorId" exact component={PublicContractTransactionPage}/>
             <Redirect exact from="/" to="/login"/>
             <Route component={NotFoundPage}/>
         </Switch>

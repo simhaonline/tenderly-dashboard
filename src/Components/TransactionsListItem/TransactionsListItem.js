@@ -32,10 +32,19 @@ class TransactionsListItem extends Component {
 
         const gasUsedPercentage = transaction.gasUsed / transaction.gasLimit * 100;
 
+        const networkRoute = NetworkAppToRouteTypeMap[transaction.network];
+
+        let transactionRoute = `/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`;
+
+        if (props.publicContract) {
+            transactionRoute = `/contract/${networkRoute}/${txContract.id}/tx/${transaction.txHash}`;
+        }
+
         this.state = {
             expanded: false,
             gasUsedPercentage,
             txContract,
+            transactionRoute,
         }
     }
 
@@ -49,9 +58,7 @@ class TransactionsListItem extends Component {
 
     render() {
         const {transaction} = this.props;
-        const {expanded, gasUsedPercentage, txContract} = this.state;
-
-        const networkRoute = NetworkAppToRouteTypeMap[transaction.network];
+        const {expanded, gasUsedPercentage, txContract, transactionRoute} = this.state;
 
         return (
             <div className="TransactionsListItem">
@@ -76,7 +83,7 @@ class TransactionsListItem extends Component {
                         {moment(transaction.timestamp).fromNow()}
                     </div>
                     <div className="ActionColumn ItemColumn">
-                        <Link to={`/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`}>
+                        <Link to={transactionRoute}>
                             View
                         </Link>
                     </div>
@@ -122,6 +129,7 @@ class TransactionsListItem extends Component {
 
 TransactionsListItem.propTypes = {
     transaction: PropTypes.instanceOf(Transaction),
+    publicContract: PropTypes.bool,
 };
 
 export default TransactionsListItem;
