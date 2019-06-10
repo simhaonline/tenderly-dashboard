@@ -17,7 +17,6 @@ const TxInfoItem = ({label, children}) => (
 );
 
 const TransactionInfoSidebar = ({transaction, contract}) => {
-    console.log(transaction, contract);
     return (
         <Card className="TransactionInfoSidebar">
             <TxInfoItem label="Network:">
@@ -28,7 +27,7 @@ const TransactionInfoSidebar = ({transaction, contract}) => {
             </TxInfoItem>
             <TxInfoItem label="Timestamp:">
                 <div>{moment(transaction.timestamp).fromNow()}</div>
-                <div>({transaction.timestamp})</div>
+                <div className="MutedText">({transaction.timestamp})</div>
             </TxInfoItem>
             <div className="TxInfoSeparator"/>
             <TxInfoItem label="Block:">

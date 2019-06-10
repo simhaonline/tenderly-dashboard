@@ -1,0 +1,28 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.TransactionHeader {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+
+  .BackLink {
+    font-size: $FontSize500;
+    color: $WhiteColor;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 5px 8px;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    transition: 0.1s;
+
+    &:hover {
+      background-color: transparentize($BlackColor, 0.8);
+      border: 1px solid $BorderColor;
+    }
+  }
+}
+
+.TransactionHeaderCard {}

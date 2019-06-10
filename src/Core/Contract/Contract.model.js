@@ -17,7 +17,10 @@ class Contract {
         this.projectId = projectId;
 
         /** @type boolean */
-        this.isPublic = data.isPublic;
+        this.isPublic = !projectId;
+
+        /** @type boolean */
+        this.isVerifiedPublic = !!data.isPublic;
 
         /** @type {string} */
         this.name = data.name;

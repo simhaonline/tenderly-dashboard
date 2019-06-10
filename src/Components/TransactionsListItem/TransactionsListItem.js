@@ -34,9 +34,11 @@ class TransactionsListItem extends Component {
 
         const networkRoute = NetworkAppToRouteTypeMap[transaction.network];
 
-        let transactionRoute = `/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`;
+        let transactionRoute;
 
-        if (props.publicContract) {
+        if (!props.publicContract) {
+            transactionRoute = `/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`;
+        } else if (txContract) {
             transactionRoute = `/contract/${networkRoute}/${txContract.id}/tx/${transaction.txHash}`;
         }
 
@@ -83,9 +85,9 @@ class TransactionsListItem extends Component {
                         {moment(transaction.timestamp).fromNow()}
                     </div>
                     <div className="ActionColumn ItemColumn">
-                        <Link to={transactionRoute}>
+                        {!!transactionRoute && <Link to={transactionRoute}>
                             View
-                        </Link>
+                        </Link>}
                     </div>
                     <div className="ExpandColumn ItemColumn">
                         <div className="ExpandWrapper" onClick={this.handleExpandToggle}>

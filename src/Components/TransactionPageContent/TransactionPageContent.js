@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 
 import {CallTracePreview, TransactionInfoSidebar, TransactionHeader} from "../index";
 
+import './TransactionPageContent.scss';
+
 const TransactionPageContent = ({transaction, contract, callTrace}) => {
-    console.log(contract);
     return (
         <div className="TransactionPageContent">
             <TransactionHeader contract={contract} transaction={transaction}/>
-            <div>
+            <div className="TraceAndSidebarWrapper">
                 <CallTracePreview callTrace={callTrace} contract={contract}/>
                 <TransactionInfoSidebar contract={contract} transaction={transaction}/>
             </div>
