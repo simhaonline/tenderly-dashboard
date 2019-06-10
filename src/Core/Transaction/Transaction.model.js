@@ -3,7 +3,7 @@ import {NetworkApiToAppTypeMap} from "../../Common/constants";
 export class Transaction {
     /**
      * @param {Object} data
-     * @param {string} projectId
+     * @param {string} [projectId]
      */
     constructor(data, projectId) {
         /** @type string */
@@ -51,7 +51,7 @@ export class Transaction {
 
     /**
      * @param {Object} response
-     * @param {string} projectId
+     * @param {string} [projectId]
      * @return {Transaction}
      */
     static buildFromResponse(response, projectId) {

@@ -6,7 +6,10 @@ import {Transaction} from "./Transaction.model";
 import {CallTrace} from "../Trace/CallTrace.model";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
-export const FETCH_TRANSACTION_ACTION = 'FETCH_TRANSACTION_PROJECT';
+export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
+
+export const FETCH_TRANSACTIONS_FOR_PUBLIC_CONTRACT_ACTION = 'FETCH_TRANSACTIONS_FOR_PUBLIC_CONTRACT';
+export const FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION = 'FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT';
 
 const StatusValueToApiValue = {
     'all': null,
@@ -74,7 +77,7 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
             const {data} = await Api.get(`/account/${username}/project/${projectId}/network/${networkId}/transaction/${txHash}`);
 
             if (!data) {
-                return new SuccessActionResponse([]);
+                return new ErrorActionResponse();
             }
 
             const transaction = Transaction.buildFromResponse(data, projectId);
@@ -82,7 +85,7 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
             const callTrace = CallTrace.buildFromResponse(data);
 
             dispatch({
-                type: FETCH_TRANSACTION_ACTION,
+                type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
                 projectId,
                 transaction,
                 callTrace,
@@ -94,6 +97,71 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
             });
         } catch (error) {
             console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {string} contractAddress
+ * @param {NetworkTypes} network
+ */
+export const fetchTransactionsForPublicContract = (contractAddress, network) => {
+    return async (dispatch) => {
+        try {
+            const networkId = NetworkAppToApiTypeMap[network];
+
+            const {data} = await Api.get(`/public-contract/${networkId}/address/${contractAddress}`);
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            const transactions = data.map(tx => Transaction.buildFromResponse(tx));
+
+            dispatch({
+                type: FETCH_TRANSACTIONS_FOR_PUBLIC_CONTRACT_ACTION,
+                contractAddress,
+                transactions,
+            });
+
+            return new SuccessActionResponse(transactions);
+        } catch (error) {
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {string} txHash
+ * @param {NetworkTypes} network
+ */
+export const fetchTransactionForPublicContract = (txHash, network) => {
+    return async (dispatch) => {
+        try {
+            const networkId = NetworkAppToApiTypeMap[network];
+
+            const {data} = await Api.get(`/public-contract/${networkId}/tx/${txHash}`);
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            const transaction = Transaction.buildFromResponse(data);
+
+            const callTrace = CallTrace.buildFromResponse(data);
+
+            dispatch({
+                type: FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION,
+                transaction,
+                callTrace,
+            });
+
+            return new SuccessActionResponse({
+                transaction,
+                callTrace,
+            });
+        } catch (error) {
             return new ErrorActionResponse(error);
         }
     }

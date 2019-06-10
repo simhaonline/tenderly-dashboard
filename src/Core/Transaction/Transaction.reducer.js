@@ -1,5 +1,5 @@
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
-import {FETCH_TRANSACTION_ACTION, FETCH_TRANSACTIONS_FOR_PROJECT_ACTION} from "./Transaction.actions";
+import {FETCH_TRANSACTION_FOR_PROJECT_ACTION, FETCH_TRANSACTIONS_FOR_PROJECT_ACTION} from "./Transaction.actions";
 
 const initialState = {
     transactions: {},
@@ -22,7 +22,7 @@ const TransactionReducer = (state = initialState, action) => {
                     ...transactions,
                 },
             };
-        case FETCH_TRANSACTION_ACTION:
+        case FETCH_TRANSACTION_FOR_PROJECT_ACTION:
             const transaction = action.transaction;
             const callTrace = action.callTrace;
 
