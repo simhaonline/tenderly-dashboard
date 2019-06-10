@@ -11,7 +11,7 @@ import * as transactionActions from "../../Core/Transaction/Transaction.actions"
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Page, Container, Button, Icon} from "../../Elements";
-import {ProjectContentLoader, CallTracePreview, PageError} from "../../Components";
+import {ProjectContentLoader, PageError, TransactionPageContent} from "../../Components";
 
 class ProjectTransactionPage extends Component {
     constructor(props) {
@@ -76,7 +76,7 @@ class ProjectTransactionPage extends Component {
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
-                    <CallTracePreview callTrace={callTrace} contract={contract}/>
+                    <TransactionPageContent transaction={transaction} contract={contract} callTrace={callTrace}/>
                 </Container>
             </Page>
         );

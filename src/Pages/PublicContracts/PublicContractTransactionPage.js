@@ -8,7 +8,7 @@ import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {CallTracePreview, ProjectPageLoader} from "../../Components";
+import {ProjectPageLoader, TransactionPageContent} from "../../Components";
 import {Page, Container} from "../../Elements";
 import {getPublicContractById} from "../../Common/Selectors/PublicContractSelectors";
 
@@ -41,7 +41,7 @@ class PublicContractTransactionPage extends Component {
 
     render() {
         const {loaded, } = this.state;
-        const {contract, callTrace} = this.props;
+        const {contract, transaction, callTrace} = this.props;
 
         if (!loaded) {
             return <ProjectPageLoader text="Fetching Transaction Data..."/>;
@@ -50,7 +50,7 @@ class PublicContractTransactionPage extends Component {
         return (
             <Page>
                 <Container>
-                    <CallTracePreview callTrace={callTrace} contract={contract}/>
+                    <TransactionPageContent transaction={transaction} contract={contract} callTrace={callTrace}/>
                 </Container>
             </Page>
         );

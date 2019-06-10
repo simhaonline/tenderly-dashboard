@@ -5,8 +5,6 @@ import {CardHeading, Card} from "../../Elements";
 
 import TracePreview from "../TracePreview/TracePreview";
 
-import './CallTracePreview.css';
-
 class CallTracePreview extends Component {
     render() {
         const {callTrace, contract} = this.props;
