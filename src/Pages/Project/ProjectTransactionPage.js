@@ -23,10 +23,10 @@ class ProjectTransactionPage extends Component {
     }
 
     async componentDidMount() {
-        const {transaction, callTrace, contract, projectId, contractActions, txActions, txHash} = this.props;
+        const {transaction, callTrace, contract, projectId, contractActions, txActions, txHash, networkType} = this.props;
 
         if (!transaction || !callTrace) {
-            const actionResponse = await txActions.fetchTransactionForProject(projectId, txHash);
+            const actionResponse = await txActions.fetchTransactionForProject(projectId, txHash, networkType);
 
             if (!actionResponse.success) {
                 toast.error("Failed fetching transaction");

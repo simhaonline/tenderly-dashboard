@@ -1,5 +1,5 @@
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
-import {TransactionFilterTypes} from "../../Common/constants";
+import {NetworkAppToApiTypeMap, TransactionFilterTypes} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
 import {Transaction} from "./Transaction.model";
@@ -61,14 +61,17 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
 /**
  * @param {string} projectId
  * @param {string} txHash
+ * @param {NetworkTypes} network
  * @return {Function<SuccessActionResponse|ErrorActionResponse>}
  */
-export const fetchTransactionForProject = (projectId, txHash) => {
+export const fetchTransactionForProject = (projectId, txHash, network) => {
     return async (dispatch, getState) => {
         const {auth: {user: {username}}} = getState();
 
         try {
-            const {data} = await Api.get(`/account/${username}/project/${projectId}/transactions/${txHash}`);
+            const networkId = NetworkAppToApiTypeMap[network];
+
+            const {data} = await Api.get(`/account/${username}/project/${projectId}/network/${networkId}/transaction/${txHash}`);
 
             if (!data) {
                 return new SuccessActionResponse([]);

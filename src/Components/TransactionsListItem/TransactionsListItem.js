@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import moment from 'moment';
 
-import {EtherscanLinkTypes} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import {Transaction} from "../../Core/Transaction/Transaction.model";
@@ -51,6 +51,8 @@ class TransactionsListItem extends Component {
         const {transaction} = this.props;
         const {expanded, gasUsedPercentage, txContract} = this.state;
 
+        const networkRoute = NetworkAppToRouteTypeMap[transaction.network];
+
         return (
             <div className="TransactionsListItem">
                 <div className="MainInfoWrapper">
@@ -74,7 +76,7 @@ class TransactionsListItem extends Component {
                         {moment(transaction.timestamp).fromNow()}
                     </div>
                     <div className="ActionColumn ItemColumn">
-                        <Link to={`/project/${transaction.projectId}/tx/${transaction.txHash}`}>
+                        <Link to={`/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`}>
                             View
                         </Link>
                     </div>
