@@ -10,8 +10,11 @@ class TracePreview extends Component {
     constructor(props) {
         super(props);
 
+        const {open, contract, trace} = props;
+
         this.state = {
-            open: props.open,
+            open,
+            file: contract.getFileByIndex(trace.fileIndex),
         };
     }
 
@@ -23,7 +26,7 @@ class TracePreview extends Component {
 
     render() {
         const {trace, depth, contract} = this.props;
-        const {open} = this.state;
+        const {open, file} = this.state;
 
         return (
             <div className="TracePreview">
@@ -31,10 +34,10 @@ class TracePreview extends Component {
                     "TracePreviewHeading",
                     `Depth${depth}`,
                 )}>
-                    <span className="BoldedText">{trace.functionName}</span> <span className="MutedText">in {contract.name}:{trace.lineNumber}</span>
+                    <span className="BoldedText">{trace.functionName}</span> <span className="MutedText">in {file.name}:{trace.lineNumber}</span>
                 </div>
                 {open && <div className="TracePreviewCodeWrapper">
-                    <CodePreview line={trace.lineNumber} linePreview={5} source={contract.getMainFileSource()}/>
+                    {!!file && <CodePreview line={trace.lineNumber} linePreview={5} source={file.source}/>}
                 </div>}
                 {!!trace.calls && trace.calls.map((trace, index) =>
                     <TracePreview trace={trace} key={index} depth={depth + 1} contract={contract}/>

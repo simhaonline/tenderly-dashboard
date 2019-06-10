@@ -90,6 +90,34 @@ class Contract {
     }
 
     /**
+     * @param {string} name
+     * @return {ContractFile|null}
+     */
+    getFileByName(name) {
+        const file = this.files.find(file => file.name === name);
+
+        if (!file) {
+            return null;
+        }
+
+        return file;
+    }
+
+    /**
+     * @param {number} index
+     * @return {ContractFile|null}
+     */
+    getFileByIndex(index) {
+        const file = this.files[index];
+
+        if (!file) {
+            return null;
+        }
+
+        return file;
+    }
+
+    /**
      * @return {string|null}
      */
     getMainFileSolidityVersion() {
