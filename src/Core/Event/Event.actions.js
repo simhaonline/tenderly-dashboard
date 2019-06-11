@@ -8,6 +8,7 @@ export const FETCH_EVENTS_FOR_PROJECT_ACTION = 'FETCH_EVENTS_FOR_PROJECT';
 export const FETCH_EVENT_FOR_PROJECT_ACTION = 'FETCH_EVENT_FOR_PROJECT';
 
 /**
+ * @deprecated
  * @param {string} projectId
  * @param {number} page
  * @param {string|null} [account]
@@ -46,6 +47,7 @@ export const fetchEventsForProject = (projectId, page = 1, account = null) => {
 };
 
 /**
+ * @deprecated
  * @param {string} projectId
  * @param {string} network
  * @param {string} eventId
