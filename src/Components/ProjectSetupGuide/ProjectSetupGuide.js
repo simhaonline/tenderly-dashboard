@@ -268,7 +268,7 @@ class ProjectSetupGuide extends Component {
             addManualContractError,
             addingManualContract
         } = this.state;
-        const {label, color, size, outline, project, os} = this.props;
+        const {label, color, size, outline, project, os, initialCancelButtonLabel} = this.props;
 
         return (
             <Fragment>
@@ -331,7 +331,7 @@ class ProjectSetupGuide extends Component {
                                 </div>
                                 <div className="StepActions">
                                     <Button onClick={this.handleDialogClose} outline color="secondary">
-                                        <span>Setup project later</span>
+                                        <span>{initialCancelButtonLabel}</span>
                                     </Button>
                                 </div>
                             </div>
@@ -554,6 +554,8 @@ ProjectSetupGuide.defaultProps = {
     size: 'default',
     color: 'primary',
     outline: true,
+    onSetup: () => {},
+    initialCancelButtonLabel: 'Setup project later',
 };
 
 const mapStateToProps = state => {
