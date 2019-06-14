@@ -1,6 +1,14 @@
-import {configure} from '@storybook/react';
+import {configure, addParameters} from '@storybook/react';
 
-const ElementStories = require.context('../src/Elements', true, /\.Story\.js$/);
+import tenderlyTheme from './storybook-theme';
+
+addParameters({
+    options: {
+        theme: tenderlyTheme,
+    }
+});
+
+const ElementStories = require.context('../src', true, /\.stories\.js$/);
 
 function loadStories() {
     require('../src/Stories');
