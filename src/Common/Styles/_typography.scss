@@ -1,9 +1,12 @@
 $MonospaceFontFamily: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 $SansSerifFontFamily: 'Open Sans', sans-serif;
 
-$FontSize100: 0.8rem;
-$FontSize200: 0.9rem;
-$FontSize300: 1rem;
+// Tiny text - 10px
+$FontSize100: 0.625rem;
+// Small text - 12px
+$FontSize200: 0.75rem;
+// Default text - 14px
+$FontSize300: 0.875rem;
 $FontSize400: 1.2rem;
 $FontSize500: 1.4rem;
 $FontSize600: 1.6rem;

@@ -6,8 +6,9 @@
   padding: 4px 8px;
   border-radius: 3px;
   display: inline-block;
-  text-transform: uppercase;
-  font-size: $FontSize100;
+  font-size: $FontSize300;
+  width: 100px;
+  text-align: center;
 
   &.main {
     background-color: transparentize($Primary500, 0.25);
@@ -28,6 +29,7 @@
   &.Small {
     padding: 2px 5px;
     border-radius: 2px;
-    font-size: $FontSize100 * 0.9;
+    font-size: $FontSize200;
+    width: 80px;
   }
 }
