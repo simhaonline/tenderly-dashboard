@@ -53,8 +53,8 @@
 
 .Button {
   &.Primary {
-    border-color: $PrimaryColor600;
-    background-color: $PrimaryColor600;
+    border-color: $Primary500;
+    background-color: $Primary500;
 
     &:hover {
       background-color: darken($PrimaryColor600, 5);
@@ -66,8 +66,8 @@
   }
 
   &.Secondary {
-    border-color: $SecondaryColor600;
-    background-color: $SecondaryColor600;
+    border-color: $Secondary500;
+    background-color: $Secondary500;
 
     &:hover {
       background-color: darken($SecondaryColor600, 5);
@@ -79,8 +79,8 @@
   }
 
   &.Danger {
-    border-color: $RedColor600;
-    background-color: $RedColor600;
+    border-color: $Danger500;
+    background-color: $Danger500;;
 
     &:hover {
       background-color: darken($RedColor600, 5);

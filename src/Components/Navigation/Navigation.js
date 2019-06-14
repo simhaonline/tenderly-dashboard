@@ -12,7 +12,6 @@ class Navigation extends Component {
         return (
             <div className="Navigation">
                 <NavLink className="HeaderNavItem" exact to="/dashboard">
-                    <Icon icon="project" className="NavIcon"/>
                     Dashboard
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>

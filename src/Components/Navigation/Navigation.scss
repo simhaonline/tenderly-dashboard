@@ -1,12 +1,14 @@
 @import "../../Common/Styles/colors";
+@import "../../Common/Styles/global";
 @import "../../Common/Styles/typography";
 
 .Navigation {
   .HeaderNavItem {
     color: transparentize($WhiteColor, 0.25);
-    padding: 21px 12px 19px;
+    padding: 20px $Spacing4;
     display: inline-block;
     transition: 0.15s;
+    font-size: $FontSize400;
 
     .NavIcon {
       margin-right: 5px;
@@ -18,7 +20,8 @@
     }
 
     &.active {
-      box-shadow: 0 -3px 0 0 $SecondaryColor600 inset;
+      font-weight: 600;
+      box-shadow: 0 -3px 0 0 $Secondary500 inset;
     }
   }
 }
