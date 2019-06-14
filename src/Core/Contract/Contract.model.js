@@ -90,25 +90,11 @@ class Contract {
     }
 
     /**
-     * @param {string} name
+     * @param {number} id
      * @return {ContractFile|null}
      */
-    getFileByName(name) {
-        const file = this.files.find(file => file.name === name);
-
-        if (!file) {
-            return null;
-        }
-
-        return file;
-    }
-
-    /**
-     * @param {number} index
-     * @return {ContractFile|null}
-     */
-    getFileByIndex(index) {
-        const file = this.files[index];
+    getFileById(id) {
+        const file = this.files.find(file => file.id === id);
 
         if (!file) {
             return null;
@@ -139,7 +125,7 @@ class Contract {
 
         if (data.data && data.data.contract_info) {
             files = data.data.contract_info.map(ContractFile.buildFromResponse);
-            mainFile = files[data.data.main_contract];
+            mainFile = files.find(file => file.id === data.data.main_contract);
         }
 
         return new Contract({

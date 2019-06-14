@@ -11,7 +11,7 @@ export class Trace {
         this.fileName = data.fileName;
 
         /** @type number */
-        this.fileIndex = data.fileIndex;
+        this.fileId = data.fileId;
 
         /** @type number */
         this.lineNumber = data.lineNumber;
@@ -35,7 +35,7 @@ export class Trace {
         return new Trace({
             functionName: rawCallTrace.function_name,
             fileName: rawCallTrace.contract_name,
-            fileIndex: depth === 0 ? rawCallTrace.function_file_index : rawCallTrace.caller_file_index,
+            fileId: depth === 0 ? rawCallTrace.function_file_index : rawCallTrace.caller_file_index,
             lineNumber: rawCallTrace.caller_line_number || rawCallTrace.function_line_number,
         }, calls);
     }

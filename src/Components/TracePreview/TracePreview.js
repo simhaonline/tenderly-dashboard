@@ -14,7 +14,7 @@ class TracePreview extends Component {
 
         this.state = {
             open,
-            file: contract.getFileByIndex(trace.fileIndex),
+            file: contract.getFileById(trace.fileId),
         };
     }
 
