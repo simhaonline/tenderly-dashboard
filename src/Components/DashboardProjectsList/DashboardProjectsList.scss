@@ -56,18 +56,23 @@
 
   .ProjectListItem {
     flex: 0 0 250px;
-    background-color: #212a46;
     margin-right: 20px;
     margin-bottom: 20px;
-    padding: 10px 20px 0;
-    border-radius: 5px;
-    border: 1px solid $BorderColor;
-    box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.85);
-    cursor: pointer;
-    transition: 0.15s;
-    display: flex;
-    flex-direction: column;
-    color: $WhiteColor;
+
+    .ProjectListItemCard {
+      cursor: pointer;
+      transition: 0.15s;
+      display: flex;
+      flex-direction: column;
+      color: $WhiteColor;
+      padding: 10px 20px 0;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 2px 2px 5px 2px transparentize($BlackColor, 0.85);
+        text-decoration: none;
+      }
+    }
 
     .ProjectNameWrapper {
       flex: 0 0 auto;
@@ -142,12 +147,14 @@
     }
 
     &.CreateProjectItem {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 125px;
-      border: 1px dashed $BorderColor;
       opacity: 0.5;
+
+      .ProjectListItemCard {
+        min-height: 125px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
       .CreateIcon {
         font-size: $FontSize600;
@@ -165,12 +172,6 @@
       &:hover {
         opacity: 0.75;
       }
-    }
-
-    &:hover {
-      transform: translateY(-3px);
-      box-shadow: 2px 2px 5px 2px transparentize($BlackColor, 0.85);
-      text-decoration: none;
     }
   }
 }

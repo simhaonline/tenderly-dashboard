@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
-import {Card, Icon} from "../../Elements";
+import {Panel, Icon} from "../../Elements";
 
 import './TransactionHeader.scss';
 
@@ -30,7 +30,7 @@ const TransactionHeader = ({transaction, contract}) => {
                 </Link>
                 <h2>Transaction</h2>
             </div>
-            <Card className="TransactionHeaderCard">
+            <Panel className="TransactionHeaderCard">
                 <div className="HashInfo">
                     <span>Transaction Hash:</span>
                     <span className="TxHash">{transaction.txHash}</span>
@@ -48,7 +48,7 @@ const TransactionHeader = ({transaction, contract}) => {
                         <Link to={contractLink}>{contract.name} ({transaction.to})</Link>
                     </div>
                 </div>
-            </Card>
+            </Panel>
         </Fragment>
     )
 };

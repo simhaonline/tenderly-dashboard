@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 import {Bar, BarChart, YAxis} from "recharts";
 
-import {Button, Icon} from "../../Elements";
+import {Button, Icon, Card} from "../../Elements";
 import ProjectSetupGuide from "../ProjectSetupGuide/ProjectSetupGuide";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
@@ -53,38 +53,42 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
             {(loaded && projects.length !== 0) && <div className="ProjectList">
                 {projects.map(project =>
                     <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id} onClick={handleProjectItemClick}>
-                        <div className="ProjectNameWrapper">
-                            <div className="ProjectName">
-                                {project.type === ProjectTypes.DEMO && <span className="DemoTag">Demo</span>}
-                                <span>{project.name}</span>
+                        <Card className="ProjectListItemCard">
+                            <div className="ProjectNameWrapper">
+                                <div className="ProjectName">
+                                    {project.type === ProjectTypes.DEMO && <span className="DemoTag">Demo</span>}
+                                    <span>{project.name}</span>
+                                </div>
+                                <div className="ProjectId">{project.id}</div>
                             </div>
-                            <div className="ProjectId">{project.id}</div>
-                        </div>
-                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                            <div className="ProjectChartWrapper">
-                                {!!project.lastPushAt && <BarChart width={220} height={80} data={data}>
-                                    <YAxis type="number" domain={[0,  dataMax => Math.max(dataMax, 8)]} hide/>
-                                    <Bar dataKey='events' fill='#df0074'/>
-                                </BarChart>}
-                                {!project.lastPushAt && <div className="ProjectNotSetupState">
-                                    <Icon icon="cloud-off"/>
-                                    <span>Not contracts pushed yet</span>
+                            <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                                <div className="ProjectChartWrapper">
+                                    {!!project.lastPushAt && <BarChart width={220} height={80} data={data}>
+                                        <YAxis type="number" domain={[0,  dataMax => Math.max(dataMax, 8)]} hide/>
+                                        <Bar dataKey='events' fill='#df0074'/>
+                                    </BarChart>}
+                                    {!project.lastPushAt && <div className="ProjectNotSetupState">
+                                        <Icon icon="cloud-off"/>
+                                        <span>Not contracts pushed yet</span>
+                                    </div>}
+                                </div>
+                            </FeatureFlag>
+                            <div className="ProjectContractInfo">
+                                {!!project.lastPushAt && <div className="LastDeployInfo">
+                                    Last push: <span>{moment(project.lastPushAt).fromNow()}</span>
+                                </div>}
+                                {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
+                                    <ProjectSetupGuide label="Push Contracts" project={project} size="extra-small" color="secondary"/>
                                 </div>}
                             </div>
-                        </FeatureFlag>
-                        <div className="ProjectContractInfo">
-                            {!!project.lastPushAt && <div className="LastDeployInfo">
-                                Last push: <span>{moment(project.lastPushAt).fromNow()}</span>
-                            </div>}
-                            {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
-                                <ProjectSetupGuide label="Push Contracts" project={project} size="extra-small" color="secondary"/>
-                            </div>}
-                        </div>
+                        </Card>
                     </Link>
                 )}
                 <Link to={`/project/create`} className="ProjectListItem CreateProjectItem" onClick={handleCreateProjectClick}>
-                    <Icon icon="plus" className="CreateIcon"/>
-                    <span>Create Project</span>
+                    <Card className="ProjectListItemCard">
+                        <Icon icon="plus" className="CreateIcon"/>
+                        <span>Create Project</span>
+                    </Card>
                 </Link>
             </div>}
             {!loaded && <div className="LoadingProjects">

@@ -4,7 +4,7 @@ import moment from "moment";
 
 import {EtherscanLinkTypes} from "../../Common/constants";
 
-import {Card} from "../../Elements";
+import {Panel} from "../../Elements";
 import {EtherscanLink, NetworkTag, TransactionStatusTag} from "../index";
 
 import './TransactionInfoSidebar.scss';
@@ -18,7 +18,7 @@ const TxInfoItem = ({label, children}) => (
 
 const TransactionInfoSidebar = ({transaction, contract}) => {
     return (
-        <Card className="TransactionInfoSidebar">
+        <Panel className="TransactionInfoSidebar">
             <TxInfoItem label="Network:">
                 <NetworkTag network={transaction.network}/>
             </TxInfoItem>
@@ -44,7 +44,7 @@ const TransactionInfoSidebar = ({transaction, contract}) => {
             <TxInfoItem label="Nonce:">
                 <span className="MutedText">{transaction.nonce}</span>
             </TxInfoItem>
-        </Card>
+        </Panel>
     )
 };
 

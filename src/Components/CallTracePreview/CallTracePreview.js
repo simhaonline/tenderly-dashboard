@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {CardHeading, Card} from "../../Elements";
+import {CardHeading, Panel} from "../../Elements";
 
 import TracePreview from "../TracePreview/TracePreview";
 
@@ -10,12 +10,12 @@ class CallTracePreview extends Component {
         const {callTrace, contract} = this.props;
 
         return (
-            <Card className="CallTracePreview">
+            <Panel className="CallTracePreview">
                 <CardHeading>
                     <h3>Call Trace</h3>
                 </CardHeading>
                 <TracePreview trace={callTrace.trace} depth={0} open={true} contract={contract}/>
-            </Card>
+            </Panel>
         );
     }
 }

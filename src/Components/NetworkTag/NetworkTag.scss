@@ -10,19 +10,19 @@
   font-size: $FontSize100;
 
   &.main {
-    background-color: transparentize($SecondaryColor600, 0.25);
+    background-color: transparentize($Primary500, 0.25);
   }
 
   &.kovan {
-    background-color: transparentize($TertiaryColor600, 0.4);
+    background-color: transparentize($Secondary500, 0.4);
   }
 
   &.ropsten {
-    background-color: transparentize($PrimaryColor600, 0.4);
+    background-color: transparentize($Danger500, 0.4);
   }
 
   &.rinkeby {
-    background-color: transparentize($YellowColor600, 0.4);
+    background-color: transparentize($Success500, 0.5);
   }
 
   &.Small {
