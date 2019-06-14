@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import hljs from "highlight.js";
 import hljsDefineSolidity from "highlightjs-solidity";
 
-import './CodePreview.css';
+import './CodePreview.scss';
 
 hljsDefineSolidity(hljs);
 hljs.initHighlightingOnLoad();

@@ -3,7 +3,7 @@ import moment from "moment";
 
 import {Button, Card} from "../../Elements";
 
-import './ContractDeploymentInformation.css';
+import './ContractDeploymentInformation.scss';
 
 /**
  * @param {Contract} contract

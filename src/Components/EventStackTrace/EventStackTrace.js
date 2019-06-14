@@ -2,7 +2,7 @@ import React from 'react';
 
 import EventStackTracePoint from "../EventStackTracePoint/EventStackTracePoint";
 
-import './EventStackTrace.css';
+import './EventStackTrace.scss';
 
 /**
  * @param {TracePoint[]} trace

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './SegmentedControls.css';
+import './SegmentedControls.scss';
 
 const SegmentedControls = ({value, options, onChange, className}) => {
     const onOptionClick = (option) => (() => {

@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import classNames from 'classnames';
 
-import './Dialog.css';
+import './Dialog.scss';
 
 Modal.setAppElement('#root');
 

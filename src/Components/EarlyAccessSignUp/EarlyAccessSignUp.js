@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import {PublicApi} from '../../Utils/Api';
 import {Button, Dialog, DialogBody, Icon} from '../../Elements';
 
-import './EarlyAccessSignUp.css';
+import './EarlyAccessSignUp.scss';
 
 class EarlyAccessSignUp extends Component {
     constructor(props) {

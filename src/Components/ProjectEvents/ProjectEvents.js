@@ -3,7 +3,7 @@ import React from 'react';
 import {Icon, Card} from "../../Elements";
 import EventList from "../EventList/EventList";
 
-import './ProjectEvents.css';
+import './ProjectEvents.scss';
 
 const ProjectEvents = ({events, contracts}) => {
     if (!events.length) {

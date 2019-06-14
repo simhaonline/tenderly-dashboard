@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import classNames from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import './Select.css';
+import './Select.scss';
 
 class Select extends Component {
     constructor(props) {

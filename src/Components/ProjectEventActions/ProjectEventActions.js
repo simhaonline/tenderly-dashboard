@@ -5,7 +5,7 @@ import MixPanel from "../../Utils/MixPanel";
 import {Button, Icon} from "../../Elements";
 import {EventActionTypes} from "../../Common/constants";
 
-import './ProjectEventActions.css';
+import './ProjectEventActions.scss';
 import PaginationControls from "../PaginationControls/PaginationControls";
 
 class ProjectEventActions extends Component {

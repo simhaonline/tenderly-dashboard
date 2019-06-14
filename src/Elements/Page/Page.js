@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import * as appActions from "../../Core/App/App.actions";
 
-import './Page.css';
+import './Page.scss';
 
 class Page extends Component {
     componentDidMount() {

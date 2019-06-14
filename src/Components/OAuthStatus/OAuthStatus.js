@@ -7,7 +7,7 @@ import {GitHubLoginButton} from "../index";
 import OAuthLoader from "../OAuthLoader/OAuthLoader";
 import SetUsernameForm from "../SetUsernameForm/SetUsernameForm";
 
-import './OAuthStatus.css';
+import './OAuthStatus.scss';
 
 const OAuthStatus = ({status, service, onUsernameSubmit = () => {}}) => {
     return (

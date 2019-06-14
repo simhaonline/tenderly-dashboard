@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import './Icon.css';
+import './Icon.scss';
 
 const Icon = ({icon, className, ...props}) => {
     const iconClass = `icon-${icon.toLowerCase()}`;

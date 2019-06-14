@@ -4,7 +4,7 @@ import {Form, Input, Button} from "../../Elements";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import {formatProjectSlug} from "../../Utils/Formatters";
 
-import './CreateProjectForm.css';
+import './CreateProjectForm.scss';
 
 class CreateProjectForm extends Component {
     constructor(props) {

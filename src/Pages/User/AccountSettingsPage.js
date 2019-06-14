@@ -10,7 +10,7 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 import {Page, Container, Card, CardHeading, Input, Alert, Code} from "../../Elements";
 import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton, UserInformationForm} from "../../Components";
 
-import './AccountSettingsPage.css';
+import './AccountSettingsPage.scss';
 
 const SettingsSegmentsTypes = {
     GENERAL: 'general',

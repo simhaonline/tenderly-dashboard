@@ -2,7 +2,7 @@ import React from 'react';
 
 import {DotLoader} from "..";
 
-import './ProjectContentLoader.css';
+import './ProjectContentLoader.scss';
 
 const ProjectContentLoader = ({text}) => (
     <div className="ProjectContentLoader">

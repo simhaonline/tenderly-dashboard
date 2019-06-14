@@ -1,14 +1,13 @@
 @import "./colors.scss";
 @import "./typography";
 
+:root, body, html {
+  background-color: $Slate500;
+}
+
 body {
   margin: 0;
   padding: 0;
-  background-image: radial-gradient(
-                  circle at top right,
-                  #171e31,
-                  #121826
-  );
 }
 
 :root {
@@ -31,12 +30,11 @@ h1, h2, h3, h4, h5 {
 
 a {
   text-decoration: none;
-  color: #73C2FB;
+  color: $LinkColor;
 
   &:hover, &:focus {
     outline: none;
-    //text-decoration: underline;
-    color: #69a5db;
+    color: darken($LinkColor, 3);
   }
 }
 

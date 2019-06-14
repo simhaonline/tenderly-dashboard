@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import {Icon} from "../../Elements";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
-import './Navigation.css';
+import './Navigation.scss';
 import {FeatureFlagTypes} from "../../Common/constants";
 
 class Navigation extends Component {

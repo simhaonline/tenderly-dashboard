@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
 
-import './NetworkTag.css';
+import './NetworkTag.scss';
 
 const networkTypeToClassNameMap = {
     [NetworkTypes.MAIN]: 'main',

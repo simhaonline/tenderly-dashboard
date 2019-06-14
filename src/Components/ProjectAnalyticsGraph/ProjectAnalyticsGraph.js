@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import {Card, CardHeading, SegmentedControls} from "../../Elements";
 import {AnalyticsResolutionTypes} from "../../Common/constants";
 
-import './ProjectAnalyticsGraph.css';
+import './ProjectAnalyticsGraph.scss';
 
 const ResolutionOptions = [
     {

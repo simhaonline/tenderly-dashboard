@@ -5,7 +5,7 @@ import moment from "moment";
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 import {Icon} from '../../Elements';
 
-import './PublicContractList.css';
+import './PublicContractList.scss';
 
 /**
  * @param {Contract} contract

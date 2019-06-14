@@ -9,7 +9,7 @@ import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import NetworkTag from "../NetworkTag/NetworkTag";
 import PageLink from "../PageLink/PageLink";
 
-import './EventList.css';
+import './EventList.scss';
 
 /**
  * @param {Event} event

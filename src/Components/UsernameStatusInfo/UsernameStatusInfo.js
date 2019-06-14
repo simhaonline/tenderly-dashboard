@@ -5,7 +5,7 @@ import {UsernameStatusMap} from "../../Common/constants";
 
 import {Icon} from "../../Elements";
 
-import './UsernameStatusInfo.css';
+import './UsernameStatusInfo.scss';
 
 const UsernameStatusInfo = ({status}) => {
     return (

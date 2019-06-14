@@ -5,7 +5,7 @@ import {GITHUB_CALLBACK_URL, GITHUB_CLIENT_ID, OAuthServiceTypeMap} from "../../
 
 import {Icon} from "../../Elements";
 
-import './GitHubLoginButton.css';
+import './GitHubLoginButton.scss';
 
 const GITHUB_BASE_URL = 'https://github.com/login/oauth/authorize';
 const GITHUB_REDIRECT_URL = `${GITHUB_CALLBACK_URL}/oauth/${OAuthServiceTypeMap.GITHUB}`;

@@ -12,7 +12,7 @@ import {GoogleLoginButton, GitHubLoginButton} from "../../Components";
 
 import LogoImage from "./logo-vertical.svg";
 
-import './LoginPage.css';
+import './LoginPage.scss';
 
 class LoginPage extends Component {
     constructor(props) {

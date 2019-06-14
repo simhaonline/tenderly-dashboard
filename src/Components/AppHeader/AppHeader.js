@@ -11,7 +11,7 @@ import HeaderMessage from "../HeaderMessage/HeaderMessage";
 
 import LogoImage from './logo-horizontal.svg';
 
-import './AppHeader.css';
+import './AppHeader.scss';
 
 class AppHeader extends Component {
     render() {

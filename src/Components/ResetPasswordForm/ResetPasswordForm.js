@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
-import './ResetPasswordForm.css';
+import './ResetPasswordForm.scss';
 
 import {Card, CardHeading, Form, Button, Input, Alert, Icon} from "../../Elements";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";

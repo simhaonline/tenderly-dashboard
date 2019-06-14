@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Icon, Button, Card, CardHeading} from "../../Elements";
 
-import './RecentArticles.css';
+import './RecentArticles.scss';
 
 const RecentArticles = () => {
     return (

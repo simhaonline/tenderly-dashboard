@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import './PageError.css';
+import './PageError.scss';
 
 const PageError = ({children, className}) => {
     return (

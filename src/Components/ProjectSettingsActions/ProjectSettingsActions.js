@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import {Button, Card, CardHeading, Dialog, DialogHeader, DialogBody} from "../../Elements";
 
-import './ProjectSettingsActions.css';
+import './ProjectSettingsActions.scss';
 
 class ProjectSettingsActions extends Component {
     constructor(props) {

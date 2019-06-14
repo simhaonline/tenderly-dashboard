@@ -8,7 +8,7 @@ import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
 import {Form, Input, Button} from "../../Elements";
 
-import './UserInformationForm.css';
+import './UserInformationForm.scss';
 
 class UserInformationForm extends Component {
     constructor(props) {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Button} from "../../Elements";
 
-import './ContractActions.css';
+import './ContractActions.scss';
 
 const ContractActions = ({contract, routeNetwork}) => {
     return (

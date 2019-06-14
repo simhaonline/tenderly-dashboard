@@ -9,7 +9,7 @@ import {Card, CardHeading, Input} from "../../Elements";
 
 import ProgressiveButton from "../ProgressiveButton/ProgressiveButton";
 
-import './ProjectSettingsForm.css';
+import './ProjectSettingsForm.scss';
 import {ProjectTypes} from "../../Common/constants";
 
 class ProjectSettingsForm extends Component {

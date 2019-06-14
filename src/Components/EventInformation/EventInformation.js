@@ -3,7 +3,7 @@ import moment from "moment";
 
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 
-import './EventInformation.css';
+import './EventInformation.scss';
 import {EtherscanLinkTypes} from "../../Common/constants";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 

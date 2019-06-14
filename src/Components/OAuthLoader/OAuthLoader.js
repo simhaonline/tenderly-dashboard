@@ -4,7 +4,7 @@ import {CircularLoader} from "../Loaders/Loaders";
 
 import {OAuthServiceLabelMap} from "../../Common/constants";
 
-import './OAuthLaoder.css';
+import './OAuthLaoder.scss';
 
 const OAuthLoader = ({service}) => {
   return (

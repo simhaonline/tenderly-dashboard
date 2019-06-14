@@ -7,7 +7,7 @@ import {Button, Icon} from "../../Elements";
 import ProjectSetupGuide from "../ProjectSetupGuide/ProjectSetupGuide";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
-import './DashboardProjectsList.css';
+import './DashboardProjectsList.scss';
 import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 import MixPanel from "../../Utils/MixPanel";
 import {SimpleLoader} from "..";

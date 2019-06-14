@@ -8,7 +8,7 @@ import {Icon, Toggle} from "../../Elements";
 import * as featureFlagActions from '../../Core/FeatureFlag/FeatureFlag.actions';
 import {FeatureFlagTypes} from "../../Common/constants";
 
-import './FeatureFlagControls.css';
+import './FeatureFlagControls.scss';
 
 class FeatureFlagControls extends Component {
     constructor(props) {

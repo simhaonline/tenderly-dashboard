@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import './HeaderMessage.css';
+import './HeaderMessage.scss';
 
 const HeaderMessageColorClassMap = {
     purple: 'Purple',

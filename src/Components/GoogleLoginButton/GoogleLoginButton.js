@@ -5,7 +5,7 @@ import {GOOGLE_CLIENT_ID, OAuthServiceTypeMap} from "../../Common/constants";
 
 import {Icon} from "../../Elements";
 
-import './GoogleLoginButton.css';
+import './GoogleLoginButton.scss';
 
 const GoogleButton = ({label, ...props}) => {
     return (

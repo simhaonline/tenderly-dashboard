@@ -7,7 +7,7 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 import {Card} from "../../Elements";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 
-import './PopularContractsImport.css';
+import './PopularContractsImport.scss';
 import PageLink from "../PageLink/PageLink";
 
 const PopularContractSlugs = {

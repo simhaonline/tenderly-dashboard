@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import classNames from 'classnames';
 
-import './Button.css';
+import './Button.scss';
 
 function getButtonColorClass(color) {
     switch (color) {

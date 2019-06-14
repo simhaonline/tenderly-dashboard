@@ -8,7 +8,7 @@ import {ProjectAnalyticsGraph} from "../index";
 
 import dummyTransactionData from './dummyTransactionData';
 
-import './ProjectTransactionAnalytics.css';
+import './ProjectTransactionAnalytics.scss';
 
 class ProjectTransactionAnalytics extends Component {
     constructor(props) {

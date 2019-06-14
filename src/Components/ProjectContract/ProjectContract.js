@@ -10,7 +10,7 @@ import NetworkTag from "../NetworkTag/NetworkTag";
 import PageLink from "../PageLink/PageLink";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 
-import './ProjectContract.css';
+import './ProjectContract.scss';
 
 const handleProjectContractClick = () => {
     MixPanel.track('contracts_page_navigate_contract');

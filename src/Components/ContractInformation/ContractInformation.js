@@ -8,7 +8,7 @@ import {Button, Card, Icon} from "../../Elements";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import NetworkTag from "../NetworkTag/NetworkTag";
 
-import './ContractInformation.css';
+import './ContractInformation.scss';
 
 class ContractInformation extends Component {
     goBack = () => {

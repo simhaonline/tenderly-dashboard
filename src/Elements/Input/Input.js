@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import Icon from "../Icon/Icon";
 
-import './Input.css';
+import './Input.scss';
 
 class InputElement extends Component {
     constructor(props) {

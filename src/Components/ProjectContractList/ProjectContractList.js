@@ -2,7 +2,7 @@ import React from 'react';
 
 import ProjectContract from "../ProjectContract/ProjectContract";
 
-import './ProjectContractList.css';
+import './ProjectContractList.scss';
 
 const ProjectContractList = ({contracts}) => {
     return (

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import {NetworkRouteTypes} from "../../Common/constants";
 
-import './PublicContractsSwitcher.css';
+import './PublicContractsSwitcher.scss';
 
 const PublicContractsSwitcher = ({active}) => {
     const networks = [

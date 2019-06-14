@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Icon} from "../../Elements";
 
-import './Loaders.css';
+import './Loaders.scss';
 
 export const CircularLoader = () => {
     return (

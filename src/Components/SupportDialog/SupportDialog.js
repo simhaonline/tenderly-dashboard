@@ -7,7 +7,7 @@ import * as appActions from "../../Core/App/App.actions";
 import {Form, Button, Dialog, DialogBody, DialogHeader, Icon, TextArea} from "../../Elements";
 import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
 
-import './SupportDialog.css';
+import './SupportDialog.scss';
 
 class SupportDialog extends Component {
     constructor(props) {

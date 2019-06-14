@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Button, Icon} from "../../Elements";
 
-import './PaginationControls.css';
+import './PaginationControls.scss';
 
 const PaginationControls = ({onPrevious, onNext, current, max, disabled}) => {
     return (

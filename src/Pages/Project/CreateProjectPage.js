@@ -8,7 +8,7 @@ import * as projectActions from '../../Core/Project/Project.actions';
 import {Page, Container, Card, CardHeading, Icon, Alert} from "../../Elements";
 import {CreateProjectForm} from "../../Components";
 
-import './CreateProjectPage.css';
+import './CreateProjectPage.scss';
 
 class CreateProjectPage extends Component {
     constructor(props) {

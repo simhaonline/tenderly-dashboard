@@ -14,7 +14,7 @@ import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import {Button, Card, Icon, Form, Checkbox, Input, Alert} from "../../Elements";
 import {GitHubLoginButton, GoogleLoginButton, UsernameStatusInfo} from "../index";
 
-import './RegisterForm.css';
+import './RegisterForm.scss';
 
 class RegisterForm extends Component {
     constructor(props) {

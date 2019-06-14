@@ -4,7 +4,7 @@ import classNames from "classnames";
 import {Icon} from "../../Elements";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
-import './PageSegmentSwitcher.css';
+import './PageSegmentSwitcher.scss';
 
 const PageSegmentSwitcherOption = ({option, onSelect, active}) => {
     return (

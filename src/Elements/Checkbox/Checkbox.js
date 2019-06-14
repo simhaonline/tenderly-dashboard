@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import './Checkbox.css';
+import './Checkbox.scss';
 import {Icon} from "../index";
 
 class Checkbox extends Component {

@@ -5,7 +5,7 @@ import {Icon} from "../../Elements";
 import EtherscanLink from "../EtherscanLink/EtherscanLink";
 import NetworkTag from "../NetworkTag/NetworkTag";
 
-import './PublicContractsInfo.css';
+import './PublicContractsInfo.scss';
 
 class PublicContractsInfo extends Component {
     constructor(props) {

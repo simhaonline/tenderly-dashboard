@@ -12,7 +12,7 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 import {Dialog, DialogHeader, DialogBody, Button, Icon, Input} from "../../Elements";
 import {SimpleLoader, NetworkSegmentedPicker} from '..';
 
-import './ProjectSetupGuide.css';
+import './ProjectSetupGuide.scss';
 
 const ProjectSetupType = {
     MANUAL: 'manual',

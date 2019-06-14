@@ -5,7 +5,7 @@ import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
 import {Input, Select} from "../../Elements";
 
-import './ProjectEventFilters.css';
+import './ProjectEventFilters.scss';
 
 class ProjectEventFilters extends Component {
     constructor(props) {

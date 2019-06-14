@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Icon} from "../../Elements";
 import CodePreview from "../CodePreview/CodePreview";
 
-import './EventStackTracePoint.css';
+import './EventStackTracePoint.scss';
 import {Link} from "react-router-dom";
 
 class EventStackTracePoint extends Component {

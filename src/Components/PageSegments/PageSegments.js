@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './PageSegments.css';
+import './PageSegments.scss';
 
 const PageSegments = ({children}) => {
     return (

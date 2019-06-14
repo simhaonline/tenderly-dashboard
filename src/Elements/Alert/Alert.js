@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 
-import './Alert.css';
+import './Alert.scss';
 
 /**
  * @param {string} color

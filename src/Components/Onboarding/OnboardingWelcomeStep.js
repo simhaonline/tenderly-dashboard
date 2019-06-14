@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Icon} from "../../Elements";
 
-import './OnboardingWelcomeStep.css';
+import './OnboardingWelcomeStep.scss';
 
 const OnboardingWelcomeStep = ({user, }) => {
     return (

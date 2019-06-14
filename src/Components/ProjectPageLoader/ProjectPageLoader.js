@@ -2,7 +2,7 @@ import React from 'react';
 
 import {CircularLoader} from "..";
 
-import './ProjectPageLoader.css';
+import './ProjectPageLoader.scss';
 
 const ProjectPageLoader = ({text}) => (
     <div className="ProjectPageLoader">

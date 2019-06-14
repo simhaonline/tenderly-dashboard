@@ -7,7 +7,7 @@ import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelper
 
 import {Form, Button, Dialog, DialogBody, DialogHeader, Icon, TextArea} from "../../Elements";
 
-import './FeedbackDialog.css';
+import './FeedbackDialog.scss';
 
 class FeedbackDialog extends Component {
     constructor(props) {

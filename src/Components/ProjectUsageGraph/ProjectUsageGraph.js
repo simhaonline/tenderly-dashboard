@@ -6,7 +6,7 @@ import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
 
 import {Card, CardHeading, Icon} from "../../Elements";
 
-import './ProjectUsageGraph.css';
+import './ProjectUsageGraph.scss';
 
 const networkGraphColorMap = {
     [NetworkTypes.MAIN]: {

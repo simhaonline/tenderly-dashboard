@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import {Icon} from "../../Elements";
 
-import './PasswordStrengthScore.css';
+import './PasswordStrengthScore.scss';
 
 const PasswordStrengthScore = ({score}) => {
     return (

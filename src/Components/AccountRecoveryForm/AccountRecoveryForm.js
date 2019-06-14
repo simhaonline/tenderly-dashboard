@@ -9,7 +9,7 @@ import {Card, CardHeading, Form, Button, Input, Alert, Icon} from "../../Element
 
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
-import './AccountRecoveryForm.css';
+import './AccountRecoveryForm.scss';
 
 class AccountRecoveryForm extends Component {
     constructor(props) {

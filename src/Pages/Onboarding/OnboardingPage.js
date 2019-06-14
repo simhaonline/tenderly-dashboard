@@ -8,7 +8,7 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 import {Page, Container} from "../../Elements";
 import {OnboardingWelcomeStep, OnboardingCreateOrganizationStep, OnboardingCreateProjectStep} from "../../Components";
 
-import './OnboardingPage.css';
+import './OnboardingPage.scss';
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import OnboardingSetUsernameStep from "../../Components/Onboarding/OnboardingSetUsernameStep";
 

@@ -9,7 +9,7 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 import {Card, Button, Input, CardHeading} from "../../Elements";
 import {UsernameStatusInfo} from "../index";
 
-import "./OnboardingSetUsernameStep.css";
+import "./OnboardingSetUsernameStep.scss";
 
 class OnboardingSetUsernameStep extends Component {
     constructor(props) {

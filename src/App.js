@@ -8,8 +8,8 @@ import {ToastContainer} from "react-toastify";
 
 import 'highlight.js/styles/dracula.css';
 import 'react-toastify/dist/ReactToastify.css';
-import './Common/Styles/reset.css';
-import './Common/Styles/base.css';
+import './Common/Styles/reset.scss';
+import './Common/Styles/base.scss';
 
 import * as authActions from "./Core/Auth/Auth.actions";
 import MixPanel from "./Utils/MixPanel";

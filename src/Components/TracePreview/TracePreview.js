@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import CodePreview from "../CodePreview/CodePreview";
 
-import './TracePreview.css';
+import './TracePreview.scss';
 
 class TracePreview extends Component {
     constructor(props) {

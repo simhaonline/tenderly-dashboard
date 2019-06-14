@@ -14,7 +14,7 @@ import * as projectActions from "../../Core/Project/Project.actions";
 import {Container, Button, Icon, Alert} from "../../Elements";
 import {SimpleLoader, FeatureFlag} from "..";
 
-import './ProjectNavigation.css';
+import './ProjectNavigation.scss';
 
 class ProjectNavigation extends Component {
     constructor(props) {

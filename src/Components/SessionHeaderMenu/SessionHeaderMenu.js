@@ -11,7 +11,7 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 import FeedbackDialog from "../FeedbackDialog/FeedbackDialog";
 import SupportDialog from "../SupportDialog/SupportDialog";
 
-import './SessionHeaderMenu.css';
+import './SessionHeaderMenu.scss';
 
 class SessionHeaderMenu extends Component {
     constructor(props) {

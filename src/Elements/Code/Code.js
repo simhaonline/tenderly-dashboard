@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 
-import './Code.css';
+import './Code.scss';
 
 class Code extends PureComponent {
     render() {

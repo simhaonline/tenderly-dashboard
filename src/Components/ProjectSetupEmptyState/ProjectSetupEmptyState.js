@@ -4,7 +4,7 @@ import {ProjectSetupGuide} from "../index";
 
 import EmptyStateImage from './project-setup-empty-state.svg';
 
-import './ProjectSetupEmptyState.css';
+import './ProjectSetupEmptyState.scss';
 
 const ProjectSetupEmptyState = ({project, open, onSetup}) => {
     return (
