@@ -40,7 +40,6 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
 
     return (
         <div className="DashboardProjectsList">
-            <h2 className="SectionHeading">Projects</h2>
             {(loaded && projects.length === 0) && <div className="ProjectListEmptyState">
                 <Icon icon="single-project" className="EmptyStateIcon"/>
                 <h5 className="EmptyStateHeadline">Create your first project</h5>

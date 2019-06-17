@@ -4,12 +4,12 @@
 .Code {
   width: 100%;
   word-break: break-all;
-  font-size: $FontSize100;
+  font-size: $FontSize300;
   line-height: $FontSize600;
   padding: 12px 15px;
-  border: 1px solid $BorderColor;
   font-family: $MonospaceFontFamily;
   display: block;
   border-radius: 4px;
-  background-color: #171e31;
+  background-color: $Slate700;
+  box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
 }
