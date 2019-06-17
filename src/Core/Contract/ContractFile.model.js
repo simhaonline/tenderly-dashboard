@@ -1,7 +1,7 @@
 class ContractFile {
     constructor(data) {
-        /** @type string */
-        this.id = data.name;
+        /** @type number */
+        this.id = data.id;
 
         /** @type string */
         this.source = data.source;
@@ -48,6 +48,7 @@ class ContractFile {
         const solidityVersion = ContractFile.getSolidityVersion(data.source);
 
         return new ContractFile({
+            id: data.id,
             name: data.name,
             source: data.source,
             solidityVersion,

@@ -14,7 +14,7 @@ class TracePreview extends Component {
 
         this.state = {
             open,
-            file: contract.getFileByIndex(trace.fileIndex),
+            file: contract.getFileById(trace.fileId),
         };
     }
 
@@ -34,7 +34,7 @@ class TracePreview extends Component {
                     "TracePreviewHeading",
                     `Depth${depth}`,
                 )}>
-                    <span className="BoldedText">{trace.functionName}</span> <span className="MutedText">in {file.name}:{trace.lineNumber}</span>
+                    <span className="BoldedText">{trace.functionName}</span> {!!file && <span className="MutedText">in {file.name}:{trace.lineNumber}</span>}
                 </div>
                 {open && <div className="TracePreviewCodeWrapper">
                     {!!file && <CodePreview line={trace.lineNumber} linePreview={5} source={file.source}/>}
