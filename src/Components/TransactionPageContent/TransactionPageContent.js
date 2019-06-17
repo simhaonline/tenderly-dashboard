@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {CallTracePreview, TransactionInfoSidebar, TransactionHeader} from "../index";
+import {CallTracePreview, TransactionInfoSidebar, TransactionHeader, CallTraceFlameGraph} from "../index";
 
 import './TransactionPageContent.scss';
 
@@ -13,6 +13,7 @@ const TransactionPageContent = ({transaction, contract, callTrace}) => {
                 <CallTracePreview transaction={transaction} callTrace={callTrace} contract={contract}/>
                 <TransactionInfoSidebar contract={contract} transaction={transaction}/>
             </div>
+            <CallTraceFlameGraph callTrace={callTrace}/>
         </div>
     )
 };

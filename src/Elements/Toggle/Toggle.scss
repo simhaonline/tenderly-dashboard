@@ -1,7 +1,7 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
-$ToggleSwitchButtonSize: 16px;
+$ToggleSwitchButtonSize: 18px;
 $ToggleSwitchPadding: 2px;
 
 .Toggle {
@@ -26,14 +26,14 @@ $ToggleSwitchPadding: 2px;
   }
 
   &.Active {
-    border-color: $PrimaryColor600;
+    border-color: $Primary500;
     background-color: #171e31;
 
     .ToggleSwitch {
       transition: 0.2s, left 200ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
       right: $ToggleSwitchPadding;
       left: $ToggleSwitchButtonSize + $ToggleSwitchPadding;
-      background-color: $PrimaryColor600;
+      background-color: $Primary500;
     }
   }
 }

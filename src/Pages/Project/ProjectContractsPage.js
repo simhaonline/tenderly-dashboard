@@ -33,7 +33,6 @@ class ProjectContractsPage extends Component {
                         <h1>Contracts</h1>
                         <div className="RightContent">
                             {contractsLoaded && <ProjectSetupGuide project={project} label="Add Contract" outline={false}
-                                                                   size="small" color="secondary"
                                                                    initialCancelButtonLabel="Cancel"/>}
                         </div>
                     </PageHeading>
