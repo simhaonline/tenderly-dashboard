@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import TracePreview from "../TracePreview/TracePreview";
 
+import './CallTracePreview.scss';
+
 const CallTracePreview = ({callTrace, contract}) => {
     return (
         <div className="CallTracePreview">

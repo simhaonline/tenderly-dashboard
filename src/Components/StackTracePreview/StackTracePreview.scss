@@ -1,0 +1,8 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.StackTracePreview {
+  background-color: $Slate500;
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
+}

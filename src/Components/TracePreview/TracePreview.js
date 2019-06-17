@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import {Icon} from '../../Elements';
 import CodePreview from "../CodePreview/CodePreview";
 
 import './TracePreview.scss';
@@ -34,7 +35,7 @@ class TracePreview extends Component {
                     "TracePreviewHeading",
                     `Depth${depth}`,
                 )}>
-                    <span className="BoldedText">{trace.functionName}</span> {!!file && <span className="MutedText">in {file.name}:{trace.lineNumber}</span>}
+                    <Icon icon="circle" className="TracePointIcon"/> <span className="BoldedText">{trace.functionName}</span> {!!file && <span className="MutedText">in {file.name}:{trace.lineNumber}</span>}
                 </div>
                 {open && <div className="TracePreviewCodeWrapper">
                     {!!file && <CodePreview line={trace.lineNumber} linePreview={5} file={file}/>}

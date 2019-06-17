@@ -1,24 +1,25 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
 
 $TracePreviewSpacing: 0px;
 
 .TracePreview {
-  margin-bottom: $TracePreviewSpacing;
+  margin: $Spacing3 0;
 
   .TracePreviewHeading {
-    background-color: #171e31;
-    margin-bottom: $TracePreviewSpacing;
-    padding: 8px 15px;
-    border: 1px solid $BorderColor;
     border-bottom: none;
     cursor: pointer;
     transition: 0.1s;
 
     @for $i from 0 through 10 {
       &.Depth#{$i} {
-        padding-left: 15px + 25px * $i;
+        padding-left: $Spacing6 * $i;
       }
+    }
+
+    .TracePointIcon {
+      color: $Primary500;
     }
 
     .BoldedText {
@@ -30,14 +31,16 @@ $TracePreviewSpacing: 0px;
     }
 
     &:hover {
-      background-color: darken(#171e31, 3);
+      //background-color: darken(#171e31, 3);
     }
   }
 
   .TracePreviewCodeWrapper {
-    &:not(:last-child) {
-      margin-bottom: $TracePreviewSpacing;
-    }
+    margin-top: $Spacing3;
+  }
+
+  &:first-child {
+    margin-top: 0;
   }
 
   &:last-child {

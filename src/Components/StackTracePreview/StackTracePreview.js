@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import TracePreview from "../TracePreview/TracePreview";
 
+import './StackTracePreview.scss';
+
 const StackTracePreview = ({stackTrace, contract}) => {
     return (
         <div className="StackTracePreview">
