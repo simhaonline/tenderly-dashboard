@@ -10,7 +10,7 @@ import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
-import {Page, Container, Button, Icon} from "../../Elements";
+import {Page, Container, Button, Icon, PageHeading} from "../../Elements";
 import {ProjectContentLoader, PageError, TransactionPageContent} from "../../Components";
 
 class ProjectTransactionPage extends Component {
@@ -51,6 +51,12 @@ class ProjectTransactionPage extends Component {
             return (
                 <Page>
                     <Container>
+                        <PageHeading>
+                            <Button to={`/project/${projectId}/transactions`} outline>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>Transaction</h1>
+                        </PageHeading>
                         <PageError>
                             <p>{error}</p>
                             <Button to={`/project/${projectId}/transactions`} outline>
@@ -67,6 +73,12 @@ class ProjectTransactionPage extends Component {
             return (
                 <Page>
                     <Container>
+                        <PageHeading>
+                            <Button to={`/project/${projectId}/transactions`} outline>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>Transaction</h1>
+                        </PageHeading>
                         <ProjectContentLoader text="Fetching transaction..."/>
                     </Container>
                 </Page>
@@ -76,6 +88,12 @@ class ProjectTransactionPage extends Component {
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
+                    <PageHeading>
+                        <Button to={`/project/${projectId}/transactions`} outline>
+                            <Icon icon="arrow-left"/>
+                        </Button>
+                        <h1>Transaction</h1>
+                    </PageHeading>
                     <TransactionPageContent transaction={transaction} contract={contract} callTrace={callTrace}/>
                 </Container>
             </Page>
