@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {FeatureFlagTypes, NetworkTypes} from "../../Common/constants";
 
-import {Container, Page} from "../../Elements";
+import {Container, Page, PageHeading} from "../../Elements";
 import {ProjectUsageGraph, ProjectTransactionAnalytics, FeatureFlag, FeatureComingSoon} from "../../Components";
 
 class ProjectAnalyticsPage extends Component {
@@ -41,6 +41,9 @@ class ProjectAnalyticsPage extends Component {
 
         return (
             <Page id="ProjectPage">
+                <PageHeading>
+                    <h1>Analytics</h1>
+                </PageHeading>
                 <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
                     <FeatureComingSoon feature="analytics"/>
                 </FeatureFlag>

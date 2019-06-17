@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 
-import {Button, Card, CardHeading, Dialog, DialogHeader, DialogBody} from "../../Elements";
+import {Button, Panel, PanelHeader, PanelContent, Dialog, DialogHeader, DialogBody} from "../../Elements";
 
 import './ProjectSettingsActions.scss';
 
@@ -40,14 +40,16 @@ class ProjectSettingsActions extends Component {
 
         return (
             <Fragment>
-                <Card className="ProjectSettingsActions">
-                    <CardHeading>
+                <Panel className="ProjectSettingsActions">
+                    <PanelHeader>
                         <h3>Project Actions</h3>
-                    </CardHeading>
-                    <Button onClick={this.openDialog} color="danger" outline>
-                        <span>Delete Project</span>
-                    </Button>
-                </Card>
+                    </PanelHeader>
+                    <PanelContent>
+                        <Button onClick={this.openDialog} color="danger" outline>
+                            <span>Delete Project</span>
+                        </Button>
+                    </PanelContent>
+                </Panel>
                 <Dialog open={dialogOpen} onClose={this.handleDialogClose}>
                     <DialogHeader>
                         <h5>Are you sure you wish to delete this project?</h5>

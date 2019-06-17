@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as projectActions from "../../Core/Project/Project.actions";
 
-import {Card, CardHeading, Input} from "../../Elements";
+import {Panel, PanelHeader, PanelContent, Input} from "../../Elements";
 
 import ProgressiveButton from "../ProgressiveButton/ProgressiveButton";
 
@@ -38,16 +38,18 @@ class ProjectSettingsForm extends Component {
         const {formData: {projectName}} = this.state;
 
         return (
-            <Card className="ProjectSettingsForm">
-                <CardHeading>
+            <Panel className="ProjectSettingsForm">
+                <PanelHeader>
                     <h3>Overview</h3>
-                </CardHeading>
-                <div>
-                    <Input disabled={project.type === ProjectTypes.DEMO} field="projectName" value={projectName} onChange={this.handleFormUpdate} icon="edit-3" label="Project name"/>
-                </div>
-                <div className="SlugPreview">https://dashboard.tenderly.dev/project/<span className="ProjectSlug">{project.slug}</span></div>
-                <ProgressiveButton disabled={project.type === ProjectTypes.DEMO} label="Save" progressLabel="Saving" color="primary" onClick={this.handleSettingsUpdate}/>
-            </Card>
+                </PanelHeader>
+                <PanelContent>
+                    <div>
+                        <Input disabled={project.type === ProjectTypes.DEMO} field="projectName" value={projectName} onChange={this.handleFormUpdate} icon="edit-3" label="Project name"/>
+                    </div>
+                    <div className="SlugPreview">https://dashboard.tenderly.dev/project/<span className="ProjectSlug">{project.slug}</span></div>
+                    <ProgressiveButton disabled={project.type === ProjectTypes.DEMO} label="Save" progressLabel="Saving" color="primary" onClick={this.handleSettingsUpdate}/>
+                </PanelContent>
+            </Panel>
         );
     }
 }
