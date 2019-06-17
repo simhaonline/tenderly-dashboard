@@ -23,3 +23,4 @@ export {default as PanelContent} from './Panel/PanelContent';
 export {PanelDivider} from './Panel/PanelContent';
 export {default as PanelTabs} from './Panel/PanelTabs';
 export {default as PanelHeader} from './Panel/PanelHeader';
+export {default as Table} from './Table/Table';
