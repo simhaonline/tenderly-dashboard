@@ -4,6 +4,12 @@
   height: 100vh;
 }
 
+#AppContent {
+  flex: 1 1 0;
+  display: flex;
+  overflow: hidden;
+}
+
 .MutedText {
   opacity: 0.65;
 }

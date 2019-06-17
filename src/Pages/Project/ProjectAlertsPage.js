@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
-import {Container, Page, Card, CardHeading} from "../../Elements";
+import {Container, Page, PageHeading, Card, CardHeading} from "../../Elements";
 import {PageSegments, PageSegmentSwitcher, PageSegmentContent, FeatureFlag, FeatureComingSoon} from "../../Components";
 import {FeatureFlagTypes} from "../../Common/constants";
 
@@ -52,6 +52,9 @@ class ProjectAlertsPage extends Component {
 
         return (
             <Page id="ProjectPage">
+                <PageHeading>
+                    <h1>Alerting</h1>
+                </PageHeading>
                 <FeatureFlag flag={FeatureFlagTypes.ALERTS} reverse>
                     <FeatureComingSoon feature="alerting"/>
                 </FeatureFlag>

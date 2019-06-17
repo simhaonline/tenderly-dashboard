@@ -66,7 +66,9 @@ class App extends Component {
                 <Router>
                     <div className="App">
                         <AppHeader/>
-                        <AppPages/>
+                        <div id="AppContent">
+                            <AppPages/>
+                        </div>
                         <ToastContainer closeButton={false} position="bottom-right" hideProgressBar/>
                     </div>
                 </Router>

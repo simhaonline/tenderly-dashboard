@@ -17,7 +17,7 @@ import ProjectSettingsPage from "./ProjectSettingsPage";
 import ProjectContractPage from "./ProjectContractPage";
 
 import EventPage from "../Event/EventPage";
-import {ProjectNavigation, ProjectPageLoader} from "../../Components";
+import {ProjectSidebar, ProjectPageLoader} from "../../Components";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -56,7 +56,7 @@ class ProjectPage extends Component {
 
         return (
             <Fragment>
-                <ProjectNavigation project={project}/>
+                <ProjectSidebar project={project}/>
                 <Switch>
                     <Route path="/project/:id/transactions" component={ProjectTransactionsPage}/>
                     <Route path="/project/:id/tx/:network/:txHash" component={ProjectTransactionPage}/>
