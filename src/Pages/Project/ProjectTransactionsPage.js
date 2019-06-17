@@ -36,7 +36,7 @@ class ProjectTransactionsPage extends Component {
         let transactions = [];
 
         if (project.type !== ProjectTypes.DEMO) {
-            const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page);
+            const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, 20);
 
             if (!actionResponse.success) {
                 this.setState({
@@ -97,7 +97,7 @@ class ProjectTransactionsPage extends Component {
         const {project, txActions} = this.props;
         const {filters, page} = this.state;
 
-        const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page);
+        const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, 20);
 
         if (!actionResponse.success) {
             return;
