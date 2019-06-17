@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {Panel, PanelHeader, PanelContent} from "../../Elements";
+import {Panel, PanelHeader, PanelContent, PanelDivider} from "../../Elements";
 import {ContractFileSource} from "../index";
 
 import './ContractFiles.scss';
@@ -46,6 +46,7 @@ class ContractFiles extends Component {
                                 <div className="FileVersion">Solidity Version: {file.solidityVersion}</div>
                             </div>)}
                         </div>
+                        <PanelDivider/>
                         <ContractFileSource file={selectedFile}/>
                     </div>
                 </PanelContent>

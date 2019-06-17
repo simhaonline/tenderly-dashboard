@@ -25,7 +25,7 @@ class ContractFile {
      * @returns {string}
      */
     getFileName() {
-        return `${this.name}.sol`;
+        return `${this.name}`;
     }
 
     /**

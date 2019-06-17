@@ -26,7 +26,7 @@
 
     &:before {
       content: "";
-      @include Gradient('blue-green');
+      @include Gradient('blue-purple');
       position: absolute;
       width: 6px;
       top: 8px;
