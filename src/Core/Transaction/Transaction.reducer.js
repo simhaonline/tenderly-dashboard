@@ -34,16 +34,22 @@ const TransactionReducer = (state = initialState, action) => {
             const callTrace = action.callTrace;
             const stackTrace = action.stackTrace;
 
+            let stackTraces = state.stackTraces;
+
+            if (stackTrace) {
+                stackTraces = {
+                    ...stackTraces,
+                    [stackTrace.id]: stackTrace,
+                };
+            }
+
             return {
                 ...state,
                 callTraces: {
                     ...state.callTraces,
                     [callTrace.id]: callTrace,
                 },
-                stackTraces: {
-                    ...state.stackTraces,
-                    [stackTrace.id]: stackTrace,
-                },
+                stackTraces,
                 transactions: {
                     ...state.transactions,
                     [transaction.id]: transaction,

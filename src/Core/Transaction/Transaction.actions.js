@@ -87,8 +87,6 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
 
             const stackTrace = StackTrace.buildFromResponse(data);
 
-            console.log(stackTrace);
-
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
                 projectId,
