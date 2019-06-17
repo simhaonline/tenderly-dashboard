@@ -2,28 +2,8 @@
 @import "../../Common/Styles/typography";
 
 .ContractInformation {
-  border-bottom: 1px solid $BorderColor;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-
-  .ContractName {
-    display: flex;
-    align-items: center;
-
-    .BackButton {
-      margin-right: 15px;
-    }
-
-    .NetworkWrapper {
-      margin-right: 15px;
-    }
-
-    .NameWrapper {}
-  }
-
   .ContractDetails {
     display: flex;
-    margin-top: 20px;
 
     .DetailsWrapper {
       flex: 0 0 auto;

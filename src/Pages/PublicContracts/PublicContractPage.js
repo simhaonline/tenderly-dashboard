@@ -10,9 +10,9 @@ import {
     isPublicContractLoaded
 } from "../../Common/Selectors/PublicContractSelectors";
 
-import {NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {NetworkAppToRouteTypeMap, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
-import {Page, Container} from "../../Elements";
+import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
 import {
     ContractInformation,
     ContractActions,
@@ -63,9 +63,17 @@ class PublicContractPage extends Component {
             )
         }
 
+        const networkRoute = NetworkAppToRouteTypeMap[contract.network];
+
         return (
             <Page>
                 <Container>
+                    <PageHeading>
+                        <Button outline to={`/public-contracts/${networkRoute}`}>
+                            <Icon icon="arrow-left"/>
+                        </Button>
+                        <h1>{contract.name}</h1>
+                    </PageHeading>
                     <ContractInformation contract={contract} back/>
                     <ContractActions contract={contract} routeNetwork={network}/>
                     <TransactionsList transactions={transactions} contracts={[contract]} publicContracts

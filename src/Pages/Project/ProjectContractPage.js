@@ -8,7 +8,7 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 import {getContractById, getContractStatus} from "../../Common/Selectors/ContractSelectors";
 import {EntityStatusTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
-import {Page, Container} from "../../Elements";
+import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
 import {
     ContractInformation,
     ContractDeploymentInformation,
@@ -48,6 +48,12 @@ class ProjectContractPage extends Component {
                 <Container>
                     {!isContractFetched && <ProjectContentLoader text="Fetching contract..."/>}
                     {isContractFetched && <Fragment>
+                        <PageHeading>
+                            <Button outline to={`/project/${projectId}/contracts`}>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>{contract.name}</h1>
+                        </PageHeading>
                         <ContractInformation contract={contract}/>
                         <ContractDeploymentInformation contract={contract}/>
                         <ContractFiles contract={contract}/>
