@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import {Panel, PanelContent, PanelHeader} from "../../Elements";
 
 class CallTraceFlameGraph extends Component {
     render() {
+        const {callTrace} = this.props;
+
+        console.log(callTrace);
+
         return (
             <Panel>
                 <PanelHeader>
@@ -16,5 +21,9 @@ class CallTraceFlameGraph extends Component {
         );
     }
 }
+
+CallTraceFlameGraph.propTypes = {
+    callTrace: PropTypes.object.isRequired,
+};
 
 export default CallTraceFlameGraph;

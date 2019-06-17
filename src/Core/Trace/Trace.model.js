@@ -11,6 +11,9 @@ export class Trace {
         this.fileName = data.fileName;
 
         /** @type number */
+        this.gasUsed = data.gasUsed;
+
+        /** @type number */
         this.fileId = data.fileId;
 
         /** @type number */
@@ -37,6 +40,7 @@ export class Trace {
             fileName: rawCallTrace.contract_name,
             fileId: depth === 0 ? rawCallTrace.function_file_index : rawCallTrace.caller_file_index,
             lineNumber: rawCallTrace.caller_line_number || rawCallTrace.function_line_number,
+            gasUsed: rawCallTrace.gas_used,
         }, calls);
     }
 }
