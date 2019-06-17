@@ -7,7 +7,7 @@ import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelper
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Page, Container, Card, CardHeading, Input, Alert, Code} from "../../Elements";
+import {Page, Container, Panel, PanelHeader, PanelContent, PageHeading, Input, Alert, Code} from "../../Elements";
 import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton, UserInformationForm} from "../../Components";
 
 import './AccountSettingsPage.scss';
@@ -134,36 +134,44 @@ class AccountSettingsPage extends Component {
         return (
             <Page id="AccountSettingsPage">
                 <Container>
+                    <PageHeading>
+                        <h1>Settings</h1>
+                    </PageHeading>
                     <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={SettingsSegments}
                                              onSelect={this.handleSegmentSwitch}/>
                         {currentSegment === SettingsSegmentsTypes.GENERAL && <PageSegmentContent>
-                            <Card>
-                                <CardHeading>
+                            <Panel>
+                                <PanelHeader>
                                     <h3>Profile Information</h3>
-                                </CardHeading>
-                                <UserInformationForm/>
-                            </Card>
+                                </PanelHeader>
+                                <PanelContent>
+                                    <UserInformationForm/>
+                                </PanelContent>
+                            </Panel>
                         </PageSegmentContent>}
                         {currentSegment === SettingsSegmentsTypes.SECURITY && <PageSegmentContent>
-                            <Card>
-                                <CardHeading>
+                            <Panel>
+                                <PanelHeader>
                                     <h3>Auth Tokens</h3>
-                                </CardHeading>
-                                <div>
+                                </PanelHeader>
+                                <PanelContent>
                                     <p>You can use this token to login to our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a></p>
                                     <h4>Token</h4>
                                     <Code>{token}</Code>
                                     <p>Or you can paste the following command into your terminal and login.</p>
                                     <Code enableCopy>tenderly login --authentication-method=token --token={token}</Code>
-                                </div>
-                            </Card>
-                            <Card>
-                                <CardHeading>
+                                </PanelContent>
+                            </Panel>
+                            <Panel>
+                                <PanelHeader>
                                     <h3>Security</h3>
-                                </CardHeading>
-                                <div className="ChangePasswordWrapper">
-                                    <h4>Change Password</h4>
+                                </PanelHeader>
+                                <PanelContent className="ChangePasswordWrapper">
+                                    <h4>
+                                        {user.passwordSet && <span>Change Password</span>}
+                                        {!user.passwordSet && <span>Set Password</span>}
+                                    </h4>
                                     {user.passwordSet && <Fragment>
                                         <Input icon="lock" type="password" field="currentPassword" value={currentPassword}
                                                label="Current Password" onChange={this.handleFormUpdate}/>
@@ -178,8 +186,8 @@ class AccountSettingsPage extends Component {
                                                        progressLabel="Updating..." finishedLabel="Password Updated"
                                                        color="primary" disabled={!isPasswordFormValid}
                                                        onClick={this.handleChangePasswordSubmit}/>
-                                </div>
-                            </Card>
+                                </PanelContent>
+                            </Panel>
                         </PageSegmentContent>}
                     </PageSegments>
                 </Container>

@@ -1,3 +1,7 @@
 .PageSegments {
   display: flex;
+
+  @media (max-width: 760px) {
+    flex-direction: column;
+  }
 }

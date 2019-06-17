@@ -1,8 +1,17 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
 
 .PageSegmentContent {
   flex: 1 1 0;
-  padding-left: 30px;
+  padding-left: $Spacing6;
   border-left: 1px solid $BorderColor;
+
+  @media (max-width: 760px) {
+    flex: 0 0 auto;
+    padding-top: $Spacing6;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid $BorderColor;
+  }
 }

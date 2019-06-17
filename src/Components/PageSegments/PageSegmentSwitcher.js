@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from "classnames";
 
-import {Icon} from "../../Elements";
+import {Icon, Card} from "../../Elements";
 import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './PageSegmentSwitcher.scss';
 
 const PageSegmentSwitcherOption = ({option, onSelect, active}) => {
     return (
-        <div className={classNames(
+        <Card className={classNames(
             "SwitchOption",
             {
                 "Active": active,
@@ -18,7 +18,7 @@ const PageSegmentSwitcherOption = ({option, onSelect, active}) => {
             <div className="SwitchIconWrapper">
                 <Icon icon="chevron-right" className="SwitchIcon"/>
             </div>
-        </div>
+        </Card>
     );
 };
 
