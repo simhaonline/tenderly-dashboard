@@ -57,11 +57,11 @@
     background-color: $Primary500;
 
     &:hover {
-      background-color: darken($PrimaryColor600, 5);
+      background-color: $Primary600;
     }
 
     &:active {
-      background-color: darken($PrimaryColor600, 8);
+      background-color: $Primary700;
     }
   }
 
@@ -104,26 +104,28 @@
   }
 
   &.Primary {
-    border-color: transparentize($PrimaryColor600, 0.3);
+    border-color: $Primary500;
+    background-color: transparentize($Primary500, 0.85);
 
     &:hover, &:focus {
-      border-color: $PrimaryColor600;
+      background-color: transparentize($Primary500, 0.75);
     }
 
     &:active, &:focus {
-      box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.7);
+      box-shadow: 0 0 0 3px transparentize($Primary500, 0.7);
     }
   }
 
   &.Secondary {
-    border-color: transparentize($SecondaryColor600, 0.5);
+    border-color: $Secondary500;
+    background-color: transparentize($Secondary500, 0.85);
 
     &:hover, &:focus {
-      border-color: $SecondaryColor600;
+      background-color: transparentize($Secondary500, 0.7);
     }
 
     &:active, &:focus {
-      box-shadow: 0 0 0 3px transparentize($SecondaryColor600, 0.7);
+      box-shadow: 0 0 0 3px transparentize($Secondary500, 0.7);
     }
   }
 
