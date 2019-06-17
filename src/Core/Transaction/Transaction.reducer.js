@@ -8,6 +8,7 @@ import {
 const initialState = {
     transactions: {},
     callTraces: {},
+    stackTraces: {},
 };
 
 const TransactionReducer = (state = initialState, action) => {
@@ -31,12 +32,17 @@ const TransactionReducer = (state = initialState, action) => {
         case FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION:
             const transaction = action.transaction;
             const callTrace = action.callTrace;
+            const stackTrace = action.stackTrace;
 
             return {
                 ...state,
                 callTraces: {
                     ...state.callTraces,
-                    [callTrace.id]: callTrace
+                    [callTrace.id]: callTrace,
+                },
+                stackTraces: {
+                    ...state.stackTraces,
+                    [stackTrace.id]: stackTrace,
                 },
                 transactions: {
                     ...state.transactions,

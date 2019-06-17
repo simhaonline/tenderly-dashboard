@@ -35,3 +35,22 @@ export function getTransactionCallTrace(state, txHash) {
 
     return callTrace;
 }
+
+/**
+ * @param {Object} state
+ * @param {string} txHash
+ * @return {StackTrace}
+ */
+export function getTransactionStackTrace(state, txHash) {
+    if (!txHash) {
+        return null;
+    }
+
+    const stackTrace = state.transaction.stackTraces[txHash];
+
+    if (!stackTrace) {
+        return null;
+    }
+
+    return stackTrace;
+}

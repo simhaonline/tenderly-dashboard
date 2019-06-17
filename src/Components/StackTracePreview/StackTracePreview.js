@@ -6,7 +6,7 @@ import TracePreview from "../TracePreview/TracePreview";
 const StackTracePreview = ({stackTrace, contract}) => {
     return (
         <div className="StackTracePreview">
-            {!!stackTrace.trace.calls && stackTrace.trace.calls.map((trace, index) =>
+            {!!stackTrace.trace && stackTrace.trace.map((trace, index) =>
                 <TracePreview trace={trace} key={index} open={index === 0} depth={0} contract={contract}/>
             )}
         </div>

@@ -4,6 +4,7 @@ import {Api} from "../../Utils/Api";
 
 import {Transaction} from "./Transaction.model";
 import {CallTrace} from "../Trace/CallTrace.model";
+import StackTrace from "../Trace/StackTrace.model";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
@@ -84,11 +85,16 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
 
             const callTrace = CallTrace.buildFromResponse(data);
 
+            const stackTrace = StackTrace.buildFromResponse(data);
+
+            console.log(stackTrace);
+
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
                 projectId,
                 transaction,
                 callTrace,
+                stackTrace,
             });
 
             return new SuccessActionResponse({
@@ -152,10 +158,13 @@ export const fetchTransactionForPublicContract = (txHash, network) => {
 
             const callTrace = CallTrace.buildFromResponse(data);
 
+            const stackTrace = StackTrace.buildFromResponse(data);
+
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION,
                 transaction,
                 callTrace,
+                stackTrace,
             });
 
             return new SuccessActionResponse({

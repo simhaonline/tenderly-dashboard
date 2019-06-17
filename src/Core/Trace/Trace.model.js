@@ -43,4 +43,13 @@ export class Trace {
             gasUsed: rawCallTrace.gas_used,
         }, calls);
     }
+
+    static buildFromRawStackTrace(rawStackTrace) {
+        console.log(rawStackTrace);
+
+        return new Trace({
+            functionName: rawStackTrace.code,
+            lineNumber: rawStackTrace.line,
+        });
+    }
 }

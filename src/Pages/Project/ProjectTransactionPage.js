@@ -4,7 +4,11 @@ import {bindActionCreators} from "redux";
 import {toast} from "react-toastify";
 
 import {getContractForTransaction} from "../../Common/Selectors/ContractSelectors";
-import {getTransaction, getTransactionCallTrace} from "../../Common/Selectors/TransactionSelectors";
+import {
+    getTransaction,
+    getTransactionCallTrace,
+    getTransactionStackTrace
+} from "../../Common/Selectors/TransactionSelectors";
 import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -44,7 +48,7 @@ class ProjectTransactionPage extends Component {
     }
 
     render() {
-        const {transaction, callTrace, contract, projectId} = this.props;
+        const {transaction, callTrace, stackTrace, contract, projectId} = this.props;
         const {error} = this.state;
 
         if (error) {
@@ -94,7 +98,7 @@ class ProjectTransactionPage extends Component {
                         </Button>
                         <h1>Transaction</h1>
                     </PageHeading>
-                    <TransactionPageContent transaction={transaction} contract={contract} callTrace={callTrace}/>
+                    <TransactionPageContent transaction={transaction} contract={contract} stackTrace={stackTrace} callTrace={callTrace}/>
                 </Container>
             </Page>
         );
@@ -114,6 +118,7 @@ const mapStateToProps = (state, ownProps) => {
         networkType,
         projectId: id,
         callTrace: getTransactionCallTrace(state, txHash),
+        stackTrace: getTransactionStackTrace(state, txHash),
         contract: getContractForTransaction(state, transaction),
     }
 };
