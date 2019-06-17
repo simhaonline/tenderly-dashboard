@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {CallTracePreview, TransactionInfoSidebar, TransactionHeader, CallTraceFlameGraph} from "../index";
+import {TransactionExecution, TransactionInfoSidebar, TransactionHeader, CallTraceFlameGraph} from "../index";
 
 import './TransactionPageContent.scss';
 
@@ -10,7 +10,7 @@ const TransactionPageContent = ({transaction, contract, callTrace}) => {
         <div className="TransactionPageContent">
             <TransactionHeader contract={contract} transaction={transaction}/>
             <div className="TraceAndSidebarWrapper">
-                <CallTracePreview transaction={transaction} callTrace={callTrace} contract={contract}/>
+                <TransactionExecution transaction={transaction} callTrace={callTrace} contract={contract}/>
                 <TransactionInfoSidebar contract={contract} transaction={transaction}/>
             </div>
             <CallTraceFlameGraph callTrace={callTrace}/>

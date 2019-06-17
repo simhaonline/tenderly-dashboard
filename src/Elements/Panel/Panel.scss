@@ -23,6 +23,29 @@
     }
   }
 
+  .PanelTabs {
+    display: flex;
+    border-bottom: 1px solid $Slate700;
+    margin: 0 $Spacing2;
+    padding: 0 $Spacing2;
+
+    .PanelTab {
+      border-bottom: 3px solid transparent;
+      padding: $Spacing4 $Spacing2 $Spacing3;
+      font-size: $FontSize400;
+      cursor: pointer;
+      transition: 0.15s;
+
+      &:hover {
+        background-color: transparentize($Slate500, 0.75);
+      }
+
+      &.Active {
+        border-bottom-color: $Primary500;
+      }
+    }
+  }
+
   .PanelDivider {
     border-bottom: 1px solid $Slate700;
     margin: $Spacing4 $Spacing2 * -1;

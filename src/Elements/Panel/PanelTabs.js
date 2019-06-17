@@ -2,13 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const PanelTabs = ({className, children}) => {
+const PanelTabs = ({tabs, active, onChange, className, tabClassName}) => {
     return (
         <div className={classNames(
             "PanelTabs",
             className
         )}>
-            {children}
+            {tabs.map(tab => <div className={classNames(
+                "PanelTab",
+                tabClassName,
+                {
+                    "Active": tab.value === active,
+                }
+            )} key={tab.value} onClick={event => onChange(tab.value, event)}>
+                {tab.label}
+            </div>)}
         </div>
     )
 };

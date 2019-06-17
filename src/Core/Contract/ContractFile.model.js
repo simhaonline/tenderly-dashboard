@@ -1,3 +1,8 @@
+import hljs from "highlight.js";
+import hljsDefineSolidity from "highlightjs-solidity";
+
+hljsDefineSolidity(hljs);
+
 class ContractFile {
     constructor(data) {
         /** @type number */
@@ -5,6 +10,9 @@ class ContractFile {
 
         /** @type string */
         this.source = data.source;
+
+        /** @type string */
+        this.sourceCompiled = hljs.highlight('solidity', data.source).value;
 
         /** @type string */
         this.solidityVersion = data.solidityVersion;

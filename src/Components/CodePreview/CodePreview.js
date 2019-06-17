@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
-import hljs from "highlight.js";
-import hljsDefineSolidity from "highlightjs-solidity";
+// import hljs from "highlight.js";
+// import hljsDefineSolidity from "highlightjs-solidity";
 
 import './CodePreview.scss';
 
-hljsDefineSolidity(hljs);
-hljs.initHighlightingOnLoad();
+// hljsDefineSolidity(hljs);
+// hljs.initHighlightingOnLoad();
 
 class Code extends Component {
     state = {
@@ -14,15 +14,15 @@ class Code extends Component {
     };
 
     componentDidMount() {
-        hljs.highlightBlock(this.state.ref.current);
+        // hljs.highlightBlock(this.state.ref.current);
     }
 
     componentDidUpdate() {
-        hljs.highlightBlock(this.state.ref.current);
+        // hljs.highlightBlock(this.state.ref.current);
     }
 
     render() {
-        const {source, line, linePreview} = this.props;
+        const {file, line, linePreview} = this.props;
 
         const lineNumbers = [];
         const wrapperStyle = {};
@@ -36,7 +36,7 @@ class Code extends Component {
             codeStyle.top = `${(line - linePreview - 1) * - 21}px`;
             wrapperStyle.height = `${lineNumbers.length * 21}px`;
         } else {
-            const textLinesCount = source.split("\n").length;
+            const textLinesCount = file.source.split("\n").length;
 
             for (let i = 1; i <= textLinesCount; i++) {
                 lineNumbers.push({number: i, active: i === line});
@@ -55,9 +55,7 @@ class Code extends Component {
                         <div key={num.number} id={`line-${num.number}`} className={`StackLine ${num.active? 'active': ''}`}>{num.number}</div>
                     )}
                 </div>
-                <pre className="StackCode" ref={this.state.ref} style={codeStyle}>
-                    {source}
-                </pre>
+                <pre className="StackCode" ref={this.state.ref} style={codeStyle} dangerouslySetInnerHTML={{__html: file.sourceCompiled}}/>
             </div>
         )
     }

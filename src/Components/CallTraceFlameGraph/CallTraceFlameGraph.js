@@ -7,8 +7,6 @@ class CallTraceFlameGraph extends Component {
     render() {
         const {callTrace} = this.props;
 
-        console.log(callTrace);
-
         return (
             <Panel>
                 <PanelHeader>

@@ -61,7 +61,9 @@ export {default as UserInformationForm} from './UserInformationForm/UserInformat
 export {default as TransactionsList} from './TransactionsList/TransactionsList';
 export {default as TransactionsListItem} from './TransactionsListItem/TransactionsListItem';
 export {default as TransactionFilters} from './TransactionFilters/TransactionFilters';
+export {default as TransactionExecution} from './TransactionExecution/TransactionExecution';
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
+export {default as StackTracePreview} from './StackTracePreview/StackTracePreview';
 export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFlameGraph';
 export {default as PageError} from './PageError/PageError';
 export {default as ContractFiles} from './ContractFiles/ContractFiles';
