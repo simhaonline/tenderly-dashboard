@@ -41,18 +41,18 @@ class ProjectAnalyticsPage extends Component {
 
         return (
             <Page id="ProjectPage">
-                <PageHeading>
-                    <h1>Analytics</h1>
-                </PageHeading>
-                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
-                    <FeatureComingSoon feature="analytics"/>
-                </FeatureFlag>
-                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
-                    <Container>
+                <Container>
+                    <PageHeading>
+                        <h1>Analytics</h1>
+                    </PageHeading>
+                    <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
+                        <FeatureComingSoon feature="analytics"/>
+                    </FeatureFlag>
+                    <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
                         <ProjectTransactionAnalytics projectId={project.id}/>
                         <ProjectUsageGraph data={usageData}/>
-                    </Container>
-                </FeatureFlag>
+                    </FeatureFlag>
+                </Container>
             </Page>
         )
     }

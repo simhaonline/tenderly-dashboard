@@ -7,7 +7,7 @@ import * as projectActions from "../../Core/Project/Project.actions";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
-import {Container, Page} from "../../Elements";
+import {Container, Page, PageHeading} from "../../Elements";
 import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher, PageSegments, PageSegmentContent} from "../../Components";
 import {FeatureFlagTypes} from "../../Common/constants";
 
@@ -69,6 +69,9 @@ class ProjectSettingsPage extends Component {
         return (
             <Page id="ProjectSettingsPage">
                 <Container>
+                    <PageHeading>
+                        <h1>Settings</h1>
+                    </PageHeading>
                     <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={SettingsSegments} onSelect={this.handleSegmentSwitch}/>
                         {currentSegment === 'general' && <PageSegmentContent>

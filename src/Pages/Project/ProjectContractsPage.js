@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
@@ -7,7 +7,7 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
-import {Container, Page} from "../../Elements";
+import {Container, Page, PageHeading} from "../../Elements";
 import {ProjectSetupEmptyState, ProjectContractList, ProjectContentLoader, ProjectSetupGuide} from "../../Components";
 
 class ProjectContractsPage extends Component {
@@ -28,17 +28,22 @@ class ProjectContractsPage extends Component {
 
         return (
             <Page id="ProjectContractsPage">
-                {projectIsSetup && <Container>
-                    {contractsLoaded && <div className="DisplayFlex JustifyContentEnd MarginBottom4">
-                        <ProjectSetupGuide project={project} label="Add Contract" outline={false} size="small" color="secondary" initialCancelButtonLabel="Cancel"/>
-                    </div>}
-                    {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts}/>}
-                    {contractsLoaded && !contracts.length && <div>No contracts</div>}
-                    {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
-                </Container>}
-                {!projectIsSetup && <Container>
-                    <ProjectSetupEmptyState project={project}/>
-                </Container>}
+                <Container>
+                    <PageHeading>
+                        <h1>Contracts</h1>
+                        <div className="RightContent">
+                            {contractsLoaded && <ProjectSetupGuide project={project} label="Add Contract" outline={false}
+                                                                   size="small" color="secondary"
+                                                                   initialCancelButtonLabel="Cancel"/>}
+                        </div>
+                    </PageHeading>
+                    {projectIsSetup && <Fragment>
+                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts}/>}
+                        {contractsLoaded && !contracts.length && <div>No contracts</div>}
+                        {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
+                    </Fragment>}
+                    {!projectIsSetup && <ProjectSetupEmptyState project={project}/>}
+                </Container>
             </Page>
         )
     }

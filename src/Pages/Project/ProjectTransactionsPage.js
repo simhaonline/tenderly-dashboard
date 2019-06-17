@@ -11,7 +11,7 @@ import {FIVE_MIN_INTERVAL, ProjectTypes} from "../../Common/constants";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
-import {Container, Page} from "../../Elements";
+import {Container, Page, PageHeading} from "../../Elements";
 import {ProjectContentLoader, TransactionsList, TransactionFilters, ProjectSetupEmptyState} from "../../Components";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
@@ -124,6 +124,9 @@ class ProjectTransactionsPage extends Component {
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
+                    <PageHeading>
+                        <h1>Transactions</h1>
+                    </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>

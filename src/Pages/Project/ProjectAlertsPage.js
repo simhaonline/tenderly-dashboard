@@ -52,14 +52,14 @@ class ProjectAlertsPage extends Component {
 
         return (
             <Page id="ProjectPage">
-                <PageHeading>
-                    <h1>Alerting</h1>
-                </PageHeading>
-                <FeatureFlag flag={FeatureFlagTypes.ALERTS} reverse>
-                    <FeatureComingSoon feature="alerting"/>
-                </FeatureFlag>
-                <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                    <Container>
+                <Container>
+                    <PageHeading>
+                        <h1>Alerting</h1>
+                    </PageHeading>
+                    <FeatureFlag flag={FeatureFlagTypes.ALERTS} reverse>
+                        <FeatureComingSoon feature="alerting"/>
+                    </FeatureFlag>
+                    <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
                         <PageSegments>
                             <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
                             {currentSegment === 'events' && <PageSegmentContent>
@@ -91,8 +91,8 @@ class ProjectAlertsPage extends Component {
                                 </Card>
                             </PageSegmentContent>}
                         </PageSegments>
-                    </Container>
-                </FeatureFlag>
+                    </FeatureFlag>
+                </Container>
             </Page>
         )
     }
