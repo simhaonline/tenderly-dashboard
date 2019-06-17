@@ -58,9 +58,9 @@ export const NetworkAppToRouteTypeMap = {
 
 export const NetworkLabelMap = {
     [NetworkTypes.MAIN]: 'Mainnet',
-    [NetworkTypes.KOVAN]: 'Kovan Testnet',
-    [NetworkTypes.ROPSTEN]: 'Ropsten Testnet',
-    [NetworkTypes.RINKEBY]: 'Rinkeby Testnet',
+    [NetworkTypes.KOVAN]: 'Kovan',
+    [NetworkTypes.ROPSTEN]: 'Ropsten',
+    [NetworkTypes.RINKEBY]: 'Rinkeby',
 };
 
 export const EtherscanLinkTypes = {

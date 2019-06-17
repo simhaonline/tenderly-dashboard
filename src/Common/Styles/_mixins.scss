@@ -1,0 +1,9 @@
+@import "./colors";
+
+@mixin Gradient($type) {
+  @if ($type == 'blue-green') {
+    background-image: $GradientBluePurple;
+  } @else if ($type == 'red-purple') {
+    background-image: $GradientRedPurple;
+  }
+}

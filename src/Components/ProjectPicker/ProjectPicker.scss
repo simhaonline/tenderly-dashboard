@@ -1,0 +1,105 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
+@import "../../Common/Styles/mixins";
+
+.ProjectPicker {
+  margin-bottom: $Spacing6;
+  border-bottom: 1px solid $Slate300;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .CurrentProject {
+    cursor: pointer;
+    transition: 0.1s;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: $Spacing4 $Spacing5;
+
+    .ProjectInfo {
+      flex: 1 1 0;
+      display: flex;
+      align-items: center;
+    }
+    .ProjectIcon {
+      @include Gradient('red-purple');
+      background-clip: text;
+      color: transparent;
+      margin-right: $Spacing3;
+      font-size: $FontSize600;
+    }
+    .ProjectName {
+      font-size: $FontSize300;
+    }
+    .ProjectSlug {
+      color: transparentize($WhiteColor, 0.5);
+      font-size: $FontSize200;
+    }
+    .DropdownIcon {
+      flex: 0 0 10px;
+      margin-left: 10px;
+      opacity: 0.6;
+      font-size: $FontSize600;
+    }
+
+    &:hover {
+      background-color: transparentize($BlackColor, 0.8);
+    }
+  }
+
+  .ProjectsDropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    background-color: $Slate300;
+    border-radius: 4px;
+    width: 100%;
+    padding: 10px 0;
+    box-shadow: 1px 1px 6px 0 transparentize($BlackColor, 0.5);
+    z-index: 99999;
+
+    .LoaderWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
+    }
+
+    .ProjectDropdownItem {
+      cursor: pointer;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+
+      .ProjectIcon {
+        margin-right: 10px;
+      }
+      .ProjectName {
+        font-size: $FontSize300;
+        font-weight: 600;
+      }
+      .ProjectSlug {
+        font-weight: 100;
+        font-size: $FontSize200;
+      }
+
+      &:hover {
+        background-color: transparentize($BlackColor, 0.8);
+      }
+
+      &.Active {
+        background-color: transparentize($BlackColor, 0.6);
+        cursor: default;
+
+        .ProjectIcon, .ProjectName {
+          color: $Secondary500;
+        }
+      }
+    }
+  }
+}

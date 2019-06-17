@@ -31,6 +31,7 @@ export {default as DashboardProjectsList} from './DashboardProjectsList/Dashboar
 export {default as PopularContractsImport} from './PopularContractsImport/PopularContractsImport';
 export {default as CreateProjectForm} from './CreateProjectForm/CreateProjectForm';
 export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigation';
+export {default as ProjectPicker} from './ProjectPicker/ProjectPicker';
 export {default as ProjectSidebar} from './ProjectSidebar/ProjectSidebar';
 export {default as ProjectContractList} from './ProjectContractList/ProjectContractList';
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';

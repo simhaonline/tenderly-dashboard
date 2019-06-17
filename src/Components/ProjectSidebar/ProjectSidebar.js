@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import {Sidebar} from '../../Elements';
-import {ProjectNavigation} from '../index';
+import {ProjectNavigation, ProjectPicker} from '../index';
 
 class ProjectSidebar extends Component {
     render() {
@@ -10,7 +10,7 @@ class ProjectSidebar extends Component {
 
         return (
             <Sidebar>
-                {/*<ProjectPicker/>*/}
+                <ProjectPicker project={project}/>
                 <ProjectNavigation project={project}/>
             </Sidebar>
         );
