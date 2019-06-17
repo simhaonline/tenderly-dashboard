@@ -5,16 +5,18 @@
 $TracePreviewSpacing: 0px;
 
 .TracePreview {
-  margin: $Spacing3 0;
+  margin: 4px 0;
 
   .TracePreviewHeading {
     border-bottom: none;
     cursor: pointer;
     transition: 0.1s;
+    border-radius: 4px;
+    padding: $Spacing1;
 
     @for $i from 0 through 10 {
       &.Depth#{$i} {
-        padding-left: $Spacing6 * $i;
+        padding-left: $Spacing1 + $Spacing6 * $i;
       }
     }
 
@@ -31,12 +33,12 @@ $TracePreviewSpacing: 0px;
     }
 
     &:hover {
-      //background-color: darken(#171e31, 3);
+      background-color: transparentize($Slate700, 0.25);
     }
   }
 
   .TracePreviewCodeWrapper {
-    margin-top: $Spacing3;
+    margin: $Spacing3 0;
   }
 
   &:first-child {

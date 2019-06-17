@@ -1,25 +1,9 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
-// import hljs from "highlight.js";
-// import hljsDefineSolidity from "highlightjs-solidity";
 
 import './CodePreview.scss';
 
-// hljsDefineSolidity(hljs);
-// hljs.initHighlightingOnLoad();
-
 class Code extends Component {
-    state = {
-        ref: React.createRef(),
-    };
-
-    componentDidMount() {
-        // hljs.highlightBlock(this.state.ref.current);
-    }
-
-    componentDidUpdate() {
-        // hljs.highlightBlock(this.state.ref.current);
-    }
 
     render() {
         const {file, line, linePreview} = this.props;
@@ -49,13 +33,15 @@ class Code extends Component {
                 {
                     FullPreview: !linePreview,
                 }
-            )} style={wrapperStyle}>
-                <div className="StackLines">
-                    {lineNumbers.map(num =>
-                        <div key={num.number} id={`line-${num.number}`} className={`StackLine ${num.active? 'active': ''}`}>{num.number}</div>
-                    )}
+            )} >
+                <div className="CodeContent" style={wrapperStyle}>
+                    <div className="StackLines">
+                        {lineNumbers.map(num =>
+                            <div key={num.number} id={`line-${num.number}`} className={`StackLine ${num.active? 'active': ''}`}>{num.number}</div>
+                        )}
+                    </div>
+                    <pre className="StackCode" style={codeStyle} dangerouslySetInnerHTML={{__html: file.sourceCompiled}}/>
                 </div>
-                <pre className="StackCode" ref={this.state.ref} style={codeStyle} dangerouslySetInnerHTML={{__html: file.sourceCompiled}}/>
             </div>
         )
     }

@@ -1,21 +1,25 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
 
-$StackLinesCodeWidth: 80px;
+$StackLinesCodeWidth: 70px;
 $StackContainerVerticalPadding: 25px;
 
 .CodeWrapper {
-  overflow: hidden;
-  position: relative;
   border-radius: 5px;
-  background-color: #171e31;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  font-family: $MonospaceFontFamily;
+  background-color: $Slate700;
+  padding: $Spacing1;
+
+  .CodeContent {
+    overflow: hidden;
+    position: relative;
+    font-family: $MonospaceFontFamily;
+    font-size: $FontSize300;
+  }
 
   .StackLines {
     width: $StackLinesCodeWidth;
-    border-right: 1px solid transparentize($WhiteColor, 0.9);
-    background-color: transparentize($BlackColor, 0.9);
+    border-right: 1px solid transparentize($Primary500, 0.5);
   }
 
   .StackLine {
@@ -26,8 +30,10 @@ $StackContainerVerticalPadding: 25px;
     color: transparentize($WhiteColor, 0.25);
 
     &.active {
-      border-right: 2px solid $PrimaryColor600;
-      background-color: transparentize($PrimaryColor600, 0.8);
+      border-right: 2px solid $Primary500;
+      background-color: transparentize($Primary500, 0.75);
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
       font-weight: bold;
       margin-right: -1px;
       padding-right: 14px;
@@ -39,7 +45,9 @@ $StackContainerVerticalPadding: 25px;
         position: absolute;
         width: calc(100% - #{$StackLinesCodeWidth});
         left: $StackLinesCodeWidth;
-        background-color: transparentize($PrimaryColor600, 0.8);
+        background-color: transparentize($Primary500, 0.75);
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
       }
     }
   }
@@ -57,7 +65,7 @@ $StackContainerVerticalPadding: 25px;
     font-family: $MonospaceFontFamily;
 
     &::selection, & *::selection {
-      background-color: transparentize($PrimaryColor600, 0.5);
+      background-color: transparentize($Primary500, 0.6);
     }
   }
 
