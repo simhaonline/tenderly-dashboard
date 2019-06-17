@@ -5,7 +5,9 @@ import './Sidebar.scss';
 const Sidebar = ({children, ...props}) => {
     return (
         <div className="Sidebar" {...props}>
-            {children}
+            <div className="SidebarContent">
+                {children}
+            </div>
         </div>
     );
 };

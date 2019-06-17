@@ -4,4 +4,20 @@
 .Sidebar {
   background-color: $Slate700;
   flex: 0 0 240px;
+
+  .SidebarContent {
+    background-color: $Slate700;
+  }
+
+  @media (max-width: 760px) {
+    flex: 0 0 60px;
+    border-bottom: 1px solid $Slate300;
+
+    .SidebarContent {
+      position: absolute;
+      z-index: 1000;
+      width: 500px;
+      display: none;
+    }
+  }
 }
