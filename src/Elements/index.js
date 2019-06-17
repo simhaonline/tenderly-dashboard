@@ -19,3 +19,7 @@ export {default as Checkbox} from './Checkbox/Checkbox';
 export {default as TextArea} from './TextArea/TextArea';
 export {default as Container} from './Container/Container';
 export {default as Panel} from './Panel/Panel';
+export {default as PanelContent} from './Panel/PanelContent';
+export {PanelDivider} from './Panel/PanelContent';
+export {default as PanelTabs} from './Panel/PanelTabs';
+export {default as PanelHeader} from './Panel/PanelHeader';

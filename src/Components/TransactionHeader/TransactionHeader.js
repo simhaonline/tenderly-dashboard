@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
-import {Panel, Icon} from "../../Elements";
+import {Panel, PanelContent, PanelDivider, Icon} from "../../Elements";
 
 import './TransactionHeader.scss';
 
@@ -31,23 +31,26 @@ const TransactionHeader = ({transaction, contract}) => {
                 <h2>Transaction</h2>
             </div>
             <Panel className="TransactionHeaderCard">
-                <div className="HashInfo">
-                    <span>Transaction Hash:</span>
-                    <span className="TxHash">{transaction.txHash}</span>
-                </div>
-                <div className="CallerInfo">
-                    <div>
-                        <div className="MutedText CallerLabel">From:</div>
-                        <div>{transaction.from}</div>
+                <PanelContent>
+                    <div className="HashInfo">
+                        <span>Transaction Hash:</span>
+                        <span className="TxHash">{transaction.txHash}</span>
                     </div>
-                    <div className="DirectionIconWrapper">
-                        <Icon icon="arrow-right-circle"/>
+                    <PanelDivider/>
+                    <div className="CallerInfo">
+                        <div>
+                            <div className="MutedText CallerLabel">From:</div>
+                            <div>{transaction.from}</div>
+                        </div>
+                        <div className="DirectionIconWrapper">
+                            <Icon icon="arrow-right-circle"/>
+                        </div>
+                        <div>
+                            <div className="MutedText CallerLabel">To:</div>
+                            <Link to={contractLink}>{contract.name} ({transaction.to})</Link>
+                        </div>
                     </div>
-                    <div>
-                        <div className="MutedText CallerLabel">To:</div>
-                        <Link to={contractLink}>{contract.name} ({transaction.to})</Link>
-                    </div>
-                </div>
+                </PanelContent>
             </Panel>
         </Fragment>
     )

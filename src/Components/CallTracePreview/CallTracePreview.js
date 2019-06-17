@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {CardHeading, Panel} from "../../Elements";
+import {PanelHeader, PanelContent, Panel} from "../../Elements";
 
 import TracePreview from "../TracePreview/TracePreview";
 
@@ -11,10 +11,12 @@ class CallTracePreview extends Component {
 
         return (
             <Panel className="CallTracePreview">
-                <CardHeading>
+                <PanelHeader>
                     <h3>Call Trace</h3>
-                </CardHeading>
-                <TracePreview trace={callTrace.trace} depth={0} open={true} contract={contract}/>
+                </PanelHeader>
+                <PanelContent>
+                    <TracePreview trace={callTrace.trace} depth={0} open={true} contract={contract}/>
+                </PanelContent>
             </Panel>
         );
     }
@@ -22,6 +24,7 @@ class CallTracePreview extends Component {
 
 PropTypes.propTypes = {
     callTrace: PropTypes.object.isRequired,
+    transaction: PropTypes.object.isRequired,
     contract: PropTypes.object.isRequired,
 };
 

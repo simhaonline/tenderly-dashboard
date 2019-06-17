@@ -10,7 +10,7 @@ const TransactionPageContent = ({transaction, contract, callTrace}) => {
         <div className="TransactionPageContent">
             <TransactionHeader contract={contract} transaction={transaction}/>
             <div className="TraceAndSidebarWrapper">
-                <CallTracePreview callTrace={callTrace} contract={contract}/>
+                <CallTracePreview transaction={transaction} callTrace={callTrace} contract={contract}/>
                 <TransactionInfoSidebar contract={contract} transaction={transaction}/>
             </div>
         </div>
