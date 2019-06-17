@@ -24,4 +24,16 @@
       margin-left: auto;
     }
   }
+
+  @media (max-width: 760px) {
+    padding: 24px 40px;
+
+    .PageHeading {
+      margin-bottom: 24px;
+
+      h1 {
+        font-size: $FontSize600;
+      }
+    }
+  }
 }
