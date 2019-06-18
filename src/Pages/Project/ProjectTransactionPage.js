@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {toast} from "react-toastify";
 
 import {getContractForTransaction} from "../../Common/Selectors/ContractSelectors";
 import {
@@ -10,6 +9,8 @@ import {
     getTransactionStackTrace
 } from "../../Common/Selectors/TransactionSelectors";
 import {NetworkRouteToAppTypeMap} from "../../Common/constants";
+
+import Notifications from "../../Utils/Notifications";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
@@ -33,7 +34,7 @@ class ProjectTransactionPage extends Component {
             const actionResponse = await txActions.fetchTransactionForProject(projectId, txHash, networkType);
 
             if (!actionResponse.success) {
-                toast.error("Failed fetching transaction");
+                Notifications.error("Failed fetching transaction");
 
                 this.setState({
                     error: "There was an error trying to fetch information about this transaction.",

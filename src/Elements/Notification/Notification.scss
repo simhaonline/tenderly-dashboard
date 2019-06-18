@@ -1,0 +1,57 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
+
+// Reset scss for react-toastify
+.ToastMessage {
+  padding: 0;
+  min-height: 10px;
+  background: transparent;
+  margin-right: $Spacing4;
+  margin-bottom: $Spacing4;
+
+  .ToastBody {
+    margin: 0;
+  }
+}
+
+
+.Notification {
+  padding: $Spacing3 $Spacing5;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+
+  .NotificationIconWrapper {
+    margin-right: $Spacing4;
+    font-size: $FontSize600;
+  }
+
+  .NotificationTitle {
+    font-weight: 600;
+  }
+
+  .NotificationDescription {
+    margin-top: $Spacing1;
+  }
+
+  &.success {
+    background-color: transparentize($Success500, 0.35);
+    border: 1px solid $Success500;
+  }
+
+  &.info {
+    background-color: transparentize($Primary500, 0.35);
+    border: 1px solid $Primary500;
+  }
+
+  &.warning {
+    background-color: transparentize($YellowColor600, 0.35);
+    border: 1px solid $YellowColor600;
+  }
+
+  &.error {
+    background-color: transparentize($Danger500, 0.35);
+    border: 1px solid $Danger500;
+  }
+}
