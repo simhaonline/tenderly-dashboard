@@ -23,6 +23,10 @@
   display: flex;
 }
 
+.AlignItemsCenter {
+  align-items: center;
+}
+
 .JustifyContentEnd {
   justify-content: flex-end;
 }
@@ -41,6 +45,38 @@
 
 .MarginBottom4 {
   margin-bottom: 2rem;
+}
+
+.MarginLeft1 {
+  margin-left: 0.5rem;
+}
+
+.MarginLeft2 {
+  margin-left: 1rem;
+}
+
+.MarginLeft3 {
+  margin-left: 1.5rem;
+}
+
+.MarginLeft4 {
+  margin-left: 2rem;
+}
+
+.MarginRight1 {
+  margin-right: 0.5rem;
+}
+
+.MarginRight2 {
+  margin-right: 1rem;
+}
+
+.MarginRight3 {
+  margin-right: 1.5rem;
+}
+
+.MarginRight4 {
+  margin-right: 2rem;
 }
 
 @import "animations";

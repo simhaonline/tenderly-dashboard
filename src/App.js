@@ -75,7 +75,7 @@ class App extends Component {
                         <div id="AppContent">
                             <AppPages/>
                         </div>
-                        <ToastContainer toastClassName="ToastMessage" transition={ToastAnimation} draggable={false}
+                        <ToastContainer toastClassName="ToastMessage" transition={ToastAnimation} pauseOnFocusLoss={false} draggable={false}
                                         bodyClassName="ToastBody" closeButton={false} position="bottom-right" hideProgressBar/>
                     </div>
                 </Router>

@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
-import {FIVE_MIN_INTERVAL, ProjectTypes} from "../../Common/constants";
+import {ONE_MIN_INTERVAL, ProjectTypes} from "../../Common/constants";
 import Notifications from "../../Utils/Notifications";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -54,14 +54,7 @@ class ProjectTransactionsPage extends Component {
                 await contractActions.fetchContractsForProject(project.id);
             }
 
-            const refreshSubscriber = setInterval(() => {
-                this.fetchTransactions();
-                Notifications.info("Transactions list updated.");
-            }, FIVE_MIN_INTERVAL);
-
-            this.setState({
-                refreshSubscriber,
-            });
+            this.startPolling();
         } else {
             // @TODO Logic for getting demo transactions
             // transactions = getDemoTransactions();
@@ -73,6 +66,29 @@ class ProjectTransactionsPage extends Component {
             lastFetch: moment.now(),
         });
     }
+
+    startPolling = () => {
+        const refreshSubscriber = setInterval(() => {
+            this.fetchTransactions();
+            Notifications.info("Transactions list updated.");
+        }, ONE_MIN_INTERVAL);
+
+        this.setState({
+            refreshSubscriber,
+        });
+    };
+
+    stopPolling = () => {
+        const {refreshSubscriber} = this.state;
+
+        if (refreshSubscriber) {
+            clearInterval(refreshSubscriber);
+        }
+
+        this.setState({
+            refreshSubscriber: null,
+        });
+    };
 
     componentWillUnmount() {
         const {refreshSubscriber} = this.state;
@@ -113,11 +129,24 @@ class ProjectTransactionsPage extends Component {
 
     };
 
+    handleRefreshToggle = () => {
+        const {refreshSubscriber} = this.state;
+
+        const isPolling = !!refreshSubscriber;
+
+        if (isPolling) {
+            this.stopPolling();
+        } else {
+            this.startPolling();
+        }
+    };
+
     render() {
-        const {loading, transactions, lastFetch, filters, page} = this.state;
+        const {loading, transactions, lastFetch, filters, page, refreshSubscriber} = this.state;
         const {contracts, project} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
+        const isPolling = !!refreshSubscriber;
 
         const activeFilters = Object.values(filters).filter(filter => filter.value.length);
 
@@ -127,8 +156,10 @@ class ProjectTransactionsPage extends Component {
                     <PageHeading>
                         <h1>Transactions</h1>
                         {projectIsSetup && <div className="RightContent">
-                            <span>Auto Refresh: On</span>
-                            <Toggle value={true}/>
+                            <div className="DisplayFlex AlignItemsCenter">
+                                <span className="MarginRight2">Auto Refresh: {isPolling ? 'On' : 'Off'}</span>
+                                <Toggle value={isPolling} onChange={this.handleRefreshToggle}/>
+                            </div>
                         </div>}
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}

@@ -9,8 +9,8 @@ const Toggle = ({value, onChange}) => {
             "Toggle",
             {
                 "Active": value,
-            }
-        )}>
+            },
+        )} onClick={event => onChange(event)}>
             <div className="ToggleSwitch"/>
         </div>
     )
