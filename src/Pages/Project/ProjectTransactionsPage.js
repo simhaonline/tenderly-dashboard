@@ -126,10 +126,10 @@ class ProjectTransactionsPage extends Component {
                 <Container>
                     <PageHeading>
                         <h1>Transactions</h1>
-                        <div className="RightContent">
+                        {projectIsSetup && <div className="RightContent">
                             <span>Auto Refresh: On</span>
                             <Toggle value={true}/>
-                        </div>
+                        </div>}
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}

@@ -31,10 +31,10 @@ class ProjectContractsPage extends Component {
                 <Container>
                     <PageHeading>
                         <h1>Contracts</h1>
-                        <div className="RightContent">
+                        {projectIsSetup && <div className="RightContent">
                             {contractsLoaded && <ProjectSetupGuide project={project} label="Add Contract" outline={false}
                                                                    initialCancelButtonLabel="Cancel"/>}
-                        </div>
+                        </div>}
                     </PageHeading>
                     {projectIsSetup && <Fragment>
                         {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts}/>}

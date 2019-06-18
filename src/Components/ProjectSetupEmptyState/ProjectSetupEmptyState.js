@@ -3,7 +3,7 @@ import React from 'react';
 import {Panel, PanelContent, Button} from '../../Elements';
 import {ProjectSetupGuide} from "../index";
 
-import EmptyStateImage from './project-setup-empty-state.svg';
+import EmptyStateImage from './no-contracts-watched.svg';
 
 import './ProjectSetupEmptyState.scss';
 
