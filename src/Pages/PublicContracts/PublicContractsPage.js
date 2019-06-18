@@ -66,7 +66,7 @@ class PublicContractsPage extends Component {
                 <Helmet>
                     <title>Public Contracts | Tenderly</title>
                     <meta name="description" content="Free Web tutorials"/>
-                    <meta name="keywords" content={`smart contracts, ${NetworkLabelMap[networkType].toLowerCase()}, publi\c contracts, verified contracts`}/>
+                    <meta name="keywords" content={`smart contracts, ${NetworkLabelMap[networkType].toLowerCase()}, public contracts, verified contracts`}/>
                 </Helmet>
                 <Container>
                     <PublicContractsInfo network={networkType}

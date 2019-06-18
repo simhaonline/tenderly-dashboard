@@ -268,11 +268,11 @@ class ProjectSetupGuide extends Component {
             addManualContractError,
             addingManualContract
         } = this.state;
-        const {label, color, size, outline, project, os, initialCancelButtonLabel} = this.props;
+        const {label, color, size, outline, project, os, initialCancelButtonLabel, buttonClassName} = this.props;
 
         return (
             <Fragment>
-                <Button outline={outline} onClick={this.openDialog} size={size} color={color}>
+                <Button outline={outline} onClick={this.openDialog} size={size} color={color} className={buttonClassName}>
                     <span>{label}</span>
                 </Button>
                 <Dialog open={dialogOpen} onClose={this.handleDialogClose} className="SetupProjectDialog" overlayClose={false}>

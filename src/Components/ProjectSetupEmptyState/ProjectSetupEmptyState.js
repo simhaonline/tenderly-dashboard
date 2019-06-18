@@ -17,10 +17,10 @@ const ProjectSetupEmptyState = ({project, open, onSetup}) => {
                 <h4 className="EmptyStateHeadline">No contracts are being watched</h4>
                 <p className="EmptyStateDescription">You can start monitoring by importing a public contract or uploading your private smart contracts to the dashboard. </p>
                 <div className="EmptyStateActions">
-                    <Button to={`/public-contracts`} outline color="secondary">
+                    <Button to={`/public-contracts`} outline color="secondary" className="EmptyStateButton">
                         <span>Discover Public Contracts</span>
                     </Button>
-                    <ProjectSetupGuide project={project} open={open} onSetup={onSetup} label="Add Contracts" color="secondary" outline={false}/>
+                    <ProjectSetupGuide buttonClassName="EmptyStateButton" project={project} open={open} onSetup={onSetup} label="Add Contracts" color="secondary" outline={false}/>
                 </div>
             </PanelContent>
         </Panel>

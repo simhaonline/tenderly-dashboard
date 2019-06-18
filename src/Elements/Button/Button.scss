@@ -70,11 +70,11 @@
     background-color: $Secondary500;
 
     &:hover {
-      background-color: darken($SecondaryColor600, 5);
+      background-color: $Secondary600;
     }
 
     &:active {
-      background-color: darken($SecondaryColor600, 8);
+      background-color: $Secondary700;
     }
   }
 

@@ -1,11 +1,13 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
 
 .ProjectSetupEmptyState {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: $Spacing8 !important;
 
   .EmptyStateImage {
     opacity: 0.8;
@@ -16,16 +18,19 @@
 
   .EmptyStateHeadline {
     font-size: $FontSize600;
-    font-weight: 400;
-    margin-bottom: 10px;
-    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: $Spacing4;
   }
 
   .EmptyStateDescription {
-    max-width: 350px;
+    max-width: 400px;
     margin-top: 0;
     text-align: center;
-    font-weight: 100;
-    margin-bottom: 30px;
+    font-weight: 300;
+    margin-bottom: $Spacing6;
+  }
+
+  .EmptyStateButton {
+    width: 220px;
   }
 }
