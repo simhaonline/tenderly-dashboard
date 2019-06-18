@@ -15,6 +15,12 @@ export class Transaction {
          */
         this.status = data.status;
 
+        /**
+         * List of contracts addresses that are involved in this transaction.
+         * @type string[]
+         */
+        this.contracts = data.contracts;
+
         /** @type number */
         this.block = data.block;
 
@@ -56,6 +62,7 @@ export class Transaction {
      */
     static buildFromResponse(response, projectId) {
         return new Transaction({
+            contracts: response.addresses,
             status: response.status,
             txHash: response.hash,
             block: response.block_number,
