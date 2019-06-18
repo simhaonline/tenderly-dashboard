@@ -6,7 +6,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 20px;
 
   .EmptyStateImage {
     opacity: 0.8;
@@ -16,7 +15,7 @@
   }
 
   .EmptyStateHeadline {
-    font-size: $FontSize500;
+    font-size: $FontSize600;
     font-weight: 400;
     margin-bottom: 10px;
     text-transform: uppercase;

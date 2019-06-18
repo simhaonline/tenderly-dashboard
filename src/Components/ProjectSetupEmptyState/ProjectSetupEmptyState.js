@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {Panel, PanelContent, Button} from '../../Elements';
 import {ProjectSetupGuide} from "../index";
 
 import EmptyStateImage from './project-setup-empty-state.svg';
@@ -8,16 +9,21 @@ import './ProjectSetupEmptyState.scss';
 
 const ProjectSetupEmptyState = ({project, open, onSetup}) => {
     return (
-        <div className="ProjectSetupEmptyState">
-            <div className="EmptyStateImageWrapper">
-                <img src={EmptyStateImage} className="EmptyStateImage" alt="Empty state" />
-            </div>
-            <h4 className="EmptyStateHeadline">One last thing left</h4>
-            <p className="EmptyStateDescription">In order to monitor your Smart Contracts for errors, we need you to finish the project setup guide.</p>
-            <div className="EmptyStateActions">
-                <ProjectSetupGuide project={project} open={open} onSetup={onSetup}/>
-            </div>
-        </div>
+        <Panel>
+            <PanelContent className="ProjectSetupEmptyState">
+                <div className="EmptyStateImageWrapper">
+                    <img src={EmptyStateImage} className="EmptyStateImage" alt="Empty state" />
+                </div>
+                <h4 className="EmptyStateHeadline">No contracts are being watched</h4>
+                <p className="EmptyStateDescription">You can start monitoring by importing a public contract or uploading your private smart contracts to the dashboard. </p>
+                <div className="EmptyStateActions">
+                    <Button to={`/public-contracts`} outline color="secondary">
+                        <span>Discover Public Contracts</span>
+                    </Button>
+                    <ProjectSetupGuide project={project} open={open} onSetup={onSetup} label="Add Contracts" color="secondary" outline={false}/>
+                </div>
+            </PanelContent>
+        </Panel>
     );
 };
 

@@ -31,7 +31,7 @@ class Contract {
         /** @type string */
         this.creationTx = data.creationTx;
 
-        /** @type string */
+        /** @type NetworkTypes */
         this.network = NetworkApiToAppTypeMap[data.networkId];
 
         // @TODO Fix this to not be hardcoded

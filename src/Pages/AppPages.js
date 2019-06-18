@@ -34,7 +34,7 @@ const AppPages = () => {
             <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
             <Route path="/contract/:network/:id/source" exact component={PublicContractSourcePage}/>
-            <Route path="/contract/:network/:id/tx/:txHash" exact component={PublicContractTransactionPage}/>
+            <Route path="/tx/:network/:txHash" exact component={PublicContractTransactionPage}/>
             <Redirect exact from="/" to="/login"/>
             <Route component={NotFoundPage}/>
         </Switch>

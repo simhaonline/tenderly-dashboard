@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import { Helmet } from "react-helmet";
 
-import {NetworkRouteToAppTypeMap, NetworkRouteTypes} from "../../Common/constants";
+import {NetworkLabelMap, NetworkRouteToAppTypeMap, NetworkRouteTypes} from "../../Common/constants";
 import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicContractSelectors";
 
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
@@ -62,6 +63,11 @@ class PublicContractsPage extends Component {
 
         return (
             <Page>
+                <Helmet>
+                    <title>Public Contracts | Tenderly</title>
+                    <meta name="description" content="Free Web tutorials"/>
+                    <meta name="keywords" content={`smart contracts, ${NetworkLabelMap[networkType].toLowerCase()}, publi\c contracts, verified contracts`}/>
+                </Helmet>
                 <Container>
                     <PublicContractsInfo network={networkType}
                                          onSearch={this.handleContractSearch}

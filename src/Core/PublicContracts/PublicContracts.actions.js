@@ -71,33 +71,32 @@ export const fetchPublicContract = (id, network) => {
 };
 
 /**
+ *
  * @param {string} id
- * @param {string} network
- * @param {number} perPage
- * @param {string} page
+ * @param {Transaction} transaction
  */
-export const fetchPublicContractEvents = (id, network, perPage=20, page=1) => {
+export const fetchPublicContractsForTransaction = (id, transaction) => {
     return async dispatch => {
-        const apiNetwork = NetworkAppToApiTypeMap[network];
+        try {
+            const apiNetwork = NetworkAppToApiTypeMap[transaction.network];
 
-        const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}/events`, {
-            params: {
-                perPage,
-                page,
+            const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}`);
+
+            if (!data) {
+                return new ErrorActionResponse();
             }
-        });
 
-        if (!data) {
-            return;
+            const contract = Contract.buildFromResponse(data);
+
+            dispatch({
+                type: FETCH_PUBLIC_CONTRACT_ACTION,
+                contract,
+            });
+
+            return new SuccessActionResponse(contract);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
         }
-
-        const events = data.map(contract => Event.responseTransformer(contract));
-
-        dispatch({
-            type: FETCH_PUBLIC_CONTRACT_EVENTS_ACTION,
-            contractId: id,
-            network,
-            events,
-        });
     }
 };

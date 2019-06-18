@@ -45,7 +45,7 @@ export class Transaction {
         /** @type number */
         this.nonce = data.nonce;
 
-        /** @type string */
+        /** @type NetworkTypes */
         this.network = NetworkApiToAppTypeMap[data.networkId];
 
         /** @type string */

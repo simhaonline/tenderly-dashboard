@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import {getTransaction, getTransactionCallTrace} from "../../Common/Selectors/TransactionSelectors";
+import {
+    getTransaction,
+    getTransactionCallTrace,
+    getTransactionStackTrace
+} from "../../Common/Selectors/TransactionSelectors";
 import {NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -10,7 +14,10 @@ import * as publicContractActions from "../../Core/PublicContracts/PublicContrac
 
 import {ProjectPageLoader, TransactionPageContent} from "../../Components";
 import {Page, Container} from "../../Elements";
-import {getPublicContractById} from "../../Common/Selectors/PublicContractSelectors";
+import {
+    arePublicContractsLoadedForTransaction,
+    getPublicContractById, getPublicContractsForTransaction
+} from "../../Common/Selectors/PublicContractSelectors";
 
 
 class PublicContractTransactionPage extends Component {
@@ -24,14 +31,18 @@ class PublicContractTransactionPage extends Component {
     }
 
     async componentDidMount() {
-        const {contractId, txHash, networkType, contract, transaction, callTrace, txActions, contractActions} = this.props;
+        const {txHash, networkType, contractsLoaded, transaction, callTrace, txActions, contractActions} = this.props;
 
-        if (!contract) {
-            await contractActions.fetchPublicContract(contractId, networkType);
-        }
+        let tx = transaction;
 
         if (!transaction || !callTrace) {
-            await txActions.fetchTransactionForPublicContract(txHash, networkType);
+            const actionResponse = await txActions.fetchTransactionForPublicContract(txHash, networkType);
+
+            tx = actionResponse.data;
+        }
+
+        if (tx && !contractsLoaded) {
+
         }
 
         this.setState({
@@ -58,7 +69,7 @@ class PublicContractTransactionPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id, txHash, network}}} = ownProps;
+    const {match: {params: {txHash, network}}} = ownProps;
 
     const transaction = getTransaction(state, txHash);
 
@@ -68,9 +79,10 @@ const mapStateToProps = (state, ownProps) => {
         txHash,
         transaction,
         networkType,
-        contractId: id,
         callTrace: getTransactionCallTrace(state, txHash),
-        contract: getPublicContractById(state, id),
+        stackTrace: getTransactionStackTrace(state, txHash),
+        contracts: getPublicContractsForTransaction(state, transaction),
+        contractsLoaded: arePublicContractsLoadedForTransaction(state, transaction),
     }
 };
 

@@ -16,7 +16,7 @@ export function getNetworkPublicContractsForPage(state, network, page) {
 
 /**
  * @param {Object} state
- * @param {number} id
+ * @param {string} id
  * @returns {Object} contract
  */
 export function getPublicContractById(state, id) {
@@ -29,7 +29,33 @@ export function getPublicContractById(state, id) {
 
 /**
  * @param {Object} state
- * @param {number} id
+ * @param {Transaction} transaction
+ * @returns {Contract[]} contracts
+ */
+export function getPublicContractsForTransaction(state, transaction) {
+    if (!transaction || !transaction.contracts.length) {
+        return [];
+    }
+
+    return transaction.contracts.map(contractId => getPublicContractById(state, contractId))
+}
+
+/**
+ * @param {Object} state
+ * @param {Transaction} transaction
+ * @returns {boolean}
+ */
+export function arePublicContractsLoadedForTransaction(state, transaction) {
+    if (!transaction || !transaction.contracts.length) {
+        return false;
+    }
+
+    return transaction.contracts.every(contractId => isPublicContractLoaded(state, contractId));
+}
+
+/**
+ * @param {Object} state
+ * @param {string} id
  * @returns {boolean}
  */
 export function isPublicContractLoaded(state, id) {

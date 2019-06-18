@@ -39,7 +39,7 @@ class TransactionsListItem extends Component {
         if (!props.publicContract) {
             transactionRoute = `/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`;
         } else if (txContract) {
-            transactionRoute = `/contract/${networkRoute}/${txContract.id}/tx/${transaction.txHash}`;
+            transactionRoute = `/tx/${networkRoute}/${transaction.txHash}`;
         }
 
         this.state = {
