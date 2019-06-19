@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 
-import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn, TimeAgoColumn} from "../index";
-import {Table} from "../../Elements";
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+
+import {Table} from "../../Elements";
+import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn, TransactionMoreColumn, TimeAgoColumn} from "../index";
 
 const transactionTableConf = [
     {
@@ -22,6 +23,10 @@ const transactionTableConf = [
     {
         label: "When",
         renderColumn: tx => <TimeAgoColumn timestamp={tx.timestamp}/>,
+    },
+    {
+        className: "TransactionMoreColumn",
+        renderColumn: tx => <TransactionMoreColumn transaction={tx}/>,
     },
 ];
 

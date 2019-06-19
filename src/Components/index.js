@@ -77,3 +77,4 @@ export {default as TransactionHashColumn} from './TransactionHashColumn/Transact
 export {default as TransactionStatusColumn} from './TransactionStatusColumn/TransactionStatusColumn';
 export {default as NetworkColumn} from './NetworkColumn/NetworkColumn';
 export {default as TimeAgoColumn} from './TimeAgoColumn/TimeAgoColumn';
+export {default as TransactionMoreColumn} from './TransactionMoreColumn/TransactionMoreColumn';

@@ -1,0 +1,15 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
+
+.TransactionMoreColumn.Table__Column {
+  max-width: 50px;
+  text-align: center;
+}
+
+.TransactionMoreColumn {
+  .MoreIcon {
+    font-size: $FontSize500;
+    opacity: 0.75;
+  }
+}
