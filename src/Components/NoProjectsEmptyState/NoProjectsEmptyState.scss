@@ -2,7 +2,7 @@
 @import "../../Common/Styles/typography";
 @import "../../Common/Styles/global";
 
-.ProjectSetupEmptyState {
+.NoProjectsEmptyState {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +22,7 @@
   }
 
   .EmptyStateDescription {
-    max-width: 400px;
+    max-width: 600px;
     margin-top: 0;
     text-align: center;
     font-weight: 300;
@@ -30,6 +30,6 @@
   }
 
   .EmptyStateButton {
-    width: 220px;
+    min-width: 200px;
   }
 }

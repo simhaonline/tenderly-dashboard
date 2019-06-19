@@ -3,14 +3,14 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 import {Bar, BarChart, YAxis} from "recharts";
 
-import {Button, Icon, Card} from "../../Elements";
-import ProjectSetupGuide from "../ProjectSetupGuide/ProjectSetupGuide";
-import FeatureFlag from "../FeatureFlag/FeatureFlag";
+import MixPanel from "../../Utils/MixPanel";
+
+import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
+
+import {Icon, Card} from "../../Elements";
+import {SimpleLoader, NoProjectsEmptyState, ProjectSetupGuide, FeatureFlag} from "../index";
 
 import './DashboardProjectsList.scss';
-import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
-import MixPanel from "../../Utils/MixPanel";
-import {SimpleLoader} from "..";
 
 const handleProjectItemClick = () => {
     MixPanel.track('navigate_project');
@@ -40,15 +40,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
 
     return (
         <div className="DashboardProjectsList">
-            {(loaded && projects.length === 0) && <div className="ProjectListEmptyState">
-                <Icon icon="single-project" className="EmptyStateIcon"/>
-                <h5 className="EmptyStateHeadline">Create your first project</h5>
-                <p className="EmptyStateDescription">Upload your smart contracts or import them from Etherscan and start monitoring them. View transactions that fail in real-time and be alerted when ever that happens.</p>
-                <div>
-                    <Button className="EmptyStateButton" size="small" color="secondary" onClick={onTryExample} outline>Try Example Project</Button>
-                    <Button className="EmptyStateButton" size="small" color="secondary" to="/project/create">Create a Project</Button>
-                </div>
-            </div>}
+            {(loaded && projects.length === 0) && <NoProjectsEmptyState onTryExample={onTryExample}/>}
             {(loaded && projects.length !== 0) && <div className="ProjectList">
                 {projects.map(project =>
                     <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id} onClick={handleProjectItemClick}>

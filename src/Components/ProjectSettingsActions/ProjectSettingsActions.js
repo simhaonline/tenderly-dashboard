@@ -45,7 +45,7 @@ class ProjectSettingsActions extends Component {
                         <h3>Project Actions</h3>
                     </PanelHeader>
                     <PanelContent>
-                        <Button onClick={this.openDialog} color="danger" outline>
+                        <Button onClick={this.openDialog} color="secondary" outline>
                             <span>Delete Project</span>
                         </Button>
                     </PanelContent>
