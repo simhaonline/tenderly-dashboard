@@ -91,7 +91,7 @@ class Table extends Component {
                         {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row}/>)}
                     </div>)}
                 </div>
-                {currentPage && <div className={"Table__Controls"}>
+                {!!currentPage && <div className={"Table__Controls"}>
                     {!!perPage && <div className="Table__Controls__PerPage">
                         <div className="Table__Controls__PerPage__Label">
                             Per Page
