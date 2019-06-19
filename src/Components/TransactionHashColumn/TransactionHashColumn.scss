@@ -1,0 +1,8 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.TransactionHashColumn {
+  font-weight: 600;
+  font-family: $MonospaceFontFamily;
+  color: $LinkColor;
+}

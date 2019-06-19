@@ -70,3 +70,9 @@ export {default as ContractFiles} from './ContractFiles/ContractFiles';
 export {default as TransactionInfoSidebar} from './TransactionInfoSidebar/TransactionInfoSidebar';
 export {default as TransactionHeader} from './TransactionHeader/TransactionHeader';
 export {default as TransactionPageContent} from './TransactionPageContent/TransactionPageContent';
+
+/**
+ * Table Column Elements
+ */
+export {default as TransactionHashColumn} from './TransactionHashColumn/TransactionHashColumn';
+export {default as NetworkColumn} from './NetworkColumn/NetworkColumn';
