@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 
-import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn} from "../index";
+import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn, TimeAgoColumn} from "../index";
 import {Table} from "../../Elements";
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
@@ -18,6 +18,10 @@ const transactionTableConf = [
     {
         label: "Network",
         renderColumn: tx => <NetworkColumn network={tx.network}/>,
+    },
+    {
+        label: "When",
+        renderColumn: tx => <TimeAgoColumn timestamp={tx.timestamp}/>,
     },
 ];
 
