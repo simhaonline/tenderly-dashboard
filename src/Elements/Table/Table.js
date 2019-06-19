@@ -8,7 +8,7 @@ import './Table.scss';
 
 class TableColumn extends Component {
     render() {
-        const {configuration, data} = this.props;
+        const {configuration, data, metadata} = this.props;
 
         return (
             <div className={classNames(
@@ -16,7 +16,7 @@ class TableColumn extends Component {
                 "Table__Column--Body",
                 configuration.className,
             )}>
-                {!!configuration.renderColumn && configuration.renderColumn(data)}
+                {!!configuration.renderColumn && configuration.renderColumn(data, metadata)}
                 {!configuration.renderColumn && data[configuration.accessor]}
             </div>
         )
@@ -43,8 +43,20 @@ class Table extends Component {
         return keyAccessor(rowData);
     };
 
+    /**
+     * @param {Object} row
+     * @param event
+     */
+    handleRowClick = (row, event) => {
+        const {onRowClick} = this.props;
+
+        if (onRowClick) {
+            onRowClick(row, event);
+        }
+    };
+
     render() {
-        const {configuration, data, className, rowClassName, headClassName, currentPage, perPage, onPageChange, onPerPageChange} = this.props;
+        const {configuration, data, className, rowClassName, headClassName, currentPage, perPage, onPageChange, onPerPageChange, onRowClick} = this.props;
 
         return (
             <Panel className={classNames(
@@ -73,8 +85,9 @@ class Table extends Component {
                         rowClassName,
                         {
                             "Table__Row--Even": !!(index % 2),
+                            "Table__Row--Clickable": !!onRowClick,
                         },
-                    )}>
+                    )} onClick={this.handleRowClick}>
                         {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row}/>)}
                     </div>)}
                 </div>
@@ -110,7 +123,9 @@ Table.propTypes = {
         PropTypes.string,
         PropTypes.func,
     ]),
+    metadata: PropTypes.object,
     loading: PropTypes.bool,
+    onRowClick: PropTypes.func,
     currentPage: PropTypes.number,
     maximumPages: PropTypes.number,
     onPageChange: PropTypes.func,
