@@ -70,7 +70,7 @@ class FeedbackDialog extends Component {
                                   placeholder="Have any suggestions? We value every feedback as it helps us improve our application so that you can get the most out of it."
                                   className="FeedbackMessage"/>
                         {feedbackSent && <p>Feedback sent!</p>}
-                        <Button type="submit" outline onClick={this.handleSendFeedback} disabled={feedbackSent || sending}>
+                        <Button type="submit" color="secondary" onClick={this.handleSendFeedback} disabled={feedbackSent || sending}>
                             <Icon icon="send"/>
                             <span>Send</span>
                         </Button>

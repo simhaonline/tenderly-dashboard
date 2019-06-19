@@ -1,5 +1,6 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
 
 .DialogOverlay {
   position: fixed;
@@ -71,7 +72,7 @@
 }
 
 .DialogContent {
-  background-color: #212a46;
+  background-color: $Slate400;
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 10px;
   z-index: 1000;
@@ -81,13 +82,15 @@
   box-shadow: 4px 4px 8px 0 transparentize($BlackColor, 0.7);
 
   .DialogHeader {
-    background-color: transparentize($BlackColor, 0.8);
-    padding: 20px 30px;
+    background-color: $Slate500;
+    margin: $Spacing2 $Spacing2 0;
+    padding: $Spacing5 $Spacing5;
     display: flex;
     align-items: center;
+    border-radius: 10px;
 
     h1, h2, h3, h4, h5 {
-      font-weight: 100;
+      font-weight: 600;
       font-size: $FontSize400;
     }
 
@@ -102,6 +105,6 @@
   }
 
   .DialogBody {
-    padding: 30px;
+    padding: $Spacing6 $Spacing6;
   }
 }
