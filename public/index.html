@@ -11,6 +11,7 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap" rel="stylesheet">
+    <% if (process.env.NODE_ENV === 'production') { %>
     <script>
       window['_fs_debug'] = false;
       window['_fs_host'] = 'fullstory.com';
@@ -28,6 +29,8 @@
         g.clearUserCookie=function(){};
       })(window,document,window['_fs_namespace'],'script','user');
     </script>
+    <% } %>
+
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
