@@ -45,11 +45,11 @@ export class Trace {
     }
 
     static buildFromRawStackTrace(rawStackTrace) {
-        console.log(rawStackTrace);
-
         return new Trace({
             functionName: rawStackTrace.code,
+            fileName: rawStackTrace.name,
             lineNumber: rawStackTrace.line,
+            fileId: rawStackTrace.file_index,
         });
     }
 }
