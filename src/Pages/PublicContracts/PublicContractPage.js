@@ -76,7 +76,7 @@ class PublicContractPage extends Component {
                     </PageHeading>
                     <ContractInformation contract={contract} back/>
                     <ContractActions contract={contract} routeNetwork={network}/>
-                    <TransactionsList transactions={transactions} contracts={[contract]} publicContracts
+                    <TransactionsList transactions={transactions} contracts={[contract]} isPublicContracts
                                       currentPage={page} onPageChange={this.handlePageChange}/>
                 </Container>
             </Page>
