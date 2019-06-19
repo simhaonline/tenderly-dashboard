@@ -12,7 +12,7 @@ const transactionTableConf = [
         renderColumn: tx => <TransactionHashColumn transaction={tx}/>,
     },
     {
-        status: 'Status',
+        label: 'Status',
         renderColumn: tx => <TransactionStatusColumn status={tx.status}/>,
     },
     {
