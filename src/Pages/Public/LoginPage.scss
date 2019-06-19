@@ -50,11 +50,7 @@
     }
   }
 
-  .LoginForm {
-    padding: 30px 20px 30px;
-    background-color: lighten(#171e31, 6);
-    border-radius: 6px;
-    box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.9);
+  .LoginFormPanel {
     width: 400px;
     z-index: 2;
     position: relative;
@@ -67,22 +63,12 @@
     }
 
     .FormDescription {
-      opacity: 0.75;
-      font-size: $FontSize200;
       margin-bottom: 20px;
-    }
-
-    .LoginButtonWrapper {
-      margin-top: 15px;
-      border-top: 1px solid $BorderColor;
-      padding-top: 20px;
     }
   }
 
   .ThirdPartLoginWrapper {
-    margin-top: 20px;
     display: flex;
-    border-top: 1px solid $BorderColor;
     padding-top: 20px;
 
     .ButtonWrapper {
@@ -142,40 +128,12 @@
 
   .InputActionWrapper {
     text-align: right;
-    margin-top: -15px;
-    margin-bottom: 10px;
-
-    .InputAction {
-      font-size: $FontSize100;
-    }
+    margin-top: -10px;
+    margin-bottom: 15px;
   }
 
   .PocLinkWrapper {
     margin: 20px 0 30px;
-
-    .PocLink {
-      border-radius: 20px;
-      background-color: transparentize($PrimaryColor600, 0.8);
-      border: 1px solid $PrimaryColor600;
-      color: $WhiteColor;
-      padding: 10px 20px;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-
-      .PocIcon {
-        margin-right: 8px;
-        transform-origin: center;
-      }
-
-      &:hover {
-        background-color: transparentize($PrimaryColor600, 0.6);
-
-        .PocIcon {
-          animation: 2s PocIconAnimation linear infinite;
-        }
-      }
-    }
   }
 
   @media (max-width: 1040px) {
@@ -191,7 +149,7 @@
       border-radius: 6px;
     }
 
-    .LoginForm {
+    .LoginFormPanel {
       width: 100%;
     }
   }

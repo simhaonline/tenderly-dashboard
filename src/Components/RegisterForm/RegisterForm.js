@@ -11,7 +11,7 @@ import {UsernameStatusMap} from "../../Common/constants";
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
-import {Button, Card, Icon, Form, Checkbox, Input, Alert} from "../../Elements";
+import {Button, Panel, PanelContent, PanelDivider, Icon, Form, Checkbox, Input, Alert} from "../../Elements";
 import {GitHubLoginButton, GoogleLoginButton, UsernameStatusInfo} from "../index";
 
 import './RegisterForm.scss';
@@ -115,32 +115,34 @@ class RegisterForm extends Component {
                     <div className="LogoWrapper">
                         <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
                     </div>
-                    <Card className="RegisterAccountForm">
-                        <Form onSubmit={this.handleRegistrationSubmit}>
-                            {registrationFailed && <Alert color="danger" animation={true}>{errorMessage}</Alert>}
-                            <Input autoFocus field="email" onChange={this.handleFormUpdate} value={formData.email} label="E-mail" icon="mail"/>
-                            <Input field="username" onChange={this.handleUsernameChange} value={formData.username} label="Username" icon="user"/>
-                            {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
-                            <hr/>
-                            <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
-                            <Input icon="lock" type="password" label="Repeat password" field="repeatPassword" value={formData.repeatPassword} onChange={this.handleFormUpdate}/>
-                            <div>
-                                <Checkbox field="termsAgreed" value={formData.termsAgreed} onChange={this.handleFormUpdate} renderLabel={() =>
-                                    <span>I agree to the Tenderly <a className="DocumentLink" href="https://tenderly.dev/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a className="DocumentLink" href="https://tenderly.dev/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></span>
-                                }/>
-                            </div>
-                            <div className="FormActionsWrapper">
-                                <Button onClick={this.handleRegistrationSubmit} disabled={this.isFormInvalid()}>
-                                    <span>Create Account</span>
-                                </Button>
-                            </div>
-                            <hr/>
-                            <div className="OAuthButtonsWrapper">
-                                <GoogleLoginButton label="Register with Google" onAuthentication={this.handleOAuth}/>
-                                <GitHubLoginButton label="Register with GitHub"/>
-                            </div>
-                        </Form>
-                    </Card>
+                    <Panel>
+                        <PanelContent>
+                            <Form onSubmit={this.handleRegistrationSubmit}>
+                                <div className="OAuthButtonsWrapper">
+                                    <GoogleLoginButton label="Register with Google" onAuthentication={this.handleOAuth}/>
+                                    <GitHubLoginButton label="Register with GitHub"/>
+                                </div>
+                                <PanelDivider/>
+                                {registrationFailed && <Alert color="danger" animation={true}>{errorMessage}</Alert>}
+                                <Input autoFocus field="email" onChange={this.handleFormUpdate} value={formData.email} label="E-mail" icon="mail"/>
+                                <Input field="username" onChange={this.handleUsernameChange} value={formData.username} label="Username" icon="user"/>
+                                {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
+                                <PanelDivider/>
+                                <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+                                <Input icon="lock" type="password" label="Repeat password" field="repeatPassword" value={formData.repeatPassword} onChange={this.handleFormUpdate}/>
+                                <div>
+                                    <Checkbox field="termsAgreed" value={formData.termsAgreed} onChange={this.handleFormUpdate} renderLabel={() =>
+                                        <span>I agree to the Tenderly <a className="DocumentLink" href="https://tenderly.dev/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a className="DocumentLink" href="https://tenderly.dev/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></span>
+                                    }/>
+                                </div>
+                                <div className="FormActionsWrapper">
+                                    <Button onClick={this.handleRegistrationSubmit} disabled={this.isFormInvalid()}>
+                                        <span>Create Account</span>
+                                    </Button>
+                                </div>
+                            </Form>
+                        </PanelContent>
+                    </Panel>
                     <div className="FormSubActions">
                         <Link to="/login" className="LoginLink">
                             <Icon icon="log-in" className="LoginLinkIcon"/>
