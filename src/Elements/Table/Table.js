@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Panel from "../Panel/Panel";
+import {Panel, Icon} from "../index";
 
 import './Table.scss';
 
@@ -12,7 +12,8 @@ class TableColumn extends Component {
 
         return (
             <div className={classNames(
-                "TableColumn",
+                "Table__Column",
+                "Table__Column--Body",
                 configuration.className,
             )}>
                 {!!configuration.renderColumn && configuration.renderColumn(data)}
@@ -43,7 +44,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, data, className, rowClassName, headClassName} = this.props;
+        const {configuration, data, className, rowClassName, headClassName, currentPage, perPage} = this.props;
 
         return (
             <Panel className={classNames(
@@ -51,12 +52,13 @@ class Table extends Component {
                 className,
             )}>
                 <div className={classNames(
-                    "TableHead",
+                    "Table__Head",
                     headClassName,
                 )}>
                     {configuration.map((conf, index) => (
                         <div key={index} className={classNames(
-                            "TableHeadColumn",
+                            "Table__Column",
+                            "Table__Column--Head",
                             configuration.className,
                         )}>
                             {conf.label}
@@ -64,16 +66,28 @@ class Table extends Component {
                     ))}
                 </div>
                 <div className={classNames(
-                    "TableBody",
+                    "Table__Body",
                 )}>
                     {data.map((row, index) => <div key={this.getKeyAccessor(row, index)} className={classNames(
-                        "TableRow",
+                        "Table__Row",
                         rowClassName,
+                        {
+                            "Table__Row--Even": !!(index % 2),
+                        }
                     )}>
                         {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row}/>)}
                     </div>)}
                 </div>
-                this table thank yu
+                {currentPage && <div className={"Table__Controls"}>
+                    {!!perPage && <div className="Table__PerPage">
+                        {}
+                    </div>}
+                    <div className="Table__Pagination">
+                        <Icon icon="arrow-left"/>
+                        {currentPage}
+                        <Icon icon="arrow-right"/>
+                    </div>
+                </div>}
             </Panel>
         );
     }

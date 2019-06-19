@@ -1,0 +1,47 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
+
+.Table {
+
+}
+
+.Table__Head {
+  display: flex;
+  align-items: center;
+  margin: 0 $Spacing2;
+  border-bottom: 1px solid $Slate700;
+}
+
+.Table__Body {
+  padding: $Spacing3 $Spacing2;
+}
+
+.Table__Row {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.Table__Row--Even {
+  background-color: $Slate400;
+}
+
+.Table__Row--Clickable {
+  cursor: pointer;
+}
+
+.Table__Column {
+  flex: 1 1 0;
+  padding: $Spacing2;
+}
+
+.Table__Column--Head {
+  padding: $Spacing4 $Spacing2;
+  font-size: $FontSize400;
+  font-weight: 600;
+}
+
+.Table__Column--Body {
+
+}
