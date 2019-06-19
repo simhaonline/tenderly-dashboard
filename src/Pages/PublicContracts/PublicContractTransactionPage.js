@@ -16,7 +16,7 @@ import {ProjectPageLoader, TransactionPageContent} from "../../Components";
 import {Page, Container} from "../../Elements";
 import {
     arePublicContractsLoadedForTransaction,
-    getPublicContractById, getPublicContractsForTransaction
+    getPublicContractsForTransaction
 } from "../../Common/Selectors/PublicContractSelectors";
 
 
@@ -31,7 +31,7 @@ class PublicContractTransactionPage extends Component {
     }
 
     async componentDidMount() {
-        const {txHash, networkType, contractsLoaded, transaction, callTrace, txActions, contractActions} = this.props;
+        const {txHash, networkType, contractsLoaded, transaction, callTrace, txActions} = this.props;
 
         let tx = transaction;
 
@@ -42,7 +42,7 @@ class PublicContractTransactionPage extends Component {
         }
 
         if (tx && !contractsLoaded) {
-
+            // @TODO Fetch multiple contracts
         }
 
         this.setState({

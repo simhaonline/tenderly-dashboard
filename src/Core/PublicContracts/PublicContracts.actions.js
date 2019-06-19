@@ -1,6 +1,5 @@
 import {Api} from '../../Utils/Api';
 import {NetworkAppToApiTypeMap} from "../../Common/constants";
-import Event from "../Event/Event.model";
 import Contract from "../Contract/Contract.model";
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 

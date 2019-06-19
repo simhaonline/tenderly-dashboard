@@ -13,7 +13,6 @@ import './Common/Styles/base.scss';
 
 import * as authActions from "./Core/Auth/Auth.actions";
 import MixPanel from "./Utils/MixPanel";
-import Notifications from "./Utils/Notifications";
 
 import {store} from './Core';
 
