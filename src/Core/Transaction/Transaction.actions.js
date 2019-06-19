@@ -5,11 +5,17 @@ import {Api} from "../../Utils/Api";
 import {Transaction} from "./Transaction.model";
 import {CallTrace} from "../Trace/CallTrace.model";
 
+import {
+    exampleTransaction1Paylod
+} from "../../examples";
+
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
 
 export const FETCH_TRANSACTIONS_FOR_PUBLIC_CONTRACT_ACTION = 'FETCH_TRANSACTIONS_FOR_PUBLIC_CONTRACT';
 export const FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION = 'FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT';
+
+export const FETCH_EXAMPLE_TRANSACTION_ACTION = 'FETCH_EXAMPLE_TRANSACTION';
 
 const StatusValueToApiValue = {
     'all': null,
@@ -61,6 +67,16 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
     }
 };
 
+export const fetchExampleTransactions = () => {
+    return async () => {
+        const transactions = [
+            Transaction.buildFromResponse(exampleTransaction1Paylod, "example-project"),
+        ];
+
+        return new SuccessActionResponse(transactions);
+    }
+};
+
 /**
  * @param {string} projectId
  * @param {string} txHash
@@ -100,6 +116,27 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
             return new ErrorActionResponse(error);
         }
     }
+};
+
+export const fetchExampleTransaction = () => {
+    return async (dispatch) => {
+
+        const transaction = Transaction.buildFromResponse(exampleTransaction1Paylod, "example-project");
+
+        const callTrace = CallTrace.buildFromResponse(exampleTransaction1Paylod);
+
+        dispatch({
+            type: FETCH_EXAMPLE_TRANSACTION_ACTION,
+            projectId: "example-project",
+            transaction,
+            callTrace,
+        });
+
+        return new SuccessActionResponse({
+            transaction,
+            callTrace,
+        })
+    };
 };
 
 /**

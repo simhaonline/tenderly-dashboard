@@ -1,6 +1,5 @@
 import {NetworkAppToApiTypeMap, NetworkTypes, ProjectTypes} from "./Common/constants";
 
-
 const exampleContractSource = `pragma solidity ^0.4.25;
 
 contract ExampleContract {
@@ -105,52 +104,52 @@ export const exampleContract2Payload = {
 };
 
 export const exampleTransaction1Paylod = {
-    transaction_id: '0x574491ab4ab459848e91de6abf501e6eae72a3b7cf489b60e4c23436c4cf2679',
-    contract_address: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
-    block_number: '7430607',
-    CreatedAt: Date.now(),
-    Method: 'transferToReserve',
-    StackTrace: [
-        {
-            code: "require(storedFunds > amount)",
-            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
-            length: 36,
-            line: 29,
-            name: "ExampleContract",
-            method: "transferToReserve",
-            op: "REVERT",
-            start: 42703,
-        },
-        {
-            code: "transferToReserve(amount)",
-            method: 'sendFunds',
-            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
-            length: 36,
-            line: 36,
-            name: "ExampleContract",
-            op: "REVERT",
-            start: 42703,
-        },
-        {
-            code: "sendFunds(amount, to)",
-            method: "extractFunds",
-            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
-            length: 36,
-            line: 49,
-            name: "ExampleContract",
-            op: "REVERT",
-            start: 42703,
-        },
-        {
-            code: "extractFunds(uint amount, address src, address to)",
-            calling_method: true,
-            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
-            caller_address: '',
-            line: 46,
-            name: "ExampleContract",
-            op: "REVERT",
-        }
+    block_hash: "0x0955a4f0efdc80cdc770d74c0abab38881bca93ca2c07c3f85aa6ec8041f02de",
+    network_id: NetworkAppToApiTypeMap[NetworkTypes.MAIN],
+    hash: '0x574491ab4ab459848e91de6abf501e6eae72a3b7cf489b60e4c23436c4cf2679',
+    block_number: 7989316,
+    addresses: [
+        "0x06012c8cf97bead5deae237070f9587f8e7a266a",
     ],
+    from: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
+    to: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
+    nonce: 577,
+    status: true,
+    timestamp: "2019-06-19T14:37:54Z",
+    transaction_info: {
+        call_trace: {
+            function_name: "extractFunds",
+            function_file_index: 0,
+            caller_file_index: 0,
+            caller_line_number: 46,
+            function_line_number: 46,
+            calls: [
+                {
+                    function_name: "isAuthorized",
+                    function_file_index: 0,
+                    caller_file_index: 0,
+                    caller_line_number: 47,
+                    function_line_number: 47,
+                },
+                {
+                    function_name: "sendFunds",
+                    function_file_index: 0,
+                    caller_file_index: 0,
+                    caller_line_number: 49,
+                    function_line_number: 49,
+                    calls: [
+                        {
+                            function_name: "transferToReserve",
+                            function_file_index: 0,
+                            caller_file_index: 0,
+                            caller_line_number: 36,
+                            function_line_number: 36,
+                        }
+                    ],
+                }
+            ],
+        },
+    },
 };
 
 export const exampleEvent1Paylod = {

@@ -63,8 +63,9 @@ class ProjectTransactionsPage extends Component {
                 refreshSubscriber,
             });
         } else {
-            // @TODO Logic for getting demo transactions
-            // transactions = getDemoTransactions();
+            const exampleResponse = await txActions.fetchExampleTransactions();
+
+            transactions = exampleResponse.data;
         }
 
         this.setState({
