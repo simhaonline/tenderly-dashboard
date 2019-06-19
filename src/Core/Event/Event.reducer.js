@@ -1,6 +1,5 @@
 import {FETCH_PUBLIC_CONTRACT_EVENTS_ACTION} from "../PublicContracts/PublicContracts.actions";
 import {FETCH_EVENT_FOR_PROJECT_ACTION, FETCH_EVENTS_FOR_PROJECT_ACTION} from "./Event.actions";
-import {CREATE_EXAMPLE_PROJECT_ACTION} from "../Project/Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
 const initialState = {
@@ -44,7 +43,6 @@ const EventReducer = (state = initialState, action) => {
                     }
                 }
             };
-        case CREATE_EXAMPLE_PROJECT_ACTION:
         case FETCH_EVENTS_FOR_PROJECT_ACTION:
             const events = action.events.reduce((data, event) => {
                 if (state.events[event.id]) {

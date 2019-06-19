@@ -57,8 +57,9 @@ class ProjectTransactionsPage extends Component {
 
             this.startPolling();
         } else {
-            // @TODO Logic for getting demo transactions
-            // transactions = getDemoTransactions();
+            const exampleResponse = await txActions.fetchExampleTransactions();
+
+            transactions = exampleResponse.data;
         }
 
         this.setState({

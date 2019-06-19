@@ -8,7 +8,8 @@ import {
     getTransactionCallTrace,
     getTransactionStackTrace
 } from "../../Common/Selectors/TransactionSelectors";
-import {NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {NetworkRouteToAppTypeMap, ProjectTypes} from "../../Common/constants";
 
 import Notifications from "../../Utils/Notifications";
 
@@ -28,23 +29,28 @@ class ProjectTransactionPage extends Component {
     }
 
     async componentDidMount() {
-        const {transaction, callTrace, contract, projectId, contractActions, txActions, txHash, networkType} = this.props;
+        const {project, transaction, callTrace, contract, projectId, contractActions, txActions, txHash, networkType} = this.props;
 
-        if (!transaction || !callTrace) {
-            const actionResponse = await txActions.fetchTransactionForProject(projectId, txHash, networkType);
+        if (project.type !== ProjectTypes.DEMO) {
+            if (!transaction || !callTrace) {
+                const actionResponse = await txActions.fetchTransactionForProject(projectId, txHash, networkType);
 
-            if (!actionResponse.success) {
-                Notifications.error("Failed fetching transaction");
+                if (!actionResponse.success) {
+                    Notifications.error("Failed fetching transaction");
 
-                this.setState({
-                    error: "There was an error trying to fetch information about this transaction.",
-                });
+                    this.setState({
+                        error: "There was an error trying to fetch information about this transaction.",
+                    });
+                }
+
             }
 
-        }
+            if (!contract) {
+                await contractActions.fetchContractsForProject(projectId);
+            }
+        } else {
+            await txActions.fetchExampleTransaction();
 
-        if (!contract) {
-            await contractActions.fetchContractsForProject(projectId);
         }
     }
 
@@ -118,6 +124,7 @@ const mapStateToProps = (state, ownProps) => {
         transaction,
         networkType,
         projectId: id,
+        project: getProject(state, id),
         callTrace: getTransactionCallTrace(state, txHash),
         stackTrace: getTransactionStackTrace(state, txHash),
         contract: getContractForTransaction(state, transaction),

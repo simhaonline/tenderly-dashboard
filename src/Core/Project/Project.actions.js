@@ -3,12 +3,10 @@ import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../
 
 import Project from "./Project.model";
 import Contract from "../Contract/Contract.model";
-import Event from '../Event/Event.model';
 import {NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
 import {
     exampleContract1Payload,
     exampleContract2Payload,
-    exampleEvent1Paylod,
     exampleProjectPayload
 } from "../../examples";
 import {updateUser} from "../Auth/Auth.actions";
@@ -84,16 +82,11 @@ export const dispatchExampleProject = dispatch => {
         Contract.buildFromResponse(exampleContract2Payload, exampleProject.id)
     ];
 
-    const exampleEvents = [
-        new Event(exampleEvent1Paylod),
-    ];
-
     dispatch({
         type: CREATE_EXAMPLE_PROJECT_ACTION,
         project: exampleProject,
         projectId: exampleProject.id,
         contracts: exampleContracts,
-        events: exampleEvents,
         page: 1,
     });
 
