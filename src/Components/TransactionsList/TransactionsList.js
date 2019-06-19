@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 
-import {TransactionHashColumn, NetworkColumn} from "../index";
+import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn} from "../index";
 import {Table} from "../../Elements";
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
@@ -10,6 +10,10 @@ const transactionTableConf = [
     {
         label: "Tx Hash",
         renderColumn: tx => <TransactionHashColumn transaction={tx}/>,
+    },
+    {
+        status: 'Status',
+        renderColumn: tx => <TransactionStatusColumn status={tx.status}/>,
     },
     {
         label: "Network",

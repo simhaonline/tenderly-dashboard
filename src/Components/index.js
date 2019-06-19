@@ -74,4 +74,5 @@ export {default as TransactionPageContent} from './TransactionPageContent/Transa
  * Table Column Elements
  */
 export {default as TransactionHashColumn} from './TransactionHashColumn/TransactionHashColumn';
+export {default as TransactionStatusColumn} from './TransactionStatusColumn/TransactionStatusColumn';
 export {default as NetworkColumn} from './NetworkColumn/NetworkColumn';
