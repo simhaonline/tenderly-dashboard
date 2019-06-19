@@ -21,6 +21,11 @@
   border-radius: 5px;
   display: flex;
   align-items: center;
+  transition: 0.1s;
+
+  &:hover {
+    background-color: transparentize($Slate400, 0.5);
+  }
 }
 
 .Table__Row--Even {
@@ -67,11 +72,11 @@
   border: 1px solid transparent;
   padding: 4px 8px;
   border-radius: 3px;
-}
 
-.Table__Controls__PerPage__Option:hover {
-  border: 1px solid transparentize($Primary500, 0.5);
-  background-color: transparentize($Primary500, 0.85);
+  &:hover {
+    border: 1px solid transparentize($Primary500, 0.5);
+    background-color: transparentize($Primary500, 0.85);
+  }
 }
 
 .Table__Controls__PerPage__Option--Active {
