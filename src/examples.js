@@ -70,6 +70,15 @@ export const exampleContract1Payload = {
     number_of_exceptions: 1,
     data: {
         source: exampleContractSource,
+        contract_info: [
+            {
+                id: 0,
+                name: 'MainContract.sol',
+                path: 'MainContract.sol',
+                source: exampleContractSource,
+            }
+        ],
+        main_contract: 0,
     },
 };
 
@@ -83,7 +92,65 @@ export const exampleContract2Payload = {
     number_of_exceptions: 0,
     data: {
         source: exampleContractSource,
+        contract_info: [
+            {
+                id: 0,
+                name: 'MainContract.sol',
+                path: 'MainContract.sol',
+                source: exampleContractSource,
+            }
+        ],
+        main_contract: 0,
     },
+};
+
+export const exampleTransaction1Paylod = {
+    transaction_id: '0x574491ab4ab459848e91de6abf501e6eae72a3b7cf489b60e4c23436c4cf2679',
+    contract_address: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+    block_number: '7430607',
+    CreatedAt: Date.now(),
+    Method: 'transferToReserve',
+    StackTrace: [
+        {
+            code: "require(storedFunds > amount)",
+            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
+            length: 36,
+            line: 29,
+            name: "ExampleContract",
+            method: "transferToReserve",
+            op: "REVERT",
+            start: 42703,
+        },
+        {
+            code: "transferToReserve(amount)",
+            method: 'sendFunds',
+            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
+            length: 36,
+            line: 36,
+            name: "ExampleContract",
+            op: "REVERT",
+            start: 42703,
+        },
+        {
+            code: "sendFunds(amount, to)",
+            method: "extractFunds",
+            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
+            length: 36,
+            line: 49,
+            name: "ExampleContract",
+            op: "REVERT",
+            start: 42703,
+        },
+        {
+            code: "extractFunds(uint amount, address src, address to)",
+            calling_method: true,
+            contract: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
+            caller_address: '',
+            line: 46,
+            name: "ExampleContract",
+            op: "REVERT",
+        }
+    ],
 };
 
 export const exampleEvent1Paylod = {

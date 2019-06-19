@@ -44,7 +44,6 @@ const EventReducer = (state = initialState, action) => {
                     }
                 }
             };
-        case CREATE_EXAMPLE_PROJECT_ACTION:
         case FETCH_EVENTS_FOR_PROJECT_ACTION:
             const events = action.events.reduce((data, event) => {
                 if (state.events[event.id]) {
