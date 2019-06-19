@@ -23,6 +23,7 @@ class ProjectTransactionsPage extends Component {
             loading: true,
             lastFetch: null,
             page: props.page,
+            perPage: 20,
             projectSetup: false,
             transactions: [],
             filters: {},
@@ -31,12 +32,12 @@ class ProjectTransactionsPage extends Component {
 
     async componentDidMount() {
         const {project, txActions, contractActions, contractsLoaded} = this.props;
-        const {filters, page} = this.state;
+        const {filters, page, perPage} = this.state;
 
         let transactions = [];
 
         if (project.type !== ProjectTypes.DEMO) {
-            const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, 20);
+            const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, perPage);
 
             if (!actionResponse.success) {
                 this.setState({
@@ -111,9 +112,9 @@ class ProjectTransactionsPage extends Component {
 
     fetchTransactions = _.debounce(async () => {
         const {project, txActions} = this.props;
-        const {filters, page} = this.state;
+        const {filters, page, perPage} = this.state;
 
-        const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, 20);
+        const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, perPage);
 
         if (!actionResponse.success) {
             return;
@@ -125,8 +126,23 @@ class ProjectTransactionsPage extends Component {
         });
     }, 500);
 
-    handlePageChange = () => {
+    handlePageChange = (nextPage) => {
+        console.log('page changed', nextPage);
 
+        this.setState({
+            page: nextPage,
+        }, () => {
+            this.fetchTransactions();
+        });
+    };
+
+    handlePerPageChange = (perPage) => {
+        console.log('per page changed', perPage);
+        this.setState({
+            perPage,
+        }, () => {
+            this.fetchTransactions();
+        });
     };
 
     handleRefreshToggle = () => {
@@ -142,7 +158,7 @@ class ProjectTransactionsPage extends Component {
     };
 
     render() {
-        const {loading, transactions, lastFetch, filters, page, refreshSubscriber} = this.state;
+        const {loading, transactions, lastFetch, filters, page, perPage, refreshSubscriber} = this.state;
         const {contracts, project} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
@@ -166,7 +182,9 @@ class ProjectTransactionsPage extends Component {
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
                         {!!transactions.length && <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
-                        <TransactionsList transactions={transactions} contracts={contracts} currentPage={page} onPageChange={this.handlePageChange}/>
+                        <TransactionsList transactions={transactions} contracts={contracts}
+                                          currentPage={page} onPageChange={this.handlePageChange}
+                                          perPage={perPage} onPerPageChange={this.handlePerPageChange}/>
                     </Fragment>}
                 </Container>
             </Page>

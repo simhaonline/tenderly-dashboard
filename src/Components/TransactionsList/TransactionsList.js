@@ -2,11 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {TransactionsListItem} from "../index";
+import {Icon, Table} from "../../Elements";
 
 import './TransactionsList.scss';
-import {Icon} from "../../Elements";
 
-const TransactionsList = ({transactions, contracts, publicContracts}) => {
+const transactionTableConf = [
+    {
+        label: "Tx Hash",
+        accessor: "txHash",
+    }
+];
+
+const TransactionsList = ({transactions, contracts, publicContracts, currentPage, perPage, onPageChange, onPerPageChange}) => {
     if (!transactions.length) {
         return (
             <div className="TransactionsListEmptyState">
@@ -18,28 +25,33 @@ const TransactionsList = ({transactions, contracts, publicContracts}) => {
     }
 
     return (
-        <div className="TransactionsList">
-            <div className="TransactionsListHeader">
-                <div className="StatusColumn ItemColumn">
-                    <span className="ColumnName">Status</span>
+        <div>
+            <div className="TransactionsList">
+                <div className="TransactionsListHeader">
+                    <div className="StatusColumn ItemColumn">
+                        <span className="ColumnName">Status</span>
+                    </div>
+                    <div className="TxHashColumn ItemColumn">
+                        <span className="ColumnName">Transaction</span>
+                    </div>
+                    <div className="BlockColumn ItemColumn">
+                        <span className="ColumnName">Block</span>
+                    </div>
+                    <div className="NetworkColumn ItemColumn">
+                        <span className="ColumnName">Network</span>
+                    </div>
+                    <div className="TimestampColumn ItemColumn">
+                        <span className="ColumnName">Timestamp</span>
+                    </div>
+                    <div className="ActionColumn ItemColumn">
+                        <span className="ColumnName">Actions</span>
+                    </div>
                 </div>
-                <div className="TxHashColumn ItemColumn">
-                    <span className="ColumnName">Transaction</span>
-                </div>
-                <div className="BlockColumn ItemColumn">
-                    <span className="ColumnName">Block</span>
-                </div>
-                <div className="NetworkColumn ItemColumn">
-                    <span className="ColumnName">Network</span>
-                </div>
-                <div className="TimestampColumn ItemColumn">
-                    <span className="ColumnName">Timestamp</span>
-                </div>
-                <div className="ActionColumn ItemColumn">
-                    <span className="ColumnName">Actions</span>
-                </div>
+                {transactions.map(tx => <TransactionsListItem key={tx.txHash} transaction={tx} contracts={contracts} publicContract={publicContracts}/>)}
             </div>
-            {transactions.map(tx => <TransactionsListItem key={tx.txHash} transaction={tx} contracts={contracts} publicContract={publicContracts}/>)}
+            <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf}
+                   currentPage={currentPage} onPageChange={onPageChange}
+                   perPage={perPage} onPerPageChange={onPerPageChange}/>
         </div>
     )
 };
@@ -48,11 +60,15 @@ TransactionsList.propTypes = {
     transactions: PropTypes.array.isRequired,
     currentPage: PropTypes.number,
     onPageChange: PropTypes.func,
+    perPage: PropTypes.number,
+    onPerPageChange: PropTypes.func,
     publicContracts: PropTypes.bool,
 };
 
 TransactionsList.defaultProps = {
     publicContracts: false,
+    onPageChange: () => {},
+    onPerPageChange: () => {},
 };
 
 export default TransactionsList;
