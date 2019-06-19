@@ -180,10 +180,15 @@ class ProjectSetupGuide extends Component {
         }, 1000);
     };
 
+    /**
+     * @param {Object[]} data
+     */
     handleImportStreamResponse = (data) => {
-        this.setState({
-            addingManualContractStep: data.step,
-            addManualContractError: data.status ? null : 'Error',
+        data.forEach(response => {
+            this.setState({
+                addingManualContractStep: response.step,
+                addManualContractError: response.status ? null : 'Error',
+            });
         });
     };
 

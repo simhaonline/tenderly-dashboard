@@ -50,7 +50,7 @@ class StreamingApiProvider {
             }
 
             if (typeof stream === 'string') {
-                callback(JSON.parse(stream));
+                callback(StreamingApiProvider.parseFullStream(stream));
             }
         });
 
