@@ -43,5 +43,42 @@
 }
 
 .Table__Column--Body {
+}
 
+.Table__Controls {
+  padding: $Spacing2 $Spacing7 $Spacing6;
+  display: flex;
+}
+
+.Table__Controls__PerPage {
+  display: flex;
+  align-items: center;
+}
+
+.Table__Controls__PerPage__Label {
+  margin-right: $Spacing4;
+  opacity: 0.75;
+}
+
+.Table__Controls__PerPage__Option {
+  cursor: pointer;
+  margin-right: $Spacing1;
+  transition: 0.1s;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.Table__Controls__PerPage__Option:hover {
+  border: 1px solid transparentize($Primary500, 0.5);
+  background-color: transparentize($Primary500, 0.85);
+}
+
+.Table__Controls__PerPage__Option--Active {
+  border: 1px solid $Primary500;
+  background-color: transparentize($Primary500, 0.25);
+}
+
+.Table__Controls__Pagination {
+  margin-left: auto;
 }

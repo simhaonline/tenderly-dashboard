@@ -44,7 +44,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, data, className, rowClassName, headClassName, currentPage, perPage} = this.props;
+        const {configuration, data, className, rowClassName, headClassName, currentPage, perPage, onPageChange, onPerPageChange} = this.props;
 
         return (
             <Panel className={classNames(
@@ -73,19 +73,29 @@ class Table extends Component {
                         rowClassName,
                         {
                             "Table__Row--Even": !!(index % 2),
-                        }
+                        },
                     )}>
                         {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row}/>)}
                     </div>)}
                 </div>
                 {currentPage && <div className={"Table__Controls"}>
-                    {!!perPage && <div className="Table__PerPage">
-                        {}
+                    {!!perPage && <div className="Table__Controls__PerPage">
+                        <div className="Table__Controls__PerPage__Label">
+                            Per Page
+                        </div>
+                        {[10, 20, 50].map(perPageValue => <div key={perPageValue} className={classNames(
+                            "Table__Controls__PerPage__Option",
+                            {
+                                "Table__Controls__PerPage__Option--Active": perPageValue === perPage,
+                            },
+                        )} onClick={event => onPerPageChange(perPageValue, event)}>
+                            {perPageValue}
+                        </div>)}
                     </div>}
-                    <div className="Table__Pagination">
-                        <Icon icon="arrow-left"/>
+                    <div className="Table__Controls__Pagination">
+                        <Icon icon="arrow-left" onClick={event => onPageChange(currentPage - 1, event)}/>
                         {currentPage}
-                        <Icon icon="arrow-right"/>
+                        <Icon icon="arrow-right" onClick={event => onPageChange(currentPage + 1, event)}/>
                     </div>
                 </div>}
             </Panel>
@@ -109,6 +119,11 @@ Table.propTypes = {
     className: PropTypes.string,
     headClassName: PropTypes.string,
     rowClassName: PropTypes.string,
+};
+
+Table.defaultProps = {
+    onPageChange: () => {},
+    onPerPageChange: () => {},
 };
 
 export default Table;
