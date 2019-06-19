@@ -5,9 +5,24 @@ import {TransactionFilterTypes} from "../../Common/constants";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
-import {Select} from "../../Elements";
+import {SegmentedControls, Button, Icon} from "../../Elements";
 
 import './TransactionFilters.scss';
+
+const transactionStatusOptions = [
+    {
+        value: 'all',
+        label: 'All',
+    },
+    {
+        value: 'success',
+        label: 'Success',
+    },
+    {
+        value: 'failed',
+        label: 'Failed',
+    },
+];
 
 class TransactionFilters extends Component {
     constructor(props) {
@@ -52,13 +67,12 @@ class TransactionFilters extends Component {
     };
 
     /**
-     * @param {string} field
      * @param {(string[])} value
      */
-    handleStatusSelect = (field, value) => {
+    handleStatusChange = (value) => {
         const {onFiltersChange} = this.props;
 
-        this.handleFormUpdate(field, value);
+        this.handleFormUpdate('status', value);
 
         onFiltersChange({
             type: TransactionFilterTypes.STATUS,
@@ -75,30 +89,16 @@ class TransactionFilters extends Component {
             label: contract.name,
         }));
 
-        const statusSelectOptions = [
-            {
-                value: 'all',
-                label: 'All',
-            },
-            {
-                value: 'success',
-                label: 'Success',
-            },
-            {
-                value: 'failed',
-                label: 'Failed',
-            },
-        ];
-
         return (
             <div className="TransactionFilters">
                 <div className="FilterGroup">
-                    <div className="FilterLabel">Filter by Status</div>
-                    <Select field="status" selectLabel="Select Status" options={statusSelectOptions} value={status} onChange={this.handleStatusSelect}/>
+                    <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
                 </div>
                 <div className="FilterGroup">
-                    <div className="FilterLabel">Filter by Contract</div>
-                    <Select field="contracts" selectLabel="Select contracts" options={contractSelectOptions} multiple value={filterContracts} onChange={this.handleContractToggle}/>
+                    <Button>
+                        <Icon icon="filter"/>
+                        <span>Filter Transactions</span>
+                    </Button>
                 </div>
             </div>
         );
