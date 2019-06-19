@@ -1,4 +1,4 @@
-import { create, themes } from '@storybook/theming';
+import { create } from '@storybook/theming';
 
 export default create({
     base: 'dark',
@@ -33,5 +33,5 @@ export default create({
     //
     brandTitle: 'Tenderly',
     brandUrl: 'https://tenderly.dev',
-    // brandImage: 'https://placehold.it/350x150',
+    brandImage: 'https://storage.googleapis.com/tenderly-public-assets/tenderly-logo-white.png',
 });
