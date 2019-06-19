@@ -127,8 +127,6 @@ class ProjectTransactionsPage extends Component {
     }, 500);
 
     handlePageChange = (nextPage) => {
-        console.log('page changed', nextPage);
-
         this.setState({
             page: nextPage,
         }, () => {
@@ -137,7 +135,6 @@ class ProjectTransactionsPage extends Component {
     };
 
     handlePerPageChange = (perPage) => {
-        console.log('per page changed', perPage);
         this.setState({
             perPage,
         }, () => {

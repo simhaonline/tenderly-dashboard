@@ -87,7 +87,7 @@ class Table extends Component {
                             "Table__Row--Even": !!(index % 2),
                             "Table__Row--Clickable": !!onRowClick,
                         },
-                    )} onClick={this.handleRowClick}>
+                    )} onClick={event => this.handleRowClick(row, event)}>
                         {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row}/>)}
                     </div>)}
                 </div>

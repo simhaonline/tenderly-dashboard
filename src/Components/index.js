@@ -59,7 +59,6 @@ export {default as TransactionStatusTag} from './TransactionStatusTag/Transactio
 export {default as FeatureComingSoon} from './FeatureComingSoon/FeatureComingSoon';
 export {default as UserInformationForm} from './UserInformationForm/UserInformationForm';
 export {default as TransactionsList} from './TransactionsList/TransactionsList';
-export {default as TransactionsListItem} from './TransactionsListItem/TransactionsListItem';
 export {default as TransactionFilters} from './TransactionFilters/TransactionFilters';
 export {default as TransactionExecution} from './TransactionExecution/TransactionExecution';
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';

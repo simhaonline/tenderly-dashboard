@@ -1,60 +1,50 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from 'react-router-dom';
 
-import {TransactionsListItem} from "../index";
-import {Icon, Table} from "../../Elements";
-
-import './TransactionsList.scss';
+import {TransactionHashColumn, NetworkColumn} from "../index";
+import {Table} from "../../Elements";
+import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 const transactionTableConf = [
     {
         label: "Tx Hash",
-        accessor: "txHash",
-    }
+        renderColumn: tx => <TransactionHashColumn transaction={tx}/>,
+    },
+    {
+        label: "Network",
+        renderColumn: tx => <NetworkColumn network={tx.network}/>,
+    },
 ];
 
-const TransactionsList = ({transactions, contracts, publicContracts, currentPage, perPage, onPageChange, onPerPageChange}) => {
-    if (!transactions.length) {
-        return (
-            <div className="TransactionsListEmptyState">
-                <Icon icon="transaction" className="EmptyStateIcon"/>
-                <div className="EmptyStateHeading">Looks empty in here</div>
-                <div className="EmptyStateDescription">There are currently no captured incoming transactions to the contracts in this project. As soon as one happens it will appear here.</div>
-            </div>
-        );
-    }
+class TransactionsList extends Component {
+    handleRowClick = (transaction) => {
+        const {history, isPublicContracts} = this.props;
 
-    return (
-        <div>
-            <div className="TransactionsList">
-                <div className="TransactionsListHeader">
-                    <div className="StatusColumn ItemColumn">
-                        <span className="ColumnName">Status</span>
-                    </div>
-                    <div className="TxHashColumn ItemColumn">
-                        <span className="ColumnName">Transaction</span>
-                    </div>
-                    <div className="BlockColumn ItemColumn">
-                        <span className="ColumnName">Block</span>
-                    </div>
-                    <div className="NetworkColumn ItemColumn">
-                        <span className="ColumnName">Network</span>
-                    </div>
-                    <div className="TimestampColumn ItemColumn">
-                        <span className="ColumnName">Timestamp</span>
-                    </div>
-                    <div className="ActionColumn ItemColumn">
-                        <span className="ColumnName">Actions</span>
-                    </div>
-                </div>
-                {transactions.map(tx => <TransactionsListItem key={tx.txHash} transaction={tx} contracts={contracts} publicContract={publicContracts}/>)}
-            </div>
-            <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf}
+        let transactionRoute;
+
+        const networkRoute = NetworkAppToRouteTypeMap[transaction.network];
+
+        if (isPublicContracts) {
+            transactionRoute = `/tx/${networkRoute}/${transaction.txHash}`;
+        } else {
+            transactionRoute = `/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`;
+        }
+
+        history.push(transactionRoute);
+    };
+
+    render() {
+        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange} = this.props;
+        return (
+            <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
+                contracts,
+            }} onRowClick={this.handleRowClick}
                    currentPage={currentPage} onPageChange={onPageChange}
                    perPage={perPage} onPerPageChange={onPerPageChange}/>
-        </div>
-    )
-};
+        );
+    }
+}
 
 TransactionsList.propTypes = {
     transactions: PropTypes.array.isRequired,
@@ -62,7 +52,7 @@ TransactionsList.propTypes = {
     onPageChange: PropTypes.func,
     perPage: PropTypes.number,
     onPerPageChange: PropTypes.func,
-    publicContracts: PropTypes.bool,
+    isPublicContracts: PropTypes.bool,
 };
 
 TransactionsList.defaultProps = {
@@ -71,4 +61,4 @@ TransactionsList.defaultProps = {
     onPerPageChange: () => {},
 };
 
-export default TransactionsList;
+export default withRouter(TransactionsList);
