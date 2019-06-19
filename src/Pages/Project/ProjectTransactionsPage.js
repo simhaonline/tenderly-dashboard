@@ -159,7 +159,7 @@ class ProjectTransactionsPage extends Component {
         const {contracts, project} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
-        const isPolling = !!refreshSubscriber;
+        const isPolling = !!refreshSubscriber || loading;
 
         const activeFilters = Object.values(filters).filter(filter => filter.value.length);
 
