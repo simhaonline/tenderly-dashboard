@@ -4,6 +4,10 @@ import {toast} from "react-toastify";
 
 import {Notification} from "../Elements";
 
+window.addEventListener("blur", () => {
+    toast.dismiss();
+});
+
 class Notifications {
     /**
      * @param {string} title
