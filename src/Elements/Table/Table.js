@@ -71,7 +71,7 @@ class Table extends Component {
                         <div key={index} className={classNames(
                             "Table__Column",
                             "Table__Column--Head",
-                            configuration.className,
+                            conf.className,
                         )}>
                             {conf.label}
                         </div>
