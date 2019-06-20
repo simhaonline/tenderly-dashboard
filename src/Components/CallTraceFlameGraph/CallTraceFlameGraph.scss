@@ -1,0 +1,22 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
+
+.FlameGraphRow {
+  min-width: 22px;
+}
+
+.FlameGraphRow__RowInfo {
+  margin: 2px 2px;
+  background-color: transparentize($YellowColor600, 0.25);
+  border-radius: 3px;
+  padding: 0 $Spacing1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.FlameGraphRow__SubRows {
+  display: flex;
+  justify-content: flex-end;
+}

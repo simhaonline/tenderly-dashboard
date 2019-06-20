@@ -6,8 +6,9 @@ import * as publicContractsActions from "../../Core/PublicContracts/PublicContra
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 
 import {
+    areWatchedContractsLoaded,
     getPublicContractById,
-    isPublicContractLoaded
+    isPublicContractLoaded, isPublicContractWatched
 } from "../../Common/Selectors/PublicContractSelectors";
 
 import {NetworkAppToRouteTypeMap, NetworkRouteToAppTypeMap} from "../../Common/constants";
@@ -25,6 +26,7 @@ class PublicContractPage extends Component {
         super(props);
 
         this.state = {
+            actionInProgress: false,
             loading: true,
             page: 1,
         };
@@ -51,11 +53,25 @@ class PublicContractPage extends Component {
         });
     }
 
+    toggleWatchedContract = async () => {
+        const {actions, contract, networkType} = this.props;
+
+        this.setState({
+            actionInProgress: true,
+        });
+
+        await actions.toggleWatchedContract(contract.address, networkType);
+
+        this.setState({
+            actionInProgress: false,
+        });
+    };
+
     handlePageChange = () => {};
 
     render() {
-        const {contract, match: {params: { network }}} = this.props;
-        const {loading, transactions, page} = this.state;
+        const {contract, isContractWatched, match: {params: { network }}} = this.props;
+        const {loading, transactions, page, actionInProgress} = this.state;
 
         if (loading) {
             return (
@@ -73,6 +89,14 @@ class PublicContractPage extends Component {
                             <Icon icon="arrow-left"/>
                         </Button>
                         <h1>{contract.name}</h1>
+                        <div className="RightContent">
+                            <Button outline={!isContractWatched} size="small"
+                                    onClick={this.toggleWatchedContract} disabled={actionInProgress}>
+                                <Icon icon="star"/>
+                                {!isContractWatched && <span>Watch Contract</span>}
+                                {isContractWatched && <span>Un-watch Contract</span>}
+                            </Button>
+                        </div>
                     </PageHeading>
                     <ContractInformation contract={contract} back/>
                     <ContractActions contract={contract} routeNetwork={network}/>
@@ -94,6 +118,8 @@ const mapStateToProps = (state, ownProps) => {
         contractId: id,
         contract: getPublicContractById(state, id),
         contractLoaded: isPublicContractLoaded(state, id),
+        isContractWatched: isPublicContractWatched(state, id, networkType),
+        watchedContractsLoaded: areWatchedContractsLoaded(state),
     };
 };
 

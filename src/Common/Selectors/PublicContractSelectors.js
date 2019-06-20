@@ -81,3 +81,13 @@ export function getWatchedContracts(state) {
 export function areWatchedContractsLoaded(state) {
     return state.publicContracts.watchedContractsLoaded;
 }
+
+/**
+ * @param {Object} state
+ * @param {string} contractAddress
+ * @param {NetworkTypes} network
+ * @return {boolean}
+ */
+export function isPublicContractWatched(state, contractAddress, network) {
+    return false;
+}
