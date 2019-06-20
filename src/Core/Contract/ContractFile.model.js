@@ -55,6 +55,10 @@ class ContractFile {
     static buildFromResponse(data) {
         const solidityVersion = ContractFile.getSolidityVersion(data.source);
 
+        /**
+         * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
+         * accordingly as those mocked responses are used for the Example Project and might break it.
+         */
         return new ContractFile({
             id: data.id,
             name: data.name,

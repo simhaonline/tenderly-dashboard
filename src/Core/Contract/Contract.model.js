@@ -128,6 +128,10 @@ class Contract {
             mainFile = files.find(file => file.id === data.data.main_contract);
         }
 
+        /**
+         * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
+         * accordingly as those mocked responses are used for the Example Project and might break it.
+         */
         return new Contract({
             name: data.contract_name,
             address: data.address,

@@ -25,6 +25,10 @@ export class CallTrace {
 
         const callTrace = Trace.buildFromRawCallTrace(rawCallTrace);
 
+        /**
+         * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
+         * accordingly as those mocked responses are used for the Example Project and might break it.
+         */
         return new CallTrace({
             txHash: response.hash,
             callTrace,

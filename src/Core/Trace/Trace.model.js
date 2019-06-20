@@ -35,6 +35,10 @@ export class Trace {
             calls = rawCallTrace.calls.map(trace => Trace.buildFromRawCallTrace(trace, depth + 1));
         }
 
+        /**
+         * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
+         * accordingly as those mocked responses are used for the Example Project and might break it.
+         */
         return new Trace({
             functionName: rawCallTrace.function_name,
             fileName: rawCallTrace.contract_name,
