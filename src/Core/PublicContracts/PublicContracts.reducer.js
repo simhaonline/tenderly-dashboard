@@ -1,4 +1,8 @@
-import {FETCH_PUBLIC_CONTRACT_ACTION, FETCH_PUBLIC_CONTRACTS_ACTION} from "./PublicContracts.actions";
+import {
+    FETCH_PUBLIC_CONTRACT_ACTION,
+    FETCH_PUBLIC_CONTRACTS_ACTION,
+    FETCH_WATCHED_CONTRACTS_ACTION
+} from "./PublicContracts.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
 
@@ -6,6 +10,8 @@ const initialState = {
     contracts: {},
     contractsLoaded: {},
     pages: {},
+    watchedContracts: {},
+    watchedContractsLoaded: false,
 };
 
 const PublicContractsReducer = (state = initialState, action) => {
@@ -13,6 +19,12 @@ const PublicContractsReducer = (state = initialState, action) => {
         case LOG_OUT_ACTION: {
             return initialState;
         }
+        case FETCH_WATCHED_CONTRACTS_ACTION:
+            console.log(action);
+            return {
+                ...state,
+                watchedContractsLoaded: true,
+            };
         case FETCH_PUBLIC_CONTRACTS_ACTION:
             const contracts = action.contracts.reduce((list, contract) => {
                 if (state.contracts[contract.id]) {

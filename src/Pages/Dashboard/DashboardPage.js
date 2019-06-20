@@ -4,17 +4,23 @@ import {bindActionCreators} from "redux";
 import {Redirect} from "react-router-dom";
 
 import * as projectActions from "../../Core/Project/Project.actions";
+import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
+import {areWatchedContractsLoaded, getWatchedContracts} from "../../Common/Selectors/PublicContractSelectors";
 
-import {Page, Container, PageHeading} from "../../Elements";
-import {DashboardProjectsList, PopularContractsImport} from "../../Components";
+import {Page, Container, PageHeading, Button} from "../../Elements";
+import {DashboardProjectsList, PopularContractsImport, WatchedContractsList} from "../../Components";
 
 class DashboardPage extends Component {
     componentDidMount() {
-        const {projectsLoaded, usernameSet, actions} = this.props;
+        const {projectsLoaded, watchedContractsLoaded, usernameSet, actions, publicContractActions} = this.props;
 
         if (!projectsLoaded && usernameSet) {
             actions.fetchProjects();
+        }
+
+        if (!watchedContractsLoaded && usernameSet) {
+            publicContractActions.fetchWatchedContracts();
         }
     }
 
@@ -25,11 +31,13 @@ class DashboardPage extends Component {
     };
 
     render() {
-        const {projectsLoaded, projects, usernameSet} = this.props;
+        const {projectsLoaded, projects, usernameSet, watchedContracts, watchedContractsLoaded} = this.props;
 
         if (!usernameSet) {
             return <Redirect to="/onboarding"/>
         }
+
+        console.log(watchedContracts, watchedContractsLoaded);
 
         return (
             <Page>
@@ -38,6 +46,15 @@ class DashboardPage extends Component {
                         <h1>Projects</h1>
                     </PageHeading>
                     <DashboardProjectsList onTryExample={this.handleTryExample} projects={projects} loaded={projectsLoaded}/>
+                    <PageHeading>
+                        <h1>Watched Contracts</h1>
+                        <div className="RightContent">
+                            <Button to={`/public-contracts`} outline size="small">
+                                <span>Discover Contracts</span>
+                            </Button>
+                        </div>
+                    </PageHeading>
+                    <WatchedContractsList contracts={watchedContracts} loaded={watchedContractsLoaded}/>
                     <PopularContractsImport/>
                 </Container>
             </Page>
@@ -49,6 +66,8 @@ const mapStateToProps = (state) => {
     return {
         projectsLoaded: state.project.projectsLoaded,
         projects: getDashboardProjects(state),
+        watchedContracts: getWatchedContracts(state),
+        watchedContractsLoaded: areWatchedContractsLoaded(state),
         usernameSet: state.auth.usernameSet,
     }
 };
@@ -56,6 +75,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(projectActions, dispatch),
+        publicContractActions: bindActionCreators(publicContractActions, dispatch),
     }
 };
 

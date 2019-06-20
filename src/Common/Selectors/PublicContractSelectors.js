@@ -66,3 +66,18 @@ export function isPublicContractLoaded(state, id) {
     return state.publicContracts.contractsLoaded[id];
 }
 
+/**
+ * @param {Object} state
+ * @return {Contract[]}
+ */
+export function getWatchedContracts(state) {
+    return Object.values(state.publicContracts.watchedContracts);
+}
+
+/**
+ * @param {Object} state
+ * @return {boolean}
+ */
+export function areWatchedContractsLoaded(state) {
+    return state.publicContracts.watchedContractsLoaded;
+}
