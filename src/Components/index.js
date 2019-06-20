@@ -28,6 +28,7 @@ export {default as ContractActions} from './ContractActions/ContractActions';
 export {default as EventInformation} from './EventInformation/EventInformation';
 export {default as EventStackTrace} from './EventStackTrace/EventStackTrace';
 export {default as DashboardProjectsList} from './DashboardProjectsList/DashboardProjectsList';
+export {default as WatchedContractsList} from './WatchedContractsList/WatchedContractsList';
 export {default as NoProjectsEmptyState} from './NoProjectsEmptyState/NoProjectsEmptyState';
 export {default as PopularContractsImport} from './PopularContractsImport/PopularContractsImport';
 export {default as CreateProjectForm} from './CreateProjectForm/CreateProjectForm';
