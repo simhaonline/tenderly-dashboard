@@ -1,15 +1,31 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
+import {Icon} from "../../Elements";
+
 import './TransactionHashColumn.scss';
 
-const TransactionHashColumn = ({transaction}) => {
+const TransactionHashColumn = ({transaction, displayType, contracts}) => {
     return (
-        <div className="TransactionHashColumn">
-            {generateShortAddress(transaction.txHash, 12, 6)}
+        <div className="TransactionHashColumn DisplayFlex AlignItemsCenter">
+            <span className="TransactionHashColumn__Address">{generateShortAddress(transaction.txHash, 12, 6)}</span>
+            {displayType && transaction.isInternalTransaction(contracts) && <div className="TransactionHashColumn__TypeWrapper MarginLeft2">
+                <Icon icon="minimize-2"/>
+            </div>}
         </div>
     )
+};
+
+TransactionHashColumn.propTypes = {
+    transaction: PropTypes.object.isRequired,
+    contracts: PropTypes.array.isRequired,
+    displayType: PropTypes.bool,
+};
+
+TransactionHashColumn.defaultProps = {
+    displayType: false,
 };
 
 export default TransactionHashColumn;

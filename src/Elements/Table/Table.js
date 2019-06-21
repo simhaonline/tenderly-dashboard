@@ -56,7 +56,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, data, className, rowClassName, headClassName, currentPage, perPage, onPageChange, onPerPageChange, onRowClick} = this.props;
+        const {configuration, data, className, rowClassName, headClassName, currentPage, perPage, onPageChange, onPerPageChange, onRowClick, metadata} = this.props;
 
         return (
             <Panel className={classNames(
@@ -88,7 +88,7 @@ class Table extends Component {
                             "Table__Row--Clickable": !!onRowClick,
                         },
                     )} onClick={event => this.handleRowClick(row, event)}>
-                        {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row}/>)}
+                        {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row} metadata={metadata}/>)}
                     </div>)}
                 </div>
                 {!!currentPage && <div className={"Table__Controls"}>
@@ -139,6 +139,7 @@ Table.propTypes = {
 Table.defaultProps = {
     onPageChange: () => {},
     onPerPageChange: () => {},
+    metadata: {},
 };
 
 export default Table;

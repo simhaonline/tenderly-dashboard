@@ -10,7 +10,7 @@ import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn, Transacti
 const transactionTableConf = [
     {
         label: "Tx Hash",
-        renderColumn: tx => <TransactionHashColumn transaction={tx}/>,
+        renderColumn: (tx, metadata) => <TransactionHashColumn transaction={tx} contracts={metadata.contracts} displayType/>,
     },
     {
         label: 'Status',

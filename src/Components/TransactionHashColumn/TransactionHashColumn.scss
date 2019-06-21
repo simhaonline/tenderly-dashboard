@@ -1,7 +1,19 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
-.TransactionHashColumn {
+.TransactionHashColumn__Address {
   font-family: $MonospaceFontFamily;
   color: $LinkColor;
+}
+
+.TransactionHashColumn__TypeWrapper {
+  width: 20px;
+  height: 20px;
+  border-radius: 12px;
+  background-color: transparentize($Primary500, 0.5);
+  border: 1px solid transparentize($Primary500, 0.25);
+  font-size: $FontSize200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -56,6 +56,14 @@ export class Transaction {
     }
 
     /**
+     * @param {Contract[]} contracts
+     * @return {boolean}
+     */
+    isInternalTransaction(contracts) {
+        return !contracts.some(contract => contract.address === this.to);
+    }
+
+    /**
      * @param {Object} response
      * @param {string} [projectId]
      * @return {Transaction}
