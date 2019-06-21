@@ -9,7 +9,7 @@ import {
     getTransactionStackTrace
 } from "../../Common/Selectors/TransactionSelectors";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
-import {NetworkRouteToAppTypeMap, ProjectTypes} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkRouteToAppTypeMap, ProjectTypes} from "../../Common/constants";
 
 import Notifications from "../../Utils/Notifications";
 
@@ -17,7 +17,7 @@ import * as transactionActions from "../../Core/Transaction/Transaction.actions"
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Page, Container, Button, Icon, PageHeading} from "../../Elements";
-import {ProjectContentLoader, PageError, TransactionPageContent} from "../../Components";
+import {ProjectContentLoader, PageError, TransactionPageContent, EtherscanLink} from "../../Components";
 
 class ProjectTransactionPage extends Component {
     constructor(props) {
@@ -104,6 +104,14 @@ class ProjectTransactionPage extends Component {
                             <Icon icon="arrow-left"/>
                         </Button>
                         <h1>Transaction</h1>
+                        <div className="RightContent">
+                            <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={transaction.network} value={transaction.txHash}>
+                                <Button size="small" outline>
+                                    <Icon icon="globe"/>
+                                    <span>View in Explorer</span>
+                                </Button>
+                            </EtherscanLink>
+                        </div>
                     </PageHeading>
                     <TransactionPageContent transaction={transaction} contract={contract} stackTrace={stackTrace} callTrace={callTrace}/>
                 </Container>

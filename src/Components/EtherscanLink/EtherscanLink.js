@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {EtherscanLinkTypes, NetworkTypes} from "../../Common/constants";
 
@@ -32,6 +33,13 @@ const EtherscanLink = ({network, type, value, path = '', children, ...props}) =>
             {children}
         </a>
     );
+};
+
+EtherscanLink.propTypes = {
+    network: PropTypes.string,
+    type: PropTypes.string,
+    value: PropTypes.string,
+    path: PropTypes.string,
 };
 
 export default EtherscanLink;
