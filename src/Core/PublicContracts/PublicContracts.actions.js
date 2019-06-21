@@ -120,7 +120,7 @@ export const fetchWatchedContracts = () => {
 
             return new SuccessActionResponse(contracts);
         } catch (error) {
-            console.log(error);
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     };
@@ -149,7 +149,7 @@ export const toggleWatchedContract = (contractAddress, network) => {
 
             return new SuccessActionResponse();
         } catch (error) {
-            console.log(error);
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     };

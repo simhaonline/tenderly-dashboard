@@ -37,8 +37,6 @@ class DashboardPage extends Component {
             return <Redirect to="/onboarding"/>
         }
 
-        console.log(watchedContracts, watchedContractsLoaded);
-
         return (
             <Page>
                 <Container>

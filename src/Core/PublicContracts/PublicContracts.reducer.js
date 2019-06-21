@@ -20,7 +20,6 @@ const PublicContractsReducer = (state = initialState, action) => {
             return initialState;
         }
         case FETCH_WATCHED_CONTRACTS_ACTION:
-            console.log(action);
             return {
                 ...state,
                 watchedContractsLoaded: true,
