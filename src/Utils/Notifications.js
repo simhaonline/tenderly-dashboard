@@ -11,7 +11,7 @@ window.addEventListener("blur", () => {
 class Notifications {
     /**
      * @param {string} title
-     * @param {string} [description]
+     * @param {string | null} [description]
      * @param {object} [options]
      */
     static success(title, description, options) {
@@ -20,7 +20,7 @@ class Notifications {
 
     /**
      * @param {string} title
-     * @param {string} [description]
+     * @param {string | null} [description]
      * @param {object} [options]
      */
     static warn(title, description, options) {
@@ -29,7 +29,7 @@ class Notifications {
 
     /**
      * @param {string} title
-     * @param {string} [description]
+     * @param {string | null} [description]
      * @param {object} [options]
      */
     static error(title, description, options) {
@@ -38,7 +38,7 @@ class Notifications {
 
     /**
      * @param {string} title
-     * @param {string} [description]
+     * @param {string | null} [description]
      * @param {object} [options]
      */
     static info(title, description, options) {
