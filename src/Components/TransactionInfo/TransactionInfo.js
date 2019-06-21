@@ -7,7 +7,7 @@ import {EtherscanLinkTypes} from "../../Common/constants";
 import {Panel, PanelContent, PanelDivider} from "../../Elements";
 import {EtherscanLink, NetworkTag, TransactionStatusTag} from "../index";
 
-import './TransactionInfoSidebar.scss';
+import './TransactionInfo.scss';
 
 const TxInfoItem = ({label, children}) => (
     <div className="TxInfoItem">
@@ -16,7 +16,7 @@ const TxInfoItem = ({label, children}) => (
     </div>
 );
 
-const TransactionInfoSidebar = ({transaction, contract}) => {
+const TransactionInfo = ({transaction, contract}) => {
     return (
         <Panel className="TransactionInfoSidebar">
             <PanelContent>
@@ -50,9 +50,9 @@ const TransactionInfoSidebar = ({transaction, contract}) => {
     )
 };
 
-TransactionInfoSidebar.propTypes = {
+TransactionInfo.propTypes = {
     transaction: PropTypes.object.isRequired,
     contract: PropTypes.object.isRequired,
 };
 
-export default TransactionInfoSidebar;
+export default TransactionInfo;
