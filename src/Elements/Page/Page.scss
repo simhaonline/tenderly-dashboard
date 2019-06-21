@@ -1,5 +1,6 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
 
 .Page {
   padding: 48px 80px;
@@ -18,6 +19,7 @@
     h1 {
       font-size: $FontSize700;
       font-weight: 700;
+      margin-left: $Spacing4;
     }
 
     .RightContent {
