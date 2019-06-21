@@ -30,6 +30,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-toastify": "^5.1.1",
+    "reactstrap": "^8.0.0",
     "recharts": "^1.3.5",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
