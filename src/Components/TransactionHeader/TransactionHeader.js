@@ -46,13 +46,6 @@ const TransactionHeader = ({transaction, contract}) => {
                 <PanelDivider/>
                 <div className="SecondaryInfo DisplayFlex">
                     <div className="DisplayFlex AlignItemsStart MarginRight4">
-                        <span className="MarginRight2 SemiBoldText">Timestamp:</span>
-                        <div className="TextAlignRight">
-                            <span>{moment(transaction.timestamp).fromNow()} </span>
-                            <span className="MutedText">({moment(transaction.timestamp).format('DD/MM/YYYY HH:mm:SS')})</span>
-                        </div>
-                    </div>
-                    <div className="DisplayFlex AlignItemsStart MarginRight4">
                         <span className="MarginRight2 SemiBoldText">Status:</span>
                         <TransactionStatusTag status={transaction.status}/>
                     </div>
@@ -61,6 +54,13 @@ const TransactionHeader = ({transaction, contract}) => {
                         <EtherscanLink value={transaction.block} network={transaction.network} type={EtherscanLinkTypes.BLOCK}>
                             {transaction.block}
                         </EtherscanLink>
+                    </div>
+                    <div className="DisplayFlex AlignItemsStart MarginRight4">
+                        <span className="MarginRight2 SemiBoldText">Timestamp:</span>
+                        <div className="TextAlignRight">
+                            <span>{moment(transaction.timestamp).fromNow()} </span>
+                            <span className="MutedText">({moment(transaction.timestamp).format('DD/MM/YYYY HH:mm:SS')})</span>
+                        </div>
                     </div>
                     <div className="DisplayFlex AlignItemsStart MarginRight4">
                         <span className="MarginRight2 SemiBoldText">Gas Used:</span>

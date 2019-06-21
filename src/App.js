@@ -28,6 +28,7 @@ if (process.env.NODE_ENV !== 'development') {
 const ToastAnimation = cssTransition({
     enter: 'zoomIn',
     exit: 'zoomOut',
+    duration: 300,
 });
 
 class App extends Component {
