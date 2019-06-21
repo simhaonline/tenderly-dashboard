@@ -13,6 +13,8 @@ $TracePreviewSpacing: 0px;
     transition: 0.1s;
     border-radius: 4px;
     padding: $Spacing1;
+    display: flex;
+    align-items: center;
 
     @for $i from 0 through 10 {
       &.Depth#{$i} {
@@ -22,6 +24,10 @@ $TracePreviewSpacing: 0px;
 
     .TracePointIcon {
       color: $Primary500;
+
+      &.NoSource {
+        color: transparentize($WhiteColor, 0.5)
+      }
     }
 
     .BoldedText {

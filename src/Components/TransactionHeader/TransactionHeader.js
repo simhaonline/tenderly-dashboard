@@ -12,15 +12,22 @@ import {EtherscanLink, NetworkTag, TransactionStatusTag} from "../index";
 
 import './TransactionHeader.scss';
 
-const TransactionHeader = ({transaction, contract}) => {
+const TransactionHeader = ({transaction, contracts}) => {
     let contractLink;
 
-    const networkRoute  = NetworkAppToRouteTypeMap[contract.network];
+    const isInternal = transaction.isInternalTransaction(contracts);
 
-    if (contract.isPublic) {
-        contractLink = `/contract/${networkRoute}/${contract.id}`;
-    } else {
-        contractLink = `/project/${contract.projectId}/contract/${networkRoute}/${contract.id}`;
+    const contract = contracts.find(c => c.address === transaction.to);
+
+    if (contract) {
+        const networkRoute  = NetworkAppToRouteTypeMap[contract.network];
+
+        if (contract.isPublic) {
+
+            contractLink = `/contract/${networkRoute}/${contract.id}`;
+        } else if (!isInternal) {
+            contractLink = `/project/${contract.projectId}/contract/${networkRoute}/${contract.id}`;
+        }
     }
 
     return (
@@ -82,7 +89,8 @@ const TransactionHeader = ({transaction, contract}) => {
                     </div>
                     <div>
                         <div className="MutedText CallerLabel">To:</div>
-                        <Link to={contractLink}>{contract.name} ({transaction.to})</Link>
+                        {!!contract && <Link to={contractLink}>{contract.name} ({transaction.to})</Link>}
+                        {!contract && <div>{transaction.to}</div>}
                     </div>
                 </div>
             </PanelContent>
@@ -92,7 +100,7 @@ const TransactionHeader = ({transaction, contract}) => {
 
 TransactionHeader.propTypes = {
     transaction: PropTypes.object.isRequired,
-    contract: PropTypes.object.isRequired,
+    contracts: PropTypes.array.isRequired,
 };
 
 export default TransactionHeader;

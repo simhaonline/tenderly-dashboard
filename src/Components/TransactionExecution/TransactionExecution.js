@@ -34,7 +34,7 @@ class TransactionExecution extends Component {
     };
 
     render() {
-        const {transaction, callTrace, stackTrace, contract} = this.props;
+        const {transaction, callTrace, stackTrace, contracts} = this.props;
         const {currentTab} = this.state;
 
         return (
@@ -44,8 +44,8 @@ class TransactionExecution extends Component {
                 </PanelHeader>}
                 {!transaction.status && <PanelTabs tabs={EXECUTION_TABS} active={currentTab} onChange={this.handleTabChange}/>}
                 <PanelContent>
-                    {currentTab === 'call_trace' && <CallTracePreview callTrace={callTrace} contract={contract}/>}
-                    {currentTab === 'stack_trace' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contract={contract}/>}
+                    {currentTab === 'call_trace' && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
+                    {currentTab === 'stack_trace' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
                 </PanelContent>
             </Panel>
         );
@@ -56,7 +56,7 @@ PropTypes.propTypes = {
     callTrace: PropTypes.object.isRequired,
     stackTrace: PropTypes.object,
     transaction: PropTypes.object.isRequired,
-    contract: PropTypes.object.isRequired,
+    contracts: PropTypes.array.isRequired,
 };
 
 export default TransactionExecution;

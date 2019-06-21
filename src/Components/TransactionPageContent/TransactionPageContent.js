@@ -5,11 +5,11 @@ import {FeatureFlagTypes} from "../../Common/constants";
 
 import {TransactionExecution, TransactionHeader, CallTraceFlameGraph, FeatureFlag} from "../index";
 
-const TransactionPageContent = ({transaction, contract, callTrace, stackTrace}) => {
+const TransactionPageContent = ({transaction, contracts, callTrace, stackTrace}) => {
     return (
         <div className="TransactionPageContent">
-            <TransactionHeader contract={contract} transaction={transaction}/>
-            <TransactionExecution transaction={transaction} stackTrace={stackTrace} callTrace={callTrace} contract={contract}/>
+            <TransactionHeader contracts={contracts} transaction={transaction}/>
+            <TransactionExecution transaction={transaction} stackTrace={stackTrace} callTrace={callTrace} contracts={contracts}/>
             <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                 <CallTraceFlameGraph callTrace={callTrace}/>
             </FeatureFlag>
@@ -19,7 +19,7 @@ const TransactionPageContent = ({transaction, contract, callTrace, stackTrace}) 
 
 TransactionPageContent.propTypes = {
     transaction: PropTypes.object.isRequired,
-    contract: PropTypes.object.isRequired,
+    contracts: PropTypes.array.isRequired,
     callTrace: PropTypes.object.isRequired,
     stackTrace: PropTypes.object,
 };

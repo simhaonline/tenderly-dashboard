@@ -11,11 +11,13 @@ class TracePreview extends Component {
     constructor(props) {
         super(props);
 
-        const {open, contract, trace} = props;
+        const {open, contracts, trace} = props;
+
+        const traceContract = contracts.find(contract => contract.address === trace.contract);
 
         this.state = {
             open,
-            file: contract.getFileById(trace.fileId),
+            file: traceContract ? traceContract.getFileById(trace.fileId) : null,
         };
     }
 
@@ -26,7 +28,7 @@ class TracePreview extends Component {
     };
 
     render() {
-        const {trace, depth, contract} = this.props;
+        const {trace, depth, contracts} = this.props;
         const {open, file} = this.state;
 
         return (
@@ -35,13 +37,25 @@ class TracePreview extends Component {
                     "TracePreviewHeading",
                     `Depth${depth}`,
                 )}>
-                    <Icon icon="circle" className="TracePointIcon"/> <span className="BoldedText">{trace.functionName}</span> {!!file && <span className="MutedText">in {file.name}:{trace.lineNumber}</span>}
+                    <Icon icon="circle" className={classNames(
+                        "TracePointIcon MarginRight1",
+                        {
+                            "NoSource": !file,
+                        }
+                    )}/>
+                    {!!file && <div>
+                        <span className="BoldedText">{trace.functionName}</span> <span className="MutedText">in {file.name}:{trace.lineNumber}</span>
+                    </div>}
+                    {!file && <div>
+                        <span className="SemiBoldText">{trace.contract}</span><span className="MutedText"> Unknown function called</span>
+                    </div>}
                 </div>
                 {open && <div className="TracePreviewCodeWrapper">
                     {!!file && <CodePreview line={trace.lineNumber} linePreview={5} file={file}/>}
+                    {!file && <span>No source for this contract exists</span>}
                 </div>}
                 {!!trace.calls && trace.calls.map((trace, index) =>
-                    <TracePreview trace={trace} key={index} depth={depth + 1} contract={contract}/>
+                    <TracePreview trace={trace} key={index} depth={depth + 1} contracts={contracts}/>
                 )}
             </div>
         );
@@ -51,7 +65,7 @@ class TracePreview extends Component {
 PropTypes.propTypes = {
     trace: PropTypes.object.isRequired,
     depth: PropTypes.number.isRequired,
-    contract: PropTypes.object.isRequired,
+    contracts: PropTypes.array.isRequired,
     open: PropTypes.bool,
 };
 

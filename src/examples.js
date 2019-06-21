@@ -122,6 +122,7 @@ export const exampleTransaction1Paylod = {
             function_file_index: 0,
             caller_file_index: 0,
             caller_line_number: 46,
+            to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
             function_line_number: 46,
             calls: [
                 {
@@ -129,6 +130,7 @@ export const exampleTransaction1Paylod = {
                     function_file_index: 0,
                     caller_file_index: 0,
                     caller_line_number: 47,
+                    to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     function_line_number: 47,
                 },
                 {
@@ -136,6 +138,7 @@ export const exampleTransaction1Paylod = {
                     function_file_index: 0,
                     caller_file_index: 0,
                     caller_line_number: 49,
+                    to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     function_line_number: 49,
                     calls: [
                         {
@@ -143,6 +146,7 @@ export const exampleTransaction1Paylod = {
                             function_file_index: 0,
                             caller_file_index: 0,
                             caller_line_number: 36,
+                            to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                             function_line_number: 36,
                         }
                     ],

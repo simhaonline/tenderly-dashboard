@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {getContractForTransaction} from "../../Common/Selectors/ContractSelectors";
+import {getContractsForTransaction} from "../../Common/Selectors/ContractSelectors";
 import {
     getTransaction,
     getTransactionCallTrace,
@@ -25,11 +25,12 @@ class ProjectTransactionPage extends Component {
 
         this.state = {
             error: null,
+            loading: true,
         };
     }
 
     async componentDidMount() {
-        const {project, transaction, callTrace, contract, projectId, contractActions, txActions, txHash, networkType} = this.props;
+        const {project, transaction, callTrace, contracts, projectId, contractActions, txActions, txHash, networkType} = this.props;
 
         if (project.type !== ProjectTypes.DEMO) {
             if (!transaction || !callTrace) {
@@ -45,18 +46,37 @@ class ProjectTransactionPage extends Component {
 
             }
 
-            if (!contract) {
+            if (!contracts) {
                 await contractActions.fetchContractsForProject(projectId);
             }
         } else {
             await txActions.fetchExampleTransaction();
-
         }
+
+        this.setState({
+            loading: false,
+        });
     }
 
     render() {
-        const {transaction, callTrace, stackTrace, contract, projectId} = this.props;
-        const {error} = this.state;
+        const {transaction, callTrace, stackTrace, contracts, projectId} = this.props;
+        const {error, loading} = this.state;
+
+        if (loading) {
+            return (
+                <Page>
+                    <Container>
+                        <PageHeading>
+                            <Button to={`/project/${projectId}/transactions`} outline>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>Transaction</h1>
+                        </PageHeading>
+                        <ProjectContentLoader text="Fetching transaction..."/>
+                    </Container>
+                </Page>
+            );
+        }
 
         if (error) {
             return (
@@ -80,22 +100,6 @@ class ProjectTransactionPage extends Component {
             )
         }
 
-        if (!transaction || !callTrace || !contract) {
-            return (
-                <Page>
-                    <Container>
-                        <PageHeading>
-                            <Button to={`/project/${projectId}/transactions`} outline>
-                                <Icon icon="arrow-left"/>
-                            </Button>
-                            <h1>Transaction</h1>
-                        </PageHeading>
-                        <ProjectContentLoader text="Fetching transaction..."/>
-                    </Container>
-                </Page>
-            );
-        }
-
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
@@ -113,7 +117,7 @@ class ProjectTransactionPage extends Component {
                             </EtherscanLink>
                         </div>
                     </PageHeading>
-                    <TransactionPageContent transaction={transaction} contract={contract} stackTrace={stackTrace} callTrace={callTrace}/>
+                    <TransactionPageContent transaction={transaction} contracts={contracts} stackTrace={stackTrace} callTrace={callTrace}/>
                 </Container>
             </Page>
         );
@@ -135,7 +139,7 @@ const mapStateToProps = (state, ownProps) => {
         project: getProject(state, id),
         callTrace: getTransactionCallTrace(state, txHash),
         stackTrace: getTransactionStackTrace(state, txHash),
-        contract: getContractForTransaction(state, transaction),
+        contracts: getContractsForTransaction(state, transaction),
     }
 };
 

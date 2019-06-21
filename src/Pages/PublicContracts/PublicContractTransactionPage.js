@@ -61,7 +61,7 @@ class PublicContractTransactionPage extends Component {
         return (
             <Page>
                 <Container>
-                    <TransactionPageContent transaction={transaction} contract={contract} callTrace={callTrace}/>
+                    <TransactionPageContent transaction={transaction} contracts={[contract]} callTrace={callTrace}/>
                 </Container>
             </Page>
         );

@@ -5,17 +5,17 @@ import TracePreview from "../TracePreview/TracePreview";
 
 import './CallTracePreview.scss';
 
-const CallTracePreview = ({callTrace, contract}) => {
+const CallTracePreview = ({callTrace, contracts}) => {
     return (
         <div className="CallTracePreview">
-            <TracePreview trace={callTrace.trace} depth={0} open={true} contract={contract}/>
+            <TracePreview trace={callTrace.trace} depth={0} open={true} contracts={contracts}/>
         </div>
     );
 };
 
 CallTracePreview.propTypes = {
     callTrace: PropTypes.object.isRequired,
-    contract: PropTypes.object.isRequired,
+    contracts: PropTypes.array.isRequired,
 };
 
 export default CallTracePreview;

@@ -5,11 +5,11 @@ import TracePreview from "../TracePreview/TracePreview";
 
 import './StackTracePreview.scss';
 
-const StackTracePreview = ({stackTrace, contract}) => {
+const StackTracePreview = ({stackTrace, contracts}) => {
     return (
         <div className="StackTracePreview">
             {!!stackTrace.trace && stackTrace.trace.map((trace, index) =>
-                <TracePreview trace={trace} key={index} open={index === 0} depth={0} contract={contract}/>
+                <TracePreview trace={trace} key={index} open={index === 0} depth={0} contracts={contracts}/>
             )}
         </div>
     );
@@ -17,7 +17,7 @@ const StackTracePreview = ({stackTrace, contract}) => {
 
 StackTracePreview.propTypes = {
     stackTrace: PropTypes.object.isRequired,
-    contract: PropTypes.object.isRequired,
+    contracts: PropTypes.array.isRequired,
 };
 
 export default StackTracePreview;

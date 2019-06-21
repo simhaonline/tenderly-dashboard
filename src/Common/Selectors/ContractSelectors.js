@@ -69,18 +69,20 @@ export function getContractForEvent(state, event) {
 /**
  * @param {Object} state
  * @param {Transaction} transaction
- * @return {Contract}
+ * @return {Contract[]}
  */
-export function getContractForTransaction(state, transaction) {
+export function getContractsForTransaction(state, transaction) {
     if (!transaction) {
         return null;
     }
 
-    const contract = state.contract.contracts[transaction.to];
+    const contracts = transaction.contracts
+        .map(contract => state.contract.contracts[contract])
+        .filter(contract => !!contract);
 
-    if (!contract) {
-        return null;
+    if (!contracts || !contracts.length) {
+        return [];
     }
 
-    return contract;
+    return contracts;
 }
