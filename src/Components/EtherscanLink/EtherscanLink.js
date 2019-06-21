@@ -38,7 +38,10 @@ const EtherscanLink = ({network, type, value, path = '', children, ...props}) =>
 EtherscanLink.propTypes = {
     network: PropTypes.string,
     type: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
     path: PropTypes.string,
 };
 
