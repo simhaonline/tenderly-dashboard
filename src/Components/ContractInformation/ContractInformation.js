@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {Panel, PanelContent} from "../../Elements";
-import {CopyableText} from "../index";
+import {CopyableText, NetworkTag} from "../index";
 
 import './ContractInformation.scss';
 
@@ -16,6 +16,7 @@ class ContractInformation extends Component {
                         <div className="DetailLabel">Address:</div>
                         <div className="DetailValue">
                             <CopyableText text={contract.address} onSuccessMessage="Copied contract address to clipboard"/>
+                            <NetworkTag network={contract.network}/>
                         </div>
                     </div>
                     <div className="DetailsWrapper">
