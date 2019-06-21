@@ -15,8 +15,8 @@ class FlameGraphRow extends Component{
             }}>
                 <div className="FlameGraphRow__RowInfo">{trace.gasUsed} Gwei</div>
                 {!!trace.calls && !!trace.calls.length && <div className="FlameGraphRow__SubRows">
-                    {trace.calls.map(call => (
-                        call.gasUsed > 0 ? <FlameGraphRow key={call.lineNumber} width={call.gasUsed / trace.gasUsed} trace={call}/> : null))}
+                    {trace.calls.map((call, index) => (
+                        call.gasUsed > 0 ? <FlameGraphRow key={`${index}${call.lineNumber}`} width={call.gasUsed / trace.gasUsed} trace={call}/> : null))}
                 </div>}
             </div>
         )
