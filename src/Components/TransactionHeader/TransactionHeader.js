@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import moment from 'moment';
-import {CopyToClipboard} from "react-copy-to-clipboard";
 
 import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
-import Notifications from '../../Utils/Notifications';
 
 import {Panel, PanelContent, PanelDivider, Icon} from "../../Elements";
-import {EtherscanLink, NetworkTag, TransactionStatusTag} from "../index";
+import {EtherscanLink, NetworkTag, TransactionStatusTag, CopyableText} from "../index";
 
 import './TransactionHeader.scss';
 
@@ -35,17 +33,7 @@ const TransactionHeader = ({transaction, contracts}) => {
                 <div className="HashInfo">
                     <span>Transaction: </span>
                     <div className="DisplayFlex AlignItemsCenter">
-                        <CopyToClipboard text={transaction.txHash} onCopy={() => Notifications.success({
-                            title: "Copied transaction hash to clipboard",
-                            icon: "clipboard",
-                        })}>
-                            <div className="TxHashWrapper DisplayFlex">
-                                <div className="CopyIconWrapper">
-                                    <Icon icon="copy"/>
-                                </div>
-                                <span className="TxHash">{transaction.txHash}</span>
-                            </div>
-                        </CopyToClipboard>
+                        <CopyableText text={transaction.txHash} onSuccessMessage="Copied transaction hash to clipboard"/>
                         <NetworkTag network={transaction.network} className="MarginLeft2"/>
                     </div>
                 </div>

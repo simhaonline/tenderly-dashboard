@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 
-import {EtherscanLinkTypes} from "../../Common/constants";
-
 import {Panel, PanelContent} from "../../Elements";
-
-import EtherscanLink from "../EtherscanLink/EtherscanLink";
+import {CopyableText} from "../index";
 
 import './ContractInformation.scss';
 
@@ -18,7 +15,7 @@ class ContractInformation extends Component {
                     <div className="DetailsWrapper">
                         <div className="DetailLabel">Address:</div>
                         <div className="DetailValue">
-                            <EtherscanLink network={contract.network} type={EtherscanLinkTypes.ADDRESS} value={contract.address}>{contract.address}</EtherscanLink>
+                            <CopyableText text={contract.address} onSuccessMessage="Copied contract address to clipboard"/>
                         </div>
                     </div>
                     <div className="DetailsWrapper">

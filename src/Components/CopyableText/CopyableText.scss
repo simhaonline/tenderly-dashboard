@@ -1,0 +1,30 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/global";
+@import "../../Common/Styles/typography";
+
+.CopyableText {
+  cursor: pointer;
+  align-items: center;
+
+  &:hover {
+    .CopyableText_Value {
+      color: $LinkColor;
+    }
+  }
+}
+
+.CopyableText_Icon {
+  margin-right: $Spacing1;
+  width: 22px;
+  padding: 2px 4px;
+  height: 22px;
+  background-color: transparentize($Primary500, 0.5);
+  border: 1px solid transparentize($Primary500, 0.25);
+  border-radius: 11px;
+  cursor: pointer;
+  font-size: $FontSize200;
+}
+
+.CopyableText_Value {
+  transition: 0.15s;
+}

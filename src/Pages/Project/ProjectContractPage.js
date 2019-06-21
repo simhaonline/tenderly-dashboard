@@ -6,14 +6,14 @@ import {bindActionCreators} from "redux";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {getContractById, getContractStatus} from "../../Common/Selectors/ContractSelectors";
-import {EntityStatusTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EntityStatusTypes, EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
 import {
     ContractInformation,
     ContractDeploymentInformation,
     ProjectContentLoader,
-    ContractFiles,
+    ContractFiles, EtherscanLink,
 } from "../../Components";
 
 class ProjectContractPage extends Component {
@@ -53,6 +53,14 @@ class ProjectContractPage extends Component {
                                 <Icon icon="arrow-left"/>
                             </Button>
                             <h1>{contract.name}</h1>
+                            <div className="RightContent">
+                                <EtherscanLink type={EtherscanLinkTypes.BLOCK} network={contract.network} value={contract.address}>
+                                    <Button size="small" outline>
+                                        <Icon icon="globe"/>
+                                        <span>View in Explorer</span>
+                                    </Button>
+                                </EtherscanLink>
+                            </div>
                         </PageHeading>
                         <ContractInformation contract={contract}/>
                         <ContractDeploymentInformation contract={contract}/>
