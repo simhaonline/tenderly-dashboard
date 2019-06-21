@@ -11,14 +11,14 @@ import {
     isPublicContractLoaded, isPublicContractWatched
 } from "../../Common/Selectors/PublicContractSelectors";
 
-import {NetworkAppToRouteTypeMap, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkAppToRouteTypeMap, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
 import {
     ContractInformation,
     ContractActions,
     ProjectPageLoader,
-    TransactionsList
+    TransactionsList, EtherscanLink
 } from "../../Components";
 
 class PublicContractPage extends Component {
@@ -90,12 +90,18 @@ class PublicContractPage extends Component {
                         </Button>
                         <h1>{contract.name}</h1>
                         <div className="RightContent">
-                            <Button outline={!isContractWatched} size="small"
+                            <Button outline={!isContractWatched} size="small" color="secondary"
                                     onClick={this.toggleWatchedContract} disabled={actionInProgress}>
                                 <Icon icon="star"/>
                                 {!isContractWatched && <span>Watch Contract</span>}
                                 {isContractWatched && <span>Un-watch Contract</span>}
                             </Button>
+                            <EtherscanLink type={EtherscanLinkTypes.BLOCK} network={contract.network} value={contract.address}>
+                                <Button size="small" outline>
+                                    <Icon icon="globe"/>
+                                    <span>View in Explorer</span>
+                                </Button>
+                            </EtherscanLink>
                         </div>
                     </PageHeading>
                     <ContractInformation contract={contract} back/>
