@@ -36,7 +36,7 @@ class ProjectTransactionPage extends Component {
                 const actionResponse = await txActions.fetchTransactionForProject(projectId, txHash, networkType);
 
                 if (!actionResponse.success) {
-                    Notifications.error("Failed fetching transaction");
+                    Notifications.error({title: "Failed fetching transaction"});
 
                     this.setState({
                         error: "There was an error trying to fetch information about this transaction.",

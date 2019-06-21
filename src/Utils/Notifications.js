@@ -10,39 +10,47 @@ window.addEventListener("blur", () => {
 
 class Notifications {
     /**
-     * @param {string} title
-     * @param {string | null} [description]
+     * @param {object} data
+     * @param {string} data.title
+     * @param {string} [data.description]
+     * @param {string} [data.icon]
      * @param {object} [options]
      */
-    static success(title, description, options) {
-        toast.success(<Notification title={title} description={description} type="success"/>, options);
+    static success(data = {}, options) {
+        toast.success(<Notification title={data.title} description={data.description} icon={data.icon} type="success"/>, options);
     }
 
     /**
-     * @param {string} title
-     * @param {string | null} [description]
+     * @param {object} data
+     * @param {string} data.title
+     * @param {string} [data.description]
+     * @param {string} [data.icon]
      * @param {object} [options]
      */
-    static warn(title, description, options) {
-        toast.warn(<Notification title={title} description={description} type="warning"/>, options);
+    static warn(data = {}, options) {
+        toast.warn(<Notification title={data.title} description={data.description} icon={data.icon} type="warning"/>, options);
     }
 
     /**
-     * @param {string} title
-     * @param {string | null} [description]
+     * @param {object} data
+     * @param {string} data.title
+     * @param {string} [data.description]
+     * @param {string} [data.icon]
      * @param {object} [options]
      */
-    static error(title, description, options) {
-        toast.error(<Notification title={title} description={description} type="error"/>, options);
+    static error(data = {}, options) {
+        toast.error(<Notification title={data.title} description={data.description} icon={data.icon} type="error"/>, options);
     }
 
     /**
-     * @param {string} title
-     * @param {string | null} [description]
+     * @param {object} data
+     * @param {string} data.title
+     * @param {string} [data.description]
+     * @param {string} [data.icon]
      * @param {object} [options]
      */
-    static info(title, description, options) {
-        toast.info(<Notification title={title} description={description} type="info"/>, options);
+    static info(data = {}, options) {
+        toast.info(<Notification title={data.title} description={data.description} icon={data.icon} type="info"/>, options);
     }
 }
 
