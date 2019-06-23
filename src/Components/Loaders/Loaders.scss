@@ -24,7 +24,7 @@ $CircularLoaderSize: 150px;
     height: $CircularLoaderSize;
     border-radius: 50%;
     border: 2px solid transparent;
-    border-top-color: $PrimaryColor600;
+    border-top-color: $Secondary500;
     animation: LoadingSpinnerAnimation 2s linear infinite;
 
     &:before {
@@ -36,7 +36,7 @@ $CircularLoaderSize: 150px;
       bottom: 5px;
       border-radius: 50%;
       border: 2px solid transparent;
-      border-top-color: transparentize($PrimaryColor600, 0.4);
+      border-top-color: transparentize($Secondary500, 0.4);
       animation: LoadingSpinnerAnimation 3s linear infinite;
     }
 
@@ -49,7 +49,7 @@ $CircularLoaderSize: 150px;
       bottom: 15px;
       border-radius: 50%;
       border: 1px solid transparent;
-      border-top-color: transparentize($PrimaryColor600, 0.6);
+      border-top-color: transparentize($Secondary500, 0.6);
       animation: LoadingSpinnerAnimation 1.5s linear infinite;
     }
   }
@@ -132,8 +132,8 @@ $CircularLoaderSize: 150px;
     position: absolute;
     height: 10px;
     width: 10px;
-    border: 1px solid transparentize($PrimaryColor600, 0.2);
-    box-shadow: 0 0 3px 1px transparentize($PrimaryColor600, 0.3);
+    border: 1px solid transparentize($Secondary500, 0.2);
+    box-shadow: 0 0 3px 1px transparentize($Secondary500, 0.3);
     border-radius: 5px;
     transform: translate(0, 0);
 
@@ -251,7 +251,7 @@ $CircularLoaderSize: 150px;
 
   > div {
     animation-fill-mode: both;
-    border: 2px solid transparentize($PrimaryColor600, 0.25);
+    border: 2px solid transparentize($Secondary500, 0.25);
     border-bottom-color: transparent;
     border-top-color: transparent;
     border-radius: 100%;
@@ -267,7 +267,7 @@ $CircularLoaderSize: 150px;
       height: 15px;
       border-width: 1px;
       animation-duration: 0.5s;
-      border-color: $PrimaryColor600 transparent $PrimaryColor600 transparent;
+      border-color: $Secondary500 transparent $Secondary500 transparent;
       animation-direction: reverse;
     }
   }
