@@ -2,8 +2,8 @@
 @import "../../Common/Styles/typography";
 
 .InputWrapper {
-  background: #171e31;
-  border: 1px solid #1e2841;
+  background: lighten($Slate300, 5);
+  border: 1px solid $Slate700;
   position: relative;
   border-radius: 4px;
   transition: 0.15s;
@@ -25,7 +25,7 @@
     &:-webkit-autofill:active  {
       -webkit-box-shadow: 0 0 0 30px lighten(#171e31, 1.5) inset;
       -webkit-text-fill-color: $WhiteColor;
-      background-color: lighten(#171e31, 1.5) !important;
+      background-color: lighten($Slate300, 1.5) !important;
     }
 
     &:focus, &:hover, &:active {
@@ -61,17 +61,17 @@
   }
 
   &.Active {
-    border-color: #3c598c;
+    border-color: $Slate700;
   }
 
   &.Focused {
-    box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
-    border-color: $PrimaryColor600;
+    box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
+    border-color: $Primary500;
   }
 
   &.Active, &.Focused {
     .InputIcon {
-      color: $PrimaryColor600;
+      color: $Primary500;
       transition-delay: 0.05s;
       transform: scale(1);
       opacity: 1;

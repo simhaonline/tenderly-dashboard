@@ -25,10 +25,10 @@
   }
 
   &.Focused {
-    box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
+    box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
   }
 
   &.Active {
-    border-color: $PrimaryColor600;
+    border-color: $Primary500;
   }
 }

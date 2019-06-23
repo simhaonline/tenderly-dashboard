@@ -92,7 +92,9 @@ class LoginPage extends Component {
                 <div className="LoginPageContent">
                     <div className="LoginFormWrapper">
                         <div className="LogoWrapper">
-                            <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
+                            <a href="https://tenderly.dev">
+                                <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
+                            </a>
                         </div>
                         <Panel className="LoginFormPanel">
                             <PanelContent>

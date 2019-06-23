@@ -113,7 +113,9 @@ class RegisterForm extends Component {
             <div className="RegisterForm">
                 <div className="FormStepsWrapper">
                     <div className="LogoWrapper">
-                        <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
+                        <a href="https://tenderly.dev">
+                            <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
+                        </a>
                     </div>
                     <Panel>
                         <PanelContent>
