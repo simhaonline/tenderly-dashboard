@@ -41,6 +41,9 @@ class Contract {
         /** @type number */
         this.errorCount = data.errorCount;
 
+        /** @type number */
+        this.watchCount = data.watchCount;
+
         /** @type ContractFile[] */
         this.files = data.files;
 
@@ -140,6 +143,7 @@ class Contract {
             isPublic: data.public,
             createdAt: data.created_at,
             errorCount: data.number_of_exceptions,
+            watchCount: data.number_of_watches,
             lastEventAt: data.last_event_occurred_at,
             verifiedAt: data.verification_date,
             files,

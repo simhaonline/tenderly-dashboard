@@ -93,8 +93,8 @@ class PublicContractPage extends Component {
                             <Button outline={!isContractWatched} size="small" color="secondary"
                                     onClick={this.toggleWatchedContract} disabled={actionInProgress}>
                                 <Icon icon="star"/>
-                                {!isContractWatched && <span>Watch Contract</span>}
-                                {isContractWatched && <span>Un-watch Contract</span>}
+                                {!isContractWatched && <span>Watch</span>}
+                                {isContractWatched && <span>Unwatch</span>}
                             </Button>
                             <EtherscanLink type={EtherscanLinkTypes.BLOCK} network={contract.network} value={contract.address}>
                                 <Button size="small" outline>
