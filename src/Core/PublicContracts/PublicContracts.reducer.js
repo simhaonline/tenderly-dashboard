@@ -1,7 +1,7 @@
 import {
     FETCH_PUBLIC_CONTRACT_ACTION,
     FETCH_PUBLIC_CONTRACTS_ACTION,
-    FETCH_WATCHED_CONTRACTS_ACTION
+    FETCH_WATCHED_CONTRACTS_ACTION, TOGGLE_WATCHED_CONTRACT_ACTION
 } from "./PublicContracts.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
@@ -22,7 +22,24 @@ const PublicContractsReducer = (state = initialState, action) => {
         case FETCH_WATCHED_CONTRACTS_ACTION:
             return {
                 ...state,
+                watchedContracts: {
+                    ...action.contracts.reduce((data, contract) => {
+                        data[contract.address] = true;
+
+                        return data;
+                    }, {}),
+                },
                 watchedContractsLoaded: true,
+            };
+        case TOGGLE_WATCHED_CONTRACT_ACTION:
+            const currentToggleState = state.watchedContracts[action.contract];
+
+            return {
+                ...state,
+                watchedContracts: {
+                    ...state.watchedContracts,
+                    [action.contract]: !currentToggleState,
+                },
             };
         case FETCH_PUBLIC_CONTRACTS_ACTION:
             const contracts = action.contracts.reduce((list, contract) => {

@@ -111,7 +111,7 @@ export const fetchWatchedContracts = () => {
                 return new ErrorActionResponse();
             }
 
-            const contracts = data.contracts;
+            const contracts = data.contracts.map(Contract.buildFromResponse);
 
             dispatch({
                 type: FETCH_WATCHED_CONTRACTS_ACTION,
