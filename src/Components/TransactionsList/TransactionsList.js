@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom';
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {Table} from "../../Elements";
-import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn, TransactionMoreColumn, TimeAgoColumn} from "../index";
+import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn, TransactionMoreColumn, TransactionContractsColumn, TimeAgoColumn} from "../index";
 
 const transactionTableConf = [
     {
@@ -15,6 +15,10 @@ const transactionTableConf = [
     {
         label: 'Status',
         renderColumn: tx => <TransactionStatusColumn status={tx.status}/>,
+    },
+    {
+        label: 'Contracts',
+        renderColumn: (tx, metadata) => <TransactionContractsColumn transaction={tx} contracts={metadata.contracts}/>,
     },
     {
         label: "Network",

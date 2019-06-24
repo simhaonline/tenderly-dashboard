@@ -1,5 +1,3 @@
-import NoTransactionsEmptyState from "./NoTransactionsEmptyState/NoTransactionsEmptyState";
-
 export {default as AppHeader} from './AppHeader/AppHeader';
 export {default as Navigation} from './Navigation/Navigation';
 export {default as PrivateRoute} from './PrivateRoute/PrivateRoute';
@@ -80,6 +78,7 @@ export {default as EmptyState} from './EmptyState/EmptyState';
  * Table Column Elements
  */
 export {default as TransactionHashColumn} from './TransactionHashColumn/TransactionHashColumn';
+export {default as TransactionContractsColumn} from './TransactionContractsColumn/TransactionContractsColumn';
 export {default as TransactionStatusColumn} from './TransactionStatusColumn/TransactionStatusColumn';
 export {default as NetworkColumn} from './NetworkColumn/NetworkColumn';
 export {default as TimeAgoColumn} from './TimeAgoColumn/TimeAgoColumn';

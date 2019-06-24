@@ -1,0 +1,20 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
+
+.TransactionContractsColumn__Contract {
+  font-family: $MonospaceFontFamily;
+  color: $LinkColor;
+}
+
+.TransactionContractsColumn__Tooltip {
+  padding: $Spacing2 $Spacing3;
+}
+
+.TransactionContractsColumn__Tooltip__Contract {
+  margin-bottom: $Spacing1;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

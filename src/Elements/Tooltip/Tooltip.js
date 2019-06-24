@@ -4,9 +4,9 @@ import { UncontrolledTooltip } from 'reactstrap';
 
 import './Tooltip.scss';
 
-const Tooltip = ({id, placement, children}) => {
+const Tooltip = ({id, placement, className, children}) => {
     return (
-        <UncontrolledTooltip placement={placement} target={id} innerClassName="Tooltip__Content" className="Tooltip" hideArrow>
+        <UncontrolledTooltip placement={placement} target={id} innerClassName={`Tooltip__Content ${className}`} className="Tooltip" hideArrow>
             {children}
         </UncontrolledTooltip>
     );
