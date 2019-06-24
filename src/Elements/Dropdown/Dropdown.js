@@ -1,6 +1,6 @@
 import React, {Component, useContext} from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import './Dropdown.scss';
