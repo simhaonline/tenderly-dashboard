@@ -53,8 +53,13 @@ export class Trace {
     }
 
     static buildFromRawStackTrace(rawStackTrace) {
+        /**
+         * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
+         * accordingly as those mocked responses are used for the Example Project and might break it.
+         */
         return new Trace({
             functionName: rawStackTrace.code,
+            contract: rawStackTrace.contract,
             fileName: rawStackTrace.name,
             lineNumber: rawStackTrace.line,
             fileId: rawStackTrace.file_index,
