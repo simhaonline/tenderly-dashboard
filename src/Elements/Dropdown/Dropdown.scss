@@ -1,0 +1,64 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
+
+@keyframes DropdownEnterAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY($Spacing1 * -1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes DropdownExitAnimation {
+  0% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY($Spacing1 * -1);
+  }
+}
+
+.Dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.Dropdown__Toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.Dropdown__Menu {
+  position: absolute;
+  left: 0;
+  z-index: 1000;
+  top: calc(100% + #{$Spacing2});
+  background-color: $Slate200;
+  min-width: 200px;
+  padding: $Spacing1 0;
+  border-radius: 4px;
+  animation: 0.15s DropdownEnterAnimation cubic-bezier(0.645, 0.045, 0.355, 1);
+  box-shadow: 1px 1px 5px 0 transparentize($BlackColor, 0.65);
+}
+
+.Dropdown__Menu--Closing {
+  animation: 0.15s DropdownExitAnimation cubic-bezier(0.645, 0.045, 0.355, 1);
+  opacity: 0;
+}
+
+.Dropdown__Item {
+  cursor: pointer;
+  padding: $Spacing1 $Spacing4;
+  transition: 0.15s;
+  text-align: left;
+
+  &:hover {
+    background-color: transparentize($BlackColor, 0.85);
+  }
+}

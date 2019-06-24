@@ -27,3 +27,5 @@ export {default as PanelHeader} from './Panel/PanelHeader';
 export {default as Table} from './Table/Table';
 export {default as Notification} from './Notification/Notification';
 export {default as Tooltip} from './Tooltip/Tooltip';
+
+export {default as Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from './Dropdown/Dropdown';
