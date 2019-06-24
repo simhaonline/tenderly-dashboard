@@ -15,6 +15,28 @@
 
 .Table__Body {
   padding: $Spacing3 $Spacing2;
+  position: relative;
+}
+
+.Table__Body_Loading {
+  z-index: 500;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: $Spacing3;
+  bottom: $Spacing3;
+  left: $Spacing2;
+  right: $Spacing2;
+  border-radius: 4px;
+  background-color: transparentize($BlackColor, 0.8);
+}
+
+.Table__Body_Loading_Loader {
+  background-color: transparentize($Slate100, 0.5);
+  padding: $Spacing4;
+  transform: scale(1.2);
+  border-radius: $Spacing1;
 }
 
 .Table__Row {

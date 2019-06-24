@@ -18,6 +18,22 @@ const tableData = [
         address: 'qwe',
         status: false,
     },
+    {
+        address: 'asd',
+        status: true,
+    },
+    {
+        address: 'qwe',
+        status: false,
+    },
+    {
+        address: 'asd',
+        status: true,
+    },
+    {
+        address: 'qwe',
+        status: false,
+    },
 ];
 
 const tableConf = [
@@ -33,4 +49,8 @@ const tableConf = [
 
 stories.add('default', () => (
     <Table data={tableData} configuration={tableConf}/>
+));
+
+stories.add('loading', () => (
+    <Table data={tableData} configuration={tableConf} loading={true}/>
 ));

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {Panel, Icon} from "../index";
+import {SimpleLoader} from "../../Components";
 
 import './Table.scss';
 
@@ -56,7 +57,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, data, className, rowClassName, headClassName, currentPage, perPage, onPageChange, onPerPageChange, onRowClick, metadata} = this.props;
+        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPageChange, onPerPageChange, onRowClick, metadata} = this.props;
 
         return (
             <Panel className={classNames(
@@ -80,6 +81,11 @@ class Table extends Component {
                 <div className={classNames(
                     "Table__Body",
                 )}>
+                    {loading && <div className="Table__Body_Loading">
+                        <div className="Table__Body_Loading_Loader">
+                            <SimpleLoader inverse/>
+                        </div>
+                    </div>}
                     {data.map((row, index) => <div key={this.getKeyAccessor(row, index)} className={classNames(
                         "Table__Row",
                         rowClassName,
