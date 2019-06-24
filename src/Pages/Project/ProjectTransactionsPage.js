@@ -110,6 +110,10 @@ class ProjectTransactionsPage extends Component {
             }
         });
 
+        this.setState({
+            fetching: true,
+        });
+
         this.fetchTransactions();
     };
 
@@ -125,6 +129,7 @@ class ProjectTransactionsPage extends Component {
 
         this.setState({
             transactions: actionResponse.data,
+            fetching: false,
             lastFetch: moment.now(),
         });
     }, 500);
@@ -133,6 +138,10 @@ class ProjectTransactionsPage extends Component {
         this.setState({
             page: nextPage,
         }, () => {
+            this.setState({
+                fetching: true,
+            });
+
             this.fetchTransactions();
         });
     };
@@ -141,6 +150,10 @@ class ProjectTransactionsPage extends Component {
         this.setState({
             perPage,
         }, () => {
+            this.setState({
+                fetching: true,
+            });
+
             this.fetchTransactions();
         });
     };
@@ -158,7 +171,7 @@ class ProjectTransactionsPage extends Component {
     };
 
     render() {
-        const {loading, transactions, lastFetch, filters, page, perPage, refreshSubscriber} = this.state;
+        const {loading, transactions, lastFetch, filters, page, perPage, refreshSubscriber, fetching} = this.state;
         const {contracts, project} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
@@ -183,6 +196,7 @@ class ProjectTransactionsPage extends Component {
                     {!loading && projectIsSetup && <Fragment>
                         {!!transactions.length && <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
                         {!!transactions.length && page === 1 && <TransactionsList transactions={transactions} contracts={contracts}
+                                          loading={fetching}
                                           currentPage={page} onPageChange={this.handlePageChange}
                                           perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
                         {!transactions.length && page === 1 && <NoTransactionsEmptyState/>}

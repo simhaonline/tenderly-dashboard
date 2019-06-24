@@ -48,11 +48,12 @@ class TransactionsList extends Component {
     };
 
     render() {
-        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange} = this.props;
+        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading} = this.props;
+
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
                 contracts,
-            }} onRowClick={this.handleRowClick}
+            }} onRowClick={this.handleRowClick} loading={loading}
                    currentPage={currentPage} onPageChange={onPageChange}
                    perPage={perPage} onPerPageChange={onPerPageChange}/>
         );
@@ -66,6 +67,7 @@ TransactionsList.propTypes = {
     perPage: PropTypes.number,
     onPerPageChange: PropTypes.func,
     isPublicContracts: PropTypes.bool,
+    loading: PropTypes.bool,
 };
 
 TransactionsList.defaultProps = {
