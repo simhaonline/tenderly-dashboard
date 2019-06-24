@@ -71,7 +71,7 @@ export function isPublicContractLoaded(state, id) {
  * @return {Contract[]}
  */
 export function getWatchedContracts(state) {
-    return Object.values(state.publicContracts.watchedContracts);
+    return Object.values(state.publicContracts.watchedContracts).filter(contract => !!contract);
 }
 
 /**

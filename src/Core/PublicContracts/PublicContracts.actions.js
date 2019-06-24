@@ -127,15 +127,15 @@ export const fetchWatchedContracts = () => {
 };
 
 /**
- * @param {string} contractAddress
+ * @param {Contract} contract
  * @param {NetworkTypes} network
  */
-export const toggleWatchedContract = (contractAddress, network) => {
+export const toggleWatchedContract = (contract, network) => {
     return async dispatch => {
         try {
             const networkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.post(`/public-contract/${networkId}/address/${contractAddress}/toggle-watch`);
+            const {data} = await Api.post(`/public-contract/${networkId}/address/${contract.address}/toggle-watch`);
 
             if (!data) {
                 return new ErrorActionResponse();
@@ -143,7 +143,7 @@ export const toggleWatchedContract = (contractAddress, network) => {
 
             dispatch({
                 type: TOGGLE_WATCHED_CONTRACT_ACTION,
-                contract: contractAddress,
+                contract: contract,
                 network,
             });
 

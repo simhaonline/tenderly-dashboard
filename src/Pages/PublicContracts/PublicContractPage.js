@@ -64,7 +64,7 @@ class PublicContractPage extends Component {
             actionInProgress: true,
         });
 
-        await actions.toggleWatchedContract(contract.address, networkType);
+        await actions.toggleWatchedContract(contract, networkType);
 
         await actions.fetchPublicContract(contract.address, networkType);
 
