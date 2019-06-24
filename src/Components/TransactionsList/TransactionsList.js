@@ -14,6 +14,7 @@ const transactionTableConf = [
     },
     {
         label: 'Status',
+        size: 120,
         renderColumn: tx => <TransactionStatusColumn status={tx.status}/>,
     },
     {
@@ -22,6 +23,7 @@ const transactionTableConf = [
     },
     {
         label: "Network",
+        size: 140,
         renderColumn: tx => <NetworkColumn network={tx.network}/>,
     },
     {

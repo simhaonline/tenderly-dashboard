@@ -16,7 +16,9 @@ class TableColumn extends Component {
                 "Table__Column",
                 "Table__Column--Body",
                 configuration.className,
-            )}>
+            )} style={{
+                flex: configuration.size ? `0 0 ${configuration.size}px` : undefined,
+            }}>
                 {!!configuration.renderColumn && configuration.renderColumn(data, metadata)}
                 {!configuration.renderColumn && data[configuration.accessor]}
             </div>
@@ -73,7 +75,9 @@ class Table extends Component {
                             "Table__Column",
                             "Table__Column--Head",
                             conf.className,
-                        )}>
+                        )} style={{
+                            flex: conf.size ? `0 0 ${conf.size}px` : undefined,
+                        }}>
                             {conf.label}
                         </div>
                     ))}
