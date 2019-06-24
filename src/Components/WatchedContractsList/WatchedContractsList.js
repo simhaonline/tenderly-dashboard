@@ -1,19 +1,25 @@
 import React from 'react';
 
-import {Panel, PanelContent} from "../../Elements";
-import {PublicContractThumbnail, EmptyState} from "../index";
+import {Panel, PanelContent, Button} from "../../Elements";
+import {PublicContractThumbnail, EmptyState, SimpleLoader} from "../index";
+
+import NoContractsWatchedIcon from './no-contracts-watched.svg';
 
 const WatchedContractsList = ({contracts, loaded}) => {
     if (!loaded) {
         return (
-            <div>loading..</div>
+            <SimpleLoader/>
         )
     }
 
     if (!contracts.length) {
         return <Panel>
             <PanelContent>
-                <EmptyState title={"asd"} description={"asd"}/>
+                <EmptyState icon={NoContractsWatchedIcon} title={"asd"} description={"asd"} renderActions={() => (
+                    <Button to={'/public-contracts'} color="secondary" size="small">
+                        <span>Discover Public Contracts</span>
+                    </Button>
+                )}/>
             </PanelContent>
         </Panel>
     }

@@ -19,7 +19,10 @@
     h1 {
       font-size: $FontSize700;
       font-weight: 700;
-      margin-left: $Spacing4;
+
+      &:not(:first-child) {
+        margin-left: $Spacing4;
+      }
     }
 
     .RightContent {
