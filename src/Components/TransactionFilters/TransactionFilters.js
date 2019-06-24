@@ -95,7 +95,7 @@ class TransactionFilters extends Component {
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
                 </div>
                 <div className="FilterGroup">
-                    <Button>
+                    <Button size="small">
                         <Icon icon="filter"/>
                         <span>Filter Transactions</span>
                     </Button>
