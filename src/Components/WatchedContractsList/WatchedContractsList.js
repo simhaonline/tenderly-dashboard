@@ -18,10 +18,8 @@ const WatchedContractsList = ({contracts, loaded}) => {
         </Panel>
     }
 
-    console.log(contracts);
-
     return (
-        <div>
+        <div className="DisplayFlex">
             {contracts.map(contract => <PublicContractThumbnail key={contract.address} contract={contract}/>)}
         </div>
     )

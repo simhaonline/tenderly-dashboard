@@ -12,8 +12,6 @@ const TransactionContractsColumn = ({transaction, contracts}) => {
         .map(contractAddress => contracts.find(contract => contract.address === contractAddress))
         .filter(contract => !!contract);
 
-    console.log(txContracts, transaction.contracts.length);
-
     return (
         <div className="TransactionContractsColumn">
             <div className="TransactionContractsColumn__Contract" id={id}>

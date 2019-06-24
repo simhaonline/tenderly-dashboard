@@ -1,0 +1,39 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
+
+.PublicContractThumbnail {
+  margin-right: 20px;
+  flex: 0 0 250px;
+  margin-bottom: 20px;
+}
+
+.PublicContractThumbnail__Card {
+  display: flex;
+  align-items: center;
+  transition: 0.15s ease-in;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.PublicContractThumbnail__Blockie {
+  border-radius: 3px;
+}
+
+.PublicContractThumbnail__Info {
+  flex: 1 1 0;
+  margin-left: $Spacing4;
+
+  .PublicContractThumbnail__Name {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: $FontSize300;
+  }
+
+  .PublicContractThumbnail__Address {
+    font-family: $MonospaceFontFamily;
+    color: $LinkColor;
+  }
+}

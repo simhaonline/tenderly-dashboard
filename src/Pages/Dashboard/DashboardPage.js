@@ -9,7 +9,7 @@ import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
 import {areWatchedContractsLoaded, getWatchedContracts} from "../../Common/Selectors/PublicContractSelectors";
 
 import {Page, Container, PageHeading, Button} from "../../Elements";
-import {DashboardProjectsList, PopularContractsImport, WatchedContractsList} from "../../Components";
+import {DashboardProjectsList, WatchedContractsList} from "../../Components";
 
 class DashboardPage extends Component {
     componentDidMount() {
@@ -53,7 +53,6 @@ class DashboardPage extends Component {
                         </div>
                     </PageHeading>
                     <WatchedContractsList contracts={watchedContracts} loaded={watchedContractsLoaded}/>
-                    <PopularContractsImport/>
                 </Container>
             </Page>
         )

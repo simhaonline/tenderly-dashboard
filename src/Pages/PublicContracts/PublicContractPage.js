@@ -11,7 +11,7 @@ import {
     isPublicContractLoaded, isPublicContractWatched
 } from "../../Common/Selectors/PublicContractSelectors";
 
-import {EtherscanLinkTypes, NetworkAppToRouteTypeMap, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container, PageHeading, Button, Icon, ButtonGroup} from "../../Elements";
 import {
@@ -75,6 +75,12 @@ class PublicContractPage extends Component {
 
     handlePageChange = () => {};
 
+    handleBackClick = () => {
+        const {history} = this.props;
+
+        history.goBack();
+    };
+
     render() {
         const {contract, isContractWatched, match: {params: { network }}, watchedContractsLoaded} = this.props;
         const {loading, transactions, page, actionInProgress} = this.state;
@@ -85,13 +91,11 @@ class PublicContractPage extends Component {
             )
         }
 
-        const networkRoute = NetworkAppToRouteTypeMap[contract.network];
-
         return (
             <Page>
                 <Container>
                     <PageHeading>
-                        <Button outline to={`/public-contracts/${networkRoute}`}>
+                        <Button outline onClick={this.handleBackClick}>
                             <Icon icon="arrow-left"/>
                         </Button>
                         <h1>{contract.name}</h1>
