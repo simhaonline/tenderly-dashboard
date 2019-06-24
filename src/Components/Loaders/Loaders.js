@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import {Icon} from "../../Elements";
 
@@ -44,9 +45,19 @@ export const EthereumLoader = () => {
     )
 };
 
-export const SimpleLoader = () => (
+export const SimpleLoader = ({inverse = false}) => (
     <div className="SimpleLoader">
-        <div/>
-        <div/>
+        <div className={classNames(
+            "SimpleLoader__Circle",
+            {
+                "SimpleLoader__Circle--Inverse": inverse,
+            }
+        )}/>
+        <div className={classNames(
+            "SimpleLoader__Circle",
+            {
+                "SimpleLoader__Circle--Inverse": inverse,
+            }
+        )}/>
     </div>
 );

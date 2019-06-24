@@ -248,30 +248,37 @@ $CircularLoaderSize: 150px;
 
 .SimpleLoader {
   position: relative;
+}
 
-  > div {
-    animation-fill-mode: both;
-    border: 2px solid transparentize($Secondary500, 0.25);
-    border-bottom-color: transparent;
-    border-top-color: transparent;
-    border-radius: 100%;
-    height: 35px;
-    width: 35px;
-    animation: SimpleLoaderRotation 1s 0s ease-in-out infinite;
+.SimpleLoader__Circle {
+  animation-fill-mode: both;
+  border: 2px solid transparentize($Secondary500, 0.25);
+  border-bottom-color: transparent;
+  border-top-color: transparent;
+  border-radius: 100%;
+  height: 35px;
+  width: 35px;
+  animation: SimpleLoaderRotation 1s 0s ease-in-out infinite;
 
-    &:last-child {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 15px;
-      height: 15px;
-      border-width: 1px;
-      animation-duration: 0.5s;
-      border-color: $Secondary500 transparent $Secondary500 transparent;
-      animation-direction: reverse;
-    }
+  &:last-child {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 15px;
+    height: 15px;
+    border-width: 1px;
+    animation-duration: 0.5s;
+    border-color: $Secondary500 transparent $Secondary500 transparent;
+    animation-direction: reverse;
   }
 }
 
+.SimpleLoader__Circle--Inverse {
+  border-color: transparent transparentize($WhiteColor, 0.5) transparent transparentize($WhiteColor, 0.5);
+
+  &:last-child {
+    border-color:  $WhiteColor transparent $WhiteColor transparent;
+  }
+}
 
 
