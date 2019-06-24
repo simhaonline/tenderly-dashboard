@@ -1,3 +1,5 @@
+import NoTransactionsEmptyState from "./NoTransactionsEmptyState/NoTransactionsEmptyState";
+
 export {default as AppHeader} from './AppHeader/AppHeader';
 export {default as Navigation} from './Navigation/Navigation';
 export {default as PrivateRoute} from './PrivateRoute/PrivateRoute';
@@ -61,6 +63,7 @@ export {default as TransactionStatusTag} from './TransactionStatusTag/Transactio
 export {default as FeatureComingSoon} from './FeatureComingSoon/FeatureComingSoon';
 export {default as UserInformationForm} from './UserInformationForm/UserInformationForm';
 export {default as TransactionsList} from './TransactionsList/TransactionsList';
+export {default as NoTransactionsEmptyState} from './NoTransactionsEmptyState/NoTransactionsEmptyState';
 export {default as TransactionFilters} from './TransactionFilters/TransactionFilters';
 export {default as TransactionExecution} from './TransactionExecution/TransactionExecution';
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
@@ -71,6 +74,7 @@ export {default as ContractFiles} from './ContractFiles/ContractFiles';
 export {default as TransactionHeader} from './TransactionHeader/TransactionHeader';
 export {default as TransactionPageContent} from './TransactionPageContent/TransactionPageContent';
 export {default as CopyableText} from './CopyableText/CopyableText';
+export {default as EmptyState} from './EmptyState/EmptyState';
 
 /**
  * Table Column Elements

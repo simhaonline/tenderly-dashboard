@@ -13,7 +13,7 @@ import * as transactionActions from "../../Core/Transaction/Transaction.actions"
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Container, Page, PageHeading, Toggle} from "../../Elements";
-import {ProjectContentLoader, TransactionsList, TransactionFilters, ProjectSetupEmptyState} from "../../Components";
+import {ProjectContentLoader, TransactionsList, TransactionFilters, ProjectSetupEmptyState, NoTransactionsEmptyState} from "../../Components";
 
 class ProjectTransactionsPage extends Component {
     constructor(props) {
@@ -182,9 +182,10 @@ class ProjectTransactionsPage extends Component {
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
                         {!!transactions.length && <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
-                        <TransactionsList transactions={transactions} contracts={contracts}
+                        {!!transactions.length && page === 1 && <TransactionsList transactions={transactions} contracts={contracts}
                                           currentPage={page} onPageChange={this.handlePageChange}
-                                          perPage={perPage} onPerPageChange={this.handlePerPageChange}/>
+                                          perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
+                        {!transactions.length && page === 1 && <NoTransactionsEmptyState/>}
                     </Fragment>}
                 </Container>
             </Page>
