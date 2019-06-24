@@ -70,7 +70,7 @@ class SupportDialog extends Component {
                                   autoFocus
                                   className="SupportTicketMessage"/>
                         {ticketSent && <p>Support ticket sent, we'll get back to you as soon as possible.</p>}
-                        <Button type="submit" color="secondary" onClick={this.handleSendFeedback} disabled={ticketSent || sending}>
+                        <Button type="submit" onClick={this.handleSendFeedback} disabled={ticketSent || sending}>
                             <Icon icon="send"/>
                             <span>Send</span>
                         </Button>

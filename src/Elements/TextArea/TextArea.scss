@@ -1,10 +1,11 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
+@import "../../Common/Styles/global";
 
 .TextAreaWrapper {
   width: 100%;
-  background: #171e31;
-  border: 1px solid #1e2841;
+  background: transparentize($Slate100, 0.25);
+  border: 1px solid $Slate200;
   position: relative;
   border-radius: 4px;
   transition: 0.15s;
@@ -15,20 +16,27 @@
     resize: none;
     background-color: transparent;
     border: none;
-    font-size: $FontSize200;
+    font-size: $FontSize300;
+    line-height: $FontSize300 * 1.5;
     color: $WhiteColor;
-    padding: 8px 15px;
+    padding: $Spacing2 $Spacing5;
+
+    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: transparentize($WhiteColor, 0.25);
+    }
   }
 
   &:not(:last-child) {
     margin-bottom: 20px;
   }
 
-  &.Focused {
-    box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
+  &.Active {
+    border-color: transparentize($Primary500, 0.25);
   }
 
-  &.Active {
+  &.Focused {
+    background-color: $Slate200;
+    box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
     border-color: $Primary500;
   }
 }
