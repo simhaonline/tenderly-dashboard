@@ -1,7 +1,7 @@
 @import "../../Common/Styles/colors";
 @import "../../Common/Styles/typography";
 
-.Button, .ButtonOutlined {
+.Button {
   padding: 10px 15px;
   border-radius: 5px;
   display: inline-flex;
@@ -46,12 +46,17 @@
     cursor: not-allowed;
   }
 
+  &.ReadOnly {
+    cursor: default;
+    pointer-events: none;
+  }
+
   &:not(:last-child) {
     margin-right: 10px;
   }
 }
 
-.Button {
+.Button--Regular {
   &.Primary {
     border-color: $Primary500;
     background-color: $Primary500;
@@ -92,7 +97,7 @@
   }
 }
 
-.ButtonOutlined {
+.Button--Outlined {
   background-color: transparentize($BlackColor, 0.75);
 
   &:hover {
@@ -139,5 +144,27 @@
     &:active, &:focus {
       box-shadow: 0 0 0 3px transparentize($RedColor600, 0.7);
     }
+  }
+}
+
+.ButtonGroup {
+  display: inline-flex;
+
+  .Button {
+    margin-right: 0;
+
+    &:not(:first-child) {
+      border-left: none;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  &:not(:last-child) {
+    margin-right: 10px;
   }
 }

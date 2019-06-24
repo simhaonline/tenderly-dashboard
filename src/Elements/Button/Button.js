@@ -28,7 +28,15 @@ function getButtonSizeClass(size) {
     }
 }
 
-const Button = ({children, type, color, size, className, outline, stretch, to, ...props}) => {
+export const ButtonGroup = ({children}) => {
+    return (
+        <div className="ButtonGroup">
+            {children}
+        </div>
+    )
+};
+
+const Button = ({children, type, color, size, readOnly, className, disabled, outline, stretch, to, ...props}) => {
     let ButtonTag = 'button';
 
     if (to) {
@@ -40,12 +48,17 @@ const Button = ({children, type, color, size, className, outline, stretch, to, .
 
     return (
         <ButtonTag className={classNames(
-            outline ? 'ButtonOutlined' : 'Button',
-            stretch ? 'Stretch' : '',
+            "Button",
+            outline ? 'Button--Outlined' : 'Button--Regular',
             className,
             buttonColorClass,
             buttonSizeClass,
-        )} type={type || 'button'} to={to} {...props}>
+            {
+                "Stretch": stretch,
+                "ReadOnly": readOnly,
+                "Disabled": disabled,
+            },
+        )} type={type || 'button'} to={to} disabled={disabled} {...props}>
             {children}
         </ButtonTag>
     )

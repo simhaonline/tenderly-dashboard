@@ -13,7 +13,7 @@ import {
 
 import {EtherscanLinkTypes, NetworkAppToRouteTypeMap, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
-import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
+import {Page, Container, PageHeading, Button, Icon, ButtonGroup} from "../../Elements";
 import {
     ContractInformation,
     ContractActions,
@@ -33,7 +33,7 @@ class PublicContractPage extends Component {
     }
 
     async componentDidMount() {
-        const {contract, contractLoaded, networkType, actions, txActions, contractId} = this.props;
+        const {contract, contractLoaded, networkType, actions, txActions, contractId, watchedContractsLoaded} = this.props;
 
         if (!contract || !contractLoaded) {
             await actions.fetchPublicContract(contractId, networkType);
@@ -45,6 +45,10 @@ class PublicContractPage extends Component {
 
         if (response.success) {
            transactions = response.data;
+        }
+
+        if (!watchedContractsLoaded) {
+            actions.fetchWatchedContracts();
         }
 
         this.setState({
@@ -62,6 +66,8 @@ class PublicContractPage extends Component {
 
         await actions.toggleWatchedContract(contract.address, networkType);
 
+        await actions.fetchPublicContract(contract.address, networkType);
+
         this.setState({
             actionInProgress: false,
         });
@@ -70,7 +76,7 @@ class PublicContractPage extends Component {
     handlePageChange = () => {};
 
     render() {
-        const {contract, isContractWatched, match: {params: { network }}} = this.props;
+        const {contract, isContractWatched, match: {params: { network }}, watchedContractsLoaded} = this.props;
         const {loading, transactions, page, actionInProgress} = this.state;
 
         if (loading) {
@@ -90,12 +96,17 @@ class PublicContractPage extends Component {
                         </Button>
                         <h1>{contract.name}</h1>
                         <div className="RightContent">
-                            <Button outline={!isContractWatched} size="small" color="secondary"
-                                    onClick={this.toggleWatchedContract} disabled={actionInProgress}>
-                                <Icon icon="star"/>
-                                {!isContractWatched && <span>Watch</span>}
-                                {isContractWatched && <span>Unwatch</span>}
-                            </Button>
+                            <ButtonGroup>
+                                <Button outline={!isContractWatched} size="small" color="secondary"
+                                        onClick={this.toggleWatchedContract} disabled={actionInProgress || !watchedContractsLoaded}>
+                                    <Icon icon="star"/>
+                                    {!isContractWatched && <span>Watch</span>}
+                                    {isContractWatched && <span>Unwatch</span>}
+                                </Button>
+                                <Button size="small" color="secondary" readOnly>
+                                    <span>{contract.watchCount}</span>
+                                </Button>
+                            </ButtonGroup>
                             <EtherscanLink type={EtherscanLinkTypes.BLOCK} network={contract.network} value={contract.address}>
                                 <Button size="small" outline>
                                     <Icon icon="globe"/>
@@ -119,13 +130,16 @@ const mapStateToProps = (state, ownProps) => {
 
     const networkType = NetworkRouteToAppTypeMap[network];
 
+    const loggedIn = state.auth.loggedIn;
+
     return {
         networkType,
         contractId: id,
+        loggedIn,
         contract: getPublicContractById(state, id),
         contractLoaded: isPublicContractLoaded(state, id),
         isContractWatched: isPublicContractWatched(state, id, networkType),
-        watchedContractsLoaded: areWatchedContractsLoaded(state),
+        watchedContractsLoaded: loggedIn ? areWatchedContractsLoaded(state): true,
     };
 };
 
