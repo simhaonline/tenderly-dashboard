@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {DotLoader} from "..";
+import {CircularLoader} from "..";
 
 import './ProjectContentLoader.scss';
 
 const ProjectContentLoader = ({text}) => (
     <div className="ProjectContentLoader">
-        <DotLoader/>
+        <CircularLoader/>
         <div className="LoaderText">{text}</div>
     </div>
 );
