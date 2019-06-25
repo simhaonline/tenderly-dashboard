@@ -108,7 +108,7 @@ class LoginPage extends Component {
                                     </div>
                                     {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
                                     <PanelDivider/>
-                                    <Button disabled={loginButtonDisabled} stretch type="submit">Login</Button>
+                                    <Button color="secondary" disabled={loginButtonDisabled} stretch type="submit">Login</Button>
                                     <PanelDivider/>
                                     <div className="ThirdPartLoginWrapper">
                                         <div className="ButtonWrapper">
@@ -127,7 +127,7 @@ class LoginPage extends Component {
                             <a className="DocumentLink" href="https://tenderly.dev/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                         <div className="PocLinkWrapper">
-                            <Button to="/register" color="primary" onClick={() => {MixPanel.track('navigate_register')}}>
+                            <Button color="secondary" to="/register" onClick={() => {MixPanel.track('navigate_register')}}>
                                 <span>Create Account</span>
                             </Button>
                         </div>
