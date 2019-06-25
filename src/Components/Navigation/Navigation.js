@@ -12,13 +12,12 @@ class Navigation extends Component {
         return (
             <div className="Navigation">
                 <NavLink className="HeaderNavItem" exact to="/dashboard">
-                    Dashboard
+                    <span>Dashboard</span>
+                </NavLink>
+                <NavLink className="HeaderNavItem" exact to="/public-contracts">
+                    <span>Public Contracts</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                    <NavLink className="HeaderNavItem" exact to="/public-contracts/kovan">
-                        <Icon icon="diamond" className="NavIcon"/>
-                        Contracts
-                    </NavLink>
                     <a className="HeaderNavItem" rel="noopener noreferrer" target="_blank" href="https://docs.tenderly.dev">
                         <Icon icon="file-text" className="NavIcon"/>
                         Documentation

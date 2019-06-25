@@ -32,7 +32,6 @@ const AppPages = () => {
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
             <Route path="/public-contracts" exact component={PublicContractsPage}/>
-            <Route path="/public-contracts/:network" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
             <Route path="/contract/:network/:id/source" exact component={PublicContractSourcePage}/>
             <Route path="/tx/:network/:txHash" exact component={PublicContractTransactionPage}/>
