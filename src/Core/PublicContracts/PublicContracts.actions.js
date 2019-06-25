@@ -18,28 +18,35 @@ export const TOGGLE_WATCHED_CONTRACT_ACTION = 'TOGGLE_WATCHED_CONTRACT';
  */
 export const fetchPublicContracts = (network, page, perPage = 20, query) => {
     return async dispatch => {
-        const apiNetwork = NetworkAppToApiTypeMap[network];
+        try {
+            const apiNetwork = NetworkAppToApiTypeMap[network];
 
-        const {data} = await Api.get(`/public-contracts/${apiNetwork}`, {
-            params: {
-                page,
-                perPage,
-                query,
+            const {data} = await Api.get(`/public-contracts/${apiNetwork}`, {
+                params: {
+                    page,
+                    perPage,
+                    query,
+                }
+            });
+
+            if (!data) {
+                return;
             }
-        });
 
-        if (!data) {
-            return;
+            const contracts = data.map(contract => Contract.buildFromResponse(contract));
+
+            dispatch({
+                type: FETCH_PUBLIC_CONTRACTS_ACTION,
+                contracts,
+                page,
+                network,
+            });
+
+            return new SuccessActionResponse(contracts);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
         }
-
-        const contracts = data.map(contract => Contract.buildFromResponse(contract));
-
-        dispatch({
-            type: FETCH_PUBLIC_CONTRACTS_ACTION,
-            contracts,
-            page,
-            network,
-        });
     }
 };
 

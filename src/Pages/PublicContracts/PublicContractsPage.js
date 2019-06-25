@@ -3,7 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import { Helmet } from "react-helmet";
 
-import {NetworkLabelMap, NetworkRouteToAppTypeMap, NetworkRouteTypes, NetworkTypes} from "../../Common/constants";
+import {NetworkLabelMap, NetworkRouteToAppTypeMap, NetworkTypes} from "../../Common/constants";
 import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicContractSelectors";
 
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
@@ -37,11 +37,13 @@ class PublicContractsPage extends Component {
     /**
      * @param {string} network
      */
-    getNetworkPublicContracts(network) {
+    getNetworkPublicContracts = async (network) => {
         const {actions} = this.props;
 
-        actions.fetchPublicContracts(network, 1, 10);
-    }
+        const response = await actions.fetchPublicContracts(network, 1, 10);
+
+        console.log(response);
+    };
 
     /**
      * @param {string} contractAddress
@@ -64,8 +66,6 @@ class PublicContractsPage extends Component {
     render() {
         const {network, mostWatchedContracts} = this.state;
 
-        console.log(mostWatchedContracts);
-
         return (
             <Page>
                 <Helmet>
@@ -77,7 +77,7 @@ class PublicContractsPage extends Component {
                     <PageHeading>
                         <h1>Most Watched</h1>
                     </PageHeading>
-                    <div className="DisplayFlex">
+                    <div className="DisplayFlex MarginBottom4">
                         {!!mostWatchedContracts.length && mostWatchedContracts.map(contract =>
                             <PublicContractThumbnail key={contract.address} contract={contract} displayWatchCount/>
                         )}
@@ -86,7 +86,10 @@ class PublicContractsPage extends Component {
                         <h1>All Public Contracts</h1>
                     </PageHeading>
                     <div>
-                        <NetworkSegmentedPicker value={network} onChange={this.handleNetworkChange}/>
+                        <div>
+                            <NetworkSegmentedPicker value={network} onChange={this.handleNetworkChange}/>
+                        </div>
+
                     </div>
                 </Container>
             </Page>
