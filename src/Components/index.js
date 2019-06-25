@@ -72,6 +72,7 @@ export {default as TransactionHeader} from './TransactionHeader/TransactionHeade
 export {default as TransactionPageContent} from './TransactionPageContent/TransactionPageContent';
 export {default as CopyableText} from './CopyableText/CopyableText';
 export {default as EmptyState} from './EmptyState/EmptyState';
+export {default as PageLink} from './PageLink/PageLink';
 export {default as PublicContractThumbnail} from './PublicContractThumbnail/PublicContractThumbnail';
 
 /**

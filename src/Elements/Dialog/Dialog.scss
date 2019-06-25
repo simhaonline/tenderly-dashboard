@@ -73,7 +73,6 @@
 
 .DialogContent {
   background-color: $Slate400;
-  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 10px;
   z-index: 1000;
   color: #fff;
@@ -83,11 +82,9 @@
 
   .DialogHeader {
     background-color: $Slate500;
-    margin: $Spacing2 $Spacing2 0;
     padding: $Spacing5 $Spacing5;
     display: flex;
     align-items: center;
-    border-radius: 10px;
 
     h1, h2, h3, h4, h5 {
       font-weight: 600;

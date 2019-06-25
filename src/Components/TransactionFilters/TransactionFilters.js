@@ -5,7 +5,7 @@ import {TransactionFilterTypes} from "../../Common/constants";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
-import {SegmentedControls, Button, Icon} from "../../Elements";
+import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody} from "../../Elements";
 
 import './TransactionFilters.scss';
 
@@ -28,6 +28,10 @@ class TransactionFilters extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            openModal: false,
+        };
+
         initializeForm(this, {
             searchQuery: '',
             contracts: [],
@@ -35,6 +39,18 @@ class TransactionFilters extends Component {
         });
         this.handleFormUpdate = updateFormField.bind(this);
     }
+
+    handleModalOpen = () => {
+        this.setState({
+            openModal: true,
+        });
+    };
+
+    handleModalClose = () => {
+        this.setState({
+            openModal: false,
+        });
+    };
 
     /**
      * @param {string} field
@@ -82,7 +98,7 @@ class TransactionFilters extends Component {
 
     render() {
         const {contracts} = this.props;
-        const {formData: {contracts: filterContracts, status}} = this.state;
+        const {openModal, formData: {contracts: filterContracts, status}} = this.state;
 
         const contractSelectOptions = contracts.map(contract => ({
             value: contract.getApiId(),
@@ -95,10 +111,25 @@ class TransactionFilters extends Component {
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
                 </div>
                 <div className="FilterGroup">
-                    <Button size="small">
+                    <Button size="small" onClick={this.handleModalOpen}>
                         <Icon icon="filter"/>
                         <span>Filter Transactions</span>
                     </Button>
+                    <Dialog open={openModal} onClose={this.handleModalClose}>
+                        <DialogHeader>
+                            <h3>Filter Transactions</h3>
+                        </DialogHeader>
+                        <DialogBody>
+                            <div>
+                                <Button outline>
+                                    <span>Reset Filters</span>
+                                </Button>
+                                <Button>
+                                    <span>Filter</span>
+                                </Button>
+                            </div>
+                        </DialogBody>
+                    </Dialog>
                 </div>
             </div>
         );
