@@ -108,4 +108,36 @@
 
 .Table__Controls__Pagination {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.Table__Controls__Pagination__Control {
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid transparentize($Primary500, 0.5);
+  background-color: transparentize($Primary500, 0.85);
+  transition: 0.1s;
+  margin-right: $Spacing1;
+
+  &:hover {
+    border: 1px solid $Primary500;
+    background-color: transparentize($Primary500, 0.25);
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.Table__Controls__Pagination__Page {
+  padding: 4px 8px;
+  font-weight: 600;
+  margin-right: $Spacing1;
+}
+
+.Table__Controls__Pagination__Control--Disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

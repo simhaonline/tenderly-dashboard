@@ -58,8 +58,22 @@ class Table extends Component {
         }
     };
 
+    /**
+     * @param {number} nextPage
+     * @param event
+     */
+    handlePageChange = (nextPage, event) => {
+        const {data, onPageChange} = this.props;
+
+        if (nextPage <= 0 || (nextPage !== 1 && data.length === 0)) {
+            return;
+        }
+
+        onPageChange(nextPage, event);
+    };
+
     render() {
-        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPageChange, onPerPageChange, onRowClick, metadata} = this.props;
+        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata} = this.props;
 
         return (
             <Panel className={classNames(
@@ -116,9 +130,25 @@ class Table extends Component {
                         </div>)}
                     </div>}
                     <div className="Table__Controls__Pagination">
-                        <Icon icon="arrow-left" onClick={event => onPageChange(currentPage - 1, event)}/>
-                        {currentPage}
-                        <Icon icon="arrow-right" onClick={event => onPageChange(currentPage + 1, event)}/>
+                        <div onClick={event => this.handlePageChange(currentPage - 1, event)} className={classNames(
+                            "Table__Controls__Pagination__Control",
+                            {
+                                "Table__Controls__Pagination__Control--Disabled": loading || currentPage <= 1,
+                            },
+                        )}>
+                            <Icon icon="arrow-left" />
+                        </div>
+                        <div className="Table__Controls__Pagination__Page">
+                            {currentPage}
+                        </div>
+                        <div onClick={event => this.handlePageChange(currentPage + 1, event)} className={classNames(
+                            "Table__Controls__Pagination__Control",
+                            {
+                                "Table__Controls__Pagination__Control--Disabled": loading || !data || data.length === 0,
+                            },
+                        )}>
+                            <Icon icon="arrow-right" />
+                        </div>
                     </div>
                 </div>}
             </Panel>
