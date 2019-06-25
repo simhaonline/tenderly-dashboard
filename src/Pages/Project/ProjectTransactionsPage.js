@@ -104,14 +104,12 @@ class ProjectTransactionsPage extends Component {
 
     handleFilterChange = (filter) => {
         this.setState({
+            fetching: true,
             filters: {
                 ...this.state.filters,
                 [filter.type]: filter,
-            }
-        });
-
-        this.setState({
-            fetching: true,
+            },
+            page: 1,
         });
 
         this.fetchTransactions();

@@ -51,7 +51,7 @@ export {default as PageSegmentSwitcher} from './PageSegments/PageSegmentSwitcher
 export {default as PageSegmentContent} from './PageSegments/PageSegmentContent';
 export {default as AccountRecoveryForm} from './AccountRecoveryForm/AccountRecoveryForm';
 export {default as ResetPasswordForm} from './ResetPasswordForm/ResetPasswordForm';
-export {CircularLoader, DotLoader, EthereumLoader, SimpleLoader} from './Loaders/Loaders';
+export {CircularLoader, SimpleLoader} from './Loaders/Loaders';
 export {default as ProjectPageLoader} from './ProjectPageLoader/ProjectPageLoader';
 export {default as ProjectContentLoader} from './ProjectContentLoader/ProjectContentLoader';
 export {default as NetworkSegmentedPicker} from './NetworkSegmentedPicker/NetworkSegmentedPicker';
