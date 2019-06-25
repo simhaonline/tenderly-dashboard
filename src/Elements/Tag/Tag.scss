@@ -1,0 +1,46 @@
+@import "../../Common/Styles/colors";
+@import "../../Common/Styles/typography";
+
+.Tag {
+  padding: 3px 7px;
+  border-radius: 3px;
+  display: inline-block;
+  font-size: $FontSize300;
+  border: 1px solid $Primary500;
+  background-color: $Primary500;
+  margin-right: 8px;
+
+  .TnIcon + span {
+    margin-left: 8px;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.Tag--Small {
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: $FontSize200;
+  margin-right: 4px;
+
+  .TnIcon + span {
+    margin-left: 4px;
+  }
+}
+
+.Tag--PrimaryOutline {
+  border-color: $Primary500;
+  background-color: transparentize($Primary500, 0.5);
+}
+
+.Tag--Secondary {
+  border-color: $Secondary500;
+  background-color: $Secondary500;
+}
+
+.Tag--SecondaryOutline {
+  border-color: $Secondary500;
+  background-color: transparentize($Secondary500, 0.5);
+}
