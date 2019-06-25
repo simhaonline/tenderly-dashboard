@@ -79,7 +79,7 @@ class PublicContractsPage extends Component {
                     </PageHeading>
                     <div className="DisplayFlex">
                         {!!mostWatchedContracts.length && mostWatchedContracts.map(contract =>
-                            <PublicContractThumbnail key={contract.address} contract={contract}/>
+                            <PublicContractThumbnail key={contract.address} contract={contract} displayWatchCount/>
                         )}
                     </div>
                     <PageHeading>
