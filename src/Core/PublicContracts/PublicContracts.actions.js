@@ -13,15 +13,17 @@ export const TOGGLE_WATCHED_CONTRACT_ACTION = 'TOGGLE_WATCHED_CONTRACT';
 /**
  * @param {string} network
  * @param {number} page
- * @param {string} query
+ * @param {number} perPage
+ * @param {string} [query]
  */
-export const fetchPublicContracts = (network, page, query) => {
+export const fetchPublicContracts = (network, page, perPage = 20, query) => {
     return async dispatch => {
         const apiNetwork = NetworkAppToApiTypeMap[network];
 
         const {data} = await Api.get(`/public-contracts/${apiNetwork}`, {
             params: {
                 page,
+                perPage,
                 query,
             }
         });
@@ -153,4 +155,23 @@ export const toggleWatchedContract = (contract, network) => {
             return new ErrorActionResponse(error);
         }
     };
+};
+
+export const fetchMostWatchedContracts = () => {
+    return async () => {
+        try {
+            const {data} = await Api.get('/most-watched-public-contracts');
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            const contracts = data.map(Contract.buildFromResponse);
+
+            return new SuccessActionResponse(contracts);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
 };

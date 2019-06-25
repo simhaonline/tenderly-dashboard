@@ -15,7 +15,7 @@ const WatchedContractsList = ({contracts, loaded}) => {
     if (!contracts.length) {
         return <Panel>
             <PanelContent>
-                <EmptyState icon={NoContractsWatchedIcon} title={"asd"} description={"asd"} renderActions={() => (
+                <EmptyState icon={NoContractsWatchedIcon} title="No watched contracts" description={"asd"} renderActions={() => (
                     <Button to={'/public-contracts'} color="secondary" size="small">
                         <span>Discover Public Contracts</span>
                     </Button>
