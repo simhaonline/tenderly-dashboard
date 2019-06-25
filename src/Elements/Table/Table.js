@@ -130,6 +130,9 @@ class Table extends Component {
                         </div>)}
                     </div>}
                     <div className="Table__Controls__Pagination">
+                        <div className="Table__Controls__Pagination__Label">
+                            Page
+                        </div>
                         <div onClick={event => this.handlePageChange(currentPage - 1, event)} className={classNames(
                             "Table__Controls__Pagination__Control",
                             {
