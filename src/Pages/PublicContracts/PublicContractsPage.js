@@ -9,7 +9,7 @@ import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicCon
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
 
 import {Page, Container, PageHeading} from "../../Elements";
-import {NetworkSegmentedPicker, PublicContractThumbnail} from "../../Components";
+import {NetworkSegmentedPicker, PublicContractThumbnail, SimpleLoader} from "../../Components";
 
 class PublicContractsPage extends Component {
     constructor(props) {
@@ -77,10 +77,15 @@ class PublicContractsPage extends Component {
                     <PageHeading>
                         <h1>Most Watched</h1>
                     </PageHeading>
-                    <div className="DisplayFlex MarginBottom4">
-                        {!!mostWatchedContracts.length && mostWatchedContracts.map(contract =>
-                            <PublicContractThumbnail key={contract.address} contract={contract} displayWatchCount/>
-                        )}
+                    <div className="MarginBottom4">
+                        {!!mostWatchedContracts.length && <div className="DisplayFlex">
+                            {mostWatchedContracts.map(contract =>
+                                <PublicContractThumbnail key={contract.address} contract={contract} displayWatchCount/>
+                            )}
+                        </div>}
+                        {!mostWatchedContracts.length && <div className="DisplayFlex JustifyContentCenter Padding4">
+                            <SimpleLoader/>
+                        </div>}
                     </div>
                     <PageHeading>
                         <h1>All Public Contracts</h1>

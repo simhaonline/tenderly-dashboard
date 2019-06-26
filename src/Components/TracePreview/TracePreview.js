@@ -51,7 +51,7 @@ class TracePreview extends Component {
                     </div>}
                 </div>
                 {open && <div className="TracePreviewCodeWrapper">
-                    {!!file && <CodePreview line={trace.lineNumber} linePreview={5} file={file}/>}
+                    {!!file && <CodePreview line={trace.lineNumber} linePreview={5} file={file} isExpandable/>}
                     {!file && <span>No source for this contract exists</span>}
                 </div>}
                 {!!trace.calls && trace.calls.map((trace, index) =>

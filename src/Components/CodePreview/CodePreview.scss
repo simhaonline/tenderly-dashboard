@@ -75,4 +75,31 @@ $StackContainerVerticalPadding: 25px;
       padding: $StackContainerVerticalPadding 15px;
     }
   }
+
+  .ExpandingWrapper {
+    padding: 4px $Spacing2;
+    background-color: $Slate500;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: 0.15s;
+    opacity: 0.75;
+    display: flex;
+    justify-content: center;
+
+    &:first-child {
+      margin-bottom: $Spacing1;
+    }
+
+    &:last-child {
+      margin-top: $Spacing1;
+    }
+
+    &:hover {
+      background-color: $Slate400;
+    }
+  }
+
+  .ExpandingControl {
+
+  }
 }

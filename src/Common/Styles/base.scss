@@ -43,6 +43,10 @@
   justify-content: flex-end;
 }
 
+.JustifyContentCenter {
+  justify-content: center;
+}
+
 .MarginBottom1 {
   margin-bottom: 0.5rem;
 }
@@ -89,6 +93,22 @@
 
 .MarginRight4 {
   margin-right: 2rem;
+}
+
+.Padding1 {
+  padding: 0.5rem;
+}
+
+.Padding2 {
+  padding: 1rem;
+}
+
+.Padding3 {
+  padding: 1.5rem;
+}
+
+.Padding4 {
+  padding: 2rem;
 }
 
 @import "animations";
