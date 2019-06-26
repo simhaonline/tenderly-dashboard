@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 import * as authActions from "../../Core/Auth/Auth.actions";
 
@@ -56,6 +57,9 @@ class OnboardingPage extends Component {
 
         return (
             <Page id="OnboardingPage">
+                <Helmet>
+                    <title>Onboarding | Tenderly</title>
+                </Helmet>
                 <Container>
                     {step === OnboardingPageSteps.HOME && <OnboardingWelcomeStep user={auth.user}/>}
                     {step === OnboardingPageSteps.SET_USERNAME && <OnboardingSetUsernameStep/>}

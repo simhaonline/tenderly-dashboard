@@ -9,7 +9,7 @@ import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicCon
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
 
 import {Page, Container, PageHeading} from "../../Elements";
-import {NetworkSegmentedPicker, PublicContractThumbnail, SimpleLoader} from "../../Components";
+import {NetworkSegmentedPicker, PublicContractThumbnail, SimpleLoader, PublicContractList} from "../../Components";
 
 class PublicContractsPage extends Component {
     constructor(props) {
@@ -17,6 +17,7 @@ class PublicContractsPage extends Component {
 
         this.state = {
             network: NetworkTypes.MAIN,
+            networkPublicContracts: null,
             mostWatchedContracts: [],
         };
     }
@@ -43,6 +44,9 @@ class PublicContractsPage extends Component {
         const response = await actions.fetchPublicContracts(network, 1, 10);
 
         console.log(response);
+        this.setState({
+            networkPublicContracts: response.data,
+        });
     };
 
     /**
@@ -64,7 +68,7 @@ class PublicContractsPage extends Component {
     };
 
     render() {
-        const {network, mostWatchedContracts} = this.state;
+        const {network, mostWatchedContracts, networkPublicContracts} = this.state;
 
         return (
             <Page>
@@ -94,7 +98,7 @@ class PublicContractsPage extends Component {
                         <div>
                             <NetworkSegmentedPicker value={network} onChange={this.handleNetworkChange}/>
                         </div>
-
+                        {networkPublicContracts && <PublicContractList contracts={networkPublicContracts}/>}
                     </div>
                 </Container>
             </Page>

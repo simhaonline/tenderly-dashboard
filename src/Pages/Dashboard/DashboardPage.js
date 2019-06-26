@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Redirect} from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 import * as projectActions from "../../Core/Project/Project.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
@@ -40,6 +41,9 @@ class DashboardPage extends Component {
         return (
             <Page>
                 <Container>
+                    <Helmet>
+                        <title>Dashboard | Tenderly</title>
+                    </Helmet>
                     <PageHeading>
                         <h1>Projects</h1>
                     </PageHeading>

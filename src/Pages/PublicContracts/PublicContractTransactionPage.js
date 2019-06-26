@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 
 import {
     getTransaction,
@@ -18,7 +19,6 @@ import {
     arePublicContractsLoadedForTransaction,
     getPublicContractsForTransaction
 } from "../../Common/Selectors/PublicContractSelectors";
-
 
 class PublicContractTransactionPage extends Component {
     constructor(props) {
@@ -63,6 +63,9 @@ class PublicContractTransactionPage extends Component {
         return (
             <Page>
                 <Container>
+                    <Helmet>
+                        <title>{txHash} | Tenderly</title>
+                    </Helmet>
                     <PageHeading>
                         <Button outline onClick={this.handleBackClick}>
                             <Icon icon="arrow-left"/>

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -94,6 +95,9 @@ class PublicContractPage extends Component {
         return (
             <Page>
                 <Container>
+                    <Helmet>
+                        <title>{contract.name} | Tenderly</title>
+                    </Helmet>
                     <PageHeading>
                         <Button outline onClick={this.handleBackClick}>
                             <Icon icon="arrow-left"/>

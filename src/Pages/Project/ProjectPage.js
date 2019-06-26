@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect, Route, Switch} from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import * as projectActions from "../../Core/Project/Project.actions";
@@ -56,6 +57,9 @@ class ProjectPage extends Component {
 
         return (
             <Fragment>
+                <Helmet>
+                    <title>{project.name} | Tenderly</title>
+                </Helmet>
                 <ProjectSidebar project={project}/>
                 <Switch>
                     <Route path="/project/:id/transactions" component={ProjectTransactionsPage}/>
