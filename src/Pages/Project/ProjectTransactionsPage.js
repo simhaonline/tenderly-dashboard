@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
-import {ONE_MIN_INTERVAL, ProjectTypes} from "../../Common/constants";
+import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
 import Notifications from "../../Utils/Notifications";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -103,12 +103,18 @@ class ProjectTransactionsPage extends Component {
     }
 
     handleFilterChange = (filter) => {
-        this.setState({
-            fetching: true,
-            filters: {
+        let filters = {};
+
+        if (filter.type !== TransactionFilterTypes.RESET) {
+            filters = {
                 ...this.state.filters,
                 [filter.type]: filter,
-            },
+            };
+        }
+
+        this.setState({
+            fetching: true,
+            filters,
             page: 1,
         });
 

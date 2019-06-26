@@ -115,6 +115,8 @@ export const TransactionFilterTypes = {
     QUERY: 'QUERY',
     CONTRACTS: 'CONTRACTS',
     STATUS: 'STATUS',
+    INTERNAL: 'INTERNAL',
+    RESET: 'RESET',
 };
 
 export const OAuthServiceTypeMap = {

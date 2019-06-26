@@ -96,14 +96,20 @@ class TransactionFilters extends Component {
         });
     };
 
-    render() {
-        const {contracts} = this.props;
-        const {openModal, formData: {contracts: filterContracts, status}} = this.state;
+    resetFilters = () => {
+        const {onFiltersChange} = this.props;
 
-        const contractSelectOptions = contracts.map(contract => ({
-            value: contract.getApiId(),
-            label: contract.name,
-        }));
+        this.handleFormUpdate('status', 'all');
+
+        onFiltersChange({
+            type: TransactionFilterTypes.RESET,
+        });
+
+        this.handleModalClose();
+    };
+
+    render() {
+        const {openModal, formData: {contracts: status}} = this.state;
 
         return (
             <div className="TransactionFilters">
@@ -121,7 +127,7 @@ class TransactionFilters extends Component {
                         </DialogHeader>
                         <DialogBody>
                             <div>
-                                <Button outline>
+                                <Button outline onClick={this.resetFilters}>
                                     <span>Reset Filters</span>
                                 </Button>
                                 <Button>

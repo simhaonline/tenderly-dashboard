@@ -29,7 +29,7 @@ class CodePreview extends Component {
     };
 
     render() {
-        const {file, line, linePreview} = this.props;
+        const {file, line, linePreview, isExpandable} = this.props;
         const {offsetTop, offsetBottom} = this.state;
 
         const lineNumbers = [];
@@ -59,12 +59,12 @@ class CodePreview extends Component {
                     FullPreview: !linePreview,
                 }
             )} >
-                <div className="ExpandingWrapper" onClick={this.handleExpandUp}>
+                {isExpandable && <div className="ExpandingWrapper" onClick={this.handleExpandUp}>
                     <div className="ExpandingControl">
                         <span>Expand</span>
                         <Icon icon="chevrons-up" className="MarginLeft1"/>
                     </div>
-                </div>
+                </div>}
                 <div className="CodeContent" style={wrapperStyle}>
                     <div className="StackLines">
                         {lineNumbers.map(num =>
@@ -73,12 +73,12 @@ class CodePreview extends Component {
                     </div>
                     <pre className="StackCode" style={codeStyle} dangerouslySetInnerHTML={{__html: file.sourceCompiled}}/>
                 </div>
-                <div className="ExpandingWrapper" onClick={this.handleExpandDown}>
+                {isExpandable && <div className="ExpandingWrapper" onClick={this.handleExpandDown}>
                     <div className="ExpandingControl">
                         <span>Expand</span>
                         <Icon icon="chevrons-down" className="MarginLeft1"/>
                     </div>
-                </div>
+                </div>}
             </div>
         )
     }
