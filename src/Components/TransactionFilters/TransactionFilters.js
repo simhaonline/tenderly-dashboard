@@ -109,7 +109,7 @@ class TransactionFilters extends Component {
     };
 
     render() {
-        const {openModal, formData: {contracts: status}} = this.state;
+        const {openModal, formData: {status}} = this.state;
 
         return (
             <div className="TransactionFilters">
