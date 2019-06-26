@@ -10,6 +10,21 @@ stories.add('default', () => (
         <Button>
             <span>Button</span>
         </Button>
+        <Button outline>
+            <span>Button</span>
+        </Button>
+        <Button color="secondary">
+            <span>Button</span>
+        </Button>
+        <Button color="secondary" outline>
+            <span>Button</span>
+        </Button>
+        <Button color="danger">
+            <span>Button</span>
+        </Button>
+        <Button color="danger" outline>
+            <span>Button</span>
+        </Button>
     </div>
 ));
 
