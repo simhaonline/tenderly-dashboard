@@ -1,9 +1,9 @@
 import React from 'react';
 import {storiesOf} from "@storybook/react";
 
-const stories = storiesOf('Elements|Tag', module);
-
 import Tag from "./Tag";
+
+const stories = storiesOf('Elements|Tag', module);
 
 stories.add('default', () => (
     <div>

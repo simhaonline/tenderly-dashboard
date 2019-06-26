@@ -7,13 +7,13 @@ import {
     getTransactionCallTrace,
     getTransactionStackTrace
 } from "../../Common/Selectors/TransactionSelectors";
-import {NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {ProjectPageLoader, TransactionPageContent} from "../../Components";
-import {Page, Container} from "../../Elements";
+import {EtherscanLink, ProjectPageLoader, TransactionPageContent} from "../../Components";
+import {Page, Container, Button, Icon, PageHeading} from "../../Elements";
 import {
     arePublicContractsLoadedForTransaction,
     getPublicContractsForTransaction
@@ -31,18 +31,18 @@ class PublicContractTransactionPage extends Component {
     }
 
     async componentDidMount() {
-        const {txHash, networkType, contractsLoaded, transaction, callTrace, txActions} = this.props;
+        const {txHash, networkType, contractsLoaded, transaction, contractActions, callTrace, txActions} = this.props;
 
         let tx = transaction;
 
         if (!transaction || !callTrace) {
             const actionResponse = await txActions.fetchTransactionForPublicContract(txHash, networkType);
 
-            tx = actionResponse.data;
+            tx = actionResponse.data.transaction;
         }
 
         if (tx && !contractsLoaded) {
-            // @TODO Fetch multiple contracts
+            await contractActions.fetchPublicContractsForTransaction(tx);
         }
 
         this.setState({
@@ -50,18 +50,35 @@ class PublicContractTransactionPage extends Component {
         });
     }
 
-    render() {
-        const {loaded, } = this.state;
-        const {contract, transaction, callTrace} = this.props;
+    handleBackClick = () => {
+        const {history} = this.props;
 
-        if (!loaded) {
-            return <ProjectPageLoader text="Fetching Transaction Data..."/>;
-        }
+        history.goBack();
+    };
+
+    render() {
+        const {loaded} = this.state;
+        const {contracts, transaction, callTrace, networkType, txHash} = this.props;
 
         return (
             <Page>
                 <Container>
-                    <TransactionPageContent transaction={transaction} contracts={[contract]} callTrace={callTrace}/>
+                    <PageHeading>
+                        <Button outline onClick={this.handleBackClick}>
+                            <Icon icon="arrow-left"/>
+                        </Button>
+                        <h1>Transaction</h1>
+                        <div className="RightContent">
+                            <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
+                                <Button size="small" outline>
+                                    <Icon icon="globe"/>
+                                    <span>View in Explorer</span>
+                                </Button>
+                            </EtherscanLink>
+                        </div>
+                    </PageHeading>
+                    {!loaded && <ProjectPageLoader text="Fetching Transaction Data..."/>}
+                    {loaded && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace}/>}
                 </Container>
             </Page>
         );

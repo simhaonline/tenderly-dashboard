@@ -38,6 +38,7 @@ export function getPublicContractsForTransaction(state, transaction) {
     }
 
     return transaction.contracts.map(contractId => getPublicContractById(state, contractId))
+        .filter(contract => !!contract);
 }
 
 /**

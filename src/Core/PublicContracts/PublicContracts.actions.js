@@ -4,6 +4,7 @@ import Contract from "../Contract/Contract.model";
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 export const FETCH_PUBLIC_CONTRACTS_ACTION = 'FETCH_PUBLIC_CONTRACTS';
+export const FETCH_PUBLIC_CONTRACTS_FOR_TX_ACTION = 'FETCH_PUBLIC_CONTRACTS_FOR_TX';
 export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
 export const FETCH_PUBLIC_CONTRACT_EVENTS_ACTION = 'FETCH_PUBLIC_CONTRACT_EVENTS';
 
@@ -52,15 +53,15 @@ export const fetchPublicContracts = (network, page, perPage = 20, query) => {
 
 /**
  *
- * @param {string} id
+ * @param {string} address
  * @param {string} network
  */
-export const fetchPublicContract = (id, network) => {
+export const fetchPublicContract = (address, network) => {
     return async dispatch => {
         try {
             const apiNetwork = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}`);
+            const {data} = await Api.get(`/public-contracts/${apiNetwork}/${address}`);
 
             if (!data) {
                 return new ErrorActionResponse();
@@ -82,28 +83,27 @@ export const fetchPublicContract = (id, network) => {
 };
 
 /**
- * @param {string} id
  * @param {Transaction} transaction
  */
-export const fetchPublicContractsForTransaction = (id, transaction) => {
+export const fetchPublicContractsForTransaction = (transaction) => {
     return async dispatch => {
         try {
             const apiNetwork = NetworkAppToApiTypeMap[transaction.network];
 
-            const {data} = await Api.get(`/public-contracts/${apiNetwork}/${id}`);
+            const {data} = await Api.get(`/public-contract/${apiNetwork}/tx/${transaction.txHash}/contracts`);
 
             if (!data) {
                 return new ErrorActionResponse();
             }
 
-            const contract = Contract.buildFromResponse(data);
+            const contracts = data.map(Contract.buildFromResponse);
 
             dispatch({
-                type: FETCH_PUBLIC_CONTRACT_ACTION,
-                contract,
+                type: FETCH_PUBLIC_CONTRACTS_FOR_TX_ACTION,
+                contracts,
             });
 
-            return new SuccessActionResponse(contract);
+            return new SuccessActionResponse(contracts);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);

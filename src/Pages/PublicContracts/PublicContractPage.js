@@ -111,7 +111,7 @@ class PublicContractPage extends Component {
                                     <span>{contract.watchCount}</span>
                                 </Button>
                             </ButtonGroup>
-                            <EtherscanLink type={EtherscanLinkTypes.BLOCK} network={contract.network} value={contract.address}>
+                            <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
                                 <Button size="small" outline>
                                     <Icon icon="globe"/>
                                     <span>View in Explorer</span>
