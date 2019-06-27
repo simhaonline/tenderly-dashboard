@@ -66,6 +66,7 @@ export class Trace {
             contract: rawStackTrace.contract,
             fileName: rawStackTrace.name,
             lineNumber: rawStackTrace.line,
+            op: rawStackTrace.op,
             fileId: rawStackTrace.file_index,
         });
     }
