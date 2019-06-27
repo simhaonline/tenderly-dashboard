@@ -58,7 +58,7 @@ class PublicContractTransactionPage extends Component {
 
     render() {
         const {loaded} = this.state;
-        const {contracts, transaction, callTrace, networkType, txHash} = this.props;
+        const {contracts, transaction, callTrace, stackTrace, networkType, txHash} = this.props;
 
         return (
             <Page>
@@ -81,7 +81,7 @@ class PublicContractTransactionPage extends Component {
                         </div>
                     </PageHeading>
                     {!loaded && <ProjectPageLoader text="Fetching Transaction Data..."/>}
-                    {loaded && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace}/>}
+                    {loaded && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace} stackTrace={stackTrace}/>}
                 </Container>
             </Page>
         );
