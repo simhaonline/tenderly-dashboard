@@ -50,7 +50,7 @@ export class Trace {
             contract: rawCallTrace.caller_line_number ? rawCallTrace.from : rawCallTrace.to,
             op: rawCallTrace.caller_op || rawCallTrace.function_op,
             fileName: rawCallTrace.contract_name,
-            fileId: depth === 0 ? rawCallTrace.function_file_index : rawCallTrace.caller_file_index,
+            fileId: rawCallTrace.caller_file_index !== null ? rawCallTrace.caller_file_index : rawCallTrace.function_file_index,
             lineNumber: rawCallTrace.caller_line_number || rawCallTrace.function_line_number,
             gasUsed: rawCallTrace.gas_used,
         }, calls);
