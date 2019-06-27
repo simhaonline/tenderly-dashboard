@@ -7,7 +7,7 @@ $ToggleSwitchPadding: 2px;
 .Toggle {
   position: relative;
   border: 1px solid $BorderColor;
-  background-color: lighten(#171e31, 2);
+  background-color: $Slate400;
   padding: $ToggleSwitchPadding;
   height: $ToggleSwitchButtonSize + 2 * $ToggleSwitchPadding + 2;
   border-radius: 12px;
@@ -28,7 +28,7 @@ $ToggleSwitchPadding: 2px;
 
   &.Active {
     border-color: $Primary500;
-    background-color: #171e31;
+    background-color: $Slate400;
 
     .ToggleSwitch {
       transition: 0.2s, left 200ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
