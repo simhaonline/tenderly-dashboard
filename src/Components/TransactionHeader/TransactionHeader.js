@@ -69,7 +69,9 @@ const TransactionHeader = ({transaction, contracts}) => {
                 <div className="CallerInfo">
                     <div>
                         <div className="MutedText CallerLabel">From:</div>
-                        <div>{transaction.from}</div>
+                        <div>
+                            <CopyableText text={transaction.from} position="right" onSuccessMessage="Copied contract address to clipboard"/>
+                        </div>
                     </div>
                     <div className="DirectionIconWrapper">
                         <Icon icon="arrow-right-circle"/>
