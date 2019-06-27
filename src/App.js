@@ -16,7 +16,7 @@ import MixPanel from "./Utils/MixPanel";
 
 import {store} from './Core';
 
-import {AppHeader} from "./Components";
+import {AppHeader, FeatureFlagControls} from "./Components";
 import {AppPages} from "./Pages";
 
 if (process.env.NODE_ENV !== 'development') {
@@ -75,6 +75,7 @@ class App extends Component {
                         <div id="AppContent">
                             <AppPages/>
                         </div>
+                        {process.env.NODE_ENV === 'development' && <FeatureFlagControls/>}
                         <ToastContainer toastClassName="ToastMessage" transition={ToastAnimation} pauseOnFocusLoss={false} draggable={false}
                                         bodyClassName="ToastBody" closeButton={false} position="bottom-right" hideProgressBar/>
                     </div>
