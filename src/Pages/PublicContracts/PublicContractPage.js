@@ -14,11 +14,12 @@ import {
 
 import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
-import {Page, Container, PageHeading, Button, Icon, ButtonGroup} from "../../Elements";
+import {Page, Container, PageHeading, Button, Icon, ButtonGroup, PanelContent, Panel} from "../../Elements";
 import {
     ContractInformation,
     ContractActions,
     ProjectPageLoader,
+    NetworkTag,
     TransactionsList, EtherscanLink, SharePageButton
 } from "../../Components";
 
@@ -83,13 +84,29 @@ class PublicContractPage extends Component {
     };
 
     render() {
-        const {contract, isContractWatched, match: {params: { network }}, watchedContractsLoaded} = this.props;
+        const {contract, isContractWatched, networkType, match: {params: { network }}, watchedContractsLoaded, contractId} = this.props;
         const {loading, transactions, page, actionInProgress} = this.state;
 
         if (loading) {
             return (
                 <ProjectPageLoader text="Fetching Public Contract Data..."/>
             )
+        }
+        if (!contract) {
+            return (
+                <Page>
+                    <Container>
+                        <PageHeading>
+                            <NetworkTag network={networkType}/>
+                            <h1>{contractId}</h1>
+                        </PageHeading>
+                        <Panel>
+                            <PanelContent className="DisplayFlex AlignItemsCenter JustifyContentCenter">
+                            </PanelContent>
+                        </Panel>
+                    </Container>
+                </Page>
+            );
         }
 
         return (

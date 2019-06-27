@@ -1,5 +1,4 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
+@import "../../Common/common";
 
 $FeatureFlagToggleButtonSize: 46px;
 
@@ -11,7 +10,7 @@ $FeatureFlagToggleButtonSize: 46px;
 
   .FlagControlsToggle {
     position: relative;
-    background-color: $PrimaryColor600;
+    background-color: $Primary500;
     color: $WhiteColor;
     width: $FeatureFlagToggleButtonSize;
     height: $FeatureFlagToggleButtonSize;
@@ -26,11 +25,11 @@ $FeatureFlagToggleButtonSize: 46px;
     font-size: $FontSize400;
 
     &:hover {
-      background-color: darken($PrimaryColor600, 3);
+      background-color: $Primary600;
     }
 
     &:active {
-      box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
+      box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
     }
   }
 
@@ -40,7 +39,7 @@ $FeatureFlagToggleButtonSize: 46px;
     height: $FeatureFlagToggleButtonSize;
     bottom: 0;
     left: 0;
-    background-color: #212a46;
+    background-color: $Slate300;
     border-radius: $FeatureFlagToggleButtonSize / 2;
     overflow: hidden;
     padding: 10px;
@@ -52,7 +51,7 @@ $FeatureFlagToggleButtonSize: 46px;
     &.Open {
       opacity: 1;
       width: 200px;
-      height: 300px;
+      height: 340px;
       bottom: -10px;
       left: -10px;
       padding-bottom: 50px;

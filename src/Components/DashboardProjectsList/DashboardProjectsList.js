@@ -78,7 +78,8 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
                 <Link to={`/project/create`} className="ProjectListItem CreateProjectItem" onClick={handleCreateProjectClick}>
                     <Card className="ProjectListItemCard">
                         <Icon icon="plus" className="CreateIcon"/>
-                        <span>Create Project</span>
+                        <span className="Title">Create Project</span>
+                        <span className="Description">Monitor a public contract or upload your private contracts.</span>
                     </Card>
                 </Link>
             </div>}
