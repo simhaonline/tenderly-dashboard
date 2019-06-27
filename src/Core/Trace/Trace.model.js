@@ -1,3 +1,5 @@
+import TraceInput from "./TraceInput.model";
+
 export class Trace {
     /**
      * @param {Object} data
@@ -27,6 +29,12 @@ export class Trace {
 
         /** @type Trace[] */
         this.calls = calls;
+
+        /** @type TraceInput[] */
+        this.inputVariables = data.inputVariables;
+
+        /** @type TraceInput[] */
+        this.outputVariables = data.outputVariables;
     }
 
     /**
@@ -41,6 +49,9 @@ export class Trace {
             calls = rawCallTrace.calls.map(trace => Trace.buildFromRawCallTrace(trace, depth + 1));
         }
 
+        const inputVariables = rawCallTrace.decoded_input && rawCallTrace.decoded_input.map(TraceInput.buildFromResponse);
+        const outputVariables = rawCallTrace.decoded_output && rawCallTrace.decoded_output.map(TraceInput.buildFromResponse);
+
         /**
          * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
          * accordingly as those mocked responses are used for the Example Project and might break it.
@@ -53,6 +64,8 @@ export class Trace {
             fileId: rawCallTrace.caller_file_index !== null ? rawCallTrace.caller_file_index : rawCallTrace.function_file_index,
             lineNumber: rawCallTrace.caller_line_number || rawCallTrace.function_line_number,
             gasUsed: rawCallTrace.gas_used,
+            inputVariables,
+            outputVariables,
         }, calls);
     }
 
