@@ -8,6 +8,9 @@ export class Trace {
         this.functionName = data.functionName;
 
         /** @type string */
+        this.op = data.op;
+
+        /** @type string */
         this.fileName = data.fileName;
 
         /** @type number */
@@ -44,7 +47,8 @@ export class Trace {
          */
         return new Trace({
             functionName: rawCallTrace.function_name,
-            contract: rawCallTrace.to,
+            contract: rawCallTrace.caller_line_number ? rawCallTrace.from : rawCallTrace.to,
+            op: rawCallTrace.caller_op || rawCallTrace.function_op,
             fileName: rawCallTrace.contract_name,
             fileId: depth === 0 ? rawCallTrace.function_file_index : rawCallTrace.caller_file_index,
             lineNumber: rawCallTrace.caller_line_number || rawCallTrace.function_line_number,
