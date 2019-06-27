@@ -71,8 +71,8 @@ class PublicContractTransactionPage extends Component {
                             <Icon icon="arrow-left"/>
                         </Button>
                         <h1>Transaction</h1>
-                        <SharePageButton/>
                         <div className="RightContent">
+                            <SharePageButton/>
                             <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
                                 <Button size="small" outline>
                                     <Icon icon="globe"/>

@@ -103,7 +103,6 @@ class PublicContractPage extends Component {
                             <Icon icon="arrow-left"/>
                         </Button>
                         <h1>{contract.name}</h1>
-                        <SharePageButton/>
                         <div className="RightContent">
                             <ButtonGroup>
                                 <Button outline={!isContractWatched} size="small" color="secondary"
@@ -116,6 +115,7 @@ class PublicContractPage extends Component {
                                     <span>{contract.watchCount}</span>
                                 </Button>
                             </ButtonGroup>
+                            <SharePageButton/>
                             <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
                                 <Button size="small" outline>
                                     <Icon icon="globe"/>

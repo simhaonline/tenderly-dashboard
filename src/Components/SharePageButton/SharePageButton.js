@@ -11,8 +11,9 @@ const SharePageButton = () => {
             title: "Copied link to clipboard",
             icon: "clipboard",
         })}>
-            <Button className="SharePageButton MarginLeft2" size="small" outline color="secondary">
+            <Button className="SharePageButton" size="small" outline color="secondary">
                 <Icon icon="share-2"/>
+                <span>Share</span>
             </Button>
         </CopyToClipboard>
     )
