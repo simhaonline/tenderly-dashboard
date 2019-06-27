@@ -1,6 +1,4 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
-@import "../../Common/Styles/global";
+@import "../../Common/common";
 
 $TracePreviewSpacing: 0px;
 
@@ -45,6 +43,46 @@ $TracePreviewSpacing: 0px;
 
   .TracePreviewCodeWrapper {
     margin: $Spacing3 0;
+    position: relative;
+
+    .TraceInputs {
+      z-index: 500;
+      position: absolute;
+      left: 70%;
+      top: 12px;
+      bottom: 12px;
+      opacity: 0;
+      transition: 0.2s $easeInCirc;
+      padding-left: $Spacing7;
+
+      .InputVariable {
+        font-family: $MonospaceFontFamily;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .VariableName {
+        color: $LinkColor;
+        font-weight: bold;
+        margin-right: 12px;
+      }
+
+      .VariableValue {
+        width: 180px;
+        text-align: right;
+        word-break: break-all;
+      }
+    }
+
+    .CodeWrapper {
+      z-index: 600;
+      position: relative;
+    }
+
+    &:hover .TraceInputs {
+      opacity: 1;
+      left: calc(100% - 12px);
+    }
   }
 
   &:first-child {
