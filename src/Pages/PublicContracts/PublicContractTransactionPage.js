@@ -13,7 +13,7 @@ import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constan
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {EtherscanLink, ProjectPageLoader, TransactionPageContent} from "../../Components";
+import {EtherscanLink, ProjectPageLoader, SharePageButton, TransactionPageContent} from "../../Components";
 import {Page, Container, Button, Icon, PageHeading} from "../../Elements";
 import {
     arePublicContractsLoadedForTransaction,
@@ -71,6 +71,7 @@ class PublicContractTransactionPage extends Component {
                             <Icon icon="arrow-left"/>
                         </Button>
                         <h1>Transaction</h1>
+                        <SharePageButton/>
                         <div className="RightContent">
                             <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
                                 <Button size="small" outline>

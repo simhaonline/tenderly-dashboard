@@ -19,7 +19,7 @@ import {
     ContractInformation,
     ContractActions,
     ProjectPageLoader,
-    TransactionsList, EtherscanLink
+    TransactionsList, EtherscanLink, SharePageButton
 } from "../../Components";
 
 class PublicContractPage extends Component {
@@ -103,6 +103,7 @@ class PublicContractPage extends Component {
                             <Icon icon="arrow-left"/>
                         </Button>
                         <h1>{contract.name}</h1>
+                        <SharePageButton/>
                         <div className="RightContent">
                             <ButtonGroup>
                                 <Button outline={!isContractWatched} size="small" color="secondary"
