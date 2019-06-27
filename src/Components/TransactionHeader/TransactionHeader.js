@@ -68,7 +68,7 @@ const TransactionHeader = ({transaction, contracts}) => {
                 <PanelDivider/>
                 <div className="CallerInfo">
                     <div>
-                        <div className="MutedText CallerLabel">From:</div>
+                        <div className="MutedText CallerLabel">Caller Address:</div>
                         <div>
                             <CopyableText text={transaction.from} position="right" onSuccessMessage="Copied contract address to clipboard"/>
                         </div>
@@ -77,7 +77,7 @@ const TransactionHeader = ({transaction, contracts}) => {
                         <Icon icon="arrow-right-circle"/>
                     </div>
                     <div>
-                        <div className="MutedText CallerLabel">To:</div>
+                        <div className="MutedText CallerLabel">Contract Address:</div>
                         {!!contract && <Link to={contractLink}>{contract.name} ({transaction.to})</Link>}
                         {!contract && <div>{transaction.to}</div>}
                     </div>
