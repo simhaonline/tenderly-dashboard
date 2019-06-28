@@ -58,6 +58,11 @@
   cursor: pointer;
 }
 
+.Table__Group__Heading {
+  background-color: $Slate500;
+  border-radius: 4px;
+}
+
 .Table__Column {
   flex: 1 1 0;
   padding: $Spacing2;

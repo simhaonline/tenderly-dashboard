@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import {Panel, Icon} from "../index";
 import {SimpleLoader} from "../../Components";
@@ -25,6 +26,21 @@ class TableColumn extends Component {
         )
     }
 }
+
+const TableRow = ({className, onClick, clickable = false, row, index, configuration, metadata}) => {
+    return (
+        <div className={classNames(
+            "Table__Row",
+            className,
+            {
+                "Table__Row--Even": !!(index % 2),
+                "Table__Row--Clickable": clickable,
+            },
+        )} onClick={event => onClick(row, event)}>
+            {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row} metadata={metadata}/>)}
+        </div>
+    );
+};
 
 class Table extends Component {
     /**
@@ -73,7 +89,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata} = this.props;
+        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy} = this.props;
 
         return (
             <Panel className={classNames(
@@ -104,15 +120,18 @@ class Table extends Component {
                             <SimpleLoader inverse/>
                         </div>
                     </div>}
-                    {data.map((row, index) => <div key={this.getKeyAccessor(row, index)} className={classNames(
-                        "Table__Row",
-                        rowClassName,
-                        {
-                            "Table__Row--Even": !!(index % 2),
-                            "Table__Row--Clickable": !!onRowClick,
-                        },
-                    )} onClick={event => this.handleRowClick(row, event)}>
-                        {configuration.map((conf, index) => <TableColumn key={index} configuration={conf} data={row} metadata={metadata}/>)}
+                    {!groupBy && data.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
+                                                                    row={row} configuration={configuration}
+                                                                    onClick={this.handleRowClick} clickable={!!onRowClick}
+                                                                    className={rowClassName} metadata={metadata}/>)}
+                    {!!groupBy && _.map(_.groupBy(data, groupBy), (groupData, groupByKey) => <div key={groupByKey} className="Table__Group">
+                        <div className="Table__Group__Heading">
+                            {groupByKey}
+                        </div>
+                        {groupData.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
+                                                                 row={row} configuration={configuration}
+                                                                 onClick={this.handleRowClick} clickable={!!onRowClick}
+                                                                 className={rowClassName} metadata={metadata}/>)}
                     </div>)}
                 </div>
                 {!!currentPage && <div className={"Table__Controls"}>
@@ -177,6 +196,11 @@ Table.propTypes = {
     className: PropTypes.string,
     headClassName: PropTypes.string,
     rowClassName: PropTypes.string,
+    groupBy: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+    ]),
+    groupingConfiguration: PropTypes.array,
 };
 
 Table.defaultProps = {
