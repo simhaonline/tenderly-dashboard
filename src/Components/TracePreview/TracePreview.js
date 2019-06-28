@@ -66,8 +66,8 @@ class TracePreview extends Component {
                 <div onClick={this.togglePreview} className={classNames(
                     "TracePreviewHeading",
                     {
-                        "Focused": !!focused && focused.startsWith(trace.depthId) && focused !== trace.depthId,
-                        "Blurred": !!focused && !focused.startsWith(trace.depthId),
+                        "Focused": !!focused && focused.startsWith(`${trace.depthId}.`),
+                        "Blurred": !!focused && !focused.startsWith(`${trace.depthId}.`),
                     }
                 )} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                     {!!depth && [...Array(depth)].map((e, index) => <div key={index} className="TracePointDepthLine"/>)}
