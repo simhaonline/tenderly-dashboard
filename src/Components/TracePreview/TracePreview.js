@@ -31,8 +31,6 @@ class TracePreview extends Component {
         const {trace, depth, contracts} = this.props;
         const {open, file} = this.state;
 
-        console.log(trace);
-
         return (
             <div className="TracePreview">
                 <div onClick={this.togglePreview} className={classNames(
