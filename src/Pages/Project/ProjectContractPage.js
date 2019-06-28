@@ -54,7 +54,7 @@ class ProjectContractPage extends Component {
                             </Button>
                             <h1>{contract.name}</h1>
                             <div className="RightContent">
-                                <EtherscanLink type={EtherscanLinkTypes.BLOCK} network={contract.network} value={contract.address}>
+                                <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
                                     <Button size="small" outline>
                                         <Icon icon="globe"/>
                                         <span>View in Explorer</span>

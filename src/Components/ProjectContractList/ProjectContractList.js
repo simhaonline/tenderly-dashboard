@@ -1,8 +1,24 @@
 import React from 'react';
 
-import ProjectContract from "../ProjectContract/ProjectContract";
+import Table from "../../Elements/Table/Table";
+import {ProjectContract, ContractAddressColumn} from "../index";
 
 import './ProjectContractList.scss';
+
+const projectContractsTableConfiguration = [
+    {
+        label: "Contract",
+        renderColumn: row => <ContractAddressColumn address={row.address}/>
+    },
+    {
+        label: "Listening",
+        accessor: "name",
+    },
+];
+
+const groupingConfiguration = [
+    {},
+];
 
 const ProjectContractList = ({contracts}) => {
     return (
@@ -10,6 +26,8 @@ const ProjectContractList = ({contracts}) => {
             {contracts.map(contract =>
                 <ProjectContract key={contract.id} contract={contract} className="ProjectContractListItem"/>
             )}
+            <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
+                   groupBy="name" groupingConfiguration={groupingConfiguration}/>
         </div>
     )
 };

@@ -35,6 +35,7 @@ export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigatio
 export {default as ProjectPicker} from './ProjectPicker/ProjectPicker';
 export {default as ProjectSidebar} from './ProjectSidebar/ProjectSidebar';
 export {default as ProjectContractList} from './ProjectContractList/ProjectContractList';
+export {default as ProjectContract} from './ProjectContract/ProjectContract';
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
 export {default as ProjectAnalyticsGraph} from './ProjectAnalyticsGraph/ProjectAnalyticsGraph';
 export {default as ProjectTransactionAnalytics} from './ProjectTransactionAnalytics/ProjectTransactionAnalytics';
@@ -79,9 +80,12 @@ export {default as PublicContractThumbnail} from './PublicContractThumbnail/Publ
 /**
  * Table Column Elements
  */
+export {default as NetworkColumn} from './NetworkColumn/NetworkColumn';
+export {default as TimeAgoColumn} from './TimeAgoColumn/TimeAgoColumn';
+
 export {default as TransactionHashColumn} from './TransactionHashColumn/TransactionHashColumn';
 export {default as TransactionContractsColumn} from './TransactionContractsColumn/TransactionContractsColumn';
 export {default as TransactionStatusColumn} from './TransactionStatusColumn/TransactionStatusColumn';
-export {default as NetworkColumn} from './NetworkColumn/NetworkColumn';
-export {default as TimeAgoColumn} from './TimeAgoColumn/TimeAgoColumn';
 export {default as TransactionMoreColumn} from './TransactionMoreColumn/TransactionMoreColumn';
+
+export {default as ContractAddressColumn} from './ContractAddressColumn/ContractAddressColumn';
