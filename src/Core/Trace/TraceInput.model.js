@@ -3,14 +3,14 @@ class TraceInputModel {
         /** @type {string} */
         this.name = data.name;
 
-        /** @type {string | number} */
+        /** @type {string} */
         this.value = data.value;
     }
 
     static buildFromResponse(rawInput) {
         return new TraceInputModel({
-            value: rawInput.Value,
             name: rawInput.Soltype.Name,
+            value: rawInput.Value.toString(),
         });
     }
 }
