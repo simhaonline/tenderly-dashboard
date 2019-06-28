@@ -20,13 +20,13 @@ class CodePreview extends Component {
 
     handleExpandUp = () => {
         this.setState({
-            offsetTop: this.state.offsetTop + 5,
+            offsetTop: this.state.offsetTop + 10,
         });
     };
 
     handleExpandDown = () => {
         this.setState({
-            offsetBottom: this.state.offsetBottom + 5,
+            offsetBottom: this.state.offsetBottom + 10,
         });
     };
 
