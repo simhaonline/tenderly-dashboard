@@ -6,6 +6,8 @@ import {Icon} from "../../Elements";
 
 import './CodePreview.scss';
 
+const codeLineSize = 1.375;
+
 class CodePreview extends Component {
     constructor(props) {
         super(props);
@@ -34,7 +36,6 @@ class CodePreview extends Component {
 
         const lineNumbers = [];
         const wrapperStyle = {};
-        const codeStyle = {};
 
         if (line && linePreview) {
             const topLinesDisplayed = line - linePreview - offsetTop;
@@ -42,8 +43,7 @@ class CodePreview extends Component {
                 lineNumbers.push({number: i, active: i === line});
             }
 
-            codeStyle.top = `${(topLinesDisplayed - 1) * - 21}px`;
-            wrapperStyle.height = `${lineNumbers.length * 21}px`;
+            wrapperStyle.height = `${lineNumbers.length * codeLineSize}rem`;
         } else {
             const textLinesCount = file.source.split("\n").length;
 
@@ -71,7 +71,11 @@ class CodePreview extends Component {
                             <div key={num.number} id={`line-${num.number}`} className={`StackLine ${num.active? 'active': ''}`}>{num.number}</div>
                         )}
                     </div>
-                    <pre className="StackCode" style={codeStyle} dangerouslySetInnerHTML={{__html: file.sourceCompiled}}/>
+                    <pre className="StackCode">
+                        {lineNumbers.map(num =>
+                            <div key={num.number} id={`line-${num.number}`} dangerouslySetInnerHTML={{__html: file.sourceCompiledMap[num.number]}}/>
+                        )}
+                    </pre>
                 </div>
                 {isExpandable && <div className="ExpandingWrapper" onClick={this.handleExpandDown}>
                     <div className="ExpandingControl">

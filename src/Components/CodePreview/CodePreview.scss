@@ -1,9 +1,8 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
-@import "../../Common/Styles/global";
+@import "../../Common/common";
 
 $StackLinesCodeWidth: 70px;
 $StackContainerVerticalPadding: 25px;
+$StackLineHeight: 1.375rem;
 
 .CodeWrapper {
   border-radius: 5px;
@@ -23,7 +22,7 @@ $StackContainerVerticalPadding: 25px;
   }
 
   .StackLine {
-    line-height: 21px;
+    line-height: $StackLineHeight;
     text-align: right;
     padding: 0 15px;
     color: transparentize($WhiteColor, 0.25);
@@ -40,7 +39,7 @@ $StackContainerVerticalPadding: 25px;
 
       &:before {
         content: "";
-        height: 21px;
+        height: $StackLineHeight;
         position: absolute;
         width: calc(100% - #{$StackLinesCodeWidth});
         left: $StackLinesCodeWidth;
@@ -58,7 +57,7 @@ $StackContainerVerticalPadding: 25px;
     left: 80px;
     width: calc(100% - #{$StackLinesCodeWidth});
     padding: 0 15px;
-    line-height: 21px;
+    line-height: $StackLineHeight;
     margin: 0;
     font-family: $MonospaceFontFamily;
 

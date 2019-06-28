@@ -11,8 +11,24 @@ class ContractFile {
         /** @type string */
         this.source = data.source;
 
-        /** @type string */
-        this.sourceCompiled = hljs.highlight('solidity', data.source).value;
+        const sourceCompiled = hljs.highlight('solidity', data.source).value;
+
+        /** @type Object */
+        this.sourceCompiledMap = sourceCompiled.split(/\n/).reduce((map, line, index) => {
+            map[index + 1] = line || `\n`;
+
+            if (map.inComment) {
+                map[index + 1] = `<span class="hljs-comment">` + map[index + 1];
+
+                if (line.includes('</span>')) {
+                    map.inComment = false;
+                }
+            } else if (line.includes('hljs-comment') && !line.includes('</span>')) {
+                map.inComment = true;
+            }
+
+            return map;
+        }, {});
 
         /** @type string */
         this.solidityVersion = data.solidityVersion;
