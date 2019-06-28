@@ -12,24 +12,57 @@ $TracePreviewSpacing: 0px;
     border-radius: 4px;
     padding: $Spacing1;
     display: flex;
+    transition: 0.1s;
     align-items: center;
+    margin: 0 -10px;
 
-    @for $i from 0 through 10 {
-      &.Depth#{$i} {
-        padding-left: $Spacing1 + $Spacing6 * $i;
-      }
+    .TracePointDepthLine {
+      border-left: 1px solid transparentize($Primary500, 0.5);
+      margin: -10px 10px;
+      align-self: stretch;
+      position: relative;
+      display: block;
     }
 
-    .TracePointIcon {
-      color: $Primary500;
+    .TracePointDot {
+      border: 1px solid $Primary500;
+      width: 16px;
+      height: 16px;
+      margin: 0 12px 0 4px;
+      border-radius: 8px;
+      display: flex;
+      align-self: center;
+      justify-content: center;
 
-      &.NoSource {
-        color: transparentize($WhiteColor, 0.5)
+      .TraceExpandIcon {
+        opacity: 0;
+        margin-top: 1px;
+        transition: 0.2s;
+        font-size: $FontSize200;
+      }
+
+      &.Collapsible {
+        cursor: pointer;
+      }
+
+      &.Collapsed {
+        background-color: transparentize($Primary500, 0.5);
+
+        .TraceExpandIcon {
+          opacity: 1;
+        }
       }
     }
 
     .BoldedText {
       font-weight: 600;
+    }
+
+    .ExpandCode {
+      margin-left: 10px;
+      color: $LinkColor;
+      opacity: 0;
+      transition: 0.1s;
     }
 
     &:last-child {
@@ -38,6 +71,20 @@ $TracePreviewSpacing: 0px;
 
     &:hover {
       background-color: transparentize($Slate700, 0.25);
+
+      .TraceExpandIcon, .ExpandCode {
+        opacity: 1;
+      }
+    }
+
+    &.Blurred {
+      opacity: 0.25;
+    }
+
+    &.Focused {
+      .TracePointDot {
+        border-width: 2px;
+      }
     }
   }
 

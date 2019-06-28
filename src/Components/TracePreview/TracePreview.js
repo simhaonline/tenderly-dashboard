@@ -17,6 +17,7 @@ class TracePreview extends Component {
 
         this.state = {
             open,
+            collapsed: false,
             file: traceContract ? traceContract.getFileById(trace.fileId) : null,
         };
     }
@@ -27,22 +28,58 @@ class TracePreview extends Component {
         })
     };
 
+    toggleCollapse = (event) => {
+        const {trace} = this.props;
+
+        if (!trace.calls) {
+            return;
+        }
+
+        event.stopPropagation();
+        this.setState({
+            collapsed: !this.state.collapsed,
+        })
+    };
+
+    handleMouseEnter = () => {
+        const {onFocusChange, depth, trace} = this.props;
+
+        if (onFocusChange && depth !== 0) {
+            onFocusChange(trace.depthId);
+        }
+    };
+
+    handleMouseLeave = () => {
+        const {onFocusChange, depth} = this.props;
+
+        if (onFocusChange && depth !== 0) {
+            onFocusChange(null);
+        }
+    };
+
     render() {
-        const {trace, depth, contracts} = this.props;
-        const {open, file} = this.state;
+        const {trace, depth, contracts, focused, onFocusChange} = this.props;
+        const {open, collapsed, file} = this.state;
 
         return (
             <div className="TracePreview">
                 <div onClick={this.togglePreview} className={classNames(
                     "TracePreviewHeading",
-                    `Depth${depth}`,
-                )}>
-                    <Icon icon="circle" className={classNames(
-                        "TracePointIcon MarginRight1",
+                    {
+                        "Focused": !!focused && focused.startsWith(trace.depthId) && focused !== trace.depthId,
+                        "Blurred": !!focused && !focused.startsWith(trace.depthId),
+                    }
+                )} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+                    {!!depth && [...Array(depth)].map((e, index) => <div key={index} className="TracePointDepthLine"/>)}
+                    <div className={classNames(
+                        "TracePointDot",
                         {
-                            "NoSource": !file,
+                            "Collapsible": !!trace.calls,
+                            "Collapsed": collapsed,
                         }
-                    )}/>
+                    )} onClick={this.toggleCollapse}>
+                        {!!trace.calls && <Icon icon={collapsed ? "plus": "minus"} className="TraceExpandIcon"/>}
+                    </div>
                     {!!file && <div>
                         {!!trace.functionName && <span className="BoldedText">{trace.functionName}</span>}
                         {!trace.functionName && <span className="BoldedText">[{trace.op}]</span>}
@@ -51,6 +88,9 @@ class TracePreview extends Component {
                     {!file && <div>
                         <span className="SemiBoldText">{trace.contract}</span><span className="MutedText"> at line {trace.lineNumber}</span>
                     </div>}
+                    <div className="ExpandCode">
+                        Show Source Code
+                    </div>
                 </div>
                 {open && <div className="TracePreviewCodeWrapper">
                     {!!file && <CodePreview line={trace.lineNumber} linePreview={5} file={file} isExpandable/>}
@@ -76,8 +116,8 @@ class TracePreview extends Component {
                         </div>}
                     </Card>}
                 </div>}
-                {!!trace.calls && trace.calls.map((trace, index) =>
-                    <TracePreview trace={trace} key={index} depth={depth + 1} contracts={contracts}/>
+                {!collapsed && !!trace.calls && trace.calls.map((trace, index) =>
+                    <TracePreview trace={trace} key={index} depth={depth + 1} contracts={contracts} focused={focused} onFocusChange={onFocusChange}/>
                 )}
             </div>
         );

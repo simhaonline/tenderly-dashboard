@@ -21,6 +21,9 @@ export class Trace {
         /** @type string */
         this.contract = data.contract;
 
+        /** @type string */
+        this.depthId = data.depthId;
+
         /** @type number */
         this.fileId = data.fileId;
 
@@ -41,12 +44,13 @@ export class Trace {
      *
      * @param {Object} rawCallTrace
      * @param {number} depth
+     * @param {string} depthId
      */
-    static buildFromRawCallTrace(rawCallTrace, depth = 0) {
+    static buildFromRawCallTrace(rawCallTrace, depth = 0, depthId = '0') {
         let calls;
 
         if (rawCallTrace.calls) {
-            calls = rawCallTrace.calls.map(trace => Trace.buildFromRawCallTrace(trace, depth + 1));
+            calls = rawCallTrace.calls.map((trace, index) => Trace.buildFromRawCallTrace(trace, depth + 1, `${depthId}.${index}`));
         }
 
         const inputVariables = rawCallTrace.decoded_input && rawCallTrace.decoded_input.map(TraceInput.buildFromResponse);
@@ -66,6 +70,7 @@ export class Trace {
             gasUsed: rawCallTrace.gas_used,
             inputVariables,
             outputVariables,
+            depthId,
         }, calls);
     }
 
