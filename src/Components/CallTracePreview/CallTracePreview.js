@@ -1,11 +1,9 @@
-import React, {Component, createContext} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import TracePreview from "../TracePreview/TracePreview";
 
 import './CallTracePreview.scss';
-
-const CallTraceContext = createContext({});
 
 class CallTracePreview extends Component {
     constructor(props) {
