@@ -122,32 +122,94 @@ export const exampleTransaction1Paylod = {
             function_file_index: 0,
             caller_file_index: 0,
             caller_line_number: 46,
+            from: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
             to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
             function_line_number: 46,
+            decoded_input: [
+                {
+                    Soltype: {
+                        Name: 'amount',
+                    },
+                    Value: '14500',
+                },
+                {
+                    Soltype: {
+                        Name: 'src',
+                    },
+                    Value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+                },
+                {
+                    Soltype: {
+                        Name: 'to',
+                    },
+                    Value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+                },
+            ],
             calls: [
                 {
                     function_name: "isAuthorized",
                     function_file_index: 0,
                     caller_file_index: 0,
                     caller_line_number: 47,
+                    from: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     function_line_number: 47,
+                    decoded_input: [
+                        {
+                            Soltype: {
+                                Name: 'src',
+                            },
+                            Value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+                        },
+                    ],
+                    decoded_output: [
+                        {
+                            Soltype: {
+                                Name: 'authorized',
+                            },
+                            Value: 'true',
+                        },
+                    ],
                 },
                 {
                     function_name: "sendFunds",
                     function_file_index: 0,
                     caller_file_index: 0,
                     caller_line_number: 49,
+                    from: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     function_line_number: 49,
+                    decoded_input: [
+                        {
+                            Soltype: {
+                                Name: 'amount',
+                            },
+                            Value: '14500',
+                        },
+                        {
+                            Soltype: {
+                                Name: 'to',
+                            },
+                            Value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+                        },
+                    ],
                     calls: [
                         {
                             function_name: "transferToReserve",
                             function_file_index: 0,
                             caller_file_index: 0,
                             caller_line_number: 36,
+                            from: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                             to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                             function_line_number: 36,
+                            decoded_input: [
+                                {
+                                    Soltype: {
+                                        Name: 'amount',
+                                    },
+                                    Value: '14500',
+                                },
+                            ],
                         }
                     ],
                 }
