@@ -2,8 +2,8 @@
 @import "../../Common/Styles/typography";
 
 .InputWrapper {
-  background: transparentize($Slate100, 0.25);
-  border: 1px solid $Slate200;
+  background: $Slate300;
+  border: 1px solid transparentize($Primary500, 0.5);
   position: relative;
   border-radius: 4px;
   transition: 0.15s;
@@ -26,6 +26,10 @@
       -webkit-box-shadow: 0 0 0 30px $Slate200 inset;
       -webkit-text-fill-color: $WhiteColor;
       background-color: transparentize($Slate100, 0.25) !important;
+    }
+
+    &::placeholder {
+      color: transparentize($WhiteColor, 0.3);
     }
 
     &:focus, &:hover, &:active {
