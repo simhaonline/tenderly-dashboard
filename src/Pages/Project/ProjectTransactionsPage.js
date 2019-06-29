@@ -55,7 +55,9 @@ class ProjectTransactionsPage extends Component {
                 await contractActions.fetchContractsForProject(project.id);
             }
 
-            this.startPolling();
+            if (project.isSetup) {
+                this.startPolling();
+            }
         } else {
             const exampleResponse = await txActions.fetchExampleTransactions();
 
