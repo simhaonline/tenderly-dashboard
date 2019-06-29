@@ -2,17 +2,21 @@ import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import classNames from 'classnames';
+import Blockies from "react-blockies";
 
 import MixPanel from "../../Utils/MixPanel";
 import {NetworkTypes, OSTypes} from "../../Common/constants";
 import * as projectActions from "../../Core/Project/Project.actions";
 import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
+import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {Dialog, DialogHeader, DialogBody, Button, Icon, Input} from "../../Elements";
+import {Dialog, DialogHeader, DialogBody, Button, Icon, Input, Card} from "../../Elements";
 import {SimpleLoader, NetworkSegmentedPicker} from '..';
 
 import './ProjectSetupGuide.scss';
+import {isValidAddress} from "../../Utils/Ethereum";
+import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 const ProjectSetupType = {
     MANUAL: 'manual',
@@ -56,6 +60,8 @@ class ProjectSetupGuide extends Component {
             verifying: false,
             verifyAttempted: false,
             finishedSetup: false,
+            fetchingPublicContract: false,
+            fetchedPublicContract: null,
         }
     }
 
@@ -118,12 +124,38 @@ class ProjectSetupGuide extends Component {
     handleManualNetworkChange = (value) => {
         this.setState({
             manualNetwork: value,
+            manualContractAddress: '',
+            fetchedPublicContract: null,
         });
     };
 
     handleInputChange = (field, value) => {
         this.setState({
             [field]: value,
+        });
+
+        if (isValidAddress(value)) {
+            this.fetchPublicContract(value)
+        }
+    };
+
+    /**
+     * @param {string} address
+     * @return {Promise<void>}
+     */
+    fetchPublicContract = async (address) => {
+        const {publicContractActions} = this.props;
+        const {manualNetwork} = this.state;
+
+        this.setState({
+            fetchingPublicContract: true,
+        });
+
+        const response = await publicContractActions.fetchPublicContract(address, manualNetwork);
+
+        this.setState({
+            fetchedPublicContract: response.success ? response.data : null,
+            fetchingPublicContract: false,
         });
     };
 
@@ -271,7 +303,9 @@ class ProjectSetupGuide extends Component {
             manualNetwork,
             manualContractAddress,
             addManualContractError,
-            addingManualContract
+            addingManualContract,
+            fetchedPublicContract,
+            fetchingPublicContract
         } = this.state;
         const {label, color, size, outline, project, os, initialCancelButtonLabel, buttonClassName} = this.props;
 
@@ -318,20 +352,20 @@ class ProjectSetupGuide extends Component {
                             )}>
                                 <div className="StepContent">
                                     <div className="ProjectSetupPickerWrapper">
-                                        <div className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.MANUAL)}>
+                                        <Card className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.MANUAL)}>
                                             <div className="IconWrapper">
                                                 <Icon icon="file-text"/>
                                             </div>
                                             <div className="SetupTypeName">Verified Contract</div>
                                             <div className="SetupTypeDescription">If your contract is publicly verified on Etherscan, you can enter the contract address and start monitoring it in the dashboard.</div>
-                                        </div>
-                                        <div className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>
+                                        </Card>
+                                        <Card className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>
                                             <div className="IconWrapper">
                                                 <Icon icon="terminal"/>
                                             </div>
                                             <div className="SetupTypeName">CLI</div>
                                             <div className="SetupTypeDescription">Upload your Smart Contract using our CLI tool that reads your Truffle build to setup monitoring for your deployed contracts.</div>
-                                        </div>
+                                        </Card>
                                     </div>
                                 </div>
                                 <div className="StepActions">
@@ -354,7 +388,24 @@ class ProjectSetupGuide extends Component {
                                         <NetworkSegmentedPicker value={manualNetwork} onChange={this.handleManualNetworkChange} className="ContractNetworkPicker"/>
                                         <p>In order for your contract to be monitored for errors the contract must be publicly verified on <a href="https://etherscan.io/contractsVerified" target="_blank" rel="noopener noreferrer">Etherscan</a>.</p>
                                         <Input value={manualContractAddress} placeholder="0x1A77CC30E8d7Cb528520cda6B29279E7D859896A" icon="file-text" field="manualContractAddress" onChange={this.handleInputChange}/>
-                                        <p>If your contract is not verified on Etherscan you can upload your project using our CLI tool. Follow the instructions for setup via CLI <a onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>here</a>.</p>
+                                        {!fetchingPublicContract && !fetchedPublicContract && <p>If your contract is not verified on Etherscan you can upload your project using our CLI tool. Follow the instructions for setup via CLI <a onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>here</a>.</p>}
+                                        {(fetchingPublicContract || !!fetchedPublicContract) && <div>
+                                            {fetchingPublicContract && <div className="DisplayFlex AlignItemsCenter JustifyContentCenter">
+                                                <SimpleLoader/>
+                                            </div>}
+                                            {!!fetchedPublicContract && <Card className="DisplayFlex AlignItemsCenter">
+                                                <Blockies
+                                                    seed={fetchedPublicContract.address}
+                                                    size={8}
+                                                    scale={5}
+                                                    className="PublicContractThumbnail__Blockie"
+                                                />
+                                                <div className="PublicContractThumbnail__Info">
+                                                    <h5 className="PublicContractThumbnail__Name">{fetchedPublicContract.name}</h5>
+                                                    <div className="PublicContractThumbnail__Address">{generateShortAddress(fetchedPublicContract.address, 10, 6)}</div>
+                                                </div>
+                                            </Card>}
+                                        </div>}
                                     </div>
                                 </div>
                                 <div className="StepActions">
@@ -574,6 +625,7 @@ const mapDispatchToProps = (dispatch) => {
         actions: bindActionCreators(projectActions, dispatch),
         eventActions: bindActionCreators(eventActions, dispatch),
         contractActions: bindActionCreators(contractActions, dispatch),
+        publicContractActions: bindActionCreators(publicContractActions, dispatch),
     }
 };
 

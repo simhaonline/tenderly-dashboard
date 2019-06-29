@@ -54,7 +54,7 @@ export const fetchPublicContracts = (network, page, perPage = 20, query) => {
 /**
  *
  * @param {string} address
- * @param {string} network
+ * @param {NetworkTypes} network
  */
 export const fetchPublicContract = (address, network) => {
     return async dispatch => {

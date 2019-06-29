@@ -62,8 +62,8 @@
         border-radius: 5px;
 
         &.Success {
-          background-color: transparentize($SecondaryColor600, 0.92);
-          border: 1px solid transparentize($SecondaryColor600, 0.5);
+          background-color: transparentize($Primary500, 0.92);
+          border: 1px solid transparentize($Primary500, 0.5);
         }
 
         &.Warning {
@@ -117,7 +117,7 @@
     }
 
     &.Active {
-      background-color: $SecondaryColor600;
+      background-color: $Primary500;
       width: 3 * $DialogStepProgressItemSize;
     }
   }
@@ -131,11 +131,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      border: 1px solid $BorderColor;
-      padding: 30px 10px;
-      border-radius: 10px;
       cursor: pointer;
       transition: 0.2s;
+      min-height: 250px;
 
       &:not(:last-child) {
         margin-right: 30px;
@@ -143,7 +141,7 @@
 
       .IconWrapper {
         font-size: $FontSize600 * 1.5;
-        color: transparentize($WhiteColor, 0.5);
+        color: transparentize($WhiteColor, 0.25);
         margin-bottom: 20px;
         transition: 0.2s;
       }
@@ -161,9 +159,6 @@
       }
 
       &:hover {
-        box-shadow: 0 0 5px 1px transparentize($SecondaryColor600, 0.5);
-        border-color: $SecondaryColor600;
-
         .IconWrapper {
           color: $WhiteColor;
         }
@@ -231,21 +226,21 @@
 
         &.InProgress {
           .StepIcon {
-            border: 1px solid transparentize($SecondaryColor600, 0.25);
+            border: 1px solid transparentize($Primary500, 0.25);
             color: $WhiteColor;
           }
         }
 
         &.Success {
           .StepIcon {
-            background-color: transparentize($SecondaryColor600, 0.25);
+            background-color: transparentize($Primary500, 0.25);
             color: $WhiteColor;
           }
         }
 
         &.Error {
           .StepIcon {
-            background-color: transparentize($RedColor600, 0.4);
+            background-color: transparentize($Danger500, 0.4);
             color: $WhiteColor;
           }
         }
