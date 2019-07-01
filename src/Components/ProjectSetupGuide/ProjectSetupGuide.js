@@ -136,6 +136,10 @@ class ProjectSetupGuide extends Component {
 
         if (isValidAddress(value)) {
             this.fetchPublicContract(value)
+        } else {
+            this.setState({
+                fetchedPublicContract: null,
+            });
         }
     };
 
@@ -149,6 +153,7 @@ class ProjectSetupGuide extends Component {
 
         this.setState({
             fetchingPublicContract: true,
+            fetchedPublicContract: null,
         });
 
         const response = await publicContractActions.fetchPublicContract(address, manualNetwork);
