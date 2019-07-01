@@ -22,6 +22,9 @@ class Project {
         /** @type boolean */
         this.isSetup = data.isSetup;
 
+        /** @type string[] */
+        this.listenedContracts = data.listenedContracts;
+
         /** @type boolean */
         this.setupViewed = data.setupViewed;
 
@@ -60,6 +63,9 @@ class Project {
      * @return {Project}
      */
     static buildFromResponse(response) {
+        const listenedContracts = response.contracts.filter(contract => contract.include_in_transaction_listing)
+            .map(contract => contract.address);
+
         return new Project({
             id: response.slug,
             name: response.name,
@@ -68,6 +74,7 @@ class Project {
             isSetup: !!response.last_push_at,
             setupViewed: !!response.last_push_at,
             createdAt: response.created_at,
+            listenedContracts,
         });
     }
 }
