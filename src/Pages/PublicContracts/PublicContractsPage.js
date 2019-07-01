@@ -18,6 +18,7 @@ class PublicContractsPage extends Component {
         this.state = {
             network: NetworkTypes.MAIN,
             networkPublicContracts: null,
+            fetchingPublicContracts: false,
             mostWatchedContracts: [],
         };
     }
@@ -41,9 +42,14 @@ class PublicContractsPage extends Component {
     getNetworkPublicContracts = async (network) => {
         const {actions} = this.props;
 
+        this.setState({
+            fetchingPublicContracts: true,
+        });
+
         const response = await actions.fetchPublicContracts(network, 1, 10);
 
         this.setState({
+            fetchingPublicContracts: false,
             networkPublicContracts: response.data,
         });
     };
@@ -67,7 +73,7 @@ class PublicContractsPage extends Component {
     };
 
     render() {
-        const {network, mostWatchedContracts, networkPublicContracts} = this.state;
+        const {network, mostWatchedContracts, networkPublicContracts, fetchingPublicContracts} = this.state;
 
         return (
             <Page>
@@ -97,7 +103,7 @@ class PublicContractsPage extends Component {
                         <div className="MarginBottom3">
                             <NetworkSegmentedPicker value={network} onChange={this.handleNetworkChange}/>
                         </div>
-                        {networkPublicContracts && <PublicContractList contracts={networkPublicContracts}/>}
+                        {networkPublicContracts && <PublicContractList contracts={networkPublicContracts} loading={fetchingPublicContracts}/>}
                     </div>
                 </Container>
             </Page>

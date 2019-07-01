@@ -19,6 +19,7 @@ const publicContractsTableConfiguration = [
     },
     {
         label: "Network",
+        size: 150,
         renderColumn: contract => <NetworkColumn network={contract.network}/>,
     },
     {
@@ -37,11 +38,12 @@ class PublicContractList extends Component {
     };
 
     render() {
-        const {contracts} = this.props;
+        const {contracts, loading} = this.props;
 
         return (
             <div className="PublicContractList">
-                <Table data={contracts} configuration={publicContractsTableConfiguration} onRowClick={this.handleContractClick}/>
+                <Table data={contracts} configuration={publicContractsTableConfiguration}
+                       onRowClick={this.handleContractClick} loading={loading}/>
             </div>
         )
     }
@@ -49,6 +51,7 @@ class PublicContractList extends Component {
 
 PublicContractList.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
+    loading: PropTypes.bool,
 };
 
 export default withRouter(PublicContractList);
