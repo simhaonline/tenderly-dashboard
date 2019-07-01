@@ -63,8 +63,12 @@ class Project {
      * @return {Project}
      */
     static buildFromResponse(response) {
-        const listenedContracts = response.contracts.filter(contract => contract.include_in_transaction_listing)
-            .map(contract => contract.address);
+        let listenedContracts;
+
+        if (response.contracts) {
+            listenedContracts = response.contracts.filter(contract => contract.include_in_transaction_listing)
+                .map(contract => contract.address);
+        }
 
         return new Project({
             id: response.slug,

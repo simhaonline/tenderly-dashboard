@@ -3,6 +3,7 @@
 @import "../../Common/Styles/typography";
 
 .Panel {
+  width: 100%;
   background-color: $Slate300;
   border-radius: 5px;
   box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.75);

@@ -65,6 +65,7 @@ export const createProject = (name, account = null) => {
 
             return new ActionResponse(true, project);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     };
@@ -114,17 +115,10 @@ export const createExampleProject = () => {
     };
 };
 
-/**
- * @param {string|null} [account]
- */
-export const fetchProjects = (account = null) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
-        const projectAccount = account || username;
-
+export const fetchProjects = () => {
+    return async dispatch => {
         try {
-            const {data} = await Api.get(`/account/${projectAccount}/projects`);
+            const {data} = await Api.get(`/account/me/projects`);
 
             if (!data || !data.projects || !data.projects.length) {
                 dispatch({
@@ -141,8 +135,8 @@ export const fetchProjects = (account = null) => {
                 type: FETCH_PROJECTS_ACTION,
                 projects,
             });
-        } catch (e) {
-
+        } catch (error) {
+            console.error(error);
         }
     }
 };
@@ -242,9 +236,10 @@ export const updateProject = (id, data, account = null) => {
                 project,
             });
 
-            return new ActionResponse(true, project);
+            return new SuccessActionResponse(project);
         } catch (error) {
-            return new ActionResponse(false, error);
+            console.error(error);
+            return new ErrorActionResponse(error);
         }
     }
 };

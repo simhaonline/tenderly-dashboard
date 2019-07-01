@@ -5,7 +5,7 @@ import {Link, Redirect} from "react-router-dom";
 
 import * as projectActions from '../../Core/Project/Project.actions';
 
-import {Page, Container, Card, CardHeading, Icon, Alert} from "../../Elements";
+import {Page, Container, Panel, PanelContent, PanelHeader, Icon, Alert} from "../../Elements";
 import {CreateProjectForm} from "../../Components";
 
 import './CreateProjectPage.scss';
@@ -65,17 +65,19 @@ class CreateProjectPage extends Component {
 
         return (
             <Page id="CreateProjectPage">
-                <Container className="PageContainer">
+                <Container>
                         <div className="FormWrapper">
-                            <Card>
-                                <CardHeading>
+                            <Panel>
+                                <PanelHeader>
                                     <h3>Create Project</h3>
-                                </CardHeading>
-                                {!!error && <Alert color="danger">
-                                    <span>{error.message}</span>
-                                </Alert>}
-                                <CreateProjectForm onSubmit={this.handleFormSubmit}/>
-                            </Card>
+                                </PanelHeader>
+                                <PanelContent>
+                                    {!!error && <Alert color="danger">
+                                        <span>{error.message}</span>
+                                    </Alert>}
+                                    <CreateProjectForm onSubmit={this.handleFormSubmit}/>
+                                </PanelContent>
+                            </Panel>
                             <Link to="/dashboard" className="GoBackLink">
                                 <Icon icon="arrow-left"/>
                                 <span>Go back</span>
