@@ -88,6 +88,7 @@ export {default as TransactionStatusColumn} from './TransactionStatusColumn/Tran
 export {default as TransactionMoreColumn} from './TransactionMoreColumn/TransactionMoreColumn';
 
 export {default as ContractAddressColumn} from './ContractAddressColumn/ContractAddressColumn';
+export {default as ContractNameColumn} from './ContractNameColumn/ContractNameColumn';
 export {default as ContractListeningColumn} from './ContractListeningColumn/ContractListeningColumn';
 export {default as ContractDeployedAtColumn} from './ContractDeployedAtColumn/ContractDeployedAtColumn';
 export {default as ContractFilesColumn} from './ContractFilesColumn/ContractFilesColumn';

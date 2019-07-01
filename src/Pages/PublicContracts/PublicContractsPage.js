@@ -94,7 +94,7 @@ class PublicContractsPage extends Component {
                         <h1>All Public Contracts</h1>
                     </PageHeading>
                     <div>
-                        <div>
+                        <div className="MarginBottom3">
                             <NetworkSegmentedPicker value={network} onChange={this.handleNetworkChange}/>
                         </div>
                         {networkPublicContracts && <PublicContractList contracts={networkPublicContracts}/>}
