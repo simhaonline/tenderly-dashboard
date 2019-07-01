@@ -126,7 +126,9 @@ class Table extends Component {
                                                                     className={rowClassName} metadata={metadata}/>)}
                     {!!groupBy && _.map(_.groupBy(data, groupBy), (groupData, groupByKey) => <div key={groupByKey} className="Table__Group">
                         <div className="Table__Group__Heading">
-                            {groupByKey}
+                            <TableColumn configuration={{
+                                accessor: groupBy,
+                            }} data={groupData[0]} metadata={metadata}/>
                         </div>
                         {groupData.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
                                                                  row={row} configuration={configuration}
