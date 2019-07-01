@@ -6,7 +6,7 @@ import {Contract} from "../../Core/models";
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import Table from "../../Elements/Table/Table";
-import {ContractAddressColumn, ContractListeningColumn} from "../index";
+import {ContractAddressColumn, ContractDeployedAtColumn, ContractListeningColumn, ContractFilesColumn} from "../index";
 
 import './ProjectContractList.scss';
 
@@ -16,11 +16,19 @@ const projectContractsTableConfiguration = [
         renderColumn: contract => <ContractAddressColumn address={contract.address}/>,
     },
     {
+        label: "Deployed",
+        renderColumn: contract => <ContractDeployedAtColumn contract={contract}/>,
+    },
+    {
         label: "Listening",
         accessor: "name",
         renderColumn: (contract, metadata) => <ContractListeningColumn contract={contract}
                                                                        value={metadata.listenedContracts.includes(contract.address)}
                                                                        onToggle={metadata.handleListeningToggle}/>,
+    },
+    {
+        label: "Files",
+        renderColumn: contract => <ContractFilesColumn contract={contract}/>,
     },
 ];
 
