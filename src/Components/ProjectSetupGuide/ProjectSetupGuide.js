@@ -135,7 +135,7 @@ class ProjectSetupGuide extends Component {
         });
 
         if (isValidAddress(value)) {
-            this.fetchPublicContract(value)
+            this.fetchPublicContract(value);
         } else {
             this.setState({
                 fetchedPublicContract: null,
@@ -284,6 +284,7 @@ class ProjectSetupGuide extends Component {
             });
             setTimeout(async () => {
                 await actions.fetchProject(project.id);
+                this.handleDialogClose();
             }, 1000);
 
         } else {
