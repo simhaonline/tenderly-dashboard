@@ -7,7 +7,8 @@ import {Toggle} from "../../Elements";
 
 const ContractListeningColumn = ({contract, value, onToggle}) => {
     return (
-        <div className="ContractListeningColumn">
+        <div className="DisplayFlex AlignItemsCenter">
+            <span className="MarginRight2">{value ? 'Enabled' : 'Disabled'}</span>
             <Toggle value={value} onChange={event => {event.stopPropagation(); onToggle(contract, event)}}/>
         </div>
     )

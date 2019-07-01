@@ -21,7 +21,6 @@ const projectContractsTableConfiguration = [
     },
     {
         label: "Listening",
-        accessor: "name",
         renderColumn: (contract, metadata) => <ContractListeningColumn contract={contract}
                                                                        value={metadata.listenedContracts.includes(contract.address)}
                                                                        onToggle={metadata.handleListeningToggle}/>,
