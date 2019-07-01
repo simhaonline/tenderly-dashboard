@@ -78,6 +78,9 @@ export const EntityStatusTypes = {
     ARCHIVED: 'ARCHIVED',
 };
 
+/**
+ * @enum {string}
+ */
 export const ProjectTypes = {
     PRIVATE: 'PRIVATE',
     PUBLIC: 'PUBLIC',

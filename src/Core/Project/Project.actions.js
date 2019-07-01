@@ -56,7 +56,7 @@ export const createProject = (name, account = null) => {
                 await dispatch(deleteProject(demoProject));
             }
 
-            const project = new Project(data.project);
+            const project = Project.buildFromResponse(data.project);
 
             dispatch({
                 type: CREATE_PROJECT_ACTION,
@@ -75,7 +75,7 @@ export const createProject = (name, account = null) => {
  * @return {SuccessActionResponse}
  */
 export const dispatchExampleProject = dispatch => {
-    const exampleProject = new Project(exampleProjectPayload);
+    const exampleProject = Project.buildFromResponse(exampleProjectPayload);
 
     const exampleContracts = [
         Contract.buildFromResponse(exampleContract1Payload, exampleProject.id),
@@ -135,7 +135,7 @@ export const fetchProjects = (account = null) => {
                 return;
             }
 
-            const projects = data.projects.map(project => new Project(project));
+            const projects = data.projects.map(project => Project.buildFromResponse(project));
 
             dispatch({
                 type: FETCH_PROJECTS_ACTION,
@@ -164,7 +164,7 @@ export const fetchProject = (id, account = null) => {
                 return null;
             }
 
-            const project = new Project(data);
+            const project = Project.buildFromResponse(data);
 
             dispatch({
                 type: FETCH_PROJECT_ACTION,
@@ -235,7 +235,7 @@ export const updateProject = (id, data, account = null) => {
         try {
             const {data: responseData} = await Api.post(`/account/${projectAccount}/project/${id}`, data);
 
-            const project = new Project(responseData);
+            const project = Project.buildFromResponse(responseData);
 
             dispatch({
                 type: UPDATE_PROJECT_ACTION,

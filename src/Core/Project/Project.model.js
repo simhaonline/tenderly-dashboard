@@ -2,9 +2,13 @@ import _ from 'lodash';
 import {ProjectTypes} from "../../Common/constants";
 
 class Project {
-    constructor(data) {
+    /**
+     * @param {Object} data
+     * @param {ProjectTypes} [projectType]
+     */
+    constructor(data, projectType) {
         /** @type string */
-        this.id = data.slug;
+        this.id = data.id;
 
         /** @type string */
         this.name = data.name;
@@ -13,19 +17,19 @@ class Project {
         this.slug = data.slug;
 
         /** @type Date */
-        this.lastPushAt = data.last_push_at;
+        this.lastPushAt = data.lastPushAt;
 
         /** @type boolean */
-        this.isSetup = !!data.last_push_at;
+        this.isSetup = data.isSetup;
 
         /** @type boolean */
-        this.setupViewed = !!data.last_push_at;
+        this.setupViewed = data.setupViewed;
 
         /** @type Date */
-        this.createdAt = data.created_at;
+        this.createdAt = data.createdAt;
 
         /** @type string */
-        this.type = data.type || ProjectTypes.PRIVATE;
+        this.type = projectType || ProjectTypes.PRIVATE;
     }
 
     /**
@@ -49,6 +53,22 @@ class Project {
         Object.assign(newProject, this, updateProperties);
 
         return newProject;
+    }
+
+    /**
+     * @param {Object} response
+     * @return {Project}
+     */
+    static buildFromResponse(response) {
+        return new Project({
+            id: response.slug,
+            name: response.name,
+            slug: response.slug,
+            lastPushAt: response.last_push_at,
+            isSetup: !!response.last_push_at,
+            setupViewed: !!response.last_push_at,
+            createdAt: response.created_at,
+        });
     }
 }
 
