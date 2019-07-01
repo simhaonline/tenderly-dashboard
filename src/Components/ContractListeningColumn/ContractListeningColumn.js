@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 
 import {Contract} from "../../Core/models";
 
+import {Toggle} from "../../Elements";
 
-const ContractListeningColumn = ({contract, onToggle}) => {
-    console.log(contract);
+const ContractListeningColumn = ({contract, value, onToggle}) => {
     return (
         <div className="ContractListeningColumn">
-            <div onClick={event => {event.stopPropagation(); onToggle(contract, event)}}>
-                {contract.name}
-            </div>
+            <Toggle value={value} onChange={event => {event.stopPropagation(); onToggle(contract, event)}}/>
         </div>
     )
 };

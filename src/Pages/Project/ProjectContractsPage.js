@@ -37,7 +37,7 @@ class ProjectContractsPage extends Component {
                         </div>}
                     </PageHeading>
                     {projectIsSetup && <Fragment>
-                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts}/>}
+                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} listenedContracts={project.listenedContracts}/>}
                         {contractsLoaded && !contracts.length && <div>No contracts</div>}
                         {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
                     </Fragment>}

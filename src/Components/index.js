@@ -35,7 +35,6 @@ export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigatio
 export {default as ProjectPicker} from './ProjectPicker/ProjectPicker';
 export {default as ProjectSidebar} from './ProjectSidebar/ProjectSidebar';
 export {default as ProjectContractList} from './ProjectContractList/ProjectContractList';
-export {default as ProjectContract} from './ProjectContract/ProjectContract';
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
 export {default as ProjectAnalyticsGraph} from './ProjectAnalyticsGraph/ProjectAnalyticsGraph';
 export {default as ProjectTransactionAnalytics} from './ProjectTransactionAnalytics/ProjectTransactionAnalytics';
