@@ -8,6 +8,12 @@
   margin-right: $Spacing6;
 
   .SwitchOption {
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+
+  .SwitchOption__Card {
     transition: 0.2s;
     cursor: pointer;
     display: flex;
@@ -36,19 +42,15 @@
       border-bottom-right-radius: 5px;
       transition: 0.2s;
     }
+  }
 
-    &.Active {
-      &:before {
-        left: 0;
-      }
-
-      .SwitchIcon {
-        opacity: 1;
-      }
+  .SwitchOption__Card--Active {
+    &:before {
+      left: 0;
     }
 
-    &:not(:last-child) {
-      margin-bottom: 10px;
+    .SwitchIcon {
+      opacity: 1;
     }
   }
 

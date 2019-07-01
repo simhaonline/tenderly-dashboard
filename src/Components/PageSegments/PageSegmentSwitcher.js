@@ -8,17 +8,19 @@ import './PageSegmentSwitcher.scss';
 
 const PageSegmentSwitcherOption = ({option, onSelect, active}) => {
     return (
-        <Card className={classNames(
-            "SwitchOption",
-            {
-                "Active": active,
-            },
-        )} onClick={() => {onSelect(option.value)}}>
-            <div className="SwitchLabel">{option.label}</div>
-            <div className="SwitchIconWrapper">
-                <Icon icon="chevron-right" className="SwitchIcon"/>
-            </div>
-        </Card>
+        <div className="SwitchOption">
+            <Card className={classNames(
+                "SwitchOption__Card",
+                {
+                    "SwitchOption__Card--Active": active,
+                },
+            )} onClick={() => {onSelect(option.value)}}>
+                <div className="SwitchLabel">{option.label}</div>
+                <div className="SwitchIconWrapper">
+                    <Icon icon="chevron-right" className="SwitchIcon"/>
+                </div>
+            </Card>
+        </div>
     );
 };
 
