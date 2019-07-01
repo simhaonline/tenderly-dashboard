@@ -89,3 +89,4 @@ export {default as TransactionStatusColumn} from './TransactionStatusColumn/Tran
 export {default as TransactionMoreColumn} from './TransactionMoreColumn/TransactionMoreColumn';
 
 export {default as ContractAddressColumn} from './ContractAddressColumn/ContractAddressColumn';
+export {default as ContractListeningColumn} from './ContractListeningColumn/ContractListeningColumn';
