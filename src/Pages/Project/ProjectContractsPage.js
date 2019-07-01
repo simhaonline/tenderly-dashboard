@@ -21,6 +21,15 @@ class ProjectContractsPage extends Component {
         }
     }
 
+    /**
+     * @param {Contract} contract
+     */
+    handleContractListeningToggle = (contract) => {
+        const {actions} = this.props;
+
+        actions.toggleContractListening(contract.projectId, contract.address, contract.network);
+    };
+
     render() {
         const {project, contracts, contractsLoaded} = this.props;
 
@@ -37,7 +46,7 @@ class ProjectContractsPage extends Component {
                         </div>}
                     </PageHeading>
                     {projectIsSetup && <Fragment>
-                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} listenedContracts={project.listenedContracts}/>}
+                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} listenedContracts={project.listenedContracts} onListenToggle={this.handleContractListeningToggle}/>}
                         {contractsLoaded && !contracts.length && <div>No contracts</div>}
                         {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
                     </Fragment>}

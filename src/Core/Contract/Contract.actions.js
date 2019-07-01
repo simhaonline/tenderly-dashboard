@@ -5,19 +5,15 @@ import {NetworkAppToApiTypeMap} from "../../Common/constants";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
+export const TOGGLE_CONTRACT_LISTENING_ACTION = 'TOGGLE_CONTRACT_LISTENING';
 
 /**
  * @param {string} projectId
- * @param {string|null} [account]
  */
-export const fetchContractsForProject = (projectId, account = null) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
-        const projectAccount = account || username;
-
+export const fetchContractsForProject = (projectId) => {
+    return async dispatch => {
         try {
-            const {data} = await Api.get(`/account/${projectAccount}/project/${projectId}/contracts`);
+            const {data} = await Api.get(`/account/me/project/${projectId}/contracts`);
 
             if (!data) {
                 // @TODO Return an ErrorActionResponse here.
@@ -45,17 +41,15 @@ export const fetchContractsForProject = (projectId, account = null) => {
 /**
  *
  * @param {string} projectId
- * @param {string} contactAddress
+ * @param {string} contractAddress
  * @param {NetworkTypes} network
  */
-export const fetchContractForProject = (projectId, contactAddress, network) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
+export const fetchContractForProject = (projectId, contractAddress, network) => {
+    return async dispatch => {
         try {
             const apiNetworkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/account/${username}/project/${projectId}/contract/${apiNetworkId}/${contactAddress}`);
+            const {data} = await Api.get(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}`);
 
             if (!data) {
                 return new ErrorActionResponse();
@@ -70,6 +64,38 @@ export const fetchContractForProject = (projectId, contactAddress, network) => {
             });
 
             return new SuccessActionResponse(contract);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ *
+ * @param {string} projectId
+ * @param {string} contractAddress
+ * @param {NetworkTypes} network
+ */
+export const toggleContractListening = (projectId, contractAddress, network) => {
+    return async dispatch => {
+        try {
+            const apiNetworkId = NetworkAppToApiTypeMap[network];
+
+            const {data} = await Api.post(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}/toggle`);
+
+            if (!data || !data.success) {
+                return new ErrorActionResponse();
+            }
+
+            dispatch({
+                type: TOGGLE_CONTRACT_LISTENING_ACTION,
+                projectId,
+                contract: contractAddress,
+                network,
+            });
+
+            return new SuccessActionResponse();
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);

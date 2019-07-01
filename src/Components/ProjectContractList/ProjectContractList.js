@@ -33,7 +33,11 @@ class ProjectContractList extends Component{
      * @param {Contract} contract
      */
     handleListeningToggle = (contract) => {
-        console.log('toglg', contract);
+        const {onListenToggle} = this.props;
+
+        if (onListenToggle) {
+            onListenToggle(contract);
+        }
     };
 
     handleContractClick = (contract) => {
@@ -62,6 +66,7 @@ class ProjectContractList extends Component{
 ProjectContractList.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
     listenedContracts: PropTypes.arrayOf(PropTypes.string),
+    onListenToggle: PropTypes.func,
 };
 
 ProjectContractList.defaultProps = {

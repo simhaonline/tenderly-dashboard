@@ -49,7 +49,7 @@ class Project {
      * @return {Project}
      */
     update(project) {
-        const updateProperties = _.pick(project, ['name', 'lastPushAt', 'isSetup']);
+        const updateProperties = _.pick(project, ['name', 'lastPushAt', 'isSetup', 'listenedContracts']);
 
         const newProject = new Project({});
 
