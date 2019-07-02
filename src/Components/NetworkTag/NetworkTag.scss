@@ -11,19 +11,19 @@
   text-align: center;
 
   &.main {
-    background-color: transparentize($Primary500, 0.25);
+    background-color: transparentize($Primary500, 0.2);
   }
 
   &.kovan {
-    background-color: transparentize($Secondary500, 0.4);
+    background-color: transparentize($Secondary500, 0.2);
   }
 
   &.ropsten {
-    background-color: transparentize($Danger500, 0.4);
+    background-color: transparentize($Danger500, 0.2);
   }
 
   &.rinkeby {
-    background-color: transparentize($Success500, 0.25);
+    background-color: transparentize($Success500, 0.2);
   }
 
   &.Small {
