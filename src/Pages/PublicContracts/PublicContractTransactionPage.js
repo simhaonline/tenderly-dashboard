@@ -76,7 +76,7 @@ class PublicContractTransactionPage extends Component {
                             <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
                                 <Button size="small" outline>
                                     <Icon icon="globe"/>
-                                    <span>View in Explorer</span>
+                                    <span className="HideMobile">View in Explorer</span>
                                 </Button>
                             </EtherscanLink>
                         </div>

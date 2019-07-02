@@ -13,7 +13,7 @@ const SharePageButton = () => {
         })}>
             <Button className="SharePageButton" size="small" outline color="secondary">
                 <Icon icon="share-2"/>
-                <span>Share</span>
+                <span className="HideMobile">Share</span>
             </Button>
         </CopyToClipboard>
     )

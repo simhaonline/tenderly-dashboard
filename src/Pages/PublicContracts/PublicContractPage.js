@@ -125,8 +125,8 @@ class PublicContractPage extends Component {
                                 <Button outline={!isContractWatched} size="small" color="secondary"
                                         onClick={this.toggleWatchedContract} disabled={actionInProgress || !watchedContractsLoaded}>
                                     <Icon icon="star"/>
-                                    {!isContractWatched && <span>Watch</span>}
-                                    {isContractWatched && <span>Unwatch</span>}
+                                    {!isContractWatched && <span className="HideMobile">Watch</span>}
+                                    {isContractWatched && <span className="HideMobile">Unwatch</span>}
                                 </Button>
                                 <Button size="small" color="secondary" readOnly>
                                     <span>{contract.watchCount}</span>
@@ -136,7 +136,7 @@ class PublicContractPage extends Component {
                             <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
                                 <Button size="small" outline>
                                     <Icon icon="globe"/>
-                                    <span>View in Explorer</span>
+                                    <span className="HideMobile">View in Explorer</span>
                                 </Button>
                             </EtherscanLink>
                         </div>
