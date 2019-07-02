@@ -60,6 +60,7 @@ $StackLineHeight: 1.375rem;
     line-height: $StackLineHeight;
     margin: 0;
     font-family: $MonospaceFontFamily;
+    overflow-y: auto;
 
     &::selection, & *::selection {
       background-color: transparentize($Primary500, 0.6);
