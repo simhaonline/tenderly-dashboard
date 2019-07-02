@@ -51,13 +51,13 @@ class Contract {
         this.mainFile = data.mainFile;
 
         /** @type Date */
-        this.lastEventAt = data.lastEventAt ? moment(this.lastEventAt) : null;
+        this.lastEventAt = data.lastEventAt ? moment(data.lastEventAt) : null;
 
         /** @type Date */
-        this.createdAt = data.createdAt ? moment(this.createdAt) : null;
+        this.createdAt = data.createdAt ? moment(data.createdAt) : null;
 
         /** @type Date */
-        this.verifiedAt = data.verifiedAt ? moment(this.verifiedAt) : null;
+        this.verifiedAt = data.verifiedAt ? moment(data.verifiedAt) : null;
     }
 
     /**
