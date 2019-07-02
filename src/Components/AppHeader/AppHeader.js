@@ -9,7 +9,8 @@ import Navigation from "../Navigation/Navigation";
 import SessionHeaderMenu from "../SessionHeaderMenu/SessionHeaderMenu";
 import HeaderMessage from "../HeaderMessage/HeaderMessage";
 
-import LogoImage from './logo-horizontal.svg';
+import LogoHorizontal from './logo-horizontal.svg';
+import LogoSymbol from './logo-symbol.svg';
 
 import './AppHeader.scss';
 
@@ -32,7 +33,8 @@ class AppHeader extends Component {
                 {decodedToken.impersonate && <HeaderMessage color="purple" message="Impersonating Mode"/>}
                 <Header id="AppHeader">
                     <Link to="/" className="LogoWrapper">
-                        <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
+                        <img className="AppLogo" src={LogoHorizontal} alt="Tenderly Logo"/>
+                        <img className="AppSymbol" src={LogoSymbol} alt="Tenderly Logo"/>
                         <span className="AppState">BETA</span>
                     </Link>
                     <div className="NavWrapper">
