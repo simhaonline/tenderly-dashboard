@@ -79,7 +79,9 @@ const TransactionHeader = ({transaction, contracts}) => {
                     <div>
                         <div className="MutedText CallerLabel">Contract Address:</div>
                         {!!contract && <Link to={contractLink}>{contract.name} ({transaction.to})</Link>}
-                        {!contract && <div>{transaction.to}</div>}
+                        {!contract && <div>
+                            <CopyableText text={transaction.to} position="right" onSuccessMessage="Copied contract address to clipboard"/>
+                        </div>}
                     </div>
                 </div>
             </PanelContent>
