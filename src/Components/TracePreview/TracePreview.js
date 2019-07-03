@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {Icon, Card} from '../../Elements';
+import {Icon} from '../../Elements';
 import CodePreview from "../CodePreview/CodePreview";
 
 import './TracePreview.scss';
@@ -95,26 +95,6 @@ class TracePreview extends Component {
                 {open && <div className="TracePreviewCodeWrapper">
                     {!!file && <CodePreview line={trace.lineNumber} linePreview={5} file={file} isExpandable/>}
                     {!file && <span>No source for this contract exists</span>}
-                    {!!file && (trace.inputVariables || trace.outputVariables) && <Card className="TraceInputs">
-                        {trace.inputVariables && <div className="MarginBottom2">
-                            <div className="SemiBoldText MarginBottom1">Input</div>
-                            {trace.inputVariables.map((variable, index) => (
-                                <div key={index} className="InputVariable MarginBottom1">
-                                    <span className="VariableName">{variable.name}</span>
-                                    <span className="VariableValue">{variable.value}</span>
-                                </div>
-                            ))}
-                        </div>}
-                        {trace.outputVariables && <div>
-                            <div className="SemiBoldText MarginBottom1">Output</div>
-                            {trace.outputVariables.map((variable, index) => (
-                                <div key={index} className="InputVariable MarginBottom1">
-                                    <span className="VariableName">{variable.name}</span>
-                                    <span className="VariableValue">{variable.value}</span>
-                                </div>
-                            ))}
-                        </div>}
-                    </Card>}
                 </div>}
                 {!collapsed && !!trace.calls && trace.calls.map((trace, index) =>
                     <TracePreview trace={trace} key={index} depth={depth + 1} contracts={contracts} focused={focused} onFocusChange={onFocusChange}/>
