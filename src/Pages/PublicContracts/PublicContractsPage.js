@@ -20,14 +20,14 @@ class PublicContractsPage extends Component {
             networkPublicContracts: null,
             fetchingPublicContracts: false,
             mostWatchedContracts: [],
+            page: 1,
         };
     }
 
     async componentDidMount() {
         const {actions} = this.props;
-        const {network} = this.state;
 
-        this.getNetworkPublicContracts(network);
+        this.getNetworkPublicContracts();
 
         const mostWatchedResponse = await actions.fetchMostWatchedContracts();
 
@@ -36,21 +36,27 @@ class PublicContractsPage extends Component {
         });
     }
 
-    /**
-     * @param {string} network
-     */
-    getNetworkPublicContracts = async (network) => {
+    getNetworkPublicContracts = async () => {
+        const {page, network} = this.state;
         const {actions} = this.props;
 
         this.setState({
             fetchingPublicContracts: true,
         });
 
-        const response = await actions.fetchPublicContracts(network, 1, 10);
+        const response = await actions.fetchPublicContracts(network, page, 10);
 
         this.setState({
             fetchingPublicContracts: false,
             networkPublicContracts: response.data,
+        });
+    };
+
+    handlePageChange = (nextPage) => {
+        this.setState({
+            page: nextPage,
+        }, () => {
+            this.getNetworkPublicContracts();
         });
     };
 
@@ -67,13 +73,14 @@ class PublicContractsPage extends Component {
     handleNetworkChange = (network) => {
         this.setState({
             network,
+            page: 1,
+        }, () => {
+            this.getNetworkPublicContracts(network);
         });
-
-        this.getNetworkPublicContracts(network);
     };
 
     render() {
-        const {network, mostWatchedContracts, networkPublicContracts, fetchingPublicContracts} = this.state;
+        const {network, mostWatchedContracts, networkPublicContracts, fetchingPublicContracts, page} = this.state;
 
         return (
             <Page>
@@ -103,7 +110,9 @@ class PublicContractsPage extends Component {
                         <div className="MarginBottom3">
                             <NetworkSegmentedPicker value={network} onChange={this.handleNetworkChange}/>
                         </div>
-                        {networkPublicContracts && <PublicContractList contracts={networkPublicContracts} loading={fetchingPublicContracts}/>}
+                        {networkPublicContracts && <PublicContractList contracts={networkPublicContracts}
+                                                                       page={page} onPageChange={this.handlePageChange}
+                                                                       loading={fetchingPublicContracts}/>}
                     </div>
                 </Container>
             </Page>

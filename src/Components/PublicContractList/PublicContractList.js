@@ -40,11 +40,12 @@ class PublicContractList extends Component {
     };
 
     render() {
-        const {contracts, loading} = this.props;
+        const {contracts, loading, page, onPageChange} = this.props;
 
         return (
             <div className="PublicContractList">
-                <Table data={contracts} configuration={publicContractsTableConfiguration}
+                <Table data={contracts} configuration={publicContractsTableConfiguration} keyAccessor="address"
+                       currentPage={page} onPageChange={onPageChange}
                        onRowClick={this.handleContractClick} loading={loading}/>
             </div>
         )
@@ -54,6 +55,8 @@ class PublicContractList extends Component {
 PublicContractList.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
     loading: PropTypes.bool,
+    page: PropTypes.number,
+    onPageChange: PropTypes.func,
 };
 
 export default withRouter(PublicContractList);
