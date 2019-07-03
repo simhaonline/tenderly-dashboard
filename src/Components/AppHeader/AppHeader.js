@@ -4,8 +4,7 @@ import {Link, withRouter} from "react-router-dom";
 import jwt from 'jsonwebtoken';
 
 import {Header} from "../../Elements";
-
-import Navigation from "../Navigation/Navigation";
+import {Navigation} from "../index";
 import SessionHeaderMenu from "../SessionHeaderMenu/SessionHeaderMenu";
 import HeaderMessage from "../HeaderMessage/HeaderMessage";
 

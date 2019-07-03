@@ -1,20 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {PanelHeader, PanelContent, Panel, PanelTabs} from "../../Elements";
+import {FeatureFlagTypes} from "../../Common/constants";
 
-import {CallTracePreview, StackTracePreview} from "../index";
-
-const EXECUTION_TABS = [
-    {
-        label: "Stack Trace",
-        value: 'stack_trace',
-    },
-    {
-        label: "Call Trace",
-        value: 'call_trace',
-    },
-];
+import {PanelContent, Panel, PanelTabs} from "../../Elements";
+import {CallTracePreview, StackTracePreview, TraceInspector} from "../index";
 
 class TransactionExecution extends Component {
     constructor(props) {
@@ -22,8 +12,28 @@ class TransactionExecution extends Component {
 
         const {transaction} = props;
 
+        const tabs = [
+            {
+                label: "Call Trace",
+                value: 'call_trace',
+            },
+            {
+                label: "Inspector",
+                value: 'inspector',
+                featureFlag: FeatureFlagTypes.DEBUGGER,
+            },
+        ];
+
+        if (!transaction.status) {
+            tabs.unshift({
+                label: "Stack Trace",
+                value: 'stack_trace',
+            });
+        }
+
         this.state = {
             currentTab: transaction.status ? 'call_trace' : 'stack_trace',
+            tabs,
         };
     }
 
@@ -34,18 +44,16 @@ class TransactionExecution extends Component {
     };
 
     render() {
-        const {transaction, callTrace, stackTrace, contracts} = this.props;
-        const {currentTab} = this.state;
+        const {callTrace, stackTrace, contracts} = this.props;
+        const {currentTab, tabs} = this.state;
 
         return (
             <Panel className="TransactionExecution">
-                {transaction.status && <PanelHeader>
-                    <h3>Call Trace</h3>
-                </PanelHeader>}
-                {!transaction.status && <PanelTabs tabs={EXECUTION_TABS} active={currentTab} onChange={this.handleTabChange}/>}
+                <PanelTabs tabs={tabs} active={currentTab} onChange={this.handleTabChange}/>
                 <PanelContent>
-                    {currentTab === 'call_trace' && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
                     {currentTab === 'stack_trace' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
+                    {currentTab === 'call_trace' && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
+                    {currentTab === 'inspector' && <TraceInspector callTrace={callTrace} stackTrace={stackTrace} contracts={contracts}/>}
                 </PanelContent>
             </Panel>
         );
