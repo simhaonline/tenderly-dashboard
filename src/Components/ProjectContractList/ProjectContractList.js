@@ -6,7 +6,13 @@ import {Contract} from "../../Core/models";
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import Table from "../../Elements/Table/Table";
-import {ContractAddressColumn, ContractDeployedAtColumn, ContractListeningColumn, ContractFilesColumn} from "../index";
+import {
+    ContractAddressColumn,
+    ContractDeployedAtColumn,
+    ContractListeningColumn,
+    ContractFilesColumn,
+    NetworkColumn
+} from "../index";
 
 import './ProjectContractList.scss';
 
@@ -31,7 +37,20 @@ const projectContractsTableConfiguration = [
 ];
 
 const groupingConfiguration = [
-    {},
+    {
+        renderColumn: groupData => <div>
+            <span className="SemiBoldText">{groupData[0].name}</span>
+        </div>,
+    },
+    {
+        renderColumn: groupData => <NetworkColumn network={groupData[0].network}/>,
+    },
+    {
+        renderColumn: () => <div/>,
+    },
+    {
+        renderColumn: groupData => <div>{groupData.length} Revisions</div>,
+    },
 ];
 
 class ProjectContractList extends Component{
@@ -60,7 +79,7 @@ class ProjectContractList extends Component{
         return (
             <div className="ProjectContractList">
                 <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
-                       groupBy="name" groupingConfiguration={groupingConfiguration} metadata={{
+                       groupBy={(contract) => `${contract.network}:${contract.name}`} groupingConfiguration={groupingConfiguration} metadata={{
                     handleListeningToggle: this.handleListeningToggle,
                 }} onRowClick={this.handleContractClick}/>
             </div>

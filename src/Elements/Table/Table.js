@@ -8,24 +8,21 @@ import {SimpleLoader} from "../../Components";
 
 import './Table.scss';
 
-class TableColumn extends Component {
-    render() {
-        const {configuration, data, metadata} = this.props;
-
-        return (
-            <div className={classNames(
-                "Table__Column",
-                "Table__Column--Body",
-                configuration.className,
-            )} style={{
-                flex: configuration.size ? `0 0 ${configuration.size}px` : undefined,
-            }}>
-                {!!configuration.renderColumn && configuration.renderColumn(data, metadata)}
-                {!configuration.renderColumn && data[configuration.accessor]}
-            </div>
-        )
-    }
-}
+const TableColumn = ({configuration = {}, value, data, metadata}) => {
+    return (
+        <div className={classNames(
+            "Table__Column",
+            "Table__Column--Body",
+            configuration.className,
+        )} style={{
+            flex: configuration.size ? `0 0 ${configuration.size}px` : undefined,
+        }}>
+            {!!value && <span>{value}</span>}
+            {!value && !!configuration.renderColumn && configuration.renderColumn(data, metadata)}
+            {!value && !configuration.renderColumn && <span>{data[configuration.accessor]}</span>}
+        </div>
+    );
+};
 
 const TableRow = ({className, onClick, clickable = false, row, index, configuration, metadata}) => {
     return (
@@ -89,7 +86,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy} = this.props;
+        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy, groupingConfiguration} = this.props;
 
         return (
             <Panel className={classNames(
@@ -126,9 +123,8 @@ class Table extends Component {
                                                                     className={rowClassName} metadata={metadata}/>)}
                     {!!groupBy && _.map(_.groupBy(data, groupBy), (groupData, groupByKey) => <div key={groupByKey} className="Table__Group">
                         <div className="Table__Group__Heading">
-                            <TableColumn configuration={{
-                                accessor: groupBy,
-                            }} data={groupData[0]} metadata={metadata}/>
+                            {!groupingConfiguration && <TableColumn value={groupByKey}/>}
+                            {!!groupingConfiguration && groupingConfiguration.map((groupConf, index) => <TableColumn key={index} configuration={groupConf} data={groupData}/>)}
                         </div>
                         {groupData.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
                                                                  row={row} configuration={configuration}
