@@ -8,7 +8,7 @@ const ContractNameColumn = ({contract}) => {
     return (
         <div className="ContractNameColumn">
             <span className="SemiBoldText">{contract.name}</span>
-            <div className="DisplayMobile LinkText MonospaceFont">{generateShortAddress(contract.address, 8, 4)}</div>
+            <div className="DisplayMobile LinkText MonospaceFont">{generateShortAddress(contract.address, 12, 4)}</div>
         </div>
     )
 };
