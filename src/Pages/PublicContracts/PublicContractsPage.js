@@ -44,7 +44,7 @@ class PublicContractsPage extends Component {
             fetchingPublicContracts: true,
         });
 
-        const response = await actions.fetchPublicContracts(network, page, 10);
+        const response = await actions.fetchPublicContracts(network, page, 20);
 
         this.setState({
             fetchingPublicContracts: false,
