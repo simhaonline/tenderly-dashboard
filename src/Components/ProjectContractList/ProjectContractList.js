@@ -22,8 +22,7 @@ const projectContractsTableConfiguration = [
     {
         label: "Listening",
         renderColumn: (contract, metadata) => <ContractListeningColumn contract={contract}
-                                                                       value={metadata.listenedContracts.includes(contract.address)}
-                                                                       onToggle={metadata.handleListeningToggle}/>,
+                                                           onToggle={metadata.handleListeningToggle}/>,
     },
     {
         label: "Files",
@@ -56,14 +55,13 @@ class ProjectContractList extends Component{
     };
 
     render() {
-        const {contracts, listenedContracts} = this.props;
+        const {contracts} = this.props;
 
         return (
             <div className="ProjectContractList">
                 <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
                        groupBy="name" groupingConfiguration={groupingConfiguration} metadata={{
                     handleListeningToggle: this.handleListeningToggle,
-                    listenedContracts,
                 }} onRowClick={this.handleContractClick}/>
             </div>
         )
@@ -72,12 +70,7 @@ class ProjectContractList extends Component{
 
 ProjectContractList.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
-    listenedContracts: PropTypes.arrayOf(PropTypes.string),
     onListenToggle: PropTypes.func,
-};
-
-ProjectContractList.defaultProps = {
-    listenedContracts: [],
 };
 
 export default withRouter(ProjectContractList);

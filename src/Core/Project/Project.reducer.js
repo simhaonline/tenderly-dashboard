@@ -6,7 +6,7 @@ import {
     FETCH_PROJECTS_ACTION, UPDATE_PROJECT_ACTION
 } from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
-import {FETCH_CONTRACTS_FOR_PROJECT_ACTION, TOGGLE_CONTRACT_LISTENING_ACTION} from "../Contract/Contract.actions";
+import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "../Contract/Contract.actions";
 
 import {EntityStatusTypes} from "../../Common/constants";
 
@@ -15,33 +15,6 @@ const initialState = {
     contractsStatus: {},
     projectsLoaded: false,
 };
-
-function toggleContractListeningActionHandler(action, state) {
-    const existingProject = state.projects[action.projectId];
-
-    let listenedContracts;
-
-    if (existingProject.listenedContracts.includes(action.contract)) {
-        listenedContracts = existingProject.listenedContracts.filter(contract => contract !== action.contract);
-    } else {
-        listenedContracts = [
-            ...existingProject.listenedContracts,
-            action.contract
-        ];
-    }
-
-    const updatedProject = existingProject.update({
-        listenedContracts,
-    });
-
-    return {
-        ...state,
-        projects: {
-            ...state.projects,
-            [action.projectId]: updatedProject,
-        },
-    };
-}
 
 const ProjectReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -164,8 +137,6 @@ const ProjectReducer = (state = initialState, action) => {
                     [action.project.id]: updatedProject,
                 },
             };
-        case TOGGLE_CONTRACT_LISTENING_ACTION:
-            return toggleContractListeningActionHandler(action, state);
         default:
             return state;
     }

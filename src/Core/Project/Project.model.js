@@ -22,9 +22,6 @@ class Project {
         /** @type boolean */
         this.isSetup = data.isSetup;
 
-        /** @type string[] */
-        this.listenedContracts = data.listenedContracts;
-
         /** @type boolean */
         this.setupViewed = data.setupViewed;
 
@@ -49,7 +46,7 @@ class Project {
      * @return {Project}
      */
     update(project) {
-        const updateProperties = _.pick(project, ['name', 'lastPushAt', 'isSetup', 'listenedContracts']);
+        const updateProperties = _.pick(project, ['name', 'lastPushAt', 'isSetup']);
 
         const newProject = new Project({});
 
@@ -63,13 +60,6 @@ class Project {
      * @return {Project}
      */
     static buildFromResponse(response) {
-        let listenedContracts;
-
-        if (response.contracts) {
-            listenedContracts = response.contracts.filter(contract => contract.include_in_transaction_listing)
-                .map(contract => contract.address);
-        }
-
         return new Project({
             id: response.slug,
             name: response.name,
@@ -78,7 +68,6 @@ class Project {
             isSetup: !!response.last_push_at,
             setupViewed: !!response.last_push_at,
             createdAt: response.created_at,
-            listenedContracts,
         });
     }
 }

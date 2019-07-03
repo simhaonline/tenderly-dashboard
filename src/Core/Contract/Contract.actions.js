@@ -20,7 +20,10 @@ export const fetchContractsForProject = (projectId) => {
                 return null;
             }
 
-            const contracts = data.map(contract => Contract.buildFromResponse(contract, projectId));
+            const contracts = data.map(contract => Contract.buildFromResponse(contract.contract, {
+                id: projectId,
+                listening: contract.include_in_transaction_listing,
+            }));
 
             await dispatch({
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
@@ -55,7 +58,10 @@ export const fetchContractForProject = (projectId, contractAddress, network) => 
                 return new ErrorActionResponse();
             }
 
-            const contract = Contract.buildFromResponse(data, projectId);
+            const contract = Contract.buildFromResponse(data, {
+                id: projectId,
+                listening: data.include_in_transaction_listing,
+            });
 
             await dispatch({
                 type: FETCH_CONTRACT_FOR_PROJECT_ACTION,

@@ -7,17 +7,22 @@ import ContractFile from "./ContractFile.model";
 class Contract {
     /**
      * @param {Object} data
-     * @param {string} [projectId]
+     * @param {object} [projectData]
      */
-    constructor(data, projectId) {
+    constructor(data, projectData) {
         /** @type string */
         this.id = data.address;
 
-        /** @type string */
-        this.projectId = projectId;
+        if (projectData) {
+            /** @type string */
+            this.projectId = projectData.id;
+
+            /** @type boolean */
+            this.listening = projectData.listening;
+        }
 
         /** @type boolean */
-        this.isPublic = !projectId;
+        this.isPublic = !projectData;
 
         /** @type boolean */
         this.isVerifiedPublic = !!data.isPublic;
@@ -119,10 +124,10 @@ class Contract {
 
     /**
      * @param {Object} data
-     * @param {string} [projectId]
+     * @param {Object} [projectData]
      * @return {Contract}
      */
-    static buildFromResponse(data, projectId) {
+    static buildFromResponse(data, projectData) {
         let files = [];
         let mainFile;
 
@@ -148,7 +153,7 @@ class Contract {
             verifiedAt: data.verification_date,
             files,
             mainFile,
-        }, projectId);
+        }, projectData);
     }
 }
 
