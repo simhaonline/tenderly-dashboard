@@ -1,15 +1,25 @@
 {
   "short_name": "Tenderly",
-  "name": "Smart Contract error tracking, analytics and performance metrics.",
+  "name": "Tenderly Dashobard",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "android-chrome-394x394.png",
+      "sizes": "394x394",
+      "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "./dashboard",
   "display": "standalone",
-  "theme_color": "#ffffff",
-  "background_color": "#171e31"
+  "theme_color": "#0B1C30",
+  "background_color": "#0B1C30"
 }
