@@ -15,15 +15,17 @@ const publicContractsTableConfiguration = [
     },
     {
         label: "Address",
+        className: "HideMobile",
         renderColumn: contract => <ContractAddressColumn address={contract.address}/>,
     },
     {
         label: "Network",
-        size: 150,
+        size: 120,
         renderColumn: contract => <NetworkColumn network={contract.network}/>,
     },
     {
         label: "Deployed",
+        className: "HideMobile",
         renderColumn: contract => <ContractDeployedAtColumn contract={contract}/>,
     },
 ];

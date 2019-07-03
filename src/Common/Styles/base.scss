@@ -1,3 +1,5 @@
+@import "../common";
+
 .App {
   display: flex;
   flex-direction: column;
@@ -19,12 +21,28 @@
   opacity: 0.65;
 }
 
+.LinkText {
+  color: $LinkColor;
+}
+
+.MonospaceFont {
+  font-family: $MonospaceFontFamily;
+}
+
 .TextAlignRight {
   text-align: right;
 }
 
 .DisplayFlex {
   display: flex;
+}
+
+.OverflowHidden {
+  overflow: hidden;
+}
+
+.OverflowYScroll {
+  overflow-y: auto;
 }
 
 .DisplayInlineFlex {
@@ -125,7 +143,7 @@
   display: none;
 
   @media (max-width: 760px) {
-    display: initial;
+    display: inherit;
   }
 }
 

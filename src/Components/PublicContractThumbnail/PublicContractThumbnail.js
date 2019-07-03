@@ -24,7 +24,7 @@ const PublicContractThumbnail = ({contract, displayWatchCount}) => {
                     <div className="PublicContractThumbnail__Info">
                         <h5 className="PublicContractThumbnail__Name">{contract.name}</h5>
                         <div className="PublicContractThumbnail__Address">
-                            {generateShortAddress(contract.address, 10, 6)}
+                            {generateShortAddress(contract.address, 9, 6)}
                         </div>
                     </div>
                 </div>

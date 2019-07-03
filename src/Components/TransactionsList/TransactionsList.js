@@ -19,6 +19,7 @@ const transactionTableConf = [
     },
     {
         label: 'Contracts',
+        className: "HideMobile",
         renderColumn: (tx, metadata) => <TransactionContractsColumn transaction={tx} contracts={metadata.contracts}/>,
     },
     {
@@ -28,10 +29,11 @@ const transactionTableConf = [
     },
     {
         label: "When",
+        className: "HideMobile",
         renderColumn: tx => <TimeAgoColumn timestamp={tx.timestamp}/>,
     },
     {
-        className: "TransactionMoreColumn",
+        className: "TransactionMoreColumn HideMobile",
         renderColumn: tx => <TransactionMoreColumn transaction={tx}/>,
     },
 ];
@@ -55,6 +57,8 @@ class TransactionsList extends Component {
 
     render() {
         const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading} = this.props;
+
+        console.log(contracts);
 
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
