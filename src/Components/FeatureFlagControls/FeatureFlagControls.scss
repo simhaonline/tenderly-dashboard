@@ -78,4 +78,22 @@ $FeatureFlagToggleButtonSize: 46px;
       flex: 0 0 auto;
     }
   }
+
+  @media (max-width: 760px) {
+    left: initial;
+    right: 20px;
+    bottom: 80px;
+
+    .FlagControlsWrapper {
+      left: initial;
+      right: 0;
+
+      &.Open {
+        left: initial;
+        right: -10px;
+        border-radius: 6px;
+        border-bottom-right-radius: $FeatureFlagToggleButtonSize / 2 + 10px;
+      }
+    }
+  }
 }

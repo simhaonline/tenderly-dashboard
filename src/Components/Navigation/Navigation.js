@@ -12,9 +12,11 @@ class Navigation extends Component {
         return (
             <div className="Navigation">
                 <NavLink className="HeaderNavItem" exact to="/dashboard">
+                    <Icon icon="project" className="NavIcon DisplayMobile"/>
                     <span>Dashboard</span>
                 </NavLink>
                 <NavLink className="HeaderNavItem" exact to="/public-contracts">
+                    <Icon icon="diamond" className="NavIcon DisplayMobile"/>
                     <span>Public Contracts</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>

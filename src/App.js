@@ -61,11 +61,23 @@ class App extends Component {
             loaded: true,
         });
     }
+
+    componentDidCatch(error, errorInfo) {
+        return this.setState({
+            error: error,
+        });
+    }
+
     render() {
-        const {loaded} = this.state;
+        const {loaded, error} = this.state;
 
         // @TODO Create loader here
         if (!loaded) return null;
+
+        if (error) {
+            // @TODO Handle error pages here
+            return 'Whoops error';
+        }
 
         return (
             <Provider store={store}>
