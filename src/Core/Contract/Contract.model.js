@@ -3,6 +3,7 @@ import moment from "moment";
 import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
 
 import ContractFile from "./ContractFile.model";
+import _ from "lodash";
 
 class Contract {
     /**
@@ -80,10 +81,17 @@ class Contract {
     }
 
     /**
+     * @param {Object} properties
      * @returns {Contract}
      */
-    update() {
-        return this;
+    update(properties) {
+        const updatedContract = new Contract({});
+
+        const updateableProperties = _.pick(properties, ['listening']);
+
+        Object.assign(updatedContract, this, updateableProperties);
+
+        return updatedContract;
     }
 
     /**

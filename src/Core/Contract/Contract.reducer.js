@@ -1,4 +1,8 @@
-import {FETCH_CONTRACT_FOR_PROJECT_ACTION, FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "./Contract.actions";
+import {
+    FETCH_CONTRACT_FOR_PROJECT_ACTION,
+    FETCH_CONTRACTS_FOR_PROJECT_ACTION,
+    TOGGLE_CONTRACT_LISTENING_ACTION
+} from "./Contract.actions";
 
 import {EntityStatusTypes} from "../../Common/constants";
 import {CREATE_EXAMPLE_PROJECT_ACTION} from "../Project/Project.actions";
@@ -61,6 +65,20 @@ const ContractReducer = (state = initialState, action) => {
                 contractStatus: {
                     ...state.contractStatus,
                     [contract.id]: EntityStatusTypes.LOADED,
+                },
+            };
+        case TOGGLE_CONTRACT_LISTENING_ACTION:
+            const toggledContract = state.contracts[action.contract];
+
+            const toggleUpdatedContract = toggledContract.update({
+                listening: !toggledContract.listening,
+            });
+
+            return {
+                ...state,
+                contracts: {
+                    ...state.contracts,
+                    [toggledContract.id]: toggleUpdatedContract,
                 },
             };
         default:
