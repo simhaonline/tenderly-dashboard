@@ -58,8 +58,6 @@ class TransactionsList extends Component {
     render() {
         const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading} = this.props;
 
-        console.log(contracts);
-
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
                 contracts,

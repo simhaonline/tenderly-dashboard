@@ -185,6 +185,8 @@ class ProjectTransactionsPage extends Component {
 
         const activeFilters = Object.values(filters).filter(filter => filter.value.length);
 
+        const shouldDisplayListAndFilters = !!transactions.length || page !== 1 || Object.values(filters).length || fetching;
+
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
@@ -200,12 +202,12 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
-                        {(!!transactions.length || page !== 1 || fetching) && <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
-                        {(!!transactions.length || page !== 1 || fetching) && <TransactionsList transactions={transactions} contracts={contracts}
+                        {shouldDisplayListAndFilters && <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
+                        {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
                                           loading={fetching}
                                           currentPage={page} onPageChange={this.handlePageChange}
                                           perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
-                        {!transactions.length && page === 1 && !fetching && <NoTransactionsEmptyState/>}
+                        {!shouldDisplayListAndFilters && <NoTransactionsEmptyState/>}
                     </Fragment>}
                 </Container>
             </Page>
