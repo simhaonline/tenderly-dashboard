@@ -76,11 +76,17 @@ export const createProject = (name, account = null) => {
  * @return {SuccessActionResponse}
  */
 export const dispatchExampleProject = dispatch => {
-    const exampleProject = Project.buildFromResponse(exampleProjectPayload);
+    const exampleProject = Project.buildFromResponse(exampleProjectPayload, ProjectTypes.DEMO);
 
     const exampleContracts = [
-        Contract.buildFromResponse(exampleContract1Payload, exampleProject.id),
-        Contract.buildFromResponse(exampleContract2Payload, exampleProject.id)
+        Contract.buildFromResponse(exampleContract1Payload, {
+            id: exampleProject.id,
+            listening: true,
+        }),
+        Contract.buildFromResponse(exampleContract2Payload, {
+            id: exampleProject.id,
+            listening: true,
+        })
     ];
 
     dispatch({

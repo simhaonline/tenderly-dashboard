@@ -57,9 +57,10 @@ class Project {
 
     /**
      * @param {Object} response
+     * @param {ProjectTypes} [projectType]
      * @return {Project}
      */
-    static buildFromResponse(response) {
+    static buildFromResponse(response, projectType) {
         return new Project({
             id: response.slug,
             name: response.name,
@@ -68,7 +69,7 @@ class Project {
             isSetup: !!response.last_push_at,
             setupViewed: !!response.last_push_at,
             createdAt: response.created_at,
-        });
+        }, projectType);
     }
 }
 
