@@ -205,7 +205,7 @@ export const setPassword = (newPassword) => {
                type: SET_PASSWORD_ACTION,
             });
 
-            return new ActionResponse(data.ok);
+            return new SuccessActionResponse(data.ok);
         } catch (error) {
             return new ErrorActionResponse(error);
         }
