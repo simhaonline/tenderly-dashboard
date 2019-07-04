@@ -30,6 +30,8 @@ class ContractFile {
             return map;
         }, {});
 
+        delete this.sourceCompiledMap.inComment;
+
         /** @type string */
         this.solidityVersion = data.solidityVersion;
 

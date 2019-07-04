@@ -37,16 +37,18 @@ class CodePreview extends Component {
         const lineNumbers = [];
         const wrapperStyle = {};
 
+        const textLinesCount = Object.keys(file.sourceCompiledMap).length;
+
         if (line && linePreview) {
-            const topLinesDisplayed = line - linePreview - offsetTop;
-            for (let i = topLinesDisplayed; i <= (line + linePreview + offsetBottom); i++) {
+            const topLinesDisplayed = Math.max(0, line - linePreview - offsetTop);
+            const bottomLinesDisplay = Math.min(textLinesCount, line + linePreview + offsetBottom);
+
+            for (let i = topLinesDisplayed; i <= bottomLinesDisplay; i++) {
                 lineNumbers.push({number: i, active: i === line});
             }
 
             wrapperStyle.height = `${lineNumbers.length * codeLineSize}rem`;
         } else {
-            const textLinesCount = file.source.split("\n").length;
-
             for (let i = 1; i <= textLinesCount; i++) {
                 lineNumbers.push({number: i, active: i === line});
             }
@@ -59,7 +61,7 @@ class CodePreview extends Component {
                     FullPreview: !linePreview,
                 }
             )} >
-                {isExpandable && <div className="ExpandingWrapper" onClick={this.handleExpandUp}>
+                {isExpandable && lineNumbers[0].number !== 0 && <div className="ExpandingWrapper" onClick={this.handleExpandUp}>
                     <div className="ExpandingControl">
                         <span>Expand</span>
                         <Icon icon="chevrons-up" className="MarginLeft1"/>
@@ -77,7 +79,7 @@ class CodePreview extends Component {
                         )}
                     </pre>
                 </div>
-                {isExpandable && <div className="ExpandingWrapper" onClick={this.handleExpandDown}>
+                {isExpandable && lineNumbers[lineNumbers.length - 1].number !== textLinesCount && <div className="ExpandingWrapper" onClick={this.handleExpandDown}>
                     <div className="ExpandingControl">
                         <span>Expand</span>
                         <Icon icon="chevrons-down" className="MarginLeft1"/>
