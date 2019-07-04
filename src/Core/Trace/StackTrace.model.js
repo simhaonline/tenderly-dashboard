@@ -17,11 +17,11 @@ class StackTrace {
      * @return {StackTrace}
      */
     static buildFromResponse(response) {
-        if (!response.transaction_info || !response.transaction_info.StackTrace) {
+        if (!response.transaction_info || !response.transaction_info.stack_trace) {
             return null;
         }
 
-        const rawStackTrace = response.transaction_info.StackTrace;
+        const rawStackTrace = response.transaction_info.stack_trace;
 
         const trace = rawStackTrace.map(Trace.buildFromRawStackTrace);
 
