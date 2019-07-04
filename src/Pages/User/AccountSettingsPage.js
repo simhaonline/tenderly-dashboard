@@ -160,7 +160,7 @@ class AccountSettingsPage extends Component {
                                     <h4>Token</h4>
                                     <Code>{token}</Code>
                                     <p>Or you can paste the following command into your terminal and login.</p>
-                                    <Code enableCopy>tenderly login --authentication-method=token --token={token}</Code>
+                                    <Code copy={`tenderly login --authentication-method=token --token=${token}`}>tenderly login --authentication-method=token --token={token}</Code>
                                 </PanelContent>
                             </Panel>
                             <Panel>

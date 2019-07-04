@@ -11,7 +11,7 @@ import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {Dialog, DialogHeader, DialogBody, Button, Icon, Input, Card} from "../../Elements";
+import {Dialog, DialogHeader, DialogBody, Button, Code, Icon, Input, Card} from "../../Elements";
 import {SimpleLoader, NetworkSegmentedPicker} from '..';
 
 import './ProjectSetupGuide.scss';
@@ -530,10 +530,10 @@ class ProjectSetupGuide extends Component {
                                         <p>To get started, we need to first get the Tenderly CLI tool.</p>
                                         <p>You can install it by going to the the <a target="_blank" rel="noopener noreferrer" href={"https://github.com/Tenderly/tenderly-cli/releases"}>GitHub Releases</a> page and downloading the latest binary for Windows and putting in the inside your $PATH.</p>
                                     </Fragment>}
-                                    {os === OSTypes.MAC && <code>brew tap tenderly/tenderly && brew install tenderly</code>}
-                                    {(os === OSTypes.UNIX || os === OSTypes.LINUX) && <code>curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sh</code>}
+                                    {os === OSTypes.MAC && <Code copy="brew tap tenderly/tenderly && brew install tenderly">brew tap tenderly/tenderly && brew install tenderly</Code>}
+                                    {(os === OSTypes.UNIX || os === OSTypes.LINUX) && <Code copy="curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sh">curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sh</Code>}
                                     <p>After installing the CLI you need to authenticate via your account email and password.</p>
-                                    <code>tenderly login</code>
+                                    <Code copy="tenderly login">tenderly login</Code>
                                 </div>
                                 <div className="StepActions">
                                     <Button onClick={this.handleDialogClose} outline color="secondary">
@@ -554,9 +554,9 @@ class ProjectSetupGuide extends Component {
                             )}>
                                 <div className="StepContent">
                                     <p>Go to the root of your smart contract project. Tenderly uses the Truffle framework to track where your contracts have been deployed.</p>
-                                    <code>cd {project.id}</code>
+                                    <Code>cd {project.id}</Code>
                                     <p>Use the init command to link your local project with the dashboard.</p>
-                                    <code>tenderly init</code>
+                                    <Code copy="tenderly init">tenderly init</Code>
                                     <p>You can read more about <a target="_blank" rel="noopener noreferrer" href="https://docs.tenderly.dev/#/how-tenderly-integrates">how Tenderly integrates with Truffle</a> in this link.</p>
                                 </div>
                                 <div className="StepActions">
@@ -577,7 +577,7 @@ class ProjectSetupGuide extends Component {
                             )}>
                                 <div className="StepContent">
                                     <p>In order to track your contracts and map failed transactions to a specific line of code, we need you to provide us with the contract source code and where the contracts are deployed for the specified network.</p>
-                                    <code>tenderly push</code>
+                                    <Code copy="tenderly push">tenderly push</Code>
                                     <p>You can read more about pushing contracts in the <a rel="noopener noreferrer" href="https://docs.tenderly.dev/#/commands/push" target="_blank">push command</a> documentation page.</p>
                                     {!verifying && verifyAttempted && !finishedSetup && <div className="ActionMessage Warning">
                                         <span>Whooops! Seems that your contracts have not been uploaded yet.</span>
