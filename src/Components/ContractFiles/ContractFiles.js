@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import {Panel, PanelHeader, PanelContent, PanelDivider} from "../../Elements";
-import {ContractFileSource} from "../index";
+import {CodePreview} from "../index";
 
 import './ContractFiles.scss';
 
@@ -47,7 +47,7 @@ class ContractFiles extends Component {
                             </div>)}
                         </div>
                         <PanelDivider/>
-                        <ContractFileSource file={selectedFile}/>
+                        <CodePreview file={selectedFile}/>
                     </div>
                 </PanelContent>
             </Panel>

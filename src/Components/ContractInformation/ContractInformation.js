@@ -1,28 +1,107 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
+import {NavLink} from "react-router-dom";
 
-import {Panel, PanelContent} from "../../Elements";
+import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+
+import {Panel, PanelContent, PanelDivider, Tooltip, Icon, Toggle, Button, Dialog, DialogBody, DialogHeader} from "../../Elements";
 import {CopyableText, NetworkTag} from "../index";
 
 import './ContractInformation.scss';
 
 class ContractInformation extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            deleteModalOpen: false,
+        };
+    }
+
+    openDeleteModal = () => {
+        this.setState({
+            deleteModalOpen: true,
+        })
+    };
+
+    closeDeleteModal = () => {
+        this.setState({
+            deleteModalOpen: false,
+        })
+    };
+
     render() {
         const {contract} = this.props;
+        const {deleteModalOpen} = this.state;
 
         return (
             <Panel className="ContractInformation">
-                <PanelContent className="ContractDetails">
-                    <div className="DetailsWrapper">
-                        <div className="DetailLabel">Address:</div>
-                        <div className="DetailValue">
+                <PanelContent>
+                    <div className="DisplayFlex JustifyContentSpaceBetween">
+                        <span className="SemiBoldText">Contract Address:</span>
+                        <div className="DisplayFlex AlignItemsCenter">
                             <CopyableText text={contract.address} onSuccessMessage="Copied contract address to clipboard"/>
-                            <NetworkTag network={contract.network}/>
+                            <NetworkTag network={contract.network} className="MarginLeft2"/>
                         </div>
                     </div>
-                    <div className="DetailsWrapper">
-                        <div className="DetailLabel">Solidity Version:</div>
-                        <div className="DetailValue">{contract.getMainFileSolidityVersion()}</div>
+                    <PanelDivider/>
+                    <div className="DisplayFlex FlexWrap">
+                        <div className="DisplayFlex AlignItemsStart MarginRight4">
+                            <span className="MarginRight2 SemiBoldText">Solidity Version:</span>
+                            <span className="MutedText">{contract.getMainFileSolidityVersion()}</span>
+                        </div>
+                        <div className="DisplayFlex AlignItemsStart MarginRight4">
+                            <span className="MarginRight2 SemiBoldText">Verification:</span>
+                            <div>
+                                {contract.isVerifiedPublic && <span id="ContractVerificationStatus" className="ContractInformation__VerifiedStatus"><Icon icon="check-circle"/> Verified</span>}
+                                {!contract.isVerifiedPublic && <span id="ContractVerificationStatus" className="ContractInformation__NotVerifiedStatus MutedText"><Icon icon="info"/> Not Verified</span>}
+                                <Tooltip id="ContractVerificationStatus">
+                                    {contract.isVerifiedPublic && <span>This contract has been verified on Etherscan.</span>}
+                                    {!contract.isVerifiedPublic && <span>This contract has not been publicly verified on Etherscan. Meaning that it's source code is not public.</span>}
+                                </Tooltip>
+                            </div>
+                        </div>
                     </div>
+                    {!contract.isPublic && false && <Fragment>
+                        <PanelDivider/>
+                        <div className="DisplayFlex AlignItemsCenter JustifyContentEnd">
+                            <div className="DisplayFlex AlignItemsStart MarginRight4">
+                                <span className="MarginRight2 SemiBoldText">Listening: <Icon icon="info" className="MutedText"/></span>
+                                <div>
+                                    <Toggle value={contract.listening}/>
+                                </div>
+                            </div>
+                            <div>
+                                <Button color="danger" outline size="small" onClick={this.openDeleteModal}>
+                                    <span>Remove Contract</span>
+                                </Button>
+                            </div>
+                        </div>
+                        <Dialog onClose={this.closeDeleteModal} open={deleteModalOpen}>
+                            <DialogHeader>
+                                <h3>Are you sure you want to remove this contract?</h3>
+                            </DialogHeader>
+                            <DialogBody>
+                                <div>
+                                    <p className="TextAlignCenter">asdasd</p>
+                                </div>
+                                <div className="DisplayFlex JustifyContentEnd">
+                                    <Button color="secondary" onClick={this.closeDeleteModal}>Cancel</Button>
+                                    <Button color="secondary" outline>Yes, remove</Button>
+                                </div>
+                            </DialogBody>
+                        </Dialog>
+                    </Fragment>}
+                    {contract.isPublic && <Fragment>
+                        <PanelDivider/>
+                        <div className="ContractInformation__PublicNavigation">
+                            <NavLink exact to={`/contract/${NetworkAppToRouteTypeMap[contract.network]}/${contract.address}`} className="ContractInformation__PublicNavigation__NavItem">
+                                <span>Transactions</span>
+                            </NavLink>
+                            <NavLink exact to={`/contract/${NetworkAppToRouteTypeMap[contract.network]}/${contract.address}/source`} className="ContractInformation__PublicNavigation__NavItem">
+                                <span>Source Code</span>
+                            </NavLink>
+                        </div>
+                    </Fragment>}
                 </PanelContent>
             </Panel>
         )

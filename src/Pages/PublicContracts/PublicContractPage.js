@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
+import {Redirect, Route, Switch} from "react-router-dom";
 
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -17,10 +18,9 @@ import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constan
 import {Page, Container, PageHeading, Button, Icon, ButtonGroup, PanelContent, Panel} from "../../Elements";
 import {
     ContractInformation,
-    ContractActions,
     ProjectPageLoader,
     NetworkTag,
-    TransactionsList, EtherscanLink, SharePageButton
+    TransactionsList, EtherscanLink, SharePageButton, ContractFileSource
 } from "../../Components";
 
 class PublicContractPage extends Component {
@@ -84,7 +84,7 @@ class PublicContractPage extends Component {
     };
 
     render() {
-        const {contract, isContractWatched, networkType, match: {params: { network }}, watchedContractsLoaded, contractId} = this.props;
+        const {contract, isContractWatched, networkType, watchedContractsLoaded, contractId} = this.props;
         const {loading, transactions, page, actionInProgress} = this.state;
 
         if (loading) {
@@ -142,9 +142,16 @@ class PublicContractPage extends Component {
                         </div>
                     </PageHeading>
                     <ContractInformation contract={contract} back/>
-                    <ContractActions contract={contract} routeNetwork={network}/>
-                    <TransactionsList transactions={transactions} contracts={[contract]} isPublicContracts
-                                      currentPage={page} onPageChange={this.handlePageChange}/>
+                    <Switch>
+                        <Route path="/contract/:network/:id" exact render={() => (
+                            <TransactionsList transactions={transactions} contracts={[contract]} isPublicContracts
+                                              currentPage={page} onPageChange={this.handlePageChange}/>
+                        )}/>
+                        <Route path="/contract/:network/:id/source" render={() => (
+                            <ContractFileSource file={contract.mainFile}/>
+                        )}/>
+                        <Redirect to={`/project/${contract.address}/transactions`}/>
+                    </Switch>
                 </Container>
             </Page>
         )

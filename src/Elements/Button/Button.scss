@@ -85,7 +85,7 @@
 
   &.Danger {
     border-color: $Danger500;
-    background-color: $Danger500;;
+    background-color: $Danger500;
 
     &:hover {
       background-color: darken($RedColor600, 5);
@@ -136,9 +136,11 @@
 
   &.Danger {
     border-color: transparentize($RedColor600, 0.5);
+    background-color: transparentize($RedColor600, 0.85);
 
     &:hover, &:focus {
       border-color: $RedColor600;
+      background-color: transparentize($RedColor600, 0.7);
     }
 
     &:active, &:focus {

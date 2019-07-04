@@ -38,7 +38,7 @@ const TransactionHeader = ({transaction, contracts}) => {
                     </div>
                 </div>
                 <PanelDivider/>
-                <div className="SecondaryInfo DisplayFlex">
+                <div className="DisplayFlex FlexWrap">
                     <div className="DisplayFlex AlignItemsStart MarginRight4">
                         <span className="MarginRight2 SemiBoldText">Status:</span>
                         <TransactionStatusTag status={transaction.status}/>

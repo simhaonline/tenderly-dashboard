@@ -4,7 +4,6 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {PrivateRoute} from "../Components";
 import PublicContractsPage from "./PublicContracts/PublicContractsPage";
 import PublicContractPage from "./PublicContracts/PublicContractPage";
-import PublicContractSourcePage from "./PublicContracts/PublicContractSourcePage";
 import LoginPage from "./Public/LoginPage";
 import DashboardPage from "./Dashboard/DashboardPage";
 import CreateProjectPage from "./Project/CreateProjectPage";
@@ -32,8 +31,7 @@ const AppPages = () => {
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
             <Route path="/public-contracts" exact component={PublicContractsPage}/>
-            <Route path="/contract/:network/:id" exact component={PublicContractPage}/>
-            <Route path="/contract/:network/:id/source" exact component={PublicContractSourcePage}/>
+            <Route path="/contract/:network/:id" component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash" exact component={PublicContractTransactionPage}/>
             <Redirect exact from="/" to="/login"/>
             <Route component={NotFoundPage}/>

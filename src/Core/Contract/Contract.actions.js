@@ -58,7 +58,7 @@ export const fetchContractForProject = (projectId, contractAddress, network) => 
                 return new ErrorActionResponse();
             }
 
-            const contract = Contract.buildFromResponse(data, {
+            const contract = Contract.buildFromResponse(data.contract, {
                 id: projectId,
                 listening: data.include_in_transaction_listing,
             });

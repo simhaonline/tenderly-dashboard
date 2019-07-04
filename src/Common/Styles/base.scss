@@ -33,6 +33,10 @@
   text-align: right;
 }
 
+.TextAlignCenter {
+  text-align: center;
+}
+
 .DisplayFlex {
   display: flex;
 }
@@ -71,6 +75,10 @@
 
 .JustifyContentCenter {
   justify-content: center;
+}
+
+.JustifyContentSpaceBetween {
+  justify-content: space-between;
 }
 
 .MarginBottom1 {

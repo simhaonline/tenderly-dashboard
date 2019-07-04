@@ -11,7 +11,6 @@ import {EntityStatusTypes, EtherscanLinkTypes, NetworkRouteToAppTypeMap} from ".
 import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
 import {
     ContractInformation,
-    ContractDeploymentInformation,
     ProjectContentLoader,
     ContractFiles, EtherscanLink,
 } from "../../Components";
@@ -63,7 +62,6 @@ class ProjectContractPage extends Component {
                             </div>
                         </PageHeading>
                         <ContractInformation contract={contract}/>
-                        <ContractDeploymentInformation contract={contract}/>
                         <ContractFiles contract={contract}/>
                     </Fragment>}
                 </Container>

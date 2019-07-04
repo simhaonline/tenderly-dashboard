@@ -1,25 +1,28 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
+@import "../../Common/common";
 
-.ContractInformation {
-  .ContractDetails {
-    display: flex;
+.ContractInformation__PublicNavigation {
+  margin: -1*$Spacing1 -1*$Spacing2 -1*$Spacing6;
+  display: flex;
+}
 
-    .DetailsWrapper {
-      flex: 0 0 auto;
+.ContractInformation__PublicNavigation__NavItem {
+  padding: $Spacing2 $Spacing2 $Spacing4;
+  transition: 0.15s;
+  color: $WhiteColor;
+  margin-right: $Spacing1;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 
-      &:not(:last-child) {
-        margin-right: 20px;
-        padding-right: 20px;
-        border-right: 1px solid $BorderColor;
-      }
-
-      .DetailLabel {
-        text-transform: uppercase;
-        opacity: 0.5;
-        margin-bottom: 2px;
-        font-size: $FontSize100;
-      }
-    }
+  &:hover, &:focus, &:active {
+    color: $WhiteColor;
+    background-color: transparentize($BlackColor, 0.85);
   }
+  &.active {
+    box-shadow: 0 -3px 0 0 $Primary500 inset;
+    background-color: transparentize($BlackColor, 0.8);
+  }
+}
+
+.ContractInformation__VerifiedStatus {
+  color: $Success500;
 }
