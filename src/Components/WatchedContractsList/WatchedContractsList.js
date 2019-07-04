@@ -25,7 +25,7 @@ const WatchedContractsList = ({contracts, loaded}) => {
     }
 
     return (
-        <div className="DisplayFlex">
+        <div className="DisplayFlex FlexWrap">
             {contracts.map(contract => <PublicContractThumbnail key={contract.address} contract={contract}/>)}
         </div>
     )
