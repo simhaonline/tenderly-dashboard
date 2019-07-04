@@ -9,7 +9,7 @@ import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicCon
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
 
 import {Page, Container, PageHeading} from "../../Elements";
-import {NetworkSegmentedPicker, PublicContractThumbnail, SimpleLoader, PublicContractList} from "../../Components";
+import {PublicNetworksSearch, NetworkSegmentedPicker, PublicContractThumbnail, SimpleLoader, PublicContractList} from "../../Components";
 
 class PublicContractsPage extends Component {
     constructor(props) {
@@ -90,6 +90,12 @@ class PublicContractsPage extends Component {
                     <meta name="keywords" content={`smart contracts, ${NetworkLabelMap[network].toLowerCase()}, public contracts, verified contracts`}/>
                 </Helmet>
                 <Container>
+                    <PageHeading>
+                        <h1>Search</h1>
+                    </PageHeading>
+                    <div className="MarginBottom4">
+                        <PublicNetworksSearch/>
+                    </div>
                     <PageHeading>
                         <h1>Most Watched</h1>
                     </PageHeading>

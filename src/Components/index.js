@@ -76,6 +76,7 @@ export {default as SharePageButton} from './SharePageButton/SharePageButton';
 export {default as EmptyState} from './EmptyState/EmptyState';
 export {default as PageLink} from './PageLink/PageLink';
 export {default as PublicContractThumbnail} from './PublicContractThumbnail/PublicContractThumbnail';
+export {default as PublicNetworksSearch} from './PublicNetworksSearch/PublicNetworksSearch';
 
 /**
  * Table Column Elements
