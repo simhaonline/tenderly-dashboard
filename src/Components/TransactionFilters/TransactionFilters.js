@@ -116,7 +116,7 @@ class TransactionFilters extends Component {
                 <div className="FilterGroup">
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
                 </div>
-                <div className="FilterGroup">
+                {false && <div className="FilterGroup">
                     <Button size="small" onClick={this.handleModalOpen}>
                         <Icon icon="filter"/>
                         <span>Filter Transactions</span>
@@ -136,7 +136,7 @@ class TransactionFilters extends Component {
                             </div>
                         </DialogBody>
                     </Dialog>
-                </div>
+                </div>}
             </div>
         );
     }
