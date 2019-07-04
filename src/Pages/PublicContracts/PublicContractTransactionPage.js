@@ -92,16 +92,17 @@ class PublicContractTransactionPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {txHash, network}}} = ownProps;
 
-    const transaction = getTransaction(state, txHash);
+    const transactionHash = txHash.toLowerCase();
+    const transaction = getTransaction(state, transactionHash);
 
     const networkType = NetworkRouteToAppTypeMap[network];
 
     return {
-        txHash,
+        txHash: transactionHash,
         transaction,
         networkType,
-        callTrace: getTransactionCallTrace(state, txHash),
-        stackTrace: getTransactionStackTrace(state, txHash),
+        callTrace: getTransactionCallTrace(state, transactionHash),
+        stackTrace: getTransactionStackTrace(state, transactionHash),
         contracts: getPublicContractsForTransaction(state, transaction),
         contractsLoaded: arePublicContractsLoadedForTransaction(state, transaction),
     }

@@ -154,6 +154,8 @@ class PublicContractPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: { id, network }}} = ownProps;
 
+    const contractAddress = id.toLowerCase();
+
     const networkType = NetworkRouteToAppTypeMap[network];
 
     const loggedIn = state.auth.loggedIn;
@@ -162,9 +164,9 @@ const mapStateToProps = (state, ownProps) => {
         networkType,
         contractId: id,
         loggedIn,
-        contract: getPublicContractById(state, id),
-        contractLoaded: isPublicContractLoaded(state, id),
-        isContractWatched: isPublicContractWatched(state, id, networkType),
+        contract: getPublicContractById(state, contractAddress),
+        contractLoaded: isPublicContractLoaded(state, contractAddress),
+        isContractWatched: isPublicContractWatched(state, contractAddress, networkType),
         watchedContractsLoaded: loggedIn ? areWatchedContractsLoaded(state): true,
     };
 };
