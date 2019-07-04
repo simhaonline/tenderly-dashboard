@@ -55,8 +55,9 @@ export const fetchPublicContracts = (network, page, perPage = 20, query) => {
  *
  * @param {string} address
  * @param {NetworkTypes} network
+ * @param {boolean} [silentError]
  */
-export const fetchPublicContract = (address, network) => {
+export const fetchPublicContract = (address, network, silentError = false) => {
     return async dispatch => {
         try {
             const apiNetwork = NetworkAppToApiTypeMap[network];
@@ -76,7 +77,9 @@ export const fetchPublicContract = (address, network) => {
 
             return new SuccessActionResponse(contract);
         } catch (error) {
-            console.error(error);
+            if (!silentError) {
+                console.error(error);
+            }
             return new ErrorActionResponse(error);
         }
     }

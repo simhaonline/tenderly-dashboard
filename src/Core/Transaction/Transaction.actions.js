@@ -177,8 +177,9 @@ export const fetchTransactionsForPublicContract = (contractAddress, network) => 
 /**
  * @param {string} txHash
  * @param {NetworkTypes} network
+ * @param {boolean} silentError
  */
-export const fetchTransactionForPublicContract = (txHash, network) => {
+export const fetchTransactionForPublicContract = (txHash, network, silentError = false) => {
     return async (dispatch) => {
         try {
             const networkId = NetworkAppToApiTypeMap[network];
@@ -207,7 +208,10 @@ export const fetchTransactionForPublicContract = (txHash, network) => {
                 callTrace,
             });
         } catch (error) {
-            console.error(error);
+            if (!silentError) {
+                console.error(error);
+            }
+
             return new ErrorActionResponse(error);
         }
     }
