@@ -16,6 +16,14 @@ import {
 } from "../../Components";
 
 class ProjectContractPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            contractRemoved: false,
+        };
+    }
+
     componentDidMount() {
         const {contractStatus, networkType, contractId, actions, projectId} = this.props;
 
@@ -33,10 +41,35 @@ class ProjectContractPage extends Component {
         return contractStatus === EntityStatusTypes.LOADED;
     };
 
+    /**
+     * @param {Contract} contract
+     */
+    handleContractListeningToggle = (contract) => {
+        const {actions} = this.props;
+
+        actions.toggleContractListening(contract.projectId, contract.address, contract.network);
+    };
+
+    /**
+     * @param {Contract} contract
+     */
+    handleContractDelete = async (contract) => {
+        const {actions} = this.props;
+
+        const response = await actions.deleteContract(contract.projectId, contract.address, contract.network);
+
+        if (response.success) {
+            this.setState({
+                contractRemoved: true,
+            });
+        }
+    };
+
     render() {
         const {contract, contractStatus, projectId} = this.props;
+        const {contractRemoved} = this.state;
 
-        if (contractStatus === EntityStatusTypes.NON_EXISTING) {
+        if (contractStatus === EntityStatusTypes.NON_EXISTING || contractRemoved) {
             return <Redirect to={`/project/${projectId}/contracts`}/>
         }
 
@@ -61,7 +94,8 @@ class ProjectContractPage extends Component {
                                 </EtherscanLink>
                             </div>
                         </PageHeading>
-                        <ContractInformation contract={contract}/>
+                        <ContractInformation contract={contract} onDelete={this.handleContractDelete}
+                                             onListenToggle={this.handleContractListeningToggle}/>
                         <ContractFiles contract={contract}/>
                     </Fragment>}
                 </Container>

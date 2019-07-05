@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import PropTypes from 'prop-types';
 import {NavLink} from "react-router-dom";
 
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
@@ -27,6 +28,20 @@ class ContractInformation extends Component {
         this.setState({
             deleteModalOpen: false,
         })
+    };
+
+    handleListeningToggle = () => {
+        const {contract, onListenToggle} = this.props;
+
+        onListenToggle(contract);
+    };
+
+    handleContractDelete = () => {
+        const {contract, onDelete} = this.props;
+
+        this.closeDeleteModal();
+
+        onDelete(contract);
     };
 
     render() {
@@ -61,13 +76,13 @@ class ContractInformation extends Component {
                             </div>
                         </div>
                     </div>
-                    {!contract.isPublic && false && <Fragment>
+                    {!contract.isPublic && <Fragment>
                         <PanelDivider/>
                         <div className="DisplayFlex AlignItemsCenter JustifyContentEnd">
                             <div className="DisplayFlex AlignItemsStart MarginRight4">
                                 <span className="MarginRight2 SemiBoldText">Listening: <Icon icon="info" className="MutedText"/></span>
                                 <div>
-                                    <Toggle value={contract.listening}/>
+                                    <Toggle value={contract.listening} onChange={this.handleListeningToggle}/>
                                 </div>
                             </div>
                             <div>
@@ -81,12 +96,11 @@ class ContractInformation extends Component {
                                 <h3>Are you sure you want to remove this contract?</h3>
                             </DialogHeader>
                             <DialogBody>
-                                <div>
-                                    <p className="TextAlignCenter">asdasd</p>
-                                </div>
                                 <div className="DisplayFlex JustifyContentEnd">
                                     <Button color="secondary" onClick={this.closeDeleteModal}>Cancel</Button>
-                                    <Button color="secondary" outline>Yes, remove</Button>
+                                    <Button color="secondary" outline onClick={this.handleContractDelete}>
+                                        <span>Yes, remove</span>
+                                    </Button>
                                 </div>
                             </DialogBody>
                         </Dialog>
@@ -107,5 +121,10 @@ class ContractInformation extends Component {
         )
     }
 }
+
+ContractInformation.propTypes = {
+    onDelete: PropTypes.func,
+    onListenToggle: PropTypes.func,
+};
 
 export default ContractInformation;

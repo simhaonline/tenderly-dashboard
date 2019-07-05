@@ -6,6 +6,7 @@ import {NetworkAppToApiTypeMap} from "../../Common/constants";
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
 export const TOGGLE_CONTRACT_LISTENING_ACTION = 'TOGGLE_CONTRACT_LISTENING';
+export const DELETE_CONTRACT_ACTION = 'DELETE_CONTRACT';
 
 /**
  * @param {string} projectId
@@ -15,15 +16,14 @@ export const fetchContractsForProject = (projectId) => {
         try {
             const {data} = await Api.get(`/account/me/project/${projectId}/contracts`);
 
-            if (!data) {
-                // @TODO Return an ErrorActionResponse here.
-                return null;
-            }
+            let contracts = [];
 
-            const contracts = data.map(contract => Contract.buildFromResponse(contract.contract, {
-                id: projectId,
-                listening: contract.include_in_transaction_listing,
-            }));
+            if (data) {
+                contracts = data.map(contract => Contract.buildFromResponse(contract.contract, {
+                    id: projectId,
+                    listening: contract.include_in_transaction_listing,
+                }));
+            }
 
             await dispatch({
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
@@ -31,12 +31,10 @@ export const fetchContractsForProject = (projectId) => {
                 projectId,
             });
 
-            // @TODO Return an SuccessActionResponse here.
-            return contracts;
+            return new SuccessActionResponse(contracts);
         } catch (error) {
             console.error(error);
-            // @TODO Return an ErrorActionResponse here.
-            return null;
+            return new ErrorActionResponse(error);
         }
     }
 };
@@ -96,6 +94,34 @@ export const toggleContractListening = (projectId, contractAddress, network) => 
 
             dispatch({
                 type: TOGGLE_CONTRACT_LISTENING_ACTION,
+                projectId,
+                contract: contractAddress,
+                network,
+            });
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ *
+ * @param {string} projectId
+ * @param {string} contractAddress
+ * @param {NetworkTypes} network
+ */
+export const deleteContract = (projectId, contractAddress, network) => {
+    return async dispatch => {
+        try {
+            const apiNetworkId = NetworkAppToApiTypeMap[network];
+
+            await Api.delete(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}`);
+
+            dispatch({
+                type: DELETE_CONTRACT_ACTION,
                 projectId,
                 contract: contractAddress,
                 network,

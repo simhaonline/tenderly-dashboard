@@ -1,4 +1,5 @@
 import {
+    DELETE_CONTRACT_ACTION,
     FETCH_CONTRACT_FOR_PROJECT_ACTION,
     FETCH_CONTRACTS_FOR_PROJECT_ACTION,
     TOGGLE_CONTRACT_LISTENING_ACTION
@@ -27,8 +28,9 @@ const ContractReducer = (state = initialState, action) => {
                     data.contracts[contract.id] = existingContract.update(contract);
                 } else {
                     data.contracts[contract.id] = contract;
-                    data.contractStatus[contract.id] = EntityStatusTypes.LOADED;
                 }
+
+                data.contractStatus[contract.id] = EntityStatusTypes.LOADED;
 
                 return data;
             }, {
@@ -80,6 +82,24 @@ const ContractReducer = (state = initialState, action) => {
                     ...state.contracts,
                     [toggledContract.id]: toggleUpdatedContract,
                 },
+            };
+        case DELETE_CONTRACT_ACTION:
+            const projectContractsMap = {
+                ...state.projectContractsMap,
+            };
+            const currentProjectContracts = state.projectContractsMap[action.projectId];
+
+            if (currentProjectContracts) {
+                projectContractsMap[action.projectId] = currentProjectContracts.filter(contract => contract !== action.contract);
+            }
+
+            return {
+                ...state,
+                contractStatus: {
+                    ...state.contractStatus,
+                    [action.contract]: EntityStatusTypes.DELETED,
+                },
+                projectContractsMap,
             };
         default:
             return state;

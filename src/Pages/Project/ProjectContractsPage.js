@@ -7,8 +7,15 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
-import {Container, Page, PageHeading} from "../../Elements";
-import {ProjectSetupEmptyState, ProjectContractList, ProjectContentLoader, ProjectSetupGuide} from "../../Components";
+import {Container, Page, PageHeading, Panel, PanelContent} from "../../Elements";
+import {
+    ProjectSetupEmptyState,
+    ProjectContractList,
+    ProjectContentLoader,
+    ProjectSetupGuide,
+    EmptyState
+} from "../../Components";
+import NoContractsIcon from '../../Components/ProjectSetupEmptyState/no-contracts-watched.svg';
 
 class ProjectContractsPage extends Component {
     async componentDidMount() {
@@ -47,7 +54,12 @@ class ProjectContractsPage extends Component {
                     </PageHeading>
                     {projectIsSetup && <Fragment>
                         {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} onListenToggle={this.handleContractListeningToggle}/>}
-                        {contractsLoaded && !contracts.length && <div>No contracts</div>}
+                        {contractsLoaded && !contracts.length && <Panel>
+                            <PanelContent>
+                                <EmptyState icon={NoContractsIcon} title="No contracts watched"
+                                            description="There are no contracts added to this project. Add contracts to start monitoring them."/>
+                            </PanelContent>
+                        </Panel>}
                         {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
                     </Fragment>}
                     {!projectIsSetup && <ProjectSetupEmptyState project={project}/>}
