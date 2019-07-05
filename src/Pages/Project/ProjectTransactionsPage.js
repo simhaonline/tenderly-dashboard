@@ -127,9 +127,18 @@ class ProjectTransactionsPage extends Component {
         const {project, txActions} = this.props;
         const {filters, page, perPage} = this.state;
 
-        const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, perPage);
+        let actionResponse;
+
+        if (project.type === ProjectTypes.DEMO) {
+            actionResponse= await txActions.fetchExampleTransactions();
+        } else {
+            actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, perPage);
+        }
 
         if (!actionResponse.success) {
+            this.setState({
+                fetching: false,
+            });
             return;
         }
 
