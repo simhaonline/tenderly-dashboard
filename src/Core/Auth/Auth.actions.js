@@ -242,14 +242,10 @@ export const recoverAccount = (email) => {
 export const resetPassword = (code, newPassword) => {
     return async dispatch => {
         try {
-            const {data} = await PublicApi.post('/reset-password-set', {
+            await PublicApi.post('/reset-password-set', {
                 code,
                 new_password: newPassword,
             });
-
-            if (!data) {
-                return new ErrorActionResponse();
-            }
 
             return new SuccessActionResponse();
         } catch (error) {
