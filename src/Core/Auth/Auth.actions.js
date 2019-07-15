@@ -183,7 +183,7 @@ export const changePassword = (oldPassword, newPassword) => {
                 "new_password": newPassword,
             });
 
-            return new ActionResponse(data.ok);
+            return new SuccessActionResponse();
         } catch (error) {
             return new ErrorActionResponse(error);
         }
