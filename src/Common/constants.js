@@ -158,6 +158,8 @@ export const GITHUB_CALLBACK_URL = process.env.REACT_APP_GITHUB_CALLBACK_URL;
 
 export const API_BASE_URL = process.env.REACT_APP_API_URL;
 
+export const INTERCOM_APP_ID = process.env.REACT_APP_INTERCOM_APP_ID;
+
 export const GITHUB_CLIENT_ID = process.env.REACT_APP_GITHUB_CLIENT_ID;
 
 export const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;

@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 import {PublicApi, Api, StreamingApi} from '../../Utils/Api';
 import MixPanel from "../../Utils/MixPanel";
+import Intercom from "../../Utils/Intercom";
 import FullStory from "../../Utils/FullStory";
 
 import User from "./User.model";
@@ -147,6 +148,7 @@ export const getUser = (token) => {
 
             if (!impersonating) {
                 MixPanel.setUser(user);
+                Intercom.setUser(user);
                 FullStory.identifyUser(user);
             }
 
