@@ -7,7 +7,7 @@ class IntercomProvider {
     }
 
     boot() {
-        if (!INTERCOM_APP_ID || !window.Intercom) {
+        if (!INTERCOM_APP_ID || !window.Intercom || this.intercomBooted) {
             return;
         }
 
@@ -24,6 +24,8 @@ class IntercomProvider {
         }
 
         window.Intercom('shutdown');
+
+        this.intercomBooted = false;
     }
 
     /**

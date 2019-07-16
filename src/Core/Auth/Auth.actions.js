@@ -68,6 +68,9 @@ export const loginUser = (username, password) => {
                 type: LOG_IN_ACTION,
                 token: data.token,
             });
+
+            Intercom.boot();
+
             dispatch(setAuthHeader(data.token));
             await dispatch(getUser());
 
@@ -309,6 +312,7 @@ export const authenticateOAuth = (service, code) => {
                 type: LOG_IN_ACTION,
                 token: data.token,
             });
+            Intercom.boot();
             dispatch(setAuthHeader(data.token));
             await dispatch(getUser());
 
