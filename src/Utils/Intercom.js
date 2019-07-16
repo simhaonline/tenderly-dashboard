@@ -18,6 +18,14 @@ class IntercomProvider {
         this.intercomBooted = true;
     }
 
+    shutdown() {
+        if (!this.intercomBooted) {
+            return;
+        }
+
+        window.Intercom('shutdown');
+    }
+
     /**
      * @param {User} user
      */

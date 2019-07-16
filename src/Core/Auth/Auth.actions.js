@@ -113,9 +113,12 @@ export const registerUser = (userData) => {
 
 export const logoutUser = () => {
     return async dispatch => {
+        Intercom.shutdown();
+
         dispatch({
             type: LOG_OUT_ACTION,
         });
+
         dispatch(removeAuthHeader());
     }
 };
