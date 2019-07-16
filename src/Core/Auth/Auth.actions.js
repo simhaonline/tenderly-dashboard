@@ -26,7 +26,7 @@ export const UPDATE_USER_ACTION = 'UPDATE_USER';
  * @param {string} token
  */
 const setAuthHeader = (token) => {
-    return async dispatch => {
+    return async () => {
         if (process.env.NODE_ENV !== 'development') {
             Cookies.set('token', token, { path: '/', expires: 30, domain: '.tenderly.dev'});
         } else {
@@ -39,7 +39,7 @@ const setAuthHeader = (token) => {
 };
 
 const removeAuthHeader = () => {
-    return async dispatch => {
+    return async () => {
         Cookies.remove('token');
         Cookies.remove('token', {domain: '.tenderly.dev'});
         Api.defaults.headers.common['Authorization'] = null;
@@ -176,9 +176,9 @@ export const getUser = (token) => {
  * @returns {Function}
  */
 export const changePassword = (oldPassword, newPassword) => {
-    return async dispatch => {
+    return async () => {
         try {
-            const {data} = await Api.post('/user/change-password', {
+            await Api.post('/user/change-password', {
                 "old_password": oldPassword,
                 "new_password": newPassword,
             });
@@ -217,7 +217,7 @@ export const setPassword = (newPassword) => {
  * @return {Function}
  */
 export const recoverAccount = (email) => {
-    return async dispatch => {
+    return async () => {
         try {
             if (!email) {
                 return new ErrorActionResponse('Invalid e-mail address.');
@@ -240,7 +240,7 @@ export const recoverAccount = (email) => {
  * @return {Function}
  */
 export const resetPassword = (code, newPassword) => {
-    return async dispatch => {
+    return async () => {
         try {
             await PublicApi.post('/reset-password-set', {
                 code,
@@ -264,9 +264,8 @@ export const completeOnboarding = () => {
 
 /**
  * @param {string} token
- * @param {boolean} initial
  */
-export const retrieveToken = (token, initial = false) => {
+export const retrieveToken = (token) => {
     return async dispatch => {
         if (token) {
             dispatch(setAuthHeader(token));
@@ -320,7 +319,7 @@ export const authenticateOAuth = (service, code) => {
  * @return {Function}
  */
 export const validateUsername = (username) => {
-    return async dispatch => {
+    return async () => {
         try {
             if (username.length === 0) {
                 return new SuccessActionResponse({

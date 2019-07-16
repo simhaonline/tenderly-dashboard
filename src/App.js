@@ -55,7 +55,7 @@ class App extends Component {
             tokenCookie = loginToken;
         }
 
-        await store.dispatch(authActions.retrieveToken(tokenCookie, true));
+        await store.dispatch(authActions.retrieveToken(tokenCookie));
 
         this.setState({
             loaded: true,
