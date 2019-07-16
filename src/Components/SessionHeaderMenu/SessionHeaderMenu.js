@@ -7,9 +7,7 @@ import classNames from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import * as authActions from "../../Core/Auth/Auth.actions";
-
-import FeedbackDialog from "../FeedbackDialog/FeedbackDialog";
-import SupportDialog from "../SupportDialog/SupportDialog";
+import Intercom from '../../Utils/Intercom';
 
 import './SessionHeaderMenu.scss';
 
@@ -19,8 +17,6 @@ class SessionHeaderMenu extends Component {
 
         this.state = {
             dropdownOpen: false,
-            feedbackDialogOpen: false,
-            supportDialogOpen: false,
         };
     }
     handleLogoutUser = () => {
@@ -48,27 +44,16 @@ class SessionHeaderMenu extends Component {
     };
 
     openFeedbackDialog = () => {
-        this.setState({
-            feedbackDialogOpen: true,
-        });
+        Intercom.openNewConversation();
     };
 
     openSupportDialog = () => {
-        this.setState({
-            supportDialogOpen: true,
-        });
-    };
-
-    handleDialogClose = () => {
-        this.setState({
-            feedbackDialogOpen: false,
-            supportDialogOpen: false,
-        });
+        Intercom.openNewConversation();
     };
 
     render() {
         const {auth} = this.props;
-        const {dropdownOpen, feedbackDialogOpen, supportDialogOpen} = this.state;
+        const {dropdownOpen} = this.state;
 
         if (!auth.retrievedToken) return null;
 
@@ -109,8 +94,6 @@ class SessionHeaderMenu extends Component {
                         </div>
                     </div>
                 </OutsideClickHandler>
-                <FeedbackDialog open={feedbackDialogOpen} onClose={this.handleDialogClose} user={user}/>
-                <SupportDialog open={supportDialogOpen} onClose={this.handleDialogClose} user={user}/>
             </div>
         )
     }

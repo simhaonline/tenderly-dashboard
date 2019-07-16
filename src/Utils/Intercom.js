@@ -42,6 +42,17 @@ class IntercomProvider {
             user_id: user.id,
         });
     }
+
+    /**
+     * @param {string} [prePopulatedMessage]
+     */
+    openNewConversation(prePopulatedMessage) {
+        if (!this.intercomBooted) {
+            return;
+        }
+
+        window.Intercom('showNewMessage', prePopulatedMessage);
+    }
 }
 
 const Intercom = new IntercomProvider();
