@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
 import {FeatureFlagTypes} from "../../Common/constants";
 
-import {PanelContent, Panel, PanelTabs} from "../../Elements";
+import {PanelContent, Panel, PanelTabs, Toggle} from "../../Elements";
 import {CallTracePreview, StackTracePreview, TraceInspector} from "../index";
 
 class TransactionExecution extends Component {
@@ -14,25 +14,19 @@ class TransactionExecution extends Component {
 
         const tabs = [
             {
-                label: "Call Trace",
-                value: 'call_trace',
+                label: "Overview",
+                value: 'overview',
             },
             {
-                label: "Inspector",
-                value: 'inspector',
+                label: "Debugger",
+                value: 'debugger',
                 featureFlag: FeatureFlagTypes.DEBUGGER,
             },
         ];
 
-        if (!transaction.status) {
-            tabs.unshift({
-                label: "Stack Trace",
-                value: 'stack_trace',
-            });
-        }
-
         this.state = {
-            currentTab: transaction.status ? 'call_trace' : 'stack_trace',
+            currentTab: 'overview',
+            viewStackTrace: !transaction.status,
             tabs,
         };
     }
@@ -43,19 +37,38 @@ class TransactionExecution extends Component {
         });
     };
 
+    handleViewStackTraceChange = () => {
+        const {viewStackTrace} = this.state;
+
+        this.setState({
+            viewStackTrace: !viewStackTrace,
+        });
+    };
+
     render() {
-        const {callTrace, stackTrace, contracts} = this.props;
-        const {currentTab, tabs} = this.state;
+        const {callTrace, stackTrace, contracts, transaction} = this.props;
+        const {currentTab, tabs, viewStackTrace} = this.state;
 
         return (
-            <Panel className="TransactionExecution">
-                <PanelTabs tabs={tabs} active={currentTab} onChange={this.handleTabChange}/>
-                <PanelContent>
-                    {currentTab === 'stack_trace' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
-                    {currentTab === 'call_trace' && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
-                    {currentTab === 'inspector' && <TraceInspector callTrace={callTrace} stackTrace={stackTrace} contracts={contracts}/>}
-                </PanelContent>
-            </Panel>
+            <Fragment>
+                <h2 className="MarginBottom2 MarginLeft2">Execution</h2>
+                <Panel className="TransactionExecution">
+                    <PanelTabs tabs={tabs} active={currentTab} onChange={this.handleTabChange}/>
+                    <PanelContent>
+                        {currentTab === 'overview' && <div>
+                            {!transaction.status && !!stackTrace && <div className="MarginBottom3 DisplayFlex">
+                                <div className="DisplayFlex AlignItemsCenter">
+                                    <Toggle value={viewStackTrace} onChange={this.handleViewStackTraceChange}/>
+                                    <span className="MarginLeft1">View Stack Trace</span>
+                                </div>
+                            </div>}
+                            {viewStackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
+                            {!viewStackTrace && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
+                        </div>}
+                        {currentTab === 'debugger' && <TraceInspector callTrace={callTrace} stackTrace={stackTrace} contracts={contracts}/>}
+                    </PanelContent>
+                </Panel>
+            </Fragment>
         );
     }
 }
