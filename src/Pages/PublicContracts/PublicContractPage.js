@@ -30,24 +30,19 @@ class PublicContractPage extends Component {
         this.state = {
             actionInProgress: false,
             loading: true,
+            fetching: false,
             page: 1,
         };
     }
 
     async componentDidMount() {
-        const {contract, contractLoaded, networkType, actions, txActions, contractId, watchedContractsLoaded} = this.props;
+        const {contract, contractLoaded, networkType, actions, contractId, watchedContractsLoaded} = this.props;
 
         if (!contract || !contractLoaded) {
             await actions.fetchPublicContract(contractId, networkType);
         }
 
-        const response = await txActions.fetchTransactionsForPublicContract(contractId, networkType);
-
-        let transactions = [];
-
-        if (response.success) {
-           transactions = response.data;
-        }
+        await this.fetchTransactions();
 
         if (!watchedContractsLoaded) {
             actions.fetchWatchedContracts();
@@ -55,9 +50,26 @@ class PublicContractPage extends Component {
 
         this.setState({
             loading: false,
-            transactions,
         });
     }
+
+    fetchTransactions = async () => {
+        const {networkType, txActions, contractId} = this.props;
+        const {page} = this.state;
+
+        const response = await txActions.fetchTransactionsForPublicContract(contractId, networkType, page);
+
+        let transactions = [];
+
+        if (response.success) {
+            transactions = response.data;
+        }
+
+        this.setState({
+            transactions,
+            fetching: false,
+        });
+    };
 
     toggleWatchedContract = async () => {
         const {actions, contract, networkType} = this.props;
@@ -75,7 +87,17 @@ class PublicContractPage extends Component {
         });
     };
 
-    handlePageChange = () => {};
+    handlePageChange = (nextPage) => {
+        this.setState({
+            page: nextPage,
+        }, () => {
+            this.setState({
+                fetching: true,
+            });
+
+            this.fetchTransactions();
+        });
+    };
 
     handleBackClick = () => {
         const {history} = this.props;
@@ -85,7 +107,7 @@ class PublicContractPage extends Component {
 
     render() {
         const {contract, isContractWatched, networkType, watchedContractsLoaded, contractId} = this.props;
-        const {loading, transactions, page, actionInProgress} = this.state;
+        const {loading, transactions, page, actionInProgress, fetching} = this.state;
 
         if (loading) {
             return (
@@ -145,6 +167,7 @@ class PublicContractPage extends Component {
                     <Switch>
                         <Route path="/contract/:network/:id" exact render={() => (
                             <TransactionsList transactions={transactions} contracts={[contract]} isPublicContracts
+                                              loading={fetching}
                                               currentPage={page} onPageChange={this.handlePageChange}/>
                         )}/>
                         <Route path="/contract/:network/:id/source" render={() => (

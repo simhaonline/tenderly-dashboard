@@ -146,13 +146,18 @@ export const fetchExampleTransaction = () => {
 /**
  * @param {string} contractAddress
  * @param {NetworkTypes} network
+ * @param {number} [page]
  */
-export const fetchTransactionsForPublicContract = (contractAddress, network) => {
+export const fetchTransactionsForPublicContract = (contractAddress, network, page = 1) => {
     return async (dispatch) => {
         try {
             const networkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/public-contract/${networkId}/address/${contractAddress}/transactions`);
+            const {data} = await Api.get(`/public-contract/${networkId}/address/${contractAddress}/transactions`, {
+                params: {
+                    page,
+                },
+            });
 
             if (!data) {
                 return new ErrorActionResponse();
