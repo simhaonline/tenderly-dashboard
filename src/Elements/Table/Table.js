@@ -86,7 +86,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy, groupingConfiguration} = this.props;
+        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy, groupingConfiguration, emptyStateLabel} = this.props;
 
         return (
             <Panel className={classNames(
@@ -116,6 +116,10 @@ class Table extends Component {
                         <div className="Table__Body_Loading_Loader">
                             <SimpleLoader inverse/>
                         </div>
+                    </div>}
+                    {!data.length && <div className="Table__Body__Empty__State">
+                        <Icon icon="triangle" className="Table__Body__Empty__State__Icon"/>
+                        <span className="MutedText">{emptyStateLabel}</span>
                     </div>}
                     {!groupBy && data.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
                                                                     row={row} configuration={configuration}
@@ -199,12 +203,14 @@ Table.propTypes = {
         PropTypes.func,
     ]),
     groupingConfiguration: PropTypes.array,
+    emptyStateLabel: PropTypes.string,
 };
 
 Table.defaultProps = {
     onPageChange: () => {},
     onPerPageChange: () => {},
     metadata: {},
+    emptyStateLabel: "No results",
 };
 
 export default Table;

@@ -61,7 +61,7 @@ class TransactionsList extends Component {
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
                 contracts,
-            }} onRowClick={this.handleRowClick} loading={loading}
+            }} onRowClick={this.handleRowClick} loading={loading} emptyStateLabel="No transactions scanned yet"
                    currentPage={currentPage} onPageChange={onPageChange}
                    perPage={perPage} onPerPageChange={onPerPageChange}/>
         );
