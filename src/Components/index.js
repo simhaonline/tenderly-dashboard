@@ -2,7 +2,6 @@ export {default as AppHeader} from './AppHeader/AppHeader';
 export {default as Navigation} from './Navigation/Navigation';
 export {default as PrivateRoute} from './PrivateRoute/PrivateRoute';
 export {default as EtherscanLink} from './EtherscanLink/EtherscanLink';
-export {default as EventList} from './EventList/EventList';
 export {default as EarlyAccessButton} from './EarlyAccessButton/EarlyAccessButton';
 export {default as EarlyAccessSignUp} from './EarlyAccessSignUp/EarlyAccessSignUp';
 export {default as ContractFileSource} from './ContractFileSource/ContractFileSource';
@@ -20,8 +19,6 @@ export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButto
 export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButton';
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';
-export {default as EventInformation} from './EventInformation/EventInformation';
-export {default as EventStackTrace} from './EventStackTrace/EventStackTrace';
 export {default as DashboardProjectsList} from './DashboardProjectsList/DashboardProjectsList';
 export {default as WatchedContractsList} from './WatchedContractsList/WatchedContractsList';
 export {default as NoProjectsEmptyState} from './NoProjectsEmptyState/NoProjectsEmptyState';
@@ -33,9 +30,6 @@ export {default as ProjectContractList} from './ProjectContractList/ProjectContr
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
 export {default as ProjectAnalyticsGraph} from './ProjectAnalyticsGraph/ProjectAnalyticsGraph';
 export {default as ProjectTransactionAnalytics} from './ProjectTransactionAnalytics/ProjectTransactionAnalytics';
-export {default as ProjectEvents} from './ProjectEvents/ProjectEvents';
-export {default as ProjectEventFilters} from './ProjectEventFilters/ProjectEventFilters';
-export {default as ProjectEventActions} from './ProjectEventActions/ProjectEventActions';
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
 export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';

@@ -5,26 +5,33 @@
 .SegmentedControls {
   display: inline-flex;
   overflow: hidden;
+}
 
-  .ControlOption {
-    flex: 0 0 auto;
-    padding: 5px $Spacing2;
-    cursor: pointer;
-    font-size: $FontSize400;
-    transition: 0.15s;
-    border: 1px solid transparent;
-    border-radius: 3px;
-    margin-right: $Spacing1;
+.SegmentedControls__ControlOption {
+  flex: 0 0 auto;
+  padding: 5px $Spacing2;
+  cursor: pointer;
+  font-size: $FontSize400;
+  transition: 0.15s;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  margin-right: $Spacing1;
 
-    &:hover {
-      background-color: transparentize($Primary500, 0.9);
-      border-color: transparentize($Primary500, 0.8);
-    }
-
-    &.Active {
-      cursor: default;
-      background-color: transparentize($Primary500, 0.85);
-      border-color: transparentize($Primary500, 0.4);
-    }
+  &:hover {
+    background-color: transparentize($Primary500, 0.9);
+    border-color: transparentize($Primary500, 0.8);
   }
+}
+
+.SegmentedControls__ControlOption--Small {
+  padding: 2px $Spacing1;
+  cursor: pointer;
+  font-size: $FontSize300;
+  margin-right: $Spacing1 / 2;
+}
+
+.SegmentedControls__ControlOption--Active {
+  pointer-events: none;
+  background-color: transparentize($Primary500, 0.85);
+  border-color: transparentize($Primary500, 0.4);
 }

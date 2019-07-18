@@ -9,7 +9,6 @@ import * as projectActions from "../../Core/Project/Project.actions";
 
 import ProjectTransactionsPage from "./ProjectTransactionsPage";
 import ProjectTransactionPage from "./ProjectTransactionPage";
-import ProjectEventsPage from "./ProjectEventsPage";
 import ProjectAnalyticsPage from "./ProjectAnalyticsPage";
 import ProjectAlertsPage from "./ProjectAlertsPage";
 import ProjectContractsPage from "./ProjectContractsPage";
@@ -17,7 +16,6 @@ import ProjectReleasesPage from "./ProjectReleasesPage";
 import ProjectSettingsPage from "./ProjectSettingsPage";
 import ProjectContractPage from "./ProjectContractPage";
 
-import EventPage from "../Event/EventPage";
 import {ProjectSidebar, ProjectPageLoader} from "../../Components";
 
 class ProjectPage extends Component {
@@ -64,8 +62,6 @@ class ProjectPage extends Component {
                 <Switch>
                     <Route path="/project/:id/transactions" component={ProjectTransactionsPage}/>
                     <Route path="/project/:id/tx/:network/:txHash" component={ProjectTransactionPage}/>
-                    <Route path="/project/:id/errors" component={ProjectEventsPage}/>
-                    <Route path="/project/:id/error/:network/:eventId" component={EventPage}/>
                     <Route path="/project/:id/analytics" component={ProjectAnalyticsPage}/>
                     <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
                     <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
