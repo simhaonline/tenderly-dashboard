@@ -7,17 +7,27 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
-import {Container, Page, PageHeading, Panel, PanelContent} from "../../Elements";
+import {Container, Page, PageHeading, Panel, PanelContent, Button} from "../../Elements";
 import {
     ProjectSetupEmptyState,
     ProjectContractList,
     ProjectContentLoader,
     ProjectSetupGuide,
+    ExampleProjectInfoModal,
     EmptyState
 } from "../../Components";
 import NoContractsIcon from '../../Components/ProjectSetupEmptyState/no-contracts-watched.svg';
+import {ProjectTypes} from "../../Common/constants";
 
 class ProjectContractsPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            createProjectModalOpen: false,
+        };
+    }
+
     async componentDidMount() {
         const {actions, project, contractsLoaded} = this.props;
 
@@ -37,8 +47,21 @@ class ProjectContractsPage extends Component {
         actions.toggleContractListening(contract.projectId, contract.address, contract.network);
     };
 
+    handleOpenExampleProjectInfoModal = () => {
+        this.setState({
+            createProjectModalOpen: true,
+        });
+    };
+
+    handleCloseExampleProjectInfoModal = () => {
+        this.setState({
+            createProjectModalOpen: false,
+        });
+    };
+
     render() {
         const {project, contracts, contractsLoaded} = this.props;
+        const {createProjectModalOpen} = this.state;
 
         const projectIsSetup = !!project.lastPushAt;
 
@@ -48,8 +71,14 @@ class ProjectContractsPage extends Component {
                     <PageHeading>
                         <h1>Contracts</h1>
                         {projectIsSetup && <div className="RightContent">
-                            {contractsLoaded && <ProjectSetupGuide project={project} label="Add Contract" outline={false}
+                            {contractsLoaded && project.type !== ProjectTypes.DEMO && <ProjectSetupGuide project={project} label="Add Contract" outline={false}
                                                                    initialCancelButtonLabel="Cancel"/>}
+                            {contractsLoaded && project.type === ProjectTypes.DEMO && <Fragment>
+                                <Button onClick={this.handleOpenExampleProjectInfoModal}>
+                                    <span>Add Contract</span>
+                                </Button>
+                                <ExampleProjectInfoModal header="Example Project" description="This is just an example project to illustrate what the platform can do. If you wish to add a contract first create a project." onClose={this.handleCloseExampleProjectInfoModal} open={createProjectModalOpen}/>
+                            </Fragment>}
                         </div>}
                     </PageHeading>
                     {projectIsSetup && <Fragment>
