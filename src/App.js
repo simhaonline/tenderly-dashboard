@@ -18,7 +18,9 @@ import Intercom from "./Utils/Intercom";
 import {store} from './Core';
 
 import {AppHeader, FeatureFlagControls} from "./Components";
+
 import {AppPages} from "./Pages";
+import GeneralErrorPage from "./Pages/General/GeneralErrorPage";
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
@@ -65,6 +67,8 @@ class App extends Component {
     }
 
     componentDidCatch(error, errorInfo) {
+        Sentry.captureException(error);
+
         return this.setState({
             error: error,
         });
@@ -77,8 +81,7 @@ class App extends Component {
         if (!loaded) return null;
 
         if (error) {
-            // @TODO Handle error pages here
-            return 'Whoops error';
+            return <GeneralErrorPage/>;
         }
 
         return (

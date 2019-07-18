@@ -1,0 +1,64 @@
+@import "../../Common/common";
+
+.GeneralErrorPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+
+  .ErrorHeader {
+    flex: 0 0 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ErrorContent {
+    display: flex;
+    align-items: center;
+    flex: 1 1 0;
+  }
+
+  .ErrorStripe {
+    padding: $Spacing4*3 $Spacing4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: $Slate700;
+    width: 100%;
+  }
+
+  .AppLogo {
+    max-width: 140px;
+  }
+
+  .ErrorCode {
+    text-align: center;
+    font-size: $FontSize700;
+    font-family: $MonospaceFontFamily;
+    font-weight: bold;
+    margin-bottom: $Spacing8;
+  }
+
+  .ErrorDescription {
+    font-size: $FontSize400;
+    margin-top: 0;
+    margin-bottom: $Spacing7;
+    max-width: 640px;
+    font-weight: 100;
+    text-align: center;
+  }
+
+  .ErrorActions {
+    margin-top: $Spacing8;
+
+    .Button {
+      width: 200px;
+
+      &:first-child {
+        margin-right: $Spacing4;
+      }
+    }
+  }
+}
