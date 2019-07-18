@@ -99,7 +99,7 @@ export const fetchPublicContractsForTransaction = (transaction) => {
                 return new ErrorActionResponse();
             }
 
-            const contracts = data.map(Contract.buildFromResponse);
+            const contracts = data.map(contract => Contract.buildFromResponse(contract));
 
             dispatch({
                 type: FETCH_PUBLIC_CONTRACTS_FOR_TX_ACTION,
@@ -123,7 +123,7 @@ export const fetchWatchedContracts = () => {
                 return new ErrorActionResponse();
             }
 
-            const contracts = data.contracts.map(Contract.buildFromResponse);
+            const contracts = data.contracts.map(contract => Contract.buildFromResponse(contract));
 
             dispatch({
                 type: FETCH_WATCHED_CONTRACTS_ACTION,
@@ -176,7 +176,7 @@ export const fetchMostWatchedContracts = () => {
                 return new ErrorActionResponse();
             }
 
-            const contracts = data.map(Contract.buildFromResponse);
+            const contracts = data.map(contract => Contract.buildFromResponse(contract));
 
             return new SuccessActionResponse(contracts);
         } catch (error) {
