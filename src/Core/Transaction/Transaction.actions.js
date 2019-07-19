@@ -217,17 +217,17 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
         } catch (error) {
             if (!silentError) {
                 console.error(error);
-            }
 
-            Sentry.withScope(scope => {
-                scope.setExtras({
-                    network,
-                    networkId,
-                    transaction: txHash,
-                    error,
+                Sentry.withScope(scope => {
+                    scope.setExtras({
+                        network,
+                        networkId,
+                        transaction: txHash,
+                        error,
+                    });
+                    Sentry.captureMessage('Failed fetching public transaction');
                 });
-                Sentry.captureMessage('Failed fetching public transaction');
-            });
+            }
 
             return new ErrorActionResponse(error);
         }
