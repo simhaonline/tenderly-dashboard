@@ -19,6 +19,12 @@ stories.add('default', () => (
         <Tag color="secondary-outline">
             <span>Tag</span>
         </Tag>
+        <Tag color="success">
+            <span>Success</span>
+        </Tag>
+        <Tag color="danger">
+            <span>Danger</span>
+        </Tag>
     </div>
 ));
 

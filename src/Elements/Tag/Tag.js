@@ -12,6 +12,8 @@ const tagColorClassMap = {
     "primary-outline": "Tag--PrimaryOutline",
     "secondary": "Tag--Secondary",
     "secondary-outline": "Tag--SecondaryOutline",
+    "success": "Tag--Success",
+    "danger": "Tag--Danger",
 };
 
 const Tag = ({color, size, className, children, ...props}) => {

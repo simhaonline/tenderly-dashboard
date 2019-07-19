@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {FeatureFlagTypes} from "../../Common/constants";
 
-import {PanelContent, Panel, PanelTabs, Toggle} from "../../Elements";
+import {PanelContent, Panel, PanelTabs} from "../../Elements";
 import {CallTracePreview, StackTracePreview, TraceInspector} from "../index";
 
 class TransactionExecution extends Component {
@@ -24,9 +24,17 @@ class TransactionExecution extends Component {
             },
         ];
 
+        if (!transaction.status) {
+            tabs.unshift({
+                label: "Error",
+                value: "error",
+                tagLabel: "Stack Trace",
+                tagColor: "danger",
+            })
+        }
+
         this.state = {
-            currentTab: 'overview',
-            viewStackTrace: !transaction.status,
+            currentTab: transaction.status ? 'overview' : 'error',
             tabs,
         };
     }
@@ -37,17 +45,9 @@ class TransactionExecution extends Component {
         });
     };
 
-    handleViewStackTraceChange = () => {
-        const {viewStackTrace} = this.state;
-
-        this.setState({
-            viewStackTrace: !viewStackTrace,
-        });
-    };
-
     render() {
-        const {callTrace, stackTrace, contracts, transaction} = this.props;
-        const {currentTab, tabs, viewStackTrace} = this.state;
+        const {callTrace, stackTrace, contracts} = this.props;
+        const {currentTab, tabs} = this.state;
 
         return (
             <Fragment>
@@ -55,16 +55,8 @@ class TransactionExecution extends Component {
                 <Panel className="TransactionExecution">
                     <PanelTabs tabs={tabs} active={currentTab} onChange={this.handleTabChange}/>
                     <PanelContent>
-                        {currentTab === 'overview' && <div>
-                            {!transaction.status && !!stackTrace && <div className="MarginBottom3 DisplayFlex">
-                                <div className="DisplayFlex AlignItemsCenter">
-                                    <Toggle value={viewStackTrace} onChange={this.handleViewStackTraceChange}/>
-                                    <span className="MarginLeft1">View Stack Trace</span>
-                                </div>
-                            </div>}
-                            {viewStackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
-                            {!viewStackTrace && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
-                        </div>}
+                        {currentTab === 'error' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
+                        {currentTab === 'overview' && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
                         {currentTab === 'debugger' && <TraceInspector callTrace={callTrace} stackTrace={stackTrace} contracts={contracts}/>}
                     </PanelContent>
                 </Panel>

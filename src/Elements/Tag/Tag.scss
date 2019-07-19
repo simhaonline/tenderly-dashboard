@@ -44,3 +44,13 @@
   border-color: $Secondary500;
   background-color: transparentize($Secondary500, 0.5);
 }
+
+.Tag--Success {
+  border-color: $Success500;
+  background-color: $Success500;
+}
+
+.Tag--Danger {
+  border-color: $Danger500;
+  background-color: $Danger500;
+}
