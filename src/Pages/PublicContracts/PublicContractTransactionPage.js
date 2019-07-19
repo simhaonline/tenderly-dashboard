@@ -8,17 +8,19 @@ import {
     getTransactionCallTrace,
     getTransactionStackTrace
 } from "../../Common/Selectors/TransactionSelectors";
+import {
+    arePublicContractsLoadedForTransaction,
+    getPublicContractsForTransaction
+} from "../../Common/Selectors/PublicContractSelectors";
 import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {EtherscanLink, ProjectPageLoader, SharePageButton, TransactionPageContent} from "../../Components";
-import {Page, Container, Button, Icon, PageHeading} from "../../Elements";
-import {
-    arePublicContractsLoadedForTransaction,
-    getPublicContractsForTransaction
-} from "../../Common/Selectors/PublicContractSelectors";
+import NoTransactionsIcon from "../../Components/NoTransactionsEmptyState/no-transactions-icon.svg";
+
+import {Page, Container, Button, Icon, PageHeading, Panel, PanelContent} from "../../Elements";
+import {EmptyState, EtherscanLink, ProjectPageLoader, SharePageButton, TransactionPageContent} from "../../Components";
 
 class PublicContractTransactionPage extends Component {
     constructor(props) {
@@ -38,7 +40,14 @@ class PublicContractTransactionPage extends Component {
         if (!transaction || !callTrace) {
             const actionResponse = await txActions.fetchTransactionForPublicContract(txHash, networkType);
 
-            tx = actionResponse.data.transaction;
+            if (actionResponse.success) {
+                tx = actionResponse.data.transaction;
+            } else {
+                return this.setState({
+                    loaded: true,
+                    error: true,
+                });
+            }
         }
 
         if (tx && !contractsLoaded) {
@@ -57,7 +66,7 @@ class PublicContractTransactionPage extends Component {
     };
 
     render() {
-        const {loaded} = this.state;
+        const {loaded, error} = this.state;
         const {contracts, transaction, callTrace, stackTrace, networkType, txHash} = this.props;
 
         return (
@@ -82,7 +91,12 @@ class PublicContractTransactionPage extends Component {
                         </div>
                     </PageHeading>
                     {!loaded && <ProjectPageLoader text="Fetching Transaction Data..."/>}
-                    {loaded && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace} stackTrace={stackTrace}/>}
+                    {loaded && !error && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace} stackTrace={stackTrace}/>}
+                    {loaded && error && <Panel>
+                        <PanelContent>
+                            <EmptyState icon={NoTransactionsIcon} title="Bummer, we couldn't find this transaction" description="This transaction probably has not been processed by us yet or the transaction hash is not a valid one."/>
+                        </PanelContent>
+                    </Panel>}
                 </Container>
             </Page>
         );

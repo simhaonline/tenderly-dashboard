@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/browser";
+
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {NetworkAppToApiTypeMap, TransactionFilterTypes} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
@@ -186,9 +188,9 @@ export const fetchTransactionsForPublicContract = (contractAddress, network, pag
  */
 export const fetchTransactionForPublicContract = (txHash, network, silentError = false) => {
     return async (dispatch) => {
-        try {
-            const networkId = NetworkAppToApiTypeMap[network];
+        const networkId = NetworkAppToApiTypeMap[network];
 
+        try {
             const {data} = await Api.get(`/public-contract/${networkId}/tx/${txHash}`);
 
             if (!data) {
@@ -216,6 +218,16 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
             if (!silentError) {
                 console.error(error);
             }
+
+            Sentry.withScope(scope => {
+                scope.setExtras({
+                    network,
+                    networkId,
+                    transaction: txHash,
+                    error,
+                });
+                Sentry.captureMessage('Failed fetching public transaction');
+            });
 
             return new ErrorActionResponse(error);
         }
