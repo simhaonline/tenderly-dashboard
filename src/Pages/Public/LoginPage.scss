@@ -77,6 +77,17 @@
       &:not(:last-child) {
         margin-right: 10px;
       }
+
+
+    }
+
+    @media (max-width: 760px) {
+      display: block;
+
+      .ButtonWrapper:not(:last-child) {
+        margin-right: 0;
+        margin-bottom: 12px;
+      }
     }
   }
 
@@ -141,8 +152,9 @@
   }
 
   @media (max-width: 720px) {
-    padding-top: 50px;
     display: block;
+    width: 100%;
+    padding: 50px 24px;
 
     .SignUpWrapper {
       margin: 20px auto;

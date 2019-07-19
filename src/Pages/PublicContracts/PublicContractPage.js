@@ -88,6 +88,10 @@ class PublicContractPage extends Component {
     };
 
     handlePageChange = (nextPage) => {
+        const {loggedIn} = this.props;
+
+        console.log(loggedIn);
+
         this.setState({
             page: nextPage,
         }, () => {
