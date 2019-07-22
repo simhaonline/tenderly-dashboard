@@ -90,5 +90,5 @@ export function areWatchedContractsLoaded(state) {
  * @return {boolean}
  */
 export function isPublicContractWatched(state, contractAddress, network) {
-    return !!state.publicContracts.watchedContracts[contractAddress];
+    return !!state.publicContracts.watchedContracts[`${network}:${contractAddress}`];
 }

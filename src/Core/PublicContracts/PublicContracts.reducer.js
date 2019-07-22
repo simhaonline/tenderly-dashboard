@@ -24,7 +24,7 @@ const PublicContractsReducer = (state = initialState, action) => {
                 ...state,
                 watchedContracts: {
                     ...action.contracts.reduce((data, contract) => {
-                        data[contract.address] = {
+                        data[`${contract.network}:${contract.address}`] = {
                             name: contract.name,
                             address: contract.address,
                             network: contract.network,
@@ -36,13 +36,15 @@ const PublicContractsReducer = (state = initialState, action) => {
                 watchedContractsLoaded: true,
             };
         case TOGGLE_WATCHED_CONTRACT_ACTION:
-            const currentToggleState = state.watchedContracts[action.contract.address];
+            const contractId = `${action.contract.network}:${action.contract.address}`;
+
+            const currentToggleState = state.watchedContracts[contractId];
 
             return {
                 ...state,
                 watchedContracts: {
                     ...state.watchedContracts,
-                    [action.contract.address]: currentToggleState ? null : {
+                    [contractId]: currentToggleState ? null : {
                         name: action.contract.name,
                         address: action.contract.address,
                         network: action.contract.network,
