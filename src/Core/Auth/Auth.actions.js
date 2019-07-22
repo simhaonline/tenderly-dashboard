@@ -316,7 +316,7 @@ export const authenticateOAuth = (service, code) => {
             dispatch(setAuthHeader(data.token));
             await dispatch(getUser());
 
-            return new ActionResponse(true, data.token);
+            return new SuccessActionResponse(data.token);
         } catch (error) {
             return new ErrorActionResponse(error);
         }

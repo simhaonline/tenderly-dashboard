@@ -32,13 +32,11 @@ class LoginRequiredModal extends Component {
 
     handleFormSubmit = async () => {
         const {formData: {email, password}, loginAttempts} = this.state;
-        const {onClose, onLogin} = this.props;
+        const {onClose, onLogin, authActions} = this.props;
 
         if (!email || !password) {
             return;
         }
-
-        const {authActions} = this.props;
 
         this.setState({
             loginFailed: false,
@@ -67,9 +65,23 @@ class LoginRequiredModal extends Component {
     };
 
     handleOAuth = async ({type, code}) => {
-        const {authActions} = this.props;
+        const {authActions, onClose, onLogin} = this.props;
 
-        await authActions.authenticateOAuth(type, code);
+        const actionResponse = await authActions.authenticateOAuth(type, code);
+
+        if (!actionResponse.success) {
+            this.setState({
+                loginFailed: true,
+            });
+
+            return;
+        }
+
+        onClose();
+
+        if (onLogin) {
+            onLogin();
+        }
     };
 
     isLoginButtonDisabled = () => {

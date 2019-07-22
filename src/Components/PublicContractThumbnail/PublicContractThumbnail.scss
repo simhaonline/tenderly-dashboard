@@ -24,11 +24,14 @@
 .PublicContractThumbnail__Info {
   flex: 1 1 0;
   margin-left: $Spacing4;
+  overflow: hidden;
 
   .PublicContractThumbnail__Name {
     font-weight: 600;
     margin-bottom: 4px;
     font-size: $FontSize300;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .PublicContractThumbnail__Address {
