@@ -88,7 +88,7 @@ class LoginPage extends Component {
         const loginButtonDisabled = this.isLoginButtonDisabled();
 
         return (
-            <Page id="LoginPage" padding={false} wholeScreenPage>
+            <Page id="LoginPage" padding={false}>
                 <div className="LoginPageContent">
                     <div className="LoginFormWrapper">
                         <div className="LogoWrapper">

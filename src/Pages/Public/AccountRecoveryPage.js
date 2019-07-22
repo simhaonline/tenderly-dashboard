@@ -16,7 +16,7 @@ class AccountRecoveryPage extends Component {
 
     render() {
         return (
-            <Page id="AccountRecoveryPage" wholeScreenPage>
+            <Page id="AccountRecoveryPage">
                 <Container>
                     <AccountRecoveryForm onSubmit={this.handleRecoverAccountSubmit}/>
                 </Container>

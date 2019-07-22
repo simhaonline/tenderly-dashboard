@@ -80,7 +80,7 @@ class RegisterPage extends Component {
         }
 
         return (
-            <Page padding={false} wholeScreenPage>
+            <Page padding={false}>
                 <Container>
                     <RegisterForm onSubmit={this.handleRegistrationSubmit}
                                   onOAuth={this.handleOAuthRegistration}/>
