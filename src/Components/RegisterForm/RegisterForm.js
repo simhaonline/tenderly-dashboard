@@ -121,8 +121,12 @@ class RegisterForm extends Component {
                         <PanelContent>
                             <Form onSubmit={this.handleRegistrationSubmit}>
                                 <div className="OAuthButtonsWrapper">
-                                    <GoogleLoginButton label="Register with Google" onAuthentication={this.handleOAuth}/>
-                                    <GitHubLoginButton label="Register with GitHub"/>
+                                    <div className="ButtonWrapper">
+                                        <GoogleLoginButton label="Register with Google" onAuthentication={this.handleOAuth}/>
+                                    </div>
+                                    <div className="ButtonWrapper">
+                                        <GitHubLoginButton label="Register with GitHub"/>
+                                    </div>
                                 </div>
                                 <PanelDivider/>
                                 {registrationFailed && <Alert color="danger" animation={true}>{errorMessage}</Alert>}
@@ -138,7 +142,7 @@ class RegisterForm extends Component {
                                     }/>
                                 </div>
                                 <div className="FormActionsWrapper">
-                                    <Button onClick={this.handleRegistrationSubmit} disabled={this.isFormInvalid()}>
+                                    <Button onClick={this.handleRegistrationSubmit} disabled={this.isFormInvalid()} className="CreateAccountButton">
                                         <span>Create Account</span>
                                     </Button>
                                 </div>

@@ -41,8 +41,21 @@
     flex-wrap: wrap;
     justify-content: center;
 
-    .GitHubLoginButton {
-      margin-left: 15px;
+    .ButtonWrapper {
+      flex: 1 1 0;
+
+      &:first-child {
+        margin-right: 15px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      display: block;
+
+      .ButtonWrapper:first-child {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
     }
   }
 
@@ -55,6 +68,12 @@
 
     .LoginLinkIcon {
       margin-right: 5px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .CreateAccountButton {
+      width: 100%;
     }
   }
 }
