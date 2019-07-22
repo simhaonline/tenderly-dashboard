@@ -10,12 +10,16 @@ import './GitHubLoginButton.scss';
 const GITHUB_BASE_URL = 'https://github.com/login/oauth/authorize';
 const GITHUB_REDIRECT_URL = `${GITHUB_CALLBACK_URL}/oauth/${OAuthServiceTypeMap.GITHUB}`;
 
-const GitHubButton = ({className, label, ...props}) => {
+const GitHubButton = ({className, label, redirectBack, ...props}) => {
     const GitHubData = {
         client_id: GITHUB_CLIENT_ID,
         redirect_uri: GITHUB_REDIRECT_URL,
         scope: 'user:email',
     };
+
+    if (redirectBack) {
+        GitHubData.redirect_uri += `?redirectTo=${window.location.pathname}`;
+    }
 
     const searchParams = new URLSearchParams(GitHubData);
 

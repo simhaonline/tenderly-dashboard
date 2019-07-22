@@ -51,7 +51,7 @@ class OAuthPage extends Component {
 
     render() {
         const {authenticating, authResponse, alreadyLoggedIn} = this.state;
-        const {service} = this.props;
+        const {service, redirectTo} = this.props;
 
         if (alreadyLoggedIn) {
             return <Redirect to="/"/>;
@@ -68,7 +68,8 @@ class OAuthPage extends Component {
         }
 
         if (currentStatus === OAuthStatusMap.SUCCESS) {
-            return <Redirect to="/dashboard"/>;
+            const redirectRoute = redirectTo || "/dashboard";
+            return <Redirect to={redirectRoute}/>;
         }
 
         return (
@@ -88,9 +89,12 @@ const mapStateToProps = (state, ownProps) => {
 
     const authCode = searchParams.get("code") || null;
 
+    const redirectTo = searchParams.get("redirectTo") || null;
+
     return {
         service,
         code: authCode,
+        redirectTo,
         auth: state.auth,
     };
 };

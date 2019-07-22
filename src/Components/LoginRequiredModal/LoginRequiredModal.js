@@ -118,7 +118,7 @@ class LoginRequiredModal extends Component {
                                 <GoogleLoginButton label="Continue with Google" onAuthentication={this.handleOAuth}/>
                             </div>
                             <div>
-                                <GitHubButton label="Continue with GitHub"/>
+                                <GitHubButton redirectBack label="Continue with GitHub"/>
                             </div>
                             <p className="TextAlignCenter">or</p>
                             <Button to="/register" outline stretch>
