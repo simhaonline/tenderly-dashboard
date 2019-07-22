@@ -20,7 +20,8 @@ import {
     ContractInformation,
     ProjectPageLoader,
     NetworkTag,
-    TransactionsList, EtherscanLink, SharePageButton, ContractFileSource
+    TransactionsList, EtherscanLink, SharePageButton, ContractFileSource,
+    LoginRequiredModal
 } from "../../Components";
 
 class PublicContractPage extends Component {
@@ -30,6 +31,8 @@ class PublicContractPage extends Component {
         this.state = {
             actionInProgress: false,
             loading: true,
+            loginModalOpen: false,
+            onLoginHandler: null,
             fetching: false,
             page: 1,
         };
@@ -71,8 +74,46 @@ class PublicContractPage extends Component {
         });
     };
 
+    openLoginModal = (onLoginHandler) => {
+        this.setState({
+            loginModalOpen: true,
+            onLoginHandler,
+        });
+    };
+
+    closeLoginModal = () => {
+        this.setState({
+            loginModalOpen: false,
+        });
+    };
+
+    handleLogin = () => {
+        const {onLoginHandler} = this.state;
+
+        if (!onLoginHandler) {
+            return;
+        }
+
+        onLoginHandler();
+
+        this.setState({
+            onLoginHandler: null,
+        })
+    };
+
     toggleWatchedContract = async () => {
-        const {actions, contract, networkType} = this.props;
+        const {actions, contract, networkType, loggedIn} = this.props;
+
+        if (!loggedIn) {
+            this.openLoginModal(async () => {
+                const watchedResponse = await actions.fetchWatchedContracts();
+
+                if (watchedResponse.success && watchedResponse.data.every(watchedContract => watchedContract.getUniqueId() !== contract.getUniqueId())) {
+                    this.toggleWatchedContract();
+                }
+            });
+            return;
+        }
 
         this.setState({
             actionInProgress: true,
@@ -88,6 +129,15 @@ class PublicContractPage extends Component {
     };
 
     handlePageChange = (nextPage) => {
+        const {loggedIn} = this.props;
+
+        if (!loggedIn) {
+            this.openLoginModal(async () => {
+                this.handlePageChange(nextPage);
+            });
+            return;
+        }
+
         this.setState({
             page: nextPage,
         }, () => {
@@ -107,7 +157,7 @@ class PublicContractPage extends Component {
 
     render() {
         const {contract, isContractWatched, networkType, watchedContractsLoaded, contractId} = this.props;
-        const {loading, transactions, page, actionInProgress, fetching} = this.state;
+        const {loading, transactions, page, actionInProgress, fetching, loginModalOpen} = this.state;
 
         if (loading) {
             return (
@@ -175,6 +225,7 @@ class PublicContractPage extends Component {
                         )}/>
                         <Redirect to={`/project/${contract.address}/transactions`}/>
                     </Switch>
+                    <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal} onLogin={this.handleLogin}/>
                 </Container>
             </Page>
         )

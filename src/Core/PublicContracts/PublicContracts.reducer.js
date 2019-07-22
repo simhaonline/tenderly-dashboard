@@ -17,14 +17,18 @@ const initialState = {
 const PublicContractsReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOG_OUT_ACTION: {
-            return initialState;
+            return {
+                ...initialState,
+                contracts: state.contracts,
+                contractsLoaded: state.contractsLoaded,
+            };
         }
         case FETCH_WATCHED_CONTRACTS_ACTION:
             return {
                 ...state,
                 watchedContracts: {
                     ...action.contracts.reduce((data, contract) => {
-                        data[`${contract.network}:${contract.address}`] = {
+                        data[contract.getUniqueId()] = {
                             name: contract.name,
                             address: contract.address,
                             network: contract.network,
@@ -36,7 +40,7 @@ const PublicContractsReducer = (state = initialState, action) => {
                 watchedContractsLoaded: true,
             };
         case TOGGLE_WATCHED_CONTRACT_ACTION:
-            const contractId = `${action.contract.network}:${action.contract.address}`;
+            const contractId = action.contract.getUniqueId();
 
             const currentToggleState = state.watchedContracts[contractId];
 

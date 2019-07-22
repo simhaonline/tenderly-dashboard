@@ -131,6 +131,13 @@ class Contract {
     }
 
     /**
+     * @return {string}
+     */
+    getUniqueId() {
+        return `${this.network}:${this.address}`;
+    }
+
+    /**
      * @param {Object} data
      * @param {Object} [projectData]
      * @return {Contract}

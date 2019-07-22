@@ -1,0 +1,12 @@
+@import "../../Common/common";
+
+.LoginRequiredModal {
+  .SplitContentWrapper {
+    flex: 1 1 0;
+
+    &:last-child {
+      border-left: 1px solid $Slate700;
+      padding-left: $Spacing7;
+    }
+  }
+}

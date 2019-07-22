@@ -64,6 +64,7 @@ export {default as CopyableText} from './CopyableText/CopyableText';
 export {default as SharePageButton} from './SharePageButton/SharePageButton';
 export {default as EmptyState} from './EmptyState/EmptyState';
 export {default as ExampleProjectInfoModal} from './ExampleProjectInfoModal/ExampleProjectInfoModal';
+export {default as LoginRequiredModal} from './LoginRequiredModal/LoginRequiredModal';
 export {default as PageLink} from './PageLink/PageLink';
 export {default as PublicContractThumbnail} from './PublicContractThumbnail/PublicContractThumbnail';
 export {default as PublicNetworksSearch} from './PublicNetworksSearch/PublicNetworksSearch';
