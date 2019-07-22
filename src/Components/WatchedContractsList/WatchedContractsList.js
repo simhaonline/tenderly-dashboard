@@ -26,7 +26,7 @@ const WatchedContractsList = ({contracts, loaded}) => {
 
     return (
         <div className="DisplayFlex FlexWrap">
-            {contracts.map(contract => <PublicContractThumbnail key={contract.address} contract={contract}/>)}
+            {contracts.map(contract => <PublicContractThumbnail key={`${contract.network}:${contract.address}`} contract={contract}/>)}
         </div>
     )
 };
