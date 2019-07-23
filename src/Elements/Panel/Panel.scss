@@ -17,6 +17,8 @@
     border-bottom: 1px solid $Slate700;
     margin: 0 $Spacing2;
     padding: $Spacing4 $Spacing2;
+    display: flex;
+    align-items: center;
 
     h3 {
       font-weight: 600;

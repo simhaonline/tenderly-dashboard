@@ -1,10 +1,8 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
-@import "../../Common/Styles/global";
-@import "../../Common/Styles/mixins";
+@import "../../Common/common";
 
 .PageSegmentSwitcher {
   flex: 0 0 240px;
+  width: 240px;
   margin-right: $Spacing6;
 
   .SwitchOption {
@@ -21,8 +19,21 @@
     position: relative;
     overflow: hidden;
 
-    .SwitchLabel {
+    .SwitchInfo {
+      overflow: hidden;
       flex: 1 1 0;
+    }
+
+    .SwitchLabel {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .SwitchDescription {
+      margin-top: 4px;
+      font-size: $FontSize200;
+      opacity: 0.75;
     }
 
     .SwitchIcon {

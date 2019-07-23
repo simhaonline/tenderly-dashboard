@@ -3,29 +3,29 @@ import {connect} from "react-redux";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
-import {Container, Page, PageHeading, Card, CardHeading} from "../../Elements";
-import {PageSegments, PageSegmentSwitcher, PageSegmentContent, FeatureFlag, FeatureComingSoon} from "../../Components";
+import {Container, Page, PageHeading} from "../../Elements";
+import {PageSegments, PageSegmentSwitcher, PageSegmentContent, FeatureFlag, FeatureComingSoon, ProjectAlertHistory, ProjectAlertIntegrations, ProjectAlertRules} from "../../Components";
 import {FeatureFlagTypes} from "../../Common/constants";
+
+const RULES_TAB = 'rules';
+const HISTORY_TAB = 'history';
+const INTEGRATIONS_TAB = 'integrations';
 
 const PageSegmentsOptions = [
     {
-        label: 'Events',
-        value: 'events',
+        label: 'Rules',
+        description: 'Setup custom rules and triggers for alerts',
+        value: RULES_TAB,
     },
     {
-        label: 'Analytics',
-        value: 'analytics',
-
-    },
-    {
-        label: 'Deployment',
-        value: 'deployment',
-
+        label: 'History',
+        description: 'View alerts that were triggered and sent',
+        value: HISTORY_TAB,
     },
     {
         label: 'Integrations',
-        value: 'integrations',
-
+        description: 'Set alert destinations like email, slack etc.',
+        value: INTEGRATIONS_TAB,
     },
 ];
 
@@ -34,7 +34,7 @@ class ProjectAlertsPage extends Component {
         super(props);
 
         this.state = {
-            currentSegment: 'events',
+            currentSegment: RULES_TAB,
         }
     }
 
@@ -62,33 +62,14 @@ class ProjectAlertsPage extends Component {
                     <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
                         <PageSegments>
                             <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
-                            {currentSegment === 'events' && <PageSegmentContent>
-                                <Card>
-                                    <CardHeading>
-                                        <h3>Events</h3>
-                                    </CardHeading>
-                                </Card>
+                            {currentSegment === RULES_TAB && <PageSegmentContent>
+                                <ProjectAlertRules/>
                             </PageSegmentContent>}
-                            {currentSegment === 'analytics' && <PageSegmentContent>
-                                <Card>
-                                    <CardHeading>
-                                        <h3>Analytics</h3>
-                                    </CardHeading>
-                                </Card>
+                            {currentSegment === HISTORY_TAB && <PageSegmentContent>
+                                <ProjectAlertHistory/>
                             </PageSegmentContent>}
-                            {currentSegment === 'deployment' && <PageSegmentContent>
-                                <Card>
-                                    <CardHeading>
-                                        <h3>Deployment</h3>
-                                    </CardHeading>
-                                </Card>
-                            </PageSegmentContent>}
-                            {currentSegment === 'integrations' && <PageSegmentContent>
-                                <Card>
-                                    <CardHeading>
-                                        <h3>Integrations</h3>
-                                    </CardHeading>
-                                </Card>
+                            {currentSegment === INTEGRATIONS_TAB && <PageSegmentContent>
+                                <ProjectAlertIntegrations/>
                             </PageSegmentContent>}
                         </PageSegments>
                     </FeatureFlag>

@@ -15,7 +15,10 @@ const PageSegmentSwitcherOption = ({option, onSelect, active}) => {
                     "SwitchOption__Card--Active": active,
                 },
             )} onClick={() => {onSelect(option.value)}}>
-                <div className="SwitchLabel">{option.label}</div>
+                <div className="SwitchInfo">
+                    <div className="SwitchLabel">{option.label}</div>
+                    {!!option.description && <div className="SwitchDescription">{option.description}</div>}
+                </div>
                 <div className="SwitchIconWrapper">
                     <Icon icon="chevron-right" className="SwitchIcon"/>
                 </div>

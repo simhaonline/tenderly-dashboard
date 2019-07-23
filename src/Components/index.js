@@ -29,6 +29,11 @@ export {default as ProjectSidebar} from './ProjectSidebar/ProjectSidebar';
 export {default as ProjectContractList} from './ProjectContractList/ProjectContractList';
 export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
 export {default as ProjectAnalyticsGraph} from './ProjectAnalyticsGraph/ProjectAnalyticsGraph';
+
+export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRules';
+export {default as ProjectAlertHistory} from './ProjectAlertHistory/ProjectAlertHistory';
+export {default as ProjectAlertIntegrations} from './ProjectAlertIntegrations/ProjectAlertIntegrations';
+
 export {default as ProjectTransactionAnalytics} from './ProjectTransactionAnalytics/ProjectTransactionAnalytics';
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
