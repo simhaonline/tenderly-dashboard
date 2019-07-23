@@ -4,9 +4,12 @@ import { UncontrolledTooltip } from 'reactstrap';
 
 import './Tooltip.scss';
 
-const Tooltip = ({id, placement, className, children}) => {
+const Tooltip = ({id, placement, className, showDelay, hideDelay, children}) => {
     return (
-        <UncontrolledTooltip flip={false} placement={placement} target={id} innerClassName={`Tooltip__Content ${className}`} className="Tooltip" hideArrow>
+        <UncontrolledTooltip delay={{
+            show: showDelay,
+            hide: hideDelay,
+        }} flip={false} placement={placement} target={id} innerClassName={`Tooltip__Content ${className}`} className="Tooltip" hideArrow>
             {children}
         </UncontrolledTooltip>
     );
@@ -15,10 +18,14 @@ const Tooltip = ({id, placement, className, children}) => {
 Tooltip.propTypes = {
     id: PropTypes.string.isRequired,
     placement: PropTypes.string,
+    showDelay: PropTypes.number,
+    hideDelay: PropTypes.number,
 };
 
 Tooltip.defaultProps = {
     placement: "right",
+    showDelay: 0,
+    hideDelay: 250,
 };
 
 export default Tooltip;

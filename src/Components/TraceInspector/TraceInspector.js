@@ -4,7 +4,7 @@ import ReactJson from 'react-json-view';
 
 import {Contract, CallTrace} from "../../Core/models";
 
-import {Button, Icon} from "../../Elements";
+import {Button, Icon, Tooltip} from "../../Elements";
 import {CopyableText} from "../index";
 import CodePreview from "../CodePreview/CodePreview";
 
@@ -132,7 +132,7 @@ class TraceInspector extends Component {
 
             newTrace.push({
                 trace: flatCallTrace[joined.join('.')],
-                icon: currentLevel === 0 ? ROOT_ICON : JUMP_IN_ICON,
+                icon: currentLevel === "0" ? ROOT_ICON : JUMP_IN_ICON,
             });
 
             return joined;
@@ -165,15 +165,18 @@ class TraceInspector extends Component {
                     </div>}
                 </div>
                 <div className="MarginBottom2">
-                    <Button size="small" outline={!this.canGoToPrevious()} disabled={!this.canGoToPrevious()} onClick={this.goToPrevious}>
+                    <Button id="DebuggerButton__Previous" size="small" outline={!this.canGoToPrevious()} disabled={!this.canGoToPrevious()} onClick={this.goToPrevious}>
                         <Icon icon={GO_PREVIOUS_ICON}/>
                     </Button>
-                    <Button size="small" outline={!this.canJumpIn()} disabled={!this.canJumpIn()} onClick={this.jumpIn}>
+                    <Button id="DebuggerButton__JumpIn" size="small" outline={!this.canJumpIn()} disabled={!this.canJumpIn()} onClick={this.jumpIn}>
                         <Icon icon={JUMP_IN_ICON}/>
                     </Button>
-                    <Button size="small" outline={!this.canGoToNext()} disabled={!this.canGoToNext()} onClick={this.goToNext}>
+                    <Button id="DebuggerButton__Next" size="small" outline={!this.canGoToNext()} disabled={!this.canGoToNext()} onClick={this.goToNext}>
                         <Icon icon={JUMP_NEXT_ICON}/>
                     </Button>
+                    <Tooltip showDelay={1000} id="DebuggerButton__Previous">Go to the previous step in the stack</Tooltip>
+                    <Tooltip showDelay={1000} id="DebuggerButton__JumpIn">Jump into the function call</Tooltip>
+                    <Tooltip showDelay={1000} id="DebuggerButton__Next">Jump to the next step in the execution</Tooltip>
                 </div>
                 <div className="DisplayFlex">
                     <div className="MarginRight2 TraceInspector__StateTraceWrapper">
