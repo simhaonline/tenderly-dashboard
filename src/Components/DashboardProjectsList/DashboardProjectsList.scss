@@ -69,10 +69,7 @@
     }
 
     .ProjectChartWrapper {
-      border-top: 1px solid $BorderColor;
-      border-bottom: 1px solid $BorderColor;
-      padding-top: 10px;
-      margin: 0 -6px;
+      margin: 0 -1*$Spacing5 -1*$Spacing4;
       height: 90px;
     }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import moment from "moment";
-import {Bar, BarChart, YAxis} from "recharts";
+import {Area, AreaChart, YAxis, Tooltip} from "recharts";
 
 import MixPanel from "../../Utils/MixPanel";
 
@@ -22,20 +22,21 @@ const handleCreateProjectClick = () => {
 
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     const data = [
-        {name: 'Page A', events: 0.1,},
-        {name: 'Page B', events: 0.1,},
-        {name: 'Page C', events: 0.1,},
-        {name: 'Page D', events: 0.1,},
-        {name: 'Page E', events: 0.1,},
-        {name: 'Page F', events: 0.1,},
-        {name: 'Page G', events: 0.1,},
-        {name: 'Page G', events: 0.1,},
-        {name: 'Page G', events: 0.1,},
-        {name: 'Page G', events: 0.1,},
-        {name: 'Page G', events: 0.1,},
+        {name: 'Page A', events: 1,},
+        {name: 'Page B', events: 2,},
+        {name: 'Page C', events: 0,},
+        {name: 'Page D', events: 0,},
+        {name: 'Page E', events: 5,},
+        {name: 'Page F', events: 11,},
+        {name: 'Page G', events: 17,},
+        {name: 'Page G', events: 2,},
+        {name: 'Page G', events: 3,},
+        {name: 'Page G', events: 1,},
+        {name: 'Page G', events: 2,},
         {name: 'Page G', events: 4,},
-        {name: 'Page G', events: 0.1,},
-        {name: 'Page G', events: 0.1,},
+        {name: 'Page G', events: 27,},
+        {name: 'Page G', events: 0,},
+        {name: 'Page G', events: 2,},
     ];
 
     return (
@@ -54,24 +55,37 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
                             </div>
                             <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                                 <div className="ProjectChartWrapper">
-                                    {!!project.lastPushAt && <BarChart width={220} height={80} data={data}>
+                                    {!!project.lastPushAt && <AreaChart width={250} height={90} data={data}>
+                                        <defs>
+                                            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="15%" stopColor="#0076FF" stopOpacity={0.75}/>
+                                                <stop offset="100%" stopColor="#0076FF" stopOpacity={0}/>
+                                            </linearGradient>
+                                        </defs>
+                                        <Tooltip cursor={{ stroke: 'rgba(0,118,255,0.25)', strokeWidth: 1 }} contentStyle={{
+                                            backgroundColor: 'rgba(8,20,33,0.8)',
+                                            border: 'none',
+                                            borderRadius: '4px',
+                                        }}/>
                                         <YAxis type="number" domain={[0,  dataMax => Math.max(dataMax, 8)]} hide/>
-                                        <Bar dataKey='events' fill='#df0074'/>
-                                    </BarChart>}
+                                        <Area type="monotone" xAxisId="name" dataKey="events" stroke="#0076FF" fill="url(#colorUv)" />
+                                    </AreaChart>}
                                     {!project.lastPushAt && <div className="ProjectNotSetupState">
                                         <Icon icon="cloud-off"/>
                                         <span>Not contracts pushed yet</span>
                                     </div>}
                                 </div>
                             </FeatureFlag>
-                            <div className="ProjectContractInfo">
-                                {!!project.lastPushAt && <div className="LastDeployInfo">
-                                    Last Push: <span>{moment(project.lastPushAt).fromNow()}</span>
-                                </div>}
-                                {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
-                                    <ProjectSetupGuide label="Add Contracts" project={project} size="small" color="secondary"/>
-                                </div>}
-                            </div>
+                            <FeatureFlag flag={FeatureFlagTypes.COMING_SOON} reverse>
+                                <div className="ProjectContractInfo">
+                                    {!!project.lastPushAt && <div className="LastDeployInfo">
+                                        Last Push: <span>{moment(project.lastPushAt).fromNow()}</span>
+                                    </div>}
+                                    {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
+                                        <ProjectSetupGuide label="Add Contracts" project={project} size="small" color="secondary"/>
+                                    </div>}
+                                </div>
+                            </FeatureFlag>
                         </Card>
                     </Link>
                 )}
