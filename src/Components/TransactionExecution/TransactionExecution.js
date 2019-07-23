@@ -20,7 +20,6 @@ class TransactionExecution extends Component {
             {
                 label: "Debugger",
                 value: 'debugger',
-                featureFlag: FeatureFlagTypes.DEBUGGER,
             },
         ];
 

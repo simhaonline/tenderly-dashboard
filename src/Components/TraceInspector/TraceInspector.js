@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
 
 import {Contract, CallTrace} from "../../Core/models";
 
 import {Button, Icon} from "../../Elements";
+import {CopyableText} from "../index";
 import CodePreview from "../CodePreview/CodePreview";
 
 import './TraceInspector.scss';
@@ -150,12 +151,17 @@ class TraceInspector extends Component {
 
         const contract = contracts.find(contract => contract.address === currentTrace.contract);
 
+        const hasSource = !!contract && !!contract.getFileById(currentTrace.fileId);
+
         return (
             <div className="TraceInspector">
                 <div className="MarginBottom2">
-                    {!!contract && !!contract.getFileById(currentTrace.fileId) && <CodePreview line={currentTrace.lineNumber} linePreview={6} file={contract.getFileById(currentTrace.fileId)}/>}
-                    {(!contract || !contract.getFileById(currentTrace.fileId)) && <div>
-                        No source
+                    {hasSource && <CodePreview line={currentTrace.lineNumber} linePreview={6} file={contract.getFileById(currentTrace.fileId)}/>}
+                    {!hasSource && <div className="TraceInspector_NoSource">
+                        <h5 className="TraceInspector_NoSource__Heading">No source for this contract</h5>
+                        <p className="TraceInspector_NoSource__Description">Unfortunately we do not have the source code for this contract to display the exact line of code.</p>
+                        <p className="TraceInspector_NoSource__Description">If you have the source code for this contract, you can add it to the project using our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a>.</p>
+                        <div><CopyableText text={currentTrace.contract} onSuccessMessage="Copied contract address to clipboard"/></div>
                     </div>}
                 </div>
                 <div className="MarginBottom2">
@@ -171,12 +177,23 @@ class TraceInspector extends Component {
                 </div>
                 <div className="DisplayFlex">
                     <div className="MarginRight2 TraceInspector__StateTraceWrapper">
-                        {currentStack.map(stack => <div key={stack.trace.depthId} className="TraceInspector__StateTrace" onClick={() => this.goToTrace(stack.trace.depthId)}>
-                            <Icon icon={stack.icon} className="TraceInspector__StateTrace__Icon"/>
-                            <span className="SemiBoldText">{stack.trace.functionName}</span>
-                            <span className="MutedText"> in </span>
-                            <span>{contract.getFileName()}:{stack.trace.lineNumber}</span>
-                        </div>)}
+                        {currentStack.map(stack => {
+                            const stackContract = contracts.find(contract => contract.address === stack.trace.contract);
+
+                            const stackHasSource = !!stackContract && !!stackContract.getFileById(currentTrace.fileId);
+
+                            return (
+                                <div key={stack.trace.depthId} className="TraceInspector__StateTrace" onClick={() => this.goToTrace(stack.trace.depthId)}>
+                                    <Icon icon={stack.icon} className="TraceInspector__StateTrace__Icon"/>
+                                    {stackHasSource && <Fragment>
+                                        <span className="SemiBoldText">{stack.trace.functionName}</span>
+                                        <span className="MutedText"> in </span>
+                                        <span>{stackContract.getFileName()}:{stack.trace.lineNumber}</span>
+                                    </Fragment>}
+                                    {!stackHasSource && <span className="MutedText">{stack.trace.contract}</span>}
+                                </div>
+                            );
+                        })}
                     </div>
                     <div className="TraceInspector__StateViewer">
                         <ReactJson src={currentState} theme="flat" enableClipboard={false} displayObjectSize={false} displayDataTypes={false} name={false}/>

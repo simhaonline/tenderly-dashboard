@@ -1,10 +1,34 @@
 @import "../../Common/common";
 
+.TraceInspector_NoSource {
+  height: 302px;
+  border-radius: 5px;
+  background-color: $Slate700;
+  padding: $Spacing1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.TraceInspector_NoSource__Heading {
+  font-size: $FontSize400;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: $Spacing5;
+}
+
+.TraceInspector_NoSource__Description {
+  margin: 0 0 $Spacing4;
+  max-width: 400px;
+  text-align: center;
+}
+
 .TraceInspector__StateViewer {
   height: 280px;
   border-radius: 4px;
   overflow-y: auto;
-  background-color: $Slate700 !important;
+  background-color: $Slate700;
   flex: 1 1 0;
 
   .react-json-view {
@@ -18,7 +42,7 @@
   height: 280px;
   border-radius: 4px;
   overflow-y: auto;
-  background-color: $Slate700 !important;
+  background-color: $Slate700;
   padding: $Spacing2 $Spacing1;
 }
 
