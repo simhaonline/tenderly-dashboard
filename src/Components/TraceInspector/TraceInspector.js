@@ -132,7 +132,7 @@ class TraceInspector extends Component {
 
             newTrace.push({
                 trace: flatCallTrace[joined.join('.')],
-                icon: currentLevel === "0" ? ROOT_ICON : JUMP_IN_ICON,
+                icon: currentDepth.length === 0 ? ROOT_ICON : JUMP_IN_ICON,
             });
 
             return joined;
