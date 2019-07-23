@@ -26,9 +26,9 @@ class TransactionExecution extends Component {
 
         if (!transaction.status) {
             tabs.unshift({
-                label: "Error",
+                label: "Stack Trace",
                 value: "error",
-                tagLabel: "Stack Trace",
+                tagLabel: "Error",
                 tagColor: "danger",
             })
         }

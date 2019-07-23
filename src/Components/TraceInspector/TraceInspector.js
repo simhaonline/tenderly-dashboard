@@ -12,7 +12,7 @@ import './TraceInspector.scss';
 const ROOT_ICON = 'circle';
 const JUMP_IN_ICON = 'corner-down-right';
 const JUMP_NEXT_ICON = 'arrow-down';
-const JUMP_OUT_ICON = 'corner-left-down';
+// const JUMP_OUT_ICON = 'corner-left-down';
 const GO_PREVIOUS_ICON = 'arrow-left';
 
 class TraceInspector extends Component {
@@ -58,20 +58,13 @@ class TraceInspector extends Component {
     };
 
     jumpIn = () => {
-        const {currentTrace, currentStack} = this.state;
+        const {currentTrace} = this.state;
 
         const nextTrace = currentTrace.calls[0];
 
         this.setState({
             currentTrace: nextTrace,
-            currentStack: [
-                ...currentStack,
-                {
-                    trace: nextTrace,
-                    icon: JUMP_IN_ICON,
-                },
-            ],
-        });
+        }, this.updateStackTrace);
     };
 
     canGoToPrevious = () => {
@@ -85,8 +78,7 @@ class TraceInspector extends Component {
 
         this.setState({
             currentTrace: currentStack[currentStack.length - 2].trace,
-            currentStack: currentStack.slice(0, currentStack.length - 1),
-        });
+        }, this.updateStackTrace);
     };
 
     canGoToNext = () => {
@@ -100,9 +92,7 @@ class TraceInspector extends Component {
     };
 
     goToNext = () => {
-        const {currentTrace, currentStack, flatCallTrace} = this.state;
-
-        const currentDepthLevel = currentTrace.depthId.split('.').length;
+        const {currentTrace, flatCallTrace} = this.state;
 
         const depths = Object.keys(flatCallTrace);
 
@@ -110,12 +100,45 @@ class TraceInspector extends Component {
 
         const nextTrace = (flatCallTrace[depths[currentDepthIndex + 1]]);
 
-        const nextDepthLevel = nextTrace.depthId.split('.').length;
+        this.setState({
+            currentTrace: nextTrace,
+        }, this.updateStackTrace);
+    };
 
-        console.log(currentDepthLevel, nextDepthLevel);
+    goToTrace = (depthId) => {
+        const {flatCallTrace, currentTrace} = this.state;
+
+        if (depthId === currentTrace.depthId) {
+            return;
+        }
+
+        const nextTrace = flatCallTrace[depthId];
 
         this.setState({
             currentTrace: nextTrace,
+        }, this.updateStackTrace);
+    };
+
+    updateStackTrace = () => {
+        const {flatCallTrace, currentTrace} = this.state;
+
+        const newTrace = [];
+
+        const stackTraceDepths = currentTrace.depthId.split('.');
+
+        stackTraceDepths.reduce((currentDepth, currentLevel) => {
+            const joined = [...currentDepth, currentLevel];
+
+            newTrace.push({
+                trace: flatCallTrace[joined.join('.')],
+                icon: currentLevel === 0 ? ROOT_ICON : JUMP_IN_ICON,
+            });
+
+            return joined;
+        }, []);
+
+        this.setState({
+            currentStack: newTrace,
         });
     };
 
@@ -148,7 +171,7 @@ class TraceInspector extends Component {
                 </div>
                 <div className="DisplayFlex">
                     <div className="MarginRight2 TraceInspector__StateTraceWrapper">
-                        {currentStack.map(stack => <div key={stack.trace.depthId} className="TraceInspector__StateTrace">
+                        {currentStack.map(stack => <div key={stack.trace.depthId} className="TraceInspector__StateTrace" onClick={() => this.goToTrace(stack.trace.depthId)}>
                             <Icon icon={stack.icon} className="TraceInspector__StateTrace__Icon"/>
                             <span className="SemiBoldText">{stack.trace.functionName}</span>
                             <span className="MutedText"> in </span>
