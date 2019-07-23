@@ -1,0 +1,38 @@
+@import "../../Common/common";
+
+.TraceInspector__StateViewer {
+  height: 280px;
+  border-radius: 4px;
+  overflow-y: auto;
+  background-color: $Slate700 !important;
+  flex: 1 1 0;
+
+  .react-json-view {
+    background-color: $Slate700 !important;
+    padding: $Spacing2 $Spacing3;
+  }
+}
+
+.TraceInspector__StateTraceWrapper {
+  flex: 0 0 250px;
+  height: 280px;
+  border-radius: 4px;
+  overflow-y: auto;
+  background-color: $Slate700 !important;
+  padding: $Spacing2 $Spacing1;
+}
+
+.TraceInspector__StateTrace {
+  padding: $Spacing1;
+  transition: 0.1s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $Slate800;
+  }
+}
+
+.TraceInspector__StateTrace__Icon {
+  margin-right: $Spacing1;
+  color: $Primary500;
+}

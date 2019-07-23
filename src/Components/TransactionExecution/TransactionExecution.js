@@ -57,7 +57,7 @@ class TransactionExecution extends Component {
                     <PanelContent>
                         {currentTab === 'error' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
                         {currentTab === 'overview' && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
-                        {currentTab === 'debugger' && <TraceInspector callTrace={callTrace} stackTrace={stackTrace} contracts={contracts}/>}
+                        {currentTab === 'debugger' && <TraceInspector callTrace={callTrace} contracts={contracts}/>}
                     </PanelContent>
                 </Panel>
             </Fragment>

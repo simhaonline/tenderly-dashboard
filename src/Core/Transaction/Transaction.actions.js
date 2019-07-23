@@ -5,7 +5,7 @@ import {NetworkAppToApiTypeMap, TransactionFilterTypes} from "../../Common/const
 import {Api} from "../../Utils/Api";
 
 import {Transaction} from "./Transaction.model";
-import {CallTrace} from "../Trace/CallTrace.model";
+import CallTrace from "../Trace/CallTrace.model";
 import StackTrace from "../Trace/StackTrace.model";
 
 import {

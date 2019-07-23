@@ -25,7 +25,7 @@ export class Trace {
         this.depthId = data.depthId;
 
         /** @type number */
-        this.fileId = data.fileId;
+        this.fileId = data.fileId !== null && data.fileId >= 0 ? data.fileId : null;
 
         /** @type number */
         this.lineNumber = data.lineNumber;
@@ -38,6 +38,36 @@ export class Trace {
 
         /** @type TraceInput[] */
         this.outputVariables = data.outputVariables;
+    }
+
+    /**
+     * Returns the current state of the trace in a json object mapped by name to value map.
+     * @return {Object}
+     */
+    getStateJSON() {
+        const data = {};
+
+        if (this.inputVariables) {
+            this.inputVariables.forEach(input => {
+                if (!data.input) {
+                    data.input = {};
+                }
+
+                data.input[input.name] = input.value;
+            });
+        }
+
+        if (this.outputVariables) {
+            this.outputVariables.forEach(output => {
+                if (!data.output) {
+                    data.output = {};
+                }
+
+                data.output[output.name] = output.value;
+            });
+        }
+
+        return data;
     }
 
     /**

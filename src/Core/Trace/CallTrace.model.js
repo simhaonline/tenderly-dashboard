@@ -1,6 +1,6 @@
 import {Trace} from "./Trace.model";
 
-export class CallTrace {
+class CallTrace {
     /**
      * @param {Object} data
      */
@@ -35,3 +35,5 @@ export class CallTrace {
         });
     };
 }
+
+export default CallTrace;
