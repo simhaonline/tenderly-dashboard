@@ -1,47 +1,75 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Panel, PanelContent, PanelHeader} from "../../Elements";
+import {CallTrace, Transaction} from "../../Core/models";
+
+import {FlameGraph} from "../index";
 
 import './CallTraceFlameGraph.scss';
 
-class FlameGraphRow extends Component{
-    render() {
-        const {trace, width} = this.props;
-
-        return (
-            <div className="FlameGraphRow" style={{
-                width: width ? `${width * 100}%` : '100%',
-            }}>
-                <div className="FlameGraphRow__RowInfo">{trace.gasUsed} Gwei</div>
-                {!!trace.calls && !!trace.calls.length && <div className="FlameGraphRow__SubRows">
-                    {trace.calls.map((call, index) => (
-                        call.gasUsed > 0 ? <FlameGraphRow key={`${index}${call.lineNumber}`} width={call.gasUsed / trace.gasUsed} trace={call}/> : null))}
-                </div>}
-            </div>
-        )
-    }
-}
-
 class CallTraceFlameGraph extends Component {
+    constructor(props) {
+        super(props);
+
+        const graphData = this.computeGraphData(props.callTrace, props.transaction);
+
+        console.log(graphData, props.callTrace);
+
+        this.state = {
+            graphData,
+        };
+    }
+
+    /**
+     * @param {Trace[]} traces
+     * @return {Object[]}
+     */
+    computeTraceToGraphChildren = (traces) => {
+        if (!traces || !traces.length) {
+            return null;
+        }
+
+        const data = [];
+
+        traces.forEach(trace => {
+            console.log(trace.functionName || trace.contract);
+            data.push({
+                name: `${trace.functionName || trace.contract} - ${trace.gasUsed} Gwei`,
+                value: trace.gasUsed,
+                children: this.computeTraceToGraphChildren(trace.calls),
+            });
+        });
+
+        return data;
+    };
+
+    /**
+     * @param {CallTrace} callTrace
+     * @param {Transaction} transaction
+     * @return {Object}
+     */
+    computeGraphData = (callTrace, transaction) => {
+        return {
+            name: `Total Gas Used - ${transaction.gasUsed} Gwei`,
+            value: transaction.gasUsed,
+            children: this.computeTraceToGraphChildren([callTrace.trace]),
+        }
+    };
+
     render() {
-        const {callTrace} = this.props;
+        const {graphData} = this.state;
 
         return (
-            <Panel>
-                <PanelHeader>
-                    <h3>Gas Breakdown</h3>
-                </PanelHeader>
-                <PanelContent>
-                    <FlameGraphRow trace={callTrace.trace}/>
-                </PanelContent>
-            </Panel>
+            <div className="CallTraceFlameGraph">
+                <FlameGraph data={graphData} stretch/>
+            </div>
         );
     }
 }
 
 CallTraceFlameGraph.propTypes = {
-    callTrace: PropTypes.object.isRequired,
+    callTrace: PropTypes.instanceOf(CallTrace).isRequired,
+    transaction: PropTypes.instanceOf(Transaction).isRequired,
 };
 
 export default CallTraceFlameGraph;

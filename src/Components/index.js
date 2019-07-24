@@ -60,7 +60,9 @@ export {default as TransactionExecution} from './TransactionExecution/Transactio
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
 export {default as TraceInspector} from './TraceInspector/TraceInspector';
 export {default as StackTracePreview} from './StackTracePreview/StackTracePreview';
+export {default as TransactionGasBreakdown} from './TransactionGasBreakdown/TransactionGasBreakdown';
 export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFlameGraph';
+export {default as FlameGraph} from './FlameGraph/FlameGraph';
 export {default as PageError} from './PageError/PageError';
 export {default as ContractFiles} from './ContractFiles/ContractFiles';
 export {default as TransactionHeader} from './TransactionHeader/TransactionHeader';

@@ -1,6 +1,6 @@
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
-export class Transaction {
+class Transaction {
     /**
      * @param {Object} data
      * @param {string} [projectId]
@@ -89,3 +89,5 @@ export class Transaction {
         }, projectId);
     }
 }
+
+export default Transaction;

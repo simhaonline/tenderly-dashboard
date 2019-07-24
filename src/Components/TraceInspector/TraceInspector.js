@@ -180,9 +180,9 @@ class TraceInspector extends Component {
                             <Icon icon={JUMP_NEXT_ICON}/>
                         </Button>
                     </div>
-                    <Tooltip showDelay={1000} id="DebuggerButton__Previous">Go to the previous step in the stack</Tooltip>
-                    <Tooltip showDelay={1000} id="DebuggerButton__JumpIn">Jump into the function call</Tooltip>
-                    <Tooltip showDelay={1000} id="DebuggerButton__Next">Jump to the next step in the execution</Tooltip>
+                    <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__Previous">Go to the previous step in the stack</Tooltip>
+                    <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__JumpIn">Jump into the function call</Tooltip>
+                    <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__Next">Jump to the next step in the execution</Tooltip>
                 </div>
                 <div className="DisplayFlex">
                     <div className="MarginRight2 TraceInspector__StateTraceWrapper">

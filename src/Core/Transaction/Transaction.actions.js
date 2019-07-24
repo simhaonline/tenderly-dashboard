@@ -4,7 +4,7 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {NetworkAppToApiTypeMap, TransactionFilterTypes} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
-import {Transaction} from "./Transaction.model";
+import Transaction from "./Transaction.model";
 import CallTrace from "../Trace/CallTrace.model";
 import StackTrace from "../Trace/StackTrace.model";
 
