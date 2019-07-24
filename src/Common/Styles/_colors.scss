@@ -1,28 +1,4 @@
-// Typography
-
-$DefaultTextColor: #fff;
-
-
-// Color Palette
-
-$PrimaryColor600: #df0074;
-
-$SecondaryColor600: #00cebb;
-
-$TertiaryColor600: #8700FF;
-
-$RedColor600: #dd2142;
-
-$GreenColor600: #0ad054;
-
-$YellowColor600: #ffb81f;
-
-$WhiteColor: #ffffff;
-$BlackColor: #000000;
-
-// Borders
-$BorderColor: transparentize($WhiteColor, 0.85);
-
+// Main Color Palette
 $Primary500: #0076FF;
 $Primary600: #0069E0;
 $Primary700: #0056B8;
@@ -47,7 +23,18 @@ $Slate500: #0B1C30;
 $Slate700: #081421;
 $Slate800: #040A11;
 
+// Typography
 $LinkColor: #71AEFE;
+$DefaultTextColor: #fff;
 
+// Gradients
 $GradientBluePurple: linear-gradient(to right top, #0076ff, #3b6efc, #5665f8, #6c5bf3, #7e50ec);
 $GradientRedPurple: linear-gradient(to left top, #7e50ec, #bc31ca, #de00a3, #ee007b, #f02056);
+
+
+// Deprecated Colors
+$PrimaryColor600: #df0074;
+$YellowColor600: #ffb81f;
+$WhiteColor: #ffffff;
+$BlackColor: #000000;
+$BorderColor: transparentize($WhiteColor, 0.85);

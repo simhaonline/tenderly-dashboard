@@ -88,11 +88,11 @@
     background-color: $Danger500;
 
     &:hover {
-      background-color: darken($RedColor600, 5);
+      background-color: darken($Danger500, 5);
     }
 
     &:active {
-      background-color: darken($RedColor600, 8);
+      background-color: darken($Danger500, 8);
     }
   }
 }
@@ -135,16 +135,16 @@
   }
 
   &.Danger {
-    border-color: transparentize($RedColor600, 0.5);
-    background-color: transparentize($RedColor600, 0.85);
+    border-color: transparentize($Danger500, 0.5);
+    background-color: transparentize($Danger500, 0.85);
 
     &:hover, &:focus {
-      border-color: $RedColor600;
-      background-color: transparentize($RedColor600, 0.7);
+      border-color: $Danger500;
+      background-color: transparentize($Danger500, 0.7);
     }
 
     &:active, &:focus {
-      box-shadow: 0 0 0 3px transparentize($RedColor600, 0.7);
+      box-shadow: 0 0 0 3px transparentize($Danger500, 0.7);
     }
   }
 }

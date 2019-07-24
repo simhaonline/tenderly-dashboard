@@ -5,8 +5,6 @@ import {CallTrace, Transaction} from "../../Core/models";
 
 import {FlameGraph} from "../index";
 
-import './CallTraceFlameGraph.scss';
-
 class CallTraceFlameGraph extends Component {
     constructor(props) {
         super(props);
