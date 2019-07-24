@@ -1,24 +1,83 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 
-import {Button, Icon, Panel, PanelContent, PanelHeader} from "../../Elements";
+import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+
+import {Button, Icon, Panel, PanelContent, PanelHeader, Form} from "../../Elements";
 
 class ProjectAlertRules extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            creatingRule: false,
+        };
+
+        initializeForm(this, {
+            type: '',
+            password: '',
+        });
+        this.handleFormUpdate = updateFormField.bind(this);
+    }
+
+    openCreateRule = () => {
+        this.setState({
+            creatingRule: true,
+        });
+    };
+
+    backToRulesList = () => {
+        this.setState({
+            creatingRule: false,
+        });
+    };
+
+    handleCreateRuleSubmit = () => {
+
+    };
+
     render() {
+        const {creatingRule} = this.state;
+
         return (
-            <Panel>
-                <PanelHeader>
-                    <h3>Rules</h3>
-                    <div className="MarginLeftAuto">`
-                        <Button size="small">
-                            <Icon icon="plus"/>
-                            <span>Create Rule</span>
-                        </Button>
-                    </div>
-                </PanelHeader>
-                <PanelContent>
-                    asd
-                </PanelContent>
-            </Panel>
+            <Fragment>
+                {!creatingRule && <Panel>
+                    <PanelHeader>
+                        <h3>Rules</h3>
+                        <div className="MarginLeftAuto">`
+                            <Button size="small" onClick={this.openCreateRule}>
+                                <Icon icon="plus"/>
+                                <span>Create Rule</span>
+                            </Button>
+                        </div>
+                    </PanelHeader>
+                    <PanelContent>
+                        asd
+                    </PanelContent>
+                </Panel>}
+                {creatingRule && <Panel>
+                    <PanelHeader>
+                        <h3>Create Rule</h3>
+                        <div className="MarginLeftAuto">`
+                            <Button size="small" outline onClick={this.backToRulesList}>
+                                <Icon icon="arrow-left"/>
+                                <span>Back to Rules</span>
+                            </Button>
+                        </div>
+                    </PanelHeader>
+                    <PanelContent>
+                        <Form onSubmit={this.handleCreateRuleSubmit}>
+                            <div>
+                                <Button type="submit">
+                                    <span>Create</span>
+                                </Button>
+                                <Button outline onClick={this.backToRulesList}>
+                                    <span>Cancel</span>
+                                </Button>
+                            </div>
+                        </Form>
+                    </PanelContent>
+                </Panel>}
+            </Fragment>
         );
     }
 }
