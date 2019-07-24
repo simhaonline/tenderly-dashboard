@@ -22,21 +22,21 @@ const handleCreateProjectClick = () => {
 
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     const data = [
-        {name: 'Page A', events: 1,},
-        {name: 'Page B', events: 2,},
-        {name: 'Page C', events: 0,},
-        {name: 'Page D', events: 0,},
-        {name: 'Page E', events: 5,},
-        {name: 'Page F', events: 11,},
-        {name: 'Page G', events: 17,},
-        {name: 'Page G', events: 2,},
-        {name: 'Page G', events: 3,},
-        {name: 'Page G', events: 1,},
-        {name: 'Page G', events: 2,},
-        {name: 'Page G', events: 4,},
-        {name: 'Page G', events: 27,},
-        {name: 'Page G', events: 0,},
-        {name: 'Page G', events: 2,},
+        {name: 'Page A', transactions: 1,},
+        {name: 'Page B', transactions: 2,},
+        {name: 'Page C', transactions: 0,},
+        {name: 'Page D', transactions: 0,},
+        {name: 'Page E', transactions: 5,},
+        {name: 'Page F', transactions: 11,},
+        {name: 'Page G', transactions: 17,},
+        {name: 'Page G', transactions: 2,},
+        {name: 'Page G', transactions: 3,},
+        {name: 'Page G', transactions: 1,},
+        {name: 'Page G', transactions: 2,},
+        {name: 'Page G', transactions: 4,},
+        {name: 'Page G', transactions: 27,},
+        {name: 'Page G', transactions: 0,},
+        {name: 'Page G', transactions: 2,},
     ];
 
     return (
@@ -68,7 +68,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
                                             borderRadius: '4px',
                                         }}/>
                                         <YAxis type="number" domain={[0,  dataMax => Math.max(dataMax, 8)]} hide/>
-                                        <Area type="monotone" xAxisId="name" dataKey="events" stroke="#0076FF" fill="url(#colorUv)" />
+                                        <Area type="monotone" xAxisId="name" dataKey="transactions" stroke="#0076FF" fill="url(#colorUv)" />
                                     </AreaChart>}
                                     {!project.lastPushAt && <div className="ProjectNotSetupState">
                                         <Icon icon="cloud-off"/>

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import {CallTrace, Transaction} from "../../Core/models";
 
+import {PanelDivider} from "../../Elements";
 import {CallTraceFlameGraph} from "../index";
 
 import './TransactionGasBreakdown.scss';
@@ -38,6 +39,7 @@ class TransactionGasBreakdown extends Component {
                         </div>
                     </div>
                 </div>
+                <PanelDivider/>
                 <CallTraceFlameGraph callTrace={callTrace} transaction={transaction}/>
             </div>
         );
