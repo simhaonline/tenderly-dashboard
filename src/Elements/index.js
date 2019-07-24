@@ -25,6 +25,8 @@ export {PanelDivider} from './Panel/PanelContent';
 export {default as PanelTabs} from './Panel/PanelTabs';
 export {default as PanelHeader} from './Panel/PanelHeader';
 export {default as Table} from './Table/Table';
+export {default as List} from './List/List';
+export {default as ListItem} from './List/ListItem';
 export {default as Notification} from './Notification/Notification';
 export {default as Tooltip} from './Tooltip/Tooltip';
 export {default as Tag} from './Tag/Tag';

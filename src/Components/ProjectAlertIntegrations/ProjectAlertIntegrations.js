@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 
-import {Panel, PanelContent, PanelHeader, Icon, Alert} from "../../Elements";
+import {Panel, PanelContent, PanelHeader, Icon, Alert, List, ListItem} from "../../Elements";
 
 import './ProjectAlertIntegrations.scss';
 
@@ -29,9 +29,15 @@ class ProjectAlertIntegrations extends Component {
                             <IntegrationOption icon="mail" label="E-mail" active/>
                             <IntegrationOption icon="slack" label="Slack"/>
                         </div>
+                        <div>
+                            <List>
+                                <ListItem>
+                                    asda
+                                </ListItem>
+                            </List>
+                        </div>
                     </PanelContent>
                 </Panel>
-                {/*<Table />*/}
             </Fragment>
         );
     }

@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
-import {Button, Icon, Panel, PanelContent, PanelHeader, Form} from "../../Elements";
+import {Button, Icon, Panel, PanelContent, PanelHeader, Form, List, ListItem} from "../../Elements";
 
 class ProjectAlertRules extends Component {
     constructor(props) {
@@ -51,7 +51,13 @@ class ProjectAlertRules extends Component {
                         </div>
                     </PanelHeader>
                     <PanelContent>
-                        asd
+                        <div className="ActiveRules">
+                            <List>
+                                <ListItem>
+                                    one rule
+                                </ListItem>
+                            </List>
+                        </div>
                     </PanelContent>
                 </Panel>}
                 {creatingRule && <Panel>
