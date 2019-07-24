@@ -4,16 +4,10 @@
 .ProjectUsageGraph {
   width: 400px;
 
-  .GraphHeading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .LastDayChange {
-      font-size: $FontSize300;
-      color: $Success500;
-      font-weight: 700;
-    }
+  .LastDayChange {
+    font-size: $FontSize300;
+    color: $Success500;
+    font-weight: 700;
   }
 
   .GraphsWrapper {

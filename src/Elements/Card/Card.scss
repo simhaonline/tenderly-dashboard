@@ -6,12 +6,6 @@
   box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
   border-radius: 4px;
 
-  .CardHeading {
-    border-bottom: 1px solid $BorderColor;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-  }
-
   &.Clickable {
     cursor: pointer;
     transition: 200ms;

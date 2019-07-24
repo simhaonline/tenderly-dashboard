@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 
-import {Card, CardHeading, SegmentedControls} from "../../Elements";
+import {Panel, PanelHeader, PanelContent, SegmentedControls} from "../../Elements";
 import {AnalyticsResolutionTypes} from "../../Common/constants";
 
 import './ProjectAnalyticsGraph.scss';
@@ -36,20 +36,22 @@ class ProjectAnalyticsGraph extends Component {
         const {children, title, resolution, className} = this.props;
 
         return (
-            <Card className={classNames(
+            <Panel className={classNames(
                 "ProjectAnalyticsGraph",
                 className,
             )}>
-                <CardHeading>
+                <PanelHeader>
                     <h3>{title}</h3>
-                </CardHeading>
-                <div className="GraphSubHeader">
-                    <SegmentedControls options={ResolutionOptions} value={resolution} onChange={this.handleResolutionChange}/>
-                </div>
-                <div className="GraphBody">
-                    {children}
-                </div>
-            </Card>
+                </PanelHeader>
+                <PanelContent>
+                    <div className="GraphSubHeader">
+                        <SegmentedControls options={ResolutionOptions} value={resolution} onChange={this.handleResolutionChange}/>
+                    </div>
+                    <div className="GraphBody">
+                        {children}
+                    </div>
+                </PanelContent>
+            </Panel>
         )
     }
 }

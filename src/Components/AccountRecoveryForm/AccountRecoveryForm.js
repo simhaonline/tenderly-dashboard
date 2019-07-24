@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import {ValidateEmail} from "../../Utils/FormValidators";
 
-import {Card, CardHeading, Form, Button, Input, Alert, Icon} from "../../Elements";
+import {PanelContent, PanelHeader, Panel, Form, Button, Input, Alert, Icon} from "../../Elements";
 
 import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
@@ -79,18 +79,20 @@ class AccountRecoveryForm extends Component {
                 <div className="LogoWrapper">
                     <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
                 </div>
-                <Card>
-                    <CardHeading>
+                <Panel>
+                    <PanelHeader>
                         <h3>Recover your account</h3>
-                    </CardHeading>
-                    {error && <Alert color="danger" animation={true}>{errorMessage}</Alert>}
-                    {recoveryMailSent && <Alert color="info" animation={true}>Recovery e-mail has been successfully sent to {recoveryMailSentEmail}.</Alert>}
-                    <p>We will send a recovery e-mail to this address with instructions how to recover your account.</p>
-                    <Form onSubmit={this.handleFormSubmit}>
-                        <Input autoFocus field="email" value={email} onChange={this.handleFormUpdate} label="E-mail" icon="mail"/>
-                        <Button type="submit" disabled={!this.isFormValid()}>Recover Account</Button>
-                    </Form>
-                </Card>
+                    </PanelHeader>
+                    <PanelContent>
+                        {error && <Alert color="danger" animation={true}>{errorMessage}</Alert>}
+                        {recoveryMailSent && <Alert color="info" animation={true}>Recovery e-mail has been successfully sent to {recoveryMailSentEmail}.</Alert>}
+                        <p>We will send a recovery e-mail to this address with instructions how to recover your account.</p>
+                        <Form onSubmit={this.handleFormSubmit}>
+                            <Input autoFocus field="email" value={email} onChange={this.handleFormUpdate} label="E-mail" icon="mail"/>
+                            <Button type="submit" disabled={!this.isFormValid()}>Recover Account</Button>
+                        </Form>
+                    </PanelContent>
+                </Panel>
                 <div className="FormSubActions">
                     <Link to="/login" className="LoginLink">
                         <Icon icon="log-in" className="LoginLinkIcon"/>

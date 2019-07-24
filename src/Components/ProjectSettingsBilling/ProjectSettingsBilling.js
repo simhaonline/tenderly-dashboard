@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 
-import {Card, CardHeading} from "../../Elements";
+import {Panel, PanelHeader} from "../../Elements";
 
 class ProjectSettingsBilling extends Component {
     render() {
         return (
-            <Card className="ProjectSettingsBilling">
-                <CardHeading>
+            <Panel className="ProjectSettingsBilling">
+                <PanelHeader>
                     <h3>Billing Plan</h3>
-                </CardHeading>
-            </Card>
+                </PanelHeader>
+            </Panel>
         );
     }
 }

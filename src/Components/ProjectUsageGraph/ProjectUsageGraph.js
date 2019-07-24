@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
 
-import {Card, CardHeading, Icon} from "../../Elements";
+import {Panel, PanelHeader, PanelContent, Icon} from "../../Elements";
 
 import './ProjectUsageGraph.scss';
 
@@ -55,17 +55,17 @@ class ProjectUsageGraph extends Component {
         }, {});
 
         return (
-            <Card className="ProjectUsageGraph">
-                <CardHeading>
-                    <div className="GraphHeading">
-                        <h3>Transactions</h3>
+            <Panel className="ProjectUsageGraph">
+                <PanelHeader>
+                    <h3>Transactions</h3>
+                    <div className="MarginLeftAuto">
                         <div className="LastDayChange">
                             <Icon icon={"arrow-up"}/>
                             <span>4.53% (24h)</span>
                         </div>
                     </div>
-                </CardHeading>
-                <div className="GraphsWrapper">
+                </PanelHeader>
+                <PanelContent className="GraphsWrapper">
                     {networks.map(network =>
                         <div className={classNames(
                             'GraphItem',
@@ -85,7 +85,7 @@ class ProjectUsageGraph extends Component {
                             </div>
                         </div>
                     )}
-                </div>
+                </PanelContent>
                 <div className="GraphNav">
                     <div className="NavItem">
                         <Icon icon="chevron-left"/>
@@ -102,7 +102,7 @@ class ProjectUsageGraph extends Component {
                         <Icon icon="chevron-right"/>
                     </div>
                 </div>
-            </Card>
+            </Panel>
         );
     }
 }

@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import {UsernameStatusMap} from "../../Common/constants";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
-import {Card, Button, Input, CardHeading} from "../../Elements";
+import {Panel, PanelHeader, PanelContent, Button, Input} from "../../Elements";
 import {UsernameStatusInfo} from "../index";
 
 import "./OnboardingSetUsernameStep.scss";
@@ -59,17 +59,19 @@ class OnboardingSetUsernameStep extends Component {
         const {usernameStatus, username} = this.state;
 
         return (
-            <Card className="OnboardingSetUsernameStep">
-                <CardHeading>
+            <Panel className="OnboardingSetUsernameStep">
+                <PanelHeader>
                     <h3>Username</h3>
-                </CardHeading>
-                <p>One last thing is needed in order to start using your dashboard. Let's setup a username for your account.</p>
-                <Input field="username" onChange={this.handleUsernameChange} value={username} label="Username" icon="user"/>
-                {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
-                <Button disabled={usernameStatus !== UsernameStatusMap.VALID} onClick={this.setUsername}>
-                    <span>Set username</span>
-                </Button>
-            </Card>
+                </PanelHeader>
+                <PanelContent>
+                    <p>One last thing is needed in order to start using your dashboard. Let's setup a username for your account.</p>
+                    <Input field="username" onChange={this.handleUsernameChange} value={username} label="Username" icon="user"/>
+                    {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
+                    <Button disabled={usernameStatus !== UsernameStatusMap.VALID} onClick={this.setUsername}>
+                        <span>Set username</span>
+                    </Button>
+                </PanelContent>
+            </Panel>
         )
     }
 }

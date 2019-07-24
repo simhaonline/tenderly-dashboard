@@ -5,7 +5,7 @@ import LogoImage from "../../Pages/Public/logo-vertical.svg";
 
 import './ResetPasswordForm.scss';
 
-import {Card, CardHeading, Form, Button, Input, Alert, Icon} from "../../Elements";
+import {Panel, PanelHeader, PanelContent, Form, Button, Input, Alert, Icon} from "../../Elements";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 
 class ResetPasswordForm extends Component {
@@ -80,27 +80,29 @@ class ResetPasswordForm extends Component {
                 <div className="LogoWrapper">
                     <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
                 </div>
-                <Card>
-                    <CardHeading>
+                <Panel>
+                    <PanelHeader>
                         <h3>Reset Account Password</h3>
-                    </CardHeading>
-                    {!newPasswordSet && <Form onSubmit={this.handleFormSubmit}>
-                        {error && <Alert animation={true} color="danger">{errorMessage}</Alert>}
-                        <p>Set your new password for your account.</p>
-                        <Input autoFocus type="password" field="password" value={password} onChange={this.handleFormUpdate} label="New password"/>
-                        <Input type="password" field="repeatedPassword" value={repeatedPassword} onChange={this.handleFormUpdate} label="Repeat new password"/>
-                        <Button type="submit" disabled={!password || !repeatedPassword}>
-                            <span>Set Password</span>
-                        </Button>
-                    </Form>}
-                    {newPasswordSet && <div>
-                        <Alert color="info">You new password has been successfully set. You can now login to the dashboard with your new password.</Alert>
-                        <Button to="/login" color="secondary" outline>
-                            <Icon icon="log-in"/>
-                            <span>Login</span>
-                        </Button>
-                    </div>}
-                </Card>
+                    </PanelHeader>
+                    <PanelContent>
+                        {!newPasswordSet && <Form onSubmit={this.handleFormSubmit}>
+                            {error && <Alert animation={true} color="danger">{errorMessage}</Alert>}
+                            <p>Set your new password for your account.</p>
+                            <Input autoFocus type="password" field="password" value={password} onChange={this.handleFormUpdate} label="New password"/>
+                            <Input type="password" field="repeatedPassword" value={repeatedPassword} onChange={this.handleFormUpdate} label="Repeat new password"/>
+                            <Button type="submit" disabled={!password || !repeatedPassword}>
+                                <span>Set Password</span>
+                            </Button>
+                        </Form>}
+                        {newPasswordSet && <div>
+                            <Alert color="info">You new password has been successfully set. You can now login to the dashboard with your new password.</Alert>
+                            <Button to="/login" color="secondary" outline>
+                                <Icon icon="log-in"/>
+                                <span>Login</span>
+                            </Button>
+                        </div>}
+                    </PanelContent>
+                </Panel>
             </div>
         );
     }
