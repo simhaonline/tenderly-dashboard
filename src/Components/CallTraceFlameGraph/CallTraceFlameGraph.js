@@ -11,8 +11,6 @@ class CallTraceFlameGraph extends Component {
 
         const graphData = this.computeGraphData(props.callTrace, props.transaction);
 
-        console.log(graphData, props.callTrace);
-
         this.state = {
             graphData,
         };
@@ -30,7 +28,6 @@ class CallTraceFlameGraph extends Component {
         const data = [];
 
         traces.forEach(trace => {
-            console.log(trace.functionName || trace.contract);
             data.push({
                 name: `${trace.functionName || trace.contract} - ${trace.gasUsed} Gwei`,
                 value: trace.gasUsed,

@@ -1,0 +1,32 @@
+@import "../../Common/common";
+
+.TransactionGasBreakdown {
+  .GasUsageInfo {
+    .GasUsagePercentage {
+      width: 400px;
+      overflow: hidden;
+      border-radius: 10px;
+      background-color: $Slate100;
+      box-shadow: 1px 1px 5px 0 transparentize($BlackColor, 0.85);
+    }
+
+    .GasUsagePercentageBar {
+      height: 20px;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 64px;
+
+      &.Low {
+        background-color: $Success500
+      }
+
+      &.Medium {
+        background-color: $YellowColor600;
+      }
+
+      &.High {
+        background-color: $Danger500;
+      }
+    }
+  }
+}
