@@ -86,7 +86,9 @@ class TracePreview extends Component {
                         <span className="MutedText"> in {file.name}:{trace.lineNumber}</span>
                     </div>}
                     {!file && <div>
-                        <span className="SemiBoldText">{trace.contract}</span><span className="MutedText"> at line {trace.lineNumber}</span>
+                        <span className="SemiBoldText">[{trace.op}]</span>
+                        <span className="MutedText"> invoked in </span>
+                        <span className="SemiBoldText">{trace.contract}</span>
                     </div>}
                     <div className="ExpandCode">
                         Show Source Code
