@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import {Dialog, DialogBody, DialogHeader, Form, Button, Input} from "../../Elements";
 
 class AddIntegrationModal extends Component {
+    handleFormSubmit = () => {
+        const {onClose} = this.props;
+
+        onClose();
+    };
+
     render() {
         const {open, onClose, type} = this.props;
 
@@ -13,7 +19,7 @@ class AddIntegrationModal extends Component {
                     <h3>Add Integration</h3>
                 </DialogHeader>
                 <DialogBody>
-                    <Form>
+                    <Form onSubmit={this.handleFormSubmit}>
                         <Input label="Label" field="label"/>
                         {type === 'email' && <Input label="E-mail" field="email"/>}
                         {type === 'slack' && <Input label="Slack Webhook URL" field="slackWebhookUrl"/>}

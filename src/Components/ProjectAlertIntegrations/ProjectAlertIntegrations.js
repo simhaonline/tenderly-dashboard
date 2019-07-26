@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 
-import {Panel, PanelContent, PanelHeader, Icon, Alert, List, ListItem} from "../../Elements";
+import {Panel, PanelContent, PanelHeader, Icon, Alert, List, ListItem, PanelDivider} from "../../Elements";
 import {AddIntegrationModal} from '../index';
 
 import './ProjectAlertIntegrations.scss';
@@ -31,7 +31,7 @@ class ProjectAlertIntegrations extends Component {
         });
     };
 
-    closeIntegrationModal = (type) => {
+    closeIntegrationModal = () => {
         this.setState({
             openModal: false,
         });
@@ -50,16 +50,32 @@ class ProjectAlertIntegrations extends Component {
                         <Alert color="info">
                             <span>All integrations are shared account wide on all projects. If you <strong>edit or delete</strong> an integration it will be applied to all projects.</span>
                         </Alert>
-                        <div className="IntegrationsList">
+                        <h4>Add Integration</h4>
+                        <PanelDivider/>
+                        <div className="IntegrationsList MarginBottom4">
                             <IntegrationOption icon="mail" onClick={() => this.openIntegrationModal('email')} label="E-mail" active/>
                             <IntegrationOption icon="slack" onClick={() => this.openIntegrationModal('slack')} label="Slack"/>
                             <IntegrationOption icon="code" onClick={() => this.openIntegrationModal('webhook')} label="Webhook"/>
                         </div>
                         <AddIntegrationModal open={openModal} onClose={this.closeIntegrationModal} type={type}/>
+                        <h4>Active Integrations</h4>
+                        <PanelDivider/>
                         <div>
                             <List>
                                 <ListItem>
-                                    asda
+                                    <div>Personal Mail</div>
+                                    <div>E-mail</div>
+                                    <div>miljan@tenderly.dev</div>
+                                </ListItem>
+                                <ListItem>
+                                    <div>CryptoKitties Slack</div>
+                                    <div>Slack</div>
+                                    <div>https://slack.com/webhook/123a9s9dqwe-qw811231231z-ase2eqweqweé3</div>
+                                </ListItem>
+                                <ListItem>
+                                    <div>API</div>
+                                    <div>Webhook</div>
+                                    <div>https://myapp.com/api/v1/webhook/123a9s9dqwe-qw811231231z-ase2eqweqweé3</div>
                                 </ListItem>
                             </List>
                         </div>
