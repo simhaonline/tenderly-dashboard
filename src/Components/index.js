@@ -31,6 +31,8 @@ export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRule
 export {default as ProjectAlertHistory} from './ProjectAlertHistory/ProjectAlertHistory';
 export {default as ProjectAlertIntegrations} from './ProjectAlertIntegrations/ProjectAlertIntegrations';
 
+export {default as AddIntegrationModal} from './AddIntegrationModal/AddIntegrationModal';
+
 export {default as ProjectTransactionAnalytics} from './ProjectTransactionAnalytics/ProjectTransactionAnalytics';
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
