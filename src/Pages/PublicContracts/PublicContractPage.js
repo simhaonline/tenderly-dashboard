@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
@@ -21,6 +21,7 @@ import {
     ProjectPageLoader,
     NetworkTag,
     TransactionsList, EtherscanLink, SharePageButton, ContractFileSource,
+    PublicContractQuickActions,
     LoginRequiredModal
 } from "../../Components";
 
@@ -214,14 +215,22 @@ class PublicContractPage extends Component {
                         </div>
                     </PageHeading>
                     <ContractInformation contract={contract} back/>
+                    <h2 className="MarginBottom2 MarginLeft2">Quick Actions</h2>
+                    <PublicContractQuickActions contract={contract}/>
                     <Switch>
                         <Route path="/contract/:network/:id" exact render={() => (
-                            <TransactionsList transactions={transactions} contracts={[contract]} isPublicContracts
-                                              loading={fetching}
-                                              currentPage={page} onPageChange={this.handlePageChange}/>
+                            <Fragment>
+                                <h2 className="MarginBottom2 MarginLeft2">Transactions</h2>
+                                <TransactionsList transactions={transactions} contracts={[contract]} isPublicContracts
+                                                  loading={fetching}
+                                                  currentPage={page} onPageChange={this.handlePageChange}/>
+                            </Fragment>
                         )}/>
                         <Route path="/contract/:network/:id/source" render={() => (
-                            <ContractFileSource file={contract.mainFile}/>
+                            <Fragment>
+                                <h2 className="MarginBottom2 MarginLeft2">Source Code</h2>
+                                <ContractFileSource file={contract.mainFile}/>
+                            </Fragment>
                         )}/>
                         <Redirect to={`/project/${contract.address}/transactions`}/>
                     </Switch>

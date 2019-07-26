@@ -73,6 +73,7 @@ export {default as ExampleProjectInfoModal} from './ExampleProjectInfoModal/Exam
 export {default as LoginRequiredModal} from './LoginRequiredModal/LoginRequiredModal';
 export {default as PageLink} from './PageLink/PageLink';
 export {default as PublicContractThumbnail} from './PublicContractThumbnail/PublicContractThumbnail';
+export {default as PublicContractQuickActions} from './PublicContractQuickActions/PublicContractQuickActions';
 export {default as PublicNetworksSearch} from './PublicNetworksSearch/PublicNetworksSearch';
 
 /**

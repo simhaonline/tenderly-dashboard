@@ -1,4 +1,4 @@
-import {GET_USER_ACTION} from "../Auth/Auth.actions";
+import {GET_USER_ACTION, LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {FeatureFlagTypes} from "../../Common/constants";
 import {TOGGLE_FEATURE_FLAG_ACTION} from "./FeatureFlag.actions";
 
@@ -8,6 +8,8 @@ const initialState = {
 
 const FeatureFlagReducer = (state = initialState, action) => {
     switch (action.type) {
+        case LOG_OUT_ACTION:
+            return initialState;
         case GET_USER_ACTION:
             const isInternalUser = action.user.email.includes('@tenderly.app');
 

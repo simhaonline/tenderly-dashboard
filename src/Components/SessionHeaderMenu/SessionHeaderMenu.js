@@ -10,6 +10,7 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 import Intercom from '../../Utils/Intercom';
 
 import './SessionHeaderMenu.scss';
+import LoginRequiredModal from "../LoginRequiredModal/LoginRequiredModal";
 
 class SessionHeaderMenu extends Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class SessionHeaderMenu extends Component {
 
         this.state = {
             dropdownOpen: false,
+            loginModalOpen: false,
         };
     }
     handleLogoutUser = () => {
@@ -43,6 +45,18 @@ class SessionHeaderMenu extends Component {
         });
     };
 
+    openLoginModal = () => {
+        this.setState({
+            loginModalOpen: true,
+        });
+    };
+
+    closeLoginModal = () => {
+        this.setState({
+            loginModalOpen: false,
+        });
+    };
+
     openFeedbackDialog = () => {
         Intercom.openNewConversation();
     };
@@ -53,12 +67,17 @@ class SessionHeaderMenu extends Component {
 
     render() {
         const {auth} = this.props;
-        const {dropdownOpen} = this.state;
+        const {dropdownOpen, loginModalOpen} = this.state;
 
         if (!auth.retrievedToken) return null;
 
         if (!auth.loggedIn && !auth.token) {
-            return null;
+            return <div className="SessionHeaderMenu">
+                <div className="LoginRegisterLink" onClick={this.openLoginModal}>
+                    Log in / Register
+                </div>
+                <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal}/>
+            </div>;
         }
 
         const {user, loggedIn} = auth;

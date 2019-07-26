@@ -1,7 +1,22 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
+@import "../../Common/common";
 
 .SessionHeaderMenu {
+
+  .LoginRegisterLink {
+    height: 60px;
+    font-size: $FontSize300;
+    display: flex;
+    align-items: center;
+    transition: 0.15s;
+    padding: $Spacing1 $Spacing3;
+    cursor: pointer;
+    @include Gradient('blue-purple');
+
+    &:hover {
+      background-color: transparentize($BlackColor, 0.75);
+    }
+  }
+
   .UserProfileMenu {
     min-width: 200px;
     position: relative;
@@ -9,7 +24,7 @@
     .ProfileInfo {
       display: flex;
       align-items: center;
-      height: 59px;
+      height: 60px;
       padding: 0 15px;
       cursor: pointer;
       max-width: 230px;
