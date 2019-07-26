@@ -1,0 +1,27 @@
+@import "../../Common/common";
+
+.PublicContractQuickActions {
+  margin-bottom: $Spacing7;
+  display: flex;
+}
+
+.PublicContractQuickActions__Action {
+  display: flex;
+  align-items: center;
+  &:hover {
+    background-color: $Primary500;
+    transform: translateY(-2px);
+    box-shadow: 5px 5px 8px 0 transparentize($BlackColor, 0.75);
+  }
+}
+
+.PublicContractQuickActions__Action__Icon {
+  background-color: $Primary500;
+  border-radius: 4px;
+  margin-right: $Spacing2;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
