@@ -6,16 +6,18 @@
   box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
   border-radius: 4px;
 
-  &.Clickable {
-    cursor: pointer;
-    transition: 200ms;
 
-    &:hover {
-      background-color: $Slate400;
-    }
-  }
 
   &:not(:last-child) {
     margin-right: 20px;
+  }
+}
+
+.Card--Clickable {
+  cursor: pointer;
+  transition: 200ms;
+
+  &:hover {
+    background-color: $Slate400;
   }
 }

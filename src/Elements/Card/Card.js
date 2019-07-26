@@ -9,7 +9,7 @@ const Card = ({children, className, clickable, onClick}) => {
             "Card",
             className,
             {
-                "Clickable": clickable || !!onClick,
+                "Card--Clickable": clickable || !!onClick,
             },
         )} onClick={onClick}>
             {children}
