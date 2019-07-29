@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CodePreview from "../CodePreview/CodePreview";
-import {Panel, PanelHeader, PanelContent} from "../../Elements";
+import {Panel, PanelContent} from "../../Elements";
 
 /**
  * @param {ContractFile} file
@@ -11,9 +11,6 @@ import {Panel, PanelHeader, PanelContent} from "../../Elements";
 const ContractFileSource = ({file, line}) => {
     return (
         <Panel className="ContractFileSource">
-            <PanelHeader>
-                <h3>Source Code</h3>
-            </PanelHeader>
             <PanelContent>
                 <CodePreview file={file} line={line}/>
             </PanelContent>

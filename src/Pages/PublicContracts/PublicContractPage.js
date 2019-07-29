@@ -13,7 +13,7 @@ import {
     isPublicContractLoaded, isPublicContractWatched
 } from "../../Common/Selectors/PublicContractSelectors";
 
-import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes, FeatureFlagTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container, PageHeading, Button, Icon, ButtonGroup, PanelContent, Panel} from "../../Elements";
 import {
@@ -22,7 +22,8 @@ import {
     NetworkTag,
     TransactionsList, EtherscanLink, SharePageButton, ContractFileSource,
     PublicContractQuickActions,
-    LoginRequiredModal
+    LoginRequiredModal,
+    FeatureFlag
 } from "../../Components";
 
 class PublicContractPage extends Component {
@@ -215,8 +216,10 @@ class PublicContractPage extends Component {
                         </div>
                     </PageHeading>
                     <ContractInformation contract={contract} back/>
-                    <h2 className="MarginBottom2 MarginLeft2">Quick Actions</h2>
-                    <PublicContractQuickActions contract={contract}/>
+                    <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                        <h2 className="MarginBottom2 MarginLeft2">Quick Actions</h2>
+                        <PublicContractQuickActions contract={contract}/>
+                    </FeatureFlag>
                     <Switch>
                         <Route path="/contract/:network/:id" exact render={() => (
                             <Fragment>
