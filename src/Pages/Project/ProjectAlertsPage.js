@@ -34,7 +34,7 @@ class ProjectAlertsPage extends Component {
         super(props);
 
         this.state = {
-            currentSegment: RULES_TAB,
+            currentSegment: props.initialTab || RULES_TAB,
         }
     }
 
@@ -42,6 +42,10 @@ class ProjectAlertsPage extends Component {
      * @param {String} segment
      */
     handleSegmentSwitch = (segment) => {
+        const {project} = this.props;
+
+        this.props.history.push(`/project/${project.id}/alerts/${segment}`);
+
         this.setState({
             currentSegment: segment,
         });
@@ -80,9 +84,10 @@ class ProjectAlertsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id}}} = ownProps;
+    const {match: {params: {id, tab}}} = ownProps;
 
     return {
+        initialTab: tab,
         project: getProject(state, id),
     }
 };

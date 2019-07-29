@@ -63,7 +63,8 @@ class ProjectPage extends Component {
                     <Route path="/project/:id/transactions" component={ProjectTransactionsPage}/>
                     <Route path="/project/:id/tx/:network/:txHash" component={ProjectTransactionPage}/>
                     <Route path="/project/:id/analytics" component={ProjectAnalyticsPage}/>
-                    <Route path="/project/:id/alerts" component={ProjectAlertsPage}/>
+                    <Route path="/project/:id/alerts/:tab" component={ProjectAlertsPage}/>
+                    <Redirect from="/project/:id/alerts" to="/project/:id/alerts/rules"/>
                     <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
                     <Route path="/project/:id/contract/:network/:contractId" component={ProjectContractPage}/>
                     <Route path="/project/:id/releases" component={ProjectReleasesPage}/>
