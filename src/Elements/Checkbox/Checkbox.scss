@@ -22,8 +22,8 @@
       cursor: pointer;
 
       &:checked + .CheckboxIconWrapper {
-        border-color: $PrimaryColor600;
-        color: $PrimaryColor600;
+        border-color: $Primary500;
+        color: $Primary500;
 
         .CheckboxIcon {
           opacity: 1;
@@ -32,8 +32,8 @@
       }
 
       &:focus + .CheckboxIconWrapper {
-        border-color: $PrimaryColor600;
-        box-shadow: 0 0 0 3px rgba(223, 0, 116, 0.4);
+        border-color: $Primary500;
+        box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
       }
     }
 
@@ -50,7 +50,7 @@
 
       .CheckboxIcon {
         opacity: 0;
-        color: $PrimaryColor600;
+        color: $Primary500;
         transform: scale(0.5);
         transition: 0.2s;
         font-size: 14px;
