@@ -19,30 +19,29 @@ class ProjectNavigation extends Component {
 
         return (
             <div className="ProjectNavigation">
-                <NavLink className="NavigationItem" exact to={`/project/${project.id}/transactions`} onClick={() => this.trackNavigationItem('transactions')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/transactions`} onClick={() => this.trackNavigationItem('transactions')}>
                     <span>Transactions</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/errors`} onClick={() => this.trackNavigationItem('errors')}>
+                    <NavLink className="NavigationItem" strict to={`/project/${project.id}/errors`} onClick={() => this.trackNavigationItem('errors')}>
                         <span>Errors</span>
                     </NavLink>
                 </FeatureFlag>
-                <NavLink className="NavigationItem" exact to={`/project/${project.id}/contracts`} onClick={() => this.trackNavigationItem('contracts')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/contracts`} onClick={() => this.trackNavigationItem('contracts')}>
                     <span>Contracts</span>
                 </NavLink>
-                <NavLink className="NavigationItem" exact to={`/project/${project.id}/analytics`} onClick={() => this.trackNavigationItem('analytics')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/analytics`} onClick={() => this.trackNavigationItem('analytics')}>
                     <span>Analytics</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                    <NavLink className="NavigationItem" exact to={`/project/${project.id}/releases`} onClick={() => this.trackNavigationItem('deployment')}>
+                    <NavLink className="NavigationItem" strict to={`/project/${project.id}/releases`} onClick={() => this.trackNavigationItem('deployment')}>
                         <span>Deployment</span>
                     </NavLink>
                 </FeatureFlag>
-
-                <NavLink className="NavigationItem" exact to={`/project/${project.id}/alerts`} onClick={() => this.trackNavigationItem('alerts')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/alerts`} onClick={() => this.trackNavigationItem('alerts')}>
                     <span>Alerts</span>
                 </NavLink>
-                <NavLink className="NavigationItem" exact to={`/project/${project.id}/settings`} onClick={() => this.trackNavigationItem('settings')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/settings`} onClick={() => this.trackNavigationItem('settings')}>
                     <span>Settings</span>
                 </NavLink>
             </div>
