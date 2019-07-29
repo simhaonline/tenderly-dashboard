@@ -19,6 +19,7 @@ export const DELETE_PROJECT_ACTION = 'DELETE_PROJECT';
 export const UPDATE_PROJECT_ACTION = 'UPDATE_PROJECT';
 export const FETCH_PROJECT_ACTION = 'FETCH_PROJECT';
 export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
+export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PROJECT';
 
 /**
  * @param {string} name
@@ -272,6 +273,12 @@ export const addVerifiedContractToProject = (projectId, networkType, address, pr
             if (!responseData || !responseData[responseData.length -1].status) {
                 return new ErrorActionResponse();
             }
+
+            dispatch({
+                type: ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION,
+                projectId,
+                address,
+            });
 
             return new SuccessActionResponse(responseData);
         } catch (error) {

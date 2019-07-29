@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {FeatureFlagTypes} from "../../Common/constants";
 
 import {Card, Icon} from "../../Elements";
-import {FeatureFlag, LoginRequiredModal} from "../index";
+import {FeatureFlag, LoginRequiredModal, PublicContractQuickActionModal} from "../index";
 
 import './PublicContractQuickActions.scss';
 
@@ -56,26 +56,27 @@ class PublicContractQuickActions extends Component {
     };
 
     render() {
-        const {loginModalOpen} = this.state;
+        const {loginModalOpen, actionModalOpen, actionType} = this.state;
+        const {contract} = this.props;
 
         return (
             <Fragment>
                 <div className="PublicContractQuickActions">
-                    <Card onClick={() => this.handleActionClick('add-to-project')} className="PublicContractQuickActions__Action">
+                    <Card onClick={() => this.handleActionClick('add_to_project')} className="PublicContractQuickActions__Action">
                         <div className="PublicContractQuickActions__Action__Icon">
                             <Icon icon="project"/>
                         </div>
                         <span>Add to Project</span>
                     </Card>
                     <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                        <Card onClick={() => this.handleActionClick('setup-alerts')} className="PublicContractQuickActions__Action">
+                        <Card onClick={() => this.handleActionClick('setup_alerting')} className="PublicContractQuickActions__Action">
                             <div className="PublicContractQuickActions__Action__Icon">
                                 <Icon icon="alerting"/>
                             </div>
                             <span>Setup Alerts</span>
                         </Card>
                     </FeatureFlag>
-                    <Card onClick={() => this.handleActionClick ('filter-transactions')} className="PublicContractQuickActions__Action">
+                    <Card onClick={() => this.handleActionClick ('filter_transactions')} className="PublicContractQuickActions__Action">
                         <div className="PublicContractQuickActions__Action__Icon">
                             <Icon icon="filter"/>
                         </div>
@@ -83,6 +84,7 @@ class PublicContractQuickActions extends Component {
                     </Card>
                 </div>
                 <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal}/>
+                <PublicContractQuickActionModal contract={contract} open={actionModalOpen} type={actionType} onClose={this.closeActionModal}/>
             </Fragment>
         );
     }
