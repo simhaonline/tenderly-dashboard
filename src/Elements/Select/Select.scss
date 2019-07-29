@@ -1,69 +1,60 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
+@import "../../Common/common";
 
 .Select {
   position: relative;
 
   .CurrentSelection {
-    background: #171e31;
-    border: 1px solid #1e2841;
+    background: $Slate300;
+    border: 1px solid transparentize($Primary500, 0.5);
     position: relative;
     border-radius: 4px;
     transition: 0.15s;
     padding:8px 15px 9px;
     cursor: pointer;
-    width: 220px;
 
     &:hover {
-      background-color: lighten(#171e31, 2);
+      background-color: $Slate200;
     }
   }
 
   .SelectDropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 4px);
     opacity: 0;
     pointer-events: none;
     transform: translateY(15px);
     transition: 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
-    background-color: #212a46;
+    background: $Slate300;
     border-radius: 4px;
     width: 100%;
-    border: 1px solid lighten(#212a46, 3);
     box-shadow: 2px 2px 5px 0 transparentize($BlackColor, 0.85);
     z-index: 99999;
-
-    .DropdownOptionsWrapper {
-      padding: 5px 7px;
-    }
+    padding: $Spacing1 0;
 
     .DropdownOption {
       cursor: pointer;
       transition: 0.15s;
-      padding: 5px 7px;
-      border-radius: 3px;
-      border: 1px solid transparent;
+      padding: $Spacing1 $Spacing4;
 
       &:hover {
         background-color: transparentize($BlackColor, 0.8);
       }
 
       &.Active {
-        border-color: transparentize($PrimaryColor600, 0.5);
-        background-color: transparentize($PrimaryColor600, 0.8);
+        background-color: transparentize($Primary500, 0.8);
       }
 
       &:not(:last-child) {
-        margin-bottom: 5px;
+        margin-bottom: 2px;
       }
     }
   }
 
   &.OpenDropdown {
     .CurrentSelection {
-      background-color: lighten(#171e31, 2);
-      border-color: $PrimaryColor600;
-      box-shadow: 0 0 0 3px transparentize($PrimaryColor600, 0.6);
+      background-color: $Slate200;
+      border-color: $Primary500;
+      box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
     }
 
     .SelectDropdown {

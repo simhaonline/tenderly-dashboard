@@ -1,6 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
+
+import Icon from "../Icon/Icon";
 
 import './Select.scss';
 
@@ -32,23 +34,25 @@ class Select extends Component {
             if (value.includes(item)) {
                 const newValue = value.filter(data => data !== item);
 
-                onChange(field, newValue);
+                onChange(newValue, field);
             } else {
-                onChange(field, [
+                onChange([
                     ...value,
                     item,
-                ]);
+                ], field);
             }
         } else {
-            onChange(field, item);
+            onChange(item, field);
             this.closeDropdown();
         }
 
     };
 
     render() {
-        const {options, value, multiple, selectLabel} = this.props;
+        const {options, value: rawValue, multiple, selectLabel} = this.props;
         const {open} = this.state;
+
+        const value = rawValue || '';
 
         const selectedOption = options.find(option => option.value === value);
 
@@ -59,7 +63,10 @@ class Select extends Component {
                 <OutsideClickHandler onOutsideClick={this.closeDropdown}>
                     <div className="CurrentSelection" onClick={this.toggleDropdown}>
                         {!value.length && <span>{selectLabel}</span>}
-                        {!multiple && !!selectedOption && <span>{selectedOption.label}</span>}
+                        {!multiple && !!selectedOption && <Fragment>
+                            {!!selectedOption.icon && <Icon icon={selectedOption.icon} className="MarginRight1"/>}
+                            <span>{selectedOption.label}</span>
+                        </Fragment>}
                         {multiple && !!value.length && <span>{value.length} items selected</span>}
                     </div>
                     <div className="SelectDropdown">
@@ -68,6 +75,7 @@ class Select extends Component {
                                 "MultipleOption": multiple,
                                 "Active": value.includes(option.value),
                             })} key={option.value} onClick={() => {this.handleSelection(option.value)}}>
+                                {!!option.icon && <Icon icon={option.icon} className="MarginRight1"/>}
                                 <span>{option.label}</span>
                             </div>)}
                         </div>
