@@ -48,9 +48,9 @@ class ProjectAlertIntegrations extends Component {
                     </PanelHeader>
                     <PanelContent>
                         <Alert color="info">
-                            <span>All integrations are shared account wide on all projects. If you <strong>edit or delete</strong> an integration it will be applied to all projects.</span>
+                            <span>All integrations are shared account wide on all projects. If you <strong>edit or delete</strong> an integration it will be applied to all projects and active rules.</span>
                         </Alert>
-                        <h4>Add Integration</h4>
+                        <h4 className="MarginLeft2">Add Integration</h4>
                         <PanelDivider/>
                         <div className="IntegrationsList MarginBottom4">
                             <IntegrationOption icon="mail" onClick={() => this.openIntegrationModal('email')} label="E-mail" active/>
@@ -58,24 +58,24 @@ class ProjectAlertIntegrations extends Component {
                             <IntegrationOption icon="code" onClick={() => this.openIntegrationModal('webhook')} label="Webhook"/>
                         </div>
                         <AddIntegrationModal open={openModal} onClose={this.closeIntegrationModal} type={type}/>
-                        <h4>Active Integrations</h4>
+                        <h4 className="MarginLeft2">Active Integrations</h4>
                         <PanelDivider/>
                         <div>
                             <List>
-                                <ListItem>
-                                    <div>Personal Mail</div>
-                                    <div>E-mail</div>
-                                    <div>miljan@tenderly.dev</div>
+                                <ListItem className="ActiveIntegrationItem">
+                                    <div className="ActiveIntegrationItem__LabelColumn">Personal Mail</div>
+                                    <div className="ActiveIntegrationItem__TypeColumn">E-mail</div>
+                                    <div className="ActiveIntegrationItem__ValueColumn MutedText">miljan@tenderly.dev</div>
                                 </ListItem>
-                                <ListItem>
-                                    <div>CryptoKitties Slack</div>
-                                    <div>Slack</div>
-                                    <div>https://slack.com/webhook/123a9s9dqwe-qw811231231z-ase2eqweqweé3</div>
+                                <ListItem className="ActiveIntegrationItem">
+                                    <div className="ActiveIntegrationItem__LabelColumn">CryptoKitties Slack</div>
+                                    <div className="ActiveIntegrationItem__TypeColumn">Slack</div>
+                                    <div className="ActiveIntegrationItem__ValueColumn MutedText">https://slack.com/webhook/123a9s9dqwe-qw811231231z-ase2eqweqweé3</div>
                                 </ListItem>
-                                <ListItem>
-                                    <div>API</div>
-                                    <div>Webhook</div>
-                                    <div>https://myapp.com/api/v1/webhook/123a9s9dqwe-qw811231231z-ase2eqweqweé3</div>
+                                <ListItem className="ActiveIntegrationItem">
+                                    <div className="ActiveIntegrationItem__LabelColumn">API</div>
+                                    <div className="ActiveIntegrationItem__TypeColumn">Webhook</div>
+                                    <div className="ActiveIntegrationItem__ValueColumn MutedText">https://myapp.com/api/v1/webhook/123a9s9dqwe-qw811231231z-ase2eqweqweé3</div>
                                 </ListItem>
                             </List>
                         </div>

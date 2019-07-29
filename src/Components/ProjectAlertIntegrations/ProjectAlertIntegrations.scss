@@ -30,6 +30,20 @@
   font-size: $FontSize600;
 }
 
-.IntegrationsList__Option__Label {
-  //font-weight: 100;
+.ActiveIntegrationItem {
+  display: flex;
+  align-items: center;
+}
+
+.ActiveIntegrationItem__LabelColumn {
+  flex: 0 0 180px;
+}
+
+.ActiveIntegrationItem__TypeColumn {
+  flex: 0 0 100px;
+  font-weight: 600;
+}
+
+.ActiveIntegrationItem__ValueColumn {
+  flex: 1 1 0;
 }
