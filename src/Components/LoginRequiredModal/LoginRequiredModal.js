@@ -121,7 +121,7 @@ class LoginRequiredModal extends Component {
                                 <GitHubButton redirectBack label="Continue with GitHub"/>
                             </div>
                             <p className="TextAlignCenter">or</p>
-                            <Button to="/register" outline stretch>
+                            <Button to="/register" outline stretch onClick={onClose}>
                                 <span>Create an account</span>
                             </Button>
                         </div>
