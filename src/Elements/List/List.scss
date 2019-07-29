@@ -1,0 +1,40 @@
+@import "../../Common/common";
+
+$ListBorderRadius: 4px;
+
+.List {
+  box-shadow: 2px 2px 4px 0 transparentize($BlackColor, 0.75);
+}
+
+.List--Clickable .List__Item{
+  cursor: pointer;
+
+  &:hover {
+    background-color: $Slate200;
+  }
+}
+
+.List__Item {
+  background-color: $Slate100;
+  transition: 0.2s;
+  padding: $Spacing3 $Spacing5;
+
+  &:nth-child(even) {
+    background-color: darken($Slate100, 5);
+  }
+
+  &:first-child {
+    border-top-left-radius: $ListBorderRadius;
+    border-top-right-radius: $ListBorderRadius;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: $ListBorderRadius;
+    border-bottom-right-radius: $ListBorderRadius;
+    border-bottom: none;
+  }
+}
+
+.List__Item--Active {
+
+}

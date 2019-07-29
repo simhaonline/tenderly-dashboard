@@ -3,10 +3,11 @@ import classNames from 'classnames';
 
 import './List.scss';
 
-const List = ({children, clickable}) => {
+const List = ({children, clickable ,className}) => {
     return (
         <div className={classNames(
             "List",
+            className,
             {
                 "List--Clickable": clickable,
             },
