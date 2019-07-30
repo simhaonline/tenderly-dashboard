@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const LinkButton = ({children, className, onClick}) => {
     return (
         <span className={classNames(
-            "LinkText",
+            "LinkText CursorPointer",
             className,
         )} onClick={onClick}>
             {children}
