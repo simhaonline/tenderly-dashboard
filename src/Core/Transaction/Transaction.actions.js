@@ -26,6 +26,12 @@ const StatusValueToApiValue = {
     'failed': false,
 };
 
+const TypeValueToApiValue = {
+    'all': null,
+    'internal': 'internal',
+    'direct': 'direct',
+};
+
 /**
  * @param {string} projectId
  * @param {Object} filters
@@ -39,12 +45,14 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
 
         try {
             const statusFilter = filters[TransactionFilterTypes.STATUS];
+            const typeFilter = filters[TransactionFilterTypes.TYPE];
             const contractsFilter = filters[TransactionFilterTypes.CONTRACTS];
 
             const {data} = await Api.get(`/account/${username}/project/${projectId}/transactions`, {
                 params: {
                     page,
                     perPage: limit,
+                    txType: typeFilter ? TypeValueToApiValue[typeFilter.value] : null,
                     status: statusFilter ? StatusValueToApiValue[statusFilter.value] : null,
                     contractId: contractsFilter ? contractsFilter.value : null,
                 },

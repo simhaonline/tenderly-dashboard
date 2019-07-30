@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {TransactionFilterTypes} from "../../Common/constants";
+import {FeatureFlagTypes, TransactionFilterTypes} from "../../Common/constants";
 
-import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
-
-import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody} from "../../Elements";
+import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, LinkButton} from "../../Elements";
+import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './TransactionFilters.scss';
 
@@ -51,19 +50,18 @@ class TransactionFilters extends Component {
             draftNetworks: [],
             draftQuery: '',
         };
-
-        initializeForm(this, {
-            searchQuery: '',
-            contracts: [],
-            status: 'all',
-            type: 'all',
-        });
-        this.handleFormUpdate = updateFormField.bind(this);
     }
 
     handleModalOpen = () => {
+        const {activeFilters} = this.props;
+
+        const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
+        const type = activeFilters[TransactionFilterTypes.TYPE] ? activeFilters[TransactionFilterTypes.TYPE].value : 'all';
+
         this.setState({
             openModal: true,
+            draftStatus: status,
+            draftType: type,
         });
     };
 
@@ -73,46 +71,16 @@ class TransactionFilters extends Component {
         });
     };
 
-    /**
-     * @param {string} field
-     * @param {string} value
-     */
-    handleSearchQueryChange = (field, value) => {
-        const {onFiltersChange} = this.props;
-
-        this.handleFormUpdate(field, value);
-
-        onFiltersChange({
-            type: TransactionFilterTypes.QUERY,
-            value,
-        });
-    };
-
-    /**
-     * @param {string} field
-     * @param {(string[])} value
-     */
-    handleContractToggle = (field, value) => {
-        const {onFiltersChange} = this.props;
-
-        this.handleFormUpdate(field, value);
-
-        onFiltersChange({
-            type: TransactionFilterTypes.CONTRACTS,
-            value,
-        });
-    };
-
-    applyFilters = () => {
-
-    };
-
     handleDraftStatusChange = (value) => {
-        this.handleFormUpdate('status', value);
+        this.setState({
+            draftStatus: value,
+        });
     };
 
     handleDraftTypeChange = (value) => {
-        this.handleFormUpdate('type', value);
+        this.setState({
+            draftType: value,
+        });
     };
 
     /**
@@ -121,82 +89,102 @@ class TransactionFilters extends Component {
     handleStatusChange = (value) => {
         const {onFiltersChange} = this.props;
 
-        this.handleFormUpdate('status', value);
-
-        onFiltersChange({
-            type: TransactionFilterTypes.STATUS,
-            value,
-        });
+        onFiltersChange([
+            {
+                type: TransactionFilterTypes.STATUS,
+                value,
+            },
+        ]);
     };
 
     resetFilters = () => {
         const {onFiltersChange} = this.props;
 
-        this.handleFormUpdate('status', 'all');
+        onFiltersChange();
 
-        onFiltersChange({
-            type: TransactionFilterTypes.RESET,
+        this.handleModalClose();
+    };
+
+    handleApplyFilters = () => {
+        const {draftStatus, draftType} = this.state;
+        const {onFiltersChange} = this.props;
+
+        const filters = [];
+
+        filters.push({
+            type: TransactionFilterTypes.STATUS,
+            value: draftStatus,
         });
+
+        filters.push({
+            type: TransactionFilterTypes.TYPE,
+            value: draftType,
+        });
+
+        onFiltersChange(filters);
 
         this.handleModalClose();
     };
 
     render() {
-        const {openModal, formData: {status, type}} = this.state;
+        const {openModal, draftStatus, draftType} = this.state;
+        const {activeFilters} = this.props;
+
+        const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
 
         return (
             <div className="TransactionFilters">
                 <div className="FilterGroup">
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
                 </div>
-                {false && <div className="FilterGroup">
-                    <Button size="small" onClick={this.handleModalOpen}>
-                        <Icon icon="filter"/>
-                        <span>Filter Transactions</span>
-                    </Button>
-                    <Dialog open={openModal} onClose={this.handleModalClose}>
-                        <DialogHeader>
-                            <h3>Filter Transactions</h3>
-                        </DialogHeader>
-                        <DialogBody>
-                            <div className="MarginBottom4">
-                                <div className="MarginBottom3 DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
-                                    <div>
-                                        Transaction Status
+                <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                    <div className="FilterGroup">
+                        <Button size="small" onClick={this.handleModalOpen}>
+                            <Icon icon="filter"/>
+                            <span>Filter Transactions</span>
+                        </Button>
+                        <Dialog open={openModal} onClose={this.handleModalClose}>
+                            <DialogHeader>
+                                <h3>Filter Transactions</h3>
+                                <div className="MarginLeftAuto">
+                                    <LinkButton onClick={this.resetFilters}>Reset Filters</LinkButton>
+                                </div>
+                            </DialogHeader>
+                            <DialogBody>
+                                <div className="MarginBottom4">
+                                    <div className="MarginBottom3 DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
+                                        <div>Status</div>
+                                        <div>
+                                            <SegmentedControls size="small" options={transactionStatusOptions} value={draftStatus} onChange={this.handleDraftStatusChange}/>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <SegmentedControls size="small" options={transactionStatusOptions} value={status} onChange={this.handleDraftStatusChange}/>
+                                    <div className="MarginBottom3 DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
+                                        <div>Type</div>
+                                        <div>
+                                            <SegmentedControls size="small" options={transactionTypeOptions} value={draftType} onChange={this.handleDraftTypeChange}/>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="MarginBottom3 DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
-                                    <div>
-                                        Transaction Type
-                                    </div>
-                                    <div>
-                                        <SegmentedControls size="small" options={transactionTypeOptions} value={type} onChange={this.handleDraftTypeChange}/>
-                                    </div>
+                                <div>
+                                    <Button outline onClick={this.handleModalClose}>
+                                        <span>Close</span>
+                                    </Button>
+                                    <Button onClick={this.handleApplyFilters}>
+                                        <span>Filter</span>
+                                    </Button>
                                 </div>
-                            </div>
-                            <div>
-                                <Button outline onClick={this.resetFilters}>
-                                    <span>Reset Filters</span>
-                                </Button>
-                                <Button>
-                                    <span>Filter</span>
-                                </Button>
-                            </div>
-                        </DialogBody>
-                    </Dialog>
-                </div>}
+                            </DialogBody>
+                        </Dialog>
+                    </div>
+                </FeatureFlag>
             </div>
         );
     }
 }
 
 TransactionFilters.propTypes = {
-    lastSync: PropTypes.number,
-    filters: PropTypes.array,
-    onFiltersChange: PropTypes.func,
+    activeFilters: PropTypes.object,
+    onFiltersChange: PropTypes.func.isRequired,
 };
 
 export default TransactionFilters;

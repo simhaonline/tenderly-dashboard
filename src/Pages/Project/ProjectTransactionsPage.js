@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
-import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
+import {ONE_MIN_INTERVAL, ProjectTypes} from "../../Common/constants";
 import Notifications from "../../Utils/Notifications";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -104,19 +104,19 @@ class ProjectTransactionsPage extends Component {
         }
     }
 
-    handleFilterChange = (filter) => {
-        let filters = {};
+    handleFilterChange = (filters) => {
+        let newFilters = {};
 
-        if (filter.type !== TransactionFilterTypes.RESET) {
-            filters = {
-                ...this.state.filters,
-                [filter.type]: filter,
-            };
+        if (filters) {
+
+            filters.forEach(filter => {
+                newFilters[filter.type] = filter;
+            });
         }
 
         this.setState({
             fetching: true,
-            filters,
+            filters: newFilters,
             page: 1,
         });
 
@@ -186,13 +186,11 @@ class ProjectTransactionsPage extends Component {
     };
 
     render() {
-        const {loading, transactions, lastFetch, filters, page, perPage, refreshSubscriber, fetching} = this.state;
+        const {loading, transactions, filters, page, perPage, refreshSubscriber, fetching} = this.state;
         const {contracts, project} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
         const isPolling = !!refreshSubscriber || loading;
-
-        const activeFilters = Object.values(filters).filter(filter => filter.value.length);
 
         const shouldDisplayListAndFilters = !!transactions.length || page !== 1 || Object.values(filters).length || fetching;
 
@@ -211,7 +209,7 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
-                        {shouldDisplayListAndFilters && <TransactionFilters lastSync={lastFetch} activeFilters={activeFilters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
+                        {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
                                           loading={fetching}
                                           currentPage={page} onPageChange={this.handlePageChange}
