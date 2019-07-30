@@ -21,7 +21,7 @@ class Navigation extends Component {
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                     <a className="HeaderNavItem" rel="noopener noreferrer" target="_blank" href="https://docs.tenderly.dev">
-                        <Icon icon="file-text" className="NavIcon"/>
+                        <Icon icon="file-text" className="NavIcon DisplayMobile"/>
                         Documentation
                     </a>
                 </FeatureFlag>
