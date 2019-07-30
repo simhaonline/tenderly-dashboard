@@ -117,8 +117,9 @@ export const EventFilterTypes = {
 export const TransactionFilterTypes = {
     QUERY: 'QUERY',
     CONTRACTS: 'CONTRACTS',
+    NETWORKS: 'NETWORKS',
     STATUS: 'STATUS',
-    INTERNAL: 'INTERNAL',
+    TYPE: 'TYPE',
     RESET: 'RESET',
 };
 
