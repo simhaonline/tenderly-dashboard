@@ -25,6 +25,14 @@
   color: $LinkColor;
 }
 
+.SuccessText {
+  color: $Success500;
+}
+
+.DangerText {
+  color: $Danger500;
+}
+
 .MonospaceFont {
   font-family: $MonospaceFontFamily;
 }

@@ -19,5 +19,9 @@ export function areAlertRulesLoadedForProject(state, projectId) {
  * @returns {AlertRule[]}
  */
 export function getAlertRulesForProject(state, projectId) {
-    return [];
+    if (!state.alerting.projectRules[projectId]) {
+        return [];
+    }
+
+    return state.alerting.projectRules[projectId].map(ruleId => state.alerting.rules[ruleId]);
 }

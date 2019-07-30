@@ -49,8 +49,6 @@ export const fetchAlertRulesForProject = (projectId) => {
 
             const rules = alertsResponse.map(response => AlertRule.buildFromResponse(response));
 
-            console.log(rules);
-
             dispatch({
                 type: FETCH_ALERT_RULES_FOR_PROJECT_ACTION,
                 projectId,

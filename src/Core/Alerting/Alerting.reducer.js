@@ -11,9 +11,19 @@ const initialState = {
 const AlertingReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_ALERT_RULES_FOR_PROJECT_ACTION:
-            console.log(action);
             return {
                 ...state,
+                rules: {
+                    ...state.rules,
+                    ...action.rules.reduce((data, rule) => {
+                        data[rule.id] = rule;
+                        return data;
+                    }, {}),
+                },
+                projectRules: {
+                    ...state.projectRules,
+                    [action.projectId]: action.rules.map(rule => rule.id),
+                },
                 projectRulesLoaded: {
                     ...state.projectRulesLoaded,
                     [action.projectId]: EntityStatusTypes.LOADED,
