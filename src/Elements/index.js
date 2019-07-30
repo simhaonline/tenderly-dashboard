@@ -8,6 +8,7 @@ export {default as DialogHeader} from './Dialog/DialogHeader';
 export {default as Icon} from './Icon/Icon';
 export {default as Code} from './Code/Code';
 export {default as Alert} from './Alert/Alert';
+export {default as LinkButton} from './LinkButton/LinkButton';
 export {default as Button, ButtonGroup} from './Button/Button';
 export {default as Toggle} from './Toggle/Toggle';
 export {default as Select} from './Select/Select';
