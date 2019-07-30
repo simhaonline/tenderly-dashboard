@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {Route, Switch} from "react-router-dom";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
@@ -52,6 +53,7 @@ class ProjectAlertsPage extends Component {
     };
 
     render() {
+        const {project} = this.props;
         const {currentSegment} = this.state;
 
         return (
@@ -66,15 +68,17 @@ class ProjectAlertsPage extends Component {
                     <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
                         <PageSegments>
                             <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
-                            {currentSegment === RULES_TAB && <PageSegmentContent>
-                                <ProjectAlertRules/>
-                            </PageSegmentContent>}
-                            {currentSegment === HISTORY_TAB && <PageSegmentContent>
-                                <ProjectAlertHistory/>
-                            </PageSegmentContent>}
-                            {currentSegment === INTEGRATIONS_TAB && <PageSegmentContent>
-                                <ProjectAlertIntegrations/>
-                            </PageSegmentContent>}
+                            <Switch>
+                                <Route path={`/project/${project.id}/alerts/rules`} render={() => <PageSegmentContent>
+                                    <ProjectAlertRules projectId={project.id}/>
+                                </PageSegmentContent>}/>
+                                <Route path={`/project/${project.id}/alerts/history`} render={() => <PageSegmentContent>
+                                    <ProjectAlertHistory projectId={project.id}/>
+                                </PageSegmentContent>}/>
+                                <Route path={`/project/${project.id}/alerts/integrations`} render={() => <PageSegmentContent>
+                                    <ProjectAlertIntegrations/>
+                                </PageSegmentContent>}/>
+                            </Switch>
                         </PageSegments>
                     </FeatureFlag>
                 </Container>

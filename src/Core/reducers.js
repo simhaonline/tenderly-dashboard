@@ -8,6 +8,7 @@ import ContractReducer from "./Contract/Contract.reducer";
 import AppReducer from "./App/App.reducer";
 import FeatureFlagReducer from "./FeatureFlag/FeatureFlag.reducer";
 import TransactionReducer from "./Transaction/Transaction.reducer";
+import AlertingReducer from "./Alerting/Alerting.reducer";
 
 const reducers = combineReducers({
     auth: AuthReducer,
@@ -18,6 +19,7 @@ const reducers = combineReducers({
     app: AppReducer,
     transaction: TransactionReducer,
     featureFlag: FeatureFlagReducer,
+    alerting: AlertingReducer,
 });
 
 export default reducers;

@@ -148,6 +148,63 @@ export const UsernameStatusMap = {
     VALIDATING: 'validating',
 };
 
+/**
+ * @enum {string}
+ */
+export const AlertRuleExpressionTypes = {
+    CONTRACT_ADDRESS: 'CONTRACT_ADDRESS',
+    TRANSACTION_STATUS: 'TRANSACTION_STATUS',
+    METHOD_CALL: 'METHOD_CALL',
+    WHITELISTED_CALLER_ADDRESSES: 'WHITELISTED_CALLER_ADDRESSES',
+    BLACKLISTED_CALLER_ADDRESSES: 'BLACKLISTED_CALLER_ADDRESSES',
+};
+
+export const AlertRuleExpressionApiToAppTypeMap = {
+    'contract_address': AlertRuleExpressionTypes.CONTRACT_ADDRESS,
+    'tx_status': AlertRuleExpressionTypes.TRANSACTION_STATUS,
+    'method_call': AlertRuleExpressionTypes.METHOD_CALL,
+    'whitelisted_caller_addresses': AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES,
+    'blacklisted_caller_addresses': AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES,
+};
+
+export const AlertRuleExpressionAppToApiTypeMap = {
+    [AlertRuleExpressionTypes.CONTRACT_ADDRESS]: 'contract_address',
+    [AlertRuleExpressionTypes.TRANSACTION_STATUS]: 'tx_status',
+    [AlertRuleExpressionTypes.METHOD_CALL]: 'method_call',
+    [AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES]: 'whitelisted_caller_addresses',
+    [AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES]: 'blacklisted_caller_addresses',
+};
+
+/**
+ * @enum {string}
+ */
+export const AlertRuleExpressionParameterTypes = {
+    ADDRESS: 'ADDRESS',
+    ADDRESSES: 'ADDRESSES',
+    TRANSACTION_TYPE: 'TRANSACTION_TYPE',
+    TRANSACTION_SUCCESS: 'TRANSACTION_SUCCESS',
+    LINE_NUMBER: 'LINE_NUMBER',
+    CALL_POSITION: 'CALL_POSITION',
+};
+
+export const AlertRuleExpressionParameterApiToAppTypeMap = {
+    'address': AlertRuleExpressionParameterTypes.ADDRESS,
+    'addresses': AlertRuleExpressionParameterTypes.ADDRESSES,
+    'transaction_type': AlertRuleExpressionParameterTypes.TRANSACTION_TYPE,
+    'transaction_success': AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS,
+    'line_number': AlertRuleExpressionParameterTypes.LINE_NUMBER,
+    'call_position': AlertRuleExpressionParameterTypes.CALL_POSITION,
+};
+
+export const AlertRuleExpressionParameterAppToApiTypeMap = {
+    [AlertRuleExpressionParameterTypes.ADDRESS]: 'address',
+    [AlertRuleExpressionParameterTypes.ADDRESSES]: 'addresses',
+    [AlertRuleExpressionParameterTypes.TRANSACTION_TYPE]: 'transaction_type',
+    [AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS]: 'transaction_success',
+    [AlertRuleExpressionParameterTypes.LINE_NUMBER]: 'line_number',
+    [AlertRuleExpressionParameterTypes.CALL_POSITION]: 'call_position',
+};
+
 export const ONE_MIN_INTERVAL = 60 * 1000;
 export const FIVE_MIN_INTERVAL = 5 * ONE_MIN_INTERVAL;
 

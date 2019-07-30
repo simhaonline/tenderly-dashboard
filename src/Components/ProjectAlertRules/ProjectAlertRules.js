@@ -1,22 +1,28 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
+import {Route, Switch} from "react-router-dom";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
-import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+import * as alertingActions from '../../Core/Alerting/Alerting.actions';
 
 import {Button, Icon, Panel, PanelContent, PanelHeader, Form, List, ListItem} from "../../Elements";
+import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
+import {SimpleLoader} from "..";
 
 class ProjectAlertRules extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            creatingRule: false,
         };
+    }
 
-        initializeForm(this, {
-            type: '',
-            password: '',
-        });
-        this.handleFormUpdate = updateFormField.bind(this);
+    componentDidMount() {
+        const {actions, projectId, areRulesLoaded} = this.props;
+
+        if (!areRulesLoaded) {
+            actions.fetchAlertRulesForProject(projectId);
+        }
     }
 
     openCreateRule = () => {
@@ -25,46 +31,46 @@ class ProjectAlertRules extends Component {
         });
     };
 
-    backToRulesList = () => {
-        this.setState({
-            creatingRule: false,
-        });
-    };
-
     handleCreateRuleSubmit = () => {
 
     };
 
     render() {
-        const {creatingRule} = this.state;
+        const {projectId, rules, areRulesLoaded} = this.props;
 
         return (
-            <Fragment>
-                {!creatingRule && <Panel>
+            <Switch>
+                <Route path={`/project/${projectId}/alerts/rules`} exact render={() => <Panel>
                     <PanelHeader>
                         <h3>Rules</h3>
-                        <div className="MarginLeftAuto">`
-                            <Button size="small" onClick={this.openCreateRule}>
+                        <div className="MarginLeftAuto">
+                            {areRulesLoaded && !!rules.length && <Button size="small" to={`/project/${projectId}/alerts/rules/create`}>
                                 <Icon icon="plus"/>
                                 <span>Create Rule</span>
-                            </Button>
+                            </Button>}
                         </div>
                     </PanelHeader>
                     <PanelContent>
-                        <div className="ActiveRules">
+                        {!areRulesLoaded && <div className="DisplayFlex Padding4 AlignItemsCenter JustifyContentCenter">
+                            <SimpleLoader/>
+                        </div>}
+                        {areRulesLoaded && !!rules.length && <div className="ActiveRules">
                             <List>
-                                <ListItem>
-                                    one rule
-                                </ListItem>
+                                {rules.map(rule => <ListItem key={rule.id}>
+                                    This is a rule
+                                </ListItem>)}
                             </List>
-                        </div>
+                        </div>}
+                        {areRulesLoaded && !rules.length && <div>
+                            Create alert noob
+                        </div>}
                     </PanelContent>
-                </Panel>}
-                {creatingRule && <Panel>
+                </Panel>}/>
+                <Route path={`/project/${projectId}/alerts/rules/create`} exact render={() => <Panel>
                     <PanelHeader>
                         <h3>Create Rule</h3>
                         <div className="MarginLeftAuto">`
-                            <Button size="small" outline onClick={this.backToRulesList}>
+                            <Button size="small" outline to={`/project/${projectId}/alerts/rules`}>
                                 <Icon icon="arrow-left"/>
                                 <span>Back to Rules</span>
                             </Button>
@@ -82,10 +88,31 @@ class ProjectAlertRules extends Component {
                             </div>
                         </Form>
                     </PanelContent>
-                </Panel>}
-            </Fragment>
+                </Panel>}/>
+                <Route path={`/project/${projectId}/alerts/rules/:ruleId`} render={() => <div>
+                    single rule
+                </div>}/>
+            </Switch>
         );
     }
 }
 
-export default ProjectAlertRules;
+const mapStateToProps = (state, ownProps) => {
+    const projectId = ownProps.projectId;
+
+    return {
+        rules: getAlertRulesForProject(state, projectId),
+        areRulesLoaded: areAlertRulesLoadedForProject(state, projectId),
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(alertingActions, dispatch),
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(ProjectAlertRules);

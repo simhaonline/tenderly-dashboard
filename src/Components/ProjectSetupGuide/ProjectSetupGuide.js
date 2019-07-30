@@ -11,7 +11,7 @@ import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {Dialog, DialogHeader, DialogBody, Button, Code, Icon, Input, Card} from "../../Elements";
+import {Dialog, DialogHeader, DialogBody, Button, LinkButton, Code, Icon, Input, Card} from "../../Elements";
 import {SimpleLoader, NetworkSegmentedPicker} from '..';
 
 import './ProjectSetupGuide.scss';
@@ -394,7 +394,7 @@ class ProjectSetupGuide extends Component {
                                         <NetworkSegmentedPicker value={manualNetwork} onChange={this.handleManualNetworkChange} className="ContractNetworkPicker"/>
                                         <p>In order for your contract to be monitored for errors the contract must be publicly verified on <a href="https://etherscan.io/contractsVerified" target="_blank" rel="noopener noreferrer">Etherscan</a>.</p>
                                         <Input value={manualContractAddress} placeholder="0x1A77CC30E8d7Cb528520cda6B29279E7D859896A" icon="file-text" field="manualContractAddress" onChange={this.handleInputChange}/>
-                                        {!fetchingPublicContract && !fetchedPublicContract && <p>If your contract is not verified on Etherscan you can upload your project using our CLI tool. Follow the instructions for setup via CLI <a onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>here</a>.</p>}
+                                        {!fetchingPublicContract && !fetchedPublicContract && <p>If your contract is not verified on Etherscan you can upload your project using our CLI tool. Follow the instructions for setup via CLI <LinkButton onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>here</LinkButton>.</p>}
                                         {(fetchingPublicContract || !!fetchedPublicContract) && <div>
                                             {fetchingPublicContract && <div className="DisplayFlex AlignItemsCenter JustifyContentCenter">
                                                 <SimpleLoader/>
