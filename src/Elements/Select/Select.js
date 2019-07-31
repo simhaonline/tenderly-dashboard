@@ -88,11 +88,16 @@ class Select extends Component {
 }
 
 Select.propTypes = {
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
     options: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string.isRequired,
         value: PropTypes.any.isRequired,
+        description: PropTypes.string,
+        disabled: PropTypes.bool,
     })).isRequired,
+    selectLabel: PropTypes.string,
+    multiple: PropTypes.bool,
+    onChange: PropTypes.func,
 };
 
 Select.defaultProps = {
