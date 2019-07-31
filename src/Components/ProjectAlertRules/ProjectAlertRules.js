@@ -3,17 +3,27 @@ import {Route, Switch, Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
+import {FeatureFlagTypes} from "../../Common/constants";
+
 import * as alertingActions from '../../Core/Alerting/Alerting.actions';
 
-import {Button, Icon, Panel, PanelContent, PanelHeader, Input, List, ListItem} from "../../Elements";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
-import {SimpleLoader} from "..";
+
+import {Button, Icon, Panel, PanelContent, PanelHeader, PanelDivider, Input, List, ListItem, Card} from "../../Elements";
+import {SimpleLoader, AlertRuleExpressionForm, FeatureFlag} from "..";
 
 class ProjectAlertRules extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            advancedMode: false,
+            alertTarget: null,
+            alertRuleType: null,
+            alertRuleParameter: null,
+            expressions: [
+                null
+            ],
         };
     }
 
@@ -35,8 +45,39 @@ class ProjectAlertRules extends Component {
 
     };
 
+    addExpression = () => {
+        this.setState({
+            expressions: [
+                ...this.state.expressions,
+                null,
+            ],
+        });
+    };
+
+    /**
+     * @param {number} index
+     */
+    removeExpression = (index) => {};
+
+    /**
+     * @param {AlertRuleExpression} expression
+     * @param {number} index
+     */
+    handleExpressionUpdate = (expression, index) => {
+        const newExpressions = [...this.state.expressions];
+
+        newExpressions.splice(index, 1, expression);
+
+        this.setState({
+            expressions: newExpressions,
+        })
+    };
+
     render() {
         const {projectId, rules, areRulesLoaded} = this.props;
+        const {expressions, alertTarget, alertRuleType, alertRuleParameter} = this.state;
+
+        const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
 
         return (
             <Switch>
@@ -90,10 +131,104 @@ class ProjectAlertRules extends Component {
                         </div>
                     </PanelHeader>
                     <PanelContent>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                            <div className="MarginBottom4">
+                                <Input label="Name"/>
+                                <Input label="Description"/>
+                                <h4>Conditions</h4>
+                                <PanelDivider/>
+                                <p>This alert will be triggered if the following conditions are met:</p>
+                                {expressions.map((expression, index) => {
+                                    return (
+                                        <div key={index}>
+                                            {index !== 0 && <p className="MutedText TextAlignCenter MarginBottom1 MarginTop1">and</p>}
+                                            <Card color="light">
+                                                <AlertRuleExpressionForm onChange={expression => this.handleExpressionUpdate(expression, index)}
+                                                                         disabledOptions={currentActiveExpressionTypes.filter(e => {
+                                                                             if (!expression) {
+                                                                                 return true;
+                                                                             }
+
+                                                                             return e !== expression.type;
+                                                                         })}/>
+                                            </Card>
+                                        </div>
+                                    );
+                                })}
+                                <div className="MarginTop3 DisplayFlex JustifyContentCenter">
+                                    <Button onClick={this.addExpression} outline>
+                                        <Icon icon="plus"/>
+                                        <span>Add another condition</span>
+                                    </Button>
+                                </div>
+                            </div>
+                        </FeatureFlag>
                         <div>
-                            <Input label="Name"/>
-                            <Input label="Description"/>
-                            <h4>Expressions</h4>
+                            <div>
+                                <div>
+                                    <div>1</div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h5>Select alert target</h5>
+                                        {!!alertTarget && <p className="MutedText">
+                                            {alertTarget === 'project_wide' && <span>Project: {projectId}</span>}
+                                            {alertTarget !== 'project_wide' && <span>Contract: {alertTarget}</span>}
+                                        </p>}
+                                    </div>
+                                    <div>
+                                        <Card color="light" selectable selected={false}>
+                                            <Icon icon="file-text"/>
+                                            <h5>Contract</h5>
+                                        </Card>
+                                        <Card color="light" selectable selected={false}>
+                                            <Icon icon="project"/>
+                                            <h5>Project</h5>
+                                        </Card>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <div>2</div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h5>Select condition</h5>
+                                    </div>
+                                    <div>
+                                        <Card color="light" selectable selected={false}>
+                                            <Icon icon="layers"/>
+                                            <h5>Transaction Status</h5>
+                                        </Card>
+                                        <Card color="light" selectable selected={false}>
+                                            <Icon icon="maximize-2"/>
+                                            <h5>Transaction Type</h5>
+                                        </Card>
+                                        <Card color="light" selectable selected={false}>
+                                            <Icon icon="eye"/>
+                                            <h5>Whitelisted Callers</h5>
+                                        </Card>
+                                        <Card color="light" selectable selected={false}>
+                                            <Icon icon="eye-off"/>
+                                            <h5>Blacklisted Callers</h5>
+                                        </Card>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <div>3</div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <h5>Set condition parameters</h5>
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <Button type="submit">

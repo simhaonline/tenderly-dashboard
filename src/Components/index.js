@@ -28,6 +28,7 @@ export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGrap
 export {default as ProjectAnalyticsGraph} from './ProjectAnalyticsGraph/ProjectAnalyticsGraph';
 
 export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRules';
+export {default as AlertRuleExpressionForm} from './AlertRuleExpressionForm/AlertRuleExpressionForm';
 export {default as ProjectAlertHistory} from './ProjectAlertHistory/ProjectAlertHistory';
 export {default as ProjectAlertIntegrations} from './ProjectAlertIntegrations/ProjectAlertIntegrations';
 
