@@ -62,21 +62,21 @@ class PublicContractQuickActions extends Component {
         return (
             <Fragment>
                 <div className="PublicContractQuickActions">
-                    <Card onClick={() => this.handleActionClick('add_to_project')} className="PublicContractQuickActions__Action">
+                    <Card selectable onClick={() => this.handleActionClick('add_to_project')} className="PublicContractQuickActions__Action">
                         <div className="PublicContractQuickActions__Action__Icon">
                             <Icon icon="project"/>
                         </div>
                         <span>Add to Project</span>
                     </Card>
                     <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                        <Card onClick={() => this.handleActionClick('setup_alerting')} className="PublicContractQuickActions__Action">
+                        <Card selectable onClick={() => this.handleActionClick('setup_alerting')} className="PublicContractQuickActions__Action">
                             <div className="PublicContractQuickActions__Action__Icon">
                                 <Icon icon="alerting"/>
                             </div>
                             <span>Setup Alerts</span>
                         </Card>
                     </FeatureFlag>
-                    <Card onClick={() => this.handleActionClick ('filter_transactions')} className="PublicContractQuickActions__Action">
+                    <Card selectable onClick={() => this.handleActionClick ('filter_transactions')} className="PublicContractQuickActions__Action">
                         <div className="PublicContractQuickActions__Action__Icon">
                             <Icon icon="filter"/>
                         </div>
