@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
 
@@ -85,6 +86,14 @@ class Select extends Component {
         );
     }
 }
+
+Select.propTypes = {
+    value: PropTypes.any.isRequired,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.any.isRequired,
+    })).isRequired,
+};
 
 Select.defaultProps = {
     value: '',
