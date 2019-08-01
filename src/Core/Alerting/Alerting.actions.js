@@ -65,19 +65,54 @@ export const fetchAlertRulesForProject = (projectId) => {
 
 /**
  * @param {string} projectId
- * @param {string} alertId
+ * @param {string} ruleId
  */
-export const fetchAlertRuleForProject = (projectId, alertId) => {
+export const fetchAlertRuleForProject = (projectId, ruleId) => {
     return async dispatch => {
         try {
+            const alertsResponse = {
+                id: "asdas-123123",
+                project_id: projectId,
+                name: "Simple Alert",
+                description: "This alert is triggered when any transaction happens in this project.",
+                enabled: true,
+                delivery_channels: [],
+                expressions: [
+                    {
+                        "type": "method_call",
+                        "expression": {
+                            "line_number": 222,
+                            "call_position": "any"
+                        }
+                    },
+                    {
+                        "type": "whitelisted_caller_addresses",
+                        "expression": {
+                            "addresses": [
+                                "0x6b9ef02657339310e28a7a9d4b5f25f7c1f68d61",
+                                "0x904ef6ff8e82478c5604d99884eb9bcd7f73cc36",
+                                "0x02e3f16ca21cf0508835b190933ecbde2f7f14df",
+                                "0x4838eab6f43841e0d233db4cea47bd64f614f0c5",
+                                "0xa646e29877d52b9e2de457eca09c724ff16d0a2b",
+                                "0x3ac6cb2ccfd8c8aae3ba31d7ed44c20d241b16a4",
+                                "0xdbd6ffd3cb205576367915dd2f8de0af7edcceef",
+                                "0xbbf0cc1c63f509d48a4674e270d26d80ccaf6022"
+                            ]
+                        }
+                    }
+                ],
+            };
+
+            const rule = AlertRule.buildFromResponse(alertsResponse);
 
             dispatch({
                 type: FETCH_ALERT_RULE_FOR_PROJECT_ACTION,
                 projectId,
-                alertId,
+                ruleId,
+                rule,
             });
 
-            return new SuccessActionResponse();
+            return new SuccessActionResponse(rule);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error)

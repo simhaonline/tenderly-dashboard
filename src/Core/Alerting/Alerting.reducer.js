@@ -30,7 +30,13 @@ const AlertingReducer = (state = initialState, action) => {
                 },
             };
         case FETCH_ALERT_RULE_FOR_PROJECT_ACTION:
-            return state;
+            return {
+                ...state,
+                rules: {
+                    ...state.rules,
+                    [action.rule.id]: action.rule,
+                }
+            };
         case LOG_OUT_ACTION:
             return initialState;
         default:
