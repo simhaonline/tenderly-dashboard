@@ -36,7 +36,7 @@ export const ButtonGroup = ({children}) => {
     )
 };
 
-const Button = ({children, type, color, size, readOnly, className, disabled, outline, stretch, to, ...props}) => {
+const Button = ({children, width, type, color, size, readOnly, className, disabled, outline, stretch, to, ...props}) => {
     let ButtonTag = 'button';
 
     if (to) {
@@ -58,7 +58,9 @@ const Button = ({children, type, color, size, readOnly, className, disabled, out
                 "ReadOnly": readOnly,
                 "Disabled": disabled,
             },
-        )} type={type || 'button'} to={to} disabled={disabled} {...props}>
+        )} type={type || 'button'} to={to} disabled={disabled} {...props} style={{
+            width: `${width}px`,
+        }}>
             {children}
         </ButtonTag>
     )
