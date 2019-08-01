@@ -9,7 +9,7 @@ class TraceInputModel {
 
     static buildFromResponse(rawInput) {
         return new TraceInputModel({
-            name: rawInput.soltype ? rawInput.soltype.Name : null,
+            name: rawInput.soltype ? rawInput.soltype.name : null,
             value: rawInput.value !== null ? rawInput.value : null,
         });
     }
