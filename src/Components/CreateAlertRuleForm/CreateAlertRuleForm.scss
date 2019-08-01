@@ -10,6 +10,35 @@
   display: flex;
   align-items: center;
   margin-bottom: $Spacing4;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.2s;
+  padding: $Spacing2 $Spacing4;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: $Slate200;
+    border: 1px solid $Slate100;
+  }
+}
+
+.SimpleAlertRuleStep__Body {
+  display: flex;
+}
+
+.SimpleAlertRuleStep__Body__Divider {
+  margin: -1*$Spacing4 $Spacing7 0;
+  border-left: 2px solid transparentize($Primary500, 0.25);
+}
+
+.SimpleAlertRuleStep__Body__Content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.SimpleAlertRuleStep__Heading--Finished {
+  background-color: transparentize($Primary500, 0.8);
+  border: 1px solid transparentize($Primary500, 0.5);
 }
 
 .SimpleAlertRuleStep__StepIcon {
@@ -26,7 +55,7 @@
   opacity: 0.75;
 }
 
-.SimpleAlertRuleStep__StepIcon--Success {
+.SimpleAlertRuleStep__StepIcon--Finished {
   background-color: $Primary500;
   opacity: 1;
 }
@@ -35,9 +64,14 @@
   margin-left: $Spacing4;
 }
 
-.SimpleAlertRuleStep__Options {
-  display: flex;
-  flex-wrap: wrap;
+.SimpleAlertRuleStep__StepInfo__Heading {
+  font-size: $FontSize400;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.SimpleAlertRuleStep__StepInfo__Description {
+  margin: 0;
 }
 
 .SimpleAlertRuleAction {
@@ -51,4 +85,19 @@
   &:not(:last-child) {
     margin-right: $Spacing5;
   }
+}
+
+.SimpleAlertRuleAction__Icon {
+  font-size: $FontSize600;
+  margin-bottom: $Spacing2;
+  opacity: 0.5;
+}
+.SimpleAlertRuleAction__Label {
+  font-size: $FontSize300;
+  margin-bottom: 4px;
+}
+.SimpleAlertRuleAction__Description {
+  font-size: $FontSize200;
+  margin: 0;
+  text-align: center;
 }

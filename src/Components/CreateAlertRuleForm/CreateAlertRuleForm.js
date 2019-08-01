@@ -23,9 +23,9 @@ class SimpleAlertRuleAction extends Component {
 
         return (
             <Card color="light" className="SimpleAlertRuleAction" selectable selected={selected} onClick={onClick}>
-                <Icon icon={icon}/>
-                <h5>{label}</h5>
-                <p>{description}</p>
+                <Icon icon={icon} className="SimpleAlertRuleAction__Icon"/>
+                <h5 className="SimpleAlertRuleAction__Label">{label}</h5>
+                <p className="SimpleAlertRuleAction__Description">{description}</p>
             </Card>
         )
     }
@@ -37,23 +37,29 @@ class SimpleAlertRuleStep extends Component {
 
         return (
             <div className="SimpleAlertRuleStep">
-                <div className="SimpleAlertRuleStep__Heading" onClick={onClick}>
+                <div className={classNames(
+                    "SimpleAlertRuleStep__Heading",
+                    {
+                        "SimpleAlertRuleStep__Heading--Finished": finished,
+                    }
+                )} onClick={onClick}>
                     <div className={classNames(
                         "SimpleAlertRuleStep__StepIcon",
                         {
-                            "SimpleAlertRuleStep__StepIcon--Success": finished,
-                        }
+                            "SimpleAlertRuleStep__StepIcon--Finished": finished,
+                        },
                     )}>
                         {!finished && <span>{stepNumber}</span>}
                         {finished && <Icon icon="check"/>}
                     </div>
                     <div className="SimpleAlertRuleStep__StepInfo">
-                        <h5>{label}</h5>
-                        <p className="MutedText">{description}</p>
+                        <h5 className="SimpleAlertRuleStep__StepInfo__Heading">{label}</h5>
+                        <p className="SimpleAlertRuleStep__StepInfo__Description">{description}</p>
                     </div>
                 </div>
-                {open && <div>
-                    <div className="SimpleAlertRuleStep__Options">
+                {open && <div className="SimpleAlertRuleStep__Body">
+                    <div className="SimpleAlertRuleStep__Body__Divider"/>
+                    <div className="SimpleAlertRuleStep__Body__Content">
                         {children}
                     </div>
                 </div>}
