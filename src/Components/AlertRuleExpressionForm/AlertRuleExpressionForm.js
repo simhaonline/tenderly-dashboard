@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {AlertRuleExpression} from "../../Core/models";
 
-import {Select, Icon, TextArea, Input} from "../../Elements";
+import {Select} from "../../Elements";
 import {AlertRuleExpressionTypes} from "../../Common/constants";
 
 class AlertRuleExpressionForm extends Component {
