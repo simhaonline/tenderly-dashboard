@@ -3,8 +3,6 @@ import {Route, Switch} from "react-router-dom";
 
 import {AlertRulesList, EditAlertRuleForm, CreateAlertRuleForm} from "..";
 
-import './ProjectAlertRules.scss';
-
 class ProjectAlertRules extends Component {
     render() {
         return (
