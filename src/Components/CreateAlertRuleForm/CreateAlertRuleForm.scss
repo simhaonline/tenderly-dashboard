@@ -4,15 +4,15 @@
 
 }
 
-.AlertRuleSetup__Step {}
+.SimpleAlertRuleStep {}
 
-.AlertRuleSetup__Heading {
+.SimpleAlertRuleStep__Heading {
   display: flex;
   align-items: center;
   margin-bottom: $Spacing4;
 }
 
-.AlertRuleSetup__StepIcon {
+.SimpleAlertRuleStep__StepIcon {
   width: 32px;
   height: 32px;
   background-color: transparentize($Primary500, 0.75);
@@ -26,21 +26,21 @@
   opacity: 0.75;
 }
 
-.AlertRuleSetup__StepIcon--Success {
+.SimpleAlertRuleStep__StepIcon--Success {
   background-color: $Primary500;
   opacity: 1;
 }
 
-.AlertRuleSetup__StepInfo {
+.SimpleAlertRuleStep__StepInfo {
   margin-left: $Spacing4;
 }
 
-.AlertRuleSetup__Options {
+.SimpleAlertRuleStep__Options {
   display: flex;
   flex-wrap: wrap;
 }
 
-.AlertRuleSetup__Options__Option {
+.SimpleAlertRuleAction {
   width: 230px;
   height: 150px;
   display: flex;
