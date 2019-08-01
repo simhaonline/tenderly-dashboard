@@ -153,6 +153,7 @@ export const UsernameStatusMap = {
  */
 export const AlertRuleExpressionTypes = {
     CONTRACT_ADDRESS: 'CONTRACT_ADDRESS',
+    NETWORK: 'NETWORK',
     TRANSACTION_STATUS: 'TRANSACTION_STATUS',
     METHOD_CALL: 'METHOD_CALL',
     WHITELISTED_CALLER_ADDRESSES: 'WHITELISTED_CALLER_ADDRESSES',
@@ -161,6 +162,7 @@ export const AlertRuleExpressionTypes = {
 
 export const AlertRuleExpressionApiToAppTypeMap = {
     'contract_address': AlertRuleExpressionTypes.CONTRACT_ADDRESS,
+    'network': AlertRuleExpressionTypes.NETWORK,
     'tx_status': AlertRuleExpressionTypes.TRANSACTION_STATUS,
     'method_call': AlertRuleExpressionTypes.METHOD_CALL,
     'whitelisted_caller_addresses': AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES,
@@ -169,6 +171,7 @@ export const AlertRuleExpressionApiToAppTypeMap = {
 
 export const AlertRuleExpressionAppToApiTypeMap = {
     [AlertRuleExpressionTypes.CONTRACT_ADDRESS]: 'contract_address',
+    [AlertRuleExpressionTypes.NETWORK]: 'network',
     [AlertRuleExpressionTypes.TRANSACTION_STATUS]: 'tx_status',
     [AlertRuleExpressionTypes.METHOD_CALL]: 'method_call',
     [AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES]: 'whitelisted_caller_addresses',
@@ -180,6 +183,7 @@ export const AlertRuleExpressionAppToApiTypeMap = {
  */
 export const AlertRuleExpressionParameterTypes = {
     ADDRESS: 'ADDRESS',
+    NETWORK_ID: 'NETWORK_ID',
     ADDRESSES: 'ADDRESSES',
     TRANSACTION_TYPE: 'TRANSACTION_TYPE',
     TRANSACTION_SUCCESS: 'TRANSACTION_SUCCESS',
@@ -189,6 +193,7 @@ export const AlertRuleExpressionParameterTypes = {
 
 export const AlertRuleExpressionParameterApiToAppTypeMap = {
     'address': AlertRuleExpressionParameterTypes.ADDRESS,
+    'network_id': AlertRuleExpressionParameterTypes.NETWORK_ID,
     'addresses': AlertRuleExpressionParameterTypes.ADDRESSES,
     'transaction_type': AlertRuleExpressionParameterTypes.TRANSACTION_TYPE,
     'transaction_success': AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS,
@@ -198,6 +203,7 @@ export const AlertRuleExpressionParameterApiToAppTypeMap = {
 
 export const AlertRuleExpressionParameterAppToApiTypeMap = {
     [AlertRuleExpressionParameterTypes.ADDRESS]: 'address',
+    [AlertRuleExpressionParameterTypes.NETWORK_ID]: 'network_id',
     [AlertRuleExpressionParameterTypes.ADDRESSES]: 'addresses',
     [AlertRuleExpressionParameterTypes.TRANSACTION_TYPE]: 'transaction_type',
     [AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS]: 'transaction_success',
