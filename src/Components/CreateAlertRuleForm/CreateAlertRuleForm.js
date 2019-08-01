@@ -12,7 +12,7 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {areProjectContractsLoaded} from "../../Common/Selectors/ProjectSelectors";
 import {AlertRuleExpression} from "../../Core/models";
 
-import {Button, Card, Icon, Input, Panel, PanelContent, PanelDivider, PanelHeader, Dialog, List, ListItem, TextArea} from "../../Elements";
+import {Button, Card, Icon, Input, Panel, PanelContent, PanelDivider, PanelHeader, Dialog, List, ListItem, TextArea, Toggle} from "../../Elements";
 import {AlertRuleExpressionForm, NetworkTag} from "../index";
 
 import './CreateAlertRuleForm.scss';
@@ -246,9 +246,30 @@ class CreateAlertRuleForm extends Component {
             case 'blacklisted_callers':
                 const validAddresses = addressesValue.split(/\n/g).filter(a => isValidAddress(a));
 
-                const expression = expressions.find(e => [AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES, AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES].includes(e.type));
+                if (!validAddresses.length) {
+                    return;
+                }
 
-                console.log(expression, validAddresses);
+                const expression = expressions.find(e => [AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES, AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES].includes(e.type));
+                const expressionIndex = expressions.indexOf(expression);
+
+                const updatedExpression = expression.update({
+                    parameters: {
+                        [AlertRuleExpressionParameterTypes.ADDRESSES]: validAddresses,
+                    },
+                });
+
+                const newExpressions = [...expressions];
+
+                newExpressions.splice(expressionIndex, 1, updatedExpression);
+
+                this.setState({
+                    expressions: newExpressions,
+                    parametersSet: true,
+                }, () => this.goToStep(4));
+
+                break;
+            default:
                 break;
         }
     };
@@ -260,7 +281,7 @@ class CreateAlertRuleForm extends Component {
     };
 
     render() {
-        const {projectId, contracts} = this.props;
+        const {projectId, contracts, user} = this.props;
         const {currentMode, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue} = this.state;
 
         const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
@@ -315,24 +336,32 @@ class CreateAlertRuleForm extends Component {
                     </div>}
                     {currentMode === 'simple' && <div className="AlertRuleSetup">
                         <SimpleAlertRuleStep label="Trigger Condition" description={this.getAlertTypeDescription()} finished={!!alertType} open={currentStep === 1} stepNumber="1" onClick={() => this.goToStep(1)}>
-                            <SimpleAlertRuleAction onClick={() => this.selectAlertType('success_tx')} selected={alertType === 'success_tx'} icon="check-circle" label="Successful Transaction" description="Triggers whenever a successful transaction happens"/>
-                            <SimpleAlertRuleAction onClick={() => this.selectAlertType('failed_tx')} selected={alertType === 'failed_tx'} icon="x-circle" label="Failed Transaction" description="Triggers whenever a failed transactions happens"/>
-                            <SimpleAlertRuleAction onClick={() => this.selectAlertType('whitelisted_callers')} selected={alertType === 'whitelisted_callers'} icon="eye" label="Whitelisted Callers" description="Triggers whenever a contract that is not whitelisted calls one of your contracts"/>
-                            <SimpleAlertRuleAction onClick={() => this.selectAlertType('blacklisted_callers')} selected={alertType === 'blacklisted_callers'} icon="eye-off" label="Blacklisted Callers" description="Triggers whenever a contract from this list calls one of your contracts"/>
+                            <div className="DisplayFlex FlexWrap">
+                                <SimpleAlertRuleAction onClick={() => this.selectAlertType('success_tx')} selected={alertType === 'success_tx'} icon="check-circle" label="Successful Transaction" description="Triggers whenever a successful transaction happens"/>
+                                <SimpleAlertRuleAction onClick={() => this.selectAlertType('failed_tx')} selected={alertType === 'failed_tx'} icon="x-circle" label="Failed Transaction" description="Triggers whenever a failed transactions happens"/>
+                                <SimpleAlertRuleAction onClick={() => this.selectAlertType('whitelisted_callers')} selected={alertType === 'whitelisted_callers'} icon="eye" label="Whitelisted Callers" description="Triggers whenever a contract that is not whitelisted calls one of your contracts"/>
+                                <SimpleAlertRuleAction onClick={() => this.selectAlertType('blacklisted_callers')} selected={alertType === 'blacklisted_callers'} icon="eye-off" label="Blacklisted Callers" description="Triggers whenever a contract from this list calls one of your contracts"/>
+                            </div>
                         </SimpleAlertRuleStep>
                         <SimpleAlertRuleStep label="Alert Target" description={this.getAlertTargetDescription()} stepNumber="2" open={currentStep === 2} finished={!!alertTarget} onClick={() => this.goToStep(2)}>
-                            <SimpleAlertRuleAction onClick={this.openContractModel} selected={alertTarget === 'contract'} icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
-                            <SimpleAlertRuleAction onClick={() => this.selectAlertTarget('project')} selected={alertTarget === 'project'} icon="project" label="Project" description="Receive alerts for every contract in this project"/>
+                            <div className="DisplayFlex FlexWrap">
+                                <SimpleAlertRuleAction onClick={this.openContractModel} selected={alertTarget === 'contract'} icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
+                                <SimpleAlertRuleAction onClick={() => this.selectAlertTarget('project')} selected={alertTarget === 'project'} icon="project" label="Project" description="Receive alerts for every contract in this project"/>
+                            </div>
                         </SimpleAlertRuleStep>
                         {parametersNeeded && <SimpleAlertRuleStep label="Parameters" finished={parametersSet} stepNumber="3" open={currentStep === 3} onClick={() => this.goToStep(3)}>
-
-                            {['whitelisted_callers', 'blacklisted_callers'].includes(alertType) && <TextArea value={addressesValue} field="addressesValue" onChange={this.updateParameter} placeholder="Enter the list of contract addresses separated by new lines"/>}
-                            <Button disabled={!addressesValue} onClick={this.applyParameters}>
-                                <span>Apply</span>
-                            </Button>
+                            <div className="MarginBottom3">
+                                {['whitelisted_callers', 'blacklisted_callers'].includes(alertType) && <TextArea value={addressesValue} className="AlertRuleSetup__AddressesList" field="addressesValue" onChange={this.updateParameter} placeholder="Enter the list of contract addresses separated by new lines"/>}
+                                <Button disabled={!addressesValue} onClick={this.applyParameters}>
+                                    <span>Apply</span>
+                                </Button>
+                            </div>
                         </SimpleAlertRuleStep>}
                         <SimpleAlertRuleStep label="Destinations" stepNumber={parametersNeeded ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
-
+                            <Card color="light" className="DisplayFlex AlignItemsCenter" clickable>
+                                <Toggle value={true}/>
+                                <span className="MarginLeft2 SemiBoldText">{user.email}</span>
+                            </Card>
                         </SimpleAlertRuleStep>
                         <Dialog open={contractModelOpen} onClose={this.closeContractModel}>
                             <List className="ContractPickerList">
@@ -373,6 +402,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         projectId,
+        user: state.auth.user,
         contracts: getContractsForProject(state, projectId),
         contractsLoaded: areProjectContractsLoaded(state, projectId),
     };
