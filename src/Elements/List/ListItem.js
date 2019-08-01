@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import {Link} from "react-router-dom";
 
-const ListItem = ({children, active, to, className}) => {
+const ListItem = ({children, active, to, onClick, className}) => {
     let ListItemTag = 'div';
 
     if (to) {
@@ -16,7 +16,7 @@ const ListItem = ({children, active, to, className}) => {
             {
                 "List__Item--Active": active,
             }
-        )} to={to}>
+        )} to={to} onClick={onClick}>
             {children}
         </ListItemTag>
     )
