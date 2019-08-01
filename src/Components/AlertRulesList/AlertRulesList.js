@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
@@ -7,7 +7,7 @@ import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
 import {Button, Icon, List, ListItem, Panel, PanelContent, PanelHeader} from "../../Elements";
-import {SimpleLoader} from "..";
+import {SimpleLoader, EmptyState} from "..";
 
 class AlertRulesList extends Component {
     componentDidMount() {
@@ -24,11 +24,11 @@ class AlertRulesList extends Component {
         return (
             <Panel>
                 <PanelHeader>
-                    <h3>Rules</h3>
+                    <h3>Alerts</h3>
                     <div className="MarginLeftAuto">
                         {areRulesLoaded && !!rules.length && <Button size="small" to={`/project/${projectId}/alerts/rules/create`}>
                             <Icon icon="plus"/>
-                            <span>Create Rule</span>
+                            <span>New Alert</span>
                         </Button>}
                     </div>
                 </PanelHeader>
@@ -53,7 +53,14 @@ class AlertRulesList extends Component {
                         </List>
                     </div>}
                     {areRulesLoaded && !rules.length && <div>
-                        Create alert noob
+                        <EmptyState title="No  alerts setup yet" description="Description bla bla" renderActions={() => <Fragment>
+                            <Button color="secondary" width={160} outline to={`/project/${projectId}/alerts/rules/templates`}>
+                                <span>Browse Templates</span>
+                            </Button>
+                            <Button color="secondary" width={160} to={`/project/${projectId}/alerts/rules/create`}>
+                                <span>Setup an Alert</span>
+                            </Button>
+                        </Fragment>}/>
                     </div>}
                 </PanelContent>
             </Panel>

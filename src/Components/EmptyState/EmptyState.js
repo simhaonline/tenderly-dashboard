@@ -6,9 +6,9 @@ import './EmptyState.scss';
 const EmptyState = ({icon, title, description, renderActions}) => {
     return (
         <div className="EmptyState">
-            <div className="EmptyState__Icon">
+            {!!icon && <div className="EmptyState__Icon">
                 <img src={icon} alt="Empty state icon" className="EmptyState__Icon__Image"/>
-            </div>
+            </div>}
             <div className="EmptyState__Title">{title}</div>
             <div className="EmptyState__Description">{description}</div>
             {!!renderActions && <div className="EmptyState__Actions">
