@@ -87,7 +87,7 @@ class TracePreview extends Component {
                     </div>}
                     {!file && <div>
                         <span className="SemiBoldText">[{trace.op}]</span>
-                        <span className="MutedText"> invoked in </span>
+                        <span className="MutedText"> invoked from </span>
                         <span className="SemiBoldText">{trace.contract}</span>
                     </div>}
                     <div className="ExpandCode">
