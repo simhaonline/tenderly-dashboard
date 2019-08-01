@@ -9,8 +9,8 @@ class TraceInputModel {
 
     static buildFromResponse(rawInput) {
         return new TraceInputModel({
-            name: rawInput.Soltype ? rawInput.Soltype.Name : null,
-            value: rawInput.Value !== null ? rawInput.Value : null,
+            name: rawInput.soltype ? rawInput.soltype.Name : null,
+            value: rawInput.value !== null ? rawInput.value : null,
         });
     }
 }
