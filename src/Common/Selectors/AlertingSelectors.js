@@ -15,6 +15,15 @@ export function areAlertRulesLoadedForProject(state, projectId) {
 
 /**
  * @param {Object} state
+ * @param {string} ruleId
+ * @return {boolean}
+ */
+export function isAlertRuleLoaded(state, ruleId) {
+    return !!state.alerting.rules[ruleId];
+}
+
+/**
+ * @param {Object} state
  * @param {string} projectId
  * @returns {AlertRule[]}
  */
@@ -24,4 +33,13 @@ export function getAlertRulesForProject(state, projectId) {
     }
 
     return state.alerting.projectRules[projectId].map(ruleId => state.alerting.rules[ruleId]);
+}
+
+/**
+ * @param {Object} state
+ * @param {string} ruleId
+ * @return {AlertRule}
+ */
+export function getAlertRule(state, ruleId) {
+    return state.alerting.rules[ruleId];
 }
