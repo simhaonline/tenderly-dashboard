@@ -1,0 +1,54 @@
+@import "../../Common/common";
+
+.CreateAlertRule {
+
+}
+
+.AlertRuleSetup__Step {}
+
+.AlertRuleSetup__Heading {
+  display: flex;
+  align-items: center;
+  margin-bottom: $Spacing4;
+}
+
+.AlertRuleSetup__StepIcon {
+  width: 32px;
+  height: 32px;
+  background-color: transparentize($Primary500, 0.75);
+  border: 1px solid $Primary500;
+  border-radius: 20px;
+  font-size: $FontSize400;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.75;
+}
+
+.AlertRuleSetup__StepIcon--Success {
+  background-color: $Primary500;
+  opacity: 1;
+}
+
+.AlertRuleSetup__StepInfo {
+  margin-left: $Spacing4;
+}
+
+.AlertRuleSetup__Options {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.AlertRuleSetup__Options__Option {
+  width: 230px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &:not(:last-child) {
+    margin-right: $Spacing5;
+  }
+}
