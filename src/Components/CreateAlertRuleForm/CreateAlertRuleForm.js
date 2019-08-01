@@ -12,10 +12,12 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {areProjectContractsLoaded} from "../../Common/Selectors/ProjectSelectors";
 import {AlertRuleExpression} from "../../Core/models";
 
-import {Button, Card, Icon, Input, Panel, PanelContent, PanelDivider, PanelHeader, Dialog, List, ListItem} from "../../Elements";
+import {Button, Card, Icon, Input, Panel, PanelContent, PanelDivider, PanelHeader, Dialog, List, ListItem, TextArea} from "../../Elements";
 import {AlertRuleExpressionForm, NetworkTag} from "../index";
 
 import './CreateAlertRuleForm.scss';
+import {isValidAddress} from "../../Utils/Ethereum";
+import Blockies from "react-blockies";
 
 class SimpleAlertRuleAction extends Component {
     render() {
@@ -76,6 +78,8 @@ class CreateAlertRuleForm extends Component {
             currentMode: 'simple',
             currentStep: 1,
             parametersNeeded: false,
+            parametersSet: false,
+            addressesValue: '',
             selectedContract: null,
             alertTarget: null,
             alertType: null,
@@ -234,9 +238,30 @@ class CreateAlertRuleForm extends Component {
         });
     };
 
+    applyParameters = () => {
+        const {alertType, addressesValue, expressions} = this.state;
+
+        switch (alertType) {
+            case 'whitelisted_callers':
+            case 'blacklisted_callers':
+                const validAddresses = addressesValue.split(/\n/g).filter(a => isValidAddress(a));
+
+                const expression = expressions.find(e => [AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES, AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES].includes(e.type));
+
+                console.log(expression, validAddresses);
+                break;
+        }
+    };
+
+    updateParameter = (field, value) => {
+        this.setState({
+            [field]: value,
+        });
+    };
+
     render() {
         const {projectId, contracts} = this.props;
-        const {currentMode, expressions, parametersNeeded, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations} = this.state;
+        const {currentMode, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue} = this.state;
 
         const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
 
@@ -299,20 +324,32 @@ class CreateAlertRuleForm extends Component {
                             <SimpleAlertRuleAction onClick={this.openContractModel} selected={alertTarget === 'contract'} icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
                             <SimpleAlertRuleAction onClick={() => this.selectAlertTarget('project')} selected={alertTarget === 'project'} icon="project" label="Project" description="Receive alerts for every contract in this project"/>
                         </SimpleAlertRuleStep>
-                        {parametersNeeded && <SimpleAlertRuleStep label="Parameters" stepNumber="3" open={currentStep === 3} onClick={() => this.goToStep(3)}>
-                            <Button>
-                                <span>Next</span>
+                        {parametersNeeded && <SimpleAlertRuleStep label="Parameters" finished={parametersSet} stepNumber="3" open={currentStep === 3} onClick={() => this.goToStep(3)}>
+
+                            {['whitelisted_callers', 'blacklisted_callers'].includes(alertType) && <TextArea value={addressesValue} field="addressesValue" onChange={this.updateParameter} placeholder="Enter the list of contract addresses separated by new lines"/>}
+                            <Button disabled={!addressesValue} onClick={this.applyParameters}>
+                                <span>Apply</span>
                             </Button>
                         </SimpleAlertRuleStep>}
                         <SimpleAlertRuleStep label="Destinations" stepNumber={parametersNeeded ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
 
                         </SimpleAlertRuleStep>
                         <Dialog open={contractModelOpen} onClose={this.closeContractModel}>
-                            <List>
-                                {contracts.map(contract => <ListItem key={contract.getUniqueId()} onClick={() => this.selectAlertTarget('contract', contract)}>
-                                    {contract.name}
-                                    {contract.address}
-                                    <NetworkTag network={contract.network}/>
+                            <List className="ContractPickerList">
+                                {contracts.map(contract => <ListItem key={contract.getUniqueId()} onClick={() => this.selectAlertTarget('contract', contract)} className="ContractPickerList__Item">
+                                    <Blockies
+                                        seed={contract.address}
+                                        size={8}
+                                        scale={4.5}
+                                        className="ContractPickerList__Item__Blockie"
+                                    />
+                                    <div className="ContractPickerList__Item__Info">
+                                        <div className="ContractPickerList__Item__Name">{contract.name}</div>
+                                        <div className="ContractPickerList__Item__Address">{contract.address}</div>
+                                    </div>
+                                    <div className="ContractPickerList__Item__Network">
+                                        <NetworkTag network={contract.network}/>
+                                    </div>
                                 </ListItem>)}
                             </List>
                         </Dialog>

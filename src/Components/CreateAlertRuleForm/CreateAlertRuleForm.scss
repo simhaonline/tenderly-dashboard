@@ -32,6 +32,7 @@
 }
 
 .SimpleAlertRuleStep__Body__Content {
+  flex: 1 1 0;
   display: flex;
   flex-wrap: wrap;
 }
@@ -100,4 +101,34 @@
   font-size: $FontSize200;
   margin: 0;
   text-align: center;
+}
+
+.ContractPickerList__Item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: $Slate300;
+  }
+}
+
+.ContractPickerList__Item__Blockie {
+  border-radius: 4px;
+  box-shadow: 1px 1px 3px 0 transparentize($BlackColor, 0.85);
+  margin-right: $Spacing2;
+}
+
+.ContractPickerList__Item__Info {
+  flex: 1 1 0;
+}
+
+.ContractPickerList__Item__Name {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.ContractPickerList__Item__Address {
+  font-family: $MonospaceFontFamily;
+  color: $LinkColor;
 }
