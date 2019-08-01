@@ -10,6 +10,16 @@ class AlertRuleExpression {
     }
 
     /**
+     * @param {Object} data
+     * @return {AlertRuleExpression}
+     */
+    update(data) {
+        const updatedData = Object.assign({}, this, data);
+
+        return new AlertRuleExpression(updatedData);
+    }
+
+    /**
      *
      * @param {Object} rawParameters
      * @returns {Object}
