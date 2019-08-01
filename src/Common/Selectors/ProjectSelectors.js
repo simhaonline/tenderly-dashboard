@@ -20,11 +20,11 @@ export function getProject(state, id) {
 
 /**
  * @param {Object} state
- * @param {string} id
+ * @param {string} projectId
  * @returns {boolean}
  */
-export function areProjectContractsLoaded(state, id) {
-    const projectContractsStatus = state.project.contractsStatus[id];
+export function areProjectContractsLoaded(state, projectId) {
+    const projectContractsStatus = state.project.contractsStatus[projectId];
 
     return projectContractsStatus && projectContractsStatus === EntityStatusTypes.LOADED;
 }
