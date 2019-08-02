@@ -7,6 +7,7 @@ import './Alert.scss';
 const AlertColorClassMap = {
     info: 'Alert--Info',
     danger: 'Alert--Danger',
+    warning: 'Alert--Warning',
 };
 
 class Alert extends Component {
@@ -31,7 +32,7 @@ class Alert extends Component {
 }
 
 Alert.propTypes = {
-    color: PropTypes.oneOf(['info', 'danger']),
+    color: PropTypes.oneOf(['info', 'danger', 'warning']),
 };
 
 Alert.defaultProps = {
