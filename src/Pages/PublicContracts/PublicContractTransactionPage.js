@@ -94,7 +94,7 @@ class PublicContractTransactionPage extends Component {
                     {loaded && !error && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace} stackTrace={stackTrace}/>}
                     {loaded && error && <Panel>
                         <PanelContent>
-                            <EmptyState icon={NoTransactionsIcon} title="Bummer, we couldn't find this transaction" description="This transaction probably has not been processed by us yet or the transaction hash is not a valid one."/>
+                            <EmptyState image={NoTransactionsIcon} title="Bummer, we couldn't find this transaction" description="This transaction probably has not been processed by us yet or the transaction hash is not a valid one."/>
                         </PanelContent>
                     </Panel>}
                 </Container>

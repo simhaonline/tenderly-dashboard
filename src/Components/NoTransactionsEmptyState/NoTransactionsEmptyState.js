@@ -9,7 +9,7 @@ const NoTransactionsEmptyState = () => {
     return (
         <Panel>
             <PanelContent>
-                <EmptyState icon={NoTransactionsIcon} title="No transactions processed"
+                <EmptyState image={NoTransactionsIcon} title="No transactions processed"
                             description="We haven’t processed any transactions yet. As soon as one appears on the chain it will appear here."/>
             </PanelContent>
         </Panel>

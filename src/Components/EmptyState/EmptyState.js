@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {Icon} from "../../Elements";
+
 import './EmptyState.scss';
 
-const EmptyState = ({icon, title, description, renderActions}) => {
+const EmptyState = ({image, icon, title, description, renderActions}) => {
     return (
         <div className="EmptyState">
-            {!!icon && <div className="EmptyState__Icon">
-                <img src={icon} alt="Empty state icon" className="EmptyState__Icon__Image"/>
-            </div>}
+            <div className="EmptyState__Icon">
+                {!!image && <img src={image} alt="Empty state icon" className="EmptyState__Icon__Image"/>}
+                {icon}
+                {!!icon && <Icon icon={icon}/>}
+            </div>
             <div className="EmptyState__Title">{title}</div>
             <div className="EmptyState__Description">{description}</div>
             {!!renderActions && <div className="EmptyState__Actions">
@@ -19,7 +23,8 @@ const EmptyState = ({icon, title, description, renderActions}) => {
 };
 
 EmptyState.propTypes = {
-    icon: PropTypes.node.isRequired,
+    image: PropTypes.node,
+    icon: PropTypes.string,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     renderActions: PropTypes.func,
