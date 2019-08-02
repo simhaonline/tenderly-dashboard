@@ -45,7 +45,7 @@ class EditAlertRuleForm extends Component {
             <Panel>
                 <PanelHeader>
                     <h3>
-                        <Link to={`/project/${projectId}/alerts/rules`}>Rules</Link>
+                        <Link to={`/project/${projectId}/alerts/rules`}>Alerts</Link>
                         {isRuleLoaded && <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>}
                         {!!rule && <span>{rule.name}</span>}
                     </h3>
