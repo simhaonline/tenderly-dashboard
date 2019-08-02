@@ -321,16 +321,10 @@ class CreateAlertRuleForm extends Component {
             <Panel className="CreateAlertRule">
                 <PanelHeader>
                     <h3>
-                        <Link to={`/project/${projectId}/alerts/rules`}>Rules</Link>
+                        <Link to={`/project/${projectId}/alerts/rules`}>Alerts</Link>
                         <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>
-                        <span>Create Rule</span>
+                        <span>Create Alert</span>
                     </h3>
-                    <div className="MarginLeftAuto">`
-                        <Button size="small" outline to={`/project/${projectId}/alerts/rules`}>
-                            <Icon icon="arrow-left"/>
-                            <span>Back to Rules</span>
-                        </Button>
-                    </div>
                 </PanelHeader>
                 <PanelContent>
                     {currentMode === 'advanced' && <div>
