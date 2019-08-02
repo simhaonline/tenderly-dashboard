@@ -89,7 +89,7 @@ class CreateAlertRuleForm extends Component {
             alertTarget: null,
             alertType: null,
             alertParameters: null,
-            alertDestinations: false,
+            alertDestinations: [],
             expressions: [],
         }
     }
@@ -289,16 +289,30 @@ class CreateAlertRuleForm extends Component {
         });
     };
 
-    toggleAlertDestination = () => {
+    /**
+     * @param {NotificationDestination} destination
+     */
+    toggleAlertDestination = (destination) => {
         const {alertDestinations} = this.state;
 
+        let destinations;
+
+        if (alertDestinations.includes(destination.id)) {
+            destinations = alertDestinations.filter(dest => dest !== destination.id);
+        } else {
+            destinations = [
+                ...alertDestinations,
+                destination.id
+            ];
+        }
+
         this.setState({
-            alertDestinations: !alertDestinations,
+            alertDestinations: destinations,
         });
     };
 
     render() {
-        const {projectId, contracts, user} = this.props;
+        const {projectId, contracts, destinations} = this.props;
         const {currentMode, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue} = this.state;
 
         const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
@@ -374,12 +388,15 @@ class CreateAlertRuleForm extends Component {
                                 </Button>
                             </div>
                         </SimpleAlertRuleStep>}
-                        <SimpleAlertRuleStep label="Destinations" finished={alertDestinations} stepNumber={parametersNeeded ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
+                        <SimpleAlertRuleStep label="Destinations" finished={!!alertDestinations.length} stepNumber={parametersNeeded ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
                             <h4 className="SemiBoldText MarginBottom2">Email Notification</h4>
-                            <Card color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={this.toggleAlertDestination}>
-                                <Toggle value={alertDestinations}/>
-                                <span className="MarginLeft2 SemiBoldText">{user.email}</span>
-                            </Card>
+                            {destinations.map(destination => <Card color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={() => this.toggleAlertDestination(destination)} key={destination.id}>
+                                <Toggle value={alertDestinations.includes(destination.id)}/>
+                                <div className="MarginLeft2">
+                                    <div className="SemiBoldText">{destination.label}</div>
+                                    <div className="MutedText">{destination.information.email}</div>
+                                </div>
+                            </Card>)}
                             <Alert color="warning">
                                 We currently support only sending alerts to your account email. We are working on integrating <span className="SemiBoldText">additional E-mails, Slack, WebHooks</span> and other integrations as alert destinations.
                             </Alert>
@@ -405,7 +422,7 @@ class CreateAlertRuleForm extends Component {
                         </Dialog>
                     </div>}
                     <div className="MarginTop4">
-                        <Button type="submit" disabled={!alertTarget || !alertType || !alertDestinations}>
+                        <Button type="submit" disabled={!alertTarget || !alertType || !alertDestinations.length}>
                             <span>Create Alert</span>
                         </Button>
                         <Button outline to={`/project/${projectId}/alerts/rules`}>
@@ -423,7 +440,6 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         projectId,
-        user: state.auth.user,
         contracts: getContractsForProject(state, projectId),
         contractsLoaded: areProjectContractsLoaded(state, projectId),
         destinations: getNotificationDestinations(state),

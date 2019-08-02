@@ -3,7 +3,7 @@
  * @return {NotificationDestination[]}
  */
 export function getNotificationDestinations(state) {
-    return state.notification.destinations;
+    return Object.values(state.notification.destinations);
 }
 
 /**
