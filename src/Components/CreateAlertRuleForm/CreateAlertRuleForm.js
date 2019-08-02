@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
+import * as notificationActions from "../../Core/Notification/Notification.actions";
 
 import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes} from "../../Common/constants";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
@@ -18,6 +19,10 @@ import {AlertRuleExpressionForm, NetworkTag} from "../index";
 import './CreateAlertRuleForm.scss';
 import {isValidAddress} from "../../Utils/Ethereum";
 import Blockies from "react-blockies";
+import {
+    areNotificationDestinationsLoaded,
+    getNotificationDestinations
+} from "../../Common/Selectors/NotificationSelectors";
 
 class SimpleAlertRuleAction extends Component {
     render() {
@@ -90,10 +95,14 @@ class CreateAlertRuleForm extends Component {
     }
 
     componentDidMount() {
-        const {projectId, contractActions, contractsLoaded} = this.props;
+        const {projectId, contractActions, contractsLoaded, destinationsLoaded, notificationActions} = this.props;
 
         if (!contractsLoaded) {
             contractActions.fetchContractsForProject(projectId);
+        }
+
+        if (!destinationsLoaded) {
+            notificationActions.fetchNotificationDestinations();
         }
     }
 
@@ -417,6 +426,8 @@ const mapStateToProps = (state, ownProps) => {
         user: state.auth.user,
         contracts: getContractsForProject(state, projectId),
         contractsLoaded: areProjectContractsLoaded(state, projectId),
+        destinations: getNotificationDestinations(state),
+        destinationsLoaded: areNotificationDestinationsLoaded(state),
     };
 };
 
@@ -424,6 +435,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(alertingActions, dispatch),
         contractActions: bindActionCreators(contractActions, dispatch),
+        notificationActions: bindActionCreators(notificationActions, dispatch),
     };
 };
 
