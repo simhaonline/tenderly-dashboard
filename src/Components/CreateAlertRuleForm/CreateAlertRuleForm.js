@@ -125,7 +125,7 @@ class CreateAlertRuleForm extends Component {
             case 'blacklisted_callers':
                 return 'Alert whenever a blacklisted address calls a contract';
             default:
-                return 'Select an alert trigger type';
+                return 'Select an alert trigger type.';
         }
     };
 
@@ -139,7 +139,7 @@ class CreateAlertRuleForm extends Component {
             case 'project':
                 return `All contracts in the ${projectId} project (total of ${contracts.length} contracts)`;
             default:
-                return 'Select contracts for which the alert will be triggered'
+                return 'Select contracts for which the alert will be triggered.'
         }
     };
 
@@ -425,7 +425,7 @@ class CreateAlertRuleForm extends Component {
                                 </Button>
                             </div>
                         </SimpleAlertRuleStep>}
-                        <SimpleAlertRuleStep label="Destinations" finished={!!alertDestinations.length} stepNumber={parametersNeeded ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
+                        <SimpleAlertRuleStep label="Destinations" description="Select the destinations to which the alert notifications will be sent to." finished={!!alertDestinations.length} stepNumber={parametersNeeded ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
                             <h4 className="SemiBoldText MarginBottom2">Email Notification</h4>
                             {destinations.map(destination => <Card color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={() => this.toggleAlertDestination(destination)} key={destination.id}>
                                 <Toggle value={alertDestinations.includes(destination.id)}/>
