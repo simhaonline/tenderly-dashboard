@@ -9,13 +9,22 @@ import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSe
 
 import {Button, Icon, Panel, PanelContent, PanelHeader, Toggle} from "../../Elements";
 import {SimpleLoader} from "..";
+import {
+    areNotificationDestinationsLoaded,
+    getNotificationDestinations
+} from "../../Common/Selectors/NotificationSelectors";
+import * as notificationActions from "../../Core/Notification/Notification.actions";
 
 class EditAlertRuleForm extends Component {
     componentDidMount() {
-        const {ruleId, projectId, isRuleLoaded, actions} = this.props;
+        const {ruleId, projectId, isRuleLoaded, actions, notificationActions, destinationsLoaded} = this.props;
 
         if (!isRuleLoaded) {
             actions.fetchAlertRuleForProject(projectId, ruleId);
+        }
+
+        if (!destinationsLoaded) {
+            notificationActions.fetchNotificationDestinations();
         }
     }
 
@@ -70,12 +79,15 @@ const mapStateToProps = (state, ownProps) => {
         ruleId,
         rule: getAlertRule(state, ruleId),
         isRuleLoaded: isAlertRuleLoaded(state, ruleId),
+        destinations: getNotificationDestinations(state),
+        destinationsLoaded: areNotificationDestinationsLoaded(state),
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(alertingActions, dispatch),
+        notificationActions: bindActionCreators(notificationActions, dispatch),
     };
 };
 
