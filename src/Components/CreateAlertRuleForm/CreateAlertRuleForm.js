@@ -12,7 +12,7 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {areProjectContractsLoaded} from "../../Common/Selectors/ProjectSelectors";
 import {AlertRuleExpression} from "../../Core/models";
 
-import {Button, Card, Icon, Input, Panel, PanelContent, PanelDivider, PanelHeader, Dialog, List, ListItem, TextArea, Toggle} from "../../Elements";
+import {Button, Card, Icon, Input, Panel, PanelContent, PanelDivider, PanelHeader, Dialog, List, Alert, ListItem, TextArea, Toggle} from "../../Elements";
 import {AlertRuleExpressionForm, NetworkTag} from "../index";
 
 import './CreateAlertRuleForm.scss';
@@ -84,7 +84,7 @@ class CreateAlertRuleForm extends Component {
             alertTarget: null,
             alertType: null,
             alertParameters: null,
-            alertDestinations: null,
+            alertDestinations: false,
             expressions: [],
         }
     }
@@ -280,6 +280,14 @@ class CreateAlertRuleForm extends Component {
         });
     };
 
+    toggleAlertDestination = () => {
+        const {alertDestinations} = this.state;
+
+        this.setState({
+            alertDestinations: !alertDestinations,
+        });
+    };
+
     render() {
         const {projectId, contracts, user} = this.props;
         const {currentMode, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue} = this.state;
@@ -357,11 +365,15 @@ class CreateAlertRuleForm extends Component {
                                 </Button>
                             </div>
                         </SimpleAlertRuleStep>}
-                        <SimpleAlertRuleStep label="Destinations" stepNumber={parametersNeeded ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
-                            <Card color="light" className="DisplayFlex AlignItemsCenter" clickable>
-                                <Toggle value={true}/>
+                        <SimpleAlertRuleStep label="Destinations" finished={alertDestinations} stepNumber={parametersNeeded ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
+                            <h4 className="SemiBoldText MarginBottom2">Email Notification</h4>
+                            <Card color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={this.toggleAlertDestination}>
+                                <Toggle value={alertDestinations}/>
                                 <span className="MarginLeft2 SemiBoldText">{user.email}</span>
                             </Card>
+                            <Alert color="warning">
+                                We currently support only sending alerts to your account email. We are working on integrating <span className="SemiBoldText">additional E-mails, Slack, WebHooks</span> and other integrations as alert destinations.
+                            </Alert>
                         </SimpleAlertRuleStep>
                         <Dialog open={contractModelOpen} onClose={this.closeContractModel}>
                             <List className="ContractPickerList">
