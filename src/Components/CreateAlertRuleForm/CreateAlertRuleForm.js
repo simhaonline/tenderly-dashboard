@@ -311,11 +311,47 @@ class CreateAlertRuleForm extends Component {
         });
     };
 
+    /**
+     * @return {string}
+     */
+    createSimpleAlertRuleName = () => {
+        const {projectId} = this.props;
+        const {alertType, alertTarget, selectedContract} = this.state;
+
+        console.log(alertType, alertTarget, selectedContract);
+        let message = '';
+
+        switch (alertType) {
+            case 'success_tx':
+                message = 'Successful transaction in ';
+                break;
+            case 'failed_tx':
+                message = 'Failed transaction in ';
+                break;
+            case 'whitelisted_callers':
+                message = 'Transaction from non-whitelisted address in ';
+                break;
+            case 'blacklisted_callers':
+                message = 'Transaction from blacklisted address in ';
+                break;
+            default:
+                break;
+        }
+
+        if (alertTarget === 'project') {
+            message += projectId;
+        } else if (alertTarget === 'contract') {
+            message += selectedContract.name;
+        }
+
+        return message;
+    };
+
     createAlertRule = () => {
         const {projectId, actions} = this.props;
         const {expressions, alertDestinations} = this.state;
 
-        actions.createAlertRuleForProject(projectId, '', '', expressions, alertDestinations);
+        actions.createAlertRuleForProject(projectId, this.createSimpleAlertRuleName(), '', expressions, alertDestinations);
     };
 
     render() {

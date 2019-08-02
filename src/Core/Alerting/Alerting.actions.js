@@ -3,6 +3,7 @@ import {Api} from "../../Utils/Api";
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import AlertRule from "./AlertRule.model";
+import {AlertRuleExpression} from "../models";
 
 export const FETCH_ALERT_RULES_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULES_FOR_PROJECT';
 export const FETCH_ALERT_RULE_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULE_FOR_PROJECT';
@@ -95,14 +96,37 @@ export const fetchAlertRuleForProject = (projectId, ruleId) => {
 
 /**
  * @param {string} projectId
+ * @param {string} name
+ * @param {string} [description]
+ * @param {AlertRuleExpression[]} expressions
+ * @param {string[]} destinations - Array of destination IDs
  */
-export const createAlertRuleForProject = (projectId) => {
+export const createAlertRuleForProject = (projectId, name, description = '', expressions, destinations) => {
     return async dispatch => {
         try {
+            const payload = {
+                name,
+                description,
+                enabled: true,
+                expressions: expressions.map(AlertRuleExpression.transformToApiPayload),
+                delivery_channels: destinations.map(destination => ({
+                    enabled: true,
+                    id: destination,
+                })),
+            };
+
+            const {data} = await Api.post(`/account/me/project/${projectId}/alert`, payload);
+
+            if (!data || !data.alert) {
+                return new ErrorActionResponse();
+            }
+
+            const rule = AlertRule.buildFromResponse(data.alert);
 
             dispatch({
                 type: CREATE_ALERT_RULE_FOR_PROJECT_ACTION,
                 projectId,
+                rule,
             });
 
             return new SuccessActionResponse();
