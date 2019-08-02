@@ -1,7 +1,7 @@
 import {
     CREATE_ALERT_RULE_FOR_PROJECT_ACTION,
     FETCH_ALERT_RULE_FOR_PROJECT_ACTION,
-    FETCH_ALERT_RULES_FOR_PROJECT_ACTION
+    FETCH_ALERT_RULES_FOR_PROJECT_ACTION, UPDATE_ALERT_RULE_FOR_PROJECT_ACTION
 } from "./Alerting.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {EntityStatusTypes} from "../../Common/constants";
@@ -61,6 +61,14 @@ const AlertingReducer = (state = initialState, action) => {
                 projectRules: {
                     ...state.projectRules,
                     [action.projectId]: projectRules,
+                },
+            };
+        case UPDATE_ALERT_RULE_FOR_PROJECT_ACTION:
+            return {
+                ...state,
+                rules: {
+                    ...state.rules,
+                    [action.rule.id]: action.rule,
                 },
             };
         case LOG_OUT_ACTION:

@@ -8,6 +8,7 @@ import {AlertRuleExpression} from "../models";
 export const FETCH_ALERT_RULES_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULES_FOR_PROJECT';
 export const FETCH_ALERT_RULE_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULE_FOR_PROJECT';
 export const CREATE_ALERT_RULE_FOR_PROJECT_ACTION = 'CREATE_ALERT_RULE_FOR_PROJECT';
+export const UPDATE_ALERT_RULE_FOR_PROJECT_ACTION = 'UPDATE_ALERT_RULE_FOR_PROJECT';
 
 /**
  * @param {string} projectId
@@ -63,6 +64,37 @@ export const fetchAlertRuleForProject = (projectId, ruleId) => {
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error)
+        }
+    };
+};
+
+/**
+ * @param {string} projectId
+ * @param {AlertRule} updateRule
+ */
+export const updateAlertRuleForProject = (projectId, updateRule) => {
+    return async dispatch => {
+        try {
+            const payload = updateRule.toPayload();
+
+            const {data} = await Api.patch(`/account/me/project/${projectId}/alert/${updateRule.id}`, payload);
+
+            if (!data || !data.alert) {
+                return new ErrorActionResponse();
+            }
+
+            const rule = AlertRule.buildFromResponse(data.alert);
+
+            dispatch({
+                type: UPDATE_ALERT_RULE_FOR_PROJECT_ACTION,
+                projectId,
+                rule,
+            });
+
+            return new SuccessActionResponse(rule);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
         }
     };
 };

@@ -28,6 +28,16 @@ class EditAlertRuleForm extends Component {
         }
     }
 
+    toggleAlertRuleEnabled = () => {
+        const {rule, projectId, actions} = this.props;
+
+        const updatedRule = rule.update({
+            enabled: !rule.enabled,
+        });
+
+        actions.updateAlertRuleForProject(projectId, updatedRule);
+    };
+
     render() {
         const {isRuleLoaded, rule, projectId} = this.props;
 
@@ -62,7 +72,7 @@ class EditAlertRuleForm extends Component {
                         </div>
                         <div>
                             Alert Enabled:
-                            <Toggle value={rule.enabled}/>
+                            <Toggle value={rule.enabled} onChange={this.toggleAlertRuleEnabled}/>
                         </div>
                     </div>}
                 </PanelContent>
