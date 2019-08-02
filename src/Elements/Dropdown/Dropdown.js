@@ -56,6 +56,8 @@ export const DropdownItem = ({children, onClick = () => {}}) => {
 };
 
 class Dropdown extends Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -63,6 +65,10 @@ class Dropdown extends Component {
             open: false,
             closing: false,
         };
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
     }
 
     handleDropdownToggle = () => {
@@ -84,15 +90,23 @@ class Dropdown extends Component {
 
         this.setState({
             closing: true,
-        }, () => {
-            setTimeout(() => {
+            closingCallback: setTimeout(() => {
+                if (!this._isMounted) {
+                    return;
+                }
+
                 this.setState({
                     open: false,
                     closing: false,
+                    closingCallback: null,
                 });
-            }, 150);
+            }, 150),
         });
     };
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
     render() {
         const {children} = this.props;
