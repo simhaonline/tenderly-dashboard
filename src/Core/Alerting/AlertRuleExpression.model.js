@@ -1,4 +1,10 @@
-import {AlertRuleExpressionApiToAppTypeMap, AlertRuleExpressionParameterApiToAppTypeMap} from "../../Common/constants";
+import {
+    AlertRuleExpressionApiToAppTypeMap,
+    AlertRuleExpressionAppToApiTypeMap,
+    AlertRuleExpressionParameterApiToAppTypeMap,
+    AlertRuleExpressionParameterAppToApiTypeMap,
+    AlertRuleExpressionParameterTypes, NetworkApiToAppTypeMap, NetworkAppToApiTypeMap
+} from "../../Common/constants";
 
 class AlertRuleExpression {
     constructor(data) {
@@ -24,14 +30,51 @@ class AlertRuleExpression {
      * @param {Object} rawParameters
      * @returns {Object}
      */
-    static computeExpressionParameters(rawParameters) {
+    static transformExpressionParametersToApp(rawParameters) {
         const rawKeys = Object.keys(rawParameters);
 
         return rawKeys.reduce((data, paramKey) => {
-            data[AlertRuleExpressionParameterApiToAppTypeMap[paramKey]] = rawParameters[paramKey];
+            const appKey = AlertRuleExpressionParameterApiToAppTypeMap[paramKey];
+
+            data[appKey] = rawParameters[paramKey];
+
+            if (appKey === AlertRuleExpressionParameterTypes.NETWORK_ID) {
+                data[appKey] = NetworkApiToAppTypeMap[rawParameters[paramKey]];
+            }
 
             return data;
         }, {});
+    }
+
+    /**
+     *
+     * @param {Object} parameters
+     * @returns {Object}
+     */
+    static transformExpressionParametersToApi(parameters) {
+        const rawKeys = Object.keys(parameters);
+
+        return rawKeys.reduce((data, paramKey) => {
+            const apiKey = AlertRuleExpressionParameterAppToApiTypeMap[paramKey];
+            data[apiKey] = parameters[paramKey];
+
+            if (paramKey === AlertRuleExpressionParameterTypes.NETWORK_ID) {
+                data[apiKey] = NetworkAppToApiTypeMap[parameters[paramKey]];
+            }
+
+            return data;
+        }, {});
+    }
+
+    /**
+     * @param {AlertRuleExpression} expression
+     * @return {Object}
+     */
+    static transformToApiPayload(expression) {
+        return {
+            type: AlertRuleExpressionAppToApiTypeMap[expression.type],
+            expression: AlertRuleExpression.transformExpressionParametersToApi(expression.parameters),
+        };
     }
 
     /**
@@ -39,7 +82,7 @@ class AlertRuleExpression {
      * @return {AlertRuleExpression}
      */
     static buildFromResponse(response) {
-        const parameters = AlertRuleExpression.computeExpressionParameters(response.expression);
+        const parameters = AlertRuleExpression.transformExpressionParametersToApp(response.expression);
 
         return new AlertRuleExpression({
             type: AlertRuleExpressionApiToAppTypeMap[response.type],
