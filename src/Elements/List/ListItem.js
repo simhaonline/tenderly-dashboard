@@ -1,12 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
-import {Link} from "react-router-dom";
+
+import {PageLink} from "../../Components";
 
 const ListItem = ({children, active, to, onClick, className}) => {
     let ListItemTag = 'div';
 
     if (to) {
-        ListItemTag = Link;
+        ListItemTag = PageLink;
     }
 
     return (
