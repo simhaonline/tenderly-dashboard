@@ -24,7 +24,7 @@ const PageSegmentsOptions = [
         value: HISTORY_TAB,
     },
     {
-        label: 'Integrations',
+        label: 'Destination',
         description: 'Set alert destinations like email, slack etc.',
         value: INTEGRATIONS_TAB,
     },
