@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import classNames from "classnames";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
@@ -141,6 +141,26 @@ class CreateAlertRuleForm extends Component {
             default:
                 return 'Select contracts for which the alert will be triggered.'
         }
+    };
+
+    getAlertParametersDescription = () => {
+        const {parametersSet, alertType, expressions} = this.state;
+
+        if (parametersSet) {
+            switch (alertType) {
+                case 'whitelisted_callers':
+                case 'blacklisted_callers':
+                    const expression = expressions.find(e => [AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES, AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES].includes(e.type));
+
+                    const addressesCount = expression.parameters[AlertRuleExpressionParameterTypes.ADDRESSES].length;
+
+                    return `${alertType === 'whitelisted_callers' ? 'Whitelisted' : 'Blacklisted'} ${addressesCount} contract addresses`;
+                default:
+                    return 'Alert parameters set';
+            }
+        }
+
+        return 'Set alert trigger parameters.'
     };
 
     selectAlertType = (type) => {
@@ -318,7 +338,6 @@ class CreateAlertRuleForm extends Component {
         const {projectId} = this.props;
         const {alertType, alertTarget, selectedContract} = this.state;
 
-        console.log(alertType, alertTarget, selectedContract);
         let message = '';
 
         switch (alertType) {
@@ -347,18 +366,48 @@ class CreateAlertRuleForm extends Component {
         return message;
     };
 
-    createAlertRule = () => {
+    /**
+     * @return {boolean}
+     */
+    canCreateRule = () => {
+        const {alertType, alertTarget, alertDestinations, parametersNeeded, parametersSet} = this.state;
+
+        const hasAllInfoSet = !!alertTarget && !!alertType && alertDestinations.length > 0;
+
+        if (parametersNeeded) {
+            return hasAllInfoSet && parametersSet;
+        }
+
+        return hasAllInfoSet;
+    };
+
+    createAlertRule = async () => {
         const {projectId, actions} = this.props;
         const {expressions, alertDestinations} = this.state;
 
-        actions.createAlertRuleForProject(projectId, this.createSimpleAlertRuleName(), '', expressions, alertDestinations);
+        this.setState({
+            creatingAlertRule: true,
+        });
+
+        await actions.createAlertRuleForProject(projectId, this.createSimpleAlertRuleName(), '', expressions, alertDestinations);
+
+        this.setState({
+            creatingAlertRule: false,
+            createdAlertRule: true,
+        });
     };
 
     render() {
         const {projectId, contracts, destinations} = this.props;
-        const {currentMode, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue} = this.state;
+        const {createdAlertRule, creatingAlertRule, currentMode, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue} = this.state;
 
         const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
+
+        const invalidAddresses = addressesValue.split(/\n/g).filter(a => !!a && !isValidAddress(a));
+
+        if (createdAlertRule) {
+            return <Redirect to={`/project/${projectId}/alerts/rules`}/>
+        }
 
         return (
             <Panel className="CreateAlertRule">
@@ -417,10 +466,14 @@ class CreateAlertRuleForm extends Component {
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertTarget('project')} selected={alertTarget === 'project'} icon="project" label="Project" description="Receive alerts for every contract in this project"/>
                             </div>
                         </SimpleAlertRuleStep>
-                        {parametersNeeded && <SimpleAlertRuleStep label="Parameters" finished={parametersSet} stepNumber="3" open={currentStep === 3} onClick={() => this.goToStep(3)}>
+                        {parametersNeeded && <SimpleAlertRuleStep label="Parameters" description={this.getAlertParametersDescription()} finished={parametersSet} stepNumber="3" open={currentStep === 3} onClick={() => this.goToStep(3)}>
                             <div className="MarginBottom3">
                                 {['whitelisted_callers', 'blacklisted_callers'].includes(alertType) && <TextArea value={addressesValue} className="AlertRuleSetup__AddressesList" field="addressesValue" onChange={this.updateParameter} placeholder="Enter the list of contract addresses separated by new lines"/>}
-                                <Button disabled={!addressesValue} onClick={this.applyParameters}>
+                                {invalidAddresses.length > 0 && <p>
+                                    <span>Invalid addresses: </span>
+                                    {invalidAddresses.map(a => <span className="DangerText" key={a}>{a}, </span>)}
+                                </p>}
+                                <Button disabled={!addressesValue || invalidAddresses.length > 0} onClick={this.applyParameters}>
                                     <span>Apply</span>
                                 </Button>
                             </div>
@@ -459,10 +512,11 @@ class CreateAlertRuleForm extends Component {
                         </Dialog>
                     </div>}
                     <div className="MarginTop4">
-                        <Button disabled={!alertTarget || !alertType || !alertDestinations.length} onClick={this.createAlertRule}>
-                            <span>Create Alert</span>
+                        <Button disabled={!this.canCreateRule() || creatingAlertRule} onClick={this.createAlertRule}>
+                            {!creatingAlertRule && <span>Create Alert</span>}
+                            {creatingAlertRule && <span>Creating Alert</span>}
                         </Button>
-                        <Button outline to={`/project/${projectId}/alerts/rules`}>
+                        <Button disabled={creatingAlertRule} outline to={`/project/${projectId}/alerts/rules`}>
                             <span>Cancel</span>
                         </Button>
                     </div>
