@@ -39,7 +39,7 @@ class AlertRuleExpression {
             data[appKey] = rawParameters[paramKey];
 
             if (appKey === AlertRuleExpressionParameterTypes.NETWORK_ID) {
-                data[appKey] = NetworkApiToAppTypeMap[rawParameters[paramKey]];
+                data[appKey] = NetworkApiToAppTypeMap[parseInt(rawParameters[paramKey])];
             }
 
             return data;
@@ -59,7 +59,7 @@ class AlertRuleExpression {
             data[apiKey] = parameters[paramKey];
 
             if (paramKey === AlertRuleExpressionParameterTypes.NETWORK_ID) {
-                data[apiKey] = NetworkAppToApiTypeMap[parameters[paramKey]];
+                data[apiKey] = NetworkAppToApiTypeMap[parameters[paramKey]].toString();
             }
 
             return data;
