@@ -1,6 +1,4 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
-@import "../../Common/Styles/global";
+@import "../../Common/common";
 
 .EmptyState {
   display: flex;
@@ -13,10 +11,17 @@
 .EmptyState__Icon {
   margin-bottom: $Spacing5;
   height: 60px;
+  display: flex;
+  align-items: center;
 }
 
 .EmptyState__Icon__Image {
   height: 100%;
+}
+
+.EmptyState__Icon__Icon {
+  font-size: $FontSize600 * 2.5;
+  color: transparentize($Secondary500, 0.25)
 }
 
 .EmptyState__Title {

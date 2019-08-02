@@ -8,6 +8,8 @@ import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Comm
 
 import {Button, Icon, List, ListItem, Panel, PanelContent, PanelHeader} from "../../Elements";
 import {SimpleLoader, EmptyState} from "..";
+import {FeatureFlagTypes} from "../../Common/constants";
+import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 class AlertRulesList extends Component {
     componentDidMount() {
@@ -53,10 +55,14 @@ class AlertRulesList extends Component {
                         </List>
                     </div>}
                     {areRulesLoaded && !rules.length && <div>
-                        <EmptyState title="No  alerts setup yet" description="Description bla bla" renderActions={() => <Fragment>
-                            <Button color="secondary" width={160} outline to={`/project/${projectId}/alerts/rules/templates`}>
-                                <span>Browse Templates</span>
-                            </Button>
+                        <EmptyState icon="alerting" title="Setup Alerting for your Contracts" description={<span>
+                            Setup alerts and be notified the moment events like <span className="SemiBoldText">transaction failures</span>, <span className="SemiBoldText">method calls</span> or <span className="SemiBoldText">blacklisted callers</span> happen on any of your Smart Contracts.
+                        </span>} renderActions={() => <Fragment>
+                            <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                                <Button color="secondary" width={160} outline to={`/project/${projectId}/alerts/rules/templates`}>
+                                    <span>Browse Templates</span>
+                                </Button>
+                            </FeatureFlag>
                             <Button color="secondary" width={160} to={`/project/${projectId}/alerts/rules/create`}>
                                 <span>Setup an Alert</span>
                             </Button>

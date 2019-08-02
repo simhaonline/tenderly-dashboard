@@ -85,7 +85,7 @@ class ProjectContractsPage extends Component {
                         {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} onListenToggle={this.handleContractListeningToggle}/>}
                         {contractsLoaded && !contracts.length && <Panel>
                             <PanelContent>
-                                <EmptyState icon="alerting" image={NoContractsIcon} title="No contracts watched"
+                                <EmptyState image={NoContractsIcon} title="No contracts watched"
                                             description="There are no contracts added to this project. Add contracts to start monitoring them."/>
                             </PanelContent>
                         </Panel>}

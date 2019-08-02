@@ -10,8 +10,7 @@ const EmptyState = ({image, icon, title, description, renderActions}) => {
         <div className="EmptyState">
             <div className="EmptyState__Icon">
                 {!!image && <img src={image} alt="Empty state icon" className="EmptyState__Icon__Image"/>}
-                {icon}
-                {!!icon && <Icon icon={icon}/>}
+                {!!icon && <Icon icon={icon} className="EmptyState__Icon__Icon"/>}
             </div>
             <div className="EmptyState__Title">{title}</div>
             <div className="EmptyState__Description">{description}</div>
@@ -26,7 +25,10 @@ EmptyState.propTypes = {
     image: PropTypes.node,
     icon: PropTypes.string,
     title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]).isRequired,
     renderActions: PropTypes.func,
 };
 
