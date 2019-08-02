@@ -1,15 +1,27 @@
 import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
+
+import {FeatureFlagTypes} from "../../Common/constants";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
-import {Button, Icon, List, ListItem, Panel, PanelContent, PanelHeader} from "../../Elements";
-import {SimpleLoader, EmptyState} from "..";
-import {FeatureFlagTypes} from "../../Common/constants";
-import FeatureFlag from "../FeatureFlag/FeatureFlag";
+import {
+    Button, Dropdown, DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Icon,
+    List,
+    ListItem,
+    Panel,
+    PanelContent,
+    PanelHeader
+} from "../../Elements";
+import {SimpleLoader, EmptyState, FeatureFlag} from "..";
+
 
 class AlertRulesList extends Component {
     componentDidMount() {
@@ -40,16 +52,27 @@ class AlertRulesList extends Component {
                     </div>}
                     {areRulesLoaded && !!rules.length && <div className="ActiveRules">
                         <List>
-                            {rules.map(rule => <ListItem key={rule.id} className="DisplayFlex" to={`/project/${projectId}/alerts/rules/${rule.id}`}>
+                            {rules.map(rule => <ListItem key={rule.id} className="DisplayFlex" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
                                 <div>
-                                    <span className="SemiBoldText">{rule.name}</span>
-                                </div>
-                                <div>
-                                    <span className="MutedText">{rule.description}</span>
+                                    <div className="SemiBoldText">{rule.name}</div>
+                                    {!!rule.description && <div className="MutedText">{rule.description}</div>}
                                 </div>
                                 <div>
                                     {rule.enabled && <span className="SuccessText">Enabled</span>}
                                     {!rule.enabled && <span className="DangerText">Disabled</span>}
+                                </div>
+                                <div>
+                                    <Dropdown>
+                                        <DropdownToggle tag="div" className="Dropdown__Toggle">
+                                            <Icon icon="more-vertical" className="MoreIcon"/>
+                                        </DropdownToggle>
+                                        <DropdownMenu>
+                                            <Link to={`/project/${projectId}/alerts/rules/${rule.id}`}>
+                                                <DropdownItem>View Alert</DropdownItem>
+                                            </Link>
+                                            <DropdownItem>Delete Alert</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
                                 </div>
                             </ListItem>)}
                         </List>

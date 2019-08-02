@@ -493,7 +493,7 @@ class CreateAlertRuleForm extends Component {
                         </SimpleAlertRuleStep>
                         <Dialog open={contractModelOpen} onClose={this.closeContractModel}>
                             <List className="ContractPickerList">
-                                {contracts.map(contract => <ListItem key={contract.getUniqueId()} onClick={() => this.selectAlertTarget('contract', contract)} className="ContractPickerList__Item">
+                                {contracts.map(contract => <ListItem key={contract.getUniqueId()} onClick={() => this.selectAlertTarget('contract', contract)} className="ContractPickerList__Item" selectable>
                                     <Blockies
                                         seed={contract.address}
                                         size={8}

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import {PageLink} from "../../Components";
 
-const ListItem = ({children, active, to, onClick, className}) => {
+const ListItem = ({children, active, selectable, to, onClick, className}) => {
     let ListItemTag = 'div';
 
     if (to) {
@@ -16,6 +16,7 @@ const ListItem = ({children, active, to, onClick, className}) => {
             className,
             {
                 "List__Item--Active": active,
+                "List__Item--Selectable": selectable,
             }
         )} to={to} onClick={onClick}>
             {children}

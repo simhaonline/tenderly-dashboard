@@ -102,13 +102,8 @@
 }
 
 .ContractPickerList__Item {
-  cursor: pointer;
   display: flex;
   align-items: center;
-
-  &:hover {
-    background-color: $Slate300;
-  }
 }
 
 .ContractPickerList__Item__Blockie {

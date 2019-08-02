@@ -4,6 +4,8 @@ $ListBorderRadius: 4px;
 
 .List {
   box-shadow: 2px 2px 4px 0 transparentize($BlackColor, 0.75);
+  background-color: $Slate100;
+  border-radius: $ListBorderRadius;
 }
 
 .List--Clickable .List__Item{
@@ -37,4 +39,12 @@ $ListBorderRadius: 4px;
 
 .List__Item--Active {
 
+}
+
+.List__Item--Selectable {
+  cursor: pointer;
+
+  &:hover {
+    background-color: transparentize($Slate300, 0.35);
+  }
 }
