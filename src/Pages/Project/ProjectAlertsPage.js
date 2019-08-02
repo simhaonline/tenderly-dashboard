@@ -14,7 +14,7 @@ const INTEGRATIONS_TAB = 'integrations';
 
 const PageSegmentsOptions = [
     {
-        label: 'Rules',
+        label: 'Alerts',
         description: 'Setup custom rules and triggers for alerts',
         value: RULES_TAB,
     },
