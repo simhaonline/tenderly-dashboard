@@ -1,5 +1,6 @@
 import {Api} from '../../Utils/Api';
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
+import NotificationDestination from "./NotificationDestination.model";
 
 export const FETCH_NOTIFICATION_DESTINATIONS_ACTION = 'FETCH_NOTIFICATION_DESTINATIONS';
 
@@ -8,9 +9,11 @@ export const fetchNotificationDestinations = () => {
         try {
             const {data} = await Api.get('/account/me/delivery-channels');
 
-            const destinations = [];
+            if (!data || !data.delivery_channels) {
+                return new ErrorActionResponse();
+            }
 
-            console.log(data, destinations);
+            const destinations = data.delivery_channels.map(destination => NotificationDestination.buildFromResponse(destination));
 
             dispatch({
                 type: FETCH_NOTIFICATION_DESTINATIONS_ACTION,

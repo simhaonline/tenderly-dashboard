@@ -211,6 +211,16 @@ export const AlertRuleExpressionParameterAppToApiTypeMap = {
     [AlertRuleExpressionParameterTypes.CALL_POSITION]: 'call_position',
 };
 
+/**
+ * @enum {string}
+ */
+export const NotificationDestinationTypes = {
+    EMAIL: 'EMAIL',
+    EMAIL_GROUP: 'EMAIL_GROUP',
+    SLACK: 'SLACK',
+    WEBHOOK: 'WEBHOOK',
+};
+
 export const ONE_MIN_INTERVAL = 60 * 1000;
 export const FIVE_MIN_INTERVAL = 5 * ONE_MIN_INTERVAL;
 
