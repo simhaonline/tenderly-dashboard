@@ -22,11 +22,13 @@ const PageSegmentsOptions = [
         label: 'History',
         description: 'View alerts that were triggered and sent',
         value: HISTORY_TAB,
+        featureFlag: FeatureFlagTypes.COMING_SOON,
     },
     {
         label: 'Destinations',
         description: 'Set alert destinations like email, slack etc.',
         value: INTEGRATIONS_TAB,
+        featureFlag: FeatureFlagTypes.COMING_SOON,
     },
 ];
 
