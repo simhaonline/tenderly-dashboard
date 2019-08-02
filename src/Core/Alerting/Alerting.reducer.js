@@ -44,9 +44,13 @@ const AlertingReducer = (state = initialState, action) => {
         case CREATE_ALERT_RULE_FOR_PROJECT_ACTION:
             const actionRule = action.rule;
 
-            let projectRules = [
-                ...state.projectRules[action.projectId],
-            ];
+            let projectRules = [];
+
+            if (state.projectRules[action.projectId]) {
+                projectRules = [
+                    ...state.projectRules[action.projectId],
+                ];
+            }
 
             if (!projectRules.includes(actionRule.id)) {
                 projectRules.push(actionRule.id);
