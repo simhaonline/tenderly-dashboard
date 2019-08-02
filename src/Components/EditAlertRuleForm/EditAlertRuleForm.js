@@ -7,7 +7,7 @@ import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
 
-import {Button, Icon, Panel, PanelContent, PanelHeader} from "../../Elements";
+import {Button, Icon, Panel, PanelContent, PanelHeader, Toggle} from "../../Elements";
 import {SimpleLoader} from "..";
 
 class EditAlertRuleForm extends Component {
@@ -52,7 +52,8 @@ class EditAlertRuleForm extends Component {
                             {rule.description}
                         </div>
                         <div>
-                            {rule.enabled}
+                            Alert Enabled:
+                            <Toggle value={rule.enabled}/>
                         </div>
                     </div>}
                 </PanelContent>
