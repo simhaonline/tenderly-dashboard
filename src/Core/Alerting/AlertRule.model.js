@@ -38,7 +38,7 @@ class AlertRule {
             enabled: response.enabled,
             projectId: response.project_id,
             expressions,
-            deliveryChannels: response.delivery_channels,
+            deliveryChannels: response.delivery_channels ? response.delivery_channels.map(dc => dc.delivery_channel_id) : [],
         });
     }
 }
