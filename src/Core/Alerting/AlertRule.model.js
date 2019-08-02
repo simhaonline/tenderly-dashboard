@@ -28,6 +28,34 @@ class AlertRule {
         this.deliveryChannels = data.deliveryChannels;
     }
 
+    /**
+     * @param {Object} data
+     * @return {AlertRule}
+     */
+    update(data) {
+        const updatedData = Object.assign({}, this, data);
+
+        return new AlertRule(updatedData);
+    }
+
+    /**
+     * Transforms the Model into API compatible payload.
+     *
+     * @return {Object}
+     */
+    toPayload() {
+        return {
+            name: this.name,
+            description: this.description,
+            enabled: this.enabled,
+            expressions: this.expressions.map(AlertRuleExpression.transformToApiPayload),
+            delivery_channels: this.deliveryChannels.map(destinationId => ({
+                id: destinationId,
+                enabled: true,
+            })),
+        }
+    }
+
     static buildFromResponse(response) {
         const expressions = response.expressions.map(expression => AlertRuleExpression.buildFromResponse(expression));
 
