@@ -311,6 +311,13 @@ class CreateAlertRuleForm extends Component {
         });
     };
 
+    createAlertRule = () => {
+        const {projectId, actions} = this.props;
+        const {expressions, alertDestinations} = this.state;
+
+        actions.createAlertRuleForProject(projectId, '', '', expressions, alertDestinations);
+    };
+
     render() {
         const {projectId, contracts, destinations} = this.props;
         const {currentMode, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue} = this.state;
@@ -416,7 +423,7 @@ class CreateAlertRuleForm extends Component {
                         </Dialog>
                     </div>}
                     <div className="MarginTop4">
-                        <Button type="submit" disabled={!alertTarget || !alertType || !alertDestinations.length}>
+                        <Button disabled={!alertTarget || !alertType || !alertDestinations.length} onClick={this.createAlertRule}>
                             <span>Create Alert</span>
                         </Button>
                         <Button outline to={`/project/${projectId}/alerts/rules`}>
