@@ -36,6 +36,8 @@ export {default as AlertTemplates} from './AlertTemplates/AlertTemplates';
 export {default as ProjectAlertHistory} from './ProjectAlertHistory/ProjectAlertHistory';
 export {default as ProjectAlertIntegrations} from './ProjectAlertIntegrations/ProjectAlertIntegrations';
 
+export {default as DestinationInformation} from './DestinationInformation/DestinationInformation';
+
 export {default as AddIntegrationModal} from './AddIntegrationModal/AddIntegrationModal';
 
 export {default as ProjectTransactionAnalytics} from './ProjectTransactionAnalytics/ProjectTransactionAnalytics';
