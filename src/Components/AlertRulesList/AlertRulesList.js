@@ -71,7 +71,10 @@ class AlertRulesList extends Component {
                                             <Link to={`/project/${projectId}/alerts/rules/${rule.id}`}>
                                                 <DropdownItem>View Alert</DropdownItem>
                                             </Link>
-                                            <DropdownItem>Delete Alert</DropdownItem>
+                                            <DropdownItem>
+                                                {rule.enabled && <span>Disable Alert</span>}
+                                                {!rule.enabled && <span>Enable Alert</span>}
+                                            </DropdownItem>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </div>

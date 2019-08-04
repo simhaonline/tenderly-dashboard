@@ -70,7 +70,7 @@ const Button = ({children, width, type, color, size, readOnly, className, disabl
 Button.propTypes = {
     onClick: PropTypes.func,
     to: PropTypes.string,
-    color: PropTypes.oneOf(['secondary', 'danger']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'danger']),
 };
 
 export default Button;

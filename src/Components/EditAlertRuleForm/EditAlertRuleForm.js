@@ -1,21 +1,30 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
-
-import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
-
-import {Button, Icon, Panel, PanelContent, PanelHeader, Toggle} from "../../Elements";
-import {SimpleLoader} from "..";
-import {
-    areNotificationDestinationsLoaded,
-    getNotificationDestinations
-} from "../../Common/Selectors/NotificationSelectors";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 
+import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
+import {
+    areNotificationDestinationsLoaded,
+    getNotificationDestinationsForRule
+} from "../../Common/Selectors/NotificationSelectors";
+
+import {Button, Icon, Panel, PanelContent, PanelHeader, Toggle, Dialog, DialogBody, DialogHeader, List, ListItem} from "../../Elements";
+import {SimpleLoader, DestinationInformation} from "..";
+
 class EditAlertRuleForm extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            openDeleteModal: false,
+            alertDeleted: false,
+        };
+    }
+
     componentDidMount() {
         const {ruleId, projectId, isRuleLoaded, actions, notificationActions, destinationsLoaded} = this.props;
 
@@ -38,8 +47,41 @@ class EditAlertRuleForm extends Component {
         actions.updateAlertRuleForProject(projectId, updatedRule);
     };
 
+    openDeleteModal = () => {
+        this.setState({
+            openDeleteModal: true,
+        });
+    };
+
+    closeDeleteModal = () => {
+        this.setState({
+            openDeleteModal: false,
+        });
+    };
+
+    deleteAlert = async () => {
+        const {actions} = this.props;
+
+        const response = {success: true};
+
+        if (response.success) {
+            this.closeDeleteModal();
+
+            this.setState({
+                alertDeleted: true,
+            });
+        }
+    };
+
     render() {
-        const {isRuleLoaded, rule, projectId} = this.props;
+        const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded} = this.props;
+        const {openDeleteModal, alertDeleted} = this.state;
+
+        const loading = !isRuleLoaded || !destinationsLoaded;
+
+        if (alertDeleted) {
+            return <Redirect to={`/project/${projectId}/alerts/rules`}/>
+        }
 
         return (
             <Panel>
@@ -49,18 +91,12 @@ class EditAlertRuleForm extends Component {
                         {isRuleLoaded && <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>}
                         {!!rule && <span>{rule.name}</span>}
                     </h3>
-                    <div className="MarginLeftAuto">`
-                        <Button size="small" outline to={`/project/${projectId}/alerts/rules`}>
-                            <Icon icon="arrow-left"/>
-                            <span>Back to Rules</span>
-                        </Button>
-                    </div>
                 </PanelHeader>
                 <PanelContent>
-                    {!isRuleLoaded && <div className="DisplayFlex Padding4 AlignItemsCenter JustifyContentCenter">
+                    {loading && <div className="DisplayFlex Padding4 AlignItemsCenter JustifyContentCenter">
                         <SimpleLoader/>
                     </div>}
-                    {isRuleLoaded && !!rule && <div>
+                    {!loading && <div>
                         <div>
                             {rule.id}
                         </div>
@@ -74,6 +110,40 @@ class EditAlertRuleForm extends Component {
                             Alert Enabled:
                             <Toggle value={rule.enabled} onChange={this.toggleAlertRuleEnabled}/>
                         </div>
+                        {!!destinations.length && <List>
+                            {destinations.map(destination => <ListItem key={destination.id}>
+                                <div>
+                                    {destination.label}
+                                </div>
+                                <div>
+                                    <DestinationInformation destination={destination}/>
+                                </div>
+                                <div>
+                                    <Icon icon="trash-2" className="DangerText CursorPointer"/>
+                                </div>
+                            </ListItem>)}
+                        </List>}
+                        <div>
+                            <Button color="danger" outline onClick={this.openDeleteModal}>
+                                <span>Remove Alert</span>
+                            </Button>
+                        </div>
+                        <Dialog open={openDeleteModal} onClose={this.closeDeleteModal}>
+                            <DialogHeader>
+                                <h3>Remove Alert from Project</h3>
+                            </DialogHeader>
+                            <DialogBody>
+                                <p className="TextAlignCenter">Are your sure?</p>
+                                <div className="DisplayFlex JustifyContentCenter">
+                                    <Button color="danger" outline onClick={this.closeDeleteModal} width={130}>
+                                        <span>Cancel</span>
+                                    </Button>
+                                    <Button color="danger" onClick={this.deleteAlert} width={130}>
+                                        <span>Remove Alert</span>
+                                    </Button>
+                                </div>
+                            </DialogBody>
+                        </Dialog>
                     </div>}
                 </PanelContent>
             </Panel>
@@ -84,12 +154,14 @@ class EditAlertRuleForm extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {ruleId, projectId}}} = ownProps;
 
+    const rule = getAlertRule(state, ruleId);
+
     return {
         projectId,
         ruleId,
-        rule: getAlertRule(state, ruleId),
+        rule,
         isRuleLoaded: isAlertRuleLoaded(state, ruleId),
-        destinations: getNotificationDestinations(state),
+        destinations: getNotificationDestinationsForRule(state, rule),
         destinationsLoaded: areNotificationDestinationsLoaded(state),
     }
 };
