@@ -5,3 +5,4 @@ export {default as Transaction} from './Transaction/Transaction.model';
 export {default as Alert} from './Alerting/Alert.model';
 export {default as AlertRule} from './Alerting/AlertRule.model';
 export {default as AlertRuleExpression} from './Alerting/AlertRuleExpression.model';
+export {default as NotificationDestination} from './Notification/NotificationDestination.model';
