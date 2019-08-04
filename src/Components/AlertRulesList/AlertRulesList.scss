@@ -1,0 +1,29 @@
+@import "../../Common/common";
+
+.ActiveRules__Rule {
+  display: flex;
+}
+
+.ActiveRules__Rule__Info {
+  flex: 1 1 0;
+  overflow: hidden;
+}
+
+.ActiveRules__Rule__Info__Name, .ActiveRules__Rule__Info__Description {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ActiveRules__Rule__Status {
+  flex:  0 0 80px;
+}
+
+.ActiveRules__Rule__More {
+  flex:  0 0 34px;
+  .MoreIcon {
+    padding: $Spacing1;
+    font-size: $FontSize500;
+    opacity: 0.75;
+  }
+}

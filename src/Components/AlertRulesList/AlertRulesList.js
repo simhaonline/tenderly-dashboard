@@ -22,6 +22,7 @@ import {
 } from "../../Elements";
 import {SimpleLoader, EmptyState, FeatureFlag} from "..";
 
+import './AlertRulesList.scss';
 
 class AlertRulesList extends Component {
     componentDidMount() {
@@ -52,16 +53,16 @@ class AlertRulesList extends Component {
                     </div>}
                     {areRulesLoaded && !!rules.length && <div className="ActiveRules">
                         <List>
-                            {rules.map(rule => <ListItem key={rule.id} className="DisplayFlex" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
-                                <div>
-                                    <div className="SemiBoldText">{rule.name}</div>
-                                    {!!rule.description && <div className="MutedText">{rule.description}</div>}
+                            {rules.map(rule => <ListItem key={rule.id} className="ActiveRules__Rule" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
+                                <div className="ActiveRules__Rule__Info">
+                                    <div className="SemiBoldText ActiveRules__Rule__Info__Name">{rule.name}</div>
+                                    {!!rule.description && <div className="MutedText ActiveRules__Rule__Info__Description">{rule.description}</div>}
                                 </div>
-                                <div>
+                                <div className="ActiveRules__Rule__Status SemiBoldText">
                                     {rule.enabled && <span className="SuccessText">Enabled</span>}
                                     {!rule.enabled && <span className="DangerText">Disabled</span>}
                                 </div>
-                                <div>
+                                <div className="ActiveRules__Rule__More">
                                     <Dropdown>
                                         <DropdownToggle tag="div" className="Dropdown__Toggle">
                                             <Icon icon="more-vertical" className="MoreIcon"/>
