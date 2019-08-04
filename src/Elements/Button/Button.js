@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import './Button.scss';
@@ -64,6 +65,12 @@ const Button = ({children, width, type, color, size, readOnly, className, disabl
             {children}
         </ButtonTag>
     )
+};
+
+Button.propTypes = {
+    onClick: PropTypes.func,
+    to: PropTypes.string,
+    color: PropTypes.oneOf(['secondary', 'danger']),
 };
 
 export default Button;
