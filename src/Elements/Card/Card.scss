@@ -24,6 +24,12 @@
   }
 }
 
+.Card--Light.Card--Clickable {
+  &:hover {
+    background-color: $Slate200;
+  }
+}
+
 .Card--Selectable {
   cursor: pointer;
   transition: 200ms;

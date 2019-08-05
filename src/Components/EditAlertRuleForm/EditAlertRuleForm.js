@@ -12,8 +12,24 @@ import {
     getNotificationDestinationsForRule
 } from "../../Common/Selectors/NotificationSelectors";
 
-import {Button, Icon, Panel, PanelContent, PanelHeader, Toggle, Dialog, DialogBody, DialogHeader, List, ListItem} from "../../Elements";
+import {
+    Button,
+    Icon,
+    Panel,
+    PanelContent,
+    Card,
+    PanelHeader,
+    Toggle,
+    Dialog,
+    DialogBody,
+    DialogHeader,
+    List,
+    ListItem,
+    PanelDivider
+} from "../../Elements";
 import {SimpleLoader, DestinationInformation} from "..";
+
+import './EditAlertRuleForm.scss';
 
 class EditAlertRuleForm extends Component {
     constructor(props) {
@@ -71,6 +87,19 @@ class EditAlertRuleForm extends Component {
         }
     };
 
+    /**
+     * @param {NotificationDestination} destination
+     */
+    removeDestination = (destination) => {
+        const {actions, rule} = this.props;
+
+        // const updatedRule = rule.update({
+        //     enabled: !rule.enabled,
+        // });
+
+        // actions.updateAlertRuleForProject(projectId, updatedRule);
+    };
+
     render() {
         const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded} = this.props;
         const {openDeleteModal, alertDeleted} = this.state;
@@ -82,7 +111,7 @@ class EditAlertRuleForm extends Component {
         }
 
         return (
-            <Panel>
+            <Panel className="EditAlertRuleForm">
                 <PanelHeader>
                     <h3>
                         <Link to={`/project/${projectId}/alerts/rules`}>Alerts</Link>
@@ -95,32 +124,46 @@ class EditAlertRuleForm extends Component {
                         <SimpleLoader/>
                     </div>}
                     {!loading && <div>
-                        <div>
-                            {rule.id}
+                        <div className="MarginBottom3">
+                            <h4>ID: </h4>
+                            <div>{rule.id}</div>
                         </div>
-                        <div>
-                            {rule.name}
+                        <PanelDivider/>
+                        <div className="MarginBottom3">
+                            <h4>Name</h4>
+                            <div>{rule.name}</div>
                         </div>
-                        <div>
-                            {rule.description}
+                        <div className="MarginBottom3">
+                            <h4>Description</h4>
+                            <div>{rule.description || '-'}</div>
                         </div>
-                        <div>
-                            Alert Enabled:
-                            <Toggle value={rule.enabled} onChange={this.toggleAlertRuleEnabled}/>
-                        </div>
-                        {!!destinations.length && <List>
-                            {destinations.map(destination => <ListItem key={destination.id} className="DisplayFlex">
-                                <div>
-                                    <span className="SemiBoldText">{destination.label}</span>
-                                </div>
-                                <div>
-                                    <DestinationInformation destination={destination}/>
-                                </div>
-                                <div>
-                                    <Icon icon="trash-2" className="DangerText CursorPointer"/>
-                                </div>
-                            </ListItem>)}
-                        </List>}
+                        <Card className="DisplayFlex AlignItemsCenter" color="light" onClick={this.toggleAlertRuleEnabled} clickable>
+                            <div>
+                                Alert Enabled
+                            </div>
+                            <div className="MarginLeftAuto">
+                                <Toggle value={rule.enabled}/>
+                            </div>
+                        </Card>
+                        <PanelDivider/>
+                        {!!destinations.length && <div className="MarginBottom4">
+                            <h4 className="MarginBottom2">Alert will be sent to these destinations</h4>
+                            <List>
+                                {destinations.map(destination => <ListItem key={destination.id} className="DisplayFlex">
+                                    <div>
+                                        <span className="SemiBoldText">{destination.label}</span>
+                                    </div>
+                                    <div>
+                                        <DestinationInformation destination={destination}/>
+                                    </div>
+                                    <div>
+                                        {destinations.length > 1 && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
+                                            <Icon icon="trash-2"/>
+                                        </Button>}
+                                    </div>
+                                </ListItem>)}
+                            </List>
+                        </div>}
                         <div>
                             <Button color="danger" outline onClick={this.openDeleteModal}>
                                 <span>Remove Alert</span>
