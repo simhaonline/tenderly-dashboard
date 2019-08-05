@@ -60,16 +60,14 @@ class EditAlertRuleForm extends Component {
     };
 
     deleteAlert = async () => {
-        const {actions} = this.props;
+        const {actions, projectId, ruleId} = this.props;
 
-        const response = {success: true};
+        const response = await actions.deleteAlertRuleForProject(projectId, ruleId);
 
         if (response.success) {
-            this.closeDeleteModal();
-
             this.setState({
                 alertDeleted: true,
-            });
+            }, this.closeDeleteModal);
         }
     };
 
@@ -111,9 +109,9 @@ class EditAlertRuleForm extends Component {
                             <Toggle value={rule.enabled} onChange={this.toggleAlertRuleEnabled}/>
                         </div>
                         {!!destinations.length && <List>
-                            {destinations.map(destination => <ListItem key={destination.id}>
+                            {destinations.map(destination => <ListItem key={destination.id} className="DisplayFlex">
                                 <div>
-                                    {destination.label}
+                                    <span className="SemiBoldText">{destination.label}</span>
                                 </div>
                                 <div>
                                     <DestinationInformation destination={destination}/>
@@ -128,23 +126,23 @@ class EditAlertRuleForm extends Component {
                                 <span>Remove Alert</span>
                             </Button>
                         </div>
-                        <Dialog open={openDeleteModal} onClose={this.closeDeleteModal}>
-                            <DialogHeader>
-                                <h3>Remove Alert from Project</h3>
-                            </DialogHeader>
-                            <DialogBody>
-                                <p className="TextAlignCenter">Are your sure?</p>
-                                <div className="DisplayFlex JustifyContentCenter">
-                                    <Button color="danger" outline onClick={this.closeDeleteModal} width={130}>
-                                        <span>Cancel</span>
-                                    </Button>
-                                    <Button color="danger" onClick={this.deleteAlert} width={130}>
-                                        <span>Remove Alert</span>
-                                    </Button>
-                                </div>
-                            </DialogBody>
-                        </Dialog>
                     </div>}
+                    <Dialog open={openDeleteModal} onClose={this.closeDeleteModal}>
+                        <DialogHeader>
+                            <h3>Remove Alert from Project</h3>
+                        </DialogHeader>
+                        <DialogBody>
+                            <p className="TextAlignCenter">Are your sure?</p>
+                            <div className="DisplayFlex JustifyContentCenter">
+                                <Button color="danger" outline onClick={this.closeDeleteModal} width={130}>
+                                    <span>Cancel</span>
+                                </Button>
+                                <Button color="danger" onClick={this.deleteAlert} width={130}>
+                                    <span>Remove Alert</span>
+                                </Button>
+                            </div>
+                        </DialogBody>
+                    </Dialog>
                 </PanelContent>
             </Panel>
         );

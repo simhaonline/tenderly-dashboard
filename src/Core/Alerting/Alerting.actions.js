@@ -9,6 +9,7 @@ export const FETCH_ALERT_RULES_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULES_FOR_PROJE
 export const FETCH_ALERT_RULE_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULE_FOR_PROJECT';
 export const CREATE_ALERT_RULE_FOR_PROJECT_ACTION = 'CREATE_ALERT_RULE_FOR_PROJECT';
 export const UPDATE_ALERT_RULE_FOR_PROJECT_ACTION = 'UPDATE_ALERT_RULE_FOR_PROJECT';
+export const DELETE_ALERT_RULE_FOR_PROJECT_ACTION = 'DELETE_ALERT_RULE_FOR_PROJECT';
 
 /**
  * @param {string} projectId
@@ -92,6 +93,29 @@ export const updateAlertRuleForProject = (projectId, updateRule) => {
             });
 
             return new SuccessActionResponse(rule);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    };
+};
+
+/**
+ * @param {string} projectId
+ * @param {string} ruleId
+ */
+export const deleteAlertRuleForProject = (projectId, ruleId) => {
+    return async dispatch => {
+        try {
+            await Api.delete(`/account/me/project/${projectId}/alert/${ruleId}`);
+
+            dispatch({
+                type: DELETE_ALERT_RULE_FOR_PROJECT_ACTION,
+                ruleId,
+                projectId,
+            });
+
+            return new SuccessActionResponse();
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);

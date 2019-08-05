@@ -1,5 +1,5 @@
 import {
-    CREATE_ALERT_RULE_FOR_PROJECT_ACTION,
+    CREATE_ALERT_RULE_FOR_PROJECT_ACTION, DELETE_ALERT_RULE_FOR_PROJECT_ACTION,
     FETCH_ALERT_RULE_FOR_PROJECT_ACTION,
     FETCH_ALERT_RULES_FOR_PROJECT_ACTION, UPDATE_ALERT_RULE_FOR_PROJECT_ACTION
 } from "./Alerting.actions";
@@ -65,6 +65,24 @@ const AlertingReducer = (state = initialState, action) => {
                 projectRules: {
                     ...state.projectRules,
                     [action.projectId]: projectRules,
+                },
+            };
+        case DELETE_ALERT_RULE_FOR_PROJECT_ACTION:
+            let deleteProjectRules = [];
+
+            if (state.projectRules[action.projectId]) {
+                deleteProjectRules = state.projectRules[action.projectId].filter(ruleId => ruleId !== action.ruleId);
+            }
+
+            return {
+                ...state,
+                rules: {
+                    ...state.rules,
+                    [action.ruleId]: null,
+                },
+                projectRules: {
+                    ...state.projectRules,
+                    [action.projectId]: deleteProjectRules,
                 },
             };
         case UPDATE_ALERT_RULE_FOR_PROJECT_ACTION:
