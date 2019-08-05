@@ -33,6 +33,19 @@ class AlertRulesList extends Component {
         }
     }
 
+    /**
+     * @param {AlertRule} rule
+     */
+    toggleAlertRule = (rule) => {
+        const {projectId, actions} = this.props;
+
+        const updatedRule = rule.update({
+            enabled: !rule.enabled,
+        });
+
+        actions.updateAlertRuleForProject(projectId, updatedRule);
+    };
+
     render() {
         const {areRulesLoaded, rules, projectId} = this.props;
 
@@ -53,7 +66,7 @@ class AlertRulesList extends Component {
                     </div>}
                     {areRulesLoaded && !!rules.length && <div className="ActiveRules">
                         <List>
-                            {rules.map(rule => <ListItem key={rule.id} className="ActiveRules__Rule" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
+                            {rules.sort(r => r.enabled && -1).map(rule => <ListItem key={rule.id} className="ActiveRules__Rule" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
                                 <div className="ActiveRules__Rule__Info">
                                     <div className="SemiBoldText ActiveRules__Rule__Info__Name">{rule.name}</div>
                                     {!!rule.description && <div className="MutedText ActiveRules__Rule__Info__Description">{rule.description}</div>}
@@ -71,7 +84,7 @@ class AlertRulesList extends Component {
                                             <Link to={`/project/${projectId}/alerts/rules/${rule.id}`}>
                                                 <DropdownItem>View Alert</DropdownItem>
                                             </Link>
-                                            <DropdownItem>
+                                            <DropdownItem onClick={() => this.toggleAlertRule(rule)}>
                                                 {rule.enabled && <span>Disable Alert</span>}
                                                 {!rule.enabled && <span>Enable Alert</span>}
                                             </DropdownItem>
