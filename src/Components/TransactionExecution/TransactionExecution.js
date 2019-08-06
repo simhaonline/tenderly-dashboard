@@ -64,9 +64,6 @@ class TransactionExecution extends Component {
         const {callTrace, stackTrace, contracts, transaction} = this.props;
         const {currentTab, tabs, selectedTrace} = this.state;
 
-        console.log(selectedTrace);
-
-
         return (
             <Fragment>
                 <h2 className="MarginBottom2 MarginLeft2">Execution</h2>
