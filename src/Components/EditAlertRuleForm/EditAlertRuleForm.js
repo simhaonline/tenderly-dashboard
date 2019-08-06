@@ -91,7 +91,7 @@ class EditAlertRuleForm extends Component {
      * @param {NotificationDestination} destination
      */
     removeDestination = (destination) => {
-        const {actions, rule} = this.props;
+        // const {actions, rule} = this.props;
 
         // @TODO finish remove alert destination
         // const updatedRule = rule.update({
