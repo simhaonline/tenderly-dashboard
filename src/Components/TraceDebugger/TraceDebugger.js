@@ -13,9 +13,9 @@ import {Trace} from "../../Core/Trace/Trace.model";
 
 const ROOT_ICON = 'circle';
 const JUMP_IN_ICON = 'corner-down-right';
-const JUMP_NEXT_ICON = 'arrow-down';
-// const JUMP_OUT_ICON = 'corner-left-down';
-const GO_PREVIOUS_ICON = 'arrow-left';
+const JUMP_NEXT_ICON = 'arrow-right';
+const JUMP_PREVIOUS_ICON = 'arrow-left';
+const GO_BACK_ICON = 'corner-left-up';
 
 class TraceDebugger extends Component {
     constructor(props) {
@@ -72,17 +72,41 @@ class TraceDebugger extends Component {
         }, this.updateStackTrace);
     };
 
-    canGoToPrevious = () => {
+    canGoBack = () => {
         const {currentStack} = this.state;
 
         return currentStack.length > 1;
     };
 
-    goToPrevious = () => {
+    goBack = () => {
         const {currentStack} = this.state;
 
         this.setState({
             currentTrace: currentStack[currentStack.length - 2].trace,
+        }, this.updateStackTrace);
+    };
+
+    canGoToPrevious = () => {
+        const {currentTrace, flatCallTrace} = this.state;
+
+        const depths = Object.keys(flatCallTrace);
+
+        const currentDepthIndex = depths.indexOf(currentTrace.depthId);
+
+        return currentDepthIndex > 0;
+    };
+
+    goToPrevious = () => {
+        const {currentTrace, flatCallTrace} = this.state;
+
+        const depths = Object.keys(flatCallTrace);
+
+        const currentDepthIndex = depths.indexOf(currentTrace.depthId);
+
+        const nextTrace = (flatCallTrace[depths[currentDepthIndex - 1]]);
+
+        this.setState({
+            currentTrace: nextTrace,
         }, this.updateStackTrace);
     };
 
@@ -160,7 +184,7 @@ class TraceDebugger extends Component {
         return (
             <div className="TraceDebugger">
                 <div className="MarginBottom2">
-                    {hasSource && <CodePreview line={currentTrace.lineNumber} linePreview={6} file={contract.getFileById(currentTrace.fileId)}/>}
+                    {hasSource && <CodePreview minHeight={302} line={currentTrace.lineNumber} linePreview={6} file={contract.getFileById(currentTrace.fileId)}/>}
                     {!hasSource && <div className="TraceDebugger__NoSource">
                         <h5 className="TraceDebugger__NoSource__Heading">No source for this contract</h5>
                         <p className="TraceDebugger__NoSource__Description">Unfortunately we do not have the source code for this contract to display the exact line of code.</p>
@@ -169,14 +193,14 @@ class TraceDebugger extends Component {
                     </div>}
                 </div>
                 <div className="MarginBottom2 DisplayFlex">
-                    <div id="DebuggerButton__Previous" className="MarginRight1">
-                        <Button size="small" outline={!this.canGoToPrevious()} disabled={!this.canGoToPrevious()} onClick={this.goToPrevious}>
-                            <Icon icon={GO_PREVIOUS_ICON}/>
+                    <div id="DebuggerButton__GoBack" className="MarginRight1">
+                        <Button size="small" outline={!this.canGoBack()} disabled={!this.canGoBack()} onClick={this.goBack}>
+                            <Icon icon={GO_BACK_ICON}/>
                         </Button>
                     </div>
-                    <div id="DebuggerButton__JumpIn" className="MarginRight1">
-                        <Button size="small" outline={!this.canJumpIn()} disabled={!this.canJumpIn()} onClick={this.jumpIn}>
-                            <Icon icon={JUMP_IN_ICON}/>
+                    <div id="DebuggerButton__Previous" className="MarginRight1">
+                        <Button size="small" outline={!this.canGoToPrevious()} disabled={!this.canGoToPrevious()} onClick={this.goToPrevious}>
+                            <Icon icon={JUMP_PREVIOUS_ICON}/>
                         </Button>
                     </div>
                     <div id="DebuggerButton__Next" className="MarginRight1">
@@ -184,8 +208,8 @@ class TraceDebugger extends Component {
                             <Icon icon={JUMP_NEXT_ICON}/>
                         </Button>
                     </div>
-                    <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__Previous">Go to the previous step in the stack</Tooltip>
-                    <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__JumpIn">Jump into the function call</Tooltip>
+                    <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__GoBack">Go back to the previous step in the stack</Tooltip>
+                    <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__Previous">Jump to the previous step in the execution</Tooltip>
                     <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__Next">Jump to the next step in the execution</Tooltip>
                 </div>
                 <div className="DisplayFlex">

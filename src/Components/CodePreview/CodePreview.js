@@ -31,7 +31,7 @@ class CodePreview extends Component {
     };
 
     render() {
-        const {file, line, linePreview, isExpandable} = this.props;
+        const {file, line, linePreview, isExpandable, minHeight} = this.props;
         const {offsetTop, offsetBottom} = this.state;
 
         const lineNumbers = [];
@@ -60,7 +60,9 @@ class CodePreview extends Component {
                 {
                     FullPreview: !linePreview,
                 }
-            )} >
+            )} style={{
+                minHeight,
+            }}>
                 {isExpandable && lineNumbers[0].number !== 0 && <div className="ExpandingWrapper" onClick={this.handleExpandUp}>
                     <div className="ExpandingControl">
                         <span>Expand</span>
