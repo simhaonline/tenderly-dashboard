@@ -84,6 +84,8 @@ export {default as PublicContractQuickActions} from './PublicContractQuickAction
 export {default as PublicContractQuickActionModal} from './PublicContractQuickActionModal/PublicContractQuickActionModal';
 export {default as PublicNetworksSearch} from './PublicNetworksSearch/PublicNetworksSearch';
 
+export {default as CompanyLogo} from './CompanyLogo/CompanyLogo';
+
 /**
  * Table Column Elements
  */

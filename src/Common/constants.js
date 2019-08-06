@@ -151,6 +151,17 @@ export const UsernameStatusMap = {
 /**
  * @enum {string}
  */
+export const CompanyTypes = {
+    KYBER_NETWORK: 'KYBER_NETWORK',
+};
+
+export const CompanyNameMap = {
+    [CompanyTypes.KYBER_NETWORK]: 'Kyber Network',
+};
+
+/**
+ * @enum {string}
+ */
 export const AlertRuleExpressionTypes = {
     CONTRACT_ADDRESS: 'CONTRACT_ADDRESS',
     NETWORK: 'NETWORK',
