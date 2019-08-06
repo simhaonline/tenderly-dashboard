@@ -20,6 +20,7 @@ class TransactionExecution extends Component {
             {
                 label: "Contracts",
                 value: 'contracts',
+                featureFlag: FeatureFlagTypes.COMING_SOON,
             },
             {
                 label: "Debugger",
