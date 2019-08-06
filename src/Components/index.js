@@ -64,7 +64,7 @@ export {default as NoTransactionsEmptyState} from './NoTransactionsEmptyState/No
 export {default as TransactionFilters} from './TransactionFilters/TransactionFilters';
 export {default as TransactionExecution} from './TransactionExecution/TransactionExecution';
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
-export {default as TraceInspector} from './TraceInspector/TraceInspector';
+export {default as TraceDebugger} from './TraceDebugger/TraceDebugger';
 export {default as StackTracePreview} from './StackTracePreview/StackTracePreview';
 export {default as TransactionGasBreakdown} from './TransactionGasBreakdown/TransactionGasBreakdown';
 export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFlameGraph';

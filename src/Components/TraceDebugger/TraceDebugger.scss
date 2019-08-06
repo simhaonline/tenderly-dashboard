@@ -1,6 +1,6 @@
 @import "../../Common/common";
 
-.TraceInspector_NoSource {
+.TraceDebugger__NoSource {
   height: 302px;
   border-radius: 5px;
   background-color: $Slate700;
@@ -11,20 +11,20 @@
   justify-content: center;
 }
 
-.TraceInspector_NoSource__Heading {
+.TraceDebugger__NoSource__Heading {
   font-size: $FontSize400;
   font-weight: 700;
   text-align: center;
   margin-bottom: $Spacing5;
 }
 
-.TraceInspector_NoSource__Description {
+.TraceDebugger__NoSource__Description {
   margin: 0 0 $Spacing4;
   max-width: 400px;
   text-align: center;
 }
 
-.TraceInspector__StateViewer {
+.TraceDebugger__StateViewer {
   height: 280px;
   border-radius: 4px;
   overflow-y: auto;
@@ -37,7 +37,7 @@
   }
 }
 
-.TraceInspector__StateTraceWrapper {
+.TraceDebugger__StateTraceWrapper {
   flex: 0 0 350px;
   height: 280px;
   border-radius: 4px;
@@ -46,7 +46,7 @@
   padding: $Spacing2 $Spacing1;
 }
 
-.TraceInspector__StateTrace {
+.TraceDebugger__StateTrace {
   padding: $Spacing1;
   transition: 0.1s;
   cursor: pointer;
@@ -56,7 +56,7 @@
   }
 }
 
-.TraceInspector__StateTrace__Icon {
+.TraceDebugger__StateTrace__Icon {
   margin-right: $Spacing1;
   color: $Primary500;
 }

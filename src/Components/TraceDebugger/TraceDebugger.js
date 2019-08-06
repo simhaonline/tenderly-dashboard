@@ -8,7 +8,7 @@ import {Button, Icon, Tooltip} from "../../Elements";
 import {CopyableText} from "../index";
 import CodePreview from "../CodePreview/CodePreview";
 
-import './TraceInspector.scss';
+import './TraceDebugger.scss';
 
 const ROOT_ICON = 'circle';
 const JUMP_IN_ICON = 'corner-down-right';
@@ -16,7 +16,7 @@ const JUMP_NEXT_ICON = 'arrow-down';
 // const JUMP_OUT_ICON = 'corner-left-down';
 const GO_PREVIOUS_ICON = 'arrow-left';
 
-class TraceInspector extends Component {
+class TraceDebugger extends Component {
     constructor(props) {
         super(props);
 
@@ -154,13 +154,13 @@ class TraceInspector extends Component {
         const hasSource = !!contract && !!contract.getFileById(currentTrace.fileId);
 
         return (
-            <div className="TraceInspector">
+            <div className="TraceDebugger">
                 <div className="MarginBottom2">
                     {hasSource && <CodePreview line={currentTrace.lineNumber} linePreview={6} file={contract.getFileById(currentTrace.fileId)}/>}
-                    {!hasSource && <div className="TraceInspector_NoSource">
-                        <h5 className="TraceInspector_NoSource__Heading">No source for this contract</h5>
-                        <p className="TraceInspector_NoSource__Description">Unfortunately we do not have the source code for this contract to display the exact line of code.</p>
-                        <p className="TraceInspector_NoSource__Description">If you have the source code for this contract, you can add it to the project using our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a>.</p>
+                    {!hasSource && <div className="TraceDebugger__NoSource">
+                        <h5 className="TraceDebugger__NoSource__Heading">No source for this contract</h5>
+                        <p className="TraceDebugger__NoSource__Description">Unfortunately we do not have the source code for this contract to display the exact line of code.</p>
+                        <p className="TraceDebugger__NoSource__Description">If you have the source code for this contract, you can add it to the project using our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a>.</p>
                         <div><CopyableText text={currentTrace.contract} onSuccessMessage="Copied contract address to clipboard"/></div>
                     </div>}
                 </div>
@@ -185,15 +185,15 @@ class TraceInspector extends Component {
                     <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__Next">Jump to the next step in the execution</Tooltip>
                 </div>
                 <div className="DisplayFlex">
-                    <div className="MarginRight2 TraceInspector__StateTraceWrapper">
+                    <div className="MarginRight2 TraceDebugger__StateTraceWrapper">
                         {currentStack.map(stack => {
                             const stackContract = contracts.find(contract => contract.address === stack.trace.contract);
 
                             const stackHasSource = !!stackContract && !!stackContract.getFileById(currentTrace.fileId);
 
                             return (
-                                <div key={stack.trace.depthId} className="TraceInspector__StateTrace" onClick={() => this.goToTrace(stack.trace.depthId)}>
-                                    <Icon icon={stack.icon} className="TraceInspector__StateTrace__Icon"/>
+                                <div key={stack.trace.depthId} className="TraceDebugger__StateTrace" onClick={() => this.goToTrace(stack.trace.depthId)}>
+                                    <Icon icon={stack.icon} className="TraceDebugger__StateTrace__Icon"/>
                                     {stackHasSource && <Fragment>
                                         <span className="SemiBoldText">{stack.trace.functionName}</span>
                                         <span className="MutedText"> in </span>
@@ -204,7 +204,7 @@ class TraceInspector extends Component {
                             );
                         })}
                     </div>
-                    <div className="TraceInspector__StateViewer">
+                    <div className="TraceDebugger__StateViewer">
                         <ReactJson src={currentState} theme="flat" enableClipboard={false} displayObjectSize={false} displayDataTypes={false} name={false}/>
                     </div>
                 </div>
@@ -213,9 +213,9 @@ class TraceInspector extends Component {
     }
 }
 
-TraceInspector.propTypes = {
+TraceDebugger.propTypes = {
     callTrace: PropTypes.instanceOf(CallTrace),
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
 };
 
-export default TraceInspector;
+export default TraceDebugger;
