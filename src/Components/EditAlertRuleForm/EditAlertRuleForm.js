@@ -93,6 +93,7 @@ class EditAlertRuleForm extends Component {
     removeDestination = (destination) => {
         const {actions, rule} = this.props;
 
+        // @TODO finish remove alert destination
         // const updatedRule = rule.update({
         //     enabled: !rule.enabled,
         // });
