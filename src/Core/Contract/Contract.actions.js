@@ -87,7 +87,10 @@ export const fetchContractsForTransaction = (projectId, txHash, network) => {
 
             const {data} = await Api.get(`/account/me/project/${projectId}/network/${apiNetworkId}/transaction/${txHash}/contracts`);
 
-            const contracts = data.map(contract => Contract.buildFromResponse(contract));
+            const contracts = data.map(contract => Contract.buildFromResponse(contract, contract.in_project ? {
+                id: projectId,
+                listening: true,
+            } : null));
 
             return new SuccessActionResponse(contracts);
         } catch (error) {
