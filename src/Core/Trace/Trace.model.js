@@ -47,6 +47,9 @@ export class Trace {
     getStateJSON() {
         const data = {};
 
+        data['[FUNCTION]'] = this.functionName;
+        data['[OPCODE]'] = this.op;
+
         if (this.inputVariables) {
             this.inputVariables.forEach(input => {
                 if (!data.input) {

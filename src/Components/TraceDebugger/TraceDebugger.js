@@ -189,7 +189,7 @@ class TraceDebugger extends Component {
                         {currentStack.map(stack => {
                             const stackContract = contracts.find(contract => contract.address === stack.trace.contract);
 
-                            const stackHasSource = !!stackContract && !!stackContract.getFileById(currentTrace.fileId);
+                            const stackHasSource = !!stackContract && !!stackContract.getFileById(stack.trace.fileId);
 
                             return (
                                 <div key={stack.trace.depthId} className="TraceDebugger__StateTrace" onClick={() => this.goToTrace(stack.trace.depthId)}>
