@@ -67,6 +67,7 @@ export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
 export {default as TraceDebugger} from './TraceDebugger/TraceDebugger';
 export {default as StackTracePreview} from './StackTracePreview/StackTracePreview';
 export {default as TransactionGasBreakdown} from './TransactionGasBreakdown/TransactionGasBreakdown';
+export {default as TransactionContracts} from './TransactionContracts/TransactionContracts';
 export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFlameGraph';
 export {default as FlameGraph} from './FlameGraph/FlameGraph';
 export {default as PageError} from './PageError/PageError';
