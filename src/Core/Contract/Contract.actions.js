@@ -76,6 +76,29 @@ export const fetchContractForProject = (projectId, contractAddress, network) => 
 };
 
 /**
+ * @param {string} projectId
+ * @param {string} txHash
+ * @param {NetworkTypes} network
+ */
+export const fetchContractsForTransaction = (projectId, txHash, network) => {
+    return async dispatch => {
+        try {
+            const apiNetworkId = NetworkAppToApiTypeMap[network];
+
+            const {data} = await Api.get(`/account/me/project/${projectId}/network/${apiNetworkId}/transaction/${txHash}/contracts`);
+
+            console.log(data);
+
+            return new SuccessActionResponse([])
+        } catch (error) {
+            console.log(error);
+            return new ErrorActionResponse(error);
+        }
+
+    };
+};
+
+/**
  *
  * @param {string} projectId
  * @param {string} contractAddress
