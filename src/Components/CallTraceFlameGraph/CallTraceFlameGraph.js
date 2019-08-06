@@ -29,7 +29,7 @@ class CallTraceFlameGraph extends Component {
 
         traces.forEach(trace => {
             data.push({
-                name: `${trace.functionName || trace.contract} - ${trace.gasUsed} Gwei`,
+                name: `${trace.functionName || trace.contract} - ${trace.gasUsed} Gas`,
                 value: trace.gasUsed,
                 children: this.computeTraceToGraphChildren(trace.calls),
             });
@@ -45,7 +45,7 @@ class CallTraceFlameGraph extends Component {
      */
     computeGraphData = (callTrace, transaction) => {
         return {
-            name: `Total Gas Used - ${transaction.gasUsed} Gwei`,
+            name: `Total Gas Used - ${transaction.gasUsed} Gas`,
             value: transaction.gasUsed,
             children: this.computeTraceToGraphChildren([callTrace.trace]),
         }

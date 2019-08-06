@@ -20,7 +20,7 @@ class TransactionGasBreakdown extends Component {
             <div className="TransactionGasBreakdown">
                 <div className="MarginBottom4">
                     <div className="GasUsageInfo">
-                        <div className="MonospaceFont MarginBottom2">{transaction.gasUsed} / {transaction.gasLimit} Gwei Used</div>
+                        <div className="MonospaceFont MarginBottom2">{transaction.gasUsed} / {transaction.gasLimit} Gas Used</div>
                         <div className="GasUsagePercentage">
                             <div className={classNames(
                                 "GasUsagePercentageBar",
