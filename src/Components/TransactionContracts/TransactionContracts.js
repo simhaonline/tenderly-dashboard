@@ -5,7 +5,7 @@ import {Contract} from "../../Core/models";
 
 import {getContractCompany, isRecognizedCompanyContract} from "../../Utils/CompanyContracts";
 
-import {PanelDivider} from "../../Elements";
+import {PanelDivider, Card} from "../../Elements";
 import {CompanyLogo} from "..";
 
 class TransactionContracts extends Component {
@@ -21,14 +21,12 @@ class TransactionContracts extends Component {
 
                 data.companyContracts[company].push(contract);
             } else {
-                console.log(contract.name, contract.getUniqueId());
                 data.otherContracts.push(contract);
             }
 
             return data;
         }, {
             companyContracts: {},
-            projectContracts: [],
             otherContracts: [],
         });
 
@@ -37,14 +35,16 @@ class TransactionContracts extends Component {
                 {Object.keys(computedData.companyContracts).map(company => <div key={company}>
                     <CompanyLogo company={company}/>
                     <PanelDivider/>
-                    {computedData.companyContracts[company].map(contract => <div key={contract.address}>
+                    {computedData.companyContracts[company].map(contract => <Card key={contract.address} color="light">
                         {contract.name}
-                    </div>)}
+                        <div>{contract.isPublic ? 'Public' : 'Project'}</div>
+                    </Card>)}
                 </div>)}
                 <h4>Other Contracts</h4>
-                {computedData.otherContracts.map(contract => <div key={contract.address}>
+                {computedData.otherContracts.map(contract => <Card key={contract.address} color="light">
                     {contract.name}
-                </div>)}
+                    <div>{contract.isPublic ? 'Public' : 'Project'}</div>
+                </Card>)}
             </div>
         );
     }

@@ -5,7 +5,7 @@ import {Icon} from "../../Elements";
 
 import './CallTracePreview.scss';
 
-const TracePoint = ({trace, depth, contracts}) => {
+const TracePoint = ({trace, depth, contracts, onDebuggerView}) => {
     const traceContract = contracts.find(contract => contract.address === trace.contract);
 
     const file = traceContract ? traceContract.getFileById(trace.fileId) : null;
@@ -29,14 +29,14 @@ const TracePoint = ({trace, depth, contracts}) => {
                     <Icon icon="file-text"/>
                     <span>View source</span>
                 </div>}
-                <div className="CallTracePreview__TracePoint__Action">
+                <div className="CallTracePreview__TracePoint__Action" onClick={() => onDebuggerView(trace)}>
                     <Icon icon="terminal"/>
                     <span>View in Debugger</span>
                 </div>
             </div>
         </div>
         {!!trace.calls && trace.calls.map((trace, index) =>
-            <TracePoint trace={trace} key={index} depth={depth + 1} contracts={contracts}/>
+            <TracePoint trace={trace} key={index} onDebuggerView={onDebuggerView} depth={depth + 1} contracts={contracts}/>
         )}
     </div>
 };
@@ -56,13 +56,19 @@ class CallTracePreview extends Component {
         });
     };
 
+    goToDebugger = (trace) => {
+        const {onDebuggerView} = this.props;
+
+        onDebuggerView(trace);
+    };
+
     render() {
         const {callTrace, contracts} = this.props;
         const {currentHovered} = this.state;
 
         return (
             <div className="CallTracePreview">
-                <TracePoint trace={callTrace.trace} depth={0} open={false} focused={currentHovered} onFocusChange={this.setCurrentTrace} contracts={contracts}/>
+                <TracePoint trace={callTrace.trace} onDebuggerView={this.goToDebugger} depth={0} open={false} focused={currentHovered} onFocusChange={this.setCurrentTrace} contracts={contracts}/>
             </div>
         );
     }
@@ -71,6 +77,8 @@ class CallTracePreview extends Component {
 CallTracePreview.propTypes = {
     callTrace: PropTypes.object.isRequired,
     contracts: PropTypes.array.isRequired,
+    onDebuggerView: PropTypes.func.isRequired,
+
 };
 
 export default CallTracePreview;

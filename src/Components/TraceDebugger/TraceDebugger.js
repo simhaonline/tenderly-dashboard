@@ -9,6 +9,7 @@ import {CopyableText} from "../index";
 import CodePreview from "../CodePreview/CodePreview";
 
 import './TraceDebugger.scss';
+import {Trace} from "../../Core/Trace/Trace.model";
 
 const ROOT_ICON = 'circle';
 const JUMP_IN_ICON = 'corner-down-right';
@@ -22,16 +23,19 @@ class TraceDebugger extends Component {
 
         const callTrace = props.callTrace;
 
-        const currentTrace = callTrace.trace;
+        const flatCallTrace = this.flattenCallTrace(callTrace.trace);
+
+        const currentTrace = props.initialTrace ? flatCallTrace[props.initialTrace.depthId] : callTrace.trace;
 
         this.state = {
-            currentStack: [{
-                trace: currentTrace,
-                icon: ROOT_ICON,
-            }],
-            flatCallTrace: this.flattenCallTrace(callTrace.trace),
+            currentStack: [],
+            flatCallTrace,
             currentTrace,
         };
+    }
+
+    componentDidMount() {
+        this.updateStackTrace();
     }
 
     /**
@@ -216,6 +220,7 @@ class TraceDebugger extends Component {
 TraceDebugger.propTypes = {
     callTrace: PropTypes.instanceOf(CallTrace),
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
+    initialTrace: PropTypes.instanceOf(Trace),
 };
 
 export default TraceDebugger;

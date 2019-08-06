@@ -49,26 +49,34 @@ class TransactionExecution extends Component {
         };
     }
 
-    handleTabChange = (value) => {
+    handleTabChange = (value, selectedTrace) => {
         this.setState({
             currentTab: value,
+            selectedTrace,
         });
+    };
+
+    handleTraceViewInDebugger = (trace) => {
+        this.handleTabChange('debugger', trace)
     };
 
     render() {
         const {callTrace, stackTrace, contracts, transaction} = this.props;
-        const {currentTab, tabs} = this.state;
+        const {currentTab, tabs, selectedTrace} = this.state;
+
+        console.log(selectedTrace);
+
 
         return (
             <Fragment>
                 <h2 className="MarginBottom2 MarginLeft2">Execution</h2>
                 <Panel className="TransactionExecution">
-                    <PanelTabs tabs={tabs} active={currentTab} onChange={this.handleTabChange}/>
+                    <PanelTabs tabs={tabs} active={currentTab} onChange={tab => this.handleTabChange(tab)}/>
                     <PanelContent>
                         {currentTab === 'error' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
-                        {currentTab === 'overview' && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
+                        {currentTab === 'overview' && <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger}/>}
                         {currentTab === 'contracts' && <TransactionContracts contracts={contracts}/>}
-                        {currentTab === 'debugger' && <TraceDebugger callTrace={callTrace} contracts={contracts}/>}
+                        {currentTab === 'debugger' && <TraceDebugger callTrace={callTrace} contracts={contracts} initialTrace={selectedTrace}/>}
                         {currentTab === 'gas_breakdown' && <TransactionGasBreakdown transaction={transaction} callTrace={callTrace}/>}
                     </PanelContent>
                 </Panel>
