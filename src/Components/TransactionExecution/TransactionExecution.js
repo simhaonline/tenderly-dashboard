@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {FeatureFlagTypes} from "../../Common/constants";
 
 import {PanelContent, Panel, PanelTabs} from "../../Elements";
-import {CallTracePreview, StackTracePreview, TraceDebugger, TransactionGasBreakdown} from "../index";
+import {CallTracePreview, StackTracePreview, TraceDebugger, TransactionGasBreakdown, TransactionContracts} from "../index";
 
 class TransactionExecution extends Component {
     constructor(props) {
@@ -16,6 +16,10 @@ class TransactionExecution extends Component {
             {
                 label: "Overview",
                 value: 'overview',
+            },
+            {
+                label: "Contracts",
+                value: 'contracts',
             },
             {
                 label: "Debugger",
@@ -62,6 +66,7 @@ class TransactionExecution extends Component {
                     <PanelContent>
                         {currentTab === 'error' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
                         {currentTab === 'overview' && <CallTracePreview callTrace={callTrace} contracts={contracts}/>}
+                        {currentTab === 'contracts' && <TransactionContracts contracts={contracts}/>}
                         {currentTab === 'debugger' && <TraceDebugger callTrace={callTrace} contracts={contracts}/>}
                         {currentTab === 'gas_breakdown' && <TransactionGasBreakdown transaction={transaction} callTrace={callTrace}/>}
                     </PanelContent>
