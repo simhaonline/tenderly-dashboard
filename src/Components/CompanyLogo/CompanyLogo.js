@@ -13,6 +13,9 @@ const CompanyLogo = ({company}) => {
     switch (company) {
         case CompanyTypes.KYBER_NETWORK:
             imageSrc = KyberNetworkLogo;
+            break;
+        default:
+            break;
     }
 
     return <div className="CompanyLogo">
