@@ -16,8 +16,6 @@ class TransactionGasBreakdown extends Component {
         const gasUsedDecimal = transaction.gasUsed / transaction.gasLimit;
         const gasUsedPercentage = Number(transaction.gasUsed / transaction.gasLimit).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2});
 
-        console.log(gasUsedPercentage);
-
         return (
             <div className="TransactionGasBreakdown">
                 <div className="MarginBottom4">
