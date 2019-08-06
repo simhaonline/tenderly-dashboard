@@ -1,10 +1,74 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
-@import "../../Common/Styles/global";
+@import "../../Common/common";
 
 .CallTracePreview {
   background-color: $Slate500;
   border-radius: 5px;
   box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
   padding: $Spacing4 $Spacing5;
+}
+
+.CallTracePreview__TracePoint__Heading {
+  border-bottom: none;
+  cursor: pointer;
+  transition: 0.1s;
+  border-radius: 4px;
+  padding: 7px $Spacing1;
+  display: flex;
+  align-items: center;
+  margin: 0 -10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    background-color: transparentize($Slate700, 0.25);
+
+    .CallTracePreview__TracePoint__Actions {
+      opacity: 1;
+    }
+  }
+}
+
+.CallTracePreview__TracePoint__DepthLine {
+  border-left: 1px solid transparentize($Primary500, 0.5);
+  margin: -9px 10px;
+  align-self: stretch;
+  position: relative;
+  display: block;
+}
+
+.CallTracePreview__TracePoint__Dot {
+  border: 1px solid $Primary500;
+  width: 16px;
+  height: 16px;
+  margin: 0 12px 0 4px;
+  border-radius: 8px;
+}
+
+.CallTracePreview__TracePoint__Actions {
+  display: flex;
+  opacity: 0;
+  margin-left: auto;
+  transition: 0.1s;
+}
+
+.CallTracePreview__TracePoint__Action {
+  padding: 0 $Spacing2;
+  transition: 0.1s;
+
+  span {
+    margin-left: 6px;
+  }
+
+  &:hover {
+    color: $LinkColor;
+
+    span {
+      text-decoration: underline;
+    }
+  }
+  &:not(:last-child) {
+    border-right: 1px solid transparentize($WhiteColor, 0.5);
+  }
 }
