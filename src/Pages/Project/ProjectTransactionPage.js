@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {getContractsForTransaction} from "../../Common/Selectors/ContractSelectors";
 import {
     getTransaction,
     getTransactionCallTrace,
@@ -30,7 +29,7 @@ class ProjectTransactionPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, transaction, callTrace, contracts, projectId, contractActions, txActions, txHash, networkType} = this.props;
+        const {project, transaction, callTrace, projectId, contractActions, txActions, txHash, networkType} = this.props;
 
         if (project.type !== ProjectTypes.DEMO) {
             if (!transaction || !callTrace) {
@@ -46,8 +45,12 @@ class ProjectTransactionPage extends Component {
 
             }
 
-            if (!contracts) {
-                await contractActions.fetchContractsForProject(projectId);
+            const contractsResponse = await contractActions.fetchContractsForTransaction(projectId, txHash, networkType);
+
+            if (contractsResponse.success) {
+                this.setState({
+                    txContracts: contractsResponse.data,
+                });
             }
         } else {
             await txActions.fetchExampleTransaction();
@@ -59,8 +62,8 @@ class ProjectTransactionPage extends Component {
     }
 
     render() {
-        const {transaction, callTrace, stackTrace, contracts, projectId} = this.props;
-        const {error, loading} = this.state;
+        const {transaction, callTrace, stackTrace, projectId} = this.props;
+        const {error, loading, txContracts} = this.state;
 
         if (loading) {
             return (
@@ -117,7 +120,7 @@ class ProjectTransactionPage extends Component {
                             </EtherscanLink>
                         </div>
                     </PageHeading>
-                    <TransactionPageContent transaction={transaction} contracts={contracts} stackTrace={stackTrace} callTrace={callTrace}/>
+                    <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace} callTrace={callTrace}/>
                 </Container>
             </Page>
         );
@@ -139,7 +142,6 @@ const mapStateToProps = (state, ownProps) => {
         project: getProject(state, id),
         callTrace: getTransactionCallTrace(state, txHash),
         stackTrace: getTransactionStackTrace(state, txHash),
-        contracts: getContractsForTransaction(state, transaction),
     }
 };
 
