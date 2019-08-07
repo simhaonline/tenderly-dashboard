@@ -95,6 +95,17 @@ class Contract {
     }
 
     /**
+     * @return {ContractFile}
+     */
+    getMainFile() {
+        if (!this.mainFile) {
+            return null;
+        }
+
+        return this.mainFile;
+    }
+
+    /**
      * @return {string|null}
      */
     getMainFileSource() {
