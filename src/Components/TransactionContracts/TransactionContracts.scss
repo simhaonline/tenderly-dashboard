@@ -1,2 +1,13 @@
 @import "../../Common/common";
 
+.TransactionContracts__ContractsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.TransactionContracts__Card {
+  width: 200px;
+  height: 100px;
+  flex: 0 0 200px;
+  margin-right: $Spacing4;
+}

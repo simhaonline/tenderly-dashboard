@@ -1,45 +1,85 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {Icon} from "../../Elements";
 
 import './CallTracePreview.scss';
+import CodePreview from "../CodePreview/CodePreview";
 
-const TracePoint = ({trace, depth, contracts, onDebuggerView, onSourceView}) => {
-    const traceContract = contracts.find(contract => contract.address === trace.contract);
+class TracePoint extends Component {
+    constructor(props) {
+        super(props);
 
-    const file = traceContract ? traceContract.getFileById(trace.fileId) : null;
+        const {contracts, trace} = props;
 
-    return <div className="CallTracePreview__TracePoint">
-        <div className="CallTracePreview__TracePoint__Heading">
-            {!!depth && [...Array(depth)].map((e, index) => <div key={index} className="CallTracePreview__TracePoint__DepthLine"/>)}
-            <div className="CallTracePreview__TracePoint__Dot"/>
-            {!!file && <div>
-                {!!trace.functionName && <span className="SemiBoldText">{trace.functionName}</span>}
-                {!trace.functionName && <span className="SemiBoldText">[{trace.op}]</span>}
-                <span className="MutedText"> in {file.name}:{trace.lineNumber}</span>
-            </div>}
-            {!file && <div>
-                <span className="SemiBoldText">[{trace.op}]</span>
-                <span className="MutedText"> from </span>
-                <span className="SemiBoldText">{trace.contract}</span>
-            </div>}
-            <div className="CallTracePreview__TracePoint__Actions">
-                {!!file && <div className="CallTracePreview__TracePoint__Action" onClick={() => onSourceView(trace)}>
-                    <Icon icon="file-text"/>
-                    <span>View source</span>
-                </div>}
-                <div className="CallTracePreview__TracePoint__Action" onClick={() => onDebuggerView(trace)}>
-                    <Icon icon="terminal"/>
-                    <span>View in Debugger</span>
+        const traceContract = contracts.find(contract => contract.address === trace.contract);
+
+        const file = traceContract ? traceContract.getFileById(trace.fileId) : null;
+
+        this.state = {
+            file,
+        };
+    }
+
+    handleOpenTrace = () => {
+        const {trace, onTraceOpen} = this.props;
+        const {file} = this.state;
+
+        if (!file) {
+            return;
+        }
+
+        onTraceOpen(trace);
+    };
+
+    render() {
+
+        const {trace, depth, contracts, onDebuggerView, onSourceView, openTrace, onTraceOpen} = this.props;
+        const {file} = this.state;
+
+        return (
+            <div className="CallTracePreview__TracePoint">
+                <div className={classNames(
+                    "CallTracePreview__TracePoint__Heading",
+                    {
+                        "CursorPointer": !!file,
+                    },
+                )} onClick={this.handleOpenTrace}>
+                    {!!depth && [...Array(depth)].map((e, index) => <div key={index} className="CallTracePreview__TracePoint__DepthLine"/>)}
+                    <div className="CallTracePreview__TracePoint__Dot"/>
+                    {!!file && <div>
+                        {!!trace.functionName && <span className="SemiBoldText">{trace.functionName}</span>}
+                        {!trace.functionName && <span className="SemiBoldText">[{trace.op}]</span>}
+                        <span className="MutedText"> in {file.name}:{trace.lineNumber}</span>
+                    </div>}
+                    {!file && <div>
+                        <span className="SemiBoldText">[{trace.op}]</span>
+                        <span className="MutedText"> from </span>
+                        <span className="SemiBoldText">{trace.contract}</span>
+                    </div>}
+                    <div className="CallTracePreview__TracePoint__Actions">
+                        {!!file && <div className="CallTracePreview__TracePoint__Action" onClick={() => onSourceView(trace)}>
+                            <Icon icon="file-text"/>
+                            <span>View source</span>
+                        </div>}
+                        <div className="CallTracePreview__TracePoint__Action" onClick={() => onDebuggerView(trace)}>
+                            <Icon icon="terminal"/>
+                            <span>View in Debugger</span>
+                        </div>
+                    </div>
                 </div>
+                {openTrace === trace.depthId && <div>
+                    Open trace
+                    <CodePreview line={trace.lineNumber} linePreview={5} file={file}/>
+                </div>}
+                {!!trace.calls && trace.calls.map((trace, index) =>
+                    <TracePoint trace={trace} key={index} onDebuggerView={onDebuggerView} openTrace={openTrace} onSourceView={onSourceView} depth={depth + 1} contracts={contracts} onTraceOpen={onTraceOpen}/>
+                )}
             </div>
-        </div>
-        {!!trace.calls && trace.calls.map((trace, index) =>
-            <TracePoint trace={trace} key={index} onDebuggerView={onDebuggerView} onSourceView={onSourceView} depth={depth + 1} contracts={contracts}/>
-        )}
-    </div>
-};
+        );
+    }
+}
 
 class CallTracePreview extends Component {
     constructor(props) {
@@ -47,6 +87,7 @@ class CallTracePreview extends Component {
 
         this.state = {
             currentHovered: null,
+            openedTrace: null,
         }
     }
 
@@ -68,13 +109,19 @@ class CallTracePreview extends Component {
         onSourceView(trace);
     };
 
+    handleOpenTraceSource = (trace) => {
+        this.setState({
+            openedTrace: trace.depthId,
+        });
+    };
+
     render() {
         const {callTrace, contracts} = this.props;
-        const {currentHovered} = this.state;
+        const {currentHovered, openedTrace} = this.state;
 
         return (
             <div className="CallTracePreview">
-                <TracePoint trace={callTrace.trace} onDebuggerView={this.goToDebugger} onSourceView={this.goToSource} depth={0} open={false} focused={currentHovered} onFocusChange={this.setCurrentTrace} contracts={contracts}/>
+                <TracePoint trace={callTrace.trace} onDebuggerView={this.goToDebugger} openTrace={openedTrace} onSourceView={this.goToSource} depth={0} open={false} focused={currentHovered} onFocusChange={this.setCurrentTrace} contracts={contracts} onTraceOpen={this.handleOpenTraceSource}/>
             </div>
         );
     }

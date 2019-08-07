@@ -2,6 +2,7 @@ import {Api} from "../../Utils/Api";
 import Contract from './Contract.model';
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {NetworkAppToApiTypeMap} from "../../Common/constants";
+import {exampleContract1Payload, exampleContract2Payload} from "../../examples";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
@@ -99,6 +100,27 @@ export const fetchContractsForTransaction = (projectId, txHash, network) => {
         }
 
     };
+};
+
+/**
+ * @param {string} projectId
+ * @return {function(): SuccessActionResponse}
+ */
+export const fetchExampleContractsForTransaction = (projectId) => {
+    return async () => {
+        const contracts = [
+            Contract.buildFromResponse(exampleContract1Payload, {
+                id: projectId,
+                listening: true,
+            }),
+            Contract.buildFromResponse(exampleContract2Payload, {
+                id: projectId,
+                listening: true,
+            })
+        ];
+
+        return new SuccessActionResponse(contracts);
+    }
 };
 
 /**

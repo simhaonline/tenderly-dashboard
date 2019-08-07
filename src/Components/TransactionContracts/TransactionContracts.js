@@ -6,10 +6,8 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 import {Contract} from "../../Core/models";
 import {Trace} from "../../Core/Trace/Trace.model";
 
-import {getContractCompany, isRecognizedCompanyContract} from "../../Utils/CompanyContracts";
-
-import {PanelDivider, Icon, Card, Tag, LinkButton} from "../../Elements";
-import {CompanyLogo, CodePreview} from "..";
+import {Icon, Card, Tag, LinkButton} from "../../Elements";
+import {CodePreview} from "..";
 
 import './TransactionContracts.scss';
 
@@ -17,8 +15,8 @@ const TransactionContract = ({contract, onSelect}) => {
     return (
         <Card color="light" className="TransactionContracts__Card" clickable onClick={() => onSelect(contract)}>
             <div className="SemiBoldText">{contract.name}</div>
-            <div className="MonospaceFont LinkText">{generateShortAddress(contract.address, 8)}</div>
-            <div>
+            <div className="MonospaceFont LinkText">{generateShortAddress(contract.address, 10)}</div>
+            <div className="MarginTop2">
                 {!contract.isPublic && <Tag size="small">
                     <Icon icon="project" className="TransactionContracts__Card__TagIcon"/>
                     <span>Project Contract</span>
@@ -107,34 +105,31 @@ class TransactionContracts extends Component {
         const {contracts} = this.props;
         const {selectedContract, selectedFile, highlightedLine} = this.state;
 
-        const computedData = contracts.reduce((data, contract) => {
-            if (isRecognizedCompanyContract(contract)) {
-                const company = getContractCompany(contract);
-                if (!data.companyContracts[company]) {
-                    data.companyContracts[company] = [];
-                }
-
-                data.companyContracts[company].push(contract);
-            } else {
-                data.otherContracts.push(contract);
-            }
-
-            return data;
-        }, {
-            companyContracts: {},
-            otherContracts: [],
-        });
+        // const computedData = contracts.reduce((data, contract) => {
+        //     if (isRecognizedCompanyContract(contract)) {
+        //         const company = getContractCompany(contract);
+        //         if (!data.companyContracts[company]) {
+        //             data.companyContracts[company] = [];
+        //         }
+        //
+        //         data.companyContracts[company].push(contract);
+        //     } else {
+        //         data.otherContracts.push(contract);
+        //     }
+        //
+        //     return data;
+        // }, {
+        //     companyContracts: {},
+        //     otherContracts: [],
+        // });
 
         return (
             <div className="TransactionContracts">
                 {!selectedFile && <div>
-                    {Object.keys(computedData.companyContracts).map(company => <div key={company}>
-                        <CompanyLogo company={company}/>
-                        <PanelDivider/>
-                        {computedData.companyContracts[company].map(contract => <TransactionContract onSelect={this.handleContractSelect} contract={contract} key={contract.address}/>)}
-                    </div>)}
-                    <h4>Other Contracts</h4>
-                    {computedData.otherContracts.map(contract => <TransactionContract onSelect={this.handleContractSelect} contract={contract} key={contract.address}/>)}
+                    <p>This is the list of all project and publicly verified contracts that have been involved in this transaction. Select a contract below to view its source.</p>
+                    <div className="TransactionContracts__ContractsWrapper">
+                        {contracts.map(contract => <TransactionContract onSelect={this.handleContractSelect} contract={contract} key={contract.address}/>)}
+                    </div>
                 </div>}
                 {!!selectedFile && <div>
                     <div>
