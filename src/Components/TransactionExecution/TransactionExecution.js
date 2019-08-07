@@ -1,16 +1,32 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
-import {FeatureFlagTypes} from "../../Common/constants";
+import {FeatureFlagTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {PanelContent, Panel, PanelTabs} from "../../Elements";
 import {CallTracePreview, StackTracePreview, TraceDebugger, TransactionGasBreakdown, TransactionContracts} from "../index";
+import {Route, Switch, withRouter} from "react-router-dom";
+
+const tabToUrlMap = {
+    overview: '',
+    contracts: '/contracts',
+    debugger: '/debugger',
+    gas_breakdown: '/gas-usage',
+    error: '/error',
+};
+
+const UrlToTabMap = {
+    "contracts": 'contracts',
+    "debugger": 'debugger',
+    "gas-usage": 'gas_breakdown',
+    "error": 'error',
+};
 
 class TransactionExecution extends Component {
     constructor(props) {
         super(props);
 
-        const {transaction} = props;
+        const {transaction, projectId, match: {params: {tab}}} = props;
 
         const tabs = [
             {
@@ -43,17 +59,30 @@ class TransactionExecution extends Component {
             })
         }
 
+        let baseUrl = '';
+
+        if (projectId) {
+            baseUrl = `/project/${projectId}`
+        }
+
+        baseUrl += `/tx/${NetworkAppToRouteTypeMap[transaction.network]}/${transaction.txHash}`;
+
         this.state = {
-            currentTab: transaction.status ? 'overview' : 'error',
+            currentTab: tab ? UrlToTabMap[tab] : 'overview',
             tabs,
+            baseUrl,
         };
     }
 
     handleTabChange = (value, selectedTrace) => {
+        const {baseUrl} = this.state;
+
         this.setState({
             currentTab: value,
             selectedTrace,
         });
+
+        this.props.history.push(`${baseUrl}${tabToUrlMap[value]}`);
     };
 
     handleTraceViewInDebugger = (trace) => {
@@ -62,7 +91,7 @@ class TransactionExecution extends Component {
 
     render() {
         const {callTrace, stackTrace, contracts, transaction} = this.props;
-        const {currentTab, tabs, selectedTrace} = this.state;
+        const {currentTab, tabs, selectedTrace, baseUrl} = this.state;
 
         return (
             <Fragment>
@@ -70,11 +99,13 @@ class TransactionExecution extends Component {
                 <Panel className="TransactionExecution">
                     <PanelTabs tabs={tabs} active={currentTab} onChange={tab => this.handleTabChange(tab)}/>
                     <PanelContent>
-                        {currentTab === 'error' && !!stackTrace && <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}
-                        {currentTab === 'overview' && <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger}/>}
-                        {currentTab === 'contracts' && <TransactionContracts contracts={contracts}/>}
-                        {currentTab === 'debugger' && <TraceDebugger callTrace={callTrace} contracts={contracts} initialTrace={selectedTrace}/>}
-                        {currentTab === 'gas_breakdown' && <TransactionGasBreakdown transaction={transaction} callTrace={callTrace}/>}
+                        <Switch>
+                            <Route path={baseUrl} exact render={() => <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger}/>}/>
+                            <Route path={`${baseUrl}/error`} exact render={() => <StackTracePreview stackTrace={stackTrace} contracts={contracts}/>}/>
+                            <Route path={`${baseUrl}/contracts`} exact render={() => <TransactionContracts contracts={contracts}/>}/>
+                            <Route path={`${baseUrl}/debugger`} exact render={() => <TraceDebugger callTrace={callTrace} contracts={contracts} initialTrace={selectedTrace}/>}/>
+                            <Route path={`${baseUrl}/gas-usage`} exact render={() => <TransactionGasBreakdown transaction={transaction} callTrace={callTrace}/>}/>
+                        </Switch>
                     </PanelContent>
                 </Panel>
             </Fragment>
@@ -89,4 +120,4 @@ PropTypes.propTypes = {
     contracts: PropTypes.array.isRequired,
 };
 
-export default TransactionExecution;
+export default withRouter(TransactionExecution);
