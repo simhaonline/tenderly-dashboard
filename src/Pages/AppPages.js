@@ -32,7 +32,7 @@ const AppPages = () => {
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
             <Route path="/public-contracts" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" component={PublicContractPage}/>
-            <Route path="/tx/:network/:txHash" exact component={PublicContractTransactionPage}/>
+            <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
             <Redirect exact from="/" to="/login"/>
             <Route component={NotFoundPage}/>
         </Switch>
