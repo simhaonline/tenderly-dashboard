@@ -56,8 +56,6 @@ class ProjectTransactionPage extends Component {
             await txActions.fetchExampleTransaction();
             const exampleContractsResponse = await contractActions.fetchExampleContractsForTransaction(projectId);
 
-            console.log(exampleContractsResponse);
-
             txContracts = exampleContractsResponse.data;
         }
 
