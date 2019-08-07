@@ -115,6 +115,8 @@ export const exampleTransaction1Paylod = {
     to: "0x06012c8cf97bead5deae237070f9587f8e7a266a",
     nonce: 577,
     status: true,
+    gas_used: 211964,
+    gas: 300000,
     timestamp: "2019-06-19T14:37:54Z",
     transaction_info: {
         call_trace: {
@@ -122,6 +124,7 @@ export const exampleTransaction1Paylod = {
             function_file_index: 0,
             caller_file_index: 0,
             caller_line_number: 46,
+            gas_used: 194183,
             from: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
             to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
             function_line_number: 46,
@@ -154,6 +157,7 @@ export const exampleTransaction1Paylod = {
                     from: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     function_line_number: 47,
+                    gas_used: 54261,
                     decoded_input: [
                         {
                             soltype: {
@@ -179,6 +183,7 @@ export const exampleTransaction1Paylod = {
                     from: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                     function_line_number: 49,
+                    gas_used: 101802,
                     decoded_input: [
                         {
                             soltype: {
@@ -202,6 +207,7 @@ export const exampleTransaction1Paylod = {
                             from: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                             to: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                             function_line_number: 36,
+                            gas_used: 85146,
                             decoded_input: [
                                 {
                                     soltype: {

@@ -54,7 +54,9 @@ class ProjectTransactionPage extends Component {
             }
         } else {
             await txActions.fetchExampleTransaction();
-            const exampleContractsResponse = contractActions.fetchExampleContractsForTransaction(projectId);
+            const exampleContractsResponse = await contractActions.fetchExampleContractsForTransaction(projectId);
+
+            console.log(exampleContractsResponse);
 
             txContracts = exampleContractsResponse.data;
         }
