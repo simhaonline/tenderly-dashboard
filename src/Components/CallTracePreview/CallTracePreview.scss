@@ -20,7 +20,7 @@
     margin-bottom: 0;
   }
 
-  &:hover {
+  &:hover, &.CallTracePreview__TracePoint__Heading--Open {
     background-color: transparentize($Slate700, 0.25);
 
     .CallTracePreview__TracePoint__Actions {
@@ -68,8 +68,12 @@
       text-decoration: underline;
     }
   }
-  
+
   &:not(:last-child) {
     border-right: 1px solid transparentize($WhiteColor, 0.5);
   }
+}
+
+.CallTracePreview__TracePoint__SourceWrapper {
+  margin: $Spacing3 0;
 }

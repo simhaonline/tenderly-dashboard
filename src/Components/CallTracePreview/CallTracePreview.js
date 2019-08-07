@@ -38,12 +38,15 @@ class TracePoint extends Component {
         const {trace, depth, contracts, onDebuggerView, onSourceView, openTrace, onTraceOpen} = this.props;
         const {file} = this.state;
 
+        const isOpen = openTrace === trace.depthId;
+
         return (
             <div className="CallTracePreview__TracePoint">
                 <div className={classNames(
                     "CallTracePreview__TracePoint__Heading",
                     {
                         "CursorPointer": !!file,
+                        "CallTracePreview__TracePoint__Heading--Open": isOpen,
                     },
                 )} onClick={this.handleOpenTrace}>
                     {!!depth && [...Array(depth)].map((e, index) => <div key={index} className="CallTracePreview__TracePoint__DepthLine"/>)}
@@ -69,8 +72,7 @@ class TracePoint extends Component {
                         </div>
                     </div>
                 </div>
-                {openTrace === trace.depthId && <div>
-                    Open trace
+                {isOpen && <div className="CallTracePreview__TracePoint__SourceWrapper">
                     <CodePreview line={trace.lineNumber} linePreview={5} file={file}/>
                 </div>}
                 {!!trace.calls && trace.calls.map((trace, index) =>
