@@ -7,7 +7,7 @@ import {Contract} from "../../Core/models";
 import {Trace} from "../../Core/Trace/Trace.model";
 
 import {Icon, Card, Tag, LinkButton} from "../../Elements";
-import {CodePreview} from "..";
+import {CodePreview, CopyableText} from "..";
 
 import './TransactionContracts.scss';
 
@@ -132,10 +132,28 @@ class TransactionContracts extends Component {
                     </div>
                 </div>}
                 {!!selectedFile && <div>
-                    <div>
+                    <h3 className="MarginBottom3">
                         <LinkButton onClick={this.backToContracts}>Contracts</LinkButton>
-                        <Icon icon="chevron-right"/>
+                        <Icon icon="chevron-right" className="MarginLeft1 MarginRight1"/>
                         <span>{selectedContract.name}</span>
+                    </h3>
+                    <div className="DisplayFlex AlignItemsCenter MarginBottom2">
+                        <span className="MarginRight1">Address:</span>
+                        <CopyableText text={selectedContract.address} position="right" onSuccessMessage="Copied contract address to clipboard"/>
+                    </div>
+                    <div className="MarginBottom4">
+                        {!selectedContract.isPublic && <Tag>
+                            <Icon icon="project" className="TransactionContracts__Card__TagIcon"/>
+                            <span>Project Contract</span>
+                        </Tag>}
+                        {selectedContract.isPublic && selectedContract.isVerifiedPublic && <Tag color="success">
+                            <Icon icon='check-circle'/>
+                            <span>Verified Contract</span>
+                        </Tag>}
+                        {selectedContract.isPublic && !selectedContract.isVerifiedPublic && <Tag color="warning">
+                            <Icon icon='x-circle'/>
+                            <span>Unverified Contract</span>
+                        </Tag>}
                     </div>
                     <CodePreview file={selectedFile} line={highlightedLine}/>
                 </div>}
