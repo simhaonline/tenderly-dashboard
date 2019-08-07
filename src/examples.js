@@ -127,22 +127,22 @@ export const exampleTransaction1Paylod = {
             function_line_number: 46,
             decoded_input: [
                 {
-                    Soltype: {
-                        Name: 'amount',
+                    soltype: {
+                        name: 'amount',
                     },
-                    Value: '14500',
+                    value: '14500',
                 },
                 {
-                    Soltype: {
-                        Name: 'src',
+                    soltype: {
+                        name: 'src',
                     },
-                    Value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+                    value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                 },
                 {
-                    Soltype: {
-                        Name: 'to',
+                    soltype: {
+                        name: 'to',
                     },
-                    Value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+                    value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                 },
             ],
             calls: [
@@ -156,18 +156,18 @@ export const exampleTransaction1Paylod = {
                     function_line_number: 47,
                     decoded_input: [
                         {
-                            Soltype: {
-                                Name: 'src',
+                            soltype: {
+                                name: 'src',
                             },
-                            Value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+                            value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                         },
                     ],
                     decoded_output: [
                         {
-                            Soltype: {
-                                Name: 'authorized',
+                            soltype: {
+                                name: 'authorized',
                             },
-                            Value: 'true',
+                            value: 'true',
                         },
                     ],
                 },
@@ -181,16 +181,16 @@ export const exampleTransaction1Paylod = {
                     function_line_number: 49,
                     decoded_input: [
                         {
-                            Soltype: {
-                                Name: 'amount',
+                            soltype: {
+                                name: 'amount',
                             },
-                            Value: '14500',
+                            value: '14500',
                         },
                         {
-                            Soltype: {
-                                Name: 'to',
+                            soltype: {
+                                name: 'to',
                             },
-                            Value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+                            value: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
                         },
                     ],
                     calls: [
@@ -204,10 +204,10 @@ export const exampleTransaction1Paylod = {
                             function_line_number: 36,
                             decoded_input: [
                                 {
-                                    Soltype: {
-                                        Name: 'amount',
+                                    soltype: {
+                                        name: 'amount',
                                     },
-                                    Value: '14500',
+                                    value: '14500',
                                 },
                             ],
                         }
