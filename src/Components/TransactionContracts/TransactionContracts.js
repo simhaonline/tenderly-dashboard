@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {generateShortAddress} from "../../Utils/AddressFormatter";
+
 import {Contract} from "../../Core/models";
 
 import {getContractCompany, isRecognizedCompanyContract} from "../../Utils/CompanyContracts";
 
 import {PanelDivider, Icon, Card, Tag, LinkButton} from "../../Elements";
-import {CompanyLogo} from "..";
+import {CompanyLogo, CodePreview} from "..";
 
 import './TransactionContracts.scss';
-import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-const TransactionContract = ({contract}) => {
+const TransactionContract = ({contract, onSelect}) => {
     return (
-        <Card color="light" className="TransactionContracts__Card" clickable>
+        <Card color="light" className="TransactionContracts__Card" clickable onClick={() => onSelect(contract)}>
             <div className="SemiBoldText">{contract.name}</div>
             <div className="MonospaceFont LinkText">{generateShortAddress(contract.address, 8)}</div>
             <div>
@@ -45,11 +46,38 @@ class TransactionContracts extends Component {
         this.state = {
             selectedContract: null,
             selectedFile: null,
+            highlightedLine: null,
         };
     }
 
+    /**
+     * @param {Contract} contract
+     */
+    handleContractSelect = (contract) => {
+        this.setState({
+            selectedContract: contract,
+            selectedFile: contract.getMainFile(),
+        });
+    };
+
+    /**
+     * @param {ContractFile} file
+     */
+    handleContractFileSelect = (file) => {
+        console.log(file);
+    };
+
+    backToContracts = () => {
+        this.setState({
+            selectedContract: null,
+            selectedFile: null,
+            highlightedLine: null,
+        });
+    };
+
     render() {
         const {contracts} = this.props;
+        const {selectedContract, selectedFile, highlightedLine} = this.state;
 
         const computedData = contracts.reduce((data, contract) => {
             if (isRecognizedCompanyContract(contract)) {
@@ -71,13 +99,23 @@ class TransactionContracts extends Component {
 
         return (
             <div className="TransactionContracts">
-                {Object.keys(computedData.companyContracts).map(company => <div key={company}>
-                    <CompanyLogo company={company}/>
-                    <PanelDivider/>
-                    {computedData.companyContracts[company].map(contract => <TransactionContract contract={contract} key={contract.address}/>)}
-                </div>)}
-                <h4>Other Contracts</h4>
-                {computedData.otherContracts.map(contract => <TransactionContract contract={contract} key={contract.address}/>)}
+                {!selectedFile && <div>
+                    {Object.keys(computedData.companyContracts).map(company => <div key={company}>
+                        <CompanyLogo company={company}/>
+                        <PanelDivider/>
+                        {computedData.companyContracts[company].map(contract => <TransactionContract onSelect={this.handleContractSelect} contract={contract} key={contract.address}/>)}
+                    </div>)}
+                    <h4>Other Contracts</h4>
+                    {computedData.otherContracts.map(contract => <TransactionContract onSelect={this.handleContractSelect} contract={contract} key={contract.address}/>)}
+                </div>}
+                {!!selectedFile && <div>
+                    <div>
+                        <LinkButton onClick={this.backToContracts}>Contracts</LinkButton>
+                        <Icon icon="chevron-right"/>
+                        <span>{selectedContract.name}</span>
+                    </div>
+                    <CodePreview file={selectedFile} line={highlightedLine}/>
+                </div>}
             </div>
         );
     }
