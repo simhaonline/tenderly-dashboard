@@ -30,7 +30,7 @@ const Tag = ({color, size, className, children, ...props}) => {
 };
 
 Tag.propTypes = {
-    color: PropTypes.string,
+    color: PropTypes.oneOf(Object.keys(tagColorClassMap)),
     size: PropTypes.string,
 };
 
