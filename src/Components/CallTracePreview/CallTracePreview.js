@@ -89,7 +89,7 @@ class CallTracePreview extends Component {
 
         this.state = {
             currentHovered: null,
-            openedTrace: null,
+            openedTrace: '0',
         }
     }
 
