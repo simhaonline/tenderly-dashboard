@@ -31,10 +31,6 @@ const TransactionContract = ({contract, onSelect}) => {
                     <Icon icon='x-circle'/>
                     <span>Unverified Contract</span>
                 </Tag>}
-                {contract.isPublic && contract.isVerifiedPublic && <LinkButton>
-                    <Icon icon='plus'/>
-                    <span>Add to Project</span>
-                </LinkButton>}
             </div>
         </Card>
     );
@@ -68,6 +64,18 @@ class TransactionContracts extends Component {
             selectedFile,
             highlightedLine,
         };
+    }
+
+    componentDidMount() {
+        const {highlightedLine} = this.state;
+
+        if(highlightedLine) {
+            const scrollToLine = Math.max(1, highlightedLine - 10);
+
+            setTimeout(() => {
+                document.getElementById(`line-${scrollToLine}`).scrollIntoView();
+            }, 0);
+        }
     }
 
     /**
