@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import {Contract} from "../../Core/models";
+import {Trace} from "../../Core/Trace/Trace.model";
 
 import {getContractCompany, isRecognizedCompanyContract} from "../../Utils/CompanyContracts";
 
@@ -123,6 +124,7 @@ class TransactionContracts extends Component {
 
 TransactionContracts.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
+    initialTrace: PropTypes.instanceOf(Trace),
 };
 
 export default TransactionContracts;

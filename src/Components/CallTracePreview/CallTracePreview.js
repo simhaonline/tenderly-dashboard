@@ -5,7 +5,7 @@ import {Icon} from "../../Elements";
 
 import './CallTracePreview.scss';
 
-const TracePoint = ({trace, depth, contracts, onDebuggerView}) => {
+const TracePoint = ({trace, depth, contracts, onDebuggerView, onSourceView}) => {
     const traceContract = contracts.find(contract => contract.address === trace.contract);
 
     const file = traceContract ? traceContract.getFileById(trace.fileId) : null;
@@ -25,7 +25,7 @@ const TracePoint = ({trace, depth, contracts, onDebuggerView}) => {
                 <span className="SemiBoldText">{trace.contract}</span>
             </div>}
             <div className="CallTracePreview__TracePoint__Actions">
-                {!!file && <div className="CallTracePreview__TracePoint__Action">
+                {!!file && <div className="CallTracePreview__TracePoint__Action" onClick={() => onSourceView(trace)}>
                     <Icon icon="file-text"/>
                     <span>View source</span>
                 </div>}
@@ -62,13 +62,19 @@ class CallTracePreview extends Component {
         onDebuggerView(trace);
     };
 
+    goToSource = (trace) => {
+        const {onSourceView} = this.props;
+
+        onSourceView(trace);
+    };
+
     render() {
         const {callTrace, contracts} = this.props;
         const {currentHovered} = this.state;
 
         return (
             <div className="CallTracePreview">
-                <TracePoint trace={callTrace.trace} onDebuggerView={this.goToDebugger} depth={0} open={false} focused={currentHovered} onFocusChange={this.setCurrentTrace} contracts={contracts}/>
+                <TracePoint trace={callTrace.trace} onDebuggerView={this.goToDebugger} onSourceView={this.goToSource} depth={0} open={false} focused={currentHovered} onFocusChange={this.setCurrentTrace} contracts={contracts}/>
             </div>
         );
     }
