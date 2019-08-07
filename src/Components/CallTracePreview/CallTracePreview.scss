@@ -9,7 +9,6 @@
 
 .CallTracePreview__TracePoint__Heading {
   border-bottom: none;
-  cursor: pointer;
   transition: 0.1s;
   border-radius: 4px;
   padding: 7px $Spacing1;
@@ -56,6 +55,7 @@
 .CallTracePreview__TracePoint__Action {
   padding: 0 $Spacing2;
   transition: 0.1s;
+  cursor: pointer;
 
   span {
     margin-left: 6px;
@@ -68,6 +68,7 @@
       text-decoration: underline;
     }
   }
+  
   &:not(:last-child) {
     border-right: 1px solid transparentize($WhiteColor, 0.5);
   }
