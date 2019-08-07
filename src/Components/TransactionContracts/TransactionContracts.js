@@ -44,10 +44,29 @@ class TransactionContracts extends Component {
     constructor(props) {
         super(props);
 
+        const {initialTrace, contracts} = this.props;
+
+        let selectedContract;
+        let selectedFile;
+        let highlightedLine;
+
+        if (initialTrace) {
+            selectedContract = contracts.find(contract => contract.address === initialTrace.contract);
+
+
+            if (selectedContract && initialTrace.fileId !== null) {
+                selectedFile = selectedContract.getFileById(initialTrace.fileId);
+            }
+
+            if (selectedFile && initialTrace.lineNumber !== null) {
+                highlightedLine = initialTrace.lineNumber;
+            }
+        }
+
         this.state = {
-            selectedContract: null,
-            selectedFile: null,
-            highlightedLine: null,
+            selectedContract,
+            selectedFile,
+            highlightedLine,
         };
     }
 
