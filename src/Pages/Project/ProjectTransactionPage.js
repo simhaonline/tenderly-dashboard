@@ -31,6 +31,8 @@ class ProjectTransactionPage extends Component {
     async componentDidMount() {
         const {project, transaction, callTrace, projectId, contractActions, txActions, txHash, networkType} = this.props;
 
+        let txContracts = [];
+
         if (project.type !== ProjectTypes.DEMO) {
             if (!transaction || !callTrace) {
                 const actionResponse = await txActions.fetchTransactionForProject(projectId, txHash, networkType);
@@ -48,16 +50,18 @@ class ProjectTransactionPage extends Component {
             const contractsResponse = await contractActions.fetchContractsForTransaction(projectId, txHash, networkType);
 
             if (contractsResponse.success) {
-                this.setState({
-                    txContracts: contractsResponse.data,
-                });
+                txContracts = contractsResponse.data;
             }
         } else {
             await txActions.fetchExampleTransaction();
+            const exampleContractsResponse = contractActions.fetchExampleContractsForTransaction(projectId);
+
+            txContracts = exampleContractsResponse.data;
         }
 
         this.setState({
             loading: false,
+            txContracts,
         });
     }
 
