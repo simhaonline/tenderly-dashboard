@@ -61,7 +61,7 @@ class ProjectPage extends Component {
                 <ProjectSidebar project={project}/>
                 <Switch>
                     <Route path="/project/:id/transactions" component={ProjectTransactionsPage}/>
-                    <Route path="/project/:id/tx/:network/:txHash" component={ProjectTransactionPage}/>
+                    <Route path="/project/:id/tx/:network/:txHash/:tab?" strict component={ProjectTransactionPage}/>
                     <Route path="/project/:id/analytics" component={ProjectAnalyticsPage}/>
                     <Route path="/project/:id/alerts/:tab" component={ProjectAlertsPage}/>
                     <Redirect from="/project/:id/alerts" to="/project/:id/alerts/rules"/>

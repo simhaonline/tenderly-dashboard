@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import {TransactionExecution, TransactionHeader, } from "../index";
 
-const TransactionPageContent = ({transaction, contracts, callTrace, stackTrace}) => {
+const TransactionPageContent = ({transaction, contracts, callTrace, stackTrace, projectId}) => {
     return (
         <div className="TransactionPageContent">
             <TransactionHeader contracts={contracts} transaction={transaction}/>
-            <TransactionExecution transaction={transaction} stackTrace={stackTrace} callTrace={callTrace} contracts={contracts}/>
+            <TransactionExecution projectId={projectId} transaction={transaction} stackTrace={stackTrace} callTrace={callTrace} contracts={contracts}/>
         </div>
     )
 };
@@ -17,6 +17,7 @@ TransactionPageContent.propTypes = {
     contracts: PropTypes.array.isRequired,
     callTrace: PropTypes.object.isRequired,
     stackTrace: PropTypes.object,
+    projectId: PropTypes.string,
 };
 
 export default TransactionPageContent;

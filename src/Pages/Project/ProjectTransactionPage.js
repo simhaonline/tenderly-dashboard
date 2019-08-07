@@ -120,7 +120,8 @@ class ProjectTransactionPage extends Component {
                             </EtherscanLink>
                         </div>
                     </PageHeading>
-                    <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace} callTrace={callTrace}/>
+                    <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace}
+                                            callTrace={callTrace} projectId={projectId}/>
                 </Container>
             </Page>
         );
