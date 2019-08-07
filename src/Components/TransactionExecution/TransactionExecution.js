@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
-import {FeatureFlagTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {PanelContent, Panel, PanelTabs} from "../../Elements";
 import {CallTracePreview, StackTracePreview, TraceDebugger, TransactionGasBreakdown, TransactionContracts} from "../index";
@@ -36,17 +36,14 @@ class TransactionExecution extends Component {
             {
                 label: "Contracts",
                 value: 'contracts',
-                featureFlag: FeatureFlagTypes.COMING_SOON,
             },
             {
                 label: "Debugger",
                 value: 'debugger',
-                featureFlag: FeatureFlagTypes.DEBUGGER,
             },
             {
                 label: "Gas Breakdown",
                 value: 'gas_breakdown',
-                featureFlag: FeatureFlagTypes.DEBUGGER,
             },
         ];
 
