@@ -36,7 +36,7 @@ const TracePoint = ({trace, depth, contracts, onDebuggerView, onSourceView}) => 
             </div>
         </div>
         {!!trace.calls && trace.calls.map((trace, index) =>
-            <TracePoint trace={trace} key={index} onDebuggerView={onDebuggerView} depth={depth + 1} contracts={contracts}/>
+            <TracePoint trace={trace} key={index} onDebuggerView={onDebuggerView} onSourceView={onSourceView} depth={depth + 1} contracts={contracts}/>
         )}
     </div>
 };
