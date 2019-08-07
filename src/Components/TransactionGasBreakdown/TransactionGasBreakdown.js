@@ -38,6 +38,7 @@ class TransactionGasBreakdown extends Component {
                     </div>
                 </div>
                 <PanelDivider/>
+                <h3 className="MarginBottom2">Gas Flame Graph</h3>
                 <CallTraceFlameGraph callTrace={callTrace} transaction={transaction}/>
             </div>
         );
