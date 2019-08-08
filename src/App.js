@@ -12,7 +12,6 @@ import './Common/Styles/reset.scss';
 import './Common/Styles/base.scss';
 
 import * as authActions from "./Core/Auth/Auth.actions";
-import MixPanel from "./Utils/MixPanel";
 import Intercom from "./Utils/Intercom";
 
 import {store} from './Core';
@@ -42,7 +41,6 @@ class App extends Component {
     async componentDidMount() {
         let tokenCookie = Cookies.get('token');
 
-        MixPanel.initialize();
         Intercom.boot();
         ReactGA.initialize('UA-125013494-1', {
             gaOptions: {

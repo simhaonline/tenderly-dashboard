@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/browser";
 import jwt from "jsonwebtoken";
 
 import {PublicApi, Api, StreamingApi} from '../../Utils/Api';
-import MixPanel from "../../Utils/MixPanel";
+import Analytics from "../../Utils/Analytics";
 import Intercom from "../../Utils/Intercom";
 import FullStory from "../../Utils/FullStory";
 
@@ -153,7 +153,7 @@ export const getUser = (token) => {
             }
 
             if (!impersonating) {
-                MixPanel.setUser(user);
+                Analytics.identifyUser(user);
                 Intercom.setUser(user);
                 FullStory.identifyUser(user);
             }
@@ -173,6 +173,7 @@ export const getUser = (token) => {
 
             return new SuccessActionResponse(user);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }
