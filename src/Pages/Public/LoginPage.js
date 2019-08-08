@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
-import MixPanel from "../../Utils/MixPanel";
 import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Page, Button, Form, Input, Alert, Panel, PanelContent, PanelDivider} from "../../Elements";
@@ -127,7 +126,7 @@ class LoginPage extends Component {
                             <a className="DocumentLink" href="https://tenderly.dev/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                         <div className="PocLinkWrapper">
-                            <Button color="secondary" to="/register" onClick={() => {MixPanel.track('navigate_register')}}>
+                            <Button color="secondary" to="/register">
                                 <span>Create Account</span>
                             </Button>
                         </div>

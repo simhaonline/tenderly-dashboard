@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import classNames from 'classnames';
 import Blockies from "react-blockies";
 
-import MixPanel from "../../Utils/MixPanel";
 import {NetworkTypes, OSTypes} from "../../Common/constants";
 import * as projectActions from "../../Core/Project/Project.actions";
 import * as eventActions from "../../Core/Event/Event.actions";
@@ -69,12 +68,8 @@ class ProjectSetupGuide extends Component {
         const {actions, project} = this.props;
         const {dialogOpen} = this.state;
 
-        if (dialogOpen) {
-            MixPanel.track('viewed_initial_project_setup');
-
-            if (!project.setupViewed) {
-                actions.setProjectSetupViewed(project);
-            }
+        if (dialogOpen && !project.setupViewed) {
+            actions.setProjectSetupViewed(project);
         }
     }
 
@@ -83,8 +78,6 @@ class ProjectSetupGuide extends Component {
     }
 
     handleDialogClose = () => {
-        MixPanel.track(`project_setup_close`);
-
         this.setState({
             dialogOpen: false,
         });
@@ -96,8 +89,6 @@ class ProjectSetupGuide extends Component {
         if (!project.setupViewed) {
             actions.setProjectSetupViewed(project);
         }
-
-        MixPanel.track('pressed_project_setup_button');
 
         this.setState({
             dialogOpen: true,
@@ -165,16 +156,12 @@ class ProjectSetupGuide extends Component {
     };
 
     nextStep = () => {
-        MixPanel.track(`project_setup_next_step_${this.state.currentStep + 1}`);
-
         this.setState({
             currentStep: this.state.currentStep + 1,
         });
     };
 
     previousStep = () => {
-        MixPanel.track(`project_setup_previous_step_${this.state.currentStep - 1}`);
-
         this.setState({
             currentStep: this.state.currentStep - 1,
         });
@@ -187,19 +174,13 @@ class ProjectSetupGuide extends Component {
             verifying: true,
         });
 
-        MixPanel.track('project_setup_verify_setup');
-
         const fetchedProject = await actions.fetchProject(project.id);
 
         const projectSetup = !!fetchedProject.lastPushAt;
 
         if (projectSetup) {
-            MixPanel.track('project_setup_verification_success');
-
             contractActions.fetchContractsForProject(project.id);
             onSetup();
-        } else {
-            MixPanel.track('project_setup_verification_failed');
         }
 
         setTimeout(() => {

@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
 import * as authActions from "../../Core/Auth/Auth.actions";
-import MixPanel from "../../Utils/MixPanel";
 
 import {Container, Page} from "../../Elements";
 import {RegisterForm} from "../../Components";
@@ -33,29 +32,13 @@ class RegisterPage extends Component {
         }
     }
 
-    trackRegisteredAccountForSource = () => {
-        const {source} = this.state;
-
-        if (source) {
-            MixPanel.track(`registered_from_source`, {
-                source,
-            });
-        }
-    };
-
     /**
      * @param {Object} data
      */
     handleRegistrationSubmit = async (data) => {
         const {actions} = this.props;
 
-        const response = await actions.registerUser(data);
-
-        if (response.success) {
-            this.trackRegisteredAccountForSource();
-        }
-
-        return response;
+        return await actions.registerUser(data);
     };
 
     /**
@@ -65,11 +48,7 @@ class RegisterPage extends Component {
     handleOAuthRegistration = async (type, code) => {
         const {actions} = this.props;
 
-        const response = await actions.authenticateOAuth(type, code);
-
-        if (response.success) {
-            this.trackRegisteredAccountForSource();
-        }
+        await actions.authenticateOAuth(type, code);
     };
 
     render() {

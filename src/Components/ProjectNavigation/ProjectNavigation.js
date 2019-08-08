@@ -2,7 +2,6 @@ import React , {Component} from 'react';
 import PropTypes from 'prop-types';
 import {NavLink} from "react-router-dom";
 
-import MixPanel from "../../Utils/MixPanel";
 import {FeatureFlagTypes} from "../../Common/constants";
 
 import {FeatureFlag} from "../index";
@@ -10,38 +9,34 @@ import {FeatureFlag} from "../index";
 import './ProjectNavigation.scss';
 
 class ProjectNavigation extends Component {
-    trackNavigationItem = (navItem) => {
-        MixPanel.track(`navigate_project_${navItem}`);
-    };
-
     render () {
         const {project} = this.props;
 
         return (
             <div className="ProjectNavigation">
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/transactions`} onClick={() => this.trackNavigationItem('transactions')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/transactions`}>
                     <span>Transactions</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                    <NavLink className="NavigationItem" strict to={`/project/${project.id}/errors`} onClick={() => this.trackNavigationItem('errors')}>
+                    <NavLink className="NavigationItem" strict to={`/project/${project.id}/errors`}>
                         <span>Errors</span>
                     </NavLink>
                 </FeatureFlag>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/contracts`} onClick={() => this.trackNavigationItem('contracts')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/contracts`}>
                     <span>Contracts</span>
                 </NavLink>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/analytics`} onClick={() => this.trackNavigationItem('analytics')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/analytics`}>
                     <span>Analytics</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                    <NavLink className="NavigationItem" strict to={`/project/${project.id}/releases`} onClick={() => this.trackNavigationItem('deployment')}>
+                    <NavLink className="NavigationItem" strict to={`/project/${project.id}/releases`}>
                         <span>Deployment</span>
                     </NavLink>
                 </FeatureFlag>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/alerts`} onClick={() => this.trackNavigationItem('alerts')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/alerts`}>
                     <span>Alerts</span>
                 </NavLink>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/settings`} onClick={() => this.trackNavigationItem('settings')}>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/settings`}>
                     <span>Settings</span>
                 </NavLink>
             </div>

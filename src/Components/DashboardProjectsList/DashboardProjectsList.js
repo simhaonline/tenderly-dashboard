@@ -3,22 +3,12 @@ import {Link} from "react-router-dom";
 import moment from "moment";
 import {Area, AreaChart, YAxis, Tooltip} from "recharts";
 
-import MixPanel from "../../Utils/MixPanel";
-
 import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 
 import {Icon, Card} from "../../Elements";
 import {SimpleLoader, NoProjectsEmptyState, ProjectSetupGuide, FeatureFlag} from "../index";
 
 import './DashboardProjectsList.scss';
-
-const handleProjectItemClick = () => {
-    MixPanel.track('navigate_project');
-};
-
-const handleCreateProjectClick = () => {
-    MixPanel.track('navigate_create_project');
-};
 
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     const data = [
@@ -44,7 +34,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
             {(loaded && projects.length === 0) && <NoProjectsEmptyState onTryExample={onTryExample}/>}
             {(loaded && projects.length !== 0) && <div className="ProjectList">
                 {projects.map(project =>
-                    <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id} onClick={handleProjectItemClick}>
+                    <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id}>
                         <Card className="ProjectListItemCard">
                             <div className="ProjectNameWrapper">
                                 <div className="ProjectName">
@@ -89,7 +79,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
                         </Card>
                     </Link>
                 )}
-                <Link to={`/project/create`} className="ProjectListItem CreateProjectItem" onClick={handleCreateProjectClick}>
+                <Link to={`/project/create`} className="ProjectListItem CreateProjectItem">
                     <Card className="ProjectListItemCard">
                         <Icon icon="plus" className="CreateIcon"/>
                         <span className="Title">Create Project</span>

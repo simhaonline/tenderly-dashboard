@@ -19,16 +19,6 @@ class MixPanel {
             _mixpanel.identify(user.id);
         }
     }
-
-    /**
-     * @param {String} event
-     * @param {Object} [data]
-     */
-    static track(event, data = {}) {
-        if (process.env.NODE_ENV !== 'development') {
-            _mixpanel.track(event, data)
-        }
-    }
 }
 
 export default MixPanel;
