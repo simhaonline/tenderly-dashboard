@@ -19,6 +19,16 @@ class CodePreview extends Component {
         };
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {line} = this.props;
+
+        if (line !== prevProps.line) {
+            this.setState({
+                centerLine: line,
+            });
+        }
+    }
+
     handleExpandUp = () => {
         this.setState({
             offsetTop: this.state.offsetTop + 10,
