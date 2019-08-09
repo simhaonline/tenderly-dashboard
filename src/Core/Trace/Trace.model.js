@@ -95,11 +95,11 @@ export class Trace {
          */
         return new Trace({
             functionName: rawCallTrace.function_name,
-            contract: rawCallTrace.caller_line_number ? rawCallTrace.from : rawCallTrace.to,
-            op: rawCallTrace.caller_op || rawCallTrace.function_op,
+            contract: depthId !== '0' ? rawCallTrace.from : rawCallTrace.to,
+            op: depthId !== '0' ? rawCallTrace.caller_op : rawCallTrace.function_op,
             fileName: rawCallTrace.contract_name,
-            fileId: rawCallTrace.caller_file_index !== null ? rawCallTrace.caller_file_index : rawCallTrace.function_file_index,
-            lineNumber: rawCallTrace.caller_line_number || rawCallTrace.function_line_number,
+            fileId: depthId !== '0' ? rawCallTrace.caller_file_index : rawCallTrace.function_file_index,
+            lineNumber: depthId !== '0' ? rawCallTrace.caller_line_number : rawCallTrace.function_line_number,
             gasUsed: rawCallTrace.gas_used,
             inputVariables,
             outputVariables,
