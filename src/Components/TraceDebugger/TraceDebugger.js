@@ -184,7 +184,7 @@ class TraceDebugger extends Component {
         return (
             <div className="TraceDebugger">
                 <div className="MarginBottom2">
-                    {hasSource && <CodePreview minHeight={302} line={currentTrace.lineNumber} linePreview={6} file={contract.getFileById(currentTrace.fileId)}/>}
+                    {hasSource && <CodePreview scrollEnabled minHeight={302} line={currentTrace.lineNumber} linePreview={6} file={contract.getFileById(currentTrace.fileId)}/>}
                     {!hasSource && <div className="TraceDebugger__NoSource">
                         <h5 className="TraceDebugger__NoSource__Heading">No source for this contract</h5>
                         <p className="TraceDebugger__NoSource__Description">Unfortunately we do not have the source code for this contract to display the exact line of code.</p>
