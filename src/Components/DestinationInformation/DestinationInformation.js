@@ -8,7 +8,7 @@ import {NotificationDestinationTypes} from "../../Common/constants";
 const DestinationInformation = ({destination}) => {
     switch (destination.type) {
         case NotificationDestinationTypes.EMAIL:
-            return <span>{destination.information.email}</span>;
+            return <span className="MutedText">{destination.information.email}</span>;
         default:
             return null;
     }

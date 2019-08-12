@@ -148,13 +148,13 @@ class EditAlertRuleForm extends Component {
                         </Card>
                         <PanelDivider/>
                         {!!destinations.length && <div className="MarginBottom4">
-                            <h4 className="MarginBottom2">Alert will be sent to these destinations</h4>
+                            <h4 className="MarginBottom2">Alerts will be sent to these destinations</h4>
                             <List>
                                 {destinations.map(destination => <ListItem key={destination.id} className="DisplayFlex">
                                     <div>
                                         <span className="SemiBoldText">{destination.label}</span>
                                     </div>
-                                    <div>
+                                    <div className="MarginLeftAuto">
                                         <DestinationInformation destination={destination}/>
                                     </div>
                                     <div>
