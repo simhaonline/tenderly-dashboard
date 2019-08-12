@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import moment from "moment";
 import {Area, AreaChart, YAxis, Tooltip} from "recharts";
+import * as _ from "lodash";
 
 import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 
@@ -33,7 +34,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
         <div className="DashboardProjectsList">
             {(loaded && projects.length === 0) && <NoProjectsEmptyState onTryExample={onTryExample}/>}
             {(loaded && projects.length !== 0) && <div className="ProjectList">
-                {projects.map(project =>
+                {_.sortBy(projects, 'createdAt').map(project =>
                     <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id}>
                         <Card className="ProjectListItemCard">
                             <div className="ProjectNameWrapper">
