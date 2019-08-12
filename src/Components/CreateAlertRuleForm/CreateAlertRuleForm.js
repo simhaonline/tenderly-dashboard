@@ -14,7 +14,7 @@ import {areProjectContractsLoaded} from "../../Common/Selectors/ProjectSelectors
 import {AlertRuleExpression} from "../../Core/models";
 
 import {Button, Card, Icon, Input, Panel, PanelContent, PanelDivider, PanelHeader, Dialog, List, Alert, ListItem, TextArea, Toggle} from "../../Elements";
-import {AlertRuleExpressionForm, NetworkTag} from "../index";
+import {AlertRuleExpressionForm, NetworkTag, DestinationInformation} from "../index";
 
 import './CreateAlertRuleForm.scss';
 import {isValidAddress} from "../../Utils/Ethereum";
@@ -484,7 +484,9 @@ class CreateAlertRuleForm extends Component {
                                 <Toggle value={alertDestinations.includes(destination.id)}/>
                                 <div className="MarginLeft2">
                                     <div className="SemiBoldText">{destination.label}</div>
-                                    <div className="MutedText">{destination.information.email}</div>
+                                    <div className="MutedText">
+                                        <DestinationInformation destination={destination}/>
+                                    </div>
                                 </div>
                             </Card>)}
                             <Alert color="warning">

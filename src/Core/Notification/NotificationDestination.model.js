@@ -38,8 +38,17 @@ class NotificationDestination {
                        emails: information.emails,
                    },
                };
+           case 'slack':
+               return {
+                   type: NotificationDestinationTypes.SLACK,
+                   information: {
+                       webhook: information.webhook_url,
+                   },
+               };
            default:
-               return {};
+               return {
+                   information: {},
+               };
        }
     }
 

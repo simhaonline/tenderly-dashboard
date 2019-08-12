@@ -8,7 +8,9 @@ import {NotificationDestinationTypes} from "../../Common/constants";
 const DestinationInformation = ({destination}) => {
     switch (destination.type) {
         case NotificationDestinationTypes.EMAIL:
-            return <span className="MutedText">{destination.information.email}</span>;
+            return <span>{destination.information.email}</span>;
+        case NotificationDestinationTypes.SLACK:
+            return <span>{destination.information.webhook}</span>;
         default:
             return null;
     }
