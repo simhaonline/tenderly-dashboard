@@ -145,7 +145,16 @@ class Contract {
      * @return {string}
      */
     getUniqueId() {
-        return `${this.network}:${this.address}`;
+        return Contract.generateUniqueContractId(this.address, this.network);
+    }
+
+    /**
+     * @param {string} address
+     * @param {string} network
+     * @return {string}
+     */
+    static generateUniqueContractId(address, network) {
+        return `${network}:${address}`;
     }
 
     /**
