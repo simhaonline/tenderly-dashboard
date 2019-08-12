@@ -134,10 +134,10 @@ class EditAlertRuleForm extends Component {
                             <h4>Name</h4>
                             <div>{rule.name}</div>
                         </div>
-                        <div className="MarginBottom3">
+                        {!!rule.description && <div className="MarginBottom3">
                             <h4>Description</h4>
                             <div>{rule.description || '-'}</div>
-                        </div>
+                        </div>}
                         <Card className="DisplayFlex AlignItemsCenter" color="light" onClick={this.toggleAlertRuleEnabled} clickable>
                             <div>
                                 Alert Enabled
