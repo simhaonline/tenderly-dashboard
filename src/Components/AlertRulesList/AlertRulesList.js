@@ -50,7 +50,6 @@ class AlertRulesList extends Component {
     render() {
         const {areRulesLoaded, rules, projectId} = this.props;
 
-
         return (
             <Panel>
                 <PanelHeader>

@@ -277,7 +277,7 @@ class CreateAlertRuleForm extends Component {
                 this.fetchMethodsForContract(contract);
             }
 
-            this.closeContractModel();
+            this.closeContractModal();
         }
 
         this.setState({
@@ -303,13 +303,13 @@ class CreateAlertRuleForm extends Component {
         this.closeMethodModal();
     };
 
-    openContractModel = () => {
+    openContractModal = () => {
         this.setState({
             contractModelOpen: true,
         });
     };
 
-    closeContractModel = () => {
+    closeContractModal = () => {
         this.setState({
             contractModelOpen: false,
         });
@@ -567,7 +567,7 @@ class CreateAlertRuleForm extends Component {
                         </SimpleAlertRuleStep>
                         {alertType !== 'method_call' && <SimpleAlertRuleStep label="Alert Target" description={this.getAlertTargetDescription()} stepNumber="2" open={currentStep === 2} finished={!!alertTarget} onClick={() => this.goToStep(2)}>
                             <div className="SimpleAlertRuleStepWrapper">
-                                <SimpleAlertRuleAction onClick={this.openContractModel} selected={alertTarget === 'contract'} icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
+                                <SimpleAlertRuleAction onClick={this.openContractModal} selected={alertTarget === 'contract'} icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertTarget('project')} selected={alertTarget === 'project'} icon="project" label="Project" description="Receive alerts for every contract in this project"/>
                             </div>
                         </SimpleAlertRuleStep>}
@@ -579,15 +579,19 @@ class CreateAlertRuleForm extends Component {
                                     {invalidAddresses.map(a => <span className="DangerText" key={a}>{a}, </span>)}
                                 </p>}
                                 {alertType === 'method_call' && <div>
-                                    {!selectedContract && <div onClick={this.openContractModel}>
+                                    {!selectedContract && <div onClick={this.openContractModal}>
                                         <Icon icon="plus-circle"/>
                                         <span>Select contract</span>
                                     </div>}
-                                    {!!selectedContract && <div onClick={this.openContractModel}>
+                                    {!!selectedContract && <div onClick={this.openContractModal}>
                                         <div>{selectedContract.name}</div>
                                         <div>{selectedContract.address}</div>
                                     </div>}
-                                    {!selectedMethod && <div onClick={this.openMethodModal} disabled={!selectedContract}>
+                                    {!selectedMethod && <div onClick={this.openMethodModal} className={classNames(
+                                        {
+                                            '--Disabled': !selectedContract,
+                                        },
+                                    )}>
                                         <Icon icon="plus-circle"/>
                                         <span>Select function</span>
                                     </div>}
@@ -616,7 +620,7 @@ class CreateAlertRuleForm extends Component {
                                 We currently support only sending alerts to your account email. We are working on integrating <span className="SemiBoldText">additional E-mails, Slack, WebHooks</span> and other integrations as alert destinations.
                             </Alert>
                         </SimpleAlertRuleStep>
-                        <Dialog open={contractModelOpen} onClose={this.closeContractModel}>
+                        <Dialog open={contractModelOpen} onClose={this.closeContractModal}>
                             <List className="ContractPickerList">
                                 {contracts.map(contract => <ListItem key={contract.getUniqueId()} onClick={() => this.selectAlertTarget('contract', contract)} className="ContractPickerList__Item" selectable>
                                     <Blockies
