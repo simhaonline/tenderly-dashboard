@@ -73,17 +73,20 @@
   margin: 0;
 }
 
+.SimpleAlertRuleStepWrapper {
+  flex-wrap: wrap;
+  display: flex;
+  margin-right: -1*$Spacing5;
+}
+
 .SimpleAlertRuleAction {
-  width: 230px;
+  width: 210px;
   height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
-  &:not(:last-child) {
-    margin-right: $Spacing5;
-  }
+  margin-right: $Spacing5;
 }
 
 .SimpleAlertRuleAction__Icon {
