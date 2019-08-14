@@ -74,7 +74,7 @@ class AlertRulesList extends Component {
                                 </div>
                                 <div className="ActiveRules__Rule__Status SemiBoldText">
                                     {rule.enabled && <span className="SuccessText">Enabled</span>}
-                                    {!rule.enabled && <span className="DangerText">Disabled</span>}
+                                    {!rule.enabled && <span className="WarningText">Disabled</span>}
                                 </div>
                                 <div className="ActiveRules__Rule__More">
                                     <Dropdown>
