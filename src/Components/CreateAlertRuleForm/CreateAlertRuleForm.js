@@ -248,7 +248,7 @@ class CreateAlertRuleForm extends Component {
      * @param {Contract} [contract]
      */
     selectAlertTarget = (target, contract) => {
-        const {parametersNeeded, expressions, alertType} = this.state;
+        const {parametersNeeded, expressions, alertType, parametersSet} = this.state;
 
         const newExpressions = [];
         let selectedContract = null;
@@ -283,6 +283,7 @@ class CreateAlertRuleForm extends Component {
         this.setState({
             alertTarget: target,
             selectedContract,
+            parametersSet: alertType === 'method_call' ? false : parametersSet,
             selectedMethod: null,
             contractMethods: [],
             expressions: [
@@ -578,26 +579,27 @@ class CreateAlertRuleForm extends Component {
                                     <span>Invalid addresses: </span>
                                     {invalidAddresses.map(a => <span className="DangerText" key={a}>{a}, </span>)}
                                 </p>}
-                                {alertType === 'method_call' && <div>
-                                    {!selectedContract && <div onClick={this.openContractModal}>
-                                        <Icon icon="plus-circle"/>
+                                {alertType === 'method_call' && <div className="MethodCallPicker">
+                                    {!selectedContract && <div onClick={this.openContractModal} className="MethodCallPicker__Option">
+                                        <Icon icon="plus-circle" className="MethodCallPicker__Option__Icon"/>
                                         <span>Select contract</span>
                                     </div>}
-                                    {!!selectedContract && <div onClick={this.openContractModal}>
-                                        <div>{selectedContract.name}</div>
-                                        <div>{selectedContract.address}</div>
+                                    {!!selectedContract && <div onClick={this.openContractModal} className="MethodCallPicker__Selection">
+                                        <div className="MethodCallPicker__Selection__Main">{selectedContract.name}</div>
+                                        <div className="MethodCallPicker__Selection__Secondary">{selectedContract.address}</div>
                                     </div>}
                                     {!selectedMethod && <div onClick={this.openMethodModal} className={classNames(
+                                        "MethodCallPicker__Option",
                                         {
-                                            '--Disabled': !selectedContract,
+                                            'MethodCallPicker__Option--Disabled': !selectedContract,
                                         },
                                     )}>
-                                        <Icon icon="plus-circle"/>
+                                        <Icon icon="plus-circle" className="MethodCallPicker__Option__Icon"/>
                                         <span>Select function</span>
                                     </div>}
-                                    {!!selectedMethod && <div onClick={this.openMethodModal}>
-                                        <div>{selectedMethod.name}()</div>
-                                        <div>Line {selectedMethod.lineNumber}</div>
+                                    {!!selectedMethod && <div onClick={this.openMethodModal} className="MethodCallPicker__Selection">
+                                        <div className="MethodCallPicker__Selection__Main">{selectedMethod.name}()</div>
+                                        <div className="MethodCallPicker__Selection__Secondary">Line {selectedMethod.lineNumber}</div>
                                     </div>}
                                 </div>}
                                 {alertType !== 'method_call' && <Button disabled={!this.canApplyParameters()} onClick={this.applyParameters}>

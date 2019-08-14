@@ -128,3 +128,66 @@
   font-family: $MonospaceFontFamily;
   color: $LinkColor;
 }
+
+.MethodCallPicker {
+  display: flex;
+}
+
+.MethodCallPicker__Option, .MethodCallPicker__Selection {
+  margin-right: $Spacing4;
+  width: 200px;
+  height: 69px;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+
+.MethodCallPicker__Option {
+  display: flex;
+  align-items: center;
+  padding: $Spacing2 $Spacing3;
+  background-color: transparentize($Slate100, 0.5);
+  border: 2px dashed $Slate100;
+  cursor: pointer;
+  font-size: $FontSize400;
+
+  &:hover {
+    background-color: transparentize($Slate100, 0.25);
+  }
+}
+
+.MethodCallPicker__Option--Disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.MethodCallPicker__Option__Icon {
+  opacity: 0.75;
+  font-size: $FontSize600;
+  margin-right: $Spacing1;
+}
+
+.MethodCallPicker__Selection {
+  border: 1px solid $Primary500;
+  background-color: transparentize($Slate100, 0.25);
+  padding: $Spacing2 $Spacing3;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $Slate100;
+  }
+}
+
+.MethodCallPicker__Selection__Main {
+  font-weight: 600;
+  margin-bottom: $Spacing1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MethodCallPicker__Selection__Secondary {
+  color: $LinkColor;
+  font-family: $MonospaceFontFamily;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
