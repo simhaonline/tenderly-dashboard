@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import AlertRuleExpression from "./AlertRuleExpression.model";
 
 class AlertRule {
@@ -26,6 +28,9 @@ class AlertRule {
          * @type string[]
          */
         this.deliveryChannels = data.deliveryChannels;
+
+        /** @type Date */
+        this.createdAt =  data.createdAt;
     }
 
     /**
@@ -65,6 +70,7 @@ class AlertRule {
             description: response.description,
             enabled: response.enabled,
             projectId: response.project_id,
+            createdAt: moment(response.created_at),
             expressions,
             deliveryChannels: response.delivery_channels ? response.delivery_channels.map(dc => dc.delivery_channel_id) : [],
         });
