@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import _ from "lodash";
 
 import {FeatureFlagTypes} from "../../Common/constants";
 
@@ -66,7 +67,7 @@ class AlertRulesList extends Component {
                     </div>}
                     {areRulesLoaded && !!rules.length && <div className="ActiveRules">
                         <List>
-                            {rules.sort(r => r.enabled && -1).map(rule => <ListItem key={rule.id} className="ActiveRules__Rule" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
+                            {_.sortBy(rules, 'createdAt').map(rule => <ListItem key={rule.id} className="ActiveRules__Rule" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
                                 <div className="ActiveRules__Rule__Info">
                                     <div className="SemiBoldText ActiveRules__Rule__Info__Name">{rule.name}</div>
                                     {!!rule.description && <div className="MutedText ActiveRules__Rule__Info__Description">{rule.description}</div>}
