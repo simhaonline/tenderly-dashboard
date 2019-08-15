@@ -43,6 +43,7 @@ import {
 import {AlertRuleExpressionForm, NetworkTag, DestinationInformation} from "../index";
 
 import './CreateAlertRuleForm.scss';
+import {SimpleLoader} from "..";
 
 class SimpleAlertRuleAction extends Component {
     render() {
@@ -254,11 +255,20 @@ class CreateAlertRuleForm extends Component {
     fetchMethodsForContract = async (contract) => {
         const {contractActions, projectId} = this.props;
 
+        this.setState({
+            fetchingMethods: true,
+        });
+
         const response = await contractActions.fetchMethodsForContract(projectId, contract.address, contract.network);
 
         if (response.success) {
             this.setState({
                 contractMethods: response.data,
+                fetchingMethods: false,
+            });
+        } else {
+            this.setState({
+                fetchingMethods: false,
             });
         }
     };
@@ -533,7 +543,9 @@ class CreateAlertRuleForm extends Component {
 
     render() {
         const {projectId, contracts, destinations} = this.props;
-        const {createdAlertRule, selectedMethod, creatingAlertRule, currentMode, contractMethods, selectedContract, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue, methodModalOpen, methodFilterQuery} = this.state;
+        const {
+            createdAlertRule, selectedMethod, creatingAlertRule, currentMode, contractMethods, selectedContract, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue, methodModalOpen, methodFilterQuery, fetchingMethods
+        } = this.state;
 
         const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
 
@@ -542,6 +554,14 @@ class CreateAlertRuleForm extends Component {
         if (createdAlertRule) {
             return <Redirect to={`/project/${projectId}/alerts/rules`}/>
         }
+
+        const filteredMethods = _.sortBy(contractMethods, 'lineNumber').filter(method => {
+            if (!method.lineNumber || method.lineNumber === 0) {
+                return false;
+            }
+
+            return method.name.includes(methodFilterQuery);
+        });
 
         return (
             <Panel className="CreateAlertRule">
@@ -682,7 +702,13 @@ class CreateAlertRuleForm extends Component {
                                 </div>
                             </div>
                             <div className="SelectContractMethodModal__Body">
-                                <List>
+                                {fetchingMethods && <div className="Padding4 DisplayFlex AlignItemsCenter">
+                                    <SimpleLoader/>
+                                </div>}
+                                {!fetchingMethods && !filteredMethods.length && <div className="Padding4">
+                                    <p className="TextAlignCenter Padding4 MutedText">No functions have been parsed for the <span className="SemiBoldText">{selectedContract && selectedContract.name}</span> contract.</p>
+                                </div>}
+                                {!fetchingMethods && !!filteredMethods.length && <List>
                                     {_.sortBy(contractMethods, 'lineNumber').filter(method => {
                                         if (!method.lineNumber || method.lineNumber === 0) {
                                             return false;
@@ -697,7 +723,7 @@ class CreateAlertRuleForm extends Component {
                                         </div>
                                         <div className="MutedText">{method.getDeclarationPreview()}</div>
                                     </ListItem>)}
-                                </List>
+                                </List>}
                             </div>
                         </Dialog>
                     </div>}
