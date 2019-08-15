@@ -46,10 +46,10 @@ import './CreateAlertRuleForm.scss';
 
 class SimpleAlertRuleAction extends Component {
     render() {
-        const {icon, label, description, onClick, selected} = this.props;
+        const {icon, label, description, highlightColor, onClick, selected, disabled} = this.props;
 
         return (
-            <Card color="light" className="SimpleAlertRuleAction" selectable selected={selected} onClick={onClick}>
+            <Card color="light" className="SimpleAlertRuleAction" highlightColor={highlightColor} selectable selected={selected} onClick={onClick} disabled={disabled}>
                 <Icon icon={icon} className="SimpleAlertRuleAction__Icon"/>
                 <h5 className="SimpleAlertRuleAction__Label">{label}</h5>
                 <p className="SimpleAlertRuleAction__Description">{description}</p>
@@ -586,6 +586,7 @@ class CreateAlertRuleForm extends Component {
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('method_call')} selected={alertType === 'method_call'} icon="layers" label="Function Call" description="Triggers whenever a specific function is called in one of your contracts"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('whitelisted_callers')} selected={alertType === 'whitelisted_callers'} icon="eye" label="Whitelisted Callers" description="Triggers whenever a contract that is not whitelisted calls one of your contracts"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('blacklisted_callers')} selected={alertType === 'blacklisted_callers'} icon="eye-off" label="Blacklisted Callers" description="Triggers whenever a contract from this list calls one of your contracts"/>
+                                <SimpleAlertRuleAction onClick={() => Intercom.openNewConversation('New alert suggestion:\n')} highlightColor="secondary" icon="zap" label="More Coming Soon" description="Have an idea? Click here and send us what you think can be the next alert type"/>
                             </div>
                         </SimpleAlertRuleStep>
                         {alertType !== 'method_call' && <SimpleAlertRuleStep label="Alert Target" description={this.getAlertTargetDescription()} stepNumber="2" open={currentStep === 2} finished={!!alertTarget} onClick={() => this.goToStep(2)}>
