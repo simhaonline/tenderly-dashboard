@@ -6,7 +6,15 @@ import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
 import {Container, Page, PageHeading, Icon, Button} from "../../Elements";
-import {PageSegments, PageSegmentSwitcher, PageSegmentContent, ProjectAlertHistory, ProjectAlertIntegrations, ProjectAlertRules} from "../../Components";
+import {
+    PageSegments,
+    PageSegmentSwitcher,
+    PageSegmentContent,
+    ProjectAlertHistory,
+    ProjectAlertIntegrations,
+    ProjectAlertRules,
+    ProjectSetupEmptyState
+} from "../../Components";
 import {FeatureFlagTypes} from "../../Common/constants";
 
 const RULES_TAB = 'rules';
@@ -71,7 +79,8 @@ class ProjectAlertsPage extends Component {
                             </Button>}
                         </div>
                     </PageHeading>
-                    <PageSegments>
+                    {!project.isSetup && <ProjectSetupEmptyState project={project}/>}
+                    {project.isSetup && <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
                         <Switch>
                             <Route path={`/project/${project.id}/alerts/rules`} render={() => <PageSegmentContent>
@@ -84,7 +93,7 @@ class ProjectAlertsPage extends Component {
                                 <ProjectAlertIntegrations/>
                             </PageSegmentContent>}/>
                         </Switch>
-                    </PageSegments>
+                    </PageSegments>}
                 </Container>
             </Page>
         )
