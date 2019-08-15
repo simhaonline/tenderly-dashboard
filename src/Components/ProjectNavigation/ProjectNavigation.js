@@ -4,6 +4,7 @@ import {NavLink} from "react-router-dom";
 
 import {FeatureFlagTypes} from "../../Common/constants";
 
+import {Tag} from "../../Elements";
 import {FeatureFlag} from "../index";
 
 import './ProjectNavigation.scss';
@@ -25,6 +26,12 @@ class ProjectNavigation extends Component {
                 <NavLink className="NavigationItem" strict to={`/project/${project.id}/contracts`}>
                     <span>Contracts</span>
                 </NavLink>
+                <NavLink className="NavigationItem" strict to={`/project/${project.id}/alerts`}>
+                    <span>Alerts</span>
+                    <Tag size="small" className="MarginLeft1">
+                        New
+                    </Tag>
+                </NavLink>
                 <NavLink className="NavigationItem" strict to={`/project/${project.id}/analytics`}>
                     <span>Analytics</span>
                 </NavLink>
@@ -33,9 +40,6 @@ class ProjectNavigation extends Component {
                         <span>Deployment</span>
                     </NavLink>
                 </FeatureFlag>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/alerts`}>
-                    <span>Alerts</span>
-                </NavLink>
                 <NavLink className="NavigationItem" strict to={`/project/${project.id}/settings`}>
                     <span>Settings</span>
                 </NavLink>
