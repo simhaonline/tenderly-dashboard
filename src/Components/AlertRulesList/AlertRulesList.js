@@ -6,7 +6,7 @@ import _ from "lodash";
 
 import Intercom from "../../Utils/Intercom";
 
-import {FeatureFlagTypes} from "../../Common/constants";
+import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 
@@ -23,15 +23,24 @@ import {
     PanelContent,
     PanelHeader
 } from "../../Elements";
-import {SimpleLoader, EmptyState, FeatureFlag} from "..";
+import {SimpleLoader, EmptyState, FeatureFlag, ExampleProjectInfoModal} from "..";
 
 import './AlertRulesList.scss';
+import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 class AlertRulesList extends Component {
-    componentDidMount() {
-        const {actions, projectId, areRulesLoaded} = this.props;
+    constructor(props) {
+        super(props);
 
-        if (!areRulesLoaded) {
+        this.state = {
+            createProjectModalOpen: false,
+        };
+    }
+
+    componentDidMount() {
+        const {actions, projectId, project, areRulesLoaded} = this.props;
+
+        if (!areRulesLoaded && project.type !== ProjectTypes.DEMO) {
             actions.fetchAlertRulesForProject(projectId);
         }
     }
@@ -49,8 +58,25 @@ class AlertRulesList extends Component {
         actions.updateAlertRuleForProject(projectId, updatedRule);
     };
 
+    handleOpenExampleProjectInfoModal = () => {
+        this.setState({
+            createProjectModalOpen: true,
+        });
+    };
+
+    handleCloseExampleProjectInfoModal = () => {
+        this.setState({
+            createProjectModalOpen: false,
+        });
+    };
+
     render() {
-        const {areRulesLoaded, rules, projectId} = this.props;
+        const {areRulesLoaded, rules, projectId, project} = this.props;
+        const {createProjectModalOpen} = this.state;
+
+        const isDemoProject = project.type === ProjectTypes.DEMO;
+
+        const pageLoaded = areRulesLoaded || isDemoProject;
 
         return (
             <Panel>
@@ -61,10 +87,10 @@ class AlertRulesList extends Component {
                     </div>
                 </PanelHeader>
                 <PanelContent>
-                    {!areRulesLoaded && <div className="DisplayFlex Padding4 AlignItemsCenter JustifyContentCenter">
+                    {!pageLoaded && <div className="DisplayFlex Padding4 AlignItemsCenter JustifyContentCenter">
                         <SimpleLoader/>
                     </div>}
-                    {areRulesLoaded && !!rules.length && <div className="ActiveRules">
+                    {pageLoaded && !!rules.length && <div className="ActiveRules">
                         <List>
                             {_.sortBy(rules, 'createdAt').map(rule => <ListItem key={rule.id} className="ActiveRules__Rule" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
                                 <div className="ActiveRules__Rule__Info">
@@ -94,7 +120,7 @@ class AlertRulesList extends Component {
                             </ListItem>)}
                         </List>
                     </div>}
-                    {areRulesLoaded && !rules.length && <div>
+                    {pageLoaded && !rules.length && <div>
                         <EmptyState icon="alerting" title="Setup Alerting for your Contracts" description={<span>
                             Setup alerts and be notified the moment events like <span className="SemiBoldText">transaction failures</span>, <span className="SemiBoldText">method calls</span> or <span className="SemiBoldText">blacklisted callers</span> happen on any of your Smart Contracts.
                         </span>} renderActions={() => <Fragment>
@@ -103,9 +129,15 @@ class AlertRulesList extends Component {
                                     <span>Browse Templates</span>
                                 </Button>
                             </FeatureFlag>
-                            <Button color="secondary" width={160} to={`/project/${projectId}/alerts/rules/create`}>
+                            {!isDemoProject && <Button color="secondary" width={160} to={`/project/${projectId}/alerts/rules/create`}>
                                 <span>Setup an Alert</span>
-                            </Button>
+                            </Button>}
+                            {isDemoProject && <Fragment>
+                                <Button color="secondary" width={160} onClick={this.handleOpenExampleProjectInfoModal}>
+                                    <span>Setup an Alert</span>
+                                </Button>
+                                <ExampleProjectInfoModal header="Example Project" description="This is just an example project to illustrate what the platform can do. If you wish to setup alerting for your contracts first create a project and your contracts to that project." onClose={this.handleCloseExampleProjectInfoModal} open={createProjectModalOpen}/>
+                            </Fragment>}
                         </Fragment>}/>
                     </div>}
                 </PanelContent>
@@ -119,6 +151,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         projectId,
+        project: getProject(state, projectId),
         rules: getAlertRulesForProject(state, projectId),
         areRulesLoaded: areAlertRulesLoadedForProject(state, projectId),
     };
