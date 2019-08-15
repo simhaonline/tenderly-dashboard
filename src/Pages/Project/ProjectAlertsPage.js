@@ -5,7 +5,7 @@ import {Route, Switch} from "react-router-dom";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
-import {Container, Page, PageHeading, Icon, Button} from "../../Elements";
+import {Container, Page, PageHeading, Button} from "../../Elements";
 import {
     PageSegments,
     PageSegmentSwitcher,
@@ -74,7 +74,6 @@ class ProjectAlertsPage extends Component {
                         <h1>Alerting</h1>
                         <div className="MarginLeftAuto">
                             {areRulesLoaded && !!rules.length && <Button to={`/project/${project.id}/alerts/rules/create`}>
-                                <Icon icon="plus"/>
                                 <span>New Alert</span>
                             </Button>}
                         </div>
