@@ -83,7 +83,7 @@ class AlertRulesList extends Component {
                 <PanelHeader>
                     <h3>Alerts</h3>
                     <div className="MarginLeftAuto">
-                        <LinkButton onClick={() => Intercom.openNewConversation('Suggestion/feedback for the Alerting:\n')}>Have suggestions or feedback?</LinkButton>
+                        <LinkButton onClick={() => Intercom.openNewConversation('Suggestion/feedback for alerting:\n')}>Have suggestions or feedback?</LinkButton>
                     </div>
                 </PanelHeader>
                 <PanelContent>

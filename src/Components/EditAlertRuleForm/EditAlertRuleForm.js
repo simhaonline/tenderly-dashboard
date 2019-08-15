@@ -123,7 +123,7 @@ class EditAlertRuleForm extends Component {
                         {!!rule && <span>{rule.name}</span>}
                     </h3>
                     <div className="MarginLeftAuto">
-                        <LinkButton onClick={() => Intercom.openNewConversation('Suggestion/feedback for the Alerting:\n')}>Have suggestions or feedback?</LinkButton>
+                        <LinkButton onClick={() => Intercom.openNewConversation('Suggestion/feedback for alerting:\n')}>Have suggestions or feedback?</LinkButton>
                     </div>
                 </PanelHeader>
                 <PanelContent>
