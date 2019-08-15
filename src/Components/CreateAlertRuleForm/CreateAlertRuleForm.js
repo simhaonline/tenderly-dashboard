@@ -4,6 +4,10 @@ import {bindActionCreators} from "redux";
 import classNames from "classnames";
 import {Link, Redirect} from "react-router-dom";
 import _ from 'lodash';
+import Blockies from "react-blockies";
+
+import Intercom from "../../Utils/Intercom";
+import {isValidAddress} from "../../Utils/Ethereum";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
@@ -12,18 +16,33 @@ import * as notificationActions from "../../Core/Notification/Notification.actio
 import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes} from "../../Common/constants";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {areProjectContractsLoaded} from "../../Common/Selectors/ProjectSelectors";
-import {AlertRuleExpression} from "../../Core/models";
-
-import {Button, Card, Icon, Input, Panel, PanelContent, PanelDivider, PanelHeader, Dialog, List, Alert, ListItem, TextArea, Toggle} from "../../Elements";
-import {AlertRuleExpressionForm, NetworkTag, DestinationInformation} from "../index";
-
-import './CreateAlertRuleForm.scss';
-import {isValidAddress} from "../../Utils/Ethereum";
-import Blockies from "react-blockies";
 import {
     areNotificationDestinationsLoaded,
     getNotificationDestinations
 } from "../../Common/Selectors/NotificationSelectors";
+
+import {AlertRuleExpression} from "../../Core/models";
+
+import {
+    Button,
+    Card,
+    Icon,
+    Input,
+    Panel,
+    PanelContent,
+    PanelDivider,
+    PanelHeader,
+    Dialog,
+    List,
+    Alert,
+    ListItem,
+    TextArea,
+    Toggle,
+    LinkButton
+} from "../../Elements";
+import {AlertRuleExpressionForm, NetworkTag, DestinationInformation} from "../index";
+
+import './CreateAlertRuleForm.scss';
 
 class SimpleAlertRuleAction extends Component {
     render() {
@@ -522,6 +541,9 @@ class CreateAlertRuleForm extends Component {
                         <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>
                         <span>Create Alert</span>
                     </h3>
+                    <div className="MarginLeftAuto">
+                        <LinkButton onClick={() => Intercom.openNewConversation('Suggestion/feedback for the Alerting:\n')}>Have suggestions or feedback?</LinkButton>
+                    </div>
                 </PanelHeader>
                 <PanelContent>
                     {currentMode === 'advanced' && <div>
@@ -557,7 +579,7 @@ class CreateAlertRuleForm extends Component {
                         </div>
                     </div>}
                     {currentMode === 'simple' && <div className="AlertRuleSetup">
-                        <SimpleAlertRuleStep label="Trigger Condition" description={this.getAlertTypeDescription()} finished={!!alertType} open={currentStep === 1} stepNumber="1" onClick={() => this.goToStep(1)}>
+                        <SimpleAlertRuleStep label="Rule Type" description={this.getAlertTypeDescription()} finished={!!alertType} open={currentStep === 1} stepNumber="1" onClick={() => this.goToStep(1)}>
                             <div className="SimpleAlertRuleStepWrapper">
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('success_tx')} selected={alertType === 'success_tx'} icon="check-circle" label="Successful Transaction" description="Triggers whenever a successful transaction happens"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('failed_tx')} selected={alertType === 'failed_tx'} icon="x-circle" label="Failed Transaction" description="Triggers whenever a failed transactions happens"/>

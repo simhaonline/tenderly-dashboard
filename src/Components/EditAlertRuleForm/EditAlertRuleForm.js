@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Link, Redirect} from "react-router-dom";
 
+import Intercom from '../../Utils/Intercom';
+
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 
@@ -24,6 +26,7 @@ import {
     DialogBody,
     DialogHeader,
     List,
+    LinkButton,
     ListItem,
     PanelDivider
 } from "../../Elements";
@@ -119,6 +122,9 @@ class EditAlertRuleForm extends Component {
                         {isRuleLoaded && <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>}
                         {!!rule && <span>{rule.name}</span>}
                     </h3>
+                    <div className="MarginLeftAuto">
+                        <LinkButton onClick={() => Intercom.openNewConversation('Suggestion/feedback for the Alerting:\n')}>Have suggestions or feedback?</LinkButton>
+                    </div>
                 </PanelHeader>
                 <PanelContent>
                     {loading && <div className="DisplayFlex Padding4 AlignItemsCenter JustifyContentCenter">
