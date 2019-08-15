@@ -34,7 +34,6 @@ class AppHeader extends Component {
                     <Link to="/" className="LogoWrapper">
                         <img className="AppLogo" src={LogoHorizontal} alt="Tenderly Logo"/>
                         <img className="AppSymbol" src={LogoSymbol} alt="Tenderly Logo"/>
-                        <span className="AppState">BETA</span>
                     </Link>
                     <div className="NavWrapper">
                         <Navigation/>

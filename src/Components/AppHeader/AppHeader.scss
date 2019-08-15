@@ -11,7 +11,7 @@
     align-items: center;
     padding: 5px 12px;
     margin-left: 20px;
-    margin-right: 20px;
+    margin-right: 80px;
     transition: 0.2s;
 
     .AppLogo {
@@ -21,15 +21,6 @@
     .AppSymbol {
       display: none;
       height: 32px;
-    }
-
-    .AppState {
-      color: #fff;
-      margin-left: 15px;
-      font-size: 10px;
-      border: 1px solid $Secondary500;
-      border-radius: 3px;
-      padding: 4px 6px;
     }
 
     &:hover {
