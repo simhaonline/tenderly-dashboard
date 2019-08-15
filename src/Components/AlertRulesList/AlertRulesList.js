@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import _ from "lodash";
 
+import Intercom from "../../Utils/Intercom";
+
 import {FeatureFlagTypes} from "../../Common/constants";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
@@ -14,7 +16,7 @@ import {
     Button, Dropdown, DropdownItem,
     DropdownMenu,
     DropdownToggle,
-    Icon,
+    Icon, LinkButton,
     List,
     ListItem,
     Panel,
@@ -55,10 +57,7 @@ class AlertRulesList extends Component {
                 <PanelHeader>
                     <h3>Alerts</h3>
                     <div className="MarginLeftAuto">
-                        {areRulesLoaded && !!rules.length && <Button size="small" to={`/project/${projectId}/alerts/rules/create`}>
-                            <Icon icon="plus"/>
-                            <span>New Alert</span>
-                        </Button>}
+                        <LinkButton onClick={() => Intercom.openNewConversation('Suggestion/feedback for the Alerting:\n')}>Have suggestions or feedback?</LinkButton>
                     </div>
                 </PanelHeader>
                 <PanelContent>

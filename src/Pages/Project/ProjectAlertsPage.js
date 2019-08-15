@@ -3,9 +3,10 @@ import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
-import {Container, Page, PageHeading} from "../../Elements";
-import {PageSegments, PageSegmentSwitcher, PageSegmentContent, FeatureFlag, FeatureComingSoon, ProjectAlertHistory, ProjectAlertIntegrations, ProjectAlertRules} from "../../Components";
+import {Container, Page, PageHeading, Icon, Button} from "../../Elements";
+import {PageSegments, PageSegmentSwitcher, PageSegmentContent, ProjectAlertHistory, ProjectAlertIntegrations, ProjectAlertRules} from "../../Components";
 import {FeatureFlagTypes} from "../../Common/constants";
 
 const RULES_TAB = 'rules';
@@ -22,13 +23,13 @@ const PageSegmentsOptions = [
         label: 'History',
         description: 'View alerts that were triggered and sent',
         value: HISTORY_TAB,
-        featureFlag: FeatureFlagTypes.COMING_SOON,
+        featureFlag: FeatureFlagTypes.ALERTS,
     },
     {
         label: 'Destinations',
         description: 'Set alert destinations like email, slack etc.',
         value: INTEGRATIONS_TAB,
-        featureFlag: FeatureFlagTypes.COMING_SOON,
+        featureFlag: FeatureFlagTypes.ALERTS,
     },
 ];
 
@@ -55,7 +56,7 @@ class ProjectAlertsPage extends Component {
     };
 
     render() {
-        const {project} = this.props;
+        const {project, areRulesLoaded, rules} = this.props;
         const {currentSegment} = this.state;
 
         return (
@@ -63,26 +64,27 @@ class ProjectAlertsPage extends Component {
                 <Container>
                     <PageHeading>
                         <h1>Alerting</h1>
+                        <div className="MarginLeftAuto">
+                            {areRulesLoaded && !!rules.length && <Button to={`/project/${project.id}/alerts/rules/create`}>
+                                <Icon icon="plus"/>
+                                <span>New Alert</span>
+                            </Button>}
+                        </div>
                     </PageHeading>
-                    <FeatureFlag flag={FeatureFlagTypes.ALERTS} reverse>
-                        <FeatureComingSoon feature="alerting"/>
-                    </FeatureFlag>
-                    <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                        <PageSegments>
-                            <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
-                            <Switch>
-                                <Route path={`/project/${project.id}/alerts/rules`} render={() => <PageSegmentContent>
-                                    <ProjectAlertRules projectId={project.id}/>
-                                </PageSegmentContent>}/>
-                                <Route path={`/project/${project.id}/alerts/history`} render={() => <PageSegmentContent>
-                                    <ProjectAlertHistory projectId={project.id}/>
-                                </PageSegmentContent>}/>
-                                <Route path={`/project/${project.id}/alerts/integrations`} render={() => <PageSegmentContent>
-                                    <ProjectAlertIntegrations/>
-                                </PageSegmentContent>}/>
-                            </Switch>
-                        </PageSegments>
-                    </FeatureFlag>
+                    <PageSegments>
+                        <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
+                        <Switch>
+                            <Route path={`/project/${project.id}/alerts/rules`} render={() => <PageSegmentContent>
+                                <ProjectAlertRules projectId={project.id}/>
+                            </PageSegmentContent>}/>
+                            <Route path={`/project/${project.id}/alerts/history`} render={() => <PageSegmentContent>
+                                <ProjectAlertHistory projectId={project.id}/>
+                            </PageSegmentContent>}/>
+                            <Route path={`/project/${project.id}/alerts/integrations`} render={() => <PageSegmentContent>
+                                <ProjectAlertIntegrations/>
+                            </PageSegmentContent>}/>
+                        </Switch>
+                    </PageSegments>
                 </Container>
             </Page>
         )
@@ -95,6 +97,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         initialTab: tab,
         project: getProject(state, id),
+        rules: getAlertRulesForProject(state, id),
+        areRulesLoaded: areAlertRulesLoadedForProject(state, id),
     }
 };
 
