@@ -23,10 +23,10 @@ class ContractMethodModel {
      */
     static buildFromResponse(response) {
         return new ContractMethodModel({
-            id: `${response.LineNumber}:${response.Name}`,
-            name: response.Name,
-            lineNumber: response.LineNumber,
-            inputs: response.Inputs ? response.Inputs.map(input => input.name) : [],
+            id: `${response.line_number}:${response.name}`,
+            name: response.name,
+            lineNumber: response.line_number,
+            inputs: response.inputs ? response.inputs.map(input => input.name) : [],
         });
     }
 }
