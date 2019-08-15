@@ -192,3 +192,43 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.SelectContractMethodModal {
+}
+
+.SelectContractMethodModal__Header {
+  display: flex;
+  height: 70px;
+}
+
+.SelectContractMethodModal__Header__Label {
+  opacity: 0.75;
+}
+
+.SelectContractMethodModal__Header__InputWrapper {
+  flex: 1 1 0;
+  padding: $Spacing2 $Spacing4;
+  position: relative;
+}
+
+.SelectContractMethodModal__Header__Input {
+  position: absolute;
+  background: transparent;
+  color: $WhiteColor;
+  border: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: $FontSize300;
+  padding: $Spacing7 $Spacing4 $Spacing2;
+}
+
+.SelectContractMethodModal__Header__InternalToggle {
+  padding: $Spacing2 $Spacing4;
+}
+
+.SelectContractMethodModal__Body {
+  height: 450px;
+  overflow-y: auto;
+}

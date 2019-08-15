@@ -112,6 +112,7 @@ class CreateAlertRuleForm extends Component {
             alertParameters: null,
             alertDestinations: [],
             contractMethods: [],
+            methodFilterQuery: '',
             expressions: [],
         }
     }
@@ -335,9 +336,18 @@ class CreateAlertRuleForm extends Component {
         });
     };
 
+    handleMethodFilter = (event) => {
+        const value = event.target.value;
+
+        this.setState({
+            methodFilterQuery: value,
+        });
+    };
+
     openMethodModal = () => {
         this.setState({
             methodModalOpen: true,
+            methodFilterQuery: '',
         });
     };
 
@@ -523,7 +533,7 @@ class CreateAlertRuleForm extends Component {
 
     render() {
         const {projectId, contracts, destinations} = this.props;
-        const {createdAlertRule, selectedMethod, creatingAlertRule, currentMode, contractMethods, selectedContract, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue, methodModalOpen} = this.state;
+        const {createdAlertRule, selectedMethod, creatingAlertRule, currentMode, contractMethods, selectedContract, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue, methodModalOpen, methodFilterQuery} = this.state;
 
         const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
 
@@ -664,17 +674,31 @@ class CreateAlertRuleForm extends Component {
                                 </ListItem>)}
                             </List>
                         </Dialog>
-                        <Dialog open={methodModalOpen} onClose={this.closeMethodModal}>
-                            <List>
-                                {_.sortBy(contractMethods, 'lineNumber').map(method => <ListItem key={method.id} selectable onClick={() => this.selectAlertMethod(method)}>
-                                    <div className="MarginBottom0">
-                                        <span className="SemiBoldText">{method.name}</span>
-                                        <span className="MutedText"> at line </span>
-                                        <span className="SemiBoldText">{method.lineNumber}</span>
-                                    </div>
-                                    <div className="MutedText">{method.getDeclarationPreview()}</div>
-                                </ListItem>)}
-                            </List>
+                        <Dialog open={methodModalOpen} onClose={this.closeMethodModal} className="SelectContractMethodModal">
+                            <div className="SelectContractMethodModal__Header">
+                                <div className="SelectContractMethodModal__Header__InputWrapper">
+                                    <div className="SelectContractMethodModal__Header__Label">Filter by name</div>
+                                    <input autoFocus value={methodFilterQuery} type="text" className="SelectContractMethodModal__Header__Input" onChange={this.handleMethodFilter}/>
+                                </div>
+                            </div>
+                            <div className="SelectContractMethodModal__Body">
+                                <List>
+                                    {_.sortBy(contractMethods, 'lineNumber').filter(method => {
+                                        if (!method.lineNumber || method.lineNumber === 0) {
+                                            return false;
+                                        }
+
+                                        return method.name.includes(methodFilterQuery);
+                                    }).map(method => <ListItem key={method.id} selectable onClick={() => this.selectAlertMethod(method)}>
+                                        <div className="MarginBottom0">
+                                            <span className="SemiBoldText">{method.name}</span>
+                                            <span className="MutedText"> at line </span>
+                                            <span className="SemiBoldText">{method.lineNumber}</span>
+                                        </div>
+                                        <div className="MutedText">{method.getDeclarationPreview()}</div>
+                                    </ListItem>)}
+                                </List>
+                            </div>
                         </Dialog>
                     </div>}
                     <div className="MarginTop4">
