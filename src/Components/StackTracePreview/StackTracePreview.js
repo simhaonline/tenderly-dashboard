@@ -8,7 +8,7 @@ import './StackTracePreview.scss';
 const StackTracePreview = ({stackTrace, contracts}) => {
     return (
         <div className="StackTracePreview">
-            {!!stackTrace.trace && stackTrace.trace.map((trace, index) =>
+            {!!stackTrace && !!stackTrace.trace && stackTrace.trace.map((trace, index) =>
                 <TracePreview trace={trace} key={index} open={index === 0} depth={0} contracts={contracts}/>
             )}
         </div>
