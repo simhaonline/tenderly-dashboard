@@ -44,3 +44,20 @@
 .Card--Selected {
   background-color: $Primary500;
 }
+
+.Card--HighlightSecondary {
+  &.Card--Selectable {
+    &:hover {
+      background-color: $Secondary500;
+    }
+  }
+
+  &.Card--Selected {
+    background-color: $Secondary500;
+  }
+}
+
+.Card--Disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}

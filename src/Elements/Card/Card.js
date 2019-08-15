@@ -8,16 +8,22 @@ const CardColorClassMap = {
     'light': 'Card--Light',
 };
 
-const Card = ({children, className, color, clickable, selectable, selected, onClick}) => {
+const CardHighlightColorClassMap = {
+    'secondary': 'Card--HighlightSecondary',
+};
+
+const Card = ({children, className, color, clickable, selectable, selected, onClick, highlightColor, disabled}) => {
     return (
         <div className={classNames(
             "Card",
             className,
+            CardHighlightColorClassMap[highlightColor],
             CardColorClassMap[color],
             {
                 "Card--Clickable": clickable,
                 "Card--Selectable": selectable,
                 "Card--Selected": selected,
+                "Card--Disabled": disabled,
             },
         )} onClick={onClick}>
             {children}
@@ -29,6 +35,8 @@ Card.propTypes = {
     clickable: PropTypes.bool,
     selectable: PropTypes.bool,
     selected: PropTypes.bool,
+    disabled: PropTypes.bool,
+    highlightColor: PropTypes.oneOf(['secondary']),
     color: PropTypes.oneOf(['light']),
 };
 
