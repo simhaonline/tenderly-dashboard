@@ -13,7 +13,7 @@ import {
     isPublicContractLoaded, isPublicContractWatched
 } from "../../Common/Selectors/PublicContractSelectors";
 
-import {EtherscanLinkTypes, FeatureFlagTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container, PageHeading, Button, Icon, ButtonGroup, PanelContent, Panel} from "../../Elements";
 import {
@@ -22,8 +22,7 @@ import {
     NetworkTag,
     TransactionsList, EtherscanLink, SharePageButton, ContractFileSource,
     PublicContractQuickActions,
-    LoginRequiredModal,
-    FeatureFlag
+    LoginRequiredModal
 } from "../../Components";
 
 class PublicContractPage extends Component {
