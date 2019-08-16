@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 
+import Analytics from "../../Utils/Analytics";
+
+import {FeatureFlagTypes} from "../../Common/constants";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
@@ -15,7 +18,6 @@ import {
     ProjectAlertRules,
     ProjectSetupEmptyState
 } from "../../Components";
-import {FeatureFlagTypes} from "../../Common/constants";
 
 const RULES_TAB = 'rules';
 const HISTORY_TAB = 'history';
@@ -73,7 +75,7 @@ class ProjectAlertsPage extends Component {
                     <PageHeading>
                         <h1>Alerting</h1>
                         <div className="MarginLeftAuto">
-                            {areRulesLoaded && !!rules.length && <Button to={`/project/${project.id}/alerts/rules/create`}>
+                            {areRulesLoaded && !!rules.length && <Button onClick={() => Analytics.trackEvent('create_alert_button_clicked')} to={`/project/${project.id}/alerts/rules/create`}>
                                 <span>New Alert</span>
                             </Button>}
                         </div>

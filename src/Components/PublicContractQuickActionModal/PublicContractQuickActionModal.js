@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Redirect} from "react-router-dom";
 
+import Analytics from "../../Utils/Analytics";
+
 import * as projectActions from "../../Core/Project/Project.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
@@ -85,6 +87,10 @@ class PublicContractQuickActionModal extends Component {
         if (type === 'setup_alerting') {
             urlSuffix = '/alerts/rules/create';
         }
+
+        Analytics.trackEvent(`public_contract_quick_action`, {
+            action_type: type,
+        });
 
         this.setState({
             actionInProgress: false,

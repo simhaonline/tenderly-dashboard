@@ -8,6 +8,7 @@ import Blockies from "react-blockies";
 
 import Intercom from "../../Utils/Intercom";
 import {isValidAddress} from "../../Utils/Ethereum";
+import Analytics from "../../Utils/Analytics";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
@@ -228,6 +229,10 @@ class CreateAlertRuleForm extends Component {
                 break;
         }
 
+        Analytics.trackEvent('simple_alert_form_select_alert_type', {
+            type: expressionData.type,
+        });
+
         if (alertTarget || type === 'method_call') {
             nextStep = parametersNeeded ? 3 : 4;
         }
@@ -309,6 +314,10 @@ class CreateAlertRuleForm extends Component {
 
             this.closeContractModal();
         }
+
+        Analytics.trackEvent('simple_alert_form_select_alert_target', {
+            type: target,
+        });
 
         this.setState({
             alertTarget: target,
@@ -465,6 +474,10 @@ class CreateAlertRuleForm extends Component {
                 ...alertDestinations,
                 destination.id
             ];
+
+            Analytics.trackEvent('simple_alert_form_select_alert_destination', {
+                type: destination.type,
+            });
         }
 
         this.setState({

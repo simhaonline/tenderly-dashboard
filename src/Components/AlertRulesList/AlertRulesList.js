@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import _ from "lodash";
 
 import Intercom from "../../Utils/Intercom";
+import Analytics from "../../Utils/Analytics";
 
 import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 
@@ -129,7 +130,7 @@ class AlertRulesList extends Component {
                                     <span>Browse Templates</span>
                                 </Button>
                             </FeatureFlag>
-                            {!isDemoProject && <Button color="secondary" width={160} to={`/project/${projectId}/alerts/rules/create`}>
+                            {!isDemoProject && <Button color="secondary" width={160} to={`/project/${projectId}/alerts/rules/create`} onClick={() => Analytics.trackEvent('create_alert_button_clicked')}>
                                 <span>Setup an Alert</span>
                             </Button>}
                             {isDemoProject && <Fragment>
