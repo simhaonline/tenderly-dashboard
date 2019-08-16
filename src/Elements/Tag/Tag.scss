@@ -54,3 +54,8 @@
   border-color: $Danger500;
   background-color: $Danger500;
 }
+
+.Tag--Warning {
+  border-color: darken($YellowColor600, 18);
+  background-color: darken($YellowColor600, 18);
+}
