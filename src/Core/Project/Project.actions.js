@@ -277,6 +277,7 @@ export const addVerifiedContractToProject = (projectId, networkType, address, pr
             dispatch({
                 type: ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION,
                 projectId,
+                network: networkType,
                 address,
             });
 
