@@ -19,9 +19,10 @@ class PublicContractQuickActions extends Component {
         }
     }
 
-    openLoginModal = () => {
+    openLoginModal = (actionType) => {
         this.setState({
             loginModalOpen: true,
+            actionType
         });
     };
 
@@ -48,11 +49,19 @@ class PublicContractQuickActions extends Component {
         const {loggedIn} = this.props;
 
         if (!loggedIn) {
-            this.openLoginModal();
+            this.openLoginModal(actionType);
             return;
         }
 
         this.openActionModal(actionType);
+    };
+
+    handleOnLogin = () => {
+        const {actionType} = this.state;
+
+        if (actionType) {
+            this.openActionModal(actionType);
+        }
     };
 
     render() {
@@ -83,7 +92,7 @@ class PublicContractQuickActions extends Component {
                         </Card>
                     </FeatureFlag>
                 </div>
-                <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal}/>
+                <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal} onLogin={this.handleOnLogin}/>
                 <PublicContractQuickActionModal contract={contract} open={actionModalOpen} type={actionType} onClose={this.closeActionModal}/>
             </Fragment>
         );
