@@ -216,10 +216,8 @@ class PublicContractPage extends Component {
                         </div>
                     </PageHeading>
                     <ContractInformation contract={contract} back/>
-                    <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                        <h2 className="MarginBottom2 MarginLeft2">Quick Actions</h2>
-                        <PublicContractQuickActions contract={contract}/>
-                    </FeatureFlag>
+                    <h2 className="MarginBottom2 MarginLeft2">Quick Actions</h2>
+                    <PublicContractQuickActions contract={contract}/>
                     <Switch>
                         <Route path="/contract/:network/:id" exact render={() => (
                             <Fragment>

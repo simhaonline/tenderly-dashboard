@@ -68,20 +68,20 @@ class PublicContractQuickActions extends Component {
                         </div>
                         <span>Add to Project</span>
                     </Card>
+                    <Card selectable onClick={() => this.handleActionClick('setup_alerting')} className="PublicContractQuickActions__Action">
+                        <div className="PublicContractQuickActions__Action__Icon">
+                            <Icon icon="alerting"/>
+                        </div>
+                        <span>Setup Alerts</span>
+                    </Card>
                     <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                        <Card selectable onClick={() => this.handleActionClick('setup_alerting')} className="PublicContractQuickActions__Action">
+                        <Card selectable onClick={() => this.handleActionClick ('filter_transactions')} className="PublicContractQuickActions__Action">
                             <div className="PublicContractQuickActions__Action__Icon">
-                                <Icon icon="alerting"/>
+                                <Icon icon="filter"/>
                             </div>
-                            <span>Setup Alerts</span>
+                            <span>Filter Transactions</span>
                         </Card>
                     </FeatureFlag>
-                    <Card selectable onClick={() => this.handleActionClick ('filter_transactions')} className="PublicContractQuickActions__Action">
-                        <div className="PublicContractQuickActions__Action__Icon">
-                            <Icon icon="filter"/>
-                        </div>
-                        <span>Filter Transactions</span>
-                    </Card>
                 </div>
                 <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal}/>
                 <PublicContractQuickActionModal contract={contract} open={actionModalOpen} type={actionType} onClose={this.closeActionModal}/>
