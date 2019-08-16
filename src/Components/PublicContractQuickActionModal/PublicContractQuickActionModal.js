@@ -5,6 +5,8 @@ import {bindActionCreators} from "redux";
 import {Redirect} from "react-router-dom";
 
 import * as projectActions from "../../Core/Project/Project.actions";
+import * as contractActions from "../../Core/Contract/Contract.actions";
+
 import {Contract} from "../../Core/models";
 
 import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
@@ -67,16 +69,31 @@ class PublicContractQuickActionModal extends Component {
     };
 
     handleProjectNameChange = (field, value) => {
-        console.log(field, value);
-
         this.setState({
             [field]: value,
         });
     };
 
+    /**
+     * @param {string} projectId
+     */
+    goToProjectBasedOnAction = (projectId) => {
+        const {type} = this.props;
+
+        let urlSuffix = '';
+
+        if (type === 'setup_alerting') {
+            urlSuffix = '/alerts/rules/create';
+        }
+
+        this.setState({
+            redirectTo: `/project/${projectId}${urlSuffix}`,
+        });
+    };
+
     createProjectAndAddToProject = async () => {
         const {projectName} = this.state;
-        const {actions, contract} = this.props;
+        const {actions, contractActions, contract} = this.props;
 
         this.setState({
             creatingProject: true,
@@ -111,15 +128,14 @@ class PublicContractQuickActionModal extends Component {
         }
 
         await actions.fetchProject(project.id);
+        await contractActions.fetchContractsForProject(project.id);
 
-        this.setState({
-            redirectTo: `/project/${project.slug}`,
-        });
+        this.goToProjectBasedOnAction(project.slug);
     };
 
     addToProject = async () => {
         const {selectedProject} = this.state;
-        const {actions, contract} = this.props;
+        const {actions, contractActions, contract} = this.props;
 
         const addResponse = await actions.addVerifiedContractToProject(
             selectedProject,
@@ -137,10 +153,9 @@ class PublicContractQuickActionModal extends Component {
         }
 
         await actions.fetchProject(selectedProject);
+        await contractActions.fetchContractsForProject(selectedProject);
 
-        this.setState({
-            redirectTo: `/project/${selectedProject}`,
-        });
+        this.goToProjectBasedOnAction(selectedProject);
     };
 
     render() {
@@ -230,6 +245,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(projectActions, dispatch),
+        contractActions: bindActionCreators(contractActions, dispatch),
     }
 };
 
