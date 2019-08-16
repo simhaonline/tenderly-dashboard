@@ -13,7 +13,7 @@ import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
 
 import {formatProjectSlug} from "../../Utils/Formatters";
 
-import {Dialog, DialogBody, DialogHeader, Input, Form, Button, Select} from "../../Elements";
+import {Dialog, DialogBody, DialogHeader, Input, Form, Button, Select, Card} from "../../Elements";
 import {SimpleLoader} from "..";
 
 import './PublicContractQuickActionModal.scss';
@@ -87,6 +87,7 @@ class PublicContractQuickActionModal extends Component {
         }
 
         this.setState({
+            actionInProgress: false,
             redirectTo: `/project/${projectId}${urlSuffix}`,
         });
     };
@@ -97,6 +98,7 @@ class PublicContractQuickActionModal extends Component {
 
         this.setState({
             creatingProject: true,
+            actionInProgress: true,
         });
 
         const response = await actions.createProject(projectName);
@@ -137,6 +139,10 @@ class PublicContractQuickActionModal extends Component {
         const {selectedProject} = this.state;
         const {actions, contractActions, contract} = this.props;
 
+        this.setState({
+            actionInProgress: true,
+        });
+
         const addResponse = await actions.addVerifiedContractToProject(
             selectedProject,
             contract.network,
@@ -160,14 +166,14 @@ class PublicContractQuickActionModal extends Component {
 
     render() {
         const {open, type, projectsLoaded, projects} = this.props;
-        const {step, createProject, selectedProject, projectName, redirectTo} = this.state;
+        const {step, createProject, selectedProject, projectName, redirectTo, actionInProgress} = this.state;
 
         if (redirectTo) {
             return <Redirect to={redirectTo}/>
         }
 
         return (
-            <Dialog open={open} onClose={this.handleModalClose}>
+            <Dialog open={open} onClose={this.handleModalClose} className="PublicContractQuickActionModal">
                 <DialogHeader>
                     <h3>
                         {type === 'add_to_project' && <span>Add to Project</span>}
@@ -176,13 +182,17 @@ class PublicContractQuickActionModal extends Component {
                         <span> | Quick Action</span>
                     </h3>
                 </DialogHeader>
-                <DialogBody>
+                <DialogBody className="PublicContractQuickActionModal__Body">
+                    {actionInProgress && <div className="PublicContractQuickActionModal__LoaderWrapper">
+                        <SimpleLoader/>
+                    </div>}
                     {step === 'add_to_project' && <div>
-                        {!projectsLoaded && <div>
+                        {!projectsLoaded && <div className="DisplayFlex Padding4 JustifyContentCenter">
                             <SimpleLoader/>
                         </div>}
                         {projectsLoaded && <div>
                             {!!projects.length && !createProject && <div>
+                                <h4 className="MarginBottom1">Select project</h4>
                                 <Select value={selectedProject} selectLabel="Select project" onChange={this.handleProjectSelect} options={[
                                     ...projects.map(project => ({
                                         value: project.slug,
@@ -195,7 +205,7 @@ class PublicContractQuickActionModal extends Component {
                                         label: "Create New Project",
                                     }
                                 ]}/>
-                                <div>
+                                <div className="MarginTop4">
                                     <Button onClick={this.addToProject}>
                                         <span>Add to Project</span>
                                     </Button>
@@ -205,18 +215,21 @@ class PublicContractQuickActionModal extends Component {
                                 </div>
                             </div>}
                             {(!projects.length || createProject) && <Form onSubmit={this.createProjectAndAddToProject}>
+                                <h4 className="MarginBottom1">Create new project</h4>
                                 <Input icon="project" label="Project Name" field="projectName" value={projectName} onChange={this.handleProjectNameChange} autoComplete="off" autoFocus/>
-                                <div className="SlugPreviewWrapper">
-                                    <div className="UrlLabel">Project URL Preview</div>
-                                    <div className="UrlPreview">https://dashboard.tenderly.dev/project/<span className="ProjectSlug">{formatProjectSlug(projectName)}</span></div>
-                                    <div className="UrlNote">* Slugs can not be changed later</div>
+                                <Card color="light">
+                                    <h4 className="MarginBottom1">Project URL Preview</h4>
+                                    <div className="LinkText MarginBottom1">https://dashboard.tenderly.dev/project/<span className="SemiBoldText">{formatProjectSlug(projectName)}</span></div>
+                                    <div className="MutedText">* Slugs can not be changed later</div>
+                                </Card>
+                                <div className="MarginTop4">
+                                    <Button type="submit" disabled={!projectName}>
+                                        <span>Create Project</span>
+                                    </Button>
+                                    <Button onClick={this.handleModalClose} outline>
+                                        <span>Cancel</span>
+                                    </Button>
                                 </div>
-                                <Button type="submit" disabled={!projectName}>
-                                    <span>Create Project</span>
-                                </Button>
-                                <Button onClick={this.handleModalClose} outline>
-                                    <span>Cancel</span>
-                                </Button>
                             </Form>}
                         </div>}
                     </div>}
