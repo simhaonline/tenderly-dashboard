@@ -93,6 +93,8 @@
     padding: $Spacing5 $Spacing5;
     display: flex;
     align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 
     h1, h2, h3, h4, h5 {
       font-weight: 600;
@@ -111,5 +113,7 @@
 
   .DialogBody {
     padding: $Spacing6 $Spacing6;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 }
