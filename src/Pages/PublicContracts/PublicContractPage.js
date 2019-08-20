@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 import {Redirect, Route, Switch} from "react-router-dom";
 
+import Analytics from '../../Utils/Analytics';
+
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 
@@ -51,6 +53,8 @@ class PublicContractPage extends Component {
         if (!watchedContractsLoaded) {
             actions.fetchWatchedContracts();
         }
+
+        Analytics.page('Loaded Public Contract Page');
 
         this.setState({
             loading: false,

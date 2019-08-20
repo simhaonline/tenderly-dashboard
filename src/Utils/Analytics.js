@@ -24,6 +24,12 @@ class Analytics {
         }
     }
 
+    static page(name) {
+        if (process.env.NODE_ENV !== 'development' && _analytics) {
+            _analytics.page(name);
+        }
+    }
+
 }
 
 export default Analytics;

@@ -3,6 +3,8 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
+import Analytics from "../../Utils/Analytics";
+
 import {
     getTransaction,
     getTransactionCallTrace,
@@ -53,6 +55,8 @@ class PublicContractTransactionPage extends Component {
         if (tx && !contractsLoaded) {
             await contractActions.fetchPublicContractsForTransaction(tx);
         }
+
+        Analytics.page('Loaded Public Transaction Page');
 
         this.setState({
             loaded: true,

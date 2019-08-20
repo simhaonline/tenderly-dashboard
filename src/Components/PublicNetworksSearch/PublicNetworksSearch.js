@@ -4,6 +4,8 @@ import {bindActionCreators} from "redux";
 import Blockies from "react-blockies";
 import {withRouter} from "react-router-dom";
 
+import Analytics from "../../Utils/Analytics";
+
 import {NetworkAppToRouteTypeMap, NetworkTypes} from "../../Common/constants";
 import {isValidAddress, isValidTransactionHash} from "../../Utils/Ethereum";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
@@ -118,6 +120,8 @@ class PublicNetworksSearch extends Component {
             loading: true,
             result: null,
         });
+
+        Analytics.trackEvent('explore_page_search');
 
         if (valueType === 'contract') {
             result.values = await this.fetchPossibleContract(value);

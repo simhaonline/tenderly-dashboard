@@ -3,6 +3,8 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import { Helmet } from "react-helmet";
 
+import Analytics from "../../Utils/Analytics";
+
 import {NetworkLabelMap, NetworkRouteToAppTypeMap, NetworkTypes} from "../../Common/constants";
 import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicContractSelectors";
 
@@ -30,6 +32,8 @@ class PublicContractsPage extends Component {
         this.getNetworkPublicContracts();
 
         const mostWatchedResponse = await actions.fetchMostWatchedContracts();
+
+        Analytics.page('Loaded Explore Page');
 
         this.setState({
             mostWatchedContracts: mostWatchedResponse.data,
