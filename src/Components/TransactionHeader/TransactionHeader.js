@@ -20,10 +20,12 @@ const TransactionHeader = ({transaction, contracts}) => {
     if (contract) {
         const networkRoute  = NetworkAppToRouteTypeMap[contract.network];
 
+        console.log(contract);
+
         if (contract.isPublic) {
-            contractLink = `/contract/${networkRoute}/${contract.id}`;
+            contractLink = `/contract/${networkRoute}/${contract.address}`;
         } else if (!isInternal) {
-            contractLink = `/project/${contract.projectId}/contract/${networkRoute}/${contract.id}`;
+            contractLink = `/project/${contract.projectId}/contract/${networkRoute}/${contract.address}`;
         }
     }
 

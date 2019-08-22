@@ -146,6 +146,7 @@ export const toggleContractListening = (projectId, contractAddress, network) => 
                 type: TOGGLE_CONTRACT_LISTENING_ACTION,
                 projectId,
                 contract: contractAddress,
+                contractId: Contract.generateUniqueContractId(contractAddress, network),
                 network,
             });
 

@@ -1,11 +1,14 @@
+import {EntityStatusTypes} from "../constants";
+import Contract from "../../Core/Contract/Contract.model";
+
 /**
  * @param {Object} state
- * @param {string} contractId
+ * @param {string} address
+ * @param {NetworkTypes} network
  * @return {Contract|null}
  */
-import {EntityStatusTypes} from "../constants";
-
-export function getContractById(state, contractId) {
+export function getContractByAddressAndNetwork(state, address, network) {
+    const contractId = Contract.generateUniqueContractId(address, network);
     const contract = state.contract.contracts[contractId];
 
     if (!contract) {
@@ -17,10 +20,13 @@ export function getContractById(state, contractId) {
 
 /**
  * @param {object} state
- * @param {string} contractId
+ * @param {string} address
+ * @param {NetworkTypes} network
  * @return {string}
  */
-export function getContractStatus(state, contractId) {
+export function getContractStatus(state, address, network) {
+    const contractId = Contract.generateUniqueContractId(address, network);
+
     let contractStatus = state.contract.contractStatus[contractId];
 
     if (!contractStatus) {

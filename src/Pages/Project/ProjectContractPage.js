@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
-import {getContractById, getContractStatus} from "../../Common/Selectors/ContractSelectors";
+import {getContractByAddressAndNetwork, getContractStatus} from "../../Common/Selectors/ContractSelectors";
 import {EntityStatusTypes, EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
 
 import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
@@ -113,8 +113,8 @@ const mapStateToProps = (state, ownProps) => {
         networkType,
         contractId,
         projectId: id,
-        contract: getContractById(state, contractId),
-        contractStatus: getContractStatus(state, contractId),
+        contract: getContractByAddressAndNetwork(state, contractId, networkType),
+        contractStatus: getContractStatus(state, contractId, networkType),
     }
 };
 

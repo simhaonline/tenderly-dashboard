@@ -150,7 +150,7 @@ class Contract {
 
     /**
      * @param {string} address
-     * @param {string} network
+     * @param {NetworkTypes} network
      * @return {string}
      */
     static generateUniqueContractId(address, network) {
