@@ -22,7 +22,7 @@ const projectContractsTableConfiguration = [
         renderColumn: contract => <ContractAddressColumn address={contract.address}/>,
     },
     {
-        label: "Deployed",
+        label: "Added",
         renderColumn: contract => <ContractDeployedAtColumn contract={contract}/>,
     },
     {
