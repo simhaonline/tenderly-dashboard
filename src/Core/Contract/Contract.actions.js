@@ -97,7 +97,7 @@ export const fetchContractsForTransaction = (projectId, txHash, network) => {
 
             return new SuccessActionResponse(contracts);
         } catch (error) {
-            console.log(error);
+            console.error(error);
             return new ErrorActionResponse(error);
         }
 
