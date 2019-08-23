@@ -1,7 +1,16 @@
 import React, {Component, Fragment} from 'react';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {withRouter} from "react-router-dom";
+
+import * as notificationActions from "../../Core/Notification/Notification.actions";
+
+import {
+    areNotificationDestinationsLoaded, getNotificationDestinations
+} from "../../Common/Selectors/NotificationSelectors";
 
 import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider} from "../../Elements";
-import {AddIntegrationModal} from '../index';
+import {AddIntegrationModal, DestinationInformation, SimpleLoader} from '..';
 
 import './ProjectAlertIntegrations.scss';
 
@@ -24,6 +33,14 @@ class ProjectAlertIntegrations extends Component {
         }
     }
 
+    componentDidMount() {
+        const {actions, destinationsLoaded} = this.props;
+
+        if (!destinationsLoaded) {
+            actions.fetchNotificationDestinations();
+        }
+    }
+
     openIntegrationModal = (type) => {
         this.setState({
             openModal: true,
@@ -39,6 +56,7 @@ class ProjectAlertIntegrations extends Component {
 
     render() {
         const {openModal, type} = this.state;
+        const {destinationsLoaded, destinations} = this.props;
 
         return (
             <Fragment>
@@ -61,23 +79,18 @@ class ProjectAlertIntegrations extends Component {
                         <h4 className="MarginLeft2">Active Integrations</h4>
                         <PanelDivider/>
                         <div>
-                            <List>
-                                <ListItem className="ActiveIntegrationItem">
-                                    <div className="ActiveIntegrationItem__LabelColumn">Personal Mail</div>
-                                    <div className="ActiveIntegrationItem__TypeColumn">E-mail</div>
-                                    <div className="ActiveIntegrationItem__ValueColumn MutedText">miljan@tenderly.dev</div>
-                                </ListItem>
-                                <ListItem className="ActiveIntegrationItem">
-                                    <div className="ActiveIntegrationItem__LabelColumn">CryptoKitties Slack</div>
-                                    <div className="ActiveIntegrationItem__TypeColumn">Slack</div>
-                                    <div className="ActiveIntegrationItem__ValueColumn MutedText">https://slack.com/webhook/123a9s9dqwe-qw811231231z-ase2eqweqweé3</div>
-                                </ListItem>
-                                <ListItem className="ActiveIntegrationItem">
-                                    <div className="ActiveIntegrationItem__LabelColumn">API</div>
-                                    <div className="ActiveIntegrationItem__TypeColumn">Webhook</div>
-                                    <div className="ActiveIntegrationItem__ValueColumn MutedText">https://myapp.com/api/v1/webhook/123a9s9dqwe-qw811231231z-ase2eqweqweé3</div>
-                                </ListItem>
-                            </List>
+                            {!destinationsLoaded && <div className="Padding4 DisplayFlex JustifyContentCenter">
+                                <SimpleLoader/>
+                            </div>}
+                            {destinationsLoaded && <List>
+                                {destinations.map(destination => <ListItem className="ActiveIntegrationItem" key={destination.id}>
+                                    <div className="ActiveIntegrationItem__LabelColumn">{destination.label}</div>
+                                    <div className="ActiveIntegrationItem__TypeColumn">{destination.type}</div>
+                                    <div className="ActiveIntegrationItem__ValueColumn MutedText">
+                                        <DestinationInformation destination={destination}/>
+                                    </div>
+                                </ListItem>)}
+                            </List>}
                         </div>
                     </PanelContent>
                 </Panel>
@@ -86,4 +99,23 @@ class ProjectAlertIntegrations extends Component {
     }
 }
 
-export default ProjectAlertIntegrations;
+const mapStateToProps = (state, ownProps) => {
+    const {match: {params: {projectId}}} = ownProps;
+
+    return {
+        projectId,
+        destinations: getNotificationDestinations(state),
+        destinationsLoaded: areNotificationDestinationsLoaded(state),
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(notificationActions, dispatch),
+    };
+};
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(ProjectAlertIntegrations));

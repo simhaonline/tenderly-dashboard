@@ -21,7 +21,7 @@ import {
 
 const RULES_TAB = 'rules';
 const HISTORY_TAB = 'history';
-const INTEGRATIONS_TAB = 'integrations';
+const INTEGRATIONS_TAB = 'destinations';
 
 const PageSegmentsOptions = [
     {
@@ -90,7 +90,7 @@ class ProjectAlertsPage extends Component {
                             <Route path={`/project/${project.id}/alerts/history`} render={() => <PageSegmentContent>
                                 <ProjectAlertHistory projectId={project.id}/>
                             </PageSegmentContent>}/>
-                            <Route path={`/project/${project.id}/alerts/integrations`} render={() => <PageSegmentContent>
+                            <Route path={`/project/${project.id}/alerts/destinations`} render={() => <PageSegmentContent>
                                 <ProjectAlertIntegrations/>
                             </PageSegmentContent>}/>
                         </Switch>
