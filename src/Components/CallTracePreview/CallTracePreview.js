@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,6 +6,7 @@ import {Icon} from "../../Elements";
 
 import './CallTracePreview.scss';
 import CodePreview from "../CodePreview/CodePreview";
+import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 class TracePoint extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class TracePoint extends Component {
 
         const {contracts, trace} = props;
 
-        const traceContract = contracts.find(contract => contract.address === trace.contract);
+        const traceContract = contracts[trace.contract];
 
         const file = traceContract ? traceContract.getFileById(trace.fileId) : null;
 
@@ -34,11 +35,13 @@ class TracePoint extends Component {
     };
 
     render() {
-
         const {trace, depth, contracts, onDebuggerView, onSourceView, openTrace, onTraceOpen} = this.props;
         const {file} = this.state;
 
         const isOpen = openTrace === trace.depthId;
+
+        const fromContract = contracts[trace.from] ? contracts[trace.from].name : generateShortAddress(trace.from, 10, 6);
+        const toContract = contracts[trace.to] ? contracts[trace.to].name : generateShortAddress(trace.to, 10, 6);
 
         return (
             <div className="CallTracePreview__TracePoint">
@@ -57,9 +60,18 @@ class TracePoint extends Component {
                         <span className="MutedText"> in {file.name}:{trace.lineNumber}</span>
                     </div>}
                     {!file && <div>
-                        <span className="SemiBoldText">[{trace.op}]</span>
-                        <span className="MutedText"> from </span>
-                        <span className="SemiBoldText">{trace.contract}</span>
+                        {trace.depthId === '0' && <Fragment>
+                            <span className="SemiBoldText">[{trace.op}]</span>
+                            <span className="MutedText"> to </span>
+                            <span className="SemiBoldText">{trace.contract}</span>
+                        </Fragment>}
+                        {trace.depthId !== '0' && <Fragment>
+                            <span className="SemiBoldText">[{trace.op}]</span>
+                            <span className="MutedText"> from </span>
+                            <span className="SemiBoldText">{fromContract}</span>
+                            <span className="MutedText"> to </span>
+                            <span className="SemiBoldText">{toContract}</span>
+                        </Fragment>}
                     </div>}
                     <div className="CallTracePreview__TracePoint__Actions">
                         {!!file && <div className="CallTracePreview__TracePoint__Action" onClick={() => onSourceView(trace)}>
@@ -121,9 +133,15 @@ class CallTracePreview extends Component {
         const {callTrace, contracts} = this.props;
         const {currentHovered, openedTrace} = this.state;
 
+        const mappedContracts = contracts.reduce((map, contract) => {
+            map[contract.address] = contract;
+
+            return map;
+        }, {});
+
         return (
             <div className="CallTracePreview">
-                <TracePoint trace={callTrace.trace} onDebuggerView={this.goToDebugger} openTrace={openedTrace} onSourceView={this.goToSource} depth={0} open={false} focused={currentHovered} onFocusChange={this.setCurrentTrace} contracts={contracts} onTraceOpen={this.handleOpenTraceSource}/>
+                <TracePoint trace={callTrace.trace} onDebuggerView={this.goToDebugger} openTrace={openedTrace} onSourceView={this.goToSource} depth={0} open={false} focused={currentHovered} onFocusChange={this.setCurrentTrace} contracts={mappedContracts} onTraceOpen={this.handleOpenTraceSource}/>
             </div>
         );
     }

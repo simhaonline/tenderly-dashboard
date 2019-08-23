@@ -19,6 +19,12 @@ export class Trace {
         this.gasUsed = data.gasUsed;
 
         /** @type string */
+        this.from = data.from;
+
+        /** @type string */
+        this.to = data.to;
+
+        /** @type string */
         this.contract = data.contract;
 
         /** @type string */
@@ -95,6 +101,8 @@ export class Trace {
          */
         return new Trace({
             functionName: rawCallTrace.function_name,
+            from: rawCallTrace.from,
+            to: rawCallTrace.to,
             contract: depthId !== '0' ? rawCallTrace.from : rawCallTrace.to,
             op: depthId !== '0' ? rawCallTrace.caller_op : rawCallTrace.function_op,
             fileName: rawCallTrace.contract_name,
