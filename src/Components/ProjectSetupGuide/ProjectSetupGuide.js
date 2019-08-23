@@ -10,7 +10,18 @@ import * as eventActions from "../../Core/Event/Event.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {Dialog, DialogHeader, DialogBody, Button, LinkButton, Code, Icon, Input, Card} from "../../Elements";
+import {
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    Button,
+    LinkButton,
+    Code,
+    Icon,
+    Input,
+    Card,
+    CardsWrapper
+} from "../../Elements";
 import {SimpleLoader, NetworkSegmentedPicker} from '..';
 
 import './ProjectSetupGuide.scss';
@@ -338,22 +349,22 @@ class ProjectSetupGuide extends Component {
                                 }
                             )}>
                                 <div className="StepContent">
-                                    <div className="ProjectSetupPickerWrapper">
-                                        <Card className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.MANUAL)}>
+                                    <CardsWrapper horizontal className="ProjectSetupPickerWrapper">
+                                        <Card selectable className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.MANUAL)}>
                                             <div className="IconWrapper">
                                                 <Icon icon="file-text"/>
                                             </div>
                                             <div className="SetupTypeName">Verified Contract</div>
                                             <div className="SetupTypeDescription">If your contract is publicly verified on Etherscan, you can enter the contract address and start monitoring it in the dashboard.</div>
                                         </Card>
-                                        <Card className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>
+                                        <Card selectable className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>
                                             <div className="IconWrapper">
                                                 <Icon icon="terminal"/>
                                             </div>
                                             <div className="SetupTypeName">CLI</div>
                                             <div className="SetupTypeDescription">Upload your Smart Contract using our CLI tool that reads your Truffle build to setup monitoring for your deployed contracts.</div>
                                         </Card>
-                                    </div>
+                                    </CardsWrapper>
                                 </div>
                                 <div className="StepActions">
                                     <Button onClick={this.handleDialogClose} outline color="secondary">

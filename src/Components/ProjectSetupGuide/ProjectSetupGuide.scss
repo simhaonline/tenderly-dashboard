@@ -1,5 +1,4 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
+@import "../../Common/common";
 
 @keyframes pulse {
   0% {
@@ -114,16 +113,13 @@
   }
 
   .ProjectSetupPickerWrapper {
-    display: flex;
-    padding: 5px;
+    padding: $Spacing1;
 
     .ProjectSetupItem {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: 0.2s;
       min-height: 250px;
 
       &:not(:last-child) {
