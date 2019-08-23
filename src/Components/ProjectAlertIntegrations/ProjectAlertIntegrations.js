@@ -1,16 +1,16 @@
 import React, {Component, Fragment} from 'react';
 
-import {Panel, PanelContent, PanelHeader, Icon, Alert, List, ListItem, PanelDivider} from "../../Elements";
+import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider} from "../../Elements";
 import {AddIntegrationModal} from '../index';
 
 import './ProjectAlertIntegrations.scss';
 
 const IntegrationOption = ({label, icon, onClick = () => {}}) => {
     return (
-        <div className="IntegrationsList__Option" onClick={onClick}>
+        <Card selectable color="light" className="IntegrationsList__Option" onClick={onClick}>
             <Icon icon={icon} className="IntegrationsList__Option__Icon"/>
             <div className="IntegrationsList__Option__Label">{label}</div>
-        </div>
+        </Card>
     );
 };
 
@@ -52,11 +52,11 @@ class ProjectAlertIntegrations extends Component {
                         </Alert>
                         <h4 className="MarginLeft2">Add Integration</h4>
                         <PanelDivider/>
-                        <div className="IntegrationsList MarginBottom4">
+                        <CardsWrapper horizontal className="MarginBottom4">
                             <IntegrationOption icon="mail" onClick={() => this.openIntegrationModal('email')} label="E-mail" active/>
                             <IntegrationOption icon="slack" onClick={() => this.openIntegrationModal('slack')} label="Slack"/>
                             <IntegrationOption icon="code" onClick={() => this.openIntegrationModal('webhook')} label="Webhook"/>
-                        </div>
+                        </CardsWrapper>
                         <AddIntegrationModal open={openModal} onClose={this.closeIntegrationModal} type={type}/>
                         <h4 className="MarginLeft2">Active Integrations</h4>
                         <PanelDivider/>
