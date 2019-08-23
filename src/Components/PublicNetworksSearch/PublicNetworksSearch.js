@@ -13,14 +13,14 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {Icon, Card} from "../../Elements";
+import {Icon, Card, CardsWrapper} from "../../Elements";
 import {SimpleLoader, NetworkTag} from "../index";
 
 import './PublicNetworksSearch.scss';
 
 const ResultThumbnail = ({value, name, network, onClick = () => {}}) => {
     return (
-        <Card onClick={onClick}>
+        <Card onClick={onClick} clickable>
             <div className="DisplayFlex AlignItemsCenter MarginBottom2">
                 <Blockies
                     seed={value}
@@ -162,14 +162,18 @@ class PublicNetworksSearch extends Component {
                     </div>
                 </div>}
                 {!!result && !loading && <div className="PublicNetworksSearch__ResultsWrapper">
-                    {result.type === 'contract' && !!result.values.length && result.values.map(contract =>
-                        <ResultThumbnail key={contract.network} value={contract.address} name={contract.name}
-                                         network={contract.network} onClick={() => this.goTo(result.type, contract.network, contract.address)}/>
-                    )}
-                    {result.type === 'tx'&& !!result.values.length && result.values.map(tx =>
-                        <ResultThumbnail key={tx.network} value={tx.txHash} name="Transaction" network={tx.network}
-                                         onClick={() => this.goTo(result.type, tx.network, tx.txHash)}/>
-                    )}
+                    {result.type === 'contract' && !!result.values.length && <CardsWrapper horizontal>
+                        {result.values.map(contract =>
+                            <ResultThumbnail key={contract.network} value={contract.address} name={contract.name}
+                                             network={contract.network} onClick={() => this.goTo(result.type, contract.network, contract.address)}/>
+                        )}
+                    </CardsWrapper>}
+                    {result.type === 'tx'&& !!result.values.length && <CardsWrapper horizontal>
+                        {result.values.map(tx =>
+                            <ResultThumbnail key={tx.network} value={tx.txHash} name="Transaction" network={tx.network}
+                                             onClick={() => this.goTo(result.type, tx.network, tx.txHash)}/>
+                        )}
+                    </CardsWrapper>}
                     {result.type !== 'unknown' && !result.values.length && <div className="PublicNetworksSearch__EmptyState">
                         <h5 className="PublicNetworksSearch__EmptyState__Heading">No Results Founds</h5>
                         <p className="PublicNetworksSearch__EmptyState__Description">Seems that we haven't parsed this contract or transaction yet. Make sure that the contract or transaction is coming from a publicly verified contract on Etherscan.</p>
