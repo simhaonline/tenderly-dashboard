@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import {Dialog, DialogBody, DialogHeader, Form, Button, Input} from "../../Elements";
+import {SlackConnectButton} from "..";
 
 class AddIntegrationModal extends Component {
     handleFormSubmit = () => {
@@ -19,15 +20,17 @@ class AddIntegrationModal extends Component {
                     <h3>Add Integration</h3>
                 </DialogHeader>
                 <DialogBody>
-                    <Form onSubmit={this.handleFormSubmit}>
+                    {type === 'slack' && <div>
+                        <SlackConnectButton redirectBack/>
+                    </div>}
+                    {type !== 'slack' && <Form onSubmit={this.handleFormSubmit}>
                         <Input label="Label" field="label"/>
                         {type === 'email' && <Input label="E-mail" field="email"/>}
-                        {type === 'slack' && <Input label="Slack Webhook URL" field="slackWebhookUrl"/>}
                         {type === 'webhook' && <Input label="Webhook URL" field="webhookUrl"/>}
                         <Button type="submit">
                             <span>Add integration</span>
                         </Button>
-                    </Form>
+                    </Form>}
                 </DialogBody>
             </Dialog>
         );

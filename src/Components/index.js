@@ -12,8 +12,12 @@ export {default as FeatureFlagControls} from './FeatureFlagControls/FeatureFlagC
 export {default as OnboardingWelcomeStep} from './Onboarding/OnboardingWelcomeStep';
 export {default as OnboardingCreateProjectStep} from './Onboarding/OnboardingCreateProjectStep';
 export {default as OnboardingCreateOrganizationStep} from './Onboarding/OnboardingCreateOrganizationStep';
+
+// Third-party services
 export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButton';
 export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButton';
+export {default as SlackConnectButton} from './SlackConnectButton/SlackConnectButton';
+
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';
 export {default as DashboardProjectsList} from './DashboardProjectsList/DashboardProjectsList';
