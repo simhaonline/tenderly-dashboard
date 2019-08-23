@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {Contract} from "../../Core/models";
+
 import {Panel, PanelContent, Button} from "../../Elements";
 import {PublicContractThumbnail, EmptyState, SimpleLoader} from "../index";
 
@@ -26,7 +28,7 @@ const WatchedContractsList = ({contracts, loaded}) => {
 
     return (
         <div className="DisplayFlex FlexWrap">
-            {contracts.map(contract => <PublicContractThumbnail key={`${contract.network}:${contract.address}`} contract={contract}/>)}
+            {contracts.map(contract => <PublicContractThumbnail key={Contract.generateUniqueContractId(contract.address, contract.network)} contract={contract}/>)}
         </div>
     )
 };

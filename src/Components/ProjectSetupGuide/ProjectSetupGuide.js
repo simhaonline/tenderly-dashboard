@@ -393,7 +393,7 @@ class ProjectSetupGuide extends Component {
                                             </div>}
                                             {!!fetchedPublicContract && <Card className="DisplayFlex AlignItemsCenter">
                                                 <Blockies
-                                                    seed={fetchedPublicContract.address}
+                                                    seed={fetchedPublicContract.getUniqueId()}
                                                     size={8}
                                                     scale={5}
                                                     className="PublicContractThumbnail__Blockie"

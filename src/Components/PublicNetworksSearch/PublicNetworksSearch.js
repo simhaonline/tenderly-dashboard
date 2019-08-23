@@ -18,12 +18,12 @@ import {SimpleLoader, NetworkTag} from "../index";
 
 import './PublicNetworksSearch.scss';
 
-const ResultThumbnail = ({value, name, network, onClick = () => {}}) => {
+const ResultThumbnail = ({id, value, name, network, onClick = () => {}}) => {
     return (
         <Card onClick={onClick} clickable>
             <div className="DisplayFlex AlignItemsCenter MarginBottom2">
                 <Blockies
-                    seed={value}
+                    seed={id}
                     size={8}
                     scale={5}
                     className="PublicContractThumbnail__Blockie"
@@ -164,13 +164,13 @@ class PublicNetworksSearch extends Component {
                 {!!result && !loading && <div className="PublicNetworksSearch__ResultsWrapper">
                     {result.type === 'contract' && !!result.values.length && <CardsWrapper horizontal>
                         {result.values.map(contract =>
-                            <ResultThumbnail key={contract.network} value={contract.address} name={contract.name}
+                            <ResultThumbnail key={contract.network} id={contract.getUniqueId()} value={contract.address} name={contract.name}
                                              network={contract.network} onClick={() => this.goTo(result.type, contract.network, contract.address)}/>
                         )}
                     </CardsWrapper>}
                     {result.type === 'tx'&& !!result.values.length && <CardsWrapper horizontal>
                         {result.values.map(tx =>
-                            <ResultThumbnail key={tx.network} value={tx.txHash} name="Transaction" network={tx.network}
+                            <ResultThumbnail key={tx.network} id={`${tx.network}:${tx.txHash}`} value={tx.txHash} name="Transaction" network={tx.network}
                                              onClick={() => this.goTo(result.type, tx.network, tx.txHash)}/>
                         )}
                     </CardsWrapper>}

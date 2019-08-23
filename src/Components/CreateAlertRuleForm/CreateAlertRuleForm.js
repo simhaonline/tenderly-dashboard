@@ -692,7 +692,7 @@ class CreateAlertRuleForm extends Component {
                             <List className="ContractPickerList">
                                 {contracts.map(contract => <ListItem key={contract.getUniqueId()} onClick={() => this.selectAlertTarget('contract', contract)} className="ContractPickerList__Item" selectable>
                                     <Blockies
-                                        seed={contract.address}
+                                        seed={contract.getUniqueId()}
                                         size={8}
                                         scale={4.5}
                                         className="ContractPickerList__Item__Blockie"

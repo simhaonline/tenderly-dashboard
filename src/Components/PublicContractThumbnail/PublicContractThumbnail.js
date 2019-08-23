@@ -1,6 +1,8 @@
 import React, {Fragment} from 'react';
 import Blockies from "react-blockies";
 
+import {Contract} from "../../Core/models";
+
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
@@ -11,12 +13,13 @@ import './PublicContractThumbnail.scss';
 
 const PublicContractThumbnail = ({contract, displayWatchCount}) => {
     const networkId = NetworkAppToRouteTypeMap[contract.network];
+
     return (
         <PageLink to={`/contract/${networkId}/${contract.address.toLowerCase()}`} className="PublicContractThumbnail">
             <Card className="PublicContractThumbnail__Card" clickable>
                 <div className="DisplayFlex AlignItemsCenter MarginBottom2">
                     <Blockies
-                        seed={contract.address}
+                        seed={Contract.generateUniqueContractId(contract.address, contract.network)}
                         size={8}
                         scale={5}
                         className="PublicContractThumbnail__Blockie"
