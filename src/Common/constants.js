@@ -87,11 +87,27 @@ export const ProjectTypes = {
     DEMO: 'DEMO'
 };
 
-export const AnalyticsResolutionTypes = {
-    HOUR: 'HOUR',
-    DAY: 'DAY',
-    WEEK: 'WEEK',
-    MONTH: 'MONTH',
+export const AnalyticsWidgetTypes = {
+    LINE_CHART: 'LINE_CHART',
+    STACKED_CHART: 'STACKED_CHART',
+    BAR_CHART: 'BAR_CHART',
+    PIE_CHART: 'LINE_CHART',
+    METRIC: 'METRIC',
+};
+
+export const AnalyticsWidgetSizeTypes = {
+    ONE: 1,
+    TWO: 2,
+    THREE: 3,
+    FOUR: 4,
+};
+
+export const AnalyticsWidgetDataRangeTypes = {
+    LAST_7_DAYS: 'LAST_7_DAYS',
+    LAST_14_DAYS: 'LAST_14_DAYS',
+    LAST_30_DAYS: 'LAST_30_DAYS',
+    LAST_WEEK: 'LAST_WEEK',
+    LAST_MONTH: 'LAST_MONTH',
 };
 
 export const FeatureFlagTypes = {
@@ -103,12 +119,10 @@ export const FeatureFlagTypes = {
     DEBUGGER: 'debugger',
 };
 
-export const EventActionTypes = {
-    REFRESH: 'REFRESH',
-    NEXT_PAGE: 'NEXT_PAGE',
-    PREVIOUS_PAGE: 'PREVIOUS_PAGE',
-};
-
+/**
+ * @deprecated
+ * @type {{CONTRACTS: string, QUERY: string}}
+ */
 export const EventFilterTypes = {
     QUERY: 'QUERY',
     CONTRACTS: 'CONTRACTS',

@@ -24,9 +24,12 @@ export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigatio
 export {default as ProjectPicker} from './ProjectPicker/ProjectPicker';
 export {default as ProjectSidebar} from './ProjectSidebar/ProjectSidebar';
 export {default as ProjectContractList} from './ProjectContractList/ProjectContractList';
-export {default as ProjectUsageGraph} from './ProjectUsageGraph/ProjectUsageGraph';
-export {default as ProjectAnalyticsGraph} from './ProjectAnalyticsGraph/ProjectAnalyticsGraph';
 
+// Project Analytics
+export {default as ProjectAnalyticsDashboard} from './ProjectAnalyticsDashboard/ProjectAnalyticsDashboard';
+export {default as AnalyticsWidget} from './AnalyticsWidget/AnalyticsWidget';
+
+// Project Alerts
 export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRules';
 export {default as AlertRulesList} from './AlertRulesList/AlertRulesList';
 export {default as AlertRuleExpressionForm} from './AlertRuleExpressionForm/AlertRuleExpressionForm';
@@ -40,7 +43,6 @@ export {default as DestinationInformation} from './DestinationInformation/Destin
 
 export {default as AddIntegrationModal} from './AddIntegrationModal/AddIntegrationModal';
 
-export {default as ProjectTransactionAnalytics} from './ProjectTransactionAnalytics/ProjectTransactionAnalytics';
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
 export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';

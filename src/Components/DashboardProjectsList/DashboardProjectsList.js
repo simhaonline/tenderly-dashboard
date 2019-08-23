@@ -46,7 +46,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
                             </div>
                             <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                                 <div className="ProjectChartWrapper">
-                                    {!!project.lastPushAt && <AreaChart width={250} height={90} data={data}>
+                                    {!!project.lastPushAt && <AreaChart width={250} height={90} data={data} margin={{top: 0, bottom:0,left:0,right:0}}>
                                         <defs>
                                             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                                                 <stop offset="15%" stopColor="#0076FF" stopOpacity={0.75}/>
