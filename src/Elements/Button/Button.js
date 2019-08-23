@@ -37,11 +37,13 @@ export const ButtonGroup = ({children}) => {
     )
 };
 
-const Button = ({children, width, type, color, size, readOnly, className, disabled, outline, stretch, to, ...props}) => {
+const Button = ({children, width, type, color, size, readOnly, href, className, disabled, outline, stretch, to, ...props}) => {
     let ButtonTag = 'button';
 
     if (to) {
         ButtonTag = Link;
+    } else if (href) {
+        ButtonTag = 'a';
     }
 
     const buttonColorClass = getButtonColorClass(color);
@@ -59,7 +61,7 @@ const Button = ({children, width, type, color, size, readOnly, className, disabl
                 "ReadOnly": readOnly,
                 "Disabled": disabled,
             },
-        )} type={type || 'button'} to={to} disabled={disabled} {...props} style={{
+        )} type={type || 'button'} to={to} href={href} disabled={disabled} {...props} style={{
             width: `${width}px`,
         }}>
             {children}
