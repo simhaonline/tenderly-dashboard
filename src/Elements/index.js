@@ -13,6 +13,7 @@ export {default as Button, ButtonGroup} from './Button/Button';
 export {default as Toggle} from './Toggle/Toggle';
 export {default as Select} from './Select/Select';
 export {default as Card} from './Card/Card';
+export {default as CardsWrapper} from './Card/CardsWrapper';
 export {default as Form} from './Form/Form';
 export {default as SegmentedControls} from './SegmentedControls/SegmentedControls';
 export {default as Input} from './Input/Input';

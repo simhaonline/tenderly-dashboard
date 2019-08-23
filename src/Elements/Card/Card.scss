@@ -7,7 +7,17 @@
   border-radius: 4px;
 
   &:not(:last-child) {
-    margin-bottom: 20px;
+    margin-bottom: $Spacing5;
+  }
+}
+
+.CardsWrapper--Horizontal {
+  display: flex;
+  .Card {
+    &:not(:last-child) {
+      margin-bottom: initial;
+      margin-right: $Spacing5;
+    }
   }
 }
 
