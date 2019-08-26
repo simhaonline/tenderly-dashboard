@@ -7,6 +7,12 @@
   border-bottom: 1px solid $Slate700;
 }
 
+.Table__Content {}
+
+.Table__Content--Scrollable {
+  overflow-x: auto;
+}
+
 .Table__Body {
   padding: $Spacing3 $Spacing2;
   position: relative;

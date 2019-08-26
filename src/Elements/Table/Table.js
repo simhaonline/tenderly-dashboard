@@ -86,7 +86,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, loading, data, className, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy, groupingConfiguration, emptyStateLabel} = this.props;
+        const {configuration, loading, data, className, minWidth, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy, groupingConfiguration, emptyStateLabel} = this.props;
 
         return (
             <Panel className={classNames(
@@ -94,47 +94,58 @@ class Table extends Component {
                 className,
             )}>
                 <div className={classNames(
-                    "Table__Head",
-                    headClassName,
+                    "Table__Content",
+                    {
+                        "Table__Content--Scrollable": !!minWidth,
+                    }
                 )}>
-                    {configuration.map((conf, index) => (
-                        <div key={index} className={classNames(
-                            "Table__Column",
-                            "Table__Column--Head",
-                            conf.className,
-                        )} style={{
-                            flex: conf.size ? `0 0 ${conf.size}px` : undefined,
-                        }}>
-                            {conf.label}
-                        </div>
-                    ))}
-                </div>
-                <div className={classNames(
-                    "Table__Body",
-                )}>
-                    {loading && <div className="Table__Body_Loading">
-                        <div className="Table__Body_Loading_Loader">
-                            <SimpleLoader inverse/>
-                        </div>
-                    </div>}
-                    {!data.length && <div className="Table__Body__Empty__State">
-                        <Icon icon="triangle" className="Table__Body__Empty__State__Icon"/>
-                        <span className="MutedText">{emptyStateLabel}</span>
-                    </div>}
-                    {!groupBy && data.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
-                                                                    row={row} configuration={configuration}
-                                                                    onClick={this.handleRowClick} clickable={!!onRowClick}
-                                                                    className={rowClassName} metadata={metadata}/>)}
-                    {!!groupBy && _.map(_.groupBy(data, groupBy), (groupData, groupByKey) => <div key={groupByKey} className="Table__Group">
-                        <div className="Table__Group__Heading">
-                            {!groupingConfiguration && <TableColumn value={groupByKey}/>}
-                            {!!groupingConfiguration && groupingConfiguration.map((groupConf, index) => <TableColumn key={index} configuration={groupConf} data={groupData}/>)}
-                        </div>
-                        {groupData.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
-                                                                 row={row} configuration={configuration}
-                                                                 onClick={this.handleRowClick} clickable={!!onRowClick}
-                                                                 className={rowClassName} metadata={metadata}/>)}
-                    </div>)}
+                    <div className={classNames(
+                        "Table__Head",
+                        headClassName,
+                    )} style={{
+                        minWidth: minWidth,
+                    }}>
+                        {configuration.map((conf, index) => (
+                            <div key={index} className={classNames(
+                                "Table__Column",
+                                "Table__Column--Head",
+                                conf.className,
+                            )} style={{
+                                flex: conf.size ? `0 0 ${conf.size}px` : undefined,
+                            }}>
+                                {conf.label}
+                            </div>
+                        ))}
+                    </div>
+                    <div className={classNames(
+                        "Table__Body",
+                    )} style={{
+                        minWidth: minWidth,
+                    }}>
+                        {loading && <div className="Table__Body_Loading">
+                            <div className="Table__Body_Loading_Loader">
+                                <SimpleLoader inverse/>
+                            </div>
+                        </div>}
+                        {!data.length && <div className="Table__Body__Empty__State">
+                            <Icon icon="triangle" className="Table__Body__Empty__State__Icon"/>
+                            <span className="MutedText">{emptyStateLabel}</span>
+                        </div>}
+                        {!groupBy && data.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
+                                                                        row={row} configuration={configuration}
+                                                                        onClick={this.handleRowClick} clickable={!!onRowClick}
+                                                                        className={rowClassName} metadata={metadata}/>)}
+                        {!!groupBy && _.map(_.groupBy(data, groupBy), (groupData, groupByKey) => <div key={groupByKey} className="Table__Group">
+                            <div className="Table__Group__Heading">
+                                {!groupingConfiguration && <TableColumn value={groupByKey}/>}
+                                {!!groupingConfiguration && groupingConfiguration.map((groupConf, index) => <TableColumn key={index} configuration={groupConf} data={groupData}/>)}
+                            </div>
+                            {groupData.map((row, index) => <TableRow key={this.getKeyAccessor(row, index)} index={index}
+                                                                     row={row} configuration={configuration}
+                                                                     onClick={this.handleRowClick} clickable={!!onRowClick}
+                                                                     className={rowClassName} metadata={metadata}/>)}
+                        </div>)}
+                    </div>
                 </div>
                 {!!currentPage && <div className={"Table__Controls"}>
                     {!!perPage && <div className="Table__Controls__PerPage">
@@ -194,6 +205,7 @@ Table.propTypes = {
     maximumPages: PropTypes.number,
     onPageChange: PropTypes.func,
     perPage: PropTypes.number,
+    minWidth: PropTypes.number,
     onPerPageChange: PropTypes.func,
     className: PropTypes.string,
     headClassName: PropTypes.string,

@@ -30,6 +30,7 @@ const transactionTableConf = [
     {
         label: "When",
         className: "HideMobile",
+        size: 160,
         renderColumn: tx => <TimeAgoColumn timestamp={tx.timestamp}/>,
     },
     {
@@ -61,7 +62,7 @@ class TransactionsList extends Component {
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
                 contracts,
-            }} onRowClick={this.handleRowClick} loading={loading} emptyStateLabel="No transactions scanned yet"
+            }} onRowClick={this.handleRowClick} minWidth={970} loading={loading} emptyStateLabel="No transactions scanned yet"
                    currentPage={currentPage} onPageChange={onPageChange}
                    perPage={perPage} onPerPageChange={onPerPageChange}/>
         );
