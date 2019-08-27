@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {SLACK_CLIENT_ID, SLACK_REDIRECT_URI} from "../../Common/constants";
+import {OAuthServiceTypeMap, SLACK_CLIENT_ID, SLACK_REDIRECT_URI} from "../../Common/constants";
 
 import {Button, Icon} from "../../Elements";
 
 const SLACK_OAUTH_URI = 'https://slack.com/oauth/authorize';
+const SLACK_OAUTH_REDIRECT_URI = `${SLACK_REDIRECT_URI}/oauth/${OAuthServiceTypeMap.SLACK}`;
 
 const SlackConnectButton = ({label, redirectBack}) => {
     const SlackGetParameters = {
         client_id: SLACK_CLIENT_ID,
-        redirect_uri: SLACK_REDIRECT_URI,
+        redirect_uri: SLACK_OAUTH_REDIRECT_URI,
         scope: 'incoming-webhook',
     };
 
@@ -22,7 +23,7 @@ const SlackConnectButton = ({label, redirectBack}) => {
 
     const oauthUri = `${SLACK_OAUTH_URI}?${searchParams.toString()}`;
 
-    console.log(oauthUri);
+    console.log(oauthUri, SlackGetParameters);
 
     return (
         <Button href={oauthUri}>

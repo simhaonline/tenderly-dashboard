@@ -140,11 +140,13 @@ export const TransactionFilterTypes = {
 export const OAuthServiceTypeMap = {
     GITHUB: 'github',
     GOOGLE: 'google',
+    SLACK: 'slack',
 };
 
 export const OAuthServiceLabelMap = {
     [OAuthServiceTypeMap.GOOGLE]: 'Google',
     [OAuthServiceTypeMap.GITHUB]: 'GitHub',
+    [OAuthServiceTypeMap.SLACK]: 'Slack',
 };
 
 export const OAuthStatusMap = {
