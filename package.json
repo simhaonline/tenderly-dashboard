@@ -55,7 +55,8 @@
     "@storybook/addons": "^5.1.8",
     "@storybook/react": "^5.1.8",
     "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0"
+    "babel-runtime": "^6.26.0",
+    "localtunnel": "^1.9.2"
   },
   "browserslist": [
     ">0.2%",
