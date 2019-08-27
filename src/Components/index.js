@@ -20,6 +20,7 @@ export {default as SlackConnectButton} from './SlackConnectButton/SlackConnectBu
 
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';
+export {default as DashboardSidebar} from './DashboardSidebar/DashboardSidebar';
 export {default as DashboardProjectsList} from './DashboardProjectsList/DashboardProjectsList';
 export {default as WatchedContractsList} from './WatchedContractsList/WatchedContractsList';
 export {default as NoProjectsEmptyState} from './NoProjectsEmptyState/NoProjectsEmptyState';
