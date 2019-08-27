@@ -17,6 +17,11 @@ const SettingsSegments = [
         value: 'general',
     },
     {
+        label: 'Members & Ownership',
+        value: 'members',
+        featureFlag: FeatureFlagTypes.ORGANIZATIONS,
+    },
+    {
         label: 'Plan',
         value: 'billing',
         featureFlag: FeatureFlagTypes.BILLING,
@@ -78,6 +83,11 @@ class ProjectSettingsPage extends Component {
                             <ProjectSettingsForm project={project}/>
                             <ProjectSettingsActions onAction={this.handleProjectAction}/>
                         </PageSegmentContent>}
+                        <FeatureFlag flag={FeatureFlagTypes.ORGANIZATIONS}>
+                            {currentSegment === 'members' && <PageSegmentContent>
+                                <h2>memembero</h2>
+                            </PageSegmentContent>}
+                        </FeatureFlag>
                         <FeatureFlag flag={FeatureFlagTypes.BILLING}>
                             {currentSegment === 'billing' && <PageSegmentContent>
                                 <ProjectSettingsBilling/>

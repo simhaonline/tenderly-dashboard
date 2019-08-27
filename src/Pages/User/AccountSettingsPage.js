@@ -14,7 +14,9 @@ import './AccountSettingsPage.scss';
 
 const SettingsSegmentsTypes = {
     GENERAL: 'general',
+    ORGANIZATIONS: 'organizations',
     SECURITY: 'security',
+    AUTHORIZATION: 'authorization',
     BILLING: 'billing',
 };
 
@@ -24,8 +26,17 @@ const SettingsSegments = [
         value: SettingsSegmentsTypes.GENERAL,
     },
     {
+        label: 'Organizations',
+        value: SettingsSegmentsTypes.ORGANIZATIONS,
+        featureFlag: FeatureFlagTypes.ORGANIZATIONS,
+    },
+    {
         label: 'Security',
         value: SettingsSegmentsTypes.SECURITY,
+    },
+    {
+        label: 'Authorization & Tokens',
+        value: SettingsSegmentsTypes.AUTHORIZATION,
     },
     {
         label: 'Billing',
@@ -153,18 +164,6 @@ class AccountSettingsPage extends Component {
                         {currentSegment === SettingsSegmentsTypes.SECURITY && <PageSegmentContent>
                             <Panel>
                                 <PanelHeader>
-                                    <h3>Auth Tokens</h3>
-                                </PanelHeader>
-                                <PanelContent>
-                                    <p>You can use this token to login to our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a></p>
-                                    <h4>Token</h4>
-                                    <Code>{token}</Code>
-                                    <p>Or you can paste the following command into your terminal and login.</p>
-                                    <Code copy={`tenderly login --authentication-method=token --token=${token}`}>tenderly login --authentication-method=token --token={token}</Code>
-                                </PanelContent>
-                            </Panel>
-                            <Panel>
-                                <PanelHeader>
                                     <h3>Security</h3>
                                 </PanelHeader>
                                 <PanelContent className="ChangePasswordWrapper">
@@ -186,6 +185,20 @@ class AccountSettingsPage extends Component {
                                                        progressLabel="Updating..." finishedLabel="Password Updated"
                                                        color="primary" disabled={!isPasswordFormValid}
                                                        onClick={this.handleChangePasswordSubmit}/>
+                                </PanelContent>
+                            </Panel>
+                        </PageSegmentContent>}
+                        {currentSegment === SettingsSegmentsTypes.AUTHORIZATION && <PageSegmentContent>
+                            <Panel>
+                                <PanelHeader>
+                                    <h3>Auth Tokens</h3>
+                                </PanelHeader>
+                                <PanelContent>
+                                    <p>You can use this token to login to our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a></p>
+                                    <h4>Token</h4>
+                                    <Code copy={token}>{token}</Code>
+                                    <p>Or you can paste the following command into your terminal and login.</p>
+                                    <Code copy={`tenderly login --authentication-method=token --token=${token}`}>tenderly login --authentication-method=token --token={token}</Code>
                                 </PanelContent>
                             </Panel>
                         </PageSegmentContent>}
