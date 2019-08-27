@@ -113,10 +113,10 @@ export const AnalyticsWidgetDataRangeTypes = {
 export const FeatureFlagTypes = {
     COMING_SOON: 'coming_soon',
     ERRORS: 'errors',
+    ORGANIZATIONS: 'organizations',
     BILLING: 'billing',
     ALERTS: 'alerts',
     ANALYTICS: 'analytics',
-    DEBUGGER: 'debugger',
 };
 
 /**
