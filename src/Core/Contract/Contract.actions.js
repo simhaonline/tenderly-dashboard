@@ -174,7 +174,7 @@ export const deleteContract = (projectId, contractAddress, network) => {
             dispatch({
                 type: DELETE_CONTRACT_ACTION,
                 projectId,
-                contract: contractAddress,
+                contractId: Contract.generateUniqueContractId(contractAddress, network),
                 network,
             });
 

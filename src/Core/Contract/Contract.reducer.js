@@ -92,14 +92,14 @@ const ContractReducer = (state = initialState, action) => {
             const currentProjectContracts = state.projectContractsMap[action.projectId];
 
             if (currentProjectContracts) {
-                projectContractsMap[action.projectId] = currentProjectContracts.filter(contract => contract !== action.contract);
+                projectContractsMap[action.projectId] = currentProjectContracts.filter(contract => contract !== action.contractId);
             }
 
             return {
                 ...state,
                 contractStatus: {
                     ...state.contractStatus,
-                    [action.contract]: EntityStatusTypes.DELETED,
+                    [action.contractId]: EntityStatusTypes.DELETED,
                 },
                 projectContractsMap,
             };
