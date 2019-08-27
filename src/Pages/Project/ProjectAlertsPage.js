@@ -14,7 +14,7 @@ import {
     PageSegmentSwitcher,
     PageSegmentContent,
     ProjectAlertHistory,
-    ProjectAlertIntegrations,
+    ProjectAlertDestinations,
     ProjectAlertRules,
     ProjectSetupEmptyState
 } from "../../Components";
@@ -91,7 +91,7 @@ class ProjectAlertsPage extends Component {
                                 <ProjectAlertHistory projectId={project.id}/>
                             </PageSegmentContent>}/>
                             <Route path={`/project/${project.id}/alerts/destinations`} render={() => <PageSegmentContent>
-                                <ProjectAlertIntegrations/>
+                                <ProjectAlertDestinations/>
                             </PageSegmentContent>}/>
                         </Switch>
                     </PageSegments>}

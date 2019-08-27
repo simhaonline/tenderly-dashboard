@@ -12,9 +12,9 @@ import {
 import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider} from "../../Elements";
 import {AddIntegrationModal, DestinationInformation, SimpleLoader} from '..';
 
-import './ProjectAlertIntegrations.scss';
+import './ProjectAlertDestinations.scss';
 
-const IntegrationOption = ({label, icon, onClick = () => {}}) => {
+const DestinationOption = ({label, icon, onClick = () => {}}) => {
     return (
         <Card selectable color="light" className="IntegrationsList__Option" onClick={onClick}>
             <Icon icon={icon} className="IntegrationsList__Option__Icon"/>
@@ -23,7 +23,7 @@ const IntegrationOption = ({label, icon, onClick = () => {}}) => {
     );
 };
 
-class ProjectAlertIntegrations extends Component {
+class ProjectAlertDestinations extends Component {
     constructor(props) {
         super(props);
 
@@ -62,21 +62,21 @@ class ProjectAlertIntegrations extends Component {
             <Fragment>
                 <Panel>
                     <PanelHeader>
-                        <h3>Integrations</h3>
+                        <h3>Destinations</h3>
                     </PanelHeader>
                     <PanelContent>
                         <Alert color="info">
-                            <span>All integrations are shared account wide on all projects. If you <strong>edit or delete</strong> an integration it will be applied to all projects and active rules.</span>
+                            <span>All destinations are shared account wide on all projects. If you <strong>edit or delete</strong> an integration it will be applied to all projects and active rules.</span>
                         </Alert>
-                        <h4 className="MarginLeft2">Add Integration</h4>
+                        <h4 className="MarginLeft2">Add Destination</h4>
                         <PanelDivider/>
                         <CardsWrapper horizontal className="MarginBottom4">
-                            <IntegrationOption icon="mail" onClick={() => this.openIntegrationModal('email')} label="E-mail" active/>
-                            <IntegrationOption icon="slack" onClick={() => this.openIntegrationModal('slack')} label="Slack"/>
-                            <IntegrationOption icon="code" onClick={() => this.openIntegrationModal('webhook')} label="Webhook"/>
+                            <DestinationOption icon="mail" onClick={() => this.openIntegrationModal('email')} label="E-mail" active/>
+                            <DestinationOption icon="slack" onClick={() => this.openIntegrationModal('slack')} label="Slack"/>
+                            <DestinationOption icon="code" onClick={() => this.openIntegrationModal('webhook')} label="Webhook"/>
                         </CardsWrapper>
                         <AddIntegrationModal open={openModal} onClose={this.closeIntegrationModal} type={type}/>
-                        <h4 className="MarginLeft2">Active Integrations</h4>
+                        <h4 className="MarginLeft2">Active Destinations</h4>
                         <PanelDivider/>
                         <div>
                             {!destinationsLoaded && <div className="Padding4 DisplayFlex JustifyContentCenter">
@@ -118,4 +118,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps,
-)(ProjectAlertIntegrations));
+)(ProjectAlertDestinations));

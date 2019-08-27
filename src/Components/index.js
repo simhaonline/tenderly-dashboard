@@ -42,7 +42,7 @@ export {default as CreateAlertRuleForm} from './CreateAlertRuleForm/CreateAlertR
 export {default as EditAlertRuleForm} from './EditAlertRuleForm/EditAlertRuleForm';
 export {default as AlertTemplates} from './AlertTemplates/AlertTemplates';
 export {default as ProjectAlertHistory} from './ProjectAlertHistory/ProjectAlertHistory';
-export {default as ProjectAlertIntegrations} from './ProjectAlertIntegrations/ProjectAlertIntegrations';
+export {default as ProjectAlertDestinations} from './ProjectAlertDestinations/ProjectAlertDestinations';
 
 export {default as DestinationInformation} from './DestinationInformation/DestinationInformation';
 
