@@ -1,8 +1,10 @@
 import {Api} from '../../Utils/Api';
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import NotificationDestination from "./NotificationDestination.model";
+import {NotificationDestinationAppToApiTypes} from "../../Common/constants";
 
 export const FETCH_NOTIFICATION_DESTINATIONS_ACTION = 'FETCH_NOTIFICATION_DESTINATIONS';
+export const CREATE_NOTIFICATION_DESTINATION_ACTION = 'CREATE_NOTIFICATION_DESTINATION';
 
 export const fetchNotificationDestinations = () => {
     return async dispatch => {
@@ -20,12 +22,45 @@ export const fetchNotificationDestinations = () => {
                 destinations,
             });
 
-            return new SuccessActionResponse();
+            return new SuccessActionResponse(destinations);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);
         }
     };
+};
+
+/**
+ * @param {NotificationDestinationTypes} type
+ * @param {string} label
+ * @param {string} value
+ */
+export const createNotificationDestination = (type, label, value) => {
+    return async dispatch => {
+        try {
+            const {data} = await Api.post('/account/me/delivery-channel', {
+                type: NotificationDestinationAppToApiTypes[type],
+                label,
+                information: NotificationDestination.transformInformationToApiPayload(type, value),
+            });
+
+            if (!data || !data.delivery_channel) {
+                return ErrorActionResponse();
+            }
+
+            const destination = NotificationDestination.buildFromResponse(data.delivery_channel);
+
+            dispatch({
+                type: CREATE_NOTIFICATION_DESTINATION_ACTION,
+                destination,
+            });
+
+            return new SuccessActionResponse(destination);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
 };
 
 /**

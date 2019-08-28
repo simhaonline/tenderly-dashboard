@@ -11,7 +11,7 @@ class NotificationDestination {
         /** @type string */
         this.label = data.label;
 
-        /** @type string */
+        /** @type Object */
         this.information = data.information;
     }
 
@@ -30,6 +30,22 @@ class NotificationDestination {
                 return 'Slack';
             default:
                 return '';
+        }
+    }
+
+    /**
+     * @param {NotificationDestinationTypes} type
+     * @param {string} value
+     * @return {Object}
+     */
+    static transformInformationToApiPayload(type, value) {
+        switch (type) {
+            case NotificationDestinationTypes.EMAIL:
+                return {
+                    emails: [value],
+                };
+            default:
+                return {};
         }
     }
 

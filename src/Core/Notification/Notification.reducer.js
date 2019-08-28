@@ -1,5 +1,5 @@
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
-import {FETCH_NOTIFICATION_DESTINATIONS_ACTION} from "./Notification.actions";
+import {CREATE_NOTIFICATION_DESTINATION_ACTION, FETCH_NOTIFICATION_DESTINATIONS_ACTION} from "./Notification.actions";
 
 const initialState = {
     destinations: {},
@@ -19,6 +19,14 @@ const NotificationReducer = (state = initialState, action) => {
                     }, {}),
                 },
                 destinationsLoaded: true,
+            };
+        case CREATE_NOTIFICATION_DESTINATION_ACTION:
+            return {
+                ...state,
+                destinations: {
+                    ...state.destinations,
+                    [action.destination.id]: action.destination,
+                },
             };
         case LOG_OUT_ACTION:
             return initialState;
