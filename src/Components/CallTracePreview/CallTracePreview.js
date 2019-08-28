@@ -105,7 +105,7 @@ class CallTracePreview extends Component {
 
         this.state = {
             currentHovered: null,
-            openedTrace: '0',
+            openedTrace: '',
         }
     }
 
@@ -129,7 +129,7 @@ class CallTracePreview extends Component {
 
     handleOpenTraceSource = (trace) => {
         this.setState({
-            openedTrace: trace.depthId,
+            openedTrace: trace.depthId === this.state.openedTrace ? '' : trace.depthId,
         });
     };
 
