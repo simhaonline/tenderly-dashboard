@@ -19,10 +19,12 @@ const data = {
       dataPoints: [
         {
           key: 'successful',
+          name: 'Successful Tx',
           color: '#0076FF',
         },
         {
           key: 'failed',
+          name: 'Failed Tx',
           color: '#ffb81f',
         },
       ],

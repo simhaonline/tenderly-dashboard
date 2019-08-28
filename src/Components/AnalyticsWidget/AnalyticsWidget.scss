@@ -30,3 +30,10 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+
+.AnalyticsWidgetTooltip {
+  background-color: transparentize($Slate700, 0.25);
+  padding: $Spacing2 $Spacing4;
+  border: none;
+  border-radius: 4px;
+}

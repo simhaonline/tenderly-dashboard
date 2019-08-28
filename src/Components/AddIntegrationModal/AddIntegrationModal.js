@@ -21,6 +21,7 @@ class AddIntegrationModal extends Component {
                 </DialogHeader>
                 <DialogBody>
                     {type === 'slack' && <div>
+                        <p></p>
                         <SlackConnectButton redirectBack/>
                     </div>}
                     {type !== 'slack' && <Form onSubmit={this.handleFormSubmit}>

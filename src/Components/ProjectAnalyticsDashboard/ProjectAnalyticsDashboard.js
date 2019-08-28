@@ -8,8 +8,6 @@ class ProjectAnalyticsDashboard extends Component {
     render() {
         const {dashboard} = this.props;
 
-        console.log(dashboard);
-
         return (
             <div className="ProjectAnalyticsDashboard">
                 <h3>{dashboard.name}</h3>
