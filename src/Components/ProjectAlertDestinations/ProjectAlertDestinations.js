@@ -10,7 +10,7 @@ import {
 } from "../../Common/Selectors/NotificationSelectors";
 import {FeatureFlagTypes, NotificationDestinationTypes} from "../../Common/constants";
 
-import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider} from "../../Elements";
+import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider, Button} from "../../Elements";
 import {AddIntegrationModal, FeatureFlag, DestinationInformation, SimpleLoader} from '..';
 
 import './ProjectAlertDestinations.scss';
@@ -74,6 +74,15 @@ class ProjectAlertDestinations extends Component {
         }
     };
 
+    /**
+     * @param {NotificationDestination} destination
+     */
+    removeDestination = async (destination) => {
+        const {actions} = this.props;
+
+        await actions.deleteNotificaitonDestination(destination.id);
+    };
+
     render() {
         const {openModal, type} = this.state;
         const {destinationsLoaded, destinations} = this.props;
@@ -110,6 +119,11 @@ class ProjectAlertDestinations extends Component {
                                     <div className="ActiveIntegrationItem__TypeColumn">{destination.getTypeLabel()}</div>
                                     <div className="ActiveIntegrationItem__ValueColumn MutedText">
                                         <DestinationInformation destination={destination}/>
+                                    </div>
+                                    <div className="ActiveIntegrationItem__Actions">
+                                        <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
+                                            <Icon icon="trash-2"/>
+                                        </Button>
                                     </div>
                                 </ListItem>)}
                             </List>}

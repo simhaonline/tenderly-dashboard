@@ -6,6 +6,7 @@ import NotificationDestination from "./NotificationDestination.model";
 
 export const FETCH_NOTIFICATION_DESTINATIONS_ACTION = 'FETCH_NOTIFICATION_DESTINATIONS';
 export const CREATE_NOTIFICATION_DESTINATION_ACTION = 'CREATE_NOTIFICATION_DESTINATION';
+export const DELETE_NOTIFICATION_DESTINATION_ACTION = 'DELETE_NOTIFICATION_DESTINATION';
 
 export const fetchNotificationDestinations = () => {
     return async dispatch => {
@@ -91,11 +92,12 @@ export const updateNotificaitonDestination = (destination) => {
 export const deleteNotificaitonDestination = (id) => {
     return async dispatch => {
         try {
-            const {data} = await Api.post(``);
+            await Api.delete(`/account/me/delivery-channel/${id}`);
 
-            if (!data) {
-                return new ErrorActionResponse();
-            }
+            dispatch({
+                type: DELETE_NOTIFICATION_DESTINATION_ACTION,
+                destinationId: id,
+            });
 
             return new SuccessActionResponse();
         } catch (error) {
