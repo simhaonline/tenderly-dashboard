@@ -8,6 +8,10 @@ import './CodePreview.scss';
 
 const codeLineSize = 1.375;
 
+const highlightColorClassMap = {
+    'danger': 'CodeWrapper--DangerHighlight',
+};
+
 class CodePreview extends Component {
     constructor(props) {
         super(props);
@@ -68,7 +72,7 @@ class CodePreview extends Component {
     };
 
     render() {
-        const {file, line, linePreview, isExpandable, minHeight, scrollEnabled} = this.props;
+        const {file, line, linePreview, isExpandable, minHeight, scrollEnabled, highlightColor} = this.props;
         const {offsetTop, offsetBottom, centerLine} = this.state;
 
         const lineNumbers = [];
@@ -102,6 +106,7 @@ class CodePreview extends Component {
         return (
             <div className={classNames(
                 "CodeWrapper",
+                highlightColorClassMap[highlightColor],
                 {
                     FullPreview: !linePreview,
                 }
