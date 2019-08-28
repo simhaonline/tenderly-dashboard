@@ -23,7 +23,7 @@ class OAuthPage extends Component {
 
 
     async componentDidMount() {
-        const {service, code, actions, notificationActions, auth} = this.props;
+        const {service, code, actions, notificationActions, auth, redirectTo} = this.props;
 
         if (!service || !code) {
             return;
@@ -49,8 +49,7 @@ class OAuthPage extends Component {
 
                 break;
             case OAuthServiceTypeMap.SLACK:
-                // @TODO Finish slack
-                response = await notificationActions.connectSlackChannel(code);
+                response = await notificationActions.connectSlackChannel(code, redirectTo);
 
                 break;
             default:

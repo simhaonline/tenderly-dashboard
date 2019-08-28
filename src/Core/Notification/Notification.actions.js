@@ -1,6 +1,6 @@
 import {Api} from '../../Utils/Api';
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
-import {NotificationDestinationAppToApiTypes} from "../../Common/constants";
+import {NotificationDestinationAppToApiTypes, OAuthServiceTypeMap, SLACK_REDIRECT_URI} from "../../Common/constants";
 
 import NotificationDestination from "./NotificationDestination.model";
 
@@ -107,13 +107,15 @@ export const deleteNotificaitonDestination = (id) => {
 
 /**
  * @param {string} authCode
+ * @param {string} redirectTo
  */
-export const connectSlackChannel = (authCode) => {
+export const connectSlackChannel = (authCode, redirectTo) => {
     return async dispatch => {
         try {
             const {data} = await Api.post('/account/me/slack/connect', {
                 type: 'slack',
                 code: authCode,
+                redirect_uri: `${SLACK_REDIRECT_URI}/oauth/${OAuthServiceTypeMap.SLACK}?redirectTo=${redirectTo}`,
             });
 
             if (!data) {
