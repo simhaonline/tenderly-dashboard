@@ -26,7 +26,7 @@ class AddIntegrationModal extends Component {
             inProgress: true,
         });
 
-        await onSubmit({
+        const response = await onSubmit({
             type,
             label,
             value,
@@ -38,7 +38,9 @@ class AddIntegrationModal extends Component {
             inProgress: false,
         });
 
-        onClose();
+        if (response.success) {
+            onClose();
+        }
     };
 
     handleInputChange = (field, value) => {
