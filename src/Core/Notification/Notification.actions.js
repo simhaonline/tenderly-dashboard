@@ -1,7 +1,8 @@
 import {Api} from '../../Utils/Api';
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
-import NotificationDestination from "./NotificationDestination.model";
 import {NotificationDestinationAppToApiTypes} from "../../Common/constants";
+
+import NotificationDestination from "./NotificationDestination.model";
 
 export const FETCH_NOTIFICATION_DESTINATIONS_ACTION = 'FETCH_NOTIFICATION_DESTINATIONS';
 export const CREATE_NOTIFICATION_DESTINATION_ACTION = 'CREATE_NOTIFICATION_DESTINATION';

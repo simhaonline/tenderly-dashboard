@@ -248,6 +248,13 @@ export const NotificationDestinationTypes = {
     WEBHOOK: 'WEBHOOK',
 };
 
+export const NotificationDestinationAppToApiTypes = {
+    [NotificationDestinationTypes.EMAIL]: 'email',
+    [NotificationDestinationTypes.EMAIL_GROUP]: 'email',
+    [NotificationDestinationTypes.SLACK]: 'slack',
+    [NotificationDestinationTypes.WEBHOOK]: 'webhook',
+};
+
 export const ONE_MIN_INTERVAL = 60 * 1000;
 export const FIVE_MIN_INTERVAL = 5 * ONE_MIN_INTERVAL;
 
