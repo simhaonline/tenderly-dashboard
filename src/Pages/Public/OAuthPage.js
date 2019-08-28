@@ -68,7 +68,7 @@ class OAuthPage extends Component {
 
     render() {
         const {authenticating, authResponse, alreadyLoggedIn} = this.state;
-        const {service, redirectTo} = this.props;
+        const {service, redirectTo, auth: {loggedIn}} = this.props;
 
         if (alreadyLoggedIn) {
             return <Redirect to="/"/>;
@@ -92,7 +92,7 @@ class OAuthPage extends Component {
         return (
             <Page wholeScreenPage>
                 <Container>
-                    <OAuthStatus service={service} redirectTo={redirectTo} status={currentStatus}/>
+                    <OAuthStatus service={service} loggedIn={loggedIn} redirectTo={redirectTo} status={currentStatus}/>
                 </Container>
             </Page>
         );

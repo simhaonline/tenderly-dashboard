@@ -8,7 +8,7 @@ import OAuthLoader from "../OAuthLoader/OAuthLoader";
 
 import './OAuthStatus.scss';
 
-const OAuthStatus = ({status, service, redirectTo}) => {
+const OAuthStatus = ({status, service, redirectTo, loggedIn}) => {
     return (
         <div className="OAuthStatus">
             {status === OAuthStatusMap.FAILED && <div className="OAuthFailedWrapper">
@@ -17,9 +17,13 @@ const OAuthStatus = ({status, service, redirectTo}) => {
                 </div>
                 {service === OAuthServiceTypeMap.GITHUB && <GitHubLoginButton label="Retry Authentication" className="OAuthGitHubButton"/>}
                 {service === OAuthServiceTypeMap.SLACK && <SlackConnectButton redirectTo={redirectTo} label="Retry Connection"/>}
-                {service !== OAuthServiceTypeMap.SLACK && <div className="OAuthLinks">
+                {!loggedIn && <div className="OAuthLinks">
                     <Link to="/login">Login</Link>
                     <Link to="/register">Register</Link>
+                </div>}
+                {loggedIn && <div className="OAuthLinks">
+                    <Link to="/login">Dashboard</Link>
+                    {!!redirectTo && <Link to={redirectTo}>Back to previous page</Link>}
                 </div>}
             </div>}
             {status === OAuthStatusMap.AUTHENTICATING && <OAuthLoader service={service}/>}
