@@ -27,3 +27,67 @@ export const fetchNotificationDestinations = () => {
         }
     };
 };
+
+/**
+ * @param {NotificationDestination} destination
+ */
+export const updateNotificaitonDestination = (destination) => {
+    return async dispatch => {
+        try {
+            const {data} = await Api.post(``);
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+
+
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {string} id
+ */
+export const deleteNotificaitonDestination = (id) => {
+    return async dispatch => {
+        try {
+            const {data} = await Api.post(``);
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {string} authCode
+ */
+export const connectSlackChannel = (authCode) => {
+    return async dispatch => {
+        try {
+            const {data} = await Api.post('/account/me/slack/connect', {
+                type: 'slack',
+                code: authCode,
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
