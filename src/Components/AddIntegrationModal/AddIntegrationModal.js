@@ -5,19 +5,43 @@ import {Dialog, DialogBody, DialogHeader, Form, Button, Input} from "../../Eleme
 import {SlackConnectButton} from "..";
 
 class AddIntegrationModal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            label: '',
+            email: '',
+            webhookUrl: '',
+        };
+    }
+
+
     handleFormSubmit = () => {
         const {onClose} = this.props;
+
+        this.setState({
+            label: '',
+            email: '',
+            webhookUrl: '',
+        });
 
         onClose();
     };
 
+    handleInputChange = (field, value) => {
+        this.setState({
+            [field]: value,
+        });
+    };
+
     render() {
         const {open, onClose, type} = this.props;
+        const {email, webhookUrl, label} = this.state;
 
         return (
             <Dialog onClose={onClose} open={open}>
                 <DialogHeader>
-                    <h3>Add Integration</h3>
+                    <h3>Add Destination</h3>
                 </DialogHeader>
                 <DialogBody>
                     {type === 'slack' && <div>
@@ -25,11 +49,12 @@ class AddIntegrationModal extends Component {
                         <SlackConnectButton redirectBack/>
                     </div>}
                     {type !== 'slack' && <Form onSubmit={this.handleFormSubmit}>
-                        <Input label="Label" field="label"/>
-                        {type === 'email' && <Input label="E-mail" field="email"/>}
-                        {type === 'webhook' && <Input label="Webhook URL" field="webhookUrl"/>}
+                        <p className="MarginBottom4"></p>
+                        <Input value={label} label="Label" field="label" onChange={this.handleInputChange}/>
+                        {type === 'email' && <Input value={email} label="E-mail" field="email" onChange={this.handleInputChange}/>}
+                        {type === 'webhook' && <Input value={webhookUrl} label="Webhook URL" field="webhookUrl" onChange={this.handleInputChange}/>}
                         <Button type="submit">
-                            <span>Add integration</span>
+                            <span>Add destination</span>
                         </Button>
                     </Form>}
                 </DialogBody>
