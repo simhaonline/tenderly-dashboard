@@ -10,7 +10,7 @@ const DestinationInformation = ({destination}) => {
         case NotificationDestinationTypes.EMAIL:
             return <span>{destination.information.email}</span>;
         case NotificationDestinationTypes.SLACK:
-            return <span>{destination.information.webhook}</span>;
+            return <span>Channel: {destination.information.channel}</span>;
         default:
             return null;
     }

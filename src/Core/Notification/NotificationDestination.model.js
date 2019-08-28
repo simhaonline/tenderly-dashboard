@@ -76,7 +76,8 @@ class NotificationDestination {
                return {
                    type: NotificationDestinationTypes.SLACK,
                    information: {
-                       webhook: information.webhook_url,
+                       channel: information.channel_name,
+                       team: information.team_name,
                    },
                };
            default:
