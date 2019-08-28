@@ -8,7 +8,7 @@ import * as notificationActions from "../../Core/Notification/Notification.actio
 import {
     areNotificationDestinationsLoaded, getNotificationDestinations
 } from "../../Common/Selectors/NotificationSelectors";
-import {FeatureFlagTypes} from "../../Common/constants";
+import {FeatureFlagTypes, NotificationDestinationTypes} from "../../Common/constants";
 
 import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider} from "../../Elements";
 import {AddIntegrationModal, FeatureFlag, DestinationInformation, SimpleLoader} from '..';
@@ -52,7 +52,26 @@ class ProjectAlertDestinations extends Component {
     closeIntegrationModal = () => {
         this.setState({
             openModal: false,
+            type: null,
         });
+    };
+
+    /**
+     * @param {{
+     *     type: NotificationDestinationTypes,
+     *     label: string,
+     *     value: string,
+     * }} data
+     */
+    handleCreateDestination = async ({type, label, value}) => {
+        const {actions} = this.props;
+
+        switch (type) {
+            case NotificationDestinationTypes.EMAIL:
+                return actions.createNotificationDestination(type, label, value);
+            default:
+                return;
+        }
     };
 
     render() {
@@ -72,13 +91,13 @@ class ProjectAlertDestinations extends Component {
                         <h4 className="MarginLeft2">Add Destination</h4>
                         <PanelDivider/>
                         <CardsWrapper horizontal className="MarginBottom4">
-                            <DestinationOption icon="mail" onClick={() => this.openIntegrationModal('email')} label="E-mail" active/>
-                            <DestinationOption icon="slack" onClick={() => this.openIntegrationModal('slack')} label="Slack"/>
+                            <DestinationOption icon="mail" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.EMAIL)} label="E-mail" active/>
+                            <DestinationOption icon="slack" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.SLACK)} label="Slack"/>
                             <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                                <DestinationOption icon="code" onClick={() => this.openIntegrationModal('webhook')} label="Webhook"/>
+                                <DestinationOption icon="code" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.WEBHOOK)} label="Webhook"/>
                             </FeatureFlag>
                         </CardsWrapper>
-                        <AddIntegrationModal open={openModal} onClose={this.closeIntegrationModal} type={type}/>
+                        <AddIntegrationModal open={openModal} onSubmit={this.handleCreateDestination} onClose={this.closeIntegrationModal} type={type}/>
                         <h4 className="MarginLeft2">Active Destinations</h4>
                         <PanelDivider/>
                         <div>
