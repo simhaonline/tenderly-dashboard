@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Dialog, DialogBody, DialogHeader, Form, Button, Input} from "../../Elements";
+import {NotificationDestinationTypes} from "../../Common/constants";
+
+import {Dialog, DialogBody, DialogHeader, DialogLoader, Form, Button, Input} from "../../Elements";
 import {SlackConnectButton} from "..";
 
 class AddIntegrationModal extends Component {
@@ -10,19 +12,30 @@ class AddIntegrationModal extends Component {
 
         this.state = {
             label: '',
-            email: '',
-            webhookUrl: '',
+            value: '',
+            inProgress: false,
         };
     }
 
 
-    handleFormSubmit = () => {
-        const {onClose} = this.props;
+    handleFormSubmit = async () => {
+        const {onClose, onSubmit, type} = this.props;
+        const {label, value} = this.state;
+
+        this.setState({
+            inProgress: true,
+        });
+
+        await onSubmit({
+            type,
+            label,
+            value,
+        });
 
         this.setState({
             label: '',
-            email: '',
-            webhookUrl: '',
+            value: '',
+            inProgress: false,
         });
 
         onClose();
@@ -36,7 +49,7 @@ class AddIntegrationModal extends Component {
 
     render() {
         const {open, onClose, type} = this.props;
-        const {email, webhookUrl, label} = this.state;
+        const {value, inProgress, label} = this.state;
 
         return (
             <Dialog onClose={onClose} open={open}>
@@ -44,19 +57,19 @@ class AddIntegrationModal extends Component {
                     <h3>Add Destination</h3>
                 </DialogHeader>
                 <DialogBody>
-                    {type === 'slack' && <div>
+                    {type === NotificationDestinationTypes.SLACK && <div>
                         <p className="MarginBottom4">Add the Tenderly Slack App to your workspace and authorize a specific channel where you will receive alerts from Tenderly.</p>
                         <SlackConnectButton redirectBack/>
                     </div>}
-                    {type !== 'slack' && <Form onSubmit={this.handleFormSubmit}>
-                        <p className="MarginBottom4"></p>
-                        <Input value={label} label="Label" field="label" onChange={this.handleInputChange}/>
-                        {type === 'email' && <Input value={email} label="E-mail" field="email" onChange={this.handleInputChange}/>}
-                        {type === 'webhook' && <Input value={webhookUrl} label="Webhook URL" field="webhookUrl" onChange={this.handleInputChange}/>}
+                    {type !== NotificationDestinationTypes.SLACK && <Form onSubmit={this.handleFormSubmit}>
+                        <p className="MarginBottom4">Add an e-mail that can receive alert notifications from Tenderly.</p>
+                        <Input value={label} autoFocus label="Label" field="label" onChange={this.handleInputChange}/>
+                        <Input value={value} label={type === NotificationDestinationTypes.EMAIL ? 'E-mail' : 'Webhook'} field="value" onChange={this.handleInputChange}/>
                         <Button type="submit">
                             <span>Add destination</span>
                         </Button>
                     </Form>}
+                    {inProgress && <DialogLoader/>}
                 </DialogBody>
             </Dialog>
         );
@@ -66,7 +79,7 @@ class AddIntegrationModal extends Component {
 AddIntegrationModal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    type: PropTypes.oneOf(['email', 'slack', 'webhook']),
+    type: PropTypes.oneOf(Object.values(NotificationDestinationTypes)),
     onCreate: PropTypes.func,
 };
 
