@@ -21,7 +21,7 @@ class AddIntegrationModal extends Component {
                 </DialogHeader>
                 <DialogBody>
                     {type === 'slack' && <div>
-                        <p></p>
+                        <p className="MarginBottom4">Add the Tenderly Slack App to your workspace and authorize a specific channel where you will receive alerts from Tenderly.</p>
                         <SlackConnectButton redirectBack/>
                     </div>}
                     {type !== 'slack' && <Form onSubmit={this.handleFormSubmit}>
