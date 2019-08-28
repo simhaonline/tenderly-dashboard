@@ -8,22 +8,22 @@ import {Button, Icon} from "../../Elements";
 const SLACK_OAUTH_URI = 'https://slack.com/oauth/authorize';
 const SLACK_OAUTH_REDIRECT_URI = `${SLACK_REDIRECT_URI}/oauth/${OAuthServiceTypeMap.SLACK}`;
 
-const SlackConnectButton = ({label, redirectBack}) => {
+const SlackConnectButton = ({label, redirectBack, redirectTo}) => {
     const SlackGetParameters = {
         client_id: SLACK_CLIENT_ID,
         redirect_uri: SLACK_OAUTH_REDIRECT_URI,
         scope: 'incoming-webhook',
     };
 
-    if (redirectBack) {
-        SlackGetParameters.redirect_uri += window.location.pathname;
+    if (redirectTo) {
+        SlackGetParameters.redirect_uri += `?redirectTo=${redirectTo}`;
+    } else if (redirectBack) {
+        SlackGetParameters.redirect_uri += `?redirectTo=${window.location.pathname}`;
     }
 
     const searchParams = new URLSearchParams(SlackGetParameters);
 
     const oauthUri = `${SLACK_OAUTH_URI}?${searchParams.toString()}`;
-
-    console.log(oauthUri, SlackGetParameters);
 
     return (
         <Button href={oauthUri}>
@@ -36,6 +36,7 @@ const SlackConnectButton = ({label, redirectBack}) => {
 SlackConnectButton.propTypes = {
     label: PropTypes.string,
     redirectBack: PropTypes.bool,
+    redirectTo: PropTypes.string,
 };
 
 SlackConnectButton.defaultProps = {
