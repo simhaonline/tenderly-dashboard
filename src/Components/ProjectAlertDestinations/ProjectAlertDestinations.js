@@ -8,9 +8,10 @@ import * as notificationActions from "../../Core/Notification/Notification.actio
 import {
     areNotificationDestinationsLoaded, getNotificationDestinations
 } from "../../Common/Selectors/NotificationSelectors";
+import {FeatureFlagTypes} from "../../Common/constants";
 
 import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider} from "../../Elements";
-import {AddIntegrationModal, DestinationInformation, SimpleLoader} from '..';
+import {AddIntegrationModal, FeatureFlag, DestinationInformation, SimpleLoader} from '..';
 
 import './ProjectAlertDestinations.scss';
 
@@ -66,14 +67,16 @@ class ProjectAlertDestinations extends Component {
                     </PanelHeader>
                     <PanelContent>
                         <Alert color="info">
-                            <span>All destinations are shared account wide on all projects. If you <strong>edit or delete</strong> an integration it will be applied to all projects and active rules.</span>
+                            <span>All destinations are shared account wide on all projects. If you <strong>edit or delete</strong> an destination it will be applied to all projects and active rules.</span>
                         </Alert>
                         <h4 className="MarginLeft2">Add Destination</h4>
                         <PanelDivider/>
                         <CardsWrapper horizontal className="MarginBottom4">
                             <DestinationOption icon="mail" onClick={() => this.openIntegrationModal('email')} label="E-mail" active/>
                             <DestinationOption icon="slack" onClick={() => this.openIntegrationModal('slack')} label="Slack"/>
-                            <DestinationOption icon="code" onClick={() => this.openIntegrationModal('webhook')} label="Webhook"/>
+                            <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
+                                <DestinationOption icon="code" onClick={() => this.openIntegrationModal('webhook')} label="Webhook"/>
+                            </FeatureFlag>
                         </CardsWrapper>
                         <AddIntegrationModal open={openModal} onClose={this.closeIntegrationModal} type={type}/>
                         <h4 className="MarginLeft2">Active Destinations</h4>
