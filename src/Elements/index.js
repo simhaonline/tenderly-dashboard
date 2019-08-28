@@ -5,6 +5,7 @@ export {default as Header} from './Header/Header';
 export {default as Dialog} from './Dialog/Dialog';
 export {default as DialogBody} from './Dialog/DialogBody';
 export {default as DialogHeader} from './Dialog/DialogHeader';
+export {default as DialogLoader} from './Dialog/DialogLoader';
 export {default as Icon} from './Icon/Icon';
 export {default as Code} from './Code/Code';
 export {default as Alert} from './Alert/Alert';
