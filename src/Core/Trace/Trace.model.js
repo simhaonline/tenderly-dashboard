@@ -85,10 +85,11 @@ export class Trace {
     /**
      * @param {Object} rawCallTrace
      * @param {string} depthId
+     * @param {boolean} hasChildren
      *
      * @return {{op: string, contract: string, lineNumber: string, fileId: string, hasErrored: boolean}}
      */
-    static extractTraceData (rawCallTrace, depthId) {
+    static extractTraceData (rawCallTrace, depthId, hasChildren) {
         if (depthId === '0') {
             return {
                 contract: rawCallTrace.to,
@@ -99,13 +100,15 @@ export class Trace {
             }
         }
 
-        if (rawCallTrace.error_line_number !== null && rawCallTrace.error_file_index !== null) {
+        const hasErrored = rawCallTrace.error_line_number !== null && rawCallTrace.error_file_index !== null;
+
+        if (!hasChildren && hasErrored) {
             return {
                 contract: rawCallTrace.from,
                 op: rawCallTrace.error_op,
                 fileId: rawCallTrace.error_file_index,
                 lineNumber: rawCallTrace.error_line_number,
-                hasErrored: true,
+                hasErrored: hasErrored,
             }
         }
 
@@ -134,7 +137,7 @@ export class Trace {
         const inputVariables = rawCallTrace.decoded_input && rawCallTrace.decoded_input.map(TraceInput.buildFromResponse);
         const outputVariables = rawCallTrace.decoded_output && rawCallTrace.decoded_output.map(TraceInput.buildFromResponse);
 
-        const traceData = Trace.extractTraceData(rawCallTrace, depthId);
+        const traceData = Trace.extractTraceData(rawCallTrace, depthId, !!calls);
 
         /**
          * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
