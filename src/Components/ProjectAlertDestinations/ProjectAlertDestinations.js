@@ -88,7 +88,7 @@ class ProjectAlertDestinations extends Component {
                             {destinationsLoaded && <List>
                                 {destinations.map(destination => <ListItem className="ActiveIntegrationItem" key={destination.id}>
                                     <div className="ActiveIntegrationItem__LabelColumn">{destination.label}</div>
-                                    <div className="ActiveIntegrationItem__TypeColumn">{destination.type}</div>
+                                    <div className="ActiveIntegrationItem__TypeColumn">{destination.getTypeLabel()}</div>
                                     <div className="ActiveIntegrationItem__ValueColumn MutedText">
                                         <DestinationInformation destination={destination}/>
                                     </div>

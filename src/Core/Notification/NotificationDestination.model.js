@@ -16,6 +16,24 @@ class NotificationDestination {
     }
 
     /**
+     * @return {string}
+     */
+    getTypeLabel() {
+        switch (this.type) {
+            case NotificationDestinationTypes.EMAIL:
+                return 'E-mail';
+            case NotificationDestinationTypes.WEBHOOK:
+                return 'Webhook';
+            case NotificationDestinationTypes.EMAIL_GROUP:
+                return 'E-mail Group';
+            case NotificationDestinationTypes.SLACK:
+                return 'Slack';
+            default:
+                return '';
+        }
+    }
+
+    /**
      * @param type
      * @param information
      * @return {Object}
