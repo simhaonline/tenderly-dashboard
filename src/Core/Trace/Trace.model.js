@@ -27,6 +27,9 @@ export class Trace {
         /** @type string */
         this.contract = data.contract;
 
+        /** @type boolean */
+        this.hasErrored = data.hasErrored;
+
         /** @type string */
         this.depthId = data.depthId;
 
@@ -80,6 +83,42 @@ export class Trace {
     }
 
     /**
+     * @param {Object} rawCallTrace
+     * @param {string} depthId
+     *
+     * @return {{op: string, contract: string, lineNumber: string, fileId: string, hasErrored: boolean}}
+     */
+    static extractTraceData (rawCallTrace, depthId) {
+        if (depthId === '0') {
+            return {
+                contract: rawCallTrace.to,
+                op: rawCallTrace.function_op,
+                fileId: rawCallTrace.function_file_index,
+                lineNumber: rawCallTrace.function_line_number,
+                hasErrored: false,
+            }
+        }
+
+        if (rawCallTrace.error_line_number !== null && rawCallTrace.error_file_index !== null) {
+            return {
+                contract: rawCallTrace.from,
+                op: rawCallTrace.error_op,
+                fileId: rawCallTrace.error_file_index,
+                lineNumber: rawCallTrace.error_line_number,
+                hasErrored: true,
+            }
+        }
+
+        return {
+            contract: rawCallTrace.from,
+            op: rawCallTrace.caller_op,
+            fileId: rawCallTrace.caller_file_index,
+            lineNumber: rawCallTrace.caller_line_number,
+            hasErrored: false,
+        }
+    }
+
+    /**
      *
      * @param {Object} rawCallTrace
      * @param {number} depth
@@ -95,6 +134,8 @@ export class Trace {
         const inputVariables = rawCallTrace.decoded_input && rawCallTrace.decoded_input.map(TraceInput.buildFromResponse);
         const outputVariables = rawCallTrace.decoded_output && rawCallTrace.decoded_output.map(TraceInput.buildFromResponse);
 
+        const traceData = Trace.extractTraceData(rawCallTrace, depthId);
+
         /**
          * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
          * accordingly as those mocked responses are used for the Example Project and might break it.
@@ -103,11 +144,12 @@ export class Trace {
             functionName: rawCallTrace.function_name,
             from: rawCallTrace.from,
             to: rawCallTrace.to,
-            contract: depthId !== '0' ? rawCallTrace.from : rawCallTrace.to,
-            op: depthId !== '0' ? rawCallTrace.caller_op : rawCallTrace.function_op,
             fileName: rawCallTrace.contract_name,
-            fileId: depthId !== '0' ? rawCallTrace.caller_file_index : rawCallTrace.function_file_index,
-            lineNumber: depthId !== '0' ? rawCallTrace.caller_line_number : rawCallTrace.function_line_number,
+            contract: traceData.contract,
+            op: traceData.op,
+            fileId: traceData.fileId,
+            lineNumber: traceData.lineNumber,
+            hasErrored: traceData.hasErrored,
             gasUsed: rawCallTrace.gas_used,
             inputVariables,
             outputVariables,

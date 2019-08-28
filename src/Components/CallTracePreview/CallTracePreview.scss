@@ -38,11 +38,24 @@
 }
 
 .CallTracePreview__TracePoint__Dot {
-  border: 1px solid $Primary500;
   width: 16px;
   height: 16px;
   margin: 0 12px 0 4px;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CallTracePreview__TracePoint__Dot__HasSourceIcon {
+  color: $Primary500;
+}
+
+.CallTracePreview__TracePoint__Dot__NoSourceIcon {
+  opacity: 0.75;
+}
+
+.CallTracePreview__TracePoint__Dot__HasErroredIcon {
+  color: $Danger500;
 }
 
 .CallTracePreview__TracePoint__Actions {

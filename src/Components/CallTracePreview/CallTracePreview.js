@@ -53,7 +53,11 @@ class TracePoint extends Component {
                     },
                 )} onClick={this.handleOpenTrace}>
                     {!!depth && [...Array(depth)].map((e, index) => <div key={index} className="CallTracePreview__TracePoint__DepthLine"/>)}
-                    <div className="CallTracePreview__TracePoint__Dot"/>
+                    <div className="CallTracePreview__TracePoint__Dot">
+                        {!trace.hasErrored && !!file && <Icon icon="file-text" className="CallTracePreview__TracePoint__Dot__HasSourceIcon"/>}
+                        {!trace.hasErrored && !file && <Icon icon="circle" className="CallTracePreview__TracePoint__Dot__NoSourceIcon"/>}
+                        {trace.hasErrored && <Icon icon="alert-triangle" className="CallTracePreview__TracePoint__Dot__HasErroredIcon"/>}
+                    </div>
                     {!!file && <div>
                         {!!trace.functionName && <span className="SemiBoldText">{trace.functionName}</span>}
                         {!trace.functionName && <span className="SemiBoldText">[{trace.op}]</span>}
