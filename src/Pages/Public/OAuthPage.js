@@ -3,12 +3,13 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Redirect} from "react-router-dom";
 
-import {OAuthStatusMap} from "../../Common/constants";
+import * as authActions from "../../Core/Auth/Auth.actions";
+import * as notificationActions from "../../Core/Notification/Notification.actions";
+
+import {OAuthServiceTypeMap, OAuthStatusMap} from "../../Common/constants";
 
 import {Page, Container} from "../../Elements";
 import OAuthStatus from "../../Components/OAuthStatus/OAuthStatus";
-
-import * as authActions from "../../Core/Auth/Auth.actions";
 
 class OAuthPage extends Component {
     constructor(props) {
@@ -22,31 +23,47 @@ class OAuthPage extends Component {
 
 
     async componentDidMount() {
-        const {service, code, actions, auth} = this.props;
+        const {service, code, actions, notificationActions, auth} = this.props;
 
-        if (auth.loggedIn) {
-            this.setState({
-                alreadyLoggedIn: true,
-            });
-
+        if (!service || !code) {
             return;
         }
 
-        if (service && code) {
+        this.setState({
+            authenticating: true,
+        });
+
+        let response;
+
+        switch (service) {
+            case OAuthServiceTypeMap.GITHUB:
+                if (auth.loggedIn) {
+                    this.setState({
+                        alreadyLoggedIn: true,
+                    });
+
+                    return;
+                }
+
+                response = await actions.authenticateOAuth(service, code);
+
+                break;
+            case OAuthServiceTypeMap.SLACK:
+                // @TODO Finish slack
+                response = await notificationActions.connectSlackChannel(code);
+
+                break;
+            default:
+                break;
+        }
+
+        setTimeout(() => {
             this.setState({
-                authenticating: true,
+                authenticating: false,
+                authResponse: response,
             });
 
-            const response = await actions.authenticateOAuth(service, code);
-
-            setTimeout(() => {
-                this.setState({
-                    authenticating: false,
-                    authResponse: response,
-                });
-
-            }, 1500);
-        }
+        }, 1500);
     }
 
     render() {
@@ -75,7 +92,7 @@ class OAuthPage extends Component {
         return (
             <Page wholeScreenPage>
                 <Container>
-                    <OAuthStatus service={service} status={currentStatus}/>
+                    <OAuthStatus service={service} redirectTo={redirectTo} status={currentStatus}/>
                 </Container>
             </Page>
         );
@@ -102,6 +119,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(authActions, dispatch),
+        notificationActions: bindActionCreators(notificationActions, dispatch),
     }
 };
 

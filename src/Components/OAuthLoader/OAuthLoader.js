@@ -2,7 +2,7 @@ import React from 'react';
 
 import {CircularLoader} from "../Loaders/Loaders";
 
-import {OAuthServiceLabelMap} from "../../Common/constants";
+import {OAuthServiceLabelMap, OAuthServiceTypeMap} from "../../Common/constants";
 
 import './OAuthLaoder.scss';
 
@@ -10,7 +10,8 @@ const OAuthLoader = ({service}) => {
   return (
       <div className="OAuthLoader">
           <CircularLoader/>
-          <div className="LoadingMessage">Authenticating via {OAuthServiceLabelMap[service]}</div>
+          {service === OAuthServiceTypeMap.GITHUB && <div className="LoadingMessage">Authenticating via {OAuthServiceLabelMap[service]}</div>}
+          {service === OAuthServiceTypeMap.SLACK && <div className="LoadingMessage">Connecting with {OAuthServiceLabelMap[service]}</div>}
       </div>
   )
 };
