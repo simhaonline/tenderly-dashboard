@@ -12,7 +12,7 @@ const SlackConnectButton = ({label, redirectBack, redirectTo}) => {
     const SlackGetParameters = {
         client_id: SLACK_CLIENT_ID,
         redirect_uri: SLACK_OAUTH_REDIRECT_URI,
-        scope: 'incoming-webhook',
+        scope: 'channels:history,channels:read,chat:write:bot,groups:read,incoming-webhook',
     };
 
     if (redirectTo) {
