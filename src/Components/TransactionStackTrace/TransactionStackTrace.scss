@@ -1,0 +1,17 @@
+@import "../../Common/common";
+
+.TransactionStackTrace {
+
+}
+
+.TransactionStackTrace__Wrapper {
+  padding: $Spacing4 $Spacing5;
+  font-family: $MonospaceFontFamily;
+  border-radius: 4px;
+  background-color: $Slate700;
+  box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
+}
+
+.TransactionStackTraceLine {
+  margin-bottom: 12px;
+}
