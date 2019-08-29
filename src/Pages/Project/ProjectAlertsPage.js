@@ -39,6 +39,7 @@ const PageSegmentsOptions = [
         label: 'Destinations',
         description: 'Set alert destinations like email, slack etc.',
         value: INTEGRATIONS_TAB,
+        featureFlag: FeatureFlagTypes.ALERTS,
     },
 ];
 
