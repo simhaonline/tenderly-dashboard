@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 
 import {Transaction} from "../../Core/models";
 
-import {TransactionExecution, TransactionGeneralInformation, } from "../index";
+import {TransactionExecution, TransactionGeneralInformation, TransactionStackTrace} from "../index";
 
 const TransactionPageContent = ({transaction, contracts, callTrace, stackTrace, projectId}) => {
     return (
         <div className="TransactionPageContent">
             <TransactionGeneralInformation contracts={contracts} transaction={transaction}/>
+            {!transaction.status && <TransactionStackTrace stackTrace={stackTrace} contracts={contracts}/>}
             <TransactionExecution projectId={projectId} transaction={transaction} stackTrace={stackTrace} callTrace={callTrace} contracts={contracts}/>
         </div>
     )
