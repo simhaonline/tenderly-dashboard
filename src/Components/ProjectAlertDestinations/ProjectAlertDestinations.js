@@ -11,7 +11,7 @@ import {
 import {FeatureFlagTypes, NotificationDestinationTypes} from "../../Common/constants";
 
 import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider, Button} from "../../Elements";
-import {AddIntegrationModal, FeatureFlag, DestinationInformation, SimpleLoader} from '..';
+import {AddIntegrationModal, FeatureFlag, EmptyState, DestinationInformation, SimpleLoader} from '..';
 
 import './ProjectAlertDestinations.scss';
 
@@ -100,7 +100,9 @@ class ProjectAlertDestinations extends Component {
                         <h4 className="MarginLeft2">Add Destination</h4>
                         <PanelDivider/>
                         <CardsWrapper horizontal className="MarginBottom4">
-                            <DestinationOption icon="mail" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.EMAIL)} label="E-mail" active/>
+                            <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
+                                <DestinationOption icon="mail" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.EMAIL)} label="E-mail" active/>
+                            </FeatureFlag>
                             <DestinationOption icon="slack" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.SLACK)} label="Slack"/>
                             <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
                                 <DestinationOption icon="code" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.WEBHOOK)} label="Webhook"/>
@@ -121,12 +123,15 @@ class ProjectAlertDestinations extends Component {
                                         <DestinationInformation destination={destination}/>
                                     </div>
                                     <div className="ActiveIntegrationItem__Actions">
-                                        <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
+                                        {destination.type === NotificationDestinationTypes.SLACK && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
                                             <Icon icon="trash-2"/>
-                                        </Button>
+                                        </Button>}
                                     </div>
                                 </ListItem>)}
                             </List>}
+                            {destinationsLoaded && destinations.length === 0 &&
+                                <EmptyState icon="send" title="No Destinations" description="No destinations have been setup yet. Start by clicking on a destination above and adding them."/>
+                            }
                         </div>
                     </PanelContent>
                 </Panel>
