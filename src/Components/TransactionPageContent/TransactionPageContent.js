@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {TransactionExecution, TransactionHeader, } from "../index";
+import {Transaction} from "../../Core/models";
+
+import {TransactionExecution, TransactionGeneralInformation, } from "../index";
 
 const TransactionPageContent = ({transaction, contracts, callTrace, stackTrace, projectId}) => {
     return (
         <div className="TransactionPageContent">
-            <TransactionHeader contracts={contracts} transaction={transaction}/>
+            <TransactionGeneralInformation contracts={contracts} transaction={transaction}/>
             <TransactionExecution projectId={projectId} transaction={transaction} stackTrace={stackTrace} callTrace={callTrace} contracts={contracts}/>
         </div>
     )
 };
 
 TransactionPageContent.propTypes = {
-    transaction: PropTypes.object.isRequired,
+    transaction: PropTypes.instanceOf(Transaction).isRequired,
     contracts: PropTypes.array.isRequired,
     callTrace: PropTypes.object.isRequired,
     stackTrace: PropTypes.object,

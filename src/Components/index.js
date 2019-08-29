@@ -79,7 +79,7 @@ export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFla
 export {default as FlameGraph} from './FlameGraph/FlameGraph';
 export {default as PageError} from './PageError/PageError';
 export {default as ContractFiles} from './ContractFiles/ContractFiles';
-export {default as TransactionHeader} from './TransactionHeader/TransactionHeader';
+export {default as TransactionGeneralInformation} from './TransactionGeneralInformation/TransactionGeneralInformation';
 export {default as TransactionPageContent} from './TransactionPageContent/TransactionPageContent';
 export {default as CopyableText} from './CopyableText/CopyableText';
 export {default as SharePageButton} from './SharePageButton/SharePageButton';

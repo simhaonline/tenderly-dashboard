@@ -8,9 +8,9 @@ import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constan
 import {Panel, PanelContent, PanelDivider, Icon} from "../../Elements";
 import {EtherscanLink, NetworkTag, TransactionStatusTag, CopyableText} from "../index";
 
-import './TransactionHeader.scss';
+import './TransactionGeneralInformation.scss';
 
-const TransactionHeader = ({transaction, contracts}) => {
+const TransactionGeneralInformation = ({transaction, contracts}) => {
     let contractLink;
 
     const isInternal = transaction.isInternalTransaction(contracts);
@@ -89,9 +89,9 @@ const TransactionHeader = ({transaction, contracts}) => {
     )
 };
 
-TransactionHeader.propTypes = {
+TransactionGeneralInformation.propTypes = {
     transaction: PropTypes.object.isRequired,
     contracts: PropTypes.array.isRequired,
 };
 
-export default TransactionHeader;
+export default TransactionGeneralInformation;
