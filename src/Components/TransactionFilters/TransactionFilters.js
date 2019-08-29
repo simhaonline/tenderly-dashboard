@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {FeatureFlagTypes, TransactionFilterTypes} from "../../Common/constants";
+import {TransactionFilterTypes} from "../../Common/constants";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, LinkButton} from "../../Elements";
-import FeatureFlag from "../FeatureFlag/FeatureFlag";
 
 import './TransactionFilters.scss';
 
@@ -137,46 +136,44 @@ class TransactionFilters extends Component {
                 <div className="FilterGroup">
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
                 </div>
-                <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                    <div className="FilterGroup">
-                        <Button size="small" onClick={this.handleModalOpen}>
-                            <Icon icon="filter"/>
-                            <span>Filter Transactions</span>
-                        </Button>
-                        <Dialog open={openModal} onClose={this.handleModalClose}>
-                            <DialogHeader>
-                                <h3>Filter Transactions</h3>
-                                <div className="MarginLeftAuto">
-                                    <LinkButton onClick={this.resetFilters}>Reset Filters</LinkButton>
-                                </div>
-                            </DialogHeader>
-                            <DialogBody>
-                                <div className="MarginBottom4">
-                                    <div className="MarginBottom3 DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
-                                        <div>Status</div>
-                                        <div>
-                                            <SegmentedControls size="small" options={transactionStatusOptions} value={draftStatus} onChange={this.handleDraftStatusChange}/>
-                                        </div>
-                                    </div>
-                                    <div className="MarginBottom3 DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
-                                        <div>Type</div>
-                                        <div>
-                                            <SegmentedControls size="small" options={transactionTypeOptions} value={draftType} onChange={this.handleDraftTypeChange}/>
-                                        </div>
+                <div className="FilterGroup">
+                    <Button size="small" onClick={this.handleModalOpen}>
+                        <Icon icon="filter"/>
+                        <span>Filter Transactions</span>
+                    </Button>
+                    <Dialog open={openModal} onClose={this.handleModalClose}>
+                        <DialogHeader>
+                            <h3>Filter Transactions</h3>
+                            <div className="MarginLeftAuto">
+                                <LinkButton onClick={this.resetFilters}>Reset Filters</LinkButton>
+                            </div>
+                        </DialogHeader>
+                        <DialogBody>
+                            <div className="MarginBottom4">
+                                <div className="MarginBottom3 DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
+                                    <div>Status</div>
+                                    <div>
+                                        <SegmentedControls size="small" options={transactionStatusOptions} value={draftStatus} onChange={this.handleDraftStatusChange}/>
                                     </div>
                                 </div>
-                                <div>
-                                    <Button outline onClick={this.handleModalClose}>
-                                        <span>Close</span>
-                                    </Button>
-                                    <Button onClick={this.handleApplyFilters}>
-                                        <span>Filter</span>
-                                    </Button>
+                                <div className="MarginBottom3 DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
+                                    <div>Type</div>
+                                    <div>
+                                        <SegmentedControls size="small" options={transactionTypeOptions} value={draftType} onChange={this.handleDraftTypeChange}/>
+                                    </div>
                                 </div>
-                            </DialogBody>
-                        </Dialog>
-                    </div>
-                </FeatureFlag>
+                            </div>
+                            <div>
+                                <Button outline onClick={this.handleModalClose}>
+                                    <span>Close</span>
+                                </Button>
+                                <Button onClick={this.handleApplyFilters}>
+                                    <span>Filter</span>
+                                </Button>
+                            </div>
+                        </DialogBody>
+                    </Dialog>
+                </div>
             </div>
         );
     }
