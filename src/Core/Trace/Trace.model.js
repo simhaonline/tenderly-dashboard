@@ -100,7 +100,7 @@ export class Trace {
             }
         }
 
-        const hasErrored = rawCallTrace.error_line_number !== null && rawCallTrace.error_file_index !== null;
+        const hasErrored = !!rawCallTrace.error_op;
 
         if (!hasChildren && hasErrored) {
             return {
