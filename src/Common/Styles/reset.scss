@@ -20,6 +20,10 @@ body {
   font-size: 0.875rem;
 }
 
+button {
+  font-family: $SansSerifFontFamily;
+}
+
 * {
   box-sizing: border-box;
 }
