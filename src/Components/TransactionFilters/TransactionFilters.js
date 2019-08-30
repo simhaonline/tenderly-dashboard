@@ -151,12 +151,12 @@ class TransactionFilters extends Component {
 
         filters.push({
             type: TransactionFilterTypes.CONTRACTS,
-            value: draftContracts,
+            value: draftContracts.map(c => c.value),
         });
 
         filters.push({
             type: TransactionFilterTypes.NETWORKS,
-            value: draftNetworks,
+            value: draftNetworks ? draftNetworks.value : null,
         });
 
         onFiltersChange(filters);
@@ -207,7 +207,7 @@ class TransactionFilters extends Component {
                                 <div className="TransactionFilters__Dialog__FilterRow">
                                     <div className="TransactionFilters__Dialog__FilterRow__Label">Network</div>
                                     <div className="TransactionFilters__Dialog__FilterRow__Filter">
-                                        <Select value={draftNetworks} options={networkOptions} onChange={this.handleDraftNetworksChange}/>
+                                        <Select isClearable value={draftNetworks} options={networkOptions} onChange={this.handleDraftNetworksChange}/>
                                     </div>
                                 </div>
                             </div>
