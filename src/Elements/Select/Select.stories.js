@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {storiesOf} from "@storybook/react";
 import { action } from '@storybook/addon-actions';
 
@@ -21,10 +21,36 @@ const firstOptions = [
     },
 ];
 
-stories.add('default', () => {
-   return (
-       <div>
-           <Select options={firstOptions} field="firstField" onChange={action('Select:onChange')}/>
-       </div>
-   )
-});
+function DefaultSelect() {
+    const [selectValue, setValue] = useState(firstOptions[1]);
+
+    return (
+        <div>
+            <Select options={firstOptions} value={selectValue} field="firstField" onChange={value => {
+                action('Select:onChange')(value);
+                setValue(value);
+            }}/>
+            <Select options={firstOptions} value={selectValue} field="firstField" isClearable onChange={value => {
+                action('Select:onChange')(value);
+                setValue(value);
+            }}/>
+        </div>
+    )
+}
+
+function MultipleSelect() {
+    const [selectValue, setValue] = useState([]);
+
+    return (
+        <div>
+            <Select multiple options={firstOptions} value={selectValue} field="firstField" onChange={value => {
+                action('Select:onChange')(value);
+                setValue(value);
+            }}/>
+        </div>
+    )
+}
+
+stories.add('default', () => <DefaultSelect/>);
+
+stories.add('multiple select', () => <MultipleSelect/>);
