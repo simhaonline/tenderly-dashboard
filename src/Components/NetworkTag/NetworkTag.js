@@ -22,10 +22,6 @@ const NetworkTag = ({size, network, prefix, className, short}) => {
     const networkClassName = networkTypeToClassNameMap[network];
     const sizeClassName = networkTagSizeToClassNameMap[size];
 
-    if (short) {
-        networkLabel = networkLabel.split(' ')[0];
-    }
-
     if (prefix) {
         networkLabel = `${prefix} ${networkLabel}`;
     }
@@ -47,11 +43,6 @@ NetworkTag.propTypes = {
     size: PropTypes.string,
     prefix: PropTypes.string,
     className: PropTypes.string,
-    short: PropTypes.bool,
-};
-
-NetworkTag.defaultProps = {
-    short: false,
 };
 
 export default NetworkTag;
