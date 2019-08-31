@@ -355,14 +355,14 @@ class ProjectSetupGuide extends Component {
                                                 <Icon icon="file-text"/>
                                             </div>
                                             <div className="SetupTypeName">Verified Contract</div>
-                                            <div className="SetupTypeDescription">If your contract is publicly verified on Etherscan, you can enter the contract address and start monitoring it in the dashboard.</div>
+                                            <div className="SetupTypeDescription">If your contract is publicly verified on Etherscan or Tenderly, you can enter the contract address and start monitoring it in the dashboard.</div>
                                         </Card>
                                         <Card selectable className="ProjectSetupItem" onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>
                                             <div className="IconWrapper">
                                                 <Icon icon="terminal"/>
                                             </div>
-                                            <div className="SetupTypeName">CLI</div>
-                                            <div className="SetupTypeDescription">Upload your Smart Contract using our CLI tool that reads your Truffle build to setup monitoring for your deployed contracts.</div>
+                                            <div className="SetupTypeName">Private Contracts</div>
+                                            <div className="SetupTypeDescription">You can import your private Smart Contracts using our CLI tool that reads your Truffle build to setup monitoring for your deployed contracts.</div>
                                         </Card>
                                     </CardsWrapper>
                                 </div>
