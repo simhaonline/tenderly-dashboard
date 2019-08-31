@@ -2,4 +2,62 @@
 
 .Select {
   position: relative;
+
+  .Select__control {
+    background: $Slate300;
+    border: 1px solid transparentize($Primary500, 0.5);
+    cursor: pointer;
+    border-radius: 3px;
+
+    &:hover {
+      border: 1px solid transparentize($Primary500, 0.5);
+      background-color: $Slate200;
+    }
+
+    &--is-focused {
+      box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
+      border-color: $Primary500;
+      background-color: $Slate200;
+
+      &:hover {
+        border-color: $Primary500;
+      }
+    }
+  }
+
+  .Select__multi-value {
+    background-color: $Slate500;
+    margin: 0 4px
+  }
+
+  .Select__multi-value__label {
+    color: $WhiteColor;
+    padding: 5px 4px 5px 8px;
+    font-size: $FontSize200;
+  }
+
+  .Select__multi-value__remove {
+    color: $WhiteColor;
+    transition: 0.1s;
+
+    &:hover {
+      background-color: transparentize($Danger500, 0.9);
+    }
+  }
+
+  .Select__single-value {
+    color: $WhiteColor;
+  }
+
+  .Select__placeholder {
+    color: transparentize($WhiteColor, 0.3);
+  }
+
+  .Select__input {
+    color: $WhiteColor;
+  }
+
+  .Select__menu {
+    background-color: $Slate200;
+  }
 }
