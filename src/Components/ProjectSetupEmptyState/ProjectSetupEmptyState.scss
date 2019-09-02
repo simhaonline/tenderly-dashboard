@@ -22,11 +22,14 @@
   }
 
   .EmptyStateDescription {
-    max-width: 400px;
+    max-width: 650px;
     margin-top: 0;
+    line-height: 30px;
+    letter-spacing: 1px;
     text-align: center;
     font-weight: 300;
-    margin-bottom: $Spacing6;
+    font-size: $FontSize500;
+    margin-bottom: $Spacing7;
   }
 
   .EmptyStateButton {
