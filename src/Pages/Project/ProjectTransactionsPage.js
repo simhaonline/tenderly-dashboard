@@ -108,7 +108,6 @@ class ProjectTransactionsPage extends Component {
         let newFilters = {};
 
         if (filters) {
-
             filters.forEach(filter => {
                 newFilters[filter.type] = filter;
             });

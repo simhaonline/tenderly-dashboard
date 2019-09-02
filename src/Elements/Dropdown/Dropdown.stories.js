@@ -1,5 +1,6 @@
 import React from "react";
 import {storiesOf} from "@storybook/react";
+import { action } from '@storybook/addon-actions';
 
 import Dropdown, {DropdownItem, DropdownMenu, DropdownToggle} from './Dropdown';
 import Button from "../Button/Button";
@@ -13,7 +14,7 @@ stories.add('default', () => (
                 Dropdown span
             </DropdownToggle>
             <DropdownMenu>
-                <DropdownItem onClick={() => {console.log('clicked')}}>testing</DropdownItem>
+                <DropdownItem onClick={action('DropdownItem:onClick')}>testing</DropdownItem>
             </DropdownMenu>
         </Dropdown>
         <Dropdown>
@@ -23,7 +24,7 @@ stories.add('default', () => (
                 </Button>
             </DropdownToggle>
             <DropdownMenu>
-                <DropdownItem onClick={() => {console.log('clicked')}}>testing</DropdownItem>
+                <DropdownItem onClick={action('DropdownItem:onClick')}>testing</DropdownItem>
             </DropdownMenu>
         </Dropdown>
     </div>

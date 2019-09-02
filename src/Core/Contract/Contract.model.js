@@ -158,6 +158,16 @@ class Contract {
     }
 
     /**
+     * @param {string} uniqueContractId
+     * @return {string}
+     */
+    static generateApiIdFromUniqueId(uniqueContractId) {
+        const [network, address] = uniqueContractId.split(':');
+
+        return `eth:${NetworkAppToApiTypeMap[network]}:${address}`;
+    }
+
+    /**
      * @param {Object} data
      * @param {Object} [projectData]
      * @return {Contract}
