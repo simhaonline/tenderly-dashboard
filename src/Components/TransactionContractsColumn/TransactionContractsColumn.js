@@ -12,6 +12,12 @@ const TransactionContractsColumn = ({transaction, contracts}) => {
         .map(contractAddress => contracts.find(contract => contract.address === contractAddress))
         .filter(contract => !!contract);
 
+    if (!txContracts || txContracts.length === 0) {
+        return <div className="TransactionContractsColumn">
+            <span className="MonospaceFont LinkText">-</span>
+        </div>;
+    }
+
     return (
         <div className="TransactionContractsColumn">
             <div className="TransactionContractsColumn__Contract" id={id}>
