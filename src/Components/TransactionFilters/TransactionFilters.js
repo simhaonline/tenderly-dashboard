@@ -201,13 +201,13 @@ class TransactionFilters extends Component {
                                 <div className="TransactionFilters__Dialog__FilterRow">
                                     <div className="TransactionFilters__Dialog__FilterRow__Label">Contracts</div>
                                     <div className="TransactionFilters__Dialog__FilterRow__Filter">
-                                        <Select multiple value={draftContracts} options={contractOptions} onChange={this.handleDraftContractsChange}/>
+                                        <Select multiple value={draftContracts} selectLabel="Select Contracts" options={contractOptions} onChange={this.handleDraftContractsChange}/>
                                     </div>
                                 </div>
                                 <div className="TransactionFilters__Dialog__FilterRow">
                                     <div className="TransactionFilters__Dialog__FilterRow__Label">Network</div>
                                     <div className="TransactionFilters__Dialog__FilterRow__Filter">
-                                        <Select isClearable value={draftNetworks} options={networkOptions} onChange={this.handleDraftNetworksChange}/>
+                                        <Select isClearable value={draftNetworks} selectLabel="Select Network" options={networkOptions} onChange={this.handleDraftNetworksChange}/>
                                     </div>
                                 </div>
                             </div>
