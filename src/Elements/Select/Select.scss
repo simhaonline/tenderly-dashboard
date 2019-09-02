@@ -45,6 +45,24 @@
     }
   }
 
+  .Select__option {
+    transition: 0.1s;
+    cursor: pointer;
+
+    &--is-focused {
+      background-color: $Slate100;
+    }
+
+    &--is-selected {
+      background-color: $Primary500;
+      cursor: default;
+    }
+
+    &:active, &:focus {
+      background-color: $Slate100;
+    }
+  }
+
   .Select__single-value {
     color: $WhiteColor;
   }
