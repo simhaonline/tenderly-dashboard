@@ -68,16 +68,19 @@ class TransactionFilters extends Component {
 
     handleModalOpen = () => {
         const {activeFilters} = this.props;
+        const {contractOptions, networkOptions} = this.state;
 
-        const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
-        const type = activeFilters[TransactionFilterTypes.TYPE] ? activeFilters[TransactionFilterTypes.TYPE].value : 'all';
+        const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value: 'all';
+        const type = activeFilters[TransactionFilterTypes.TYPE] ? activeFilters[TransactionFilterTypes.TYPE].value: 'all';
+        const contracts = activeFilters[TransactionFilterTypes.CONTRACTS] ? contractOptions.filter(c => activeFilters[TransactionFilterTypes.CONTRACTS].value.includes(c.value)): [];
+        const networks = activeFilters[TransactionFilterTypes.NETWORKS] ? networkOptions.find(n => n.value === activeFilters[TransactionFilterTypes.NETWORKS].value): '';
 
         this.setState({
             openModal: true,
             draftStatus: status,
             draftType: type,
-            draftContracts: [],
-            draftNetworks: '',
+            draftContracts: contracts,
+            draftNetworks: networks,
         });
     };
 
@@ -115,7 +118,7 @@ class TransactionFilters extends Component {
 
     handleDraftContractsChange = (value) => {
         this.setState({
-            draftContracts: value,
+            draftContracts: value || [],
         });
     };
 
