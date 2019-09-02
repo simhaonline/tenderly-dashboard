@@ -7,6 +7,7 @@ import {Contract} from "../../Core/models";
 import {NetworkLabelMap, TransactionFilterTypes} from "../../Common/constants";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, LinkButton, Select} from "../../Elements";
+import {ContractSelectMultiValueLabel, ContractSelectOption} from "../index";
 
 import './TransactionFilters.scss';
 
@@ -46,6 +47,8 @@ class TransactionFilters extends Component {
 
         const contractOptions = props.contracts.map(contract => ({
             value: contract.getUniqueId(),
+            network: contract.network,
+            address: contract.address,
             label: contract.name,
         }));
 
@@ -204,7 +207,10 @@ class TransactionFilters extends Component {
                                 <div className="TransactionFilters__Dialog__FilterRow">
                                     <div className="TransactionFilters__Dialog__FilterRow__Label">Contracts</div>
                                     <div className="TransactionFilters__Dialog__FilterRow__Filter">
-                                        <Select multiple value={draftContracts} selectLabel="Select Contracts" options={contractOptions} onChange={this.handleDraftContractsChange}/>
+                                        <Select multiple value={draftContracts} components={{
+                                            Option: ContractSelectOption,
+                                            MultiValueLabel: ContractSelectMultiValueLabel,
+                                        }} selectLabel="Select Contracts" options={contractOptions} onChange={this.handleDraftContractsChange}/>
                                     </div>
                                 </div>
                                 <div className="TransactionFilters__Dialog__FilterRow">

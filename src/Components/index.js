@@ -13,6 +13,10 @@ export {default as OnboardingWelcomeStep} from './Onboarding/OnboardingWelcomeSt
 export {default as OnboardingCreateProjectStep} from './Onboarding/OnboardingCreateProjectStep';
 export {default as OnboardingCreateOrganizationStep} from './Onboarding/OnboardingCreateOrganizationStep';
 
+// Select Components
+export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
+export {default as ContractSelectMultiValueLabel} from './SelectComponents/ContractSelectMultiValueLabel';
+
 // Third-party services
 export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButton';
 export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButton';
