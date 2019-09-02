@@ -7,14 +7,14 @@ import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
 import './NetworkTag.scss';
 
 const networkTypeToClassNameMap = {
-    [NetworkTypes.MAIN]: 'main',
-    [NetworkTypes.KOVAN]: 'kovan',
-    [NetworkTypes.ROPSTEN]: 'ropsten',
-    [NetworkTypes.RINKEBY]: 'rinkeby',
+    [NetworkTypes.MAIN]: 'NetworkTag--main',
+    [NetworkTypes.KOVAN]: 'NetworkTag--kovan',
+    [NetworkTypes.ROPSTEN]: 'NetworkTag--ropsten',
+    [NetworkTypes.RINKEBY]: 'NetworkTag--rinkeby',
 };
 
 const networkTagSizeToClassNameMap = {
-    small: 'Small',
+    small: 'NetworkTag--Small',
 };
 
 const NetworkTag = ({size, network, prefix, className, short}) => {

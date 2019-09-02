@@ -10,26 +10,28 @@
   width: 100px;
   text-align: center;
 
-  &.main {
-    background-color: transparentize($Primary500, 0.2);
-  }
 
-  &.kovan {
-    background-color: transparentize($Secondary500, 0.2);
-  }
+}
 
-  &.ropsten {
-    background-color: transparentize($Danger500, 0.2);
-  }
+.NetworkTag--main {
+  background-color: transparentize($Primary500, 0.2);
+}
 
-  &.rinkeby {
-    background-color: transparentize($Success500, 0.2);
-  }
+.NetworkTag--kovan {
+  background-color: transparentize($Secondary500, 0.2);
+}
 
-  &.Small {
-    padding: 2px 5px;
-    border-radius: 2px;
-    font-size: $FontSize200;
-    width: 80px;
-  }
+.NetworkTag--ropsten {
+  background-color: transparentize($Danger500, 0.2);
+}
+
+.NetworkTag--rinkeby {
+  background-color: transparentize($Success500, 0.2);
+}
+
+.NetworkTag--Small {
+  padding: 2px 5px;
+  border-radius: 2px;
+  font-size: $FontSize200;
+  width: 80px;
 }
