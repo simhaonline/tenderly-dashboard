@@ -12,11 +12,11 @@ class Select extends Component {
     };
 
     render() {
-        const {options, value, multiple, selectLabel, isClearable} = this.props;
+        const {options, value, multiple, selectLabel, isClearable, components} = this.props;
 
         return (
             <div className="Select">
-                <ReactSelect value={value}
+                <ReactSelect value={value} components={components}
                              isClearable={isClearable}
                              placeholder={selectLabel} classNamePrefix="Select" isMulti={multiple} onChange={this.handleSelectChange} options={options}/>
             </div>
@@ -42,6 +42,7 @@ Select.defaultProps = {
     value: '',
     multiple: false,
     onChange: () => {},
+    components: {},
     isClearable: false,
     selectLabel: 'Select option',
 };
