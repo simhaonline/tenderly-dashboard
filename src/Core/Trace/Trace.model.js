@@ -47,6 +47,12 @@ export class Trace {
 
         /** @type TraceInput[] */
         this.outputVariables = data.outputVariables;
+
+        /** @type TraceInput[] */
+        this.stateVariables = data.stateVariables;
+
+        /** @type TraceInput[] */
+        this.localVariables = data.localVariables;
     }
 
     /**
@@ -76,6 +82,28 @@ export class Trace {
                 }
 
                 data.output[output.name] = output.value;
+            });
+        }
+
+        // @TODO Release this when Nebojsa fixes state variables
+        if (this.stateVariables && false) {
+            this.stateVariables.forEach(output => {
+                if (!data.state) {
+                    data.state = {};
+                }
+
+                data.state[output.name] = output.value;
+            });
+        }
+
+        // @TODO Release this when Nebojsa fixes local variables
+        if (this.stateVariables && false) {
+            this.localVariables.forEach(output => {
+                if (!data.local_variables) {
+                    data.local_variables = {};
+                }
+
+                data.local_variables[output.name] = output.value;
             });
         }
 
@@ -136,6 +164,8 @@ export class Trace {
 
         const inputVariables = rawCallTrace.decoded_input && rawCallTrace.decoded_input.map(TraceInput.buildFromResponse);
         const outputVariables = rawCallTrace.decoded_output && rawCallTrace.decoded_output.map(TraceInput.buildFromResponse);
+        const stateVariables = rawCallTrace.states && rawCallTrace.states.map(TraceInput.buildFromResponse);
+        const localVariables = rawCallTrace.variables && rawCallTrace.variables.map(TraceInput.buildFromResponse);
 
         const traceData = Trace.extractTraceData(rawCallTrace, depthId, !!calls);
 
@@ -156,6 +186,8 @@ export class Trace {
             gasUsed: rawCallTrace.gas_used,
             inputVariables,
             outputVariables,
+            stateVariables,
+            localVariables,
             depthId,
         }, calls);
     }

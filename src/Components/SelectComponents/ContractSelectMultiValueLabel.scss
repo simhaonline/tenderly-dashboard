@@ -1,0 +1,15 @@
+.ContractSelectMultiValueLabel {
+  margin: -5px 0 -5px -8px;
+  display: flex;
+  align-items: center;
+
+  .ContractSelectMultiValueLabel__Network {
+    width: initial;
+  }
+
+  .ContractSelectMultiValueLabel__Name {
+    margin-left: 8px;
+  }
+}
+
+

@@ -71,7 +71,7 @@ const Button = ({children, width, type, color, size, readOnly, href, className, 
 
 Button.propTypes = {
     onClick: PropTypes.func,
-    to: PropTypes.string,
+    to: PropTypes.oneOfType([PropTypes.string, PropTypes.object,]),
     color: PropTypes.oneOf(['primary', 'secondary', 'danger']),
 };
 

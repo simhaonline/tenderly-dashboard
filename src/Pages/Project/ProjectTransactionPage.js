@@ -22,9 +22,14 @@ class ProjectTransactionPage extends Component {
     constructor(props) {
         super(props);
 
+        const {location: {state: locationState}} = props;
+
+        const previousPageQuery = locationState && locationState.previousPageQuery;
+
         this.state = {
             error: null,
             loading: true,
+            previousPageQuery,
         };
     }
 
@@ -67,14 +72,19 @@ class ProjectTransactionPage extends Component {
 
     render() {
         const {transaction, callTrace, stackTrace, projectId} = this.props;
-        const {error, loading, txContracts} = this.state;
+        const {error, loading, txContracts, previousPageQuery} = this.state;
+
+        const backUrl = {
+            pathname: `/project/${projectId}/transactions`,
+            search: previousPageQuery,
+        };
 
         if (loading) {
             return (
                 <Page>
                     <Container>
                         <PageHeading>
-                            <Button to={`/project/${projectId}/transactions`} outline>
+                            <Button to={backUrl} outline>
                                 <Icon icon="arrow-left"/>
                             </Button>
                             <h1>Transaction</h1>
@@ -90,14 +100,14 @@ class ProjectTransactionPage extends Component {
                 <Page>
                     <Container>
                         <PageHeading>
-                            <Button to={`/project/${projectId}/transactions`} outline>
+                            <Button to={backUrl} outline>
                                 <Icon icon="arrow-left"/>
                             </Button>
                             <h1>Transaction</h1>
                         </PageHeading>
                         <PageError>
                             <p>{error}</p>
-                            <Button to={`/project/${projectId}/transactions`} outline>
+                            <Button to={backUrl} outline>
                                 <Icon icon="arrow-left"/>
                                 <span>Go Back to Transactions</span>
                             </Button>
@@ -111,7 +121,7 @@ class ProjectTransactionPage extends Component {
             <Page id="ProjectTransactionsPage">
                 <Container>
                     <PageHeading>
-                        <Button to={`/project/${projectId}/transactions`} outline>
+                        <Button to={backUrl} outline>
                             <Icon icon="arrow-left"/>
                         </Button>
                         <h1>Transaction</h1>

@@ -11,6 +11,7 @@ import StackTrace from "../Trace/StackTrace.model";
 import {
     exampleTransaction1Paylod
 } from "../../examples";
+import Contract from "../Contract/Contract.model";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
@@ -47,6 +48,7 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
             const statusFilter = filters[TransactionFilterTypes.STATUS];
             const typeFilter = filters[TransactionFilterTypes.TYPE];
             const contractsFilter = filters[TransactionFilterTypes.CONTRACTS];
+            const networksFilter = filters[TransactionFilterTypes.NETWORKS];
 
             const {data} = await Api.get(`/account/${username}/project/${projectId}/transactions`, {
                 params: {
@@ -54,7 +56,8 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
                     perPage: limit,
                     txType: typeFilter ? TypeValueToApiValue[typeFilter.value] : null,
                     status: statusFilter ? StatusValueToApiValue[statusFilter.value] : null,
-                    contractId: contractsFilter ? contractsFilter.value : null,
+                    contractId: contractsFilter ? contractsFilter.value.map(contractId => Contract.generateApiIdFromUniqueId(contractId)) : null,
+                    network: networksFilter ? NetworkAppToApiTypeMap[networksFilter.value] : null,
                 },
             });
 

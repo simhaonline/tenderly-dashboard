@@ -2,28 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
+import {NetworkLabelMap, NetworkLabelShorthandMap, NetworkTypes} from "../../Common/constants";
 
 import './NetworkTag.scss';
 
 const networkTypeToClassNameMap = {
-    [NetworkTypes.MAIN]: 'main',
-    [NetworkTypes.KOVAN]: 'kovan',
-    [NetworkTypes.ROPSTEN]: 'ropsten',
-    [NetworkTypes.RINKEBY]: 'rinkeby',
+    [NetworkTypes.MAIN]: 'NetworkTag--main',
+    [NetworkTypes.KOVAN]: 'NetworkTag--kovan',
+    [NetworkTypes.ROPSTEN]: 'NetworkTag--ropsten',
+    [NetworkTypes.RINKEBY]: 'NetworkTag--rinkeby',
 };
 
 const networkTagSizeToClassNameMap = {
-    small: 'Small',
+    small: 'NetworkTag--Small',
 };
 
-const NetworkTag = ({size, network, prefix, className, short}) => {
+const NetworkTag = ({size, network, prefix, className, id, useShorthand}) => {
     let networkLabel = NetworkLabelMap[network];
     const networkClassName = networkTypeToClassNameMap[network];
     const sizeClassName = networkTagSizeToClassNameMap[size];
 
-    if (short) {
-        networkLabel = networkLabel.split(' ')[0];
+    if (useShorthand) {
+        networkLabel = NetworkLabelShorthandMap[network];
     }
 
     if (prefix) {
@@ -36,7 +36,7 @@ const NetworkTag = ({size, network, prefix, className, short}) => {
             networkClassName,
             sizeClassName,
             className,
-        )}>
+        )} id={id}>
             {networkLabel}
         </span>
     )
@@ -47,11 +47,7 @@ NetworkTag.propTypes = {
     size: PropTypes.string,
     prefix: PropTypes.string,
     className: PropTypes.string,
-    short: PropTypes.bool,
-};
-
-NetworkTag.defaultProps = {
-    short: false,
+    useShorthand: PropTypes.bool,
 };
 
 export default NetworkTag;

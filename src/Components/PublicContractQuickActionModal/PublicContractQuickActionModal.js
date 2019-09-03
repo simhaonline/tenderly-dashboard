@@ -57,7 +57,7 @@ class PublicContractQuickActionModal extends Component {
     };
 
     handleProjectSelect = (option) => {
-        if (option === 'new_project') {
+        if (option.value === 'new_project') {
             this.setState({
                 createProject: true,
             });
@@ -149,8 +149,10 @@ class PublicContractQuickActionModal extends Component {
             actionInProgress: true,
         });
 
+        const projectId = selectedProject.value;
+
         const addResponse = await actions.addVerifiedContractToProject(
-            selectedProject,
+            projectId,
             contract.network,
             contract.address
         );
@@ -164,10 +166,10 @@ class PublicContractQuickActionModal extends Component {
             return;
         }
 
-        await actions.fetchProject(selectedProject);
-        await contractActions.fetchContractsForProject(selectedProject);
+        await actions.fetchProject(projectId);
+        await contractActions.fetchContractsForProject(projectId);
 
-        this.goToProjectBasedOnAction(selectedProject);
+        this.goToProjectBasedOnAction(projectId);
     };
 
     render() {

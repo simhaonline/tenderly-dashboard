@@ -2,8 +2,8 @@
 @import "../../Common/Styles/typography";
 @import "../../Common/Styles/global";
 
-.Tooltip {
-
+.Tooltip .tooltip{
+  z-index: 9999;
 }
 
 .Tooltip__Content {

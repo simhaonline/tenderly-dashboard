@@ -52,11 +52,12 @@ class Table extends Component {
             return index;
         }
 
+        // @TODO Probably shouldn't use index in unique key accessor
         if (typeof keyAccessor === 'string') {
-            return rowData[keyAccessor];
+            return index + rowData[keyAccessor];
         }
 
-        return keyAccessor(rowData);
+        return keyAccessor(rowData, index);
     };
 
     /**
