@@ -41,7 +41,7 @@ const transactionTableConf = [
 
 class TransactionsList extends Component {
     handleRowClick = (transaction) => {
-        const {history, isPublicContracts} = this.props;
+        const {history, isPublicContracts, location: {search}} = this.props;
 
         let transactionRoute;
 
@@ -53,7 +53,12 @@ class TransactionsList extends Component {
             transactionRoute = `/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`;
         }
 
-        history.push(transactionRoute);
+        history.push({
+            pathname: transactionRoute,
+            state: {
+                previousPageQuery: search,
+            },
+        });
     };
 
     render() {
