@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Sentry from "@sentry/browser";
 
 import {Tooltip} from "../../Elements";
 
@@ -13,6 +14,14 @@ const TransactionContractsColumn = ({transaction, contracts}) => {
         .filter(contract => !!contract);
 
     if (!txContracts || txContracts.length === 0) {
+        // @TODO Remove this when we have fixed this bug when a tx doesn't have a contract
+        Sentry.withScope(scope => {
+            scope.setTag("transaction-hash", transaction.txHash);
+            scope.setTag("transaction-contracts", transaction.contracts);
+            scope.setLevel(Sentry.Severity.Warning);
+            Sentry.captureMessage('Transactions list item without contract');
+        });
+
         return <div className="TransactionContractsColumn">
             <span className="MonospaceFont LinkText">-</span>
         </div>;
