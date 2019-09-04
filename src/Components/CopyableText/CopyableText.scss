@@ -30,6 +30,8 @@
   opacity: 0;
   transition: 0.2s $easeOutCirc;
   transform: translateY(10px);
+  display: flex;
+  align-items: center;
 
   & + .CopyableText_Value {
     margin-left: $Spacing1;
