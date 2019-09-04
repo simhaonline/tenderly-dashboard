@@ -197,7 +197,7 @@ class TraceDebugger extends Component {
                     {!hasSource && <div className="TraceDebugger__NoSource">
                         <h5 className="TraceDebugger__NoSource__Heading">No source for this contract</h5>
                         <p className="TraceDebugger__NoSource__Description">Unfortunately we do not have the source code for this contract to display the exact line of code.</p>
-                        <p className="TraceDebugger__NoSource__Description">If you have the source code for this contract, you can add it to the project using our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a>.</p>
+                        <p className="TraceDebugger__NoSource__Description">If you have the source code for this contract, you can add it to the project using our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool</a>.</p>
                         <div><CopyableText text={currentTrace.contract} onSuccessMessage="Copied contract address to clipboard"/></div>
                     </div>}
                 </div>
