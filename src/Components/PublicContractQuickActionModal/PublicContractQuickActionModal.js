@@ -180,6 +180,8 @@ class PublicContractQuickActionModal extends Component {
             return <Redirect to={redirectTo}/>
         }
 
+        console.log(!projectName);
+
         return (
             <Dialog open={open} onClose={this.handleModalClose} className="PublicContractQuickActionModal">
                 <DialogHeader>
@@ -214,7 +216,7 @@ class PublicContractQuickActionModal extends Component {
                                     }
                                 ]}/>
                                 <div className="MarginTop4">
-                                    <Button onClick={this.addToProject}>
+                                    <Button onClick={this.addToProject} disabled={!selectedProject}>
                                         <span>Add to Project</span>
                                     </Button>
                                     <Button onClick={this.handleModalClose} outline>
