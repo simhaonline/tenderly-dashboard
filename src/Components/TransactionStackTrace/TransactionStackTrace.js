@@ -14,9 +14,11 @@ import * as _ from "lodash";
  * @param {Contract[]} contracts
  * @param {boolean} first
  * @param {boolean} last
+ * @param {Function} onContractSourceClick
+ * @param {Function} onViewDebuggerClick
  * @constructor
  */
-const TransactionStackTraceLine = ({trace, contracts, first, last}) => {
+const TransactionStackTraceLine = ({trace, contracts, first, last, onContractSourceClick = () => {}, onViewDebuggerClick = () => {}}) => {
     const contract = contracts.find(contract => trace.contract === contract.address);
     let file;
 
@@ -30,7 +32,9 @@ const TransactionStackTraceLine = ({trace, contracts, first, last}) => {
             {
                 "TransactionStackTraceLine--Error": first,
             }
-        )}>
+        )} onClick={() => {
+            if (first) onViewDebuggerClick();
+        }}>
             <div className="TransactionStackTraceLine__IconWrapper">
                 {first && <Icon icon="alert-triangle" className="DangerText"/>}
                 {last && <Icon icon="arrow-up-circle"/>}
@@ -39,13 +43,13 @@ const TransactionStackTraceLine = ({trace, contracts, first, last}) => {
             {!!file && !!trace.functionName && <div className="TransactionStackTraceLine__TraceInfo">
                 {!first && <div>{trace.functionName.trim()}()</div>}
                 {first && <div>{file.source.split('\n')[trace.lineNumber - 1].trim()}</div>}
-                <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">at</span> <LinkButton>{contract.name}:{trace.lineNumber}</LinkButton></div>
+                <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">at</span> <LinkButton onClick={() => onContractSourceClick(trace)}>{contract.name}:{trace.lineNumber}</LinkButton></div>
             </div>}
             {(!file || !trace.functionName) && <div className="TransactionStackTraceLine__TraceInfo">
                 <div>Opcode: [{trace.op}]</div>
                 <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">in</span> {trace.contract}</div>
             </div>}
-            {first && <div className="">
+            {first && <div>
                 <LinkButton className="TransactionStackTraceLine__DebugButton">
                     <Icon icon="terminal"/>
                     <span className="MarginLeft1">Debug Error</span>
@@ -71,6 +75,25 @@ class TransactionStackTrace extends PureComponent {
         });
     };
 
+    goToErrorInDebugger = () => {
+        const {onNavigate} = this.props;
+
+        onNavigate({
+            tab: 'debugger',
+            depth: 'last',
+        });
+    };
+
+    goToContractSourceLine = (trace) => {
+        const {onNavigate} = this.props;
+
+        onNavigate({
+            tab: 'contracts',
+            contract: trace.contract,
+            lineNumber: trace.lineNumber,
+        });
+    };
+
     render() {
         const {expanded} = this.state;
         const {stackTrace, contracts} = this.props;
@@ -86,7 +109,7 @@ class TransactionStackTrace extends PureComponent {
                     <PanelContent>
                         {stackTrace.trace.length > 5 && <div className="TransactionStackTrace__Wrapper">
                             {topTraces.map((trace, index) =>
-                                <TransactionStackTraceLine trace={trace} contracts={contracts} key={index} first={index === 0}/>
+                                <TransactionStackTraceLine onContractSourceClick={this.goToContractSourceLine} onViewDebuggerClick={this.goToErrorInDebugger} trace={trace} contracts={contracts} key={index} first={index === 0}/>
                             )}
                             <div className={classNames(
                                 "TransactionStackTraceLine",
@@ -107,15 +130,15 @@ class TransactionStackTrace extends PureComponent {
                                 </div>
                             </div>
                             {expanded && middleTrace.map((trace, index) =>
-                                <TransactionStackTraceLine trace={trace} contracts={contracts} key={index}/>
+                                <TransactionStackTraceLine onContractSourceClick={this.goToContractSourceLine} trace={trace} contracts={contracts} key={index}/>
                             )}
                             {bottomTraces.map((trace, index) =>
-                                <TransactionStackTraceLine trace={trace} contracts={contracts} key={index} last={index === (bottomTraces.length - 1)}/>
+                                <TransactionStackTraceLine onContractSourceClick={this.goToContractSourceLine} trace={trace} contracts={contracts} key={index} last={index === (bottomTraces.length - 1)}/>
                             )}
                         </div>}
                         {stackTrace.trace.length <= 5 && <div className="TransactionStackTrace__Wrapper">
                             {stackTrace.trace.map((trace, index) =>
-                                <TransactionStackTraceLine trace={trace} contracts={contracts} key={index} first={index === 0} last={index === (stackTrace.trace.length - 1)}/>
+                                <TransactionStackTraceLine onContractSourceClick={this.goToContractSourceLine} onViewDebuggerClick={this.goToErrorInDebugger} trace={trace} contracts={contracts} key={index} first={index === 0} last={index === (stackTrace.trace.length - 1)}/>
                             )}
                         </div>}
                     </PanelContent>
@@ -127,6 +150,7 @@ class TransactionStackTrace extends PureComponent {
 
 TransactionStackTrace.propTypes = {
     stackTrace: PropTypes.instanceOf(StackTrace).isRequired,
+    onNavigate: PropTypes.func.isRequired,
 };
 
 export default TransactionStackTrace;
