@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import './LinkButton.scss';
+
 const LinkButton = ({children, className, onClick}) => {
     return (
         <span className={classNames(
-            "LinkText CursorPointer",
+            "LinkButton",
             className,
         )} onClick={onClick}>
             {children}
