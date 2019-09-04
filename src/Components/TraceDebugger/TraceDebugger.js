@@ -25,7 +25,11 @@ class TraceDebugger extends Component {
 
         const flatCallTrace = this.flattenCallTrace(callTrace.trace);
 
-        const currentTrace = props.initialTrace ? flatCallTrace[props.initialTrace.depthId] : callTrace.trace;
+        let currentTrace = callTrace.trace;
+
+        if (props.initialTrace) {
+            currentTrace = flatCallTrace[props.initialTrace.depthId];
+        }
 
         this.state = {
             currentStack: [],
