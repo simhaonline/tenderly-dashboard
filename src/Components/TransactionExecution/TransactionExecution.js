@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {PanelContent, Panel, PanelTabs} from "../../Elements";
-import {CallTracePreview, StackTracePreview, TraceDebugger, TransactionGasBreakdown, TransactionContracts} from "../index";
+import {CallTracePreview, TraceDebugger, TransactionGasBreakdown, TransactionContracts} from "../index";
 import {Route, Switch, withRouter} from "react-router-dom";
 
 const tabToUrlMap = {
@@ -80,6 +80,15 @@ class TransactionExecution extends Component {
     handleTraceViewSource = (trace) => {
         this.handleTabChange('contracts', trace);
     };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {action} = this.props;
+        const {action: prevAction} = prevProps;
+
+        if (action !== prevAction) {
+            this.handleTabChange(action.tab, action.trace);
+        }
+    }
 
     render() {
         const {callTrace, contracts, transaction} = this.props;

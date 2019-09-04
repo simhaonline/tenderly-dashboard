@@ -43,7 +43,11 @@ const TransactionStackTraceLine = ({trace, contracts, first, last, onContractSou
             {!!file && !!trace.functionName && <div className="TransactionStackTraceLine__TraceInfo">
                 {!first && <div>{trace.functionName.trim()}()</div>}
                 {first && <div>{file.source.split('\n')[trace.lineNumber - 1].trim()}</div>}
-                <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">at</span> <LinkButton onClick={() => onContractSourceClick(trace)}>{contract.name}:{trace.lineNumber}</LinkButton></div>
+                <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">at</span> <LinkButton onClick={event => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    onContractSourceClick(trace)
+                }}>{contract.name}:{trace.lineNumber}</LinkButton></div>
             </div>}
             {(!file || !trace.functionName) && <div className="TransactionStackTraceLine__TraceInfo">
                 <div>Opcode: [{trace.op}]</div>
@@ -80,7 +84,7 @@ class TransactionStackTrace extends PureComponent {
 
         onNavigate({
             tab: 'debugger',
-            depth: 'last',
+            trace: 'last',
         });
     };
 
@@ -89,8 +93,7 @@ class TransactionStackTrace extends PureComponent {
 
         onNavigate({
             tab: 'contracts',
-            contract: trace.contract,
-            lineNumber: trace.lineNumber,
+            trace: trace,
         });
     };
 
@@ -122,7 +125,7 @@ class TransactionStackTrace extends PureComponent {
                                     <Icon icon={expanded ? "minus-square" : "layers"} className="MutedText"/>
                                 </div>
                                 <div className="TransactionStackTraceLine__TraceInfo MutedText">
-                                    <span className="SemiBoldText">{middleTrace.length} more traces</span> have been collapsed
+                                    <span className="SemiBoldText">{middleTrace.length} traces</span> from stack traces have been {expanded ? "expanded" : "collapsed"}
                                 </div>
                                 <div>
                                     <Icon icon={expanded ? "chevron-up" : "chevron-down"}/>

@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
+import * as _ from "lodash";
 
 import {Contract, CallTrace} from "../../Core/models";
 
@@ -27,7 +28,11 @@ class TraceDebugger extends Component {
 
         let currentTrace = callTrace.trace;
 
-        if (props.initialTrace) {
+        if (props.initialTrace === 'last') {
+            const lastTrace = _.last(Object.keys(flatCallTrace));
+
+            currentTrace = flatCallTrace[lastTrace];
+        } else if (props.initialTrace) {
             currentTrace = flatCallTrace[props.initialTrace.depthId];
         }
 
@@ -248,7 +253,7 @@ class TraceDebugger extends Component {
 TraceDebugger.propTypes = {
     callTrace: PropTypes.instanceOf(CallTrace),
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
-    initialTrace: PropTypes.instanceOf(Trace),
+    initialTrace: PropTypes.oneOfType([PropTypes.instanceOf(Trace), PropTypes.string]),
 };
 
 export default TraceDebugger;
