@@ -23,11 +23,6 @@
     background-color: $Slate300;
     padding: $Spacing1 $Spacing2;
     margin-bottom: 4px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $Slate200;
-    }
   }
 
   &--Collapse {

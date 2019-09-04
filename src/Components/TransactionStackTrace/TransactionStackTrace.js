@@ -1,13 +1,14 @@
 import React, {Fragment, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import * as _ from "lodash";
 
 import {StackTrace} from "../../Core/models";
 
 import {Panel, Icon, PanelContent, LinkButton} from "../../Elements";
+import {CopyableText} from "..";
 
 import './TransactionStackTrace.scss';
-import * as _ from "lodash";
 
 /**
  * @param {Trace} trace
@@ -32,9 +33,7 @@ const TransactionStackTraceLine = ({trace, contracts, first, last, onContractSou
             {
                 "TransactionStackTraceLine--Error": first,
             }
-        )} onClick={() => {
-            if (first) onViewDebuggerClick();
-        }}>
+        )}>
             <div className="TransactionStackTraceLine__IconWrapper">
                 {first && <Icon icon="alert-triangle" className="DangerText"/>}
                 {last && <Icon icon="arrow-up-circle"/>}
@@ -43,18 +42,14 @@ const TransactionStackTraceLine = ({trace, contracts, first, last, onContractSou
             {!!file && !!trace.functionName && <div className="TransactionStackTraceLine__TraceInfo">
                 {!first && <div>{trace.functionName.trim()}()</div>}
                 {first && <div>{file.source.split('\n')[trace.lineNumber - 1].trim()}</div>}
-                <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">at</span> <LinkButton onClick={event => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    onContractSourceClick(trace)
-                }}>{contract.name}:{trace.lineNumber}</LinkButton></div>
+                <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">at</span> <LinkButton onClick={() => onContractSourceClick(trace)}>{contract.name}:{trace.lineNumber}</LinkButton></div>
             </div>}
             {(!file || !trace.functionName) && <div className="TransactionStackTraceLine__TraceInfo">
                 <div>Opcode: [{trace.op}]</div>
-                <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">in</span> {trace.contract}</div>
+                <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">in</span> <CopyableText text={trace.contract} position="right"/></div>
             </div>}
             {first && <div>
-                <LinkButton className="TransactionStackTraceLine__DebugButton">
+                <LinkButton className="TransactionStackTraceLine__DebugButton" onClick={onViewDebuggerClick}>
                     <Icon icon="terminal"/>
                     <span className="MarginLeft1">Debug Error</span>
                 </LinkButton>
