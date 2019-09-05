@@ -3,7 +3,7 @@ import {Api} from "../../Utils/Api";
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import AlertRule from "./AlertRule.model";
-import {AlertRuleExpression} from "../models";
+import {AlertRuleExpression, AlertLog} from "../models";
 
 export const FETCH_ALERT_RULES_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULES_FOR_PROJECT';
 export const FETCH_ALERT_RULE_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULE_FOR_PROJECT';
@@ -162,6 +162,37 @@ export const createAlertRuleForProject = (projectId, name, description = '', exp
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error)
+        }
+    };
+};
+
+/**
+ * @param {string} projectId
+ * @param {Object} [filters]
+ * @param {number} [page]
+ * @param {number} [limit]
+ * @return {Function}
+ */
+export const fetchAlertHistoryforProject = (projectId, filters, page = 1, limit = 20) => {
+    return async () => {
+        try {
+            const {data} = await Api.get(`/account/me/project/${projectId}/alert-history`, {
+                params: {
+                    page,
+                    perPage: limit,
+                },
+            });
+
+            if (!data || !data.alert_logs) {
+                return new ErrorActionResponse();
+            }
+
+            const alertLogs = data.alert_logs.map(AlertLog.buildFromResponse);
+
+            return new SuccessActionResponse(alertLogs);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
         }
     };
 };
