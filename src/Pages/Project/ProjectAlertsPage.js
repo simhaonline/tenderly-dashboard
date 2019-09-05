@@ -33,7 +33,6 @@ const PageSegmentsOptions = [
         label: 'History',
         description: 'View alerts that were triggered and sent',
         value: HISTORY_TAB,
-        featureFlag: FeatureFlagTypes.ALERTS,
     },
     {
         label: 'Destinations',
@@ -84,13 +83,13 @@ class ProjectAlertsPage extends Component {
                     {project.isSetup && <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
                         <Switch>
-                            <Route path={`/project/${project.id}/alerts/rules`} render={() => <PageSegmentContent>
+                            <Route path={`/project/:projectId/alerts/rules`} render={() => <PageSegmentContent>
                                 <ProjectAlertRules projectId={project.id}/>
                             </PageSegmentContent>}/>
-                            <Route path={`/project/${project.id}/alerts/history`} render={() => <PageSegmentContent>
+                            <Route path={`/project/:projectId/alerts/history`} render={() => <PageSegmentContent>
                                 <ProjectAlertHistory projectId={project.id}/>
                             </PageSegmentContent>}/>
-                            <Route path={`/project/${project.id}/alerts/destinations`} render={() => <PageSegmentContent>
+                            <Route path={`/project/:projectId/alerts/destinations`} render={() => <PageSegmentContent>
                                 <ProjectAlertDestinations/>
                             </PageSegmentContent>}/>
                         </Switch>
