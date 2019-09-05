@@ -4,13 +4,16 @@ import {bindActionCreators} from "redux";
 import {Link, withRouter} from "react-router-dom";
 import moment from "moment";
 
+import {generateShortAddress} from "../../Utils/AddressFormatter";
+
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 
+import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
 import {Panel, PanelContent, Table} from "../../Elements";
-import {NetworkColumn, TransactionHashColumn, SimpleLoader} from "..";
+import {NetworkColumn, SimpleLoader} from "..";
 
 const alertHistoryTableConf = [
     {
@@ -26,7 +29,9 @@ const alertHistoryTableConf = [
     },
     {
         label: "Tx Hash",
-        renderColumn: log => <TransactionHashColumn transaction={log}/>,
+        renderColumn: (log, metadata) => <div>
+            <Link className="MonospaceFont" to={`/project/${metadata.projectId}/tx/${NetworkAppToRouteTypeMap[log.network]}/${log.txHash}`}>{generateShortAddress(log.txHash, 12, 6)}</Link>
+        </div>,
     },
     {
         label: "When",
