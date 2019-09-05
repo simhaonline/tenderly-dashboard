@@ -2,7 +2,6 @@ export {default as AppHeader} from './AppHeader/AppHeader';
 export {default as Navigation} from './Navigation/Navigation';
 export {default as PrivateRoute} from './PrivateRoute/PrivateRoute';
 export {default as EtherscanLink} from './EtherscanLink/EtherscanLink';
-export {default as ContractFileSource} from './ContractFileSource/ContractFileSource';
 export {default as CodePreview} from './CodePreview/CodePreview';
 export {default as RegisterForm} from './RegisterForm/RegisterForm';
 export {default as ProgressiveButton} from './ProgressiveButton/ProgressiveButton';
