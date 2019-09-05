@@ -27,7 +27,7 @@ const TransactionHashColumn = ({transaction, displayType, contracts}) => {
 
 TransactionHashColumn.propTypes = {
     transaction: PropTypes.object.isRequired,
-    contracts: PropTypes.array.isRequired,
+    contracts: PropTypes.array,
     displayType: PropTypes.bool,
 };
 
