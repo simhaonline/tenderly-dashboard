@@ -15,10 +15,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparentize($Slate800, 0.3);
+  background-color: transparentize($Slate900, 0.3);
 
   @media (max-width: 760px) {
-    background-color: transparentize($Slate800, 0.2);
+    background-color: transparentize($Slate900, 0.2);
   }
 }
 
@@ -127,7 +127,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparentize($Slate800, 0.25);
+    background-color: transparentize($Slate900, 0.25);
     z-index: 999;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;

@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import ReactJson from 'react-json-view';
+import * as _ from "lodash";
 
 import {Contract, CallTrace} from "../../Core/models";
 
@@ -25,7 +26,15 @@ class TraceDebugger extends Component {
 
         const flatCallTrace = this.flattenCallTrace(callTrace.trace);
 
-        const currentTrace = props.initialTrace ? flatCallTrace[props.initialTrace.depthId] : callTrace.trace;
+        let currentTrace = callTrace.trace;
+
+        if (props.initialTrace === 'last') {
+            const lastTrace = _.last(Object.keys(flatCallTrace));
+
+            currentTrace = flatCallTrace[lastTrace];
+        } else if (props.initialTrace) {
+            currentTrace = flatCallTrace[props.initialTrace.depthId];
+        }
 
         this.state = {
             currentStack: [],
@@ -188,7 +197,7 @@ class TraceDebugger extends Component {
                     {!hasSource && <div className="TraceDebugger__NoSource">
                         <h5 className="TraceDebugger__NoSource__Heading">No source for this contract</h5>
                         <p className="TraceDebugger__NoSource__Description">Unfortunately we do not have the source code for this contract to display the exact line of code.</p>
-                        <p className="TraceDebugger__NoSource__Description">If you have the source code for this contract, you can add it to the project using our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a>.</p>
+                        <p className="TraceDebugger__NoSource__Description">If you have the source code for this contract, you can add it to the project using our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool</a>.</p>
                         <div><CopyableText text={currentTrace.contract} onSuccessMessage="Copied contract address to clipboard"/></div>
                     </div>}
                 </div>
@@ -244,7 +253,7 @@ class TraceDebugger extends Component {
 TraceDebugger.propTypes = {
     callTrace: PropTypes.instanceOf(CallTrace),
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
-    initialTrace: PropTypes.instanceOf(Trace),
+    initialTrace: PropTypes.oneOfType([PropTypes.instanceOf(Trace), PropTypes.string]),
 };
 
 export default TraceDebugger;

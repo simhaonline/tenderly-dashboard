@@ -2,7 +2,6 @@ export {default as AppHeader} from './AppHeader/AppHeader';
 export {default as Navigation} from './Navigation/Navigation';
 export {default as PrivateRoute} from './PrivateRoute/PrivateRoute';
 export {default as EtherscanLink} from './EtherscanLink/EtherscanLink';
-export {default as ContractFileSource} from './ContractFileSource/ContractFileSource';
 export {default as CodePreview} from './CodePreview/CodePreview';
 export {default as RegisterForm} from './RegisterForm/RegisterForm';
 export {default as ProgressiveButton} from './ProgressiveButton/ProgressiveButton';
@@ -12,6 +11,10 @@ export {default as FeatureFlagControls} from './FeatureFlagControls/FeatureFlagC
 export {default as OnboardingWelcomeStep} from './Onboarding/OnboardingWelcomeStep';
 export {default as OnboardingCreateProjectStep} from './Onboarding/OnboardingCreateProjectStep';
 export {default as OnboardingCreateOrganizationStep} from './Onboarding/OnboardingCreateOrganizationStep';
+
+// Select Components
+export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
+export {default as ContractSelectMultiValueLabel} from './SelectComponents/ContractSelectMultiValueLabel';
 
 // Third-party services
 export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButton';
@@ -74,14 +77,21 @@ export {default as TransactionExecution} from './TransactionExecution/Transactio
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
 export {default as TraceDebugger} from './TraceDebugger/TraceDebugger';
 export {default as StackTracePreview} from './StackTracePreview/StackTracePreview';
+
+/**
+ * Transaction Components
+ */
+export {default as TransactionPageContent} from './TransactionPageContent/TransactionPageContent';
+export {default as TransactionGeneralInformation} from './TransactionGeneralInformation/TransactionGeneralInformation';
 export {default as TransactionGasBreakdown} from './TransactionGasBreakdown/TransactionGasBreakdown';
 export {default as TransactionContracts} from './TransactionContracts/TransactionContracts';
+export {default as TransactionStackTrace} from './TransactionStackTrace/TransactionStackTrace';
+
 export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFlameGraph';
 export {default as FlameGraph} from './FlameGraph/FlameGraph';
 export {default as PageError} from './PageError/PageError';
 export {default as ContractFiles} from './ContractFiles/ContractFiles';
-export {default as TransactionHeader} from './TransactionHeader/TransactionHeader';
-export {default as TransactionPageContent} from './TransactionPageContent/TransactionPageContent';
+
 export {default as CopyableText} from './CopyableText/CopyableText';
 export {default as SharePageButton} from './SharePageButton/SharePageButton';
 export {default as EmptyState} from './EmptyState/EmptyState';

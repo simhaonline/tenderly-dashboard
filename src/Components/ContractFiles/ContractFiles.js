@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import {Contract} from "../../Core/models";
+
 import {Panel, PanelHeader, PanelContent, PanelDivider} from "../../Elements";
 import {CodePreview} from "../index";
 
@@ -56,7 +58,7 @@ class ContractFiles extends Component {
 }
 
 ContractFiles.propTypes = {
-    contract: PropTypes.object.isRequired,
+    contract: PropTypes.instanceOf(Contract).isRequired,
 };
 
 export default ContractFiles;

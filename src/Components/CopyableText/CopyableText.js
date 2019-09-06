@@ -14,7 +14,7 @@ const CopyableText = ({text, onSuccessMessage, position}) => {
             title: onSuccessMessage,
             icon: "clipboard",
         })}>
-            <div className="CopyableText DisplayFlex">
+            <div className="CopyableText DisplayInlineFlex">
                 {position === "left" && <div className="CopyableText_Icon">
                     <Icon icon="copy"/>
                 </div>}
@@ -41,6 +41,7 @@ CopyableText.propTypes = {
 
 CopyableText.defaultProps = {
     position: "left",
+    onSuccessMessage: "Copied to clipboard",
 };
 
 export default CopyableText;

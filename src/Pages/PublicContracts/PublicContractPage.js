@@ -22,9 +22,10 @@ import {
     ContractInformation,
     ProjectPageLoader,
     NetworkTag,
-    TransactionsList, EtherscanLink, SharePageButton, ContractFileSource,
+    TransactionsList, EtherscanLink, SharePageButton,
     PublicContractQuickActions,
-    LoginRequiredModal
+    LoginRequiredModal,
+    ContractFiles
 } from "../../Components";
 
 class PublicContractPage extends Component {
@@ -233,7 +234,7 @@ class PublicContractPage extends Component {
                         <Route path="/contract/:network/:id/source" render={() => (
                             <Fragment>
                                 <h2 className="MarginBottom2 MarginLeft2">Source Code</h2>
-                                <ContractFileSource file={contract.mainFile}/>
+                                <ContractFiles contract={contract}/>
                             </Fragment>
                         )}/>
                         <Redirect to={`/project/${contract.address}/transactions`}/>

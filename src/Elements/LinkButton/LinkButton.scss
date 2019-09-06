@@ -1,0 +1,10 @@
+@import "../../Common/common";
+
+.LinkButton {
+  color: $LinkColor;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

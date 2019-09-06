@@ -106,7 +106,7 @@ class PublicContractsPage extends Component {
                     <div className="MarginBottom4">
                         {!!mostWatchedContracts.length && <div className="DisplayFlex OverflowYScroll">
                             {mostWatchedContracts.map(contract =>
-                                <PublicContractThumbnail key={contract.address} contract={contract} displayWatchCount/>
+                                <PublicContractThumbnail key={contract.getUniqueId()} contract={contract} displayWatchCount/>
                             )}
                         </div>}
                         {!mostWatchedContracts.length && <div className="DisplayFlex JustifyContentCenter Padding4">

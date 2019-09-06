@@ -1,0 +1,64 @@
+@import "../../Common/common";
+
+.TransactionStackTrace {
+
+}
+
+.TransactionStackTrace__Wrapper {
+  padding: $Spacing4 $Spacing5;
+  font-family: $MonospaceFontFamily;
+  border-radius: 4px;
+  background-color: $Slate700;
+  box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
+}
+
+.TransactionStackTraceLine {
+  display: flex;
+  align-items: center;
+  padding: 4px $Spacing2;
+  border-radius: 3px;
+  transition: 0.1s;
+
+  &--Error {
+    background-color: $Slate300;
+    padding: $Spacing1 $Spacing2;
+    margin-bottom: 4px;
+  }
+
+  &--Collapse {
+    cursor: pointer;
+    margin: $Spacing1 0;
+    padding: $Spacing1 $Spacing2;
+
+    &:hover {
+      background-color: $Slate500;
+    }
+
+    .TransactionStackTraceLine__IconWrapper {
+      font-size: $FontSize400;
+    }
+  }
+
+  &__TraceInfo {
+    flex: 1 1 0;
+  }
+
+  &__Line {
+    border-left: 1px dotted transparentize($WhiteColor, 0.5);
+    height: 44px;
+    margin: -4px 0;
+  }
+
+  &__IconWrapper {
+    flex: 0 0 24px;
+    margin-right: $Spacing2;
+    font-size: $FontSize600;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__ContractInfo {
+    margin-top: 4px;
+    margin-left: $Spacing7;
+  }
+}

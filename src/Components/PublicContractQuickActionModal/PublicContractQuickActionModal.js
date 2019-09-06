@@ -57,7 +57,7 @@ class PublicContractQuickActionModal extends Component {
     };
 
     handleProjectSelect = (option) => {
-        if (option === 'new_project') {
+        if (option.value === 'new_project') {
             this.setState({
                 createProject: true,
             });
@@ -149,8 +149,10 @@ class PublicContractQuickActionModal extends Component {
             actionInProgress: true,
         });
 
+        const projectId = selectedProject.value;
+
         const addResponse = await actions.addVerifiedContractToProject(
-            selectedProject,
+            projectId,
             contract.network,
             contract.address
         );
@@ -164,10 +166,10 @@ class PublicContractQuickActionModal extends Component {
             return;
         }
 
-        await actions.fetchProject(selectedProject);
-        await contractActions.fetchContractsForProject(selectedProject);
+        await actions.fetchProject(projectId);
+        await contractActions.fetchContractsForProject(projectId);
 
-        this.goToProjectBasedOnAction(selectedProject);
+        this.goToProjectBasedOnAction(projectId);
     };
 
     render() {
@@ -177,6 +179,8 @@ class PublicContractQuickActionModal extends Component {
         if (redirectTo) {
             return <Redirect to={redirectTo}/>
         }
+
+        console.log(!projectName);
 
         return (
             <Dialog open={open} onClose={this.handleModalClose} className="PublicContractQuickActionModal">
@@ -212,7 +216,7 @@ class PublicContractQuickActionModal extends Component {
                                     }
                                 ]}/>
                                 <div className="MarginTop4">
-                                    <Button onClick={this.addToProject}>
+                                    <Button onClick={this.addToProject} disabled={!selectedProject}>
                                         <span>Add to Project</span>
                                     </Button>
                                     <Button onClick={this.handleModalClose} outline>

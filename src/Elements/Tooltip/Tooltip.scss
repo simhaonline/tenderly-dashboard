@@ -2,8 +2,8 @@
 @import "../../Common/Styles/typography";
 @import "../../Common/Styles/global";
 
-.Tooltip {
-
+.Tooltip .tooltip{
+  z-index: 9999;
 }
 
 .Tooltip__Content {
@@ -11,6 +11,6 @@
   background-color: transparentize($Slate700, 0.1);
   box-shadow: 1px 1px 3px 0 rgba($BlackColor, 0.75);
   padding: 4px $Spacing2;
-  border: 1px solid $Slate800;
+  border: 1px solid $Slate900;
   border-radius: 4px;
 }

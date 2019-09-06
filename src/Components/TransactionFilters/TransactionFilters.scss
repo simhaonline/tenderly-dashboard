@@ -1,14 +1,27 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
-@import "../../Common/Styles/global";
+@import "../../Common/common";
 
 .TransactionFilters {
   display: flex;
   align-items: center;
   margin-bottom: $Spacing6;
-  justify-content: space-between;
 
   .FilterGroup {
     flex: 0 0 auto;
   }
+}
+
+.TransactionFilters__Dialog__FilterRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $Spacing5;
+}
+
+.TransactionFilters__Dialog__FilterRow__Label {
+  font-weight: 600;
+  flex: 0 0 120px;
+  font-size: $FontSize400;
+}
+
+.TransactionFilters__Dialog__FilterRow__Filter {
+  flex: 1 1 0;
 }

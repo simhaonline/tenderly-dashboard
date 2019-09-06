@@ -63,6 +63,13 @@ export const NetworkLabelMap = {
     [NetworkTypes.RINKEBY]: 'Rinkeby',
 };
 
+export const NetworkLabelShorthandMap = {
+    [NetworkTypes.MAIN]: 'M',
+    [NetworkTypes.KOVAN]: 'K',
+    [NetworkTypes.ROPSTEN]: 'RO',
+    [NetworkTypes.RINKEBY]: 'RK',
+};
+
 export const EtherscanLinkTypes = {
     BLOCK: 'block',
     TRANSACTION: 'transaction',

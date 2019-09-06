@@ -1,0 +1,12 @@
+@import "../../Common/common";
+
+.Select__option.ContractSelectOption {
+  display: flex;
+  align-items: center;
+}
+
+.Select__option .ContractSelectOption__Blockie {
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 1px 1px 3px 0 transparentize($BlackColor, 0.85);
+}
