@@ -4,7 +4,6 @@ import {Route, Switch} from "react-router-dom";
 
 import Analytics from "../../Utils/Analytics";
 
-import {FeatureFlagTypes} from "../../Common/constants";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 

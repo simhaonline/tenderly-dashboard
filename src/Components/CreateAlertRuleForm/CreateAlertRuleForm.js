@@ -14,7 +14,11 @@ import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 
-import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes} from "../../Common/constants";
+import {
+    AlertRuleExpressionParameterTypes,
+    AlertRuleExpressionTypes,
+    NotificationDestinationTypes
+} from "../../Common/constants";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {areProjectContractsLoaded} from "../../Common/Selectors/ProjectSelectors";
 import {
@@ -674,7 +678,7 @@ class CreateAlertRuleForm extends Component {
                             </div>
                         </SimpleAlertRuleStep>}
                         <SimpleAlertRuleStep label="Destinations" description="Select the destinations to which the alert notifications will be sent to." finished={!!alertDestinations.length} stepNumber={parametersNeeded && alertType !== 'method_call' ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
-                            {destinations.map(destination => <Card color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={() => this.toggleAlertDestination(destination)} key={destination.id}>
+                            {destinations.map(destination => <Card disabled={alertType === 'success_tx' && destination.type === NotificationDestinationTypes.SLACK} color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={() => this.toggleAlertDestination(destination)} key={destination.id}>
                                 <Toggle value={alertDestinations.includes(destination.id)}/>
                                 <div className="MarginLeft2">
                                     <div className="SemiBoldText">{destination.label}</div>
