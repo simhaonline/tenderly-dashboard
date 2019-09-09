@@ -85,7 +85,7 @@ export class Trace {
             });
         }
 
-        // @TODO Release this when Nebojsa fixes state variables
+        // @TODO @NUBI Release this when Nebojsa fixes state variables
         if (this.stateVariables && false) {
             this.stateVariables.forEach(output => {
                 if (!data.state) {
@@ -96,8 +96,8 @@ export class Trace {
             });
         }
 
-        // @TODO Release this when Nebojsa fixes local variables
-        if (this.stateVariables && false) {
+        // @TODO @NUBI Release this when Nebojsa fixes local variables
+        if (this.localVariables && false) {
             this.localVariables.forEach(output => {
                 if (!data.local_variables) {
                     data.local_variables = {};
