@@ -180,8 +180,6 @@ class PublicContractQuickActionModal extends Component {
             return <Redirect to={redirectTo}/>
         }
 
-        console.log(!projectName);
-
         return (
             <Dialog open={open} onClose={this.handleModalClose} className="PublicContractQuickActionModal">
                 <DialogHeader>
@@ -261,7 +259,7 @@ const mapStateToProps = (state) => {
     return {
         loggedIn: state.auth.loggedIn,
         projectsLoaded: state.project.projectsLoaded,
-        projects: getDashboardProjects(state),
+        projects: getDashboardProjects(state, false),
     }
 };
 

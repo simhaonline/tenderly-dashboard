@@ -1,12 +1,18 @@
-import {EntityStatusTypes} from "../constants";
-
+import {EntityStatusTypes, ProjectTypes} from "../constants";
 
 /**
  * @param {Object} state
+ * @param {boolean} [includeExample]
  * @returns {Project[]}
  */
-export function getDashboardProjects(state) {
-    return Object.values(state.project.projects);
+export function getDashboardProjects(state, includeExample = true) {
+    const projects = Object.values(state.project.projects);
+
+    if (!includeExample) {
+        return projects.filter(project => project.type !== ProjectTypes.DEMO);
+    }
+
+    return projects;
 }
 
 /**
