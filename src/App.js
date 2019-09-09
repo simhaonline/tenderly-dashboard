@@ -4,7 +4,6 @@ import {BrowserRouter as Router} from "react-router-dom";
 import Cookies from 'js-cookie';
 import ReactGA from 'react-ga';
 import * as Sentry from "@sentry/browser";
-import * as SentryIntegrations from "@sentry/integrations";
 import {ToastContainer, cssTransition} from "react-toastify";
 
 import 'highlight.js/styles/dracula.css';
@@ -25,11 +24,6 @@ import GeneralErrorPage from "./Pages/General/GeneralErrorPage";
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
         dsn: 'https://7a6943685b344dae8c67e98c4ad39b63@sentry.io/1332206',
-        integrations: [
-            new SentryIntegrations.CaptureConsole({
-                levels: ["error"],
-            }),
-        ],
     });
 }
 
