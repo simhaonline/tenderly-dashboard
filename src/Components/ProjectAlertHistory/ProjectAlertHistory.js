@@ -36,7 +36,7 @@ const alertHistoryTableConf = [
     {
         label: "When",
         renderColumn: log => <div>
-            {moment(log.triggeredAt).format('DD/MM/YYYY HH:mm:SS')}
+            {moment(log.triggeredAt).format('DD/MM/YYYY HH:mm:ss')}
         </div>,
     },
     {

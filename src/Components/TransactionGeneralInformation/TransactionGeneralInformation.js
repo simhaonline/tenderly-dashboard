@@ -53,7 +53,7 @@ const TransactionGeneralInformation = ({transaction, contracts}) => {
                         <span className="MarginRight2 SemiBoldText">Timestamp:</span>
                         <div className="TextAlignRight">
                             <span>{moment(transaction.timestamp).fromNow()} </span>
-                            <span className="MutedText">({moment(transaction.timestamp).format('DD/MM/YYYY HH:mm:SS')})</span>
+                            <span className="MutedText">({moment(transaction.timestamp).format('DD/MM/YYYY HH:mm:ss')})</span>
                         </div>
                     </div>
                     <div className="DisplayFlex AlignItemsStart MarginRight4">
