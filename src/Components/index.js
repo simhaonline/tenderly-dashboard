@@ -76,7 +76,6 @@ export {default as TransactionFilters} from './TransactionFilters/TransactionFil
 export {default as TransactionExecution} from './TransactionExecution/TransactionExecution';
 export {default as CallTracePreview} from './CallTracePreview/CallTracePreview';
 export {default as TraceDebugger} from './TraceDebugger/TraceDebugger';
-export {default as StackTracePreview} from './StackTracePreview/StackTracePreview';
 
 /**
  * Transaction Components
