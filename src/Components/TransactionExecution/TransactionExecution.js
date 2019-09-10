@@ -6,6 +6,7 @@ import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 import {PanelContent, Panel, PanelTabs} from "../../Elements";
 import {CallTracePreview, TraceDebugger, TransactionGasBreakdown, TransactionContracts} from "../index";
 import {Route, Switch, withRouter} from "react-router-dom";
+import {EventLog} from "../../Core/models";
 
 const tabToUrlMap = {
     overview: '',
@@ -91,7 +92,7 @@ class TransactionExecution extends Component {
     }
 
     render() {
-        const {callTrace, contracts, transaction} = this.props;
+        const {callTrace, contracts, transaction, eventLogs} = this.props;
         const {currentTab, tabs, selectedTrace, baseUrl} = this.state;
 
         return (
@@ -117,6 +118,7 @@ PropTypes.propTypes = {
     callTrace: PropTypes.object.isRequired,
     transaction: PropTypes.object.isRequired,
     contracts: PropTypes.array.isRequired,
+    eventLogs: PropTypes.arrayOf(PropTypes.instanceOf(EventLog)),
 };
 
 export default withRouter(TransactionExecution);

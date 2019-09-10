@@ -4,7 +4,7 @@ import {bindActionCreators} from "redux";
 
 import {
     getTransaction,
-    getTransactionCallTrace,
+    getTransactionCallTrace, getTransactionEventLogs,
     getTransactionStackTrace
 } from "../../Common/Selectors/TransactionSelectors";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
@@ -71,7 +71,7 @@ class ProjectTransactionPage extends Component {
     }
 
     render() {
-        const {transaction, callTrace, stackTrace, projectId} = this.props;
+        const {transaction, callTrace, stackTrace, eventLogs, projectId} = this.props;
         const {error, loading, txContracts, previousPageQuery} = this.state;
 
         const backUrl = {
@@ -135,7 +135,7 @@ class ProjectTransactionPage extends Component {
                         </div>
                     </PageHeading>
                     <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace}
-                                            callTrace={callTrace} projectId={projectId}/>
+                                            callTrace={callTrace} projectId={projectId} eventLogs={eventLogs}/>
                 </Container>
             </Page>
         );
@@ -157,6 +157,7 @@ const mapStateToProps = (state, ownProps) => {
         project: getProject(state, id),
         callTrace: getTransactionCallTrace(state, txHash),
         stackTrace: getTransactionStackTrace(state, txHash),
+        eventLogs: getTransactionEventLogs(state, txHash),
     }
 };
 

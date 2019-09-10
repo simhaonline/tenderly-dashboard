@@ -56,3 +56,22 @@ export function getTransactionStackTrace(state, txHash) {
 
     return stackTrace;
 }
+
+/**
+ * @param {Object} state
+ * @param {string} txHash
+ * @return {EventLog[]}
+ */
+export function getTransactionEventLogs(state, txHash) {
+    if (!txHash) {
+        return null;
+    }
+
+    const eventLogs = state.transaction.eventLogs[txHash];
+
+    if (!eventLogs) {
+        return [];
+    }
+
+    return eventLogs;
+}
