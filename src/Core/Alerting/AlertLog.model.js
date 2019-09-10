@@ -22,7 +22,7 @@ class AlertLog {
     static buildFromResponse(response) {
         return new AlertLog({
             alertRule: response.alert_id,
-            triggeredAt: moment(response.created_at),
+            triggeredAt: moment(response.checked_at),
             network: NetworkApiToAppTypeMap[response.network_id],
             txHash: response.tx_hash,
         });
