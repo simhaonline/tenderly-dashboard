@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -21,6 +21,16 @@ class CodePreview extends Component {
             offsetBottom: 0,
             centerLine: props.line,
         };
+
+        this.scrollableRef = createRef();
+    }
+
+    componentDidMount() {
+        this.scrollableRef.current.addEventListener("wheel", this.handleWheelScroll)
+    }
+
+    componentWillUnmount() {
+        this.scrollableRef.current.removeEventListener("wheel", this.handleWheelScroll)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -46,19 +56,22 @@ class CodePreview extends Component {
     };
 
     handleWheelScroll = (event) => {
-        const {scrollEnabled} = this.props;
+        const {scrollEnabled, file, linePreview} = this.props;
 
         if (!scrollEnabled) {
             return;
         }
 
+        event.preventDefault();
+        event.stopPropagation();
+
         if (event.deltaY > 0) {
             this.setState({
-                centerLine: this.state.centerLine + 1,
+                centerLine: Math.min(this.state.centerLine + 1, file.lines - linePreview),
             });
         } else {
             this.setState({
-                centerLine: this.state.centerLine - 1,
+                centerLine: Math.max(this.state.centerLine - 1, linePreview + 1),
             });
         }
     };
@@ -112,7 +125,7 @@ class CodePreview extends Component {
                 }
             )} style={{
                 minHeight,
-            }} onWheel={this.handleWheelScroll}>
+            }} ref={this.scrollableRef}>
                 {isExpandable && lineNumbers[0].number !== 0 && <div className="ExpandingWrapper" onClick={this.handleExpandUp}>
                     <div className="ExpandingControl">
                         <span>Expand</span>
