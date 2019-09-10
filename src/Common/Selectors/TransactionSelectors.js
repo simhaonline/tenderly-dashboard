@@ -1,4 +1,6 @@
 /**
+ * @TODO Add support for unique tx id and network in id
+ *
  * @param {Object} state
  * @param {string} txHash
  * @return {Transaction}
