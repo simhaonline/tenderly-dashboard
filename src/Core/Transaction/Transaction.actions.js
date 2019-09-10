@@ -4,9 +4,7 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {NetworkAppToApiTypeMap, TransactionFilterTypes} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
-import Transaction from "./Transaction.model";
-import CallTrace from "../Trace/CallTrace.model";
-import StackTrace from "../Trace/StackTrace.model";
+import {EventLog, StackTrace, CallTrace, Transaction} from "../models";
 
 import {
     exampleTransaction1Paylod
@@ -116,12 +114,19 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
 
             const stackTrace = StackTrace.buildFromResponse(data);
 
+            let eventLogs = [];
+
+            if (data.transaction_info && data.transaction_info.logs) {
+                eventLogs = data.transaction_info.logs.map(eventLog => EventLog.buildFromResponse(eventLog))
+            }
+
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
                 projectId,
                 transaction,
                 callTrace,
                 stackTrace,
+                eventLogs,
             });
 
             return new SuccessActionResponse({
