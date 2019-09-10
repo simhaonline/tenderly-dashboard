@@ -20,6 +20,7 @@ export {default as ContractSelectMultiValueLabel} from './SelectComponents/Contr
 export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButton';
 export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButton';
 export {default as SlackConnectButton} from './SlackConnectButton/SlackConnectButton';
+export {default as SlackIcon} from './SlackIcon/SlackIcon';
 
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';

@@ -11,14 +11,15 @@ import {
 import {FeatureFlagTypes, NotificationDestinationTypes} from "../../Common/constants";
 
 import {Panel, PanelContent, PanelHeader, Card, CardsWrapper, Icon, Alert, List, ListItem, PanelDivider, Button} from "../../Elements";
-import {AddIntegrationModal, FeatureFlag, EmptyState, DestinationInformation, SimpleLoader} from '..';
+import {AddIntegrationModal, FeatureFlag, EmptyState, DestinationInformation, SimpleLoader, SlackIcon} from '..';
 
 import './ProjectAlertDestinations.scss';
 
 const DestinationOption = ({label, icon, onClick = () => {}}) => {
     return (
         <Card selectable color="light" className="IntegrationsList__Option" onClick={onClick}>
-            <Icon icon={icon} className="IntegrationsList__Option__Icon"/>
+            {icon === 'slack' && <SlackIcon size={22} className="MarginBottom2"/>}
+            {icon !== 'slack' && <Icon icon={icon} className="IntegrationsList__Option__Icon"/>}
             <div className="IntegrationsList__Option__Label">{label}</div>
         </Card>
     );

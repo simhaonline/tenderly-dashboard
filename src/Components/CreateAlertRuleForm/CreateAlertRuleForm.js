@@ -14,7 +14,11 @@ import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 
-import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes} from "../../Common/constants";
+import {
+    AlertRuleExpressionParameterTypes,
+    AlertRuleExpressionTypes,
+    NotificationDestinationTypes
+} from "../../Common/constants";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {areProjectContractsLoaded} from "../../Common/Selectors/ProjectSelectors";
 import {
@@ -674,8 +678,7 @@ class CreateAlertRuleForm extends Component {
                             </div>
                         </SimpleAlertRuleStep>}
                         <SimpleAlertRuleStep label="Destinations" description="Select the destinations to which the alert notifications will be sent to." finished={!!alertDestinations.length} stepNumber={parametersNeeded && alertType !== 'method_call' ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
-                            <h4 className="SemiBoldText MarginBottom2">Email Notification</h4>
-                            {destinations.map(destination => <Card color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={() => this.toggleAlertDestination(destination)} key={destination.id}>
+                            {destinations.map(destination => <Card disabled={alertType === 'success_tx' && destination.type === NotificationDestinationTypes.SLACK} color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={() => this.toggleAlertDestination(destination)} key={destination.id}>
                                 <Toggle value={alertDestinations.includes(destination.id)}/>
                                 <div className="MarginLeft2">
                                     <div className="SemiBoldText">{destination.label}</div>
@@ -684,8 +687,8 @@ class CreateAlertRuleForm extends Component {
                                     </div>
                                 </div>
                             </Card>)}
-                            <Alert color="warning">
-                                We currently support only sending alerts to your account email. We are working on integrating <span className="SemiBoldText">additional E-mails, Slack, WebHooks</span> and other integrations as alert destinations.
+                            <Alert color="info">
+                                Integrations are managed on an account level. If you wish to add another destination like a Slack channel, go to the Destinations tabs on the right.
                             </Alert>
                         </SimpleAlertRuleStep>
                         <Dialog open={contractModelOpen} onClose={this.closeContractModal}>
