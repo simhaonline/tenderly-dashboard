@@ -163,11 +163,11 @@ class EditAlertRuleForm extends Component {
                                     <div className="MarginLeftAuto">
                                         <DestinationInformation destination={destination}/>
                                     </div>
-                                    <div>
+                                    {false && <div>
                                         {destinations.length > 1 && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
                                             <Icon icon="trash-2"/>
                                         </Button>}
-                                    </div>
+                                    </div>}
                                 </ListItem>)}
                             </List>
                         </div>}
