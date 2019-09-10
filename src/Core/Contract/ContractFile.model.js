@@ -32,6 +32,9 @@ class ContractFile {
 
         delete this.sourceCompiledMap.inComment;
 
+        /** @type Number */
+        this.lines = Object.keys(this.sourceCompiledMap).length;
+
         /** @type string */
         this.solidityVersion = data.solidityVersion;
 

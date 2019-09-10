@@ -1,6 +1,7 @@
 export {default as User} from './Auth/User.model';
 export {default as Organization} from './Organization/Organization.model';
 export {default as Contract} from './Contract/Contract.model';
+export {default as ContractFile} from './Contract/ContractFile.model';
 export {default as ContractMethod} from './Contract/ContractMethod.model';
 export {default as CallTrace} from './Trace/CallTrace.model';
 export {default as StackTrace} from './Trace/StackTrace.model';
