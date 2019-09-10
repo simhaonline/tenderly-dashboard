@@ -1,0 +1,18 @@
+@import "../../Common/common";
+
+.TransactionEventLog {
+
+}
+
+.TransactionEventLog__RawDataWrapper {
+  background-color: $Slate700;
+  border-radius: 4px;
+  padding: $Spacing2 $Spacing3;
+  word-break: break-all;
+
+  .react-json-view {
+    border-radius: 4px;
+    background-color: $Slate700 !important;
+    padding: 0;
+  }
+}
