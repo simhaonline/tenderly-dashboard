@@ -18,12 +18,12 @@ const networkTagSizeToClassNameMap = {
 };
 
 const NetworkTag = ({size, network, prefix, className, id, useShorthand}) => {
-    let networkLabel = NetworkLabelMap[network];
+    let networkLabel = NetworkLabelMap[network] || 'Unknown';
     const networkClassName = networkTypeToClassNameMap[network];
     const sizeClassName = networkTagSizeToClassNameMap[size];
 
     if (useShorthand) {
-        networkLabel = NetworkLabelShorthandMap[network];
+        networkLabel = NetworkLabelShorthandMap[network] || 'N/A';
     }
 
     if (prefix) {
@@ -35,6 +35,9 @@ const NetworkTag = ({size, network, prefix, className, id, useShorthand}) => {
             "NetworkTag",
             networkClassName,
             sizeClassName,
+            {
+                "NetworkTag--Shorthand": useShorthand,
+            },
             className,
         )} id={id}>
             {networkLabel}

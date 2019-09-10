@@ -9,8 +9,7 @@
   font-size: $FontSize300;
   width: 100px;
   text-align: center;
-
-
+  background-color: transparentize($WhiteColor, 0.65);
 }
 
 .NetworkTag--main {
@@ -27,6 +26,10 @@
 
 .NetworkTag--rinkeby {
   background-color: transparentize($Success500, 0.2);
+}
+
+.NetworkTag--Shorthand {
+  width: auto;
 }
 
 .NetworkTag--Small {
