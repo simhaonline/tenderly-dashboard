@@ -101,11 +101,13 @@ class ProjectAlertsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {id, tab}}} = ownProps;
 
+    const project = getProject(state, id);
+
     return {
         initialTab: tab,
-        project: getProject(state, id),
+        project,
         rules: getAlertRulesForProject(state, id),
-        areRulesLoaded: areAlertRulesLoadedForProject(state, id),
+        areRulesLoaded: areAlertRulesLoadedForProject(state, project),
     }
 };
 

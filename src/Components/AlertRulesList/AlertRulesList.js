@@ -150,11 +150,13 @@ class AlertRulesList extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {projectId}}} = ownProps;
 
+    const project = getProject(state, projectId);
+
     return {
         projectId,
-        project: getProject(state, projectId),
+        project,
         rules: getAlertRulesForProject(state, projectId),
-        areRulesLoaded: areAlertRulesLoadedForProject(state, projectId),
+        areRulesLoaded: areAlertRulesLoadedForProject(state, project),
     };
 };
 
