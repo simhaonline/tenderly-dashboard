@@ -1,7 +1,8 @@
 @import "../../Common/common";
 
-.TransactionEventLog {
-
+.TransactionEventLogs__FilterWrapper {
+  flex: 0 0 300px;
+  margin-right: $Spacing4;
 }
 
 .TransactionEventLog__RawDataWrapper {
