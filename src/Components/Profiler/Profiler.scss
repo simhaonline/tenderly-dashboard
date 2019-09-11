@@ -1,0 +1,32 @@
+@import "../../Common/common";
+
+.Profiler {
+  width: 100%;
+  overflow: hidden;
+  background-color: $Slate700;
+}
+
+.Profiler__Nodes {
+  display: flex;
+  height: 300px;
+  cursor: grab;
+}
+
+.ProfilerNode {
+  user-select: none;
+}
+
+.ProfilerNode__Label {
+  cursor: pointer;
+  background-color: $Primary100;
+  transition: 0.1s;
+  box-shadow: 0 0 0 20px transparentize($BlackColor, 1) inset;
+
+  &:hover {
+    box-shadow: 0 0 0 20px transparentize($BlackColor, 0.9) inset;
+  }
+}
+
+.ProfilerNode__Children {
+  display: flex;
+}
