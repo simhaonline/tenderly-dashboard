@@ -96,6 +96,10 @@ class TransactionStackTrace extends PureComponent {
         const {expanded} = this.state;
         const {stackTrace, contracts} = this.props;
 
+        if (!stackTrace) {
+            return null;
+        }
+
         const topTraces = _.take(stackTrace.trace, 2);
         const middleTrace = _.drop(_.dropRight(stackTrace.trace, 2), 2);
         const bottomTraces = _.takeRight(stackTrace.trace, 2);
