@@ -86,6 +86,7 @@ export const fetchPublicContract = (address, network, silentError = false) => {
 };
 
 /**
+ * @TODO implement new api route for searching public contracts.
  *
  * @param {string} query
  * @param {NetworkTypes} network
