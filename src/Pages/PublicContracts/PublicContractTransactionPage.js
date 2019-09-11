@@ -7,7 +7,7 @@ import Analytics from "../../Utils/Analytics";
 
 import {
     getTransaction,
-    getTransactionCallTrace,
+    getTransactionCallTrace, getTransactionEventLogs,
     getTransactionStackTrace
 } from "../../Common/Selectors/TransactionSelectors";
 import {
@@ -71,7 +71,7 @@ class PublicContractTransactionPage extends Component {
 
     render() {
         const {loaded, error} = this.state;
-        const {contracts, transaction, callTrace, stackTrace, networkType, txHash} = this.props;
+        const {contracts, transaction, callTrace, stackTrace, networkType, txHash, eventLogs} = this.props;
 
         return (
             <Page>
@@ -95,7 +95,7 @@ class PublicContractTransactionPage extends Component {
                         </div>
                     </PageHeading>
                     {!loaded && <ProjectPageLoader text="Fetching Transaction Data..."/>}
-                    {loaded && !error && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace} stackTrace={stackTrace}/>}
+                    {loaded && !error && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace} stackTrace={stackTrace} eventLogs={eventLogs}/>}
                     {loaded && error && <Panel>
                         <PanelContent>
                             <EmptyState image={NoTransactionsIcon} title="Bummer, we couldn't find this transaction" description="This transaction probably has not been processed by us yet or the transaction hash is not a valid one."/>
@@ -121,6 +121,7 @@ const mapStateToProps = (state, ownProps) => {
         networkType,
         callTrace: getTransactionCallTrace(state, transactionHash),
         stackTrace: getTransactionStackTrace(state, transactionHash),
+        eventLogs: getTransactionEventLogs(state, transactionHash),
         contracts: getPublicContractsForTransaction(state, transaction),
         contractsLoaded: arePublicContractsLoadedForTransaction(state, transaction),
     }

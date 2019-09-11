@@ -219,11 +219,18 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
 
             const stackTrace = StackTrace.buildFromResponse(data);
 
+            let eventLogs = [];
+
+            if (data.transaction_info && data.transaction_info.logs) {
+                eventLogs = data.transaction_info.logs.map(eventLog => EventLog.buildFromResponse(eventLog))
+            }
+
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION,
                 transaction,
                 callTrace,
                 stackTrace,
+                eventLogs,
             });
 
             return new SuccessActionResponse({

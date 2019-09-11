@@ -205,16 +205,19 @@ class TraceDebugger extends Component {
                     <div id="DebuggerButton__GoBack" className="MarginRight1">
                         <Button size="small" outline={!this.canGoBack()} disabled={!this.canGoBack()} onClick={this.goBack}>
                             <Icon icon={GO_BACK_ICON}/>
+                            <span>Jump Up</span>
                         </Button>
                     </div>
                     <div id="DebuggerButton__Previous" className="MarginRight1">
                         <Button size="small" outline={!this.canGoToPrevious()} disabled={!this.canGoToPrevious()} onClick={this.goToPrevious}>
                             <Icon icon={JUMP_PREVIOUS_ICON}/>
+                            <span>Next</span>
                         </Button>
                     </div>
                     <div id="DebuggerButton__Next" className="MarginRight1">
                         <Button size="small" outline={!this.canGoToNext()} disabled={!this.canGoToNext()} onClick={this.goToNext}>
                             <Icon icon={JUMP_NEXT_ICON}/>
+                            <span>Next</span>
                         </Button>
                     </div>
                     <Tooltip placement="top-start" showDelay={1000} id="DebuggerButton__GoBack">Go back to the previous step in the stack</Tooltip>
