@@ -27,7 +27,7 @@ class TransactionPageContent extends PureComponent {
         return (
             <div className="TransactionPageContent">
                 <TransactionGeneralInformation contracts={contracts} transaction={transaction}/>
-                {!transaction.status && <TransactionStackTrace onNavigate={this.handleNavigationAction} stackTrace={stackTrace} contracts={contracts}/>}
+                {!transaction.status && !!stackTrace && <TransactionStackTrace onNavigate={this.handleNavigationAction} stackTrace={stackTrace} contracts={contracts}/>}
                 <TransactionExecution projectId={projectId} action={action} transaction={transaction} eventLogs={eventLogs} callTrace={callTrace} contracts={contracts}/>
             </div>
         )
