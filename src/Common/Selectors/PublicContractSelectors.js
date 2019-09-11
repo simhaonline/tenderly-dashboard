@@ -1,3 +1,5 @@
+import {Contract} from "../../Core/models";
+
 /**
  * @param {Object} state
  * @param {string} network
@@ -16,15 +18,18 @@ export function getNetworkPublicContractsForPage(state, network, page) {
 
 /**
  * @param {Object} state
- * @param {string} id
+ * @param {string} address
+ * @param {NetworkTypes} network
  * @returns {Object} contract
  */
-export function getPublicContractById(state, id) {
-    if (!state.publicContracts.contracts[id]) {
+export function getPublicContractById(state, address, network) {
+    const contractId = Contract.generateUniqueContractId(address, network);
+
+    if (!state.publicContracts.contracts[contractId]) {
         return null;
     }
 
-    return state.publicContracts.contracts[id];
+    return state.publicContracts.contracts[contractId];
 }
 
 /**
@@ -37,7 +42,7 @@ export function getPublicContractsForTransaction(state, transaction) {
         return [];
     }
 
-    return transaction.contracts.map(contractId => getPublicContractById(state, contractId))
+    return transaction.contracts.map(contractId => getPublicContractById(state, contractId, transaction.network))
         .filter(contract => !!contract);
 }
 
@@ -56,15 +61,18 @@ export function arePublicContractsLoadedForTransaction(state, transaction) {
 
 /**
  * @param {Object} state
- * @param {string} id
+ * @param {string} address
+ * @param {NetworkTypes} network
  * @returns {boolean}
  */
-export function isPublicContractLoaded(state, id) {
-    if (!state.publicContracts.contracts[id] || !state.publicContracts.contractsLoaded[id]) {
+export function isPublicContractLoaded(state, address, network) {
+    const contractId = Contract.generateUniqueContractId(address, network);
+
+    if (!state.publicContracts.contracts[contractId] || !state.publicContracts.contractsLoaded[contractId]) {
         return false;
     }
 
-    return state.publicContracts.contractsLoaded[id];
+    return state.publicContracts.contractsLoaded[contractId];
 }
 
 /**

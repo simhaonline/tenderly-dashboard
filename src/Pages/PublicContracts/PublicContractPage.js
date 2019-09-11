@@ -259,8 +259,8 @@ const mapStateToProps = (state, ownProps) => {
         networkType,
         contractId: id,
         loggedIn,
-        contract: getPublicContractById(state, contractAddress),
-        contractLoaded: isPublicContractLoaded(state, contractAddress),
+        contract: getPublicContractById(state, contractAddress, networkType),
+        contractLoaded: isPublicContractLoaded(state, contractAddress, networkType),
         isContractWatched: isPublicContractWatched(state, contractAddress, networkType),
         watchedContractsLoaded: loggedIn ? areWatchedContractsLoaded(state): true,
     };

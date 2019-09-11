@@ -57,12 +57,12 @@ const PublicContractsReducer = (state = initialState, action) => {
             };
         case FETCH_PUBLIC_CONTRACTS_FOR_TX_ACTION:
             const txContracts = action.contracts.reduce((list, contract) => {
-                if (state.contracts[contract.id]) {
-                    const existingContract = state.contracts[contract.id];
+                if (state.contracts[contract.getUniqueId()]) {
+                    const existingContract = state.contracts[contract.getUniqueId()];
 
-                    list[contract.id] = existingContract.update(contract);
+                    list[contract.getUniqueId()] = existingContract.update(contract);
                 } else {
-                    list[contract.id] = contract;
+                    list[contract.getUniqueId()] = contract;
                 }
 
                 return list;
@@ -79,12 +79,12 @@ const PublicContractsReducer = (state = initialState, action) => {
 
         case FETCH_PUBLIC_CONTRACTS_ACTION:
             const contracts = action.contracts.reduce((list, contract) => {
-                if (state.contracts[contract.id]) {
-                    const existingContract = state.contracts[contract.id];
+                if (state.contracts[contract.getUniqueId()]) {
+                    const existingContract = state.contracts[contract.getUniqueId()];
 
-                    list[contract.id] = existingContract.update(contract);
+                    list[contract.getUniqueId()] = existingContract.update(contract);
                 } else {
-                    list[contract.id] = contract;
+                    list[contract.getUniqueId()] = contract;
                 }
 
                 return list;
@@ -111,11 +111,11 @@ const PublicContractsReducer = (state = initialState, action) => {
                 ...state,
                 contracts: {
                     ...state.contracts,
-                    [action.contract.id]: action.contract,
+                    [action.contract.getUniqueId()]: action.contract,
                 },
                 contractsLoaded: {
                     ...state.contractsLoaded,
-                    [action.contract.id]: true,
+                    [action.contract.getUniqueId()]: true,
                 }
             };
         default:
