@@ -211,7 +211,7 @@ class TraceDebugger extends Component {
                     <div id="DebuggerButton__Previous" className="MarginRight1">
                         <Button size="small" outline={!this.canGoToPrevious()} disabled={!this.canGoToPrevious()} onClick={this.goToPrevious}>
                             <Icon icon={JUMP_PREVIOUS_ICON}/>
-                            <span>Next</span>
+                            <span>Previous</span>
                         </Button>
                     </div>
                     <div id="DebuggerButton__Next" className="MarginRight1">

@@ -8,7 +8,7 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {NetworkAppToRouteTypeMap, ProjectTypes} from "../../Common/constants";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
@@ -60,19 +60,21 @@ class ProjectAlertHistory extends Component {
     }
 
     async componentDidMount() {
-        const {actions, areRulesLoaded, projectId} = this.props;
+        const {actions, areRulesLoaded, projectId, project} = this.props;
         const {page, filters} = this.state;
-
-        if (!areRulesLoaded) {
-            actions.fetchAlertRulesForProject(projectId);
-        }
-
-        const response = await actions.fetchAlertHistoryforProject(projectId, filters, page);
 
         let alertLogs = [];
 
-        if (response.success) {
-            alertLogs = response.data;
+        if (project.type !== ProjectTypes.DEMO) {
+            if (!areRulesLoaded) {
+                actions.fetchAlertRulesForProject(projectId);
+            }
+
+            const response = await actions.fetchAlertHistoryforProject(projectId, filters, page);
+
+            if (response.success) {
+                alertLogs = response.data;
+            }
         }
 
         this.setState({
@@ -134,11 +136,13 @@ class ProjectAlertHistory extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {projectId}}} = ownProps;
 
+    const project = getProject(state, projectId);
+
     return {
         projectId,
-        project: getProject(state, projectId),
+        project,
         rules: getAlertRulesForProject(state, projectId),
-        areRulesLoaded: areAlertRulesLoadedForProject(state, projectId),
+        areRulesLoaded: areAlertRulesLoadedForProject(state, project),
     };
 };
 

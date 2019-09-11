@@ -1,16 +1,20 @@
-import {EntityStatusTypes} from "../constants";
+import {EntityStatusTypes, ProjectTypes} from "../constants";
 
 /**
  * @param {Object} state
- * @param {string} projectId
+ * @param {Project} project
  * @returns {boolean}
  */
-export function areAlertRulesLoadedForProject(state, projectId) {
-    if (!state.alerting.projectRulesLoaded[projectId]) {
+export function areAlertRulesLoadedForProject(state, project) {
+    if (project.type === ProjectTypes.DEMO) {
+        return true;
+    }
+
+    if (!state.alerting.projectRulesLoaded[project.id]) {
         return false;
     }
 
-    return state.alerting.projectRulesLoaded[projectId] === EntityStatusTypes.LOADED;
+    return state.alerting.projectRulesLoaded[project.id] === EntityStatusTypes.LOADED;
 }
 
 /**
