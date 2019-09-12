@@ -20,5 +20,5 @@ jobs:
           args: install
       - name: Run yarn build
         uses: Borales/actions-yarn@master
-          with:
-            args: build
+        with:
+          args: build

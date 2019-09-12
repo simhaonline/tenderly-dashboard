@@ -13,12 +13,12 @@ jobs:
         uses: actions/checkout@master
       - name: Install dependencies
         uses: Borales/actions-yarn@master
-          with:
-            args: install
+        with:
+          args: install
       - name: Run yarn test
         uses: Borales/actions-yarn@master
-          with:
-            args: test
+        with:
+          args: test
   tag:
     name: Tag Release
     needs: [test]
