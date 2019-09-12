@@ -25,6 +25,10 @@
   background-color: $Slate100;
 }
 
+.Card--Dark {
+  background-color: $Slate500;
+}
+
 .Card--Clickable {
   cursor: pointer;
   transition: 200ms;

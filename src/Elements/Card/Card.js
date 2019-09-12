@@ -6,6 +6,7 @@ import './Card.scss';
 
 const CardColorClassMap = {
     'light': 'Card--Light',
+    'dark': 'Card--Dark',
 };
 
 const CardHighlightColorClassMap = {
@@ -37,7 +38,7 @@ Card.propTypes = {
     selected: PropTypes.bool,
     disabled: PropTypes.bool,
     highlightColor: PropTypes.oneOf(['secondary']),
-    color: PropTypes.oneOf(['light']),
+    color: PropTypes.oneOf(['light', 'dark']),
 };
 
 Card.defaultProps = {
