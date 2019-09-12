@@ -2,8 +2,6 @@ name: Continuous Deployment - Production
 
 on:
   push:
-    branches:
-      - master
     tags:
       - v*.*.*
 
