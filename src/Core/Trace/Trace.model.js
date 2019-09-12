@@ -85,8 +85,7 @@ export class Trace {
             });
         }
 
-        // @TODO @NUBI Release this when Nebojsa fixes state variables
-        if (this.stateVariables && false) {
+        if (this.stateVariables) {
             this.stateVariables.forEach(output => {
                 if (!data.state) {
                     data.state = {};
@@ -96,8 +95,7 @@ export class Trace {
             });
         }
 
-        // @TODO @NUBI Release this when Nebojsa fixes local variables
-        if (this.localVariables && false) {
+        if (this.localVariables) {
             this.localVariables.forEach(output => {
                 if (!data.local_variables) {
                     data.local_variables = {};
@@ -164,8 +162,8 @@ export class Trace {
 
         const inputVariables = rawCallTrace.decoded_input && rawCallTrace.decoded_input.map(TraceInput.buildFromResponse);
         const outputVariables = rawCallTrace.decoded_output && rawCallTrace.decoded_output.map(TraceInput.buildFromResponse);
-        const stateVariables = rawCallTrace.states && rawCallTrace.states.map(TraceInput.buildFromResponse);
-        const localVariables = rawCallTrace.variables && rawCallTrace.variables.map(TraceInput.buildFromResponse);
+        const stateVariables = rawCallTrace.caller_states && rawCallTrace.caller_states.map(TraceInput.buildFromResponse);
+        const localVariables = rawCallTrace.caller_variables && rawCallTrace.caller_variables.map(TraceInput.buildFromResponse);
 
         const traceData = Trace.extractTraceData(rawCallTrace, depthId, !!calls);
 
