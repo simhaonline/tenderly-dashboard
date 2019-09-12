@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import ReactJson from "react-json-view";
 import Blockies from "react-blockies";
 
+import {generateShortAddress} from "../../Utils/AddressFormatter";
+
 import {Contract, EventLog} from "../../Core/models";
 
 import {Card, Code, LinkButton, Icon, Select} from "../../Elements";
+import {EmptyState} from '..';
 
 import './TransactionEventLogs.scss';
-import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 class TransactionEventLog extends PureComponent {
     constructor(props) {
@@ -165,6 +167,9 @@ class TransactionEventLogs extends PureComponent {
 
         return (
             <div>
+                {(!eventLogs || eventLogs.length === 0) && <div>
+                    <EmptyState title="No Events / Logs" description="It seems that no events / logs were emitted in this transaction." icon="bookmark"/>
+                </div>}
                 {eventLogs && eventLogs.length > 0 && <div>
                     <div className="MarginBottom4 DisplayFlex">
                         <div className="TransactionEventLogs__FilterWrapper">
