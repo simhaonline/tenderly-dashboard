@@ -5,7 +5,7 @@
   "license": "GPL-3.0",
   "author": "Tenderly Inc <support@tenderly.dev> (https://tenderly.dev)",
   "contributors": [
-    "Miljan Tekic <miljan@tenderly.app>"
+    "Miljan Tekic <miljan@tenderly.dev>"
   ],
   "dependencies": {
     "@sentry/browser": "^5.6.3",
