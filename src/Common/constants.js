@@ -190,6 +190,7 @@ export const AlertRuleExpressionTypes = {
     NETWORK: 'NETWORK',
     TRANSACTION_STATUS: 'TRANSACTION_STATUS',
     METHOD_CALL: 'METHOD_CALL',
+    LOG_EMITTED: 'LOG_EMITTED',
     WHITELISTED_CALLER_ADDRESSES: 'WHITELISTED_CALLER_ADDRESSES',
     BLACKLISTED_CALLER_ADDRESSES: 'BLACKLISTED_CALLER_ADDRESSES',
 };
@@ -199,6 +200,7 @@ export const AlertRuleExpressionApiToAppTypeMap = {
     'network': AlertRuleExpressionTypes.NETWORK,
     'tx_status': AlertRuleExpressionTypes.TRANSACTION_STATUS,
     'method_call': AlertRuleExpressionTypes.METHOD_CALL,
+    'emitted_log': AlertRuleExpressionTypes.LOG_EMITTED,
     'whitelisted_caller_addresses': AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES,
     'blacklisted_caller_addresses': AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES,
 };
@@ -208,6 +210,7 @@ export const AlertRuleExpressionAppToApiTypeMap = {
     [AlertRuleExpressionTypes.NETWORK]: 'network',
     [AlertRuleExpressionTypes.TRANSACTION_STATUS]: 'tx_status',
     [AlertRuleExpressionTypes.METHOD_CALL]: 'method_call',
+    [AlertRuleExpressionTypes.LOG_EMITTED]: 'emitted_log',
     [AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES]: 'whitelisted_caller_addresses',
     [AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES]: 'blacklisted_caller_addresses',
 };
@@ -223,6 +226,8 @@ export const AlertRuleExpressionParameterTypes = {
     TRANSACTION_SUCCESS: 'TRANSACTION_SUCCESS',
     LINE_NUMBER: 'LINE_NUMBER',
     CALL_POSITION: 'CALL_POSITION',
+    LOG_NAME: 'LOG_NAME',
+    LOG_ID: 'LOG_ID',
 };
 
 export const AlertRuleExpressionParameterApiToAppTypeMap = {
@@ -233,6 +238,8 @@ export const AlertRuleExpressionParameterApiToAppTypeMap = {
     'transaction_success': AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS,
     'line_number': AlertRuleExpressionParameterTypes.LINE_NUMBER,
     'call_position': AlertRuleExpressionParameterTypes.CALL_POSITION,
+    'event_name': AlertRuleExpressionParameterTypes.LOG_NAME,
+    'event_id': AlertRuleExpressionParameterTypes.LOG_ID,
 };
 
 export const AlertRuleExpressionParameterAppToApiTypeMap = {
@@ -243,6 +250,8 @@ export const AlertRuleExpressionParameterAppToApiTypeMap = {
     [AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS]: 'transaction_success',
     [AlertRuleExpressionParameterTypes.LINE_NUMBER]: 'line_number',
     [AlertRuleExpressionParameterTypes.CALL_POSITION]: 'call_position',
+    [AlertRuleExpressionParameterTypes.LOG_NAME]: 'event_name',
+    [AlertRuleExpressionParameterTypes.LOG_ID]: 'event_id',
 };
 
 /**
