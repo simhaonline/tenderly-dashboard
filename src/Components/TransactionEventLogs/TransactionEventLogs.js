@@ -19,6 +19,9 @@ class TransactionEventLog extends PureComponent {
         const {contracts, eventLog} = props;
 
         const inputData = {};
+        const rawData = {
+            data: eventLog.data,
+        };
 
         if (eventLog.inputs) {
             eventLog.inputs.forEach(input => {
@@ -26,12 +29,17 @@ class TransactionEventLog extends PureComponent {
             });
         }
 
+        if (eventLog.topics) {
+            rawData.topics = eventLog.topics;
+        }
+
         const contract = contracts.find(contract => contract.address === eventLog.contract);
 
         this.state = {
             inputData,
+            rawData,
             contract,
-            showData: !eventLog.inputs,
+            showData: false,
         };
     }
 
@@ -45,7 +53,7 @@ class TransactionEventLog extends PureComponent {
 
     render() {
         const {eventLog} = this.props;
-        const {inputData, contract, showData} = this.state;
+        const {inputData, contract, showData, rawData} = this.state;
 
         return (
             <Card color="dark" className="TransactionEventLog">
@@ -76,11 +84,11 @@ class TransactionEventLog extends PureComponent {
                     <div className="MarginTop1">
                         <LinkButton onClick={this.toggleShowData}>
                             <Icon icon={showData ? 'chevron-up' : "chevron-down"}/>
-                            <span> {showData ? "Hide" : "Show"} raw data</span>
+                            <span> {showData ? "Hide" : "Show"} raw data and topics</span>
                         </LinkButton>
                     </div>
-                    {showData && <div className="MarginTop1">
-                        <Code copy={eventLog.data}>{eventLog.data}</Code>
+                    {showData && <div className="TransactionEventLog__RawDataWrapper MarginTop1">
+                        <ReactJson src={rawData} theme="flat" enableClipboard={false} displayObjectSize={false} displayDataTypes={false} name={false}/>
                     </div>}
                 </Fragment>}
             </Card>
