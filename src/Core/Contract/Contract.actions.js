@@ -3,13 +3,14 @@ import Contract from './Contract.model';
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {NetworkAppToApiTypeMap} from "../../Common/constants";
 import {exampleContract1Payload, exampleContract2Payload} from "../../examples";
-import {ContractMethod} from "../models";
+import {ContractMethod, ContractLog} from "../models";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
 export const TOGGLE_CONTRACT_LISTENING_ACTION = 'TOGGLE_CONTRACT_LISTENING';
 export const DELETE_CONTRACT_ACTION = 'DELETE_CONTRACT';
 export const FETCH_CONTRACT_METHODS_ACTION = 'FETCH_CONTRACT_METHODS';
+export const FETCH_CONTRACT_LOGS_ACTION = 'FETCH_CONTRACT_LOGS';
 
 /**
  * @param {string} projectId
@@ -211,6 +212,38 @@ export const fetchMethodsForContract = (projectId, contractAddress, network) => 
             });
 
             return new SuccessActionResponse(methods);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    };
+};
+
+/**
+ * @param {string} projectId
+ * @param {string} contractAddress
+ * @param {NetworkTypes} network
+ */
+export const fetchLogsForContract = (projectId, contractAddress, network) => {
+    return async dispatch => {
+        try {
+            const apiNetworkId = NetworkAppToApiTypeMap[network];
+
+            const {data} = await Api.get(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}/logs`);
+
+            if (!data || !data.events) {
+                return new ErrorActionResponse();
+            }
+
+            const logs = data.events.map(log => ContractLog.buildFromResponse(log));
+
+            dispatch({
+                type: FETCH_CONTRACT_LOGS_ACTION,
+                contractId: Contract.generateUniqueContractId(contractAddress, network),
+                logs,
+            });
+
+            return new SuccessActionResponse(logs);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);
