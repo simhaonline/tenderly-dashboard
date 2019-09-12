@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     name: Test
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout master
         uses: actions/checkout@master
@@ -21,6 +22,7 @@ jobs:
           args: test
   tag:
     name: Tag Release
+    runs-on: ubuntu-latest
     needs: [test]
     steps:
       - name: Checkout master
