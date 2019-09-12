@@ -19,7 +19,7 @@ jobs:
       - name: Run yarn test
         uses: Borales/actions-yarn@master
         with:
-          args: test
+          args: test:ci
   tag:
     name: Tag Release
     runs-on: ubuntu-latest

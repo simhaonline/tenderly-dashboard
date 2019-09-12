@@ -49,6 +49,7 @@
     "deploy:staging": "rm -rf ./build && yarn build:staging && firebase deploy --only hosting:staging",
     "deploy:prod": "rm -rf ./build && yarn build && firebase deploy --only hosting:production",
     "test": "react-scripts test --env=jsdom",
+    "test:ci": "CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build:storybook": "build-storybook -s public"
