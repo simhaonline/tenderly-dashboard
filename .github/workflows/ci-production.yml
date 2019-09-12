@@ -28,7 +28,7 @@ jobs:
       - name: Checkout master
         uses: actions/checkout@master
       - name: Tag with version from package.json
-        uses: butlerlogic/action-autotag@1.0.0
+        uses: butlerlogic/action-autotag@master
         with:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           tag_prefx: "v"
