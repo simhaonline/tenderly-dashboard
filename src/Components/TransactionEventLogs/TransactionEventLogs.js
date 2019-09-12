@@ -146,8 +146,6 @@ class TransactionEventLogs extends PureComponent {
 
         let filteredEvents = eventLogs;
 
-        console.log(nameFilters, contractFilters);
-
         if (nameFilters) {
             filteredEvents = filteredEvents.filter(eventLog => eventLog.name === nameFilters.value);
         }
