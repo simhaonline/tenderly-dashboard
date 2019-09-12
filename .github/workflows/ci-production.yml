@@ -1,0 +1,33 @@
+name: Continous Integration - Production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@master
+      - name: Install dependencies
+        uses: Borales/actions-yarn@master
+          with:
+            args: install
+      - name: Run yarn test
+        uses: Borales/actions-yarn@master
+          with:
+            args: test
+  tag:
+    name: Tag Release
+    needs: [test]
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@master
+      - name: Tag with version from package.json
+        uses: butlerlogic/action-autotag@1.0.0
+        with:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          tag_prefx: "v"
+

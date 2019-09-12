@@ -1,0 +1,24 @@
+name: Continuous Deployment - Production
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*.*.*
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@master
+      - name: Install dependencies
+        uses: Borales/actions-yarn@master
+        with:
+          args: install
+      - name: Run yarn build
+        uses: Borales/actions-yarn@master
+          with:
+            args: build
