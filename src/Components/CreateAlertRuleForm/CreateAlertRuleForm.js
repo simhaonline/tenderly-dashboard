@@ -113,12 +113,15 @@ class CreateAlertRuleForm extends Component {
             addressesValue: '',
             selectedContract: null,
             selectedMethod: null,
+            selectedLog: null,
             alertTarget: null,
             alertType: null,
             alertParameters: null,
             alertDestinations: [],
             contractMethods: [],
+            contractLogs: [],
             methodFilterQuery: '',
+            logFilterQuery: '',
             expressions: [],
         }
     }
@@ -155,6 +158,8 @@ class CreateAlertRuleForm extends Component {
                 return 'Alert whenever a blacklisted address calls a contract';
             case 'method_call':
                 return 'Alert whenever a function is called inside a transaction';
+            case 'log_emitted':
+                return 'Alert whenever an event / log is emitted inside a transaction';
             default:
                 return 'Select an alert trigger type.';
         }
@@ -175,7 +180,7 @@ class CreateAlertRuleForm extends Component {
     };
 
     getAlertParametersDescription = () => {
-        const {parametersSet, alertType, expressions, selectedMethod, selectedContract} = this.state;
+        const {parametersSet, alertType, expressions, selectedMethod, selectedLog, selectedContract} = this.state;
 
         if (parametersSet) {
             switch (alertType) {
@@ -188,6 +193,8 @@ class CreateAlertRuleForm extends Component {
                     return `${alertType === 'whitelisted_callers' ? 'Whitelisted' : 'Blacklisted'} ${addressesCount} contract addresses`;
                 case 'method_call':
                     return `Function ${selectedMethod.name}() is called in ${selectedContract.name}`;
+                case 'log_emitted':
+                    return `Event / Log ${selectedLog.name} is emitted in ${selectedContract.name}`;
                 default:
                     return 'Alert parameters set';
             }
@@ -221,6 +228,10 @@ class CreateAlertRuleForm extends Component {
                 expressionData.type = AlertRuleExpressionTypes.METHOD_CALL;
                 parametersNeeded = true;
                 break;
+            case 'log_emitted':
+                expressionData.type = AlertRuleExpressionTypes.LOG_EMITTED;
+                parametersNeeded = true;
+                break;
             case 'whitelisted_callers':
                 expressionData.type = AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES;
                 parametersNeeded = true;
@@ -237,7 +248,9 @@ class CreateAlertRuleForm extends Component {
             type: expressionData.type,
         });
 
-        if (alertTarget || type === 'method_call') {
+        const shouldResetContract = ['method_call', 'log_emitted'].includes(type);
+
+        if (alertTarget || shouldResetContract) {
             nextStep = parametersNeeded ? 3 : 4;
         }
 
@@ -248,11 +261,12 @@ class CreateAlertRuleForm extends Component {
             parametersSet: false,
             addressesValue: '',
             alertType: type,
-            selectedContract: type !== 'method_call' ? selectedContract : null,
+            selectedContract: !shouldResetContract ? selectedContract : null,
             selectedMethod: null,
-            alertTarget: type !== 'method_call' ? alertTarget : null,
+            selectedLog: null,
+            alertTarget: !shouldResetContract ? alertTarget : null,
             expressions: [
-                ...this.state.expressions.filter(e => type !== 'method_call' && [AlertRuleExpressionTypes.NETWORK, AlertRuleExpressionTypes.CONTRACT_ADDRESS].includes(e.type)),
+                ...this.state.expressions.filter(e => !shouldResetContract && [AlertRuleExpressionTypes.NETWORK, AlertRuleExpressionTypes.CONTRACT_ADDRESS].includes(e.type)),
                 expression,
             ],
         }, () => this.goToStep(nextStep));
@@ -278,6 +292,30 @@ class CreateAlertRuleForm extends Component {
         } else {
             this.setState({
                 fetchingMethods: false,
+            });
+        }
+    };
+
+    /**
+     * @param {Contract} contract
+     */
+    fetchLogsForContract = async (contract) => {
+        const {contractActions, projectId} = this.props;
+
+        this.setState({
+            fetchingLogs: true,
+        });
+
+        const response = await contractActions.fetchLogsForContract(projectId, contract.address, contract.network);
+
+        if (response && response.success) {
+            this.setState({
+                contractLogs: response.data,
+                fetchingLogs: false,
+            });
+        } else {
+            this.setState({
+                fetchingLogs: false,
             });
         }
     };
@@ -314,6 +352,8 @@ class CreateAlertRuleForm extends Component {
 
             if (alertType === 'method_call') {
                 this.fetchMethodsForContract(contract);
+            } else if (alertType === 'log_emitted') {
+                this.fetchLogsForContract(contract);
             }
 
             this.closeContractModal();
@@ -326,8 +366,9 @@ class CreateAlertRuleForm extends Component {
         this.setState({
             alertTarget: target,
             selectedContract,
-            parametersSet: alertType === 'method_call' ? false : parametersSet,
+            parametersSet: ['method_call', 'log_emitted'].includes(alertType) ? false : parametersSet,
             selectedMethod: null,
+            selectedLog: null,
             contractMethods: [],
             expressions: [
                 ...expressions.filter(e => ![AlertRuleExpressionTypes.NETWORK, AlertRuleExpressionTypes.CONTRACT_ADDRESS].includes(e.type)),
@@ -345,6 +386,17 @@ class CreateAlertRuleForm extends Component {
         }, this.applyParameters);
 
         this.closeMethodModal();
+    };
+
+    /**
+     * @param {ContractLog} log
+     */
+    selectAlertLog = (log) => {
+        this.setState({
+            selectedLog: log,
+        }, this.applyParameters);
+
+        this.closeLogModal();
     };
 
     openContractModal = () => {
@@ -367,6 +419,14 @@ class CreateAlertRuleForm extends Component {
         });
     };
 
+    handleLogFilter = (event) => {
+        const value = event.target.value;
+
+        this.setState({
+            logFilterQuery: value,
+        });
+    };
+
     openMethodModal = () => {
         this.setState({
             methodModalOpen: true,
@@ -380,12 +440,25 @@ class CreateAlertRuleForm extends Component {
         });
     };
 
+    openLogModal = () => {
+        this.setState({
+            logModalOpen: true,
+            logFilterQuery: '',
+        });
+    };
+
+    closeLogModal = () => {
+        this.setState({
+            logModalOpen: false,
+        });
+    };
+
     /**
      *
      * @return {boolean}
      */
     canApplyParameters() {
-        const {alertType, addressesValue, selectedMethod, selectedContract} = this.state;
+        const {alertType, addressesValue, selectedMethod, selectedContract, selectedLog} = this.state;
 
         const invalidAddresses = addressesValue.split(/\n/g).filter(a => !!a && !isValidAddress(a));
 
@@ -395,13 +468,15 @@ class CreateAlertRuleForm extends Component {
                 return !!addressesValue && invalidAddresses.length === 0;
             case 'method_call':
                 return !!selectedMethod && !!selectedContract;
+            case 'log_emitted':
+                return !!selectedLog && !!selectedContract;
             default:
                 return false;
         }
     }
 
     applyParameters = () => {
-        const {alertType, addressesValue, expressions, selectedMethod} = this.state;
+        const {alertType, addressesValue, expressions, selectedMethod, selectedLog, selectedContract} = this.state;
 
         switch (alertType) {
             case 'whitelisted_callers':
@@ -452,6 +527,28 @@ class CreateAlertRuleForm extends Component {
                 }, () => this.goToStep(4));
 
                 break;
+            case 'log_emitted':
+                const logEmittedExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.LOG_EMITTED);
+                const logEmittedExpressionIndex = expressions.indexOf(logEmittedExpression);
+
+                const updatedLogEmittedExpression = logEmittedExpression.update({
+                    parameters: {
+                        [AlertRuleExpressionParameterTypes.ADDRESS]: selectedContract.address,
+                        [AlertRuleExpressionParameterTypes.LOG_ID]: selectedLog.id,
+                        [AlertRuleExpressionParameterTypes.LOG_NAME]: selectedLog.name,
+                    },
+                });
+
+                const updatedLogExpressions = [...expressions];
+
+                updatedLogExpressions.splice(logEmittedExpressionIndex, 1, updatedLogEmittedExpression);
+
+                this.setState({
+                    expressions: updatedLogExpressions,
+                    parametersSet: true,
+                }, () => this.goToStep(4));
+
+                break;
             default:
                 break;
         }
@@ -494,7 +591,7 @@ class CreateAlertRuleForm extends Component {
      */
     createSimpleAlertRuleName = () => {
         const {projectId} = this.props;
-        const {alertType, alertTarget, selectedContract, selectedMethod} = this.state;
+        const {alertType, alertTarget, selectedContract, selectedMethod, selectedLog} = this.state;
 
         let message = '';
 
@@ -513,6 +610,9 @@ class CreateAlertRuleForm extends Component {
                 break;
             case 'method_call':
                 message = `Function ${selectedMethod.name} called in `;
+                break;
+            case 'log_emitted':
+                message = `Event / Log ${selectedLog.name} emitted in `;
                 break;
             default:
                 break;
@@ -561,7 +661,29 @@ class CreateAlertRuleForm extends Component {
     render() {
         const {projectId, contracts, destinations} = this.props;
         const {
-            createdAlertRule, selectedMethod, creatingAlertRule, currentMode, contractMethods, selectedContract, expressions, parametersNeeded, parametersSet, currentStep, alertType, alertTarget, contractModelOpen, alertDestinations, addressesValue, methodModalOpen, methodFilterQuery, fetchingMethods
+            createdAlertRule,
+            selectedMethod,
+            selectedLog,
+            creatingAlertRule,
+            currentMode,
+            contractMethods,
+            contractLogs,
+            selectedContract,
+            expressions,
+            parametersNeeded,
+            parametersSet,
+            currentStep,
+            alertType,
+            alertTarget,
+            contractModelOpen,
+            alertDestinations,
+            addressesValue,
+            methodModalOpen,
+            methodFilterQuery,
+            fetchingMethods,
+            fetchingLogs,
+            logModalOpen,
+            logFilterQuery
         } = this.state;
 
         const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
@@ -577,7 +699,11 @@ class CreateAlertRuleForm extends Component {
                 return false;
             }
 
-            return method.name.includes(methodFilterQuery);
+            return method.name.toLowerCase().includes(methodFilterQuery.toLowerCase());
+        });
+
+        const filteredLogs = _.sortBy(contractLogs, 'name').filter(method => {
+            return method.name.toLowerCase().includes(logFilterQuery.toLowerCase());
         });
 
         return (
@@ -631,12 +757,13 @@ class CreateAlertRuleForm extends Component {
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('success_tx')} selected={alertType === 'success_tx'} icon="check-circle" label="Successful Transaction" description="Triggers whenever a successful transaction happens"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('failed_tx')} selected={alertType === 'failed_tx'} icon="x-circle" label="Failed Transaction" description="Triggers whenever a failed transactions happens"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('method_call')} selected={alertType === 'method_call'} icon="layers" label="Function Call" description="Triggers whenever a specific function is called in one of your contracts"/>
+                                <SimpleAlertRuleAction onClick={() => this.selectAlertType('log_emitted')} selected={alertType === 'log_emitted'} icon="bookmark" label="Event / Log" description="Triggers whenever a specific event / log  is emitted in one of your contracts"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('whitelisted_callers')} selected={alertType === 'whitelisted_callers'} icon="eye" label="Whitelisted Callers" description="Triggers whenever a contract that is not whitelisted calls one of your contracts"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertType('blacklisted_callers')} selected={alertType === 'blacklisted_callers'} icon="eye-off" label="Blacklisted Callers" description="Triggers whenever a contract from this list calls one of your contracts"/>
                                 <SimpleAlertRuleAction onClick={() => Intercom.openNewConversation('New alert suggestion:\n')} highlightColor="secondary" icon="zap" label="More Coming Soon" description="Have an idea? Click here and send us what you think can be the next alert type"/>
                             </div>
                         </SimpleAlertRuleStep>
-                        {alertType !== 'method_call' && <SimpleAlertRuleStep label="Alert Target" description={this.getAlertTargetDescription()} stepNumber="2" open={currentStep === 2} finished={!!alertTarget} onClick={() => this.goToStep(2)}>
+                        {!['method_call', 'log_emitted'].includes(alertType) && <SimpleAlertRuleStep label="Alert Target" description={this.getAlertTargetDescription()} stepNumber="2" open={currentStep === 2} finished={!!alertTarget} onClick={() => this.goToStep(2)}>
                             <div className="SimpleAlertRuleStepWrapper">
                                 <SimpleAlertRuleAction onClick={this.openContractModal} selected={alertTarget === 'contract'} icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
                                 <SimpleAlertRuleAction onClick={() => this.selectAlertTarget('project')} selected={alertTarget === 'project'} icon="project" label="Project" description="Receive alerts for every contract in this project"/>
@@ -649,7 +776,7 @@ class CreateAlertRuleForm extends Component {
                                     <span>Invalid addresses: </span>
                                     {invalidAddresses.map(a => <span className="DangerText" key={a}>{a}, </span>)}
                                 </p>}
-                                {alertType === 'method_call' && <div className="MethodCallPicker">
+                                {['method_call', 'log_emitted'].includes(alertType) && <div className="MethodCallPicker">
                                     {!selectedContract && <div onClick={this.openContractModal} className="MethodCallPicker__Option">
                                         <Icon icon="plus-circle" className="MethodCallPicker__Option__Icon"/>
                                         <span>Select contract</span>
@@ -658,7 +785,7 @@ class CreateAlertRuleForm extends Component {
                                         <div className="MethodCallPicker__Selection__Main">{selectedContract.name}</div>
                                         <div className="MethodCallPicker__Selection__Secondary">{selectedContract.address}</div>
                                     </div>}
-                                    {!selectedMethod && <div onClick={this.openMethodModal} className={classNames(
+                                    {alertType === 'method_call' && !selectedMethod && <div onClick={this.openMethodModal} className={classNames(
                                         "MethodCallPicker__Option",
                                         {
                                             'MethodCallPicker__Option--Disabled': !selectedContract,
@@ -667,17 +794,30 @@ class CreateAlertRuleForm extends Component {
                                         <Icon icon="plus-circle" className="MethodCallPicker__Option__Icon"/>
                                         <span>Select function</span>
                                     </div>}
-                                    {!!selectedMethod && <div onClick={this.openMethodModal} className="MethodCallPicker__Selection">
+                                    {alertType === 'method_call' && !!selectedMethod && <div onClick={this.openMethodModal} className="MethodCallPicker__Selection">
                                         <div className="MethodCallPicker__Selection__Main">{selectedMethod.name}()</div>
                                         <div className="MethodCallPicker__Selection__Secondary">Line {selectedMethod.lineNumber}</div>
                                     </div>}
+                                    {alertType === 'log_emitted' && !selectedLog && <div onClick={this.openLogModal} className={classNames(
+                                        "MethodCallPicker__Option",
+                                        {
+                                            'MethodCallPicker__Option--Disabled': !selectedContract,
+                                        },
+                                    )}>
+                                        <Icon icon="plus-circle" className="MethodCallPicker__Option__Icon"/>
+                                        <span>Select event / log</span>
+                                    </div>}
+                                    {alertType === 'log_emitted' && !!selectedLog && <div onClick={this.openLogModal} className="MethodCallPicker__Selection">
+                                        <div className="MethodCallPicker__Selection__Main">{selectedLog.name}</div>
+                                        <div className="MethodCallPicker__Selection__Secondary">{selectedLog.inputs.length} arguments</div>
+                                    </div>}
                                 </div>}
-                                {alertType !== 'method_call' && <Button disabled={!this.canApplyParameters()} onClick={this.applyParameters}>
+                                {!['method_call', 'log_emitted'].includes(alertType) && <Button disabled={!this.canApplyParameters()} onClick={this.applyParameters}>
                                     <span>Apply</span>
                                 </Button>}
                             </div>
                         </SimpleAlertRuleStep>}
-                        <SimpleAlertRuleStep label="Destinations" description="Select the destinations to which the alert notifications will be sent to." finished={!!alertDestinations.length} stepNumber={parametersNeeded && alertType !== 'method_call' ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
+                        <SimpleAlertRuleStep label="Destinations" description="Select the destinations to which the alert notifications will be sent to." finished={!!alertDestinations.length} stepNumber={parametersNeeded && !['method_call', 'log_emitted'].includes(alertType) ? 4: 3} open={currentStep === 4} onClick={() => this.goToStep(4)}>
                             {destinations.map(destination => <Card disabled={alertType === 'success_tx' && destination.type === NotificationDestinationTypes.SLACK} color="light" className="DisplayFlex AlignItemsCenter" clickable onClick={() => this.toggleAlertDestination(destination)} key={destination.id}>
                                 <Toggle value={alertDestinations.includes(destination.id)}/>
                                 <div className="MarginLeft2">
@@ -725,19 +865,39 @@ class CreateAlertRuleForm extends Component {
                                     <p className="TextAlignCenter Padding4 MutedText">No functions have been parsed for the <span className="SemiBoldText">{selectedContract && selectedContract.name}</span> contract.</p>
                                 </div>}
                                 {!fetchingMethods && !!filteredMethods.length && <List>
-                                    {_.sortBy(contractMethods, 'lineNumber').filter(method => {
-                                        if (!method.lineNumber || method.lineNumber === 0) {
-                                            return false;
-                                        }
-
-                                        return method.name.includes(methodFilterQuery);
-                                    }).map(method => <ListItem key={method.id} selectable onClick={() => this.selectAlertMethod(method)}>
+                                    {filteredMethods.map(method => <ListItem key={method.id} selectable onClick={() => this.selectAlertMethod(method)}>
                                         <div className="MarginBottom0">
                                             <span className="SemiBoldText">{method.name}</span>
                                             <span className="MutedText"> at line </span>
                                             <span className="SemiBoldText">{method.lineNumber}</span>
                                         </div>
                                         <div className="MutedText">{method.getDeclarationPreview()}</div>
+                                    </ListItem>)}
+                                </List>}
+                            </div>
+                        </Dialog>
+                        <Dialog open={logModalOpen} onClose={this.closeLogModal} className="SelectContractMethodModal">
+                            <div className="SelectContractMethodModal__Header">
+                                <div className="SelectContractMethodModal__Header__InputWrapper">
+                                    <div className="SelectContractMethodModal__Header__Label">Filter by name</div>
+                                    <input autoFocus value={logFilterQuery} type="text" className="SelectContractMethodModal__Header__Input" onChange={this.handleLogFilter}/>
+                                </div>
+                            </div>
+                            <div className="SelectContractMethodModal__Body">
+                                {fetchingLogs && <div className="Padding4 DisplayFlex AlignItemsCenter">
+                                    <SimpleLoader/>
+                                </div>}
+                                {!fetchingLogs && !filteredLogs.length && <div className="Padding4">
+                                    <p className="TextAlignCenter Padding4 MutedText">No events / logs have been parsed for the <span className="SemiBoldText">{selectedContract && selectedContract.name}</span> contract.</p>
+                                </div>}
+                                {!fetchingLogs && !!filteredLogs.length && <List>
+                                    {filteredLogs.map(log => <ListItem key={log.id} selectable onClick={() => this.selectAlertLog(log)}>
+                                        <div className="MarginBottom0">
+                                            <span className="SemiBoldText">{log.name}</span>
+                                        </div>
+                                        <div className="MutedText">{log.inputs.map(input => <span key={input.name} className="MonospaceFont">
+                                            <span className="LinkText"> {input.type}</span> {input.name},
+                                        </span>)}</div>
                                     </ListItem>)}
                                 </List>}
                             </div>
