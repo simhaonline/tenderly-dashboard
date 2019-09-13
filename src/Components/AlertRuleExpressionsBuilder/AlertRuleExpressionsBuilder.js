@@ -7,12 +7,15 @@ import {Card} from "../../Elements";
 
 import AlertRuleTypeSelect from "./AlertRuleTypeSelect";
 import AlertRuleTargetSelect from "./AlertRuleTargetSelect";
+import AlertRuleParameters from "./AlertRuleParameters";
 
 import './AlertRuleExpressionsBuilder.scss';
 
 const ParametersRequiredAlertTypes = [
     'method_call',
     'log_emitted',
+    'method_argument',
+    'log_argument',
     'whitelisted_caller',
     'blacklisted_caller',
 ];
@@ -51,9 +54,7 @@ class AlertRuleExpressionsBuilder extends Component {
                 <Card color="dark" className="AlertRuleExpressionsBuilder__Rule">
                     <AlertRuleTypeSelect value={alertType} onChange={this.handleAlertTypeChange}/>
                     {!!alertType && <AlertRuleTargetSelect value={alertTarget} onChange={this.handleAlertTargetChange} alertType={alertType} contracts={contracts}/>}
-                    {!!alertTarget && parametersRequired && <div>
-                        params required
-                    </div>}
+                    {!!alertTarget && parametersRequired && <AlertRuleParameters/>}
                 </Card>
             </div>
         );

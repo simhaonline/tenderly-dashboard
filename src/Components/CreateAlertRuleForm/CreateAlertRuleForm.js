@@ -667,7 +667,6 @@ class CreateAlertRuleForm extends Component {
             contractMethods,
             contractLogs,
             selectedContract,
-            expressions,
             parametersNeeded,
             parametersSet,
             currentStep,
@@ -683,8 +682,6 @@ class CreateAlertRuleForm extends Component {
             logModalOpen,
             logFilterQuery
         } = this.state;
-
-        const currentActiveExpressionTypes = expressions.filter(e => !!e).map(e => e.type);
 
         const invalidAddresses = addressesValue.split(/\n/g).filter(a => !!a && !isValidAddress(a));
 

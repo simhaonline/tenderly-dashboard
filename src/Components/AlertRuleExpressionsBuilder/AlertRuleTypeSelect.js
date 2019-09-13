@@ -26,6 +26,16 @@ const alertTypeOptions = [
         icon: 'bookmark',
     },
     {
+        label: 'Function Argument',
+        value: 'method_argument',
+        icon: 'code',
+    },
+    {
+        label: 'Event Argument',
+        value: 'log_argument',
+        icon: 'code',
+    },
+    {
         label: 'Whitelisted Caller',
         value: 'whitelisted_caller',
         icon: 'eye',

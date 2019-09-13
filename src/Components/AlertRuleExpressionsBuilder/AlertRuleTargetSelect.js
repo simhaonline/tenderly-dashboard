@@ -17,6 +17,8 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 const RequiredContractAlertTypes = [
     'method_call',
     'log_emitted',
+    'method_argument',
+    'log_argument',
 ];
 
 function AlertTargetSelectOption(props) {
