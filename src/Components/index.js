@@ -86,6 +86,7 @@ export {default as TransactionGasBreakdown} from './TransactionGasBreakdown/Tran
 export {default as TransactionEventLogs} from './TransactionEventLogs/TransactionEventLogs';
 export {default as TransactionContracts} from './TransactionContracts/TransactionContracts';
 export {default as TransactionStackTrace} from './TransactionStackTrace/TransactionStackTrace';
+export {default as TransactionStateDiff} from './TransactionStateDiff/TransactionStateDiff';
 
 export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFlameGraph';
 export {default as FlameGraph} from './FlameGraph/FlameGraph';

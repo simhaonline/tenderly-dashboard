@@ -1,20 +1,22 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
+import {Route, Switch, withRouter} from "react-router-dom";
+
+import {EventLog} from "../../Core/models";
 
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {PanelContent, Panel, PanelTabs} from "../../Elements";
-import {CallTracePreview, TraceDebugger, TransactionEventLogs, TransactionGasBreakdown, TransactionContracts} from "../index";
-import {Route, Switch, withRouter} from "react-router-dom";
-import {EventLog} from "../../Core/models";
+import {CallTracePreview, TraceDebugger, TransactionEventLogs, TransactionGasBreakdown, TransactionContracts, TransactionStateDiff} from "../index";
 
 const tabToUrlMap = {
     overview: '',
-    events: '/events',
+    events: '/logs',
     contracts: '/contracts',
     debugger: '/debugger',
     gas_breakdown: '/gas-usage',
     error: '/error',
+    state_change: '/state-diff'
 };
 
 const UrlToTabMap = {
@@ -22,7 +24,8 @@ const UrlToTabMap = {
     "debugger": 'debugger',
     "gas-usage": 'gas_breakdown',
     "error": 'error',
-    "events": 'events',
+    "logs": 'events',
+    "state-diff": 'state_change'
 };
 
 class TransactionExecution extends Component {
@@ -47,6 +50,10 @@ class TransactionExecution extends Component {
             {
                 label: "Debugger",
                 value: 'debugger',
+            },
+            {
+                label: "State Changes",
+                value: 'state_change',
             },
             {
                 label: "Gas Breakdown",
@@ -109,9 +116,10 @@ class TransactionExecution extends Component {
                     <PanelContent>
                         <Switch>
                             <Route path={baseUrl} exact render={() => <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger} onSourceView={this.handleTraceViewSource}/>}/>
-                            <Route path={`${baseUrl}/events`} exact render={() => <TransactionEventLogs contracts={contracts} eventLogs={eventLogs}/>}/>
+                            <Route path={`${baseUrl}/logs`} exact render={() => <TransactionEventLogs contracts={contracts} eventLogs={eventLogs}/>}/>
                             <Route path={`${baseUrl}/contracts`} exact render={() => <TransactionContracts contracts={contracts} initialTrace={selectedTrace}/>}/>
                             <Route path={`${baseUrl}/debugger`} exact render={() => <TraceDebugger callTrace={callTrace} contracts={contracts} initialTrace={selectedTrace}/>}/>
+                            <Route path={`${baseUrl}/state-diff`} exact render={() => <TransactionStateDiff contracts={contracts}/>}/>
                             <Route path={`${baseUrl}/gas-usage`} exact render={() => <TransactionGasBreakdown transaction={transaction} callTrace={callTrace}/>}/>
                         </Switch>
                     </PanelContent>
