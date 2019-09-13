@@ -24,6 +24,10 @@ class TransactionPageContent extends PureComponent {
         const {transaction, contracts, callTrace, eventLogs, stackTrace, projectId} = this.props;
         const {action} = this.state;
 
+        if (!transaction) {
+            return null;
+        }
+
         return (
             <div className="TransactionPageContent">
                 <TransactionGeneralInformation contracts={contracts} transaction={transaction}/>
