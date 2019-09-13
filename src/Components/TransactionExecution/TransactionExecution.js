@@ -4,7 +4,7 @@ import {Route, Switch, withRouter} from "react-router-dom";
 
 import {EventLog, StateDiff} from "../../Core/models";
 
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {FeatureFlagTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {PanelContent, Panel, PanelTabs} from "../../Elements";
 import {CallTracePreview, TraceDebugger, TransactionEventLogs, TransactionGasBreakdown, TransactionContracts, TransactionStateDiff} from "../index";
@@ -54,6 +54,7 @@ class TransactionExecution extends Component {
             {
                 label: "State Changes",
                 value: 'state_change',
+                featureFlag: FeatureFlagTypes.COMING_SOON,
             },
             {
                 label: "Gas Breakdown",
