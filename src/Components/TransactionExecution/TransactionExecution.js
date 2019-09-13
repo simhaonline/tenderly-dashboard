@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Route, Switch, withRouter} from "react-router-dom";
 
-import {EventLog} from "../../Core/models";
+import {EventLog, StateDiff} from "../../Core/models";
 
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
@@ -105,7 +105,7 @@ class TransactionExecution extends Component {
     }
 
     render() {
-        const {callTrace, contracts, transaction, eventLogs} = this.props;
+        const {callTrace, contracts, transaction, eventLogs, stateDiffs} = this.props;
         const {currentTab, tabs, selectedTrace, baseUrl} = this.state;
 
         return (
@@ -119,7 +119,7 @@ class TransactionExecution extends Component {
                             <Route path={`${baseUrl}/logs`} exact render={() => <TransactionEventLogs contracts={contracts} eventLogs={eventLogs}/>}/>
                             <Route path={`${baseUrl}/contracts`} exact render={() => <TransactionContracts contracts={contracts} initialTrace={selectedTrace}/>}/>
                             <Route path={`${baseUrl}/debugger`} exact render={() => <TraceDebugger callTrace={callTrace} contracts={contracts} initialTrace={selectedTrace}/>}/>
-                            <Route path={`${baseUrl}/state-diff`} exact render={() => <TransactionStateDiff contracts={contracts}/>}/>
+                            <Route path={`${baseUrl}/state-diff`} exact render={() => <TransactionStateDiff contracts={contracts} stateDiffs={stateDiffs}/>}/>
                             <Route path={`${baseUrl}/gas-usage`} exact render={() => <TransactionGasBreakdown transaction={transaction} callTrace={callTrace}/>}/>
                         </Switch>
                     </PanelContent>
@@ -134,6 +134,7 @@ PropTypes.propTypes = {
     transaction: PropTypes.object.isRequired,
     contracts: PropTypes.array.isRequired,
     eventLogs: PropTypes.arrayOf(PropTypes.instanceOf(EventLog)),
+    stateDiffs: PropTypes.arrayOf(PropTypes.instanceOf(StateDiff)),
 };
 
 export default withRouter(TransactionExecution);
