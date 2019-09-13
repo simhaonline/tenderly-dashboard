@@ -41,7 +41,7 @@ export {default as AnalyticsWidget} from './AnalyticsWidget/AnalyticsWidget';
 // Project Alerts
 export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRules';
 export {default as AlertRulesList} from './AlertRulesList/AlertRulesList';
-export {default as AlertRuleExpressionForm} from './AlertRuleExpressionForm/AlertRuleExpressionForm';
+export {default as AlertRuleExpressionsBuilder} from './AlertRuleExpressionsBuilder/AlertRuleExpressionsBuilder';
 export {default as CreateAlertRuleForm} from './CreateAlertRuleForm/CreateAlertRuleForm';
 export {default as EditAlertRuleForm} from './EditAlertRuleForm/EditAlertRuleForm';
 export {default as AlertTemplates} from './AlertTemplates/AlertTemplates';

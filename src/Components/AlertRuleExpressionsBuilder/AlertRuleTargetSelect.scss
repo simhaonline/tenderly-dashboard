@@ -1,0 +1,50 @@
+@import "../../Common/common";
+
+.AlertRuleBuilderInput--AlertTarget {
+  flex: 0 0 310px;
+}
+
+.AlertTargetSelectOption {
+  display: flex !important;
+  align-items: center;
+}
+
+.AlertTargetSelectOption__IconWrapper {
+  background-color: $Primary500;
+  border-radius: 3px;
+  width: 32px;
+  flex: 0 0 32px;
+  height: 32px;
+  margin-right: $Spacing2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $FontSize400;
+}
+
+.AlertTargetSelectOption__IconWrapper--main_network {
+  background-color: $Primary500;
+}
+
+.AlertTargetSelectOption__IconWrapper--kovan_testnet {
+  background-color: $Secondary500;
+}
+
+.AlertTargetSelectOption__IconWrapper--ropsten_testnet {
+  background-color: $Danger500;
+}
+
+.AlertTargetSelectOption__IconWrapper--rinkeby_testnet {
+  background-color: $Success500;
+}
+
+.AlertTargetSelectOption__IconWrapper__Blockie {
+  border-radius: 3px;
+}
+
+.AlertTargetSelectOption__Label {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+

@@ -1,0 +1,39 @@
+@import "../../Common/common";
+
+.AlertRuleExpressionsBuilder__Rule {
+  display: flex;
+}
+
+.AlertTypeSelectOption {
+  display: flex !important;
+  align-items: center;
+}
+
+.AlertTypeSelectOption__IconWrapper {
+  background-color: $Primary500;
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AlertTypeSelectOption__Label {
+  margin-left: $Spacing2;
+}
+
+.AlertRuleBuilderInput__Label {
+  font-weight: 600;
+  margin-bottom: $Spacing1;
+}
+
+.AlertRuleBuilderInput {
+  &:not(:last-child) {
+    margin-right: $Spacing4;
+  }
+}
+
+.AlertRuleBuilderInput--AlertType {
+  width: 250px;
+}
