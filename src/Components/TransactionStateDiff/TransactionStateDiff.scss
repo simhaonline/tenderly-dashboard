@@ -1,0 +1,18 @@
+@import "../../Common/common";
+
+.TransactionStateDiff__Before, .TransactionStateDiff__After {
+  border-radius: 3px;
+  padding: 2px 4px;
+}
+
+.TransactionStateDiff__Before {
+  border: 1px solid transparentize($Danger500, 0.5);
+  background-color: transparentize($Danger500, 0.9);
+  color: $Danger500;
+}
+
+.TransactionStateDiff__After {
+  border: 1px solid transparentize($Success500, 0.5);
+  background-color: transparentize($Success500, 0.9);
+  color: $Success500;
+}

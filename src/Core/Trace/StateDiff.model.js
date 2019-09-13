@@ -29,7 +29,7 @@ class StateDiff {
             txHash: transaction,
             before: response.original,
             after: response.dirty,
-            contract: response.address,
+            contract: response.address.toLowerCase(),
         };
 
         if (response.soltype) {
