@@ -6,6 +6,7 @@ export {default as ContractMethod} from './Contract/ContractMethod.model';
 export {default as ContractLog} from './Contract/ContractLog.model';
 export {default as CallTrace} from './Trace/CallTrace.model';
 export {default as EventLog} from './Trace/EventLog.model';
+export {default as StateDiff} from './Trace/StateDiff.model';
 export {default as StackTrace} from './Trace/StackTrace.model';
 export {default as Transaction} from './Transaction/Transaction.model';
 export {default as AlertLog} from './Alerting/AlertLog.model';
