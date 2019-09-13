@@ -4,7 +4,7 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {NetworkAppToApiTypeMap, TransactionFilterTypes} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
-import {EventLog, StackTrace, CallTrace, Transaction} from "../models";
+import {EventLog, StackTrace, CallTrace, Transaction, StateDiff} from "../models";
 
 import {
     exampleTransaction1Paylod
@@ -120,6 +120,12 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
                 eventLogs = data.transaction_info.logs.map(eventLog => EventLog.buildFromResponse(eventLog))
             }
 
+            let stateDiffs = [];
+
+            if (data.transaction_info && data.transaction_info.state_diff) {
+                stateDiffs = data.transaction_info.state_diff.map(state_diff => StateDiff.buildFromResponse(state_diff, txHash));
+            }
+
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
                 projectId,
@@ -127,6 +133,7 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
                 callTrace,
                 stackTrace,
                 eventLogs,
+                stateDiffs,
             });
 
             return new SuccessActionResponse({
@@ -225,12 +232,19 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
                 eventLogs = data.transaction_info.logs.map(eventLog => EventLog.buildFromResponse(eventLog))
             }
 
+            let stateDiffs = [];
+
+            if (data.transaction_info && data.transaction_info.state_diff) {
+                stateDiffs = data.transaction_info.state_diff.map(state_diff => StateDiff.buildFromResponse(state_diff, txHash));
+            }
+
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION,
                 transaction,
                 callTrace,
                 stackTrace,
                 eventLogs,
+                stateDiffs,
             });
 
             return new SuccessActionResponse({
