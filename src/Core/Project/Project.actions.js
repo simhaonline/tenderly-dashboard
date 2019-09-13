@@ -23,15 +23,12 @@ export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PRO
 
 /**
  * @param {string} name
- * @param {string|null} [account]
  * @returns {Function}
  */
-export const createProject = (name, account = null) => {
+export const createProject = (name) => {
     return async (dispatch, getState) => {
         const state = getState();
-        const {auth: {user: {username, showDemo}}} = state;
-
-        const projectAccount = account || username;
+        const {auth: {user: {showDemo}}} = state;
 
         const existingProjects = Object.keys(state.project.projects);
         const projectSlug = formatProjectSlug(name);
@@ -43,7 +40,7 @@ export const createProject = (name, account = null) => {
         }
 
         try {
-            const {data} = await Api.post(`/account/${projectAccount}/project`, {
+            const {data} = await Api.post(`/account/me/project`, {
                 name,
             });
 
@@ -150,16 +147,12 @@ export const fetchProjects = () => {
 
 /**
  * @param {string} id
- * @param {string|null} [account]
  */
-export const fetchProject = (id, account = null) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
-        const projectAccount = account || username;
+export const fetchProject = (id) => {
+    return async (dispatch) => {
 
         try {
-            const {data} = await Api.get(`/account/${projectAccount}/project/${id}`);
+            const {data} = await Api.get(`/account/me/project/${id}`);
 
             if (!data) {
                 return null;
@@ -181,20 +174,15 @@ export const fetchProject = (id, account = null) => {
 
 /**
  * @param {Project} project
- * @param {string|null} [account]
  */
-export const deleteProject = (project, account = null) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
-        const projectAccount = account || username;
-
+export const deleteProject = (project) => {
+    return async (dispatch) => {
         if (project.type === ProjectTypes.DEMO) {
             await dispatch(updateUser({
                 showDemo: false,
             }));
         } else {
-            await Api.delete(`/account/${projectAccount}/project/${project.id}`);
+            await Api.delete(`/account/me/project/${project.id}`);
         }
 
         dispatch({
@@ -225,16 +213,11 @@ export const setProjectSetupViewed = (project) => {
 /**
  * @param {string} id
  * @param {Object} data
- * @param {string|null} [account]
  */
-export const updateProject = (id, data, account = null) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
-        const projectAccount = account || username;
-
+export const updateProject = (id, data) => {
+    return async (dispatch) => {
         try {
-            const {data: responseData} = await Api.post(`/account/${projectAccount}/project/${id}`, data);
+            const {data: responseData} = await Api.post(`/account/me/project/${id}`, data);
 
             const project = Project.buildFromResponse(responseData);
 
@@ -259,13 +242,11 @@ export const updateProject = (id, data, account = null) => {
  * @return {Function}
  */
 export const addVerifiedContractToProject = (projectId, networkType, address, progressCallback = () => {}) => {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
         try {
-            const {auth: {user: {username}}} = getState();
-
             const networkId = NetworkAppToApiTypeMap[networkType];
 
-            const {data: responseData} = await StreamingApi.post(`/account/${username}/project/${projectId}/streaming-address`, {
+            const {data: responseData} = await StreamingApi.post(`/account/me/project/${projectId}/streaming-address`, {
                 network_id: networkId.toString(),
                 address,
             }, progressCallback);
