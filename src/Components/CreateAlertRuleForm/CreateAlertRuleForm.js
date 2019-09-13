@@ -32,10 +32,8 @@ import {
     Button,
     Card,
     Icon,
-    Input,
     Panel,
     PanelContent,
-    PanelDivider,
     PanelHeader,
     Dialog,
     List,
@@ -45,7 +43,7 @@ import {
     Toggle,
     LinkButton
 } from "../../Elements";
-import {AlertRuleExpressionForm, NetworkTag, DestinationInformation} from "../index";
+import {NetworkTag, DestinationInformation} from "../index";
 
 import './CreateAlertRuleForm.scss';
 import {SimpleLoader} from "..";
@@ -719,38 +717,6 @@ class CreateAlertRuleForm extends Component {
                     </div>
                 </PanelHeader>
                 <PanelContent>
-                    {currentMode === 'advanced' && <div>
-                        <div>
-                            <Input label="Name"/>
-                            <Input label="Description"/>
-                        </div>
-                        <h4>Conditions</h4>
-                        <PanelDivider/>
-                        <p>This alert will be triggered if the following conditions are met:</p>
-                        {expressions.map((expression, index) => {
-                            return (
-                                <div key={index}>
-                                    {index !== 0 && <p className="MutedText TextAlignCenter MarginBottom1 MarginTop1">and</p>}
-                                    <Card color="light">
-                                        <AlertRuleExpressionForm onChange={expression => this.handleExpressionUpdate(expression, index)}
-                                                                 disabledOptions={currentActiveExpressionTypes.filter(e => {
-                                                                     if (!expression) {
-                                                                         return true;
-                                                                     }
-
-                                                                     return e !== expression.type;
-                                                                 })}/>
-                                    </Card>
-                                </div>
-                            );
-                        })}
-                        <div className="MarginTop3 DisplayFlex JustifyContentCenter">
-                            <Button onClick={this.addExpression} outline>
-                                <Icon icon="plus"/>
-                                <span>Add another condition</span>
-                            </Button>
-                        </div>
-                    </div>}
                     {currentMode === 'simple' && <div className="AlertRuleSetup">
                         <SimpleAlertRuleStep label="Rule Type" description={this.getAlertTypeDescription()} finished={!!alertType} open={currentStep === 1} stepNumber="1" onClick={() => this.goToStep(1)}>
                             <div className="SimpleAlertRuleStepWrapper">
