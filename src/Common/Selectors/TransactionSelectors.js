@@ -75,3 +75,22 @@ export function getTransactionEventLogs(state, txHash) {
 
     return eventLogs;
 }
+
+/**
+ * @param {Object} state
+ * @param {string} txHash
+ * @return {StateDiff[]}
+ */
+export function getTransactionStateDiffs(state, txHash) {
+    if (!txHash) {
+        return null;
+    }
+
+    const stateDiffs = state.transaction.stateDiffs[txHash];
+
+    if (!stateDiffs) {
+        return [];
+    }
+
+    return stateDiffs;
+}
