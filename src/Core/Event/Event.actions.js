@@ -11,16 +11,11 @@ export const FETCH_EVENT_FOR_PROJECT_ACTION = 'FETCH_EVENT_FOR_PROJECT';
  * @deprecated
  * @param {string} projectId
  * @param {number} page
- * @param {string|null} [account]
  */
-export const fetchEventsForProject = (projectId, page = 1, account = null) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
-        const projectAccount = account || username;
-
+export const fetchEventsForProject = (projectId, page = 1) => {
+    return async (dispatch) => {
         try {
-            const {data} = await Api.get(`/account/${projectAccount}/project/${projectId}/events`, {
+            const {data} = await Api.get(`/account/me/project/${projectId}/events`, {
                 params: {
                     page,
                 },

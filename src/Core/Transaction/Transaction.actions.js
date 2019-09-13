@@ -39,16 +39,14 @@ const TypeValueToApiValue = {
  * @return {Function}
  */
 export const fetchTransactionsForProject = (projectId, filters, page = 1, limit = 50) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
+    return async (dispatch) => {
         try {
             const statusFilter = filters[TransactionFilterTypes.STATUS];
             const typeFilter = filters[TransactionFilterTypes.TYPE];
             const contractsFilter = filters[TransactionFilterTypes.CONTRACTS];
             const networksFilter = filters[TransactionFilterTypes.NETWORKS];
 
-            const {data} = await Api.get(`/account/${username}/project/${projectId}/transactions`, {
+            const {data} = await Api.get(`/account/me/project/${projectId}/transactions`, {
                 params: {
                     page,
                     perPage: limit,
@@ -96,13 +94,11 @@ export const fetchExampleTransactions = () => {
  * @return {Function<SuccessActionResponse|ErrorActionResponse>}
  */
 export const fetchTransactionForProject = (projectId, txHash, network) => {
-    return async (dispatch, getState) => {
-        const {auth: {user: {username}}} = getState();
-
+    return async (dispatch) => {
         try {
             const networkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/account/${username}/project/${projectId}/network/${networkId}/transaction/${txHash}`);
+            const {data} = await Api.get(`/account/me/project/${projectId}/network/${networkId}/transaction/${txHash}`);
 
             if (!data) {
                 return new ErrorActionResponse();
