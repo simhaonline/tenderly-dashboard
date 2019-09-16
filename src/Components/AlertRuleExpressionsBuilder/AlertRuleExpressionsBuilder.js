@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Contract} from "../../Core/models";
+import {AlertRuleExpression, Contract} from "../../Core/models";
 
 import {Card} from "../../Elements";
 
@@ -10,6 +10,8 @@ import AlertRuleTargetSelect from "./AlertRuleTargetSelect";
 import AlertRuleParameters from "./AlertRuleParameters";
 
 import './AlertRuleExpressionsBuilder.scss';
+import ReactJson from "react-json-view";
+import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes} from "../../Common/constants";
 
 const ParametersRequiredAlertTypes = [
     'method_call',
@@ -27,24 +29,81 @@ class AlertRuleExpressionsBuilder extends Component {
         this.state = {
             alertType: null,
             alertTarget: null,
+            expressions: [],
+            loadingParameterOptions: false,
+            parameterOptions: null,
         };
     }
 
-    handleAlertTypeChange = (value) => {
+    handleAlertTypeChange = (option) => {
+        const expressions = [];
+
+        if (['successful_tx', 'failed_tx'].includes(option.value)) {
+            const expression = new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.TRANSACTION_STATUS,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS]: option.value === 'successful_tx',
+                },
+            });
+
+            expressions.push(expression);
+        }
+
         this.setState({
-            alertType: value,
+            alertType: option,
             alertTarget: null,
+            expressions,
         });
     };
 
-    handleAlertTargetChange = (value) => {
+    fetchContractMethods = async (address, network) => {
+        console.log(address, network);
+
+    };
+
+    handleAlertTargetChange = (option) => {
+        const {expressions, alertType} = this.state;
+        const {type} = option;
+
+        const newExpressions = expressions.filter(e => ![
+            AlertRuleExpressionTypes.NETWORK,
+            AlertRuleExpressionTypes.CONTRACT_ADDRESS,
+        ].includes(e.type));
+
+        if (type === 'contract') {
+            const contractExpression = new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.CONTRACT_ADDRESS,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.ADDRESS]: option.address,
+                },
+            });
+
+            newExpressions.push(contractExpression);
+
+            if (['method_call'].includes(alertType.value)) {
+                this.fetchContractMethods(option.address, option.network);
+            }
+        }
+
+        if (type === 'network' || type === 'contract') {
+            const networkExpression = new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.NETWORK,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.NETWORK_ID]: option.network,
+                },
+            });
+
+            newExpressions.push(networkExpression);
+        }
+
         this.setState({
-            alertTarget: value,
+            alertTarget: option,
+            expressions: newExpressions,
         });
     };
 
     render() {
-        const {alertType, alertTarget} = this.state;
+        const {alertType, alertTarget, expressions} = this.state;
         const {contracts} = this.props;
 
         const parametersRequired = !!alertType && ParametersRequiredAlertTypes.includes(alertType.value);
@@ -56,6 +115,7 @@ class AlertRuleExpressionsBuilder extends Component {
                     {!!alertType && <AlertRuleTargetSelect value={alertTarget} onChange={this.handleAlertTargetChange} alertType={alertType} contracts={contracts}/>}
                     {!!alertTarget && parametersRequired && <AlertRuleParameters/>}
                 </Card>
+                <ReactJson src={expressions} theme="flat" enableClipboard={false} displayObjectSize={false} displayDataTypes={false} name={false}/>
             </div>
         );
     }

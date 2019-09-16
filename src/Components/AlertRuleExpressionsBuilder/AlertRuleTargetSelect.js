@@ -60,6 +60,8 @@ function AlertRuleTargetSelect({value, onChange, contracts, alertType}) {
             type: 'contract',
             label: contract.name,
             value: contract.getUniqueId(),
+            address: contract.address,
+            network: contract.network,
             description: contract.address,
         })),
     }];
@@ -79,6 +81,7 @@ function AlertRuleTargetSelect({value, onChange, contracts, alertType}) {
                     type: 'network',
                     label: NetworkLabelMap[contract.network],
                     value: contract.network,
+                    network: contract.network,
                     description: `All contracts deployed on ${NetworkLabelMap[contract.network]}`,
                 })),
             ]
