@@ -7,7 +7,7 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import {Contract, EventLog} from "../../Core/models";
 
-import {Card, Code, LinkButton, Icon, Select} from "../../Elements";
+import {Card, LinkButton, Icon, Select} from "../../Elements";
 import {EmptyState} from '..';
 
 import './TransactionEventLogs.scss';
