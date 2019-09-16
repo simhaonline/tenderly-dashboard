@@ -10,6 +10,9 @@ function AlertRuleParameters(props) {
                 <div className="AlertRuleBuilderInput__Label">
                     Parameters
                 </div>
+                <div>
+
+                </div>
             </div>
         </div>
     );
