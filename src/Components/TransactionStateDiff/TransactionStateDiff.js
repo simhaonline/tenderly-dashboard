@@ -105,7 +105,9 @@ class TransactionStateDiff extends PureComponent {
                 {!hasStateDiffs && <div>
                     <EmptyState title="No changes" description="It seems that no state variables were changed in this transaction." icon="code"/>
                 </div>}
-                {hasStateDiffs && Object.keys(groupedStateDiffs).map(contract => <ContractStateDiffs key={contract} address={contract} contract={contracts[contract]} stateDiffs={groupedStateDiffs[contract]}/>)}
+                {hasStateDiffs && Object.keys(groupedStateDiffs).sort((a, b) => {
+                    return groupedStateDiffs[b].filter(diff => diff.parsed).length - groupedStateDiffs[a].filter(diff => diff.parsed).length;
+                }).map(contract => <ContractStateDiffs key={contract} address={contract} contract={contracts[contract]} stateDiffs={groupedStateDiffs[contract]}/>)}
             </div>
         );
     }
