@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 
 import {Contract} from "../../Core/models";
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {NetworkAppToRouteTypeMap, NetworkTypes} from "../../Common/constants";
 
 import Table from "../../Elements/Table/Table";
 import {
@@ -53,6 +53,13 @@ const groupingConfiguration = [
     },
 ];
 
+const groupSorting = [
+    NetworkTypes.MAIN,
+    NetworkTypes.KOVAN,
+    NetworkTypes.ROPSTEN,
+    NetworkTypes.RINKEBY,
+];
+
 class ProjectContractList extends Component{
     /**
      * @param {Contract} contract
@@ -79,7 +86,8 @@ class ProjectContractList extends Component{
         return (
             <div className="ProjectContractList">
                 <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
-                       groupBy="parent" groupingConfiguration={groupingConfiguration} metadata={{
+                       groupBy={(contract) => `${contract.network}:${contract.parent}`} sortGroupBy={group => groupSorting.indexOf(group[0].network)}
+                       groupingConfiguration={groupingConfiguration} metadata={{
                     handleListeningToggle: this.handleListeningToggle,
                 }} onRowClick={this.handleContractClick}/>
             </div>
