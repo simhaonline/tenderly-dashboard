@@ -305,8 +305,8 @@ export const authenticateOAuth = (service, code) => {
                 code,
             });
 
-            if (!data) {
-                return;
+            if (!data || !data.token) {
+                return ErrorActionResponse();
             }
 
             dispatch({

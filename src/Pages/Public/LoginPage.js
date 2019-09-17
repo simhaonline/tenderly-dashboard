@@ -40,6 +40,7 @@ class LoginPage extends Component {
 
         this.setState({
             loginFailed: false,
+            inProgress: true,
             loginAttempts: loginAttempts + 1,
         });
 
@@ -48,6 +49,7 @@ class LoginPage extends Component {
         if (!actionResponse.success) {
             this.setState({
                 loginFailed: true,
+                inProgress: false,
                 formData: {
                     email,
                     password: '',
@@ -63,13 +65,21 @@ class LoginPage extends Component {
     handleOAuth = async ({type, code}) => {
         const {authActions} = this.props;
 
-        await authActions.authenticateOAuth(type, code);
+        const oAuthResponse = await authActions.authenticateOAuth(type, code);
+
+        console.log(oAuthResponse);
+
+        if (!oAuthResponse.success) {
+            this.setState({
+                loginFailed: true,
+            });
+        }
     };
 
     isLoginButtonDisabled = () => {
-        const {formData} = this.state;
+        const {formData, inProgress} = this.state;
 
-        return !formData.email || !formData.password;
+        return !formData.email || !formData.password || inProgress;
     };
 
     render() {
