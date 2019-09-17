@@ -87,7 +87,7 @@ class Table extends Component {
     };
 
     render() {
-        const {configuration, loading, data, className, minWidth, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy, groupingConfiguration, emptyStateLabel} = this.props;
+        const {configuration, loading, data, className, minWidth, rowClassName, headClassName, currentPage, perPage, onPerPageChange, onRowClick, metadata, groupBy, sortGroupBy, groupingConfiguration, emptyStateLabel} = this.props;
 
         return (
             <Panel className={classNames(
@@ -136,7 +136,7 @@ class Table extends Component {
                                                                         row={row} configuration={configuration}
                                                                         onClick={this.handleRowClick} clickable={!!onRowClick}
                                                                         className={rowClassName} metadata={metadata}/>)}
-                        {!!groupBy && _.map(_.groupBy(data, groupBy), (groupData, groupByKey) => <div key={groupByKey} className="Table__Group">
+                        {!!groupBy && _.map(_.sortBy(_.groupBy(data, groupBy), sortGroupBy), (groupData, groupByKey) => <div key={groupByKey} className="Table__Group">
                             <div className="Table__Group__Heading">
                                 {!groupingConfiguration && <TableColumn value={groupByKey}/>}
                                 {!!groupingConfiguration && groupingConfiguration.map((groupConf, index) => <TableColumn key={index} configuration={groupConf} data={groupData}/>)}
@@ -212,6 +212,10 @@ Table.propTypes = {
     headClassName: PropTypes.string,
     rowClassName: PropTypes.string,
     groupBy: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+    ]),
+    sortGroupBy: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func,
     ]),
