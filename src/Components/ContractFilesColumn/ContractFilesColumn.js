@@ -9,7 +9,7 @@ const ContractFilesColumn = ({contract}) => {
     return (
         <div className="ContractFilesColumn">
             <Icon className="MutedText" icon="file-text"/>
-            <span>{contract.files.length} {contract.files.length > 1 ? "Files" : "File"}</span>
+            <span> {contract.files.length} {contract.files.length > 1 ? "Files" : "File"}</span>
         </div>
     )
 };
