@@ -1,6 +1,9 @@
 class StateDiff {
     constructor(data) {
         /** @type string */
+        this.id = data.id;
+
+        /** @type string */
         this.txHash = data.txHash;
 
         /** @type string */
@@ -13,10 +16,19 @@ class StateDiff {
         this.after = data.after;
 
         /** @type string */
+        this.rawBefore = data.rawBefore;
+
+        /** @type string */
+        this.rawAfter = data.rawAfter;
+
+        /** @type string */
         this.name = data.name;
 
         /** @type string */
         this.type = data.type;
+
+        /** @type boolean */
+        this.parsed = !!data.parsed;
     }
 
     /**
@@ -25,16 +37,25 @@ class StateDiff {
      * @return {StateDiff}
      */
     static buildFromResponse(response, transaction) {
+        const rawData = response.raw && response.raw.length > 0 ? response.raw[0] : null;
+
         const data = {
             txHash: transaction,
             before: response.original,
             after: response.dirty,
-            contract: response.address ? response.address.toLowerCase() : '',
         };
+
+        if (rawData) {
+            data.contract = rawData.address ? rawData.address.toLowerCase() : "";
+            data.id = rawData.key;
+            data.rawBefore = rawData.original;
+            data.rawAfter = rawData.dirty;
+        }
 
         if (response.soltype) {
             data.name = response.soltype.name;
             data.type = response.soltype.type;
+            data.parsed = true;
         }
 
         return new StateDiff(data);
