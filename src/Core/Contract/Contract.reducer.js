@@ -97,10 +97,6 @@ const ContractReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                contractStatus: {
-                    ...state.contractStatus,
-                    [action.contractId]: EntityStatusTypes.DELETED,
-                },
                 projectContractsMap,
             };
         default:
