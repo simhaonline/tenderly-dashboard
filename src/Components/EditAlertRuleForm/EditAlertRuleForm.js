@@ -30,7 +30,7 @@ import {
     ListItem,
     PanelDivider
 } from "../../Elements";
-import {SimpleLoader, DestinationInformation} from "..";
+import {SimpleLoader, DestinationInformation, EmptyState} from "..";
 
 import './EditAlertRuleForm.scss';
 
@@ -40,19 +40,26 @@ class EditAlertRuleForm extends Component {
 
         this.state = {
             openDeleteModal: false,
+            errorFetching: false,
             alertDeleted: false,
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const {ruleId, projectId, isRuleLoaded, actions, notificationActions, destinationsLoaded} = this.props;
-
-        if (!isRuleLoaded) {
-            actions.fetchAlertRuleForProject(projectId, ruleId);
-        }
 
         if (!destinationsLoaded) {
             notificationActions.fetchNotificationDestinations();
+        }
+
+        if (!isRuleLoaded) {
+            const response = await actions.fetchAlertRuleForProject(projectId, ruleId);
+
+            if (!response.success) {
+                this.setState({
+                    errorFetching: true,
+                });
+            }
         }
     }
 
@@ -106,9 +113,9 @@ class EditAlertRuleForm extends Component {
 
     render() {
         const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded} = this.props;
-        const {openDeleteModal, alertDeleted} = this.state;
+        const {openDeleteModal, alertDeleted, errorFetching} = this.state;
 
-        const loading = !isRuleLoaded || !destinationsLoaded;
+        const loading = (!isRuleLoaded || !destinationsLoaded) && !errorFetching;
 
         if (alertDeleted) {
             return <Redirect to={`/project/${projectId}/alerts/rules`}/>
@@ -130,7 +137,15 @@ class EditAlertRuleForm extends Component {
                     {loading && <div className="DisplayFlex Padding4 AlignItemsCenter JustifyContentCenter">
                         <SimpleLoader/>
                     </div>}
-                    {!loading && <div>
+                    {!loading && errorFetching && <div>
+                        <EmptyState icon="bell-off" title="Alert not found" description="Seems that this alert does not exist any more." renderActions={() => <div>
+                            <Button outline to={`/project/${projectId}/alerts/rules`} size="small">
+                                <Icon icon="arrow-left"/>
+                                <span>Back to alerts</span>
+                            </Button>
+                        </div>}/>
+                    </div>}
+                    {!loading && !errorFetching && <div>
                         <div className="MarginBottom3">
                             <h4>ID: </h4>
                             <div>{rule.id}</div>
