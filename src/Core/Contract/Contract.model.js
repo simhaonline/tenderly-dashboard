@@ -9,8 +9,9 @@ class Contract {
     /**
      * @param {Object} data
      * @param {object} [projectData]
+     * @param {string} [parentContract]
      */
-    constructor(data, projectData) {
+    constructor(data, projectData, parentContract) {
         /** @type string */
         this.id = data.address;
 
@@ -21,6 +22,9 @@ class Contract {
             /** @type boolean */
             this.listening = projectData.listening;
         }
+
+        /** @type string */
+        this.parent = parentContract || data.address;
 
         /** @type boolean */
         this.isPublic = !projectData;
@@ -87,7 +91,7 @@ class Contract {
     update(properties) {
         const updatedContract = new Contract({});
 
-        const updateableProperties = _.pick(properties, ['listening']);
+        const updateableProperties = _.pick(properties, ['listening', 'parent']);
 
         Object.assign(updatedContract, this, updateableProperties);
 
@@ -170,9 +174,10 @@ class Contract {
     /**
      * @param {Object} data
      * @param {Object} [projectData]
+     * @param {string} [parentContract]
      * @return {Contract}
      */
-    static buildFromResponse(data, projectData) {
+    static buildFromResponse(data, projectData, parentContract) {
         let files = [];
         let mainFile;
 
@@ -198,7 +203,7 @@ class Contract {
             verifiedAt: data.verification_date,
             files,
             mainFile,
-        }, projectData);
+        }, projectData, parentContract);
     }
 }
 

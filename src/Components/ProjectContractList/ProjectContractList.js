@@ -79,7 +79,7 @@ class ProjectContractList extends Component{
         return (
             <div className="ProjectContractList">
                 <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
-                       groupBy={(contract) => `${contract.network}:${contract.name}`} groupingConfiguration={groupingConfiguration} metadata={{
+                       groupBy="parent" groupingConfiguration={groupingConfiguration} metadata={{
                     handleListeningToggle: this.handleListeningToggle,
                 }} onRowClick={this.handleContractClick}/>
             </div>

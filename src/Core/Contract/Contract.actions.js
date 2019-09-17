@@ -23,10 +23,25 @@ export const fetchContractsForProject = (projectId) => {
             let contracts = [];
 
             if (data) {
-                contracts = data.map(contract => Contract.buildFromResponse(contract.contract, {
-                    id: projectId,
-                    listening: contract.include_in_transaction_listing,
-                }));
+                data.forEach(contractResponse => {
+                    const contract = Contract.buildFromResponse(contractResponse.contract, {
+                        id: projectId,
+                        listening: contractResponse.include_in_transaction_listing,
+                    });
+
+                    contracts.push(contract);
+
+                    if (contractResponse.previous_versions) {
+                        contractResponse.previous_versions.forEach(childContractResponse => {
+                            const childContract = Contract.buildFromResponse(childContractResponse.contract, {
+                                id: projectId,
+                                listening: childContractResponse.include_in_transaction_listing,
+                            }, contract.address);
+
+                            contracts.push(childContract);
+                        });
+                    }
+                });
             }
 
             await dispatch({
@@ -85,7 +100,7 @@ export const fetchContractForProject = (projectId, contractAddress, network) => 
  * @param {NetworkTypes} network
  */
 export const fetchContractsForTransaction = (projectId, txHash, network) => {
-    return async dispatch => {
+    return async () => {
         try {
             const apiNetworkId = NetworkAppToApiTypeMap[network];
 
