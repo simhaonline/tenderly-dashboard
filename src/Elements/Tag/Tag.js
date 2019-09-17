@@ -13,6 +13,7 @@ const tagColorClassMap = {
     "secondary": "Tag--Secondary",
     "secondary-outline": "Tag--SecondaryOutline",
     "success": "Tag--Success",
+    "success-outline": "Tag--SuccessOutline",
     "danger": "Tag--Danger",
     "warning": "Tag--Warning",
 };

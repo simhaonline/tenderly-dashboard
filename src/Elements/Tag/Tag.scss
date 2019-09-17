@@ -50,6 +50,11 @@
   background-color: $Success500;
 }
 
+.Tag--SuccessOutline {
+  border-color: $Success500;
+  background-color: transparentize($Success500, 0.75);
+}
+
 .Tag--Danger {
   border-color: $Danger500;
   background-color: $Danger500;
