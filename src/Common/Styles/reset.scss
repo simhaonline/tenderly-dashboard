@@ -26,6 +26,16 @@ button {
 
 * {
   box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: transparentize($Slate900, 0.6);
+  }
 }
 
 h1, h2, h3, h4, h5 {
