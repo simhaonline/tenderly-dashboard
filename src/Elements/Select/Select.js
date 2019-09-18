@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
+import classNames from 'classnames';
 
 import './Select.scss';
 
@@ -12,10 +13,13 @@ class Select extends Component {
     };
 
     render() {
-        const {options, value, multiple, selectLabel, isClearable, components} = this.props;
+        const {options, value, multiple, selectLabel, isClearable, className, components} = this.props;
 
         return (
-            <div className="Select">
+            <div className={classNames(
+                "Select",
+                className,
+            )}>
                 <ReactSelect value={value} components={components}
                              isClearable={isClearable}
                              placeholder={selectLabel} classNamePrefix="Select" isMulti={multiple} onChange={this.handleSelectChange} options={options}/>
