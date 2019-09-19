@@ -3,19 +3,18 @@ import PropTypes from 'prop-types';
 import Blockies from "react-blockies";
 import {components} from 'react-select';
 
+import {generateShortAddress} from "../../Utils/AddressFormatter";
+
 import {NetworkTag} from "..";
 
 import './ContractSelectOption.scss';
-import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 function ContractSelectOption(props) {
     const data = props.data;
 
     return (
         <components.Option {...props} className="ContractSelectOption">
-            <div>
-                <Blockies className="ContractSelectOption__Blockie" seed={data.value}/>
-            </div>
+            <Blockies size={8} scale={5} className="ContractSelectOption__Blockie" seed={data.value}/>
             <div className="MarginLeft2">
                 <div className="SemiBoldText MarginBottom1">{data.label}</div>
                 <div>
