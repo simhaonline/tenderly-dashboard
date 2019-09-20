@@ -15,6 +15,7 @@ export {default as OnboardingCreateOrganizationStep} from './Onboarding/Onboardi
 // Select Components
 export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
 export {default as ContractSelectMultiValueLabel} from './SelectComponents/ContractSelectMultiValueLabel';
+export {default as TransactionSelectOption} from './SelectComponents/TransactionSelectOption';
 
 // Third-party services
 export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButton';
