@@ -6,6 +6,7 @@ import {Link, Redirect} from "react-router-dom";
 import Intercom from '../../Utils/Intercom';
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
+import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
@@ -21,7 +22,6 @@ import {
     PanelContent,
     Card,
     PanelHeader,
-    Toggle,
     Dialog,
     DialogBody,
     DialogHeader,
@@ -30,9 +30,11 @@ import {
     ListItem,
     PanelDivider
 } from "../../Elements";
-import {SimpleLoader, DestinationInformation, EmptyState} from "..";
+import {SimpleLoader, DestinationInformation, EmptyState, AlertExpressionsInfo} from "..";
 
 import './EditAlertRuleForm.scss';
+import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 class EditAlertRuleForm extends Component {
     constructor(props) {
@@ -42,11 +44,12 @@ class EditAlertRuleForm extends Component {
             openDeleteModal: false,
             errorFetching: false,
             alertDeleted: false,
+            inProgress: false,
         };
     }
 
     async componentDidMount() {
-        const {ruleId, projectId, isRuleLoaded, actions, notificationActions, destinationsLoaded} = this.props;
+        const {ruleId, projectId, isRuleLoaded, actions, notificationActions, contractActions, destinationsLoaded, areContractsLoaded} = this.props;
 
         if (!destinationsLoaded) {
             notificationActions.fetchNotificationDestinations();
@@ -61,16 +64,28 @@ class EditAlertRuleForm extends Component {
                 });
             }
         }
+
+        if (!areContractsLoaded) {
+            contractActions.fetchContractsForProject(projectId);
+        }
     }
 
-    toggleAlertRuleEnabled = () => {
+    toggleAlertRuleEnabled = async () => {
         const {rule, projectId, actions} = this.props;
+
+        this.setState({
+            inProgress: true,
+        });
 
         const updatedRule = rule.update({
             enabled: !rule.enabled,
         });
 
-        actions.updateAlertRuleForProject(projectId, updatedRule);
+        await actions.updateAlertRuleForProject(projectId, updatedRule);
+
+        this.setState({
+            inProgress: false,
+        });
     };
 
     openDeleteModal = () => {
@@ -112,10 +127,10 @@ class EditAlertRuleForm extends Component {
     };
 
     render() {
-        const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded} = this.props;
-        const {openDeleteModal, alertDeleted, errorFetching} = this.state;
+        const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded, project, areContractsLoaded} = this.props;
+        const {openDeleteModal, alertDeleted, errorFetching, inProgress} = this.state;
 
-        const loading = (!isRuleLoaded || !destinationsLoaded) && !errorFetching;
+        const loading = (!isRuleLoaded || !destinationsLoaded || !areContractsLoaded) && !errorFetching;
 
         if (alertDeleted) {
             return <Redirect to={`/project/${projectId}/alerts/rules`}/>
@@ -159,13 +174,8 @@ class EditAlertRuleForm extends Component {
                             <h4>Description</h4>
                             <div>{rule.description || '-'}</div>
                         </div>}
-                        <Card className="DisplayFlex AlignItemsCenter" color="light" onClick={this.toggleAlertRuleEnabled} clickable>
-                            <div>
-                                Alert Enabled
-                            </div>
-                            <div className="MarginLeftAuto">
-                                <Toggle value={rule.enabled}/>
-                            </div>
+                        <Card color="light">
+                            <AlertExpressionsInfo project={project} rule={rule}/>
                         </Card>
                         <PanelDivider/>
                         {!!destinations.length && <div className="MarginBottom4">
@@ -187,7 +197,10 @@ class EditAlertRuleForm extends Component {
                             </List>
                         </div>}
                         <div>
-                            <Button color="danger" outline onClick={this.openDeleteModal}>
+                            <Button color={rule.enabled ? null : "success"} outline onClick={this.toggleAlertRuleEnabled} disabled={inProgress}>
+                                <span>{rule.enabled ? 'Disable' : 'Enable'} Alert</span>
+                            </Button>
+                            <Button color="danger" outline onClick={this.openDeleteModal} disabled={inProgress}>
                                 <span>Remove Alert</span>
                             </Button>
                         </div>
@@ -221,6 +234,9 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         projectId,
+        project: getProject(state, projectId),
+        contracts: getContractsForProject(state, projectId),
+        areContractsLoaded: areProjectContractsLoaded(state, projectId),
         ruleId,
         rule,
         isRuleLoaded: isAlertRuleLoaded(state, ruleId),
@@ -233,6 +249,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(alertingActions, dispatch),
         notificationActions: bindActionCreators(notificationActions, dispatch),
+        contractActions: bindActionCreators(contractActions, dispatch),
     };
 };
 
