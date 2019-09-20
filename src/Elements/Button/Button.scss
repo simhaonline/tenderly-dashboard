@@ -147,6 +147,20 @@
       box-shadow: 0 0 0 3px transparentize($Danger500, 0.7);
     }
   }
+
+  &.Success {
+    border-color: transparentize($Success500, 0.5);
+    background-color: transparentize($Success500, 0.85);
+
+    &:hover, &:focus {
+      border-color: $Success500;
+      background-color: transparentize($Success500, 0.7);
+    }
+
+    &:active, &:focus {
+      box-shadow: 0 0 0 3px transparentize($Success500, 0.7);
+    }
+  }
 }
 
 .ButtonGroup {

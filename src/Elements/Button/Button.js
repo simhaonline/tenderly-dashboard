@@ -11,6 +11,8 @@ function getButtonColorClass(color) {
             return 'Secondary';
         case 'danger':
             return 'Danger';
+        case 'success':
+            return 'Success';
         default:
             return 'Primary';
     }
