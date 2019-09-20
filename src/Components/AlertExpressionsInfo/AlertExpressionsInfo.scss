@@ -1,0 +1,14 @@
+@import "../../Common/common";
+
+.ExpressionTargetPreview__IconWrapper {
+  margin-right: $Spacing2;
+  background-color: $Primary500;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  font-size: $FontSize500;
+  height: 40px;
+}
