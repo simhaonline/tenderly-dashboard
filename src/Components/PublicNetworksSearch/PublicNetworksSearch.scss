@@ -10,41 +10,7 @@
 .PublicNetworksSearch__InputWrapper {
   margin-bottom: $Spacing4;
   width: 100%;
-  max-width: 600px;
   position: relative;
-}
-
-.PublicNetworksSearch__Input {
-  width: 100%;
-  cursor: pointer;
-  background-color: transparentize($Slate100, 0.25);
-  border: 1px solid $Slate900;
-  border-radius: 30px;
-  transition: 0.2s;
-  padding: 12px 40px;
-  color: $WhiteColor;
-  text-align: center;
-  font-size: $FontSize400;
-
-  &::placeholder {
-    color: transparentize($WhiteColor, 0.25);
-  }
-
-  &:hover {
-    border-color: $Primary500;
-  }
-
-  &:focus {
-    border-color: $Primary500;
-    box-shadow: 0 0 0 2px transparentize($Primary500, 0.6);
-  }
-}
-
-.PublicNetworksSearch__InputIcon {
-  position: absolute;
-  right: 16px;
-  top: 12px;
-  font-size: $FontSize500;
 }
 
 .PublicNetworksSearch__ResultsWrapper {
@@ -67,4 +33,81 @@
 .PublicNetworksSearch__EmptyState__Description {
   font-weight: 100;
   margin: 0;
+}
+
+.PublicSearchInput {
+  .Select__control {
+    border-radius: 8px;
+  }
+
+  .Select__value-container {
+    padding: $Spacing1 $Spacing6;
+    font-size: $FontSize400;
+  }
+
+  .Select__input {
+    width: 100%;
+    font-weight: 100;
+  }
+}
+
+.SearchBarDropdownIndicator__Icon {
+  font-size: $FontSize500;
+  padding: 1px;
+  margin-right: $Spacing1;
+}
+
+.SearchResultsNoOptionsMessage__Wrapper {
+  padding: $Spacing4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.SearchResultsNoOptionsMessage__Actions {
+  display: flex;
+}
+
+.SearchResultsNoOptionsMessage__ActionLink {
+  border: 1px solid $Slate100;
+  border-radius: 8px;
+  background-color: $Slate300;
+  padding: $Spacing3 $Spacing6;
+  display: flex;
+  color: $WhiteColor;
+  transition: 0.15s;
+  box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
+
+  &:not(:last-child) {
+    margin-right: $Spacing2;
+  }
+
+  &:hover {
+    background-color: $Slate100;
+    color: $WhiteColor;
+    box-shadow: 2px 2px 6px 0 transparentize($BlackColor, 0.75);
+  }
+}
+
+.SearchResultsNoOptionsMessage__Title {
+  margin-bottom: $Spacing2;
+  font-weight: 600;
+  font-size: $FontSize400;
+}
+
+.SearchResultsNoOptionsMessage__Description {
+  max-width: 660px;
+  line-height: 22px;
+  letter-spacing: 1px;
+}
+
+.SearchResultsNoOptionsMessage__Actions {
+  margin-top: $Spacing4;
+}
+
+.SearchResultsNoOptionsMessage__ActionLink__Icon {
+  font-size: $FontSize500;
+  margin-right: $Spacing4;
 }

@@ -1,46 +1,66 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import Blockies from "react-blockies";
 import {withRouter} from "react-router-dom";
+import {components} from 'react-select';
+import AsyncSelect from 'react-select/async';
 
 import Analytics from "../../Utils/Analytics";
 
-import {NetworkAppToRouteTypeMap, NetworkTypes} from "../../Common/constants";
-import {isValidAddress, isValidTransactionHash} from "../../Utils/Ethereum";
-import {generateShortAddress} from "../../Utils/AddressFormatter";
+import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
-import * as transactionActions from "../../Core/Transaction/Transaction.actions";
-import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
+import * as publicActions from "../../Core/PublicContracts/PublicContracts.actions";
 
-import {Icon, Card, CardsWrapper} from "../../Elements";
-import {SimpleLoader, NetworkTag} from "../index";
+import {Icon} from '../../Elements';
+import {ContractSelectOption, TransactionSelectOption, SimpleLoader} from "../index";
 
 import './PublicNetworksSearch.scss';
+import * as _ from "lodash";
 
-const ResultThumbnail = ({id, value, name, network, onClick = () => {}}) => {
-    return (
-        <Card onClick={onClick} clickable>
-            <div className="DisplayFlex AlignItemsCenter MarginBottom2">
-                <Blockies
-                    seed={id}
-                    size={8}
-                    scale={5}
-                    className="PublicContractThumbnail__Blockie"
-                />
-                <div className="MarginLeft2">
-                    <div className="MarginBottom1">
-                        <span className="SemiBoldText">{name}</span>
-                    </div>
-                    <div className="LinkText MonospaceFont">{generateShortAddress(value, 12 , 4)}</div>
-                </div>
+function SearchResultsNoOptionsMessage(props) {
+    const {query} = props;
+
+    return <div className="SearchResultsNoOptionsMessage">
+        {!query && <div className="SearchResultsNoOptionsMessage__Wrapper">
+            <h4 className="SearchResultsNoOptionsMessage__Title">Find the contract/transaction you wish to inspect</h4>
+            <p className="SearchResultsNoOptionsMessage__Description">Note that we currently only parse contracts and transactions that have been verified on <span className="SemiBoldText">Tenderly</span> or <span className="SemiBoldText">Etherscan</span></p>
+        </div>}
+        {!!query && query.length < 3 && <div className="SearchResultsNoOptionsMessage__Wrapper">
+            <h4 className="SearchResultsNoOptionsMessage__Title">At least 3 characters are required for the search</h4>
+        </div>}
+        {!!query && query.length >= 3 && <div className="SearchResultsNoOptionsMessage__Wrapper">
+            <h4 className="SearchResultsNoOptionsMessage__Title">No results found</h4>
+            <p className="SearchResultsNoOptionsMessage__Description">It seems that we didn't find the contract/transaction your were looking for. We currently only parse contracts and transactions that have been verified on Tenderly or Etherscan.</p>
+            <p className="SearchResultsNoOptionsMessage__Description">But no worries, if you wish to monitor and inspect private contracts and transactions in your project you can do so in one of the following ways:</p>
+            <div className="SearchResultsNoOptionsMessage__Actions">
+                <a className="SearchResultsNoOptionsMessage__ActionLink" href="">
+                    <Icon className="SearchResultsNoOptionsMessage__ActionLink__Icon" icon="arrow-right"/>
+                    <h4>Upload to project via our CLI</h4>
+                </a>
+                <a className="SearchResultsNoOptionsMessage__ActionLink" href="https://medium.com/tenderly/a-tenderly-update-debugging-ethereum-transactions-verifying-contracts-and-other-newsworthy-4d7f20317f92#75c6" target="_blank">
+                    <Icon className="SearchResultsNoOptionsMessage__ActionLink__Icon" icon="arrow-right"/>
+                    <h4>Verify your contracts on Tenderly</h4>
+                </a>
             </div>
-            <div>
-                <NetworkTag size="small" network={network}/>
-            </div>
-        </Card>
-    );
-};
+        </div>}
+    </div>
+}
+
+function SearchBarDropdownIndicator(props) {
+    return <components.DropdownIndicator {...props}>
+        <Icon icon="search" className="SearchBarDropdownIndicator__Icon"/>
+    </components.DropdownIndicator>;
+}
+
+function SearchResultSelectOption(props) {
+    const data = props.data;
+
+    if (data.type === 'contract') {
+        return <ContractSelectOption {...props}/>
+    }
+
+    return <TransactionSelectOption {...props}/>
+}
 
 class PublicNetworksSearch extends Component {
     constructor(props) {
@@ -52,105 +72,88 @@ class PublicNetworksSearch extends Component {
         }
     }
 
-    /**
-     * @param {string} txHash
-     * @return {Promise<Transaction[]|null>}
-     */
-    fetchPossibleTransaction = async (txHash) => {
-        const {txActions} = this.props;
+    debouncedSearch = _.debounce(async (query, callback) => {
+        const {publicActions} = this.props;
 
-        const results = await Promise.all([
-            txActions.fetchTransactionForPublicContract(txHash, NetworkTypes.MAIN, true),
-            txActions.fetchTransactionForPublicContract(txHash, NetworkTypes.KOVAN, true),
-            txActions.fetchTransactionForPublicContract(txHash, NetworkTypes.ROPSTEN, true),
-            txActions.fetchTransactionForPublicContract(txHash, NetworkTypes.RINKEBY, true),
-        ]);
+        if (!callback) return;
 
-        return results.filter(result => result.success).map(result => result.data.transaction);
-    };
-
-    /**
-     * @param {string} address
-     * @return {Promise<Contract[]|null>}
-     */
-    fetchPossibleContract = async (address) => {
-        const {contractActions} = this.props;
-
-        const results = await Promise.all([
-            contractActions.fetchPublicContract(address, NetworkTypes.MAIN, true),
-            contractActions.fetchPublicContract(address, NetworkTypes.KOVAN, true),
-            contractActions.fetchPublicContract(address, NetworkTypes.ROPSTEN, true),
-            contractActions.fetchPublicContract(address, NetworkTypes.RINKEBY, true),
-        ]);
-
-        return results.filter(result => result.success).map(result => result.data);
-    };
-
-    getValueType = (value) => {
-        if (isValidAddress(value)) {
-            return 'contract';
-        }
-
-        if (isValidTransactionHash(value)) {
-            return 'tx';
-        }
-
-        return 'unknown';
-    };
-
-    handleSearch = async (event) => {
-        const value = event.target.value;
-
-
-        if (!value) {
-            this.setState({
-                result: null,
-            });
-            return;
-        }
-
-        const valueType = this.getValueType(value);
-
-        const result = {
-            type: valueType,
-            values: null,
-        };
-
-        this.setState({
-            loading: true,
-            result: null,
-        });
+        const searchResponse = await publicActions.searchPublicData(query);
 
         Analytics.trackEvent('explore_page_search');
 
-        if (valueType === 'contract') {
-            result.values = await this.fetchPossibleContract(value);
-        } else if (valueType === 'tx') {
-            result.values = await this.fetchPossibleTransaction(value);
+        if (searchResponse.success) {
+            const data = [];
+
+            if (searchResponse.data.contracts) {
+                data.push({
+                    label: 'Contracts',
+                    value: 'contracts',
+                    options: searchResponse.data.contracts,
+                })
+            }
+
+            if (searchResponse.data.transactions) {
+                data.push({
+                    label: 'Transactions',
+                    value: 'transactions',
+                    options: searchResponse.data.transactions,
+                })
+            }
+
+            callback(data)
+        } else {
+            callback([]);
         }
 
+
         this.setState({
-            loading: false,
-            result,
+            searchPromise: null,
+            promiseResolver: null,
         });
+    }, 1000);
+
+    fetchSearchResults = (query, callback) => {
+        this.debouncedSearch(query, callback);
     };
 
     goTo = (type, network, suffix) => {
         const {history} = this.props;
 
-        const networkRout = NetworkAppToRouteTypeMap[network];
+        const networkRoute = NetworkAppToRouteTypeMap[network];
 
-        history.push(`/${type}/${networkRout}/${suffix}`);
+        history.push(`/${type}/${networkRoute}/${suffix}`);
+    };
+
+    handleSearchSelect = (option) => {
+        Analytics.trackEvent('explore_page_search_selected');
+
+        if (option.type === 'contract') {
+            this.goTo('contract', option.network, option.address);
+        } else if (option.type === 'transaction') {
+            this.goTo('tx', option.network, option.txHash);
+        }
+    };
+
+    handleInputChange = (value) => {
+        this.setState({
+            searchQuery: value,
+        })
     };
 
     render() {
-        const {loading, result} = this.state;
+        const {loading, result, searchQuery} = this.state;
 
         return (
             <div className="PublicNetworksSearch">
                 <div className="PublicNetworksSearch__InputWrapper">
-                    <input type="text" onChange={this.handleSearch} className="PublicNetworksSearch__Input" disabled={loading} placeholder="Enter any transaction or contract address"/>
-                    <Icon icon="search" className="PublicNetworksSearch__InputIcon"/>
+                    <div className="Select PublicSearchInput">
+                        <AsyncSelect classNamePrefix="Select" onInputChange={this.handleInputChange} onChange={this.handleSearchSelect} components={{
+                            Option: SearchResultSelectOption,
+                            NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
+                            IndicatorSeparator: () => null,
+                            DropdownIndicator: SearchBarDropdownIndicator,
+                        }} menuIsOpen loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
+                    </div>
                 </div>
                 {loading && <div className="PublicNetworksSearch__ResultsWrapper">
                     <SimpleLoader/>
@@ -162,18 +165,6 @@ class PublicNetworksSearch extends Component {
                     </div>
                 </div>}
                 {!!result && !loading && <div className="PublicNetworksSearch__ResultsWrapper">
-                    {result.type === 'contract' && !!result.values.length && <CardsWrapper horizontal>
-                        {result.values.map(contract =>
-                            <ResultThumbnail key={contract.network} id={contract.getUniqueId()} value={contract.address} name={contract.name}
-                                             network={contract.network} onClick={() => this.goTo(result.type, contract.network, contract.address)}/>
-                        )}
-                    </CardsWrapper>}
-                    {result.type === 'tx'&& !!result.values.length && <CardsWrapper horizontal>
-                        {result.values.map(tx =>
-                            <ResultThumbnail key={tx.network} id={`${tx.network}:${tx.txHash}`} value={tx.txHash} name="Transaction" network={tx.network}
-                                             onClick={() => this.goTo(result.type, tx.network, tx.txHash)}/>
-                        )}
-                    </CardsWrapper>}
                     {result.type !== 'unknown' && !result.values.length && <div className="PublicNetworksSearch__EmptyState">
                         <h5 className="PublicNetworksSearch__EmptyState__Heading">No Results Founds</h5>
                         <p className="PublicNetworksSearch__EmptyState__Description">Seems that we haven't parsed this contract or transaction yet. Make sure that the contract or transaction is coming from a publicly verified contract on Etherscan.</p>
@@ -190,8 +181,7 @@ class PublicNetworksSearch extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        txActions: bindActionCreators(transactionActions, dispatch),
-        contractActions: bindActionCreators(publicContractActions, dispatch),
+        publicActions: bindActionCreators(publicActions, dispatch),
     }
 };
 
