@@ -68,6 +68,9 @@ class Contract {
 
         /** @type Date */
         this.verifiedAt = data.verifiedAt ? moment(data.verifiedAt) : null;
+
+        /** @type string */
+        this.verifiedBy = data.verifiedBy;
     }
 
     /**
@@ -132,6 +135,18 @@ class Contract {
         }
 
         return file;
+    }
+
+    getVerifiedByLabel() {
+        if (this.verifiedBy === 'tenderly') {
+            return 'Tenderly';
+        }
+
+        if (this.verifiedBy === 'etherscan') {
+            return 'Etherscan';
+        }
+
+        return '';
     }
 
     /**
@@ -201,6 +216,7 @@ class Contract {
             watchCount: data.number_of_watches,
             lastEventAt: data.last_event_occurred_at,
             verifiedAt: data.verification_date,
+            verifiedBy: data.verified_by,
             files,
             mainFile,
         }, projectData, parentContract);

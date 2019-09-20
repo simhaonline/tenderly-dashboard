@@ -384,9 +384,9 @@ class ProjectSetupGuide extends Component {
                                     <div className="ManualContractForm">
                                         <p>Select the network your contract is deployed on:</p>
                                         <NetworkSegmentedPicker value={manualNetwork} onChange={this.handleManualNetworkChange} className="ContractNetworkPicker"/>
-                                        <p>In order for your contract to be monitored for errors the contract must be publicly verified on <a href="https://etherscan.io/contractsVerified" target="_blank" rel="noopener noreferrer">Etherscan</a>.</p>
+                                        <p>In order for your contract to be monitored for errors the contract must be publicly verified on <span className="SemiBoldText">Tenderly</span> or <a href="https://etherscan.io/contractsVerified" target="_blank" rel="noopener noreferrer">Etherscan</a>.</p>
                                         <Input value={manualContractAddress} placeholder="0x1A77CC30E8d7Cb528520cda6B29279E7D859896A" icon="file-text" field="manualContractAddress" onChange={this.handleInputChange}/>
-                                        {!fetchingPublicContract && !fetchedPublicContract && <p>If your contract is not verified on Etherscan you can upload your project using our CLI tool. Follow the instructions for setup via CLI <LinkButton onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>here</LinkButton>.</p>}
+                                        {!fetchingPublicContract && !fetchedPublicContract && <p>If your contract is not verified on Tenderly or Etherscan you can upload your project using our CLI tool. Follow the instructions for setup via CLI <LinkButton onClick={() => this.selectSetupType(ProjectSetupType.CLI)}>here</LinkButton>.</p>}
                                         {(fetchingPublicContract || !!fetchedPublicContract) && <div>
                                             {fetchingPublicContract && <div className="DisplayFlex AlignItemsCenter JustifyContentCenter">
                                                 <SimpleLoader/>

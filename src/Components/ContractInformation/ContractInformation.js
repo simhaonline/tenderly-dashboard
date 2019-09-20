@@ -70,8 +70,8 @@ class ContractInformation extends Component {
                                 {contract.isVerifiedPublic && <span id="ContractVerificationStatus" className="ContractInformation__VerifiedStatus"><Icon icon="check-circle"/> Verified</span>}
                                 {!contract.isVerifiedPublic && <span id="ContractVerificationStatus" className="ContractInformation__NotVerifiedStatus MutedText"><Icon icon="info"/> Not Verified</span>}
                                 <Tooltip id="ContractVerificationStatus">
-                                    {contract.isVerifiedPublic && <span>This contract has been verified on Etherscan.</span>}
-                                    {!contract.isVerifiedPublic && <span>This contract has not been publicly verified on Etherscan. Meaning that it's source code is not public.</span>}
+                                    {contract.isVerifiedPublic && <span>This contract has been verified on {contract.getVerifiedByLabel()}.</span>}
+                                    {!contract.isVerifiedPublic && <span>This contract has not been publicly verified on Tenderly or Etherscan. Meaning that it's source code is not public.</span>}
                                 </Tooltip>
                             </div>
                         </div>
