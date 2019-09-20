@@ -10,7 +10,7 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - name: Checkout master
         uses: actions/checkout@master
@@ -24,7 +24,7 @@ jobs:
           args: test:ci
   tag:
     name: Tag Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     needs: [test]
     steps:
       - name: Checkout master
