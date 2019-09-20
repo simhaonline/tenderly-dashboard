@@ -127,7 +127,7 @@ class EditAlertRuleForm extends Component {
     };
 
     render() {
-        const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded, project, areContractsLoaded} = this.props;
+        const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded, project, areContractsLoaded, contracts} = this.props;
         const {openDeleteModal, alertDeleted, errorFetching, inProgress} = this.state;
 
         const loading = (!isRuleLoaded || !destinationsLoaded || !areContractsLoaded) && !errorFetching;
@@ -175,7 +175,7 @@ class EditAlertRuleForm extends Component {
                             <div>{rule.description || '-'}</div>
                         </div>}
                         <Card color="light">
-                            <AlertExpressionsInfo project={project} rule={rule}/>
+                            <AlertExpressionsInfo project={project} rule={rule} contracts={contracts}/>
                         </Card>
                         <PanelDivider/>
                         {!!destinations.length && <div className="MarginBottom4">
