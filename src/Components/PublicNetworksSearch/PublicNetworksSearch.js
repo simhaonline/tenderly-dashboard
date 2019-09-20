@@ -12,7 +12,7 @@ import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 import * as publicActions from "../../Core/PublicContracts/PublicContracts.actions";
 
 import {Icon} from '../../Elements';
-import {ContractSelectOption, TransactionSelectOption, SimpleLoader} from "../index";
+import {ContractSelectOption, TransactionSelectOption} from "../index";
 
 import './PublicNetworksSearch.scss';
 import * as _ from "lodash";
@@ -31,15 +31,11 @@ function SearchResultsNoOptionsMessage(props) {
         {!!query && query.length >= 3 && <div className="SearchResultsNoOptionsMessage__Wrapper">
             <h4 className="SearchResultsNoOptionsMessage__Title">No results found</h4>
             <p className="SearchResultsNoOptionsMessage__Description">It seems that we didn't find the contract/transaction your were looking for. We currently only parse contracts and transactions that have been verified on Tenderly or Etherscan.</p>
-            <p className="SearchResultsNoOptionsMessage__Description">But no worries, if you wish to monitor and inspect private contracts and transactions in your project you can do so in one of the following ways:</p>
+            <p className="SearchResultsNoOptionsMessage__Description">If you wish to monitor and inspect private contracts and transactions in your project you can do so in one of the following ways:</p>
             <div className="SearchResultsNoOptionsMessage__Actions">
-                <a className="SearchResultsNoOptionsMessage__ActionLink" href="">
+                <a className="SearchResultsNoOptionsMessage__ActionLink" href="https://medium.com/tenderly/a-tenderly-update-debugging-ethereum-transactions-verifying-contracts-and-other-newsworthy-4d7f20317f92#75c6" target="_blank" rel="noopener noreferrer">
                     <Icon className="SearchResultsNoOptionsMessage__ActionLink__Icon" icon="arrow-right"/>
-                    <h4>Upload to project via our CLI</h4>
-                </a>
-                <a className="SearchResultsNoOptionsMessage__ActionLink" href="https://medium.com/tenderly/a-tenderly-update-debugging-ethereum-transactions-verifying-contracts-and-other-newsworthy-4d7f20317f92#75c6" target="_blank">
-                    <Icon className="SearchResultsNoOptionsMessage__ActionLink__Icon" icon="arrow-right"/>
-                    <h4>Verify your contracts on Tenderly</h4>
+                    <h4>Verifying your contracts on Tenderly</h4>
                 </a>
             </div>
         </div>}
@@ -67,8 +63,7 @@ class PublicNetworksSearch extends Component {
         super(props);
 
         this.state = {
-            loading: false,
-            result: null,
+            searchQuery: '',
         }
     }
 
@@ -141,7 +136,7 @@ class PublicNetworksSearch extends Component {
     };
 
     render() {
-        const {loading, result, searchQuery} = this.state;
+        const {searchQuery} = this.state;
 
         return (
             <div className="PublicNetworksSearch">
@@ -152,28 +147,15 @@ class PublicNetworksSearch extends Component {
                             NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
                             IndicatorSeparator: () => null,
                             DropdownIndicator: SearchBarDropdownIndicator,
-                        }} menuIsOpen loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
+                        }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
                     </div>
                 </div>
-                {loading && <div className="PublicNetworksSearch__ResultsWrapper">
-                    <SimpleLoader/>
-                </div>}
-                {!result && !loading && <div className="PublicNetworksSearch__ResultsWrapper">
+                <div className="PublicNetworksSearch__ResultsWrapper">
                     <div className="PublicNetworksSearch__EmptyState">
                         <h5 className="PublicNetworksSearch__EmptyState__Heading">Find a transaction or contract</h5>
                         <p className="PublicNetworksSearch__EmptyState__Description">Paste any transaction hash or contract address into input above and if it is from a publicly verified contract it will be parsed by us.</p>
                     </div>
-                </div>}
-                {!!result && !loading && <div className="PublicNetworksSearch__ResultsWrapper">
-                    {result.type !== 'unknown' && !result.values.length && <div className="PublicNetworksSearch__EmptyState">
-                        <h5 className="PublicNetworksSearch__EmptyState__Heading">No Results Founds</h5>
-                        <p className="PublicNetworksSearch__EmptyState__Description">Seems that we haven't parsed this contract or transaction yet. Make sure that the contract or transaction is coming from a publicly verified contract on Etherscan.</p>
-                    </div>}
-                    {result.type === 'unknown' && <div className="PublicNetworksSearch__EmptyState">
-                        <h5 className="PublicNetworksSearch__EmptyState__Heading">Invalid Query</h5>
-                        <p className="PublicNetworksSearch__EmptyState__Description">Whoops, seems that the query you have entered is not a valid contract address or transaction hash.</p>
-                    </div>}
-                </div>}
+                </div>
             </div>
         );
     }
