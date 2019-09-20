@@ -10,20 +10,3 @@
   overflow: hidden;
   box-shadow: 1px 1px 3px 0 transparentize($BlackColor, 0.85);
 }
-
-.Select__option .TransactionSelectOption__IconWrapper {
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: $Spacing1;
-
-  &--Success {
-    background-color: $Success500;
-  }
-  &--Danger {
-    background-color: $Danger500;
-  }
-}
