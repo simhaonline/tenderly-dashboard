@@ -1,4 +1,5 @@
 export {default as User} from './Auth/User.model';
+export {default as Project} from './Project/Project.model';
 export {default as Organization} from './Organization/Organization.model';
 export {default as Contract} from './Contract/Contract.model';
 export {default as ContractFile} from './Contract/ContractFile.model';
