@@ -217,6 +217,20 @@ export const SimpleAlertRuleTypeIconMap = {
 /**
  * @enum {string}
  */
+export const SimpleAlertRuleTypeLabelMap = {
+    [SimpleAlertRuleTypes.SUCCESSFUL_TX]: 'Successful Transaction',
+    [SimpleAlertRuleTypes.FAILED_TX]: 'Failed Transaction',
+    [SimpleAlertRuleTypes.WHITELISTED_CALLERS]: 'Whitelisted Callers',
+    [SimpleAlertRuleTypes.BLACKLISTED_CALLERS]: 'Blacklisted Callers',
+    [SimpleAlertRuleTypes.LOG_EMITTED]: 'Event/Log Emitted',
+    [SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER]: 'Event Parameter',
+    [SimpleAlertRuleTypes.FUNCTION_CALLED]: 'Function Call',
+    [SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]: 'Function Parameter',
+};
+
+/**
+ * @enum {string}
+ */
 export const AlertRuleExpressionTypes = {
     CONTRACT_ADDRESS: 'CONTRACT_ADDRESS',
     NETWORK: 'NETWORK',
