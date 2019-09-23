@@ -194,7 +194,10 @@ class AlertRuleView extends Component {
                             </List>
                         </div>}
                         <div>
-                            <Button color={rule.enabled ? null : "success"} outline onClick={this.toggleAlertRuleEnabled} disabled={inProgress}>
+                            <Button to={`/project/${projectId}/alerts/rules/${rule.id}/edit`}>
+                                <span>Edit</span>
+                            </Button>
+                            <Button outline={rule.enabled} onClick={this.toggleAlertRuleEnabled} disabled={inProgress}>
                                 <span>{rule.enabled ? 'Disable' : 'Enable'} Alert</span>
                             </Button>
                             <Button color="danger" outline onClick={this.openDeleteModal} disabled={inProgress}>
