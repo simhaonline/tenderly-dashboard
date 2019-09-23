@@ -57,3 +57,23 @@ function isChecksumAddress(address) {
 export function isValidAddress(address) {
     return isAddress(address);
 }
+
+/**
+ * @param {string} base64
+ * @return {string}
+ */
+export function decodeBase64ToHex(base64) {
+    const raw = atob(base64);
+
+    let HEX = '';
+
+    for (let i = 0; i < raw.length; i++ ) {
+
+        let _hex = raw.charCodeAt(i).toString(16);
+
+        HEX += (_hex.length === 2 ? _hex : '0' + _hex);
+
+    }
+    return `0x${HEX.toLowerCase()}`;
+}
+
