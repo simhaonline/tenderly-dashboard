@@ -2,25 +2,42 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import Blockies from "react-blockies";
 
+import {generateShortAddress} from "../../Utils/AddressFormatter";
+
 import {AlertRule, Contract, Project} from "../../Core/models";
 
-import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes, NetworkLabelMap} from "../../Common/constants";
+import {
+    AlertRuleExpressionParameterTypes,
+    AlertRuleExpressionTypes,
+    NetworkLabelMap,
+    SimpleAlertRuleTypeIconMap, SimpleAlertRuleTypeLabelMap, SimpleAlertRuleTypes
+} from "../../Common/constants";
 
 import {Card, Icon} from "../../Elements";
 import {NetworkTag} from '../';
 
 import './AlertExpressionsInfo.scss';
-import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 class ExpressionConditionPreview extends PureComponent {
     render() {
-        const {expressions, contracts} = this.props;
+        const {rule} = this.props;
 
-        // console.log(expressions, contracts);
+        const type = rule.simpleType;
+
+        const showDetails = ![SimpleAlertRuleTypes.FAILED_TX, SimpleAlertRuleTypes.SUCCESSFUL_TX].includes(type);
 
         return (
-            <div>
-            </div>
+            <Card color="dark" className="DisplayFlex AlignItemsCenter">
+                <div className="ExpressionTargetPreview__IconWrapper">
+                    <Icon icon={SimpleAlertRuleTypeIconMap[type]}/>
+                </div>
+                <div>
+                    <div className="SemiBoldText">{SimpleAlertRuleTypeLabelMap[type]}</div>
+                    {showDetails && <div className="MonospaceFont MarginTop1 LinkText">
+                        {rule.getExpressionsDetails()}
+                    </div>}
+                </div>
+            </Card>
         )
     }
 }
@@ -82,7 +99,7 @@ class AlertExpressionsInfo extends PureComponent {
 
         return (
             <div>
-                <ExpressionConditionPreview expressions={rule.expressions} contracts={contracts}/>
+                <ExpressionConditionPreview rule={rule}/>
                 <ExpressionTargetPreview expressions={rule.expressions} contracts={contracts} project={project}/>
             </div>
         );

@@ -2,6 +2,12 @@ import moment from "moment";
 
 import AlertRuleExpression from "./AlertRuleExpression.model";
 import {getSimpleRuleType} from "../../Utils/AlertHelpers";
+import {
+    AlertRuleExpressionParameterTypes,
+    AlertRuleExpressionTypes,
+    SimpleAlertRuleTypes
+} from "../../Common/constants";
+import * as _ from "lodash";
 
 class AlertRule {
     constructor(data) {
@@ -45,6 +51,37 @@ class AlertRule {
         const updatedData = Object.assign({}, this, data);
 
         return new AlertRule(updatedData);
+    }
+
+    getExpressionsDetails() {
+        if (this.simpleType === SimpleAlertRuleTypes.ADVANCED) return null;
+
+        let details;
+
+        switch (this.simpleType) {
+            case SimpleAlertRuleTypes.LOG_EMITTED:
+                details = _.find(this.expressions, {
+                    type: AlertRuleExpressionTypes.LOG_EMITTED,
+                }).parameters[AlertRuleExpressionParameterTypes.LOG_NAME];
+                break;
+            case SimpleAlertRuleTypes.FUNCTION_CALLED:
+                details = 'Line ' + _.find(this.expressions, {
+                    type: AlertRuleExpressionTypes.METHOD_CALL,
+                }).parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER];
+                break;
+            case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+                details = _.find(this.expressions, {
+                    type: AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES,
+                }).parameters[AlertRuleExpressionParameterTypes.ADDRESSES].length + ` addresses`;
+                break;
+            case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+                details = _.find(this.expressions, {
+                    type: AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES,
+                }).parameters[AlertRuleExpressionParameterTypes.ADDRESSES].length + ` addresses`;
+                break;
+        }
+
+        return details;
     }
 
     /**
