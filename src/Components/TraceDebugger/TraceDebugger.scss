@@ -35,6 +35,10 @@
     background-color: $Slate700 !important;
     padding: $Spacing2 $Spacing3;
   }
+
+  .string-value {
+    word-break: break-all;
+  }
 }
 
 .TraceDebugger__StateTraceWrapper {
