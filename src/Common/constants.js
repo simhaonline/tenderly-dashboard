@@ -185,6 +185,21 @@ export const CompanyNameMap = {
 /**
  * @enum {string}
  */
+export const SimpleAlertRuleTypes = {
+    UNSET: 'unset',
+    FAILED_TX: 'failed_tx',
+    SUCCESSFUL_TX: 'successful_tx',
+    WHITELISTED_CALLERS: 'whitelisted_callers',
+    BLACKLISTED_CALLERS: 'blacklisted_callers',
+    LOG_EMITTED: 'log_emitted',
+    EMITTED_LOG_PARAMETER: 'emitted_log_parameter',
+    FUNCTION_CALLED: 'function_called',
+    CALLED_FUNCTION_PARAMETER: 'called_function_parameter',
+};
+
+/**
+ * @enum {string}
+ */
 export const AlertRuleExpressionTypes = {
     CONTRACT_ADDRESS: 'CONTRACT_ADDRESS',
     NETWORK: 'NETWORK',
