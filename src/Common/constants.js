@@ -195,6 +195,7 @@ export const SimpleAlertRuleTypes = {
     EMITTED_LOG_PARAMETER: 'emitted_log_parameter',
     FUNCTION_CALLED: 'function_called',
     CALLED_FUNCTION_PARAMETER: 'called_function_parameter',
+    ADVANCED: 'advanced',
 };
 
 /**
