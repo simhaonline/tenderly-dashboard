@@ -187,8 +187,8 @@ export const CompanyNameMap = {
  */
 export const SimpleAlertRuleTypes = {
     UNSET: 'unset',
-    FAILED_TX: 'failed_tx',
     SUCCESSFUL_TX: 'successful_tx',
+    FAILED_TX: 'failed_tx',
     WHITELISTED_CALLERS: 'whitelisted_callers',
     BLACKLISTED_CALLERS: 'blacklisted_callers',
     LOG_EMITTED: 'log_emitted',
@@ -196,6 +196,22 @@ export const SimpleAlertRuleTypes = {
     FUNCTION_CALLED: 'function_called',
     CALLED_FUNCTION_PARAMETER: 'called_function_parameter',
     ADVANCED: 'advanced',
+};
+
+/**
+ * @enum {string}
+ */
+export const SimpleAlertRuleTypeIconMap = {
+    [SimpleAlertRuleTypes.UNSET]: 'x-circle',
+    [SimpleAlertRuleTypes.SUCCESSFUL_TX]: 'check-circle',
+    [SimpleAlertRuleTypes.FAILED_TX]: 'x-circle',
+    [SimpleAlertRuleTypes.WHITELISTED_CALLERS]: 'eye',
+    [SimpleAlertRuleTypes.BLACKLISTED_CALLERS]: 'eye-off',
+    [SimpleAlertRuleTypes.LOG_EMITTED]: 'bookmark',
+    [SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER]: 'bookmark',
+    [SimpleAlertRuleTypes.FUNCTION_CALLED]: 'layers',
+    [SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]: 'layers',
+    [SimpleAlertRuleTypes.ADVANCED]: 'zap',
 };
 
 /**
