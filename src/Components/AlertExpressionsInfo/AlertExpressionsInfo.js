@@ -14,9 +14,12 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 class ExpressionConditionPreview extends PureComponent {
     render() {
+        const {expressions, contracts} = this.props;
+
+        // console.log(expressions, contracts);
+
         return (
             <div>
-                conditonss
             </div>
         )
     }
@@ -35,7 +38,7 @@ class ExpressionTargetPreview extends PureComponent {
         return (
             <div>
                 {isProjectWide
-                    ? <Card className="DisplayFlex AlignItemsCenter">
+                    ? <Card className="DisplayFlex AlignItemsCenter" color="dark">
                         <div className="ExpressionTargetPreview__IconWrapper">
                             <Icon icon="project"/>
                         </div>
@@ -44,7 +47,7 @@ class ExpressionTargetPreview extends PureComponent {
                             <div className="MonospaceFont LinkText">{project.slug}</div>
                         </div>
                     </Card>
-                    : <Card className="DisplayFlex AlignItemsCenter">
+                    : <Card className="DisplayFlex AlignItemsCenter" color="dark">
                         <div className="ExpressionTargetPreview__IconWrapper">
                             {!hasAddress && <Icon icon="layers"/>}
                             {!!hasAddress && <Blockies size={8} scale={5} className="ExpressionTargetPreview__Blockie"
@@ -78,9 +81,8 @@ class AlertExpressionsInfo extends PureComponent {
         const {rule, contracts, project} = this.props;
 
         return (
-            <div className="DisplayFlex AlignItemsCenter">
-                <ExpressionConditionPreview expressions={rule.expressions}/>
-                <span>in</span>
+            <div>
+                <ExpressionConditionPreview expressions={rule.expressions} contracts={contracts}/>
                 <ExpressionTargetPreview expressions={rule.expressions} contracts={contracts} project={project}/>
             </div>
         );

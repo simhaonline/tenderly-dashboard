@@ -174,9 +174,7 @@ class EditAlertRuleForm extends Component {
                             <h4>Description</h4>
                             <div>{rule.description || '-'}</div>
                         </div>}
-                        <Card color="dark">
-                            <AlertExpressionsInfo project={project} rule={rule} contracts={contracts}/>
-                        </Card>
+                        <AlertExpressionsInfo project={project} rule={rule} contracts={contracts}/>
                         <PanelDivider/>
                         {!!destinations.length && <div className="MarginBottom4">
                             <h4 className="MarginBottom2">Alerts will be sent to these destinations</h4>
