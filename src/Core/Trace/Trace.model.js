@@ -1,3 +1,5 @@
+import {decodeBase64ToHex} from "../../Utils/Ethereum";
+
 import TraceInput from "./TraceInput.model";
 
 export class Trace {
@@ -80,7 +82,7 @@ export class Trace {
                 data.input[input.name] = input.value;
             });
         } else if (this.rawInput) {
-            data['[INPUT]'] = this.rawInput;
+            data['[INPUT]'] = decodeBase64ToHex(this.rawInput);
         }
 
 
@@ -93,7 +95,7 @@ export class Trace {
                 data.output[output.name] = output.value;
             });
         } else if (this.rawOutput) {
-            data['[OUTPUT]'] = this.rawOutput;
+            data['[OUTPUT]'] = decodeBase64ToHex(this.rawOutput);
         }
 
         if (this.stateVariables) {
