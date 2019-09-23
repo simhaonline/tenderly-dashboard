@@ -20,7 +20,6 @@ import {
     Icon,
     Panel,
     PanelContent,
-    Card,
     PanelHeader,
     Dialog,
     DialogBody,
@@ -32,11 +31,11 @@ import {
 } from "../../Elements";
 import {SimpleLoader, DestinationInformation, EmptyState, AlertExpressionsInfo} from "..";
 
-import './EditAlertRuleForm.scss';
+import './AlertRuleView.scss';
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
-class EditAlertRuleForm extends Component {
+class AlertRuleView extends Component {
     constructor(props) {
         super(props);
 
@@ -137,7 +136,7 @@ class EditAlertRuleForm extends Component {
         }
 
         return (
-            <Panel className="EditAlertRuleForm">
+            <Panel className="AlertRuleView">
                 <PanelHeader>
                     <h3>
                         <Link to={`/project/${projectId}/alerts/rules`}>Alerts</Link>
@@ -254,4 +253,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(EditAlertRuleForm);
+)(AlertRuleView);

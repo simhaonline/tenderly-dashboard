@@ -42,9 +42,11 @@ export {default as AnalyticsWidget} from './AnalyticsWidget/AnalyticsWidget';
 // Project Alerts
 export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRules';
 export {default as AlertRulesList} from './AlertRulesList/AlertRulesList';
+export {default as AlertRuleBuilder} from './AlertRuleBuilder/AlertRuleBuilder';
 export {default as AlertRuleExpressionsBuilder} from './AlertRuleExpressionsBuilder/AlertRuleExpressionsBuilder';
 export {default as CreateAlertRuleForm} from './CreateAlertRuleForm/CreateAlertRuleForm';
-export {default as EditAlertRuleForm} from './EditAlertRuleForm/EditAlertRuleForm';
+export {default as AlertRuleView} from './AlertRuleView/AlertRuleView';
+export {default as EditAlertRule} from './EditAlertRule/EditAlertRule';
 export {default as AlertExpressionsInfo} from './AlertExpressionsInfo/AlertExpressionsInfo';
 export {default as AlertTemplates} from './AlertTemplates/AlertTemplates';
 export {default as ProjectAlertHistory} from './ProjectAlertHistory/ProjectAlertHistory';

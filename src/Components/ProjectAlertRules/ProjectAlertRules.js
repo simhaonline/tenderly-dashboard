@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Route, Switch} from "react-router-dom";
 
-import {AlertRulesList, EditAlertRuleForm, CreateAlertRuleForm, AlertTemplates} from "..";
+import {AlertRulesList, AlertRuleView, CreateAlertRuleForm, AlertTemplates, EditAlertRule} from "..";
 
 class ProjectAlertRules extends Component {
     render() {
@@ -10,7 +10,8 @@ class ProjectAlertRules extends Component {
                 <Route path={`/project/:projectId/alerts/rules`} exact component={AlertRulesList}/>
                 <Route path={`/project/:projectId/alerts/rules/templates`} exact component={AlertTemplates}/>
                 <Route path={`/project/:projectId/alerts/rules/create`} exact component={CreateAlertRuleForm}/>
-                <Route path={`/project/:projectId/alerts/rules/:ruleId`} component={EditAlertRuleForm}/>
+                <Route path={`/project/:projectId/alerts/rules/:ruleId`} exact component={AlertRuleView}/>
+                <Route path={`/project/:projectId/alerts/rules/:ruleId/edit`} exact component={EditAlertRule}/>
             </Switch>
         );
     }

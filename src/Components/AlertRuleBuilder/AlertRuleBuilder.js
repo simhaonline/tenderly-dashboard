@@ -7,21 +7,21 @@ class AlertRuleBuilder extends Component {
     constructor(props) {
         super(props);
 
-        // @TODO handle initial
+        // @TODO handle initial rule
         this.state = {};
     }
 
     render() {
         return (
             <div className="AlertRuleBuilder">
-
+                alert rule builder
             </div>
         );
     }
 }
 
 AlertRuleBuilder.propTypes = {
-    initialRule: PropTypes.instanceOf(AlertRule).isRequired,
+    initialRule: PropTypes.instanceOf(AlertRule),
 };
 
 export default AlertRuleBuilder;
