@@ -48,6 +48,12 @@ export class Trace {
         /** @type TraceInput[] */
         this.outputVariables = data.outputVariables;
 
+        /** @type string */
+        this.rawInput = data.rawInput;
+
+        /** @type string */
+        this.rawOutput = data.rawOutput;
+
         /** @type TraceInput[] */
         this.stateVariables = data.stateVariables;
 
@@ -73,7 +79,10 @@ export class Trace {
 
                 data.input[input.name] = input.value;
             });
+        } else if (this.rawInput) {
+            data['[INPUT]'] = this.rawInput;
         }
+
 
         if (this.outputVariables) {
             this.outputVariables.forEach(output => {
@@ -83,6 +92,8 @@ export class Trace {
 
                 data.output[output.name] = output.value;
             });
+        } else if (this.rawOutput) {
+            data['[OUTPUT]'] = this.rawOutput;
         }
 
         if (this.stateVariables) {
@@ -187,6 +198,8 @@ export class Trace {
             stateVariables,
             localVariables,
             depthId,
+            rawInput: rawCallTrace.input,
+            rawOutput: rawCallTrace.output,
         }, calls);
     }
 
