@@ -2,47 +2,49 @@ import React from 'react';
 import {components} from "react-select";
 import PropTypes from 'prop-types';
 
+import {SimpleAlertRuleTypes} from "../../Common/constants";
+
 import {Icon, Select} from "../../Elements";
 
 const alertTypeOptions = [
     {
         label: 'Successful Transaction',
-        value: 'successful_tx',
+        value: SimpleAlertRuleTypes.SUCCESSFUL_TX,
         icon: 'check-circle',
     },
     {
         label: 'Failed Transaction',
-        value: 'failed_tx',
+        value: SimpleAlertRuleTypes.FAILED_TX,
         icon: 'x-circle',
     },
     {
         label: 'Function Call',
-        value: 'method_call',
+        value: SimpleAlertRuleTypes.FUNCTION_CALLED,
         icon: 'layers',
     },
     {
         label: 'Event Emitted',
-        value: 'log_emitted',
+        value: SimpleAlertRuleTypes.LOG_EMITTED,
         icon: 'bookmark',
     },
     {
         label: 'Function Argument',
-        value: 'method_argument',
+        value: SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER,
         icon: 'code',
     },
     {
         label: 'Event Argument',
-        value: 'log_argument',
+        value: SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER,
         icon: 'code',
     },
     {
         label: 'Whitelisted Caller',
-        value: 'whitelisted_caller',
+        value: SimpleAlertRuleTypes.WHITELISTED_CALLERS,
         icon: 'eye',
     },
     {
         label: 'Blacklisted Caller',
-        value: 'blacklisted_caller',
+        value: SimpleAlertRuleTypes.BLACKLISTED_CALLERS,
         icon: 'eye-off',
     },
 ];
