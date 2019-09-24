@@ -191,6 +191,10 @@ class AlertRuleView extends Component {
                                         </Button>}
                                     </div>}
                                 </ListItem>)}
+                                <ListItem to={`/project/${projectId}/alerts/rules/${rule.id}/edit?tab=destinations`} selectable className="DisplayFlex AlignItemsCenter JustifyContentCenter MutedText">
+                                    <Icon icon="plus-circle"/>
+                                    <span className="MarginLeft1">Add more destinations</span>
+                                </ListItem>
                             </List>
                         </div>}
                         <div>
