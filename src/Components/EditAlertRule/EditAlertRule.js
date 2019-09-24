@@ -57,7 +57,7 @@ class EditAlertRule extends Component {
                     </div>}
                     {pageLoaded && <div>
                         edit alert rule
-                        <AlertRuleBuilder step={initialTab} rule={rule} contracts={contracts} destinations={destinations}/>
+                        <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts} destinations={destinations}/>
                     </div>}
                 </PanelContent>
             </Panel>
