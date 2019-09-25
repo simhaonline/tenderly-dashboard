@@ -14,6 +14,8 @@ import AlertRuleBuilderParameters from "./AlertRuleBuilderParameters";
 import AlertRuleBuilderDestinations from "./AlertRuleBuilderDestinations";
 
 import './AlertRuleBuilder.scss';
+import Analytics from "../../Utils/Analytics";
+import {simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
 
 class AlertRuleBuilder extends Component {
     constructor(props) {
@@ -23,38 +25,18 @@ class AlertRuleBuilder extends Component {
 
         const selectedType = initialRule ? initialRule.simpleType : null;
 
-        const steps = {
-            [AlertRuleBuilderSteps.GENERAL]: {
-                slug: AlertRuleBuilderSteps.GENERAL,
-                enabled: !skipGeneral,
-                completed: false,
-            },
-            [AlertRuleBuilderSteps.TYPE]: {
-                slug: AlertRuleBuilderSteps.TYPE,
-                enabled: true,
-                completed: initialRule ? initialRule.simpleType !== SimpleAlertRuleTypes.UNSET : false,
-            },
-            [AlertRuleBuilderSteps.TARGET]: {
-                slug: AlertRuleBuilderSteps.TARGET,
-                enabled: true,
-                completed: false,
-            },
-            [AlertRuleBuilderSteps.PARAMETERS]: {
-                slug: AlertRuleBuilderSteps.PARAMETERS,
-                enabled: false,
-                completed: false,
-            },
-            [AlertRuleBuilderSteps.DESTINATIONS]: {
-                slug: AlertRuleBuilderSteps.DESTINATIONS,
-                enabled: true,
-                completed: false,
-            },
+        const stepsEnabled = {
+            [AlertRuleBuilderSteps.GENERAL]: !skipGeneral,
+            [AlertRuleBuilderSteps.TYPE]: true,
+            [AlertRuleBuilderSteps.TARGET]: true,
+            [AlertRuleBuilderSteps.PARAMETERS]: simpleAlertTypeRequiresParameters(selectedType),
+            [AlertRuleBuilderSteps.DESTINATIONS]: true,
         };
 
         this.state = {
             step: initialStep,
             selectedType,
-            steps,
+            stepsEnabled,
         };
     }
 
@@ -68,49 +50,49 @@ class AlertRuleBuilder extends Component {
     };
 
     /**
-     * @param {AlertRuleBuilderSteps} step
      * @param {object} data
      */
-    updateStep = (step, data) => {
-        const {steps} = this.state;
-        const previousState = steps[step];
-
-        const nextState = Object.assign({}, previousState, data);
+    updateStepsEnabled = (data) => {
+        const {stepsEnabled} = this.state;
 
         this.setState({
-            steps: {
-                ...steps,
-                [step]: nextState,
+            stepsEnabled: {
+                ...stepsEnabled,
+                ...data,
             },
         });
     };
+
     /**
      * @param {SimpleAlertRuleTypes} type
      */
     handleAlertTypeSelect = (type) => {
+        Analytics.trackEvent('simple_alert_form_select_alert_type', {
+            type: type,
+        });
+
         this.setState({
             selectedType: type,
-        }, () => this.updateStep(AlertRuleBuilderSteps.TYPE, {
-            completed: type !== SimpleAlertRuleTypes.UNSET,
+        }, () => this.updateStepsEnabled({
+            [AlertRuleBuilderSteps.PARAMETERS]: simpleAlertTypeRequiresParameters(type),
         }));
     };
 
     render() {
         const {submitButtonLabel} = this.props;
-        const {step: activeStep, selectedType, steps} = this.state;
+        const {step: activeStep, selectedType, stepsEnabled} = this.state;
 
         return (
             <div className="AlertRuleBuilder">
-                {Object.values(steps).filter(step => step.enabled).map((step, index) => {
+                {Object.keys(stepsEnabled).filter(step => stepsEnabled[step]).map((step, index) => {
                     const commonProps = {
-                        key: step.slug,
-                        step: step,
-                        onToggle: () => this.handleStepOpen(step.slug),
-                        isActiveStep: activeStep === step.slug,
+                        key: step,
+                        onToggle: () => this.handleStepOpen(step),
+                        isActiveStep: activeStep === step,
                         number: index + 1,
                     };
 
-                    switch (step.slug) {
+                    switch (step) {
                         case AlertRuleBuilderSteps.GENERAL:
                             return <AlertRuleBuilderGeneralInformation {...commonProps}/>;
                         case AlertRuleBuilderSteps.TYPE:

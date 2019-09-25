@@ -60,3 +60,44 @@ export function getSimpleRuleType(expressions) {
 
     return advanced ? SimpleAlertRuleTypes.ADVANCED : recognizedType;
 }
+
+/**
+ * Alert types that require additional parameters
+ * @type {SimpleAlertRuleTypes[]}
+ */
+const ParametersRequiredAlertTypes = [
+    SimpleAlertRuleTypes.FUNCTION_CALLED,
+    SimpleAlertRuleTypes.LOG_EMITTED,
+    SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER,
+    SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER,
+    SimpleAlertRuleTypes.WHITELISTED_CALLERS,
+    SimpleAlertRuleTypes.BLACKLISTED_CALLERS,
+];
+
+/**
+ * @param {SimpleAlertRuleTypes} type
+ * @return {boolean}
+ */
+export function simpleAlertTypeRequiresParameters(type) {
+    return ParametersRequiredAlertTypes.includes(type);
+}
+
+/**
+ * Alert types that require a selected contract
+ *
+ * @type {SimpleAlertRuleTypes[]}
+ */
+const ContractRequiredAlertTypes = [
+    SimpleAlertRuleTypes.FUNCTION_CALLED,
+    SimpleAlertRuleTypes.LOG_EMITTED,
+    SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER,
+    SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER,
+];
+
+/**
+ * @param {SimpleAlertRuleTypes} type
+ * @return {boolean}
+ */
+export function simpleAlertTypeRequiresContract(type) {
+    return ContractRequiredAlertTypes.includes(type);
+}
