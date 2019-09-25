@@ -21,7 +21,7 @@
 }
 
 .AlertRuleBuilder__Body__Divider {
-  margin: -1*$Spacing4 $Spacing7 0;
+  margin: -1*$Spacing4 $Spacing7 0 $Spacing4;
   border-left: 2px solid transparentize($Primary500, 0.25);
 }
 
@@ -65,4 +65,36 @@
 
 .AlertRuleBuilder__StepInfo__Description {
   margin: 0;
+}
+
+.AlertRuleBuilderOptionsWrapper {
+  flex-wrap: wrap;
+  display: flex;
+  margin-right: -1*$Spacing5;
+  margin-bottom: $Spacing4;
+}
+
+.AlertRuleBuilderOption {
+  width: 210px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: $Spacing5;
+}
+
+.AlertRuleBuilderOption__Icon {
+  font-size: $FontSize600;
+  margin-bottom: $Spacing2;
+  opacity: 0.5;
+}
+.AlertRuleBuilderOption__Label {
+  font-size: $FontSize300;
+  margin-bottom: 4px;
+}
+.AlertRuleBuilderOption__Description {
+  font-size: $FontSize200;
+  margin: 0;
+  text-align: center;
 }
