@@ -6,8 +6,7 @@ import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSe
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {
-    areNotificationDestinationsLoaded,
-    getNotificationDestinationsForRule
+    areNotificationDestinationsLoaded, getNotificationDestinations,
 } from "../../Common/Selectors/NotificationSelectors";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
@@ -83,7 +82,7 @@ const mapStateToProps = (state, ownProps) => {
         rule,
         initialTab,
         isRuleLoaded: isAlertRuleLoaded(state, ruleId),
-        destinations: getNotificationDestinationsForRule(state, rule),
+        destinations: getNotificationDestinations(state),
         destinationsLoaded: areNotificationDestinationsLoaded(state),
     }
 };

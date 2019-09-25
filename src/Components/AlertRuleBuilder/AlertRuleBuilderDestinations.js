@@ -8,12 +8,18 @@ import {DestinationInformation, SlackIcon} from "..";
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
 
 class AlertRuleBuilderDestinations extends Component {
+    isStepCompleted = () => {
+        const {selected} = this.props;
+
+        return selected && selected.length > 0;
+    };
+
     render() {
         const {destinations, selected, alertType, onSelect, onToggle, number, isActiveStep} = this.props;
 
         return (
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="Destinations"
-                                  description="No description" open={isActiveStep} completed={false}>
+                                  description="No description" open={isActiveStep} completed={this.isStepCompleted()}>
                 {destinations.map(destination => <Card key={destination.id} onClick={() => onSelect(destination)}
                                                        disabled={alertType === SimpleAlertRuleTypes.SUCCESSFUL_TX && destination.type === NotificationDestinationTypes.SLACK}
                                                        color="light" className="DisplayFlex AlignItemsCenter" clickable>

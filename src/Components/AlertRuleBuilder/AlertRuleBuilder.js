@@ -36,10 +36,14 @@ class AlertRuleBuilder extends Component {
             [AlertRuleBuilderSteps.DESTINATIONS]: true,
         };
 
+        const step = skipGeneral ? AlertRuleBuilderSteps.TYPE : AlertRuleBuilderSteps.GENERAL;
+
         this.state = {
-            step: initialStep,
+            step: initialStep || step,
             selectedType,
             selectedDestinations: [],
+            alertName: initialRule ? initialRule.name : '',
+            alertDescription: initialRule ? initialRule.description : '',
             expressions: [],
             stepsEnabled,
         };
@@ -69,12 +73,14 @@ class AlertRuleBuilder extends Component {
         }, callback);
     };
 
-    goToNextStep = () => {
-        const {step, stepsEnabled} = this.state;
-
-        console.log(step);
-
-        const enabledSteps = Object.keys(stepsEnabled).filter(step => stepsEnabled[step]);
+    /**
+     * @param {string} value
+     * @param {string} field
+     */
+    handleGeneralInfoUpdate = (value, field) => {
+        this.setState({
+            [field]: value,
+        });
     };
 
     /**
@@ -102,9 +108,16 @@ class AlertRuleBuilder extends Component {
         console.log(target);
     };
 
+    /**
+     * @param {NotificationDestination} destination
+     */
+    handleAlertDestinationsSelect = (destination) => {
+        console.log(destination);
+    };
+
     render() {
         const {submitButtonLabel, contracts, destinations} = this.props;
-        const {step: activeStep, selectedType, selectedTarget, selectedDestinations, stepsEnabled, expressions} = this.state;
+        const {step: activeStep, selectedType, selectedTarget, alertName, alertDescription, selectedDestinations, stepsEnabled, expressions} = this.state;
 
         return (
             <div className="AlertRuleBuilder">
@@ -118,17 +131,18 @@ class AlertRuleBuilder extends Component {
 
                     switch (step) {
                         case AlertRuleBuilderSteps.GENERAL:
-                            return <AlertRuleBuilderGeneralInformation {...commonProps}/>;
+                            return <AlertRuleBuilderGeneralInformation {...commonProps} data={{alertName, alertDescription}} onChange={this.handleGeneralInfoUpdate}/>;
                         case AlertRuleBuilderSteps.TYPE:
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
-                            return <AlertRuleBuilderTarget {...commonProps} onSelect={this.handleAlertTargetSelect}/>;
+                            return <AlertRuleBuilderTarget {...commonProps} onSelect={this.handleAlertTargetSelect} alertType={selectedType}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
                             return <AlertRuleBuilderParameters {...commonProps} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.ADVANCED:
                             return <AlertRuleBuilderAdvanced {...commonProps} contracts={contracts} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.DESTINATIONS:
-                            return <AlertRuleBuilderDestinations {...commonProps} destinations={destinations} selected={selectedDestinations} alertType={selectedType}/>;
+                            return <AlertRuleBuilderDestinations {...commonProps} destinations={destinations} selected={selectedDestinations}
+                                                                 alertType={selectedType} onSelect={this.handleAlertDestinationsSelect}/>;
                         default:
                             return null;
                     }

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
 import AlertRuleBuilderOption from "./AlertRuleBuilderOption";
+import {simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
 
 class AlertRuleBuilderTarget extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class AlertRuleBuilderTarget extends Component {
     };
 
     render() {
-        const {onSelect, value, onToggle, number, isActiveStep} = this.props;
+        const {onSelect, alertType, value, onToggle, number, isActiveStep} = this.props;
 
         return (
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="Alert Target"
@@ -28,7 +29,9 @@ class AlertRuleBuilderTarget extends Component {
                 <div className="AlertRuleBuilderTarget AlertRuleBuilderOptionsWrapper">
                     <AlertRuleBuilderOption onClick={onSelect} selected={value === 'contract'}
                                             icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
-                    <AlertRuleBuilderOption onClick={onSelect} selected={value === 'project'}
+                    <AlertRuleBuilderOption onClick={onSelect} selected={value === 'network'} disabled={simpleAlertTypeRequiresContract(alertType)}
+                                            icon="layers" label="Network" description="Receive alerts for contracts deployed on a network"/>
+                    <AlertRuleBuilderOption onClick={onSelect} selected={value === 'project'} disabled={simpleAlertTypeRequiresContract(alertType)}
                                             icon="project" label="Project" description="Receive alerts for every contract in this project"/>
                 </div>
             </AlertRuleBuilderStep>
