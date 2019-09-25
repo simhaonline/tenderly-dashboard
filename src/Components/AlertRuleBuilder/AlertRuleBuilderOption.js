@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 import {Card, Icon} from "../../Elements";
 
@@ -15,5 +16,15 @@ class AlertRuleBuilderOption extends Component {
         )
     }
 }
+
+AlertRuleBuilderOption.propTypes = {
+    icon: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    highlightColor: PropTypes.string,
+    disabled: PropTypes.bool,
+    onClick: PropTypes.func,
+    selected: PropTypes.bool,
+};
 
 export default AlertRuleBuilderOption;
