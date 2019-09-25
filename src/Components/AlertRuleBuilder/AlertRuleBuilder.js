@@ -39,6 +39,7 @@ class AlertRuleBuilder extends Component {
         this.state = {
             step: initialStep,
             selectedType,
+            selectedDestinations: [],
             expressions: [],
             stepsEnabled,
         };
@@ -47,7 +48,7 @@ class AlertRuleBuilder extends Component {
     /**
      * @param {AlertRuleBuilderSteps} step
      */
-    handleStepOpen = (step) => {
+    openStep = (step) => {
         this.setState({
             step,
         });
@@ -55,8 +56,9 @@ class AlertRuleBuilder extends Component {
 
     /**
      * @param {object} data
+     * @param {Function} callback
      */
-    updateStepsEnabled = (data) => {
+    updateStepsEnabled = (data, callback) => {
         const {stepsEnabled} = this.state;
 
         this.setState({
@@ -64,7 +66,15 @@ class AlertRuleBuilder extends Component {
                 ...stepsEnabled,
                 ...data,
             },
-        });
+        }, callback);
+    };
+
+    goToNextStep = () => {
+        const {step, stepsEnabled} = this.state;
+
+        console.log(step);
+
+        const enabledSteps = Object.keys(stepsEnabled).filter(step => stepsEnabled[step]);
     };
 
     /**
@@ -75,27 +85,33 @@ class AlertRuleBuilder extends Component {
             type: type,
         });
 
+        const isAdvancedType = type === SimpleAlertRuleTypes.ADVANCED;
+
         this.setState({
             selectedType: type,
             selectedTarget: null,
             parameters: null,
         }, () => this.updateStepsEnabled({
             [AlertRuleBuilderSteps.PARAMETERS]: simpleAlertTypeRequiresParameters(type),
-            [AlertRuleBuilderSteps.TARGET]: type !== SimpleAlertRuleTypes.ADVANCED,
-            [AlertRuleBuilderSteps.ADVANCED]: type === SimpleAlertRuleTypes.ADVANCED,
-        }));
+            [AlertRuleBuilderSteps.TARGET]: !isAdvancedType,
+            [AlertRuleBuilderSteps.ADVANCED]: isAdvancedType,
+        }, () => this.openStep(isAdvancedType ? AlertRuleBuilderSteps.ADVANCED : AlertRuleBuilderSteps.TARGET)));
+    };
+
+    handleAlertTargetSelect = (target) => {
+        console.log(target);
     };
 
     render() {
-        const {submitButtonLabel, contracts} = this.props;
-        const {step: activeStep, selectedType, stepsEnabled, expressions} = this.state;
+        const {submitButtonLabel, contracts, destinations} = this.props;
+        const {step: activeStep, selectedType, selectedTarget, selectedDestinations, stepsEnabled, expressions} = this.state;
 
         return (
             <div className="AlertRuleBuilder">
                 {Object.keys(stepsEnabled).filter(step => stepsEnabled[step]).map((step, index) => {
                     const commonProps = {
                         key: step,
-                        onToggle: () => this.handleStepOpen(step),
+                        onToggle: () => this.openStep(step),
                         isActiveStep: activeStep === step,
                         number: index + 1,
                     };
@@ -106,13 +122,13 @@ class AlertRuleBuilder extends Component {
                         case AlertRuleBuilderSteps.TYPE:
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
-                            return <AlertRuleBuilderTarget {...commonProps}/>;
+                            return <AlertRuleBuilderTarget {...commonProps} onSelect={this.handleAlertTargetSelect}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
                             return <AlertRuleBuilderParameters {...commonProps} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.ADVANCED:
                             return <AlertRuleBuilderAdvanced {...commonProps} contracts={contracts} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.DESTINATIONS:
-                            return <AlertRuleBuilderDestinations {...commonProps}/>;
+                            return <AlertRuleBuilderDestinations {...commonProps} destinations={destinations} selected={selectedDestinations} alertType={selectedType}/>;
                         default:
                             return null;
                     }
