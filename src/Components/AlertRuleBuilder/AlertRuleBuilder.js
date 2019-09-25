@@ -6,7 +6,12 @@ import {SimpleAlertRuleTypes, AlertRuleBuilderSteps} from "../../Common/constant
 import {AlertRule, Contract, NotificationDestination} from "../../Core/models";
 
 import {Button} from "../../Elements";
+
 import AlertRuleBuilderType from "./AlertRuleBuilderType";
+import AlertRuleBuilderGeneralInformation from "./AlertRuleBuilderGeneralInformation";
+import AlertRuleBuilderTarget from "./AlertRuleBuilderTarget";
+import AlertRuleBuilderParameters from "./AlertRuleBuilderParameters";
+import AlertRuleBuilderDestinations from "./AlertRuleBuilderDestinations";
 
 import './AlertRuleBuilder.scss';
 
@@ -97,11 +102,25 @@ class AlertRuleBuilder extends Component {
         return (
             <div className="AlertRuleBuilder">
                 {Object.values(steps).filter(step => step.enabled).map((step, index) => {
+                    const commonProps = {
+                        key: step.slug,
+                        step: step,
+                        onToggle: () => this.handleStepOpen(step.slug),
+                        isActiveStep: activeStep === step.slug,
+                        number: index + 1,
+                    };
+
                     switch (step.slug) {
+                        case AlertRuleBuilderSteps.GENERAL:
+                            return <AlertRuleBuilderGeneralInformation {...commonProps}/>;
                         case AlertRuleBuilderSteps.TYPE:
-                            return <AlertRuleBuilderType key={step.slug} step={step} onToggle={this.handleStepOpen}
-                                                         isActiveStep={activeStep === step.slug} number={index + 1}
-                                                         onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
+                            return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
+                        case AlertRuleBuilderSteps.TARGET:
+                            return <AlertRuleBuilderTarget {...commonProps}/>;
+                        case AlertRuleBuilderSteps.PARAMETERS:
+                            return <AlertRuleBuilderParameters {...commonProps}/>;
+                        case AlertRuleBuilderSteps.DESTINATIONS:
+                            return <AlertRuleBuilderDestinations {...commonProps}/>;
                         default:
                             return null;
                     }

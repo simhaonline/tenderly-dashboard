@@ -37,7 +37,7 @@ class AlertRuleBuilderType extends Component {
 
         return (
             <AlertRuleBuilderStep label="Rule Type" description={this.getAlertTypeDescription(value)} number={number}
-                                  completed={step.completed} onToggle={() => onToggle(step.slug)} open={isActiveStep}>
+                                  completed={step.completed} onToggle={onToggle} open={isActiveStep}>
                 <div className="AlertRuleBuilderType AlertRuleBuilderOptionsWrapper">
                     <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.SUCCESSFUL_TX)}
                                             selected={value === SimpleAlertRuleTypes.SUCCESSFUL_TX} icon="check-circle"
