@@ -165,7 +165,7 @@ class AlertRuleBuilder extends Component {
                         case AlertRuleBuilderSteps.TYPE:
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
-                            return <AlertRuleBuilderTarget {...commonProps} onSelect={this.handleAlertTargetSelect} alertType={selectedType} value={selectedTarget}/>;
+                            return <AlertRuleBuilderTarget {...commonProps} contracts={contracts} onSelect={this.handleAlertTargetSelect} alertType={selectedType} value={selectedTarget}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
                             return <AlertRuleBuilderParameters {...commonProps} expressions={expressions} alertTarget={selectedTarget} alertType={selectedType}/>;
                         case AlertRuleBuilderSteps.ADVANCED:

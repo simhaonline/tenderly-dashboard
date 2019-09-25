@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 
+import {simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
+
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
 import AlertRuleBuilderOption from "./AlertRuleBuilderOption";
-import {simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
+
+import {Select} from "../../Elements";
+import {ContractSelectOption} from "../index";
 
 class AlertRuleBuilderTarget extends Component {
     constructor(props) {
@@ -46,6 +50,15 @@ class AlertRuleBuilderTarget extends Component {
         });
     };
 
+    handleContractSelect = (contract) => {
+        const {onSelect} = this.props;
+
+        onSelect({
+            type: 'contract',
+            value: contract,
+        });
+    };
+
     handleProjectSelect = () => {
         const {onSelect} = this.props;
 
@@ -57,7 +70,7 @@ class AlertRuleBuilderTarget extends Component {
     };
 
     render() {
-        const {alertType, value, onToggle, number, isActiveStep} = this.props;
+        const {alertType, value, onToggle, number, isActiveStep, contracts} = this.props;
         const {currentPicker} = this.state;
 
         return (
@@ -72,7 +85,14 @@ class AlertRuleBuilderTarget extends Component {
                                             icon="project" label="Project" description="Receive alerts for every contract in this project"/>
                 </div>
                 {!!currentPicker && <div>
-                    pick a {currentPicker}
+                    {currentPicker === 'contract' && <Select value={value ? value.value : null} components={{
+                        Option: ContractSelectOption,
+                    }} onChange={this.handleContractSelect} options={contracts.map(contract => ({
+                        value: contract.getUniqueId(),
+                        network: contract.network,
+                        address: contract.address,
+                        label: contract.name,
+                    }))}/>}
                 </div>}
             </AlertRuleBuilderStep>
         );
