@@ -231,6 +231,17 @@ export const SimpleAlertRuleTypeLabelMap = {
 /**
  * @enum {string}
  */
+export const AlertRuleBuilderSteps = {
+    GENERAL: 'general',
+    TYPE: 'type',
+    TARGET: 'target',
+    PARAMETERS: 'parameters',
+    DESTINATIONS: 'destinations',
+};
+
+/**
+ * @enum {string}
+ */
 export const AlertRuleExpressionTypes = {
     CONTRACT_ADDRESS: 'CONTRACT_ADDRESS',
     NETWORK: 'NETWORK',
