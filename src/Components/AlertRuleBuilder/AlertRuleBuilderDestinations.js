@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {NotificationDestinationTypes, SimpleAlertRuleTypes} from "../../Common/constants";
 
-import {Alert, Card, Toggle, Button, Icon} from "../../Elements";
+import {Alert, Card, Toggle, Button} from "../../Elements";
 import {DestinationInformation, SlackIcon} from "..";
 
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
