@@ -41,10 +41,10 @@ class AlertRuleBuilder extends Component {
         this.state = {
             step: initialStep || step,
             selectedType,
-            selectedDestinations: [],
+            selectedDestinations: initialRule ? initialRule.deliveryChannels : [],
             alertName: initialRule ? initialRule.name : '',
             alertDescription: initialRule ? initialRule.description : '',
-            expressions: [],
+            expressions: initialRule ? initialRule.expressions : [],
             stepsEnabled,
         };
     }
@@ -105,14 +105,44 @@ class AlertRuleBuilder extends Component {
     };
 
     handleAlertTargetSelect = (target) => {
-        console.log(target);
+        const {selectedType} = this.state;
+
+        this.setState({
+            selectedTarget: target,
+            parameters: null,
+        }, () => {
+            if (target.type !== 'project' && !target.value) {
+                return;
+            }
+
+            this.openStep(simpleAlertTypeRequiresParameters(selectedType) ? AlertRuleBuilderSteps.PARAMETERS : AlertRuleBuilderSteps.DESTINATIONS)
+        });
     };
 
     /**
      * @param {NotificationDestination} destination
      */
     handleAlertDestinationsSelect = (destination) => {
-        console.log(destination);
+        const {selectedDestinations} = this.state;
+
+        let destinations;
+
+        if (selectedDestinations.includes(destination.id)) {
+            destinations = selectedDestinations.filter(dest => dest !== destination.id);
+        } else {
+            destinations = [
+                ...selectedDestinations,
+                destination.id
+            ];
+
+            Analytics.trackEvent('simple_alert_form_select_alert_destination', {
+                type: destination.type,
+            });
+        }
+
+        this.setState({
+            selectedDestinations: destinations,
+        });
     };
 
     render() {
@@ -135,9 +165,9 @@ class AlertRuleBuilder extends Component {
                         case AlertRuleBuilderSteps.TYPE:
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
-                            return <AlertRuleBuilderTarget {...commonProps} onSelect={this.handleAlertTargetSelect} alertType={selectedType}/>;
+                            return <AlertRuleBuilderTarget {...commonProps} onSelect={this.handleAlertTargetSelect} alertType={selectedType} value={selectedTarget}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
-                            return <AlertRuleBuilderParameters {...commonProps} expressions={expressions}/>;
+                            return <AlertRuleBuilderParameters {...commonProps} expressions={expressions} alertTarget={selectedTarget} alertType={selectedType}/>;
                         case AlertRuleBuilderSteps.ADVANCED:
                             return <AlertRuleBuilderAdvanced {...commonProps} contracts={contracts} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.DESTINATIONS:
