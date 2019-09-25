@@ -77,9 +77,9 @@ class AlertRuleBuilderTarget extends Component {
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="Alert Target"
                                   description="No description" open={isActiveStep} completed={this.isStepCompleted()}>
                 <div className="AlertRuleBuilderTarget AlertRuleBuilderOptionsWrapper">
-                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('contract')} selected={value && value.type === 'contract' || currentPicker === 'contract'}
+                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('contract')} selected={value && (value.type === 'contract' || currentPicker === 'contract')}
                                             icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
-                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('network')} selected={value && value.type === 'network' || currentPicker === 'network'} disabled={simpleAlertTypeRequiresContract(alertType)}
+                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('network')} selected={value && (value.type === 'network' || currentPicker === 'network')} disabled={simpleAlertTypeRequiresContract(alertType)}
                                             icon="layers" label="Network" description="Receive alerts for contracts deployed on a network"/>
                     <AlertRuleBuilderOption onClick={this.handleProjectSelect} selected={value && value.type === 'project' && !currentPicker} disabled={simpleAlertTypeRequiresContract(alertType)}
                                             icon="project" label="Project" description="Receive alerts for every contract in this project"/>
