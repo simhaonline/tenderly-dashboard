@@ -14,6 +14,7 @@ import AlertRuleBuilderType from "./AlertRuleBuilderType";
 import AlertRuleBuilderGeneralInformation from "./AlertRuleBuilderGeneralInformation";
 import AlertRuleBuilderTarget from "./AlertRuleBuilderTarget";
 import AlertRuleBuilderParameters from "./AlertRuleBuilderParameters";
+import AlertRuleBuilderAdvanced from "./AlertRuleBuilderAdvanced";
 import AlertRuleBuilderDestinations from "./AlertRuleBuilderDestinations";
 
 import './AlertRuleBuilder.scss';
@@ -38,6 +39,7 @@ class AlertRuleBuilder extends Component {
         this.state = {
             step: initialStep,
             selectedType,
+            expressions: [],
             stepsEnabled,
         };
     }
@@ -79,12 +81,14 @@ class AlertRuleBuilder extends Component {
             parameters: null,
         }, () => this.updateStepsEnabled({
             [AlertRuleBuilderSteps.PARAMETERS]: simpleAlertTypeRequiresParameters(type),
+            [AlertRuleBuilderSteps.TARGET]: type !== SimpleAlertRuleTypes.ADVANCED,
+            [AlertRuleBuilderSteps.ADVANCED]: type === SimpleAlertRuleTypes.ADVANCED,
         }));
     };
 
     render() {
-        const {submitButtonLabel} = this.props;
-        const {step: activeStep, selectedType, stepsEnabled} = this.state;
+        const {submitButtonLabel, contracts} = this.props;
+        const {step: activeStep, selectedType, stepsEnabled, expressions} = this.state;
 
         return (
             <div className="AlertRuleBuilder">
@@ -104,7 +108,9 @@ class AlertRuleBuilder extends Component {
                         case AlertRuleBuilderSteps.TARGET:
                             return <AlertRuleBuilderTarget {...commonProps}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
-                            return <AlertRuleBuilderParameters {...commonProps}/>;
+                            return <AlertRuleBuilderParameters {...commonProps} expressions={expressions}/>;
+                        case AlertRuleBuilderSteps.ADVANCED:
+                            return <AlertRuleBuilderAdvanced {...commonProps} contracts={contracts} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.DESTINATIONS:
                             return <AlertRuleBuilderDestinations {...commonProps}/>;
                         default:

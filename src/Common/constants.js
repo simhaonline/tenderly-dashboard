@@ -226,6 +226,7 @@ export const SimpleAlertRuleTypeLabelMap = {
     [SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER]: 'Event Parameter',
     [SimpleAlertRuleTypes.FUNCTION_CALLED]: 'Function Call',
     [SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]: 'Function Parameter',
+    [SimpleAlertRuleTypes.ADVANCED]: 'Advanced Alert',
 };
 
 /**

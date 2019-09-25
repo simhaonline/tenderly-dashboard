@@ -16,15 +16,7 @@ import AlertRuleTargetSelect from "./AlertRuleTargetSelect";
 import AlertRuleParameters from "./AlertRuleParameters";
 
 import './AlertRuleExpressionsBuilder.scss';
-
-const ParametersRequiredAlertTypes = [
-    SimpleAlertRuleTypes.FUNCTION_CALLED,
-    SimpleAlertRuleTypes.LOG_EMITTED,
-    SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER,
-    SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER,
-    SimpleAlertRuleTypes.WHITELISTED_CALLERS,
-    SimpleAlertRuleTypes.BLACKLISTED_CALLERS,
-];
+import {simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
 
 class AlertRuleExpressionsBuilder extends Component {
     constructor(props) {
@@ -110,7 +102,7 @@ class AlertRuleExpressionsBuilder extends Component {
         const {alertType, alertTarget, expressions} = this.state;
         const {contracts} = this.props;
 
-        const parametersRequired = !!alertType && ParametersRequiredAlertTypes.includes(alertType.value);
+        const parametersRequired = !!alertType && simpleAlertTypeRequiresParameters(alertType.value);
 
         return (
             <div className="AlertRuleExpressionsBuilder">
