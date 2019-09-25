@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import Analytics from "../../Utils/Analytics";
+import {simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
+
 import {SimpleAlertRuleTypes, AlertRuleBuilderSteps} from "../../Common/constants";
 
 import {AlertRule, Contract, NotificationDestination} from "../../Core/models";
@@ -14,8 +17,6 @@ import AlertRuleBuilderParameters from "./AlertRuleBuilderParameters";
 import AlertRuleBuilderDestinations from "./AlertRuleBuilderDestinations";
 
 import './AlertRuleBuilder.scss';
-import Analytics from "../../Utils/Analytics";
-import {simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
 
 class AlertRuleBuilder extends Component {
     constructor(props) {
@@ -28,8 +29,9 @@ class AlertRuleBuilder extends Component {
         const stepsEnabled = {
             [AlertRuleBuilderSteps.GENERAL]: !skipGeneral,
             [AlertRuleBuilderSteps.TYPE]: true,
-            [AlertRuleBuilderSteps.TARGET]: true,
+            [AlertRuleBuilderSteps.TARGET]: selectedType !== SimpleAlertRuleTypes.ADVANCED,
             [AlertRuleBuilderSteps.PARAMETERS]: simpleAlertTypeRequiresParameters(selectedType),
+            [AlertRuleBuilderSteps.ADVANCED]: selectedType === SimpleAlertRuleTypes.ADVANCED,
             [AlertRuleBuilderSteps.DESTINATIONS]: true,
         };
 
@@ -73,6 +75,8 @@ class AlertRuleBuilder extends Component {
 
         this.setState({
             selectedType: type,
+            selectedTarget: null,
+            parameters: null,
         }, () => this.updateStepsEnabled({
             [AlertRuleBuilderSteps.PARAMETERS]: simpleAlertTypeRequiresParameters(type),
         }));

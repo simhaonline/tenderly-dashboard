@@ -236,6 +236,7 @@ export const AlertRuleBuilderSteps = {
     TYPE: 'type',
     TARGET: 'target',
     PARAMETERS: 'parameters',
+    ADVANCED: 'advanced',
     DESTINATIONS: 'destinations',
 };
 
