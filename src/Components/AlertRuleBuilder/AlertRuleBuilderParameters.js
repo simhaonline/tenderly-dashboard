@@ -4,11 +4,6 @@ import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
 import {simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
 
 class AlertRuleBuilderParameters extends Component {
-    constructor(props) {
-        super(props);
-
-        console.log('recon')
-    }
     render() {
         const {alertType, alertTarget, onToggle, number, isActiveStep} = this.props;
 
