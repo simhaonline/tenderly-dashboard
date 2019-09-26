@@ -3,7 +3,7 @@ import * as _ from "lodash";
 
 import {simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
 
-import {NetworkLabelMap} from "../../Common/constants";
+import {Network} from "../../Core/models";
 
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
 import AlertRuleBuilderOption from "./AlertRuleBuilderOption";
@@ -107,10 +107,7 @@ class AlertRuleBuilderTarget extends Component {
                     }))}/>}
                     {currentPicker === 'network' && <Select value={value ? value.value : null} components={{
                         Option: NetworkSelectOption,
-                    }} selectLabel="Select network" onChange={this.handleNetworkSelect} options={_.uniqBy(contracts, 'network').map(contract => ({
-                        value: contract.network,
-                        label: NetworkLabelMap[contract.network],
-                    }))}/>}
+                    }} selectLabel="Select network" onChange={this.handleNetworkSelect} options={_.uniqBy(contracts, 'network').map(contract => Network.buildFromNetworkType(contract.network))}/>}
                 </div>}
             </AlertRuleBuilderStep>
         );
