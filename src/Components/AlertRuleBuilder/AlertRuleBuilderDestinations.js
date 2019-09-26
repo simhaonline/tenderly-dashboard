@@ -14,12 +14,22 @@ class AlertRuleBuilderDestinations extends Component {
         return selected && selected.length > 0;
     };
 
+    getStepDescription = () => {
+        const {selected} = this.props;
+
+        if (this.isStepCompleted()) {
+            return selected.length === 1 ? '1 destination selected' : `${selected.length} destinations selected`;
+        }
+
+        return "Select the destinations to which the alert notifications will be sent to.";
+    };
+
     render() {
         const {destinations, selected, alertType, onSelect, onToggle, number, isActiveStep, projectId} = this.props;
 
         return (
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="Destinations"
-                                  description="No description" open={isActiveStep} completed={this.isStepCompleted()}>
+                                  description={this.getStepDescription()} open={isActiveStep} completed={this.isStepCompleted()}>
                 {destinations.map(destination => <Card key={destination.id} onClick={() => onSelect(destination)}
                                                        disabled={alertType === SimpleAlertRuleTypes.SUCCESSFUL_TX && destination.type === NotificationDestinationTypes.SLACK}
                                                        color="light" className="DisplayFlex AlignItemsCenter" clickable>
