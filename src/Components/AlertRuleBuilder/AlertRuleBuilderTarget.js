@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import * as _ from "lodash";
 
 import {simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
-
-import {Network} from "../../Core/models";
+import {SimpleAlertRuleTargetTypes} from "../../Common/constants";
 
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
 import AlertRuleBuilderOption from "./AlertRuleBuilderOption";
@@ -34,7 +32,7 @@ class AlertRuleBuilderTarget extends Component {
     isStepCompleted = () => {
         const {value} = this.props;
 
-        return !!value && (value.type === 'project' || !!value.value);
+        return !!value && (value.type === SimpleAlertRuleTargetTypes.PROJECT || !!value.data);
     };
 
     displayPicker = (type) => {
@@ -43,6 +41,9 @@ class AlertRuleBuilderTarget extends Component {
         });
     };
 
+    /**
+     * @param {SimpleAlertRuleTargetTypes} type
+     */
     handlePickerOptionSelect = (type) => {
         const {onSelect} = this.props;
 
@@ -53,21 +54,27 @@ class AlertRuleBuilderTarget extends Component {
         });
     };
 
+    /**
+     * @param {Contract} contract
+     */
     handleContractSelect = (contract) => {
         const {onSelect} = this.props;
 
         onSelect({
-            type: 'contract',
-            value: contract,
+            type: SimpleAlertRuleTargetTypes.CONTRACT,
+            data: contract,
         });
     };
 
+    /**
+     * @param {Network} network
+     */
     handleNetworkSelect = (network) => {
         const {onSelect} = this.props;
 
         onSelect({
-            type: 'network',
-            value: network,
+            type: SimpleAlertRuleTargetTypes.NETWORK,
+            data: network,
         });
     };
 
@@ -77,37 +84,35 @@ class AlertRuleBuilderTarget extends Component {
         this.displayPicker(null);
 
         onSelect({
-            type: 'project',
+            type: SimpleAlertRuleTargetTypes.PROJECT,
         });
     };
 
     render() {
-        const {alertType, value, onToggle, number, isActiveStep, contracts} = this.props;
+        const {alertType, value, onToggle, number, isActiveStep, contracts, networks} = this.props;
         const {currentPicker} = this.state;
 
         return (
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="Alert Target"
                                   description="No description" open={isActiveStep} completed={this.isStepCompleted()}>
                 <div className="AlertRuleBuilderTarget AlertRuleBuilderOptionsWrapper">
-                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('contract')} selected={value && value.type === 'contract'}
+                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect(SimpleAlertRuleTargetTypes.CONTRACT)}
+                                            selected={value && value.type === SimpleAlertRuleTargetTypes.CONTRACT}
                                             icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
-                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('network')} selected={value && value.type === 'network'} disabled={simpleAlertTypeRequiresContract(alertType)}
+                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect(SimpleAlertRuleTargetTypes.NETWORK)}
+                                            selected={value && value.type === SimpleAlertRuleTargetTypes.NETWORK} disabled={simpleAlertTypeRequiresContract(alertType)}
                                             icon="layers" label="Network" description="Receive alerts for contracts deployed on a network"/>
-                    <AlertRuleBuilderOption onClick={this.handleProjectSelect} selected={value && value.type === 'project' && !currentPicker} disabled={simpleAlertTypeRequiresContract(alertType)}
+                    <AlertRuleBuilderOption onClick={this.handleProjectSelect}
+                                            selected={value && value.type === SimpleAlertRuleTargetTypes.PROJECT} disabled={simpleAlertTypeRequiresContract(alertType)}
                                             icon="project" label="Project" description="Receive alerts for every contract in this project"/>
                 </div>
                 {!!currentPicker && <div className="MarginBottom4">
-                    {currentPicker === 'contract' && <Select value={value ? value.value : null} components={{
+                    {currentPicker === SimpleAlertRuleTargetTypes.CONTRACT && <Select value={value ? value.value : null} components={{
                         Option: ContractSelectOption,
-                    }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts.map(contract => ({
-                        value: contract.getUniqueId(),
-                        network: contract.network,
-                        address: contract.address,
-                        label: contract.name,
-                    }))}/>}
-                    {currentPicker === 'network' && <Select value={value ? value.value : null} components={{
+                    }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts}/>}
+                    {currentPicker === SimpleAlertRuleTargetTypes.NETWORK && <Select value={value ? value.value : null} components={{
                         Option: NetworkSelectOption,
-                    }} selectLabel="Select network" onChange={this.handleNetworkSelect} options={_.uniqBy(contracts, 'network').map(contract => Network.buildFromNetworkType(contract.network))}/>}
+                    }} selectLabel="Select network" onChange={this.handleNetworkSelect} options={networks}/>}
                 </div>}
             </AlertRuleBuilderStep>
         );
