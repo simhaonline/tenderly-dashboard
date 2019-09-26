@@ -54,8 +54,10 @@ class AlertRuleBuilder extends Component {
      * @param {AlertRuleBuilderSteps} step
      */
     openStep = (step) => {
+        const {step: currentStep} = this.state;
+
         this.setState({
-            step,
+            step: step === currentStep ? null : step,
         });
     };
 
