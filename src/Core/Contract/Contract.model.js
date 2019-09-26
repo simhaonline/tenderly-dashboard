@@ -1,9 +1,9 @@
 import moment from "moment";
+import _ from "lodash";
 
 import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
 
 import ContractFile from "./ContractFile.model";
-import _ from "lodash";
 
 class Contract {
     /**
