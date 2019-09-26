@@ -42,7 +42,7 @@ class EditAlertRule extends Component {
     }
 
     render() {
-        const {rule, contracts, networks, destinations, areContractsLoaded, destinationsLoaded, isRuleLoaded, initialTab} = this.props;
+        const {rule, contracts, networks, destinations, areContractsLoaded, destinationsLoaded, project, isRuleLoaded, initialTab} = this.props;
 
         const pageLoaded = areContractsLoaded && destinationsLoaded && isRuleLoaded;
 
@@ -57,7 +57,7 @@ class EditAlertRule extends Component {
                     </div>}
                     {pageLoaded && <div>
                         edit alert rule
-                        <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts}
+                        <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts} project={project}
                                           networks={networks} destinations={destinations}/>
                     </div>}
                 </PanelContent>

@@ -10,10 +10,37 @@ import {Select} from "../../Elements";
 import {ContractSelectOption, NetworkSelectOption} from "../index";
 
 class AlertRuleBuilderTarget extends Component {
+    /**
+     * @return {boolean}
+     */
     isStepCompleted = () => {
         const {value} = this.props;
 
         return !!value && (value.type === SimpleAlertRuleTargetTypes.PROJECT || !!value.data);
+    };
+
+    /**
+     * @return {string}
+     */
+    getStepDescription = () => {
+        const {value, contracts, projectId} = this.props;
+
+        const type = value ? value.type : null;
+
+        switch (type) {
+            case SimpleAlertRuleTargetTypes.CONTRACT:
+                if (!value.data) return 'Select contract';
+
+                return `Contract: ${value.data.name} (${value.data.address})`;
+            case SimpleAlertRuleTargetTypes.NETWORK:
+                if (!value.data) return 'Select network';
+
+                return `All contract that have been deployed on ${value.data.name}`;
+            case SimpleAlertRuleTargetTypes.PROJECT:
+                return `All contracts in the ${projectId} project (total of ${contracts.length} contracts)`;
+            default:
+                return 'Select contracts for which the alert will be triggered.'
+        }
     };
 
     /**
@@ -67,7 +94,7 @@ class AlertRuleBuilderTarget extends Component {
 
         return (
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="Alert Target"
-                                  description="No description" open={isActiveStep} completed={this.isStepCompleted()}>
+                                  description={this.getStepDescription()} open={isActiveStep} completed={this.isStepCompleted()}>
                 <div className="AlertRuleBuilderTarget AlertRuleBuilderOptionsWrapper">
                     <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect(SimpleAlertRuleTargetTypes.CONTRACT)}
                                             selected={isContractOptionActive}

@@ -6,7 +6,7 @@ import {getSimpleAlertTarget, simpleAlertTypeRequiresParameters} from "../../Uti
 
 import {SimpleAlertRuleTypes, AlertRuleBuilderSteps, SimpleAlertRuleTargetTypes} from "../../Common/constants";
 
-import {AlertRule, Contract, NotificationDestination} from "../../Core/models";
+import {AlertRule, Contract, NotificationDestination, Project} from "../../Core/models";
 
 import {Button} from "../../Elements";
 
@@ -150,7 +150,7 @@ class AlertRuleBuilder extends Component {
     };
 
     render() {
-        const {submitButtonLabel, contracts, networks, destinations} = this.props;
+        const {submitButtonLabel, contracts, networks, project, destinations} = this.props;
         const {step: activeStep, selectedType, selectedTarget, alertName, alertDescription, selectedDestinations, stepsEnabled, expressions} = this.state;
 
         return (
@@ -169,7 +169,7 @@ class AlertRuleBuilder extends Component {
                         case AlertRuleBuilderSteps.TYPE:
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
-                            return <AlertRuleBuilderTarget {...commonProps} contracts={contracts} networks={networks} onSelect={this.handleAlertTargetSelect} alertType={selectedType} value={selectedTarget}/>;
+                            return <AlertRuleBuilderTarget {...commonProps} projectId={project.id} contracts={contracts} networks={networks} onSelect={this.handleAlertTargetSelect} alertType={selectedType} value={selectedTarget}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
                             return <AlertRuleBuilderParameters {...commonProps} expressions={expressions} alertTarget={selectedTarget} alertType={selectedType}/>;
                         case AlertRuleBuilderSteps.ADVANCED:
@@ -199,6 +199,7 @@ AlertRuleBuilder.propTypes = {
     skipGeneral: PropTypes.bool,
     submitButtonLabel: PropTypes.string,
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)).isRequired,
+    project: PropTypes.instanceOf(Project).isRequired,
     destinations: PropTypes.arrayOf(PropTypes.instanceOf(NotificationDestination)).isRequired,
     initialStep: PropTypes.oneOf([...Object.values(AlertRuleBuilderSteps), null]),
 };
