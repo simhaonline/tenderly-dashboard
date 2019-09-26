@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Analytics from "../../Utils/Analytics";
 import {simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
 
-import {SimpleAlertRuleTypes, AlertRuleBuilderSteps} from "../../Common/constants";
+import {SimpleAlertRuleTypes, AlertRuleBuilderSteps, SimpleAlertRuleTargetTypes} from "../../Common/constants";
 
 import {AlertRule, Contract, NotificationDestination} from "../../Core/models";
 
@@ -104,6 +104,9 @@ class AlertRuleBuilder extends Component {
         }, () => this.openStep(isAdvancedType ? AlertRuleBuilderSteps.ADVANCED : AlertRuleBuilderSteps.TARGET)));
     };
 
+    /**
+     * @param {SimpleAlertRuleTarget} target
+     */
     handleAlertTargetSelect = (target) => {
         const {selectedType} = this.state;
 
@@ -111,7 +114,7 @@ class AlertRuleBuilder extends Component {
             selectedTarget: target,
             parameters: null,
         }, () => {
-            if (target.type !== 'project' && !target.value) {
+            if (target.type !== SimpleAlertRuleTargetTypes.PROJECT && !target.data) {
                 return;
             }
 
@@ -146,7 +149,7 @@ class AlertRuleBuilder extends Component {
     };
 
     render() {
-        const {submitButtonLabel, contracts, destinations} = this.props;
+        const {submitButtonLabel, contracts, networks, destinations} = this.props;
         const {step: activeStep, selectedType, selectedTarget, alertName, alertDescription, selectedDestinations, stepsEnabled, expressions} = this.state;
 
         return (
@@ -165,7 +168,7 @@ class AlertRuleBuilder extends Component {
                         case AlertRuleBuilderSteps.TYPE:
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
-                            return <AlertRuleBuilderTarget {...commonProps} contracts={contracts} onSelect={this.handleAlertTargetSelect} alertType={selectedType} value={selectedTarget}/>;
+                            return <AlertRuleBuilderTarget {...commonProps} contracts={contracts} networks={networks} onSelect={this.handleAlertTargetSelect} alertType={selectedType} value={selectedTarget}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
                             return <AlertRuleBuilderParameters {...commonProps} expressions={expressions} alertTarget={selectedTarget} alertType={selectedType}/>;
                         case AlertRuleBuilderSteps.ADVANCED:
