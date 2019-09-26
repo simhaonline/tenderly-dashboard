@@ -8,6 +8,7 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {
     areNotificationDestinationsLoaded, getNotificationDestinations,
 } from "../../Common/Selectors/NotificationSelectors";
+import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
@@ -41,7 +42,7 @@ class EditAlertRule extends Component {
     }
 
     render() {
-        const {rule, contracts, destinations, areContractsLoaded, destinationsLoaded, isRuleLoaded, initialTab} = this.props;
+        const {rule, contracts, networks, destinations, areContractsLoaded, destinationsLoaded, isRuleLoaded, initialTab} = this.props;
 
         const pageLoaded = areContractsLoaded && destinationsLoaded && isRuleLoaded;
 
@@ -56,7 +57,8 @@ class EditAlertRule extends Component {
                     </div>}
                     {pageLoaded && <div>
                         edit alert rule
-                        <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts} destinations={destinations}/>
+                        <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts}
+                                          networks={networks} destinations={destinations}/>
                     </div>}
                 </PanelContent>
             </Panel>
@@ -72,11 +74,13 @@ const mapStateToProps = (state, ownProps) => {
     const initialTab = searchParams.get('tab');
 
     const rule = getAlertRule(state, ruleId);
+    const contracts = getContractsForProject(state, projectId);
 
     return {
         projectId,
         project: getProject(state, projectId),
-        contracts: getContractsForProject(state, projectId),
+        contracts,
+        networks: getUniqueNetworksForContracts(contracts),
         areContractsLoaded: areProjectContractsLoaded(state, projectId),
         ruleId,
         rule,
