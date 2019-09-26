@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
+import * as _ from "lodash";
 
 import {simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
+
+import {NetworkLabelMap} from "../../Common/constants";
 
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
 import AlertRuleBuilderOption from "./AlertRuleBuilderOption";
 
 import {Select} from "../../Elements";
-import {ContractSelectOption} from "../index";
+import {ContractSelectOption, NetworkSelectOption} from "../index";
 
 class AlertRuleBuilderTarget extends Component {
     constructor(props) {
@@ -59,6 +62,15 @@ class AlertRuleBuilderTarget extends Component {
         });
     };
 
+    handleNetworkSelect = (network) => {
+        const {onSelect} = this.props;
+
+        onSelect({
+            type: 'network',
+            value: network,
+        });
+    };
+
     handleProjectSelect = () => {
         const {onSelect} = this.props;
 
@@ -77,21 +89,27 @@ class AlertRuleBuilderTarget extends Component {
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="Alert Target"
                                   description="No description" open={isActiveStep} completed={this.isStepCompleted()}>
                 <div className="AlertRuleBuilderTarget AlertRuleBuilderOptionsWrapper">
-                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('contract')} selected={value && (value.type === 'contract' || currentPicker === 'contract')}
+                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('contract')} selected={value && value.type === 'contract'}
                                             icon="file-text" label="Contract" description="Receive alerts for only one contract"/>
-                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('network')} selected={value && (value.type === 'network' || currentPicker === 'network')} disabled={simpleAlertTypeRequiresContract(alertType)}
+                    <AlertRuleBuilderOption onClick={() => this.handlePickerOptionSelect('network')} selected={value && value.type === 'network'} disabled={simpleAlertTypeRequiresContract(alertType)}
                                             icon="layers" label="Network" description="Receive alerts for contracts deployed on a network"/>
                     <AlertRuleBuilderOption onClick={this.handleProjectSelect} selected={value && value.type === 'project' && !currentPicker} disabled={simpleAlertTypeRequiresContract(alertType)}
                                             icon="project" label="Project" description="Receive alerts for every contract in this project"/>
                 </div>
-                {!!currentPicker && <div>
+                {!!currentPicker && <div className="MarginBottom4">
                     {currentPicker === 'contract' && <Select value={value ? value.value : null} components={{
                         Option: ContractSelectOption,
-                    }} onChange={this.handleContractSelect} options={contracts.map(contract => ({
+                    }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts.map(contract => ({
                         value: contract.getUniqueId(),
                         network: contract.network,
                         address: contract.address,
                         label: contract.name,
+                    }))}/>}
+                    {currentPicker === 'network' && <Select value={value ? value.value : null} components={{
+                        Option: NetworkSelectOption,
+                    }} selectLabel="Select network" onChange={this.handleNetworkSelect} options={_.uniqBy(contracts, 'network').map(contract => ({
+                        value: contract.network,
+                        label: NetworkLabelMap[contract.network],
                     }))}/>}
                 </div>}
             </AlertRuleBuilderStep>
