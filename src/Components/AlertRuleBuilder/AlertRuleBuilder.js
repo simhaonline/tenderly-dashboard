@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Analytics from "../../Utils/Analytics";
-import {simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
+import {getSimpleAlertTarget, simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
 
 import {SimpleAlertRuleTypes, AlertRuleBuilderSteps, SimpleAlertRuleTargetTypes} from "../../Common/constants";
 
@@ -23,7 +23,7 @@ class AlertRuleBuilder extends Component {
     constructor(props) {
         super(props);
 
-        const {initialStep, initialRule, skipGeneral} = props;
+        const {initialStep, initialRule, skipGeneral, contracts, networks} = props;
 
         const selectedType = initialRule ? initialRule.simpleType : null;
 
@@ -41,6 +41,7 @@ class AlertRuleBuilder extends Component {
         this.state = {
             step: initialStep || step,
             selectedType,
+            selectedTarget: initialRule ? getSimpleAlertTarget(initialRule.expressions, contracts, networks) : null,
             selectedDestinations: initialRule ? initialRule.deliveryChannels : [],
             alertName: initialRule ? initialRule.name : '',
             alertDescription: initialRule ? initialRule.description : '',
