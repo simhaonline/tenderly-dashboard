@@ -10,6 +10,7 @@ import FeatureFlagReducer from "./FeatureFlag/FeatureFlag.reducer";
 import TransactionReducer from "./Transaction/Transaction.reducer";
 import AlertingReducer from "./Alerting/Alerting.reducer";
 import NotificationReducer from "./Notification/Notification.reducer";
+import NetworkReducer from "./Network/Network.reducer";
 
 const reducers = combineReducers({
     auth: AuthReducer,
@@ -22,6 +23,7 @@ const reducers = combineReducers({
     featureFlag: FeatureFlagReducer,
     alerting: AlertingReducer,
     notification: NotificationReducer,
+    network: NetworkReducer,
 });
 
 export default reducers;
