@@ -7,7 +7,8 @@ import {Icon} from "../../Elements";
 import './NetworkSelectOption.scss';
 
 function NetworkSelectOption(props) {
-    const {data} = props;
+    /** @type {Network} */
+    const data = props.data;
 
     return (
         <components.Option {...props} className="NetworkSelectOption">
