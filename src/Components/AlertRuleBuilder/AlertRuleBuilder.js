@@ -150,7 +150,7 @@ class AlertRuleBuilder extends Component {
     };
 
     render() {
-        const {submitButtonLabel, contracts, networks, project, destinations} = this.props;
+        const {submitButtonLabel, contracts, networks, project, destinations, onCancel} = this.props;
         const {step: activeStep, selectedType, selectedTarget, alertName, alertDescription, selectedDestinations, stepsEnabled, expressions} = this.state;
 
         return (
@@ -185,7 +185,7 @@ class AlertRuleBuilder extends Component {
                     <Button>
                         <span>{submitButtonLabel}</span>
                     </Button>
-                    <Button outline>
+                    <Button outline onClick={onCancel}>
                         <span>Cancel</span>
                     </Button>
                 </div>
@@ -202,6 +202,7 @@ AlertRuleBuilder.propTypes = {
     project: PropTypes.instanceOf(Project).isRequired,
     destinations: PropTypes.arrayOf(PropTypes.instanceOf(NotificationDestination)).isRequired,
     initialStep: PropTypes.oneOf([...Object.values(AlertRuleBuilderSteps), null]),
+    onCancel: PropTypes.func.isRequired,
 };
 
 AlertRuleBuilder.defaultProps = {

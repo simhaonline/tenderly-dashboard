@@ -14,8 +14,9 @@ import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
-import {Panel, PanelHeader, PanelContent} from "../../Elements";
+import {Panel, PanelHeader, PanelContent, Icon} from "../../Elements";
 import {AlertRuleBuilder, SimpleLoader} from "..";
+import {Link} from "react-router-dom";
 
 class EditAlertRule extends Component {
     async componentDidMount() {
@@ -41,6 +42,12 @@ class EditAlertRule extends Component {
         }
     }
 
+    handleEditingCancel = () => {
+        const {history, project, rule} = this.props;
+
+        history.push(`/project/${project.id}/alerts/rules/${rule.id}`);
+    };
+
     render() {
         const {rule, contracts, networks, destinations, areContractsLoaded, destinationsLoaded, project, isRuleLoaded, initialTab} = this.props;
 
@@ -49,7 +56,11 @@ class EditAlertRule extends Component {
         return (
             <Panel>
                 <PanelHeader>
-                    <h3>Edit Alert</h3>
+                    <h3>
+                        {pageLoaded && <Link to={`/project/${project.id}/alerts/rules/${rule.id}`}>Back to Alert</Link>}
+                        {pageLoaded && <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>}
+                        <span>Edit Alert</span>
+                    </h3>
                 </PanelHeader>
                 <PanelContent>
                     {!pageLoaded && <div className="DisplayFlex Padding4 AlignItemsCenter JustifyContentCenter">
@@ -57,7 +68,7 @@ class EditAlertRule extends Component {
                     </div>}
                     {pageLoaded && <div>
                         <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts} project={project}
-                                          networks={networks} destinations={destinations}/>
+                                          networks={networks} destinations={destinations} onCancel={this.handleEditingCancel}/>
                     </div>}
                 </PanelContent>
             </Panel>
