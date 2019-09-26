@@ -1,6 +1,11 @@
 import * as _ from "lodash";
 
-import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes, SimpleAlertRuleTypes} from "../Common/constants";
+import {
+    AlertRuleExpressionParameterTypes,
+    AlertRuleExpressionTypes,
+    SimpleAlertRuleTargetTypes,
+    SimpleAlertRuleTypes
+} from "../Common/constants";
 
 /**
  * @param {AlertRuleExpression[]} expressions
@@ -100,4 +105,34 @@ const ContractRequiredAlertTypes = [
  */
 export function simpleAlertTypeRequiresContract(type) {
     return ContractRequiredAlertTypes.includes(type);
+}
+
+/**
+ * @param {AlertRuleExpression[]} expressions
+ * @param {Contract[]} contracts
+ * @param {Network[]} networks
+ *
+ * @returns {SimpleAlertRuleTarget}
+ */
+export function getSimpleAlertTarget(expressions, contracts, networks) {
+    const contractExpression = expressions.find(expression => expression.type === AlertRuleExpressionTypes.CONTRACT_ADDRESS);
+    const networkExpression = expressions.find(expression => expression.type === AlertRuleExpressionTypes.NETWORK);
+
+    if (contractExpression && networkExpression) {
+        return {
+            type: SimpleAlertRuleTargetTypes.CONTRACT,
+            data: contracts.find(contract => contract.address === contractExpression.parameters[AlertRuleExpressionParameterTypes.ADDRESS] && contract.network === networkExpression.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]),
+        }
+    }
+
+    if (networkExpression) {
+        return {
+            type: SimpleAlertRuleTargetTypes.NETWORK,
+            data: networks.find(network => network.id === networkExpression.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]),
+        }
+    }
+
+    return {
+        type: SimpleAlertRuleTargetTypes.PROJECT,
+    };
 }
