@@ -12,10 +12,23 @@ class AlertRuleBuilderGeneralInformation extends Component {
         onChange(value, field);
     };
 
+    /**
+     * @return {boolean}
+     */
     isStepCompleted = () => {
         const {data} = this.props;
 
         return !!data.alertName;
+    };
+
+    getStepDescription = () => {
+        const {data} = this.props;
+
+        if (!data || !data.alertName) {
+            return 'Set alert name and description';
+        }
+
+        return `Name: ${data.alertName}`;
     };
 
     render() {
@@ -23,7 +36,7 @@ class AlertRuleBuilderGeneralInformation extends Component {
 
         return (
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="General Information"
-                                  description="No description" open={isActiveStep} completed={this.isStepCompleted()}>
+                                  description={this.getStepDescription()} open={isActiveStep} completed={this.isStepCompleted()}>
                 <Input field="alertName" onChange={this.handleInputChange} value={data.alertName} placeholder="Set alert name"/>
                 <TextArea field="alertDescription" onChange={this.handleInputChange} value={data.alertDescription}
                           placeholder="Set description for this alert" className="MarginBottom4"/>
