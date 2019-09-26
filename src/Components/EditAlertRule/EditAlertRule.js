@@ -56,7 +56,6 @@ class EditAlertRule extends Component {
                         <SimpleLoader/>
                     </div>}
                     {pageLoaded && <div>
-                        edit alert rule
                         <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts} project={project}
                                           networks={networks} destinations={destinations}/>
                     </div>}

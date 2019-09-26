@@ -176,7 +176,7 @@ class AlertRuleBuilder extends Component {
                             return <AlertRuleBuilderAdvanced {...commonProps} contracts={contracts} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.DESTINATIONS:
                             return <AlertRuleBuilderDestinations {...commonProps} destinations={destinations} selected={selectedDestinations}
-                                                                 alertType={selectedType} onSelect={this.handleAlertDestinationsSelect}/>;
+                                                                 alertType={selectedType} projectId={project.id} onSelect={this.handleAlertDestinationsSelect}/>;
                         default:
                             return null;
                     }
