@@ -199,6 +199,21 @@ export const SimpleAlertRuleTypes = {
 };
 
 /**
+ * @typedef {Object} SimpleAlertRuleTarget
+ * @property {SimpleAlertRuleTargetTypes} type
+ * @property {(Contract|Network|null)} data
+ */
+
+/**
+ * @enum {string}
+ */
+export const SimpleAlertRuleTargetTypes = {
+    CONTRACT: 'contract',
+    NETWORK: 'network',
+    PROJECT: 'project',
+};
+
+/**
  * @enum {string}
  */
 export const SimpleAlertRuleTypeIconMap = {
