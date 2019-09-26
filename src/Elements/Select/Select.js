@@ -13,14 +13,14 @@ class Select extends Component {
     };
 
     render() {
-        const {options, value, multiple, selectLabel, isClearable, className, components} = this.props;
+        const {options, value, multiple, selectLabel, isClearable, className, components, ...props} = this.props;
 
         return (
             <div className={classNames(
                 "Select",
                 className,
             )}>
-                <ReactSelect value={value} components={components}
+                <ReactSelect {...props} value={value} components={components}
                              isClearable={isClearable}
                              placeholder={selectLabel} classNamePrefix="Select" isMulti={multiple} onChange={this.handleSelectChange} options={options}/>
             </div>
