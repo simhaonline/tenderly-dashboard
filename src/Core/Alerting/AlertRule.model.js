@@ -14,7 +14,7 @@ class AlertRule {
         /** @type string */
         this.id = data.id;
 
-        /** @type string */
+        /** @type {Project.id} */
         this.projectId = data.projectId;
 
         /** @type string */
@@ -33,9 +33,9 @@ class AlertRule {
         this.expressions = data.expressions;
 
         /**
-         * This is map of Integration ids to which this rule is tied to.
+         * This is map of NotificationDestination ids to which this rule is tied to.
          *
-         * @type string[]
+         * @type {NotificationDestination.id[]}
          */
         this.deliveryChannels = data.deliveryChannels;
 

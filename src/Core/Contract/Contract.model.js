@@ -16,7 +16,7 @@ class Contract {
         this.id = data.address;
 
         if (projectData) {
-            /** @type string */
+            /** @type Project.id */
             this.projectId = projectData.id;
 
             /** @type boolean */
