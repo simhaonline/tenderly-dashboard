@@ -31,8 +31,8 @@ class Select extends Component {
 Select.propTypes = {
     value: PropTypes.any,
     options: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.any.isRequired,
+        label: PropTypes.string,
+        value: PropTypes.any,
         description: PropTypes.string,
         disabled: PropTypes.bool,
     })).isRequired,
