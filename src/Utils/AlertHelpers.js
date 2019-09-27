@@ -6,6 +6,7 @@ import {
     SimpleAlertRuleTargetTypes,
     SimpleAlertRuleTypes
 } from "../Common/constants";
+import {ContractMethod} from "../Core/models";
 
 /**
  * @param {AlertRuleExpression[]} expressions
@@ -148,15 +149,23 @@ export function getSimpleAlertParametersForType(type, expressions) {
 
     switch (type) {
         case SimpleAlertRuleTypes.LOG_EMITTED:
+            const logExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.LOG_EMITTED);
+
             data = {
-                id: expressions.find(e => e.type === AlertRuleExpressionTypes.LOG_EMITTED).parameters[AlertRuleExpressionParameterTypes.LOG_ID],
+                id: logExpression.parameters[AlertRuleExpressionParameterTypes.LOG_ID],
+                name: logExpression.parameters[AlertRuleExpressionParameterTypes.LOG_NAME],
             };
             break;
         case SimpleAlertRuleTypes.FUNCTION_CALLED:
-            // @TODO
-            console.log(expressions);
+            const methodExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.METHOD_CALL);
+
+            const lineNumber = methodExpression.parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER];
+            const name = methodExpression.parameters[AlertRuleExpressionParameterTypes.METHOD_NAME];
+
             data = {
-                lineNumber: expressions.find(e => e.type === AlertRuleExpressionTypes.METHOD_CALL).parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER],
+                id: ContractMethod.generateMethodId(lineNumber, name),
+                lineNumber,
+                name,
             };
             break;
         case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
