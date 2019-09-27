@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import * as _ from "lodash";
+
 import Analytics from "../../Utils/Analytics";
 import {
     getSimpleAlertParametersForType,
@@ -203,6 +205,23 @@ class AlertRuleBuilder extends Component {
     };
 
     /**
+     * @param {AlertRuleBuilderType} type
+     * @param {(ContractMethod|ContractLog|ContractInputParameter)} option
+     */
+    handleAlertParametersChange = (type, option) => {
+        switch(type) {
+            case SimpleAlertRuleTypes.FUNCTION_CALLED:
+            case SimpleAlertRuleTypes.LOG_EMITTED:
+                const data = _.pick(option, ['id', 'name', 'lineNumber']);
+
+                this.setState({
+                    selectedParameters: data,
+                });
+                break;
+        }
+    };
+
+    /**
      * @param {NotificationDestination} destination
      */
     handleAlertDestinationsSelect = (destination) => {
@@ -226,6 +245,33 @@ class AlertRuleBuilder extends Component {
         this.setState({
             selectedDestinations: destinations,
         });
+    };
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    isFormValid = () => {
+        const {skipGeneral} = this.props;
+        const {alertName, selectedType, selectedTarget, selectedParameters, selectedDestinations} = this.state;
+
+        if (!skipGeneral && !alertName) return false;
+
+        if (!selectedType) return false;
+
+        if (!selectedTarget || (selectedTarget.type !== SimpleAlertRuleTargetTypes.PROJECT && !selectedTarget.data)) return false;
+
+        if (simpleAlertTypeRequiresParameters(selectedType)) {
+            switch (selectedType) {
+                case SimpleAlertRuleTypes.LOG_EMITTED:
+                case SimpleAlertRuleTypes.FUNCTION_CALLED:
+                    return !!selectedParameters && !!selectedParameters.id;
+                default:
+                    return false;
+            }
+        }
+
+        return !!selectedDestinations && selectedDestinations.length > 0;
     };
 
     render() {
@@ -252,7 +298,7 @@ class AlertRuleBuilder extends Component {
                                                            projectId={project.id} contracts={contracts} networks={networks}
                                                            alertType={selectedType} value={selectedTarget}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
-                            return <AlertRuleBuilderParameters {...commonProps} loading={fetchingParameterOptions}
+                            return <AlertRuleBuilderParameters {...commonProps} loading={fetchingParameterOptions} onChange={this.handleAlertParametersChange}
                                                                options={parameterOptions} value={selectedParameters}
                                                                alertTarget={selectedTarget} alertType={selectedType}/>;
                         case AlertRuleBuilderSteps.ADVANCED:
@@ -265,7 +311,7 @@ class AlertRuleBuilder extends Component {
                     }
                 })}
                 <div className="MarginTop4">
-                    <Button>
+                    <Button disabled={!this.isFormValid()}>
                         <span>{submitButtonLabel}</span>
                     </Button>
                     <Button outline onClick={onCancel}>
