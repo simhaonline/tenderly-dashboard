@@ -1,3 +1,5 @@
+import {ContractInputParameter} from "../models";
+
 class ContractMethod {
     constructor(data) {
         /** @type string */
@@ -9,7 +11,7 @@ class ContractMethod {
         /** @type number */
         this.lineNumber = data.lineNumber;
 
-        /** @type string[] */
+        /** @type ContractInputParameter[] */
         this.inputs = data.inputs;
     }
 
@@ -32,11 +34,13 @@ class ContractMethod {
      * @return {ContractMethod}
      */
     static buildFromResponse(response) {
+        const inputs = response.inputs ? response.inputs.map(input => ContractInputParameter.buildFromResponse(input)) : [];
+
         return new ContractMethod({
             id: ContractMethod.generateMethodId(response.line_number, response.name),
             name: response.name,
             lineNumber: response.line_number,
-            inputs: response.inputs ? response.inputs.map(input => input.name) : [],
+            inputs,
         });
     }
 }
