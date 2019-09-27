@@ -1,4 +1,4 @@
-class ContractMethodModel {
+class ContractMethod {
     constructor(data) {
         /** @type string */
         this.id = data.id;
@@ -18,12 +18,22 @@ class ContractMethodModel {
     }
 
     /**
+     * @param {number} lineNumber
+     * @param {string} name
+     *
+     * @returns {string}
+     */
+    static generateMethodId(lineNumber, name) {
+        return `${lineNumber}:${name}`;
+    }
+
+    /**
      * @param {Object} response
-     * @return {ContractMethodModel}
+     * @return {ContractMethod}
      */
     static buildFromResponse(response) {
-        return new ContractMethodModel({
-            id: `${response.line_number}:${response.name}`,
+        return new ContractMethod({
+            id: ContractMethod.generateMethodId(response.line_number, response.name),
             name: response.name,
             lineNumber: response.line_number,
             inputs: response.inputs ? response.inputs.map(input => input.name) : [],
@@ -31,4 +41,4 @@ class ContractMethodModel {
     }
 }
 
-export default ContractMethodModel;
+export default ContractMethod;
