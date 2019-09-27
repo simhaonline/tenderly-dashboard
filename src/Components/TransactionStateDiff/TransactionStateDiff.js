@@ -53,9 +53,9 @@ class ContractStateDiffs extends PureComponent {
                         <span className="MarginLeft1 SemiBoldText">{stateDiff.name}</span>
                     </div>
                     <div className="MonospaceFont MarginLeft4">
-                        <span className="MarginRight1 TransactionStateDiff__Before">{stateDiff.before}</span>
+                        <span className="MarginRight1 TransactionStateDiff__Before">{String(stateDiff.before)}</span>
                         <Icon icon="arrow-right"/>
-                        <span className="MarginLeft1 TransactionStateDiff__After">{stateDiff.after}</span>
+                        <span className="MarginLeft1 TransactionStateDiff__After">{String(stateDiff.after)}</span>
                     </div>
                 </div>)}
                 {!!rawDiffs && rawDiffs.length > 0 && <div className="MarginBottom1">
