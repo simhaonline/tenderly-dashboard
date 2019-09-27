@@ -65,9 +65,14 @@ class AlertRule {
                 }).parameters[AlertRuleExpressionParameterTypes.LOG_NAME];
                 break;
             case SimpleAlertRuleTypes.FUNCTION_CALLED:
-                details = 'Line ' + _.find(this.expressions, {
+                const methodExpression = _.find(this.expressions, {
                     type: AlertRuleExpressionTypes.METHOD_CALL,
-                }).parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER];
+                });
+
+                const methodName = methodExpression.parameters[AlertRuleExpressionParameterTypes.METHOD_NAME];
+                const lineNumber = methodExpression.parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER];
+
+                details = `${methodName}() at line ${lineNumber}`;
                 break;
             case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
                 details = _.find(this.expressions, {
