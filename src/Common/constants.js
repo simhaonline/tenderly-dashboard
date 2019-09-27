@@ -206,8 +206,10 @@ export const SimpleAlertRuleTypes = {
 
 /**
  * @typedef {Object} SimpleAlertRuleParameters
- * @property {SimpleAlertRuleTypes} type
- * @property {Object} data
+ * @property {string} [id]
+ * @property {string} [name]
+ * @property {string} [lineNumber]
+ * @property {string[]} [addresses]
  */
 
 /**
