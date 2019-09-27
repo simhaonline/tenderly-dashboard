@@ -16,6 +16,11 @@
   }
 }
 
+.AlertRuleBuilder__StepHeader--Finished {
+  background-color: transparentize($Primary500, 0.8);
+  border: 1px solid transparentize($Primary500, 0.5);
+}
+
 .AlertRuleBuilder__Body {
   display: flex;
 }
@@ -27,11 +32,6 @@
 
 .AlertRuleBuilder__Body__Content {
   flex: 1 1 0;
-}
-
-.AlertRuleBuilder__Heading--Finished {
-  background-color: transparentize($Primary500, 0.8);
-  border: 1px solid transparentize($Primary500, 0.5);
 }
 
 .AlertRuleBuilder__StepIcon {
