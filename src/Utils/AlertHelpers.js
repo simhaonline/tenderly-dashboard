@@ -136,3 +136,39 @@ export function getSimpleAlertTarget(expressions, contracts, networks) {
         type: SimpleAlertRuleTargetTypes.PROJECT,
     };
 }
+
+/**
+ * @param {SimpleAlertRuleTypes} type
+ * @param {AlertRuleExpression} expressions
+ *
+ * @returns {SimpleAlertRuleParameters}
+ */
+export function getSimpleAlertParametersForType(type, expressions) {
+    let data;
+
+    switch (type) {
+        case SimpleAlertRuleTypes.LOG_EMITTED:
+            data = {
+                id: expressions.find(e => e.type === AlertRuleExpressionTypes.LOG_EMITTED).parameters[AlertRuleExpressionParameterTypes.LOG_ID],
+            };
+            break;
+        case SimpleAlertRuleTypes.FUNCTION_CALLED:
+            // @TODO
+            console.log(expressions);
+            data = {
+                lineNumber: expressions.find(e => e.type === AlertRuleExpressionTypes.METHOD_CALL).parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER],
+            };
+            break;
+        case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
+            // @TODO
+            break;
+        case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
+            // @TODO
+            break;
+    }
+
+    return {
+        type,
+        data,
+    };
+}
