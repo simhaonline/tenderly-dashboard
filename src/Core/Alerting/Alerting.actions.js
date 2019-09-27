@@ -124,7 +124,7 @@ export const deleteAlertRuleForProject = (projectId, ruleId) => {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project.id} projectId
  * @param {string} name
  * @param {string} [description]
  * @param {AlertRuleExpression[]} expressions

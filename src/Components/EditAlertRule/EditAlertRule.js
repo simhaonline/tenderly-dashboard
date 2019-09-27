@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
@@ -19,6 +20,14 @@ import {AlertRuleBuilder, SimpleLoader} from "..";
 import {Link} from "react-router-dom";
 
 class EditAlertRule extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            redirectBackToRule: false,
+        };
+    }
+
     async componentDidMount() {
         const {ruleId, projectId, isRuleLoaded, actions, notificationActions, contractActions, destinationsLoaded, areContractsLoaded} = this.props;
 
@@ -48,10 +57,38 @@ class EditAlertRule extends Component {
         history.push(`/project/${project.id}/alerts/rules/${rule.id}`);
     };
 
+    /**
+     * @param {SimpleAlertRuleGeneralInformation} general
+     * @param {{AlertRuleExpression[]}} expressions
+     * @param {string[]} destinations
+     */
+    handleEditSubmit = async (general, expressions, destinations) => {
+        const {project, rule, actions} = this.props;
+
+        const updatedRule = rule.update({
+            ...general,
+            expressions,
+            deliveryChannels: destinations,
+        });
+
+        const response = await actions.updateAlertRuleForProject(project.id, updatedRule);
+
+        if (response.success) {
+            this.setState({
+                redirectBackToRule: true,
+            });
+        }
+    };
+
     render() {
         const {rule, contracts, networks, destinations, areContractsLoaded, destinationsLoaded, project, isRuleLoaded, initialTab} = this.props;
+        const {redirectBackToRule} = this.state;
 
         const pageLoaded = areContractsLoaded && destinationsLoaded && isRuleLoaded;
+
+        if (redirectBackToRule) {
+            return <Redirect to={`/project/${project.id}/alerts/rules/${rule.id}`}/>
+        }
 
         return (
             <Panel>
@@ -67,7 +104,7 @@ class EditAlertRule extends Component {
                         <SimpleLoader/>
                     </div>}
                     {pageLoaded && <div>
-                        <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts} project={project}
+                        <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts} project={project} onSubmit={this.handleEditSubmit}
                                           networks={networks} destinations={destinations} onCancel={this.handleEditingCancel}/>
                     </div>}
                 </PanelContent>
