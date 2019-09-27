@@ -6,6 +6,7 @@ import * as _ from "lodash";
 
 import Analytics from "../../Utils/Analytics";
 import {
+    generateAlertRuleExpressions,
     getSimpleAlertParametersForType,
     getSimpleAlertTarget,
     simpleAlertTypeRequiresContract,
@@ -274,6 +275,19 @@ class AlertRuleBuilder extends Component {
         return !!selectedDestinations && selectedDestinations.length > 0;
     };
 
+    handleFormSubmit = () => {
+        const {onSubmit} = this.props;
+        const {alertName, alertDescription, selectedType, selectedTarget, selectedParameters, selectedDestinations} = this.state;
+
+        const expressions = generateAlertRuleExpressions(selectedType, selectedTarget, selectedParameters);
+
+        onSubmit({
+            name: alertName,
+            description: alertDescription,
+            simpleType: selectedType,
+        }, expressions, selectedDestinations);
+    };
+
     render() {
         const {submitButtonLabel, contracts, networks, project, destinations, onCancel} = this.props;
         const {step: activeStep, selectedType, selectedTarget, alertName, alertDescription, selectedDestinations, stepsEnabled, expressions, fetchingParameterOptions, parameterOptions, selectedParameters} = this.state;
@@ -311,7 +325,7 @@ class AlertRuleBuilder extends Component {
                     }
                 })}
                 <div className="MarginTop4">
-                    <Button disabled={!this.isFormValid()}>
+                    <Button disabled={!this.isFormValid()} onClick={this.handleFormSubmit}>
                         <span>{submitButtonLabel}</span>
                     </Button>
                     <Button outline onClick={onCancel}>
@@ -331,6 +345,7 @@ AlertRuleBuilder.propTypes = {
     project: PropTypes.instanceOf(Project).isRequired,
     destinations: PropTypes.arrayOf(PropTypes.instanceOf(NotificationDestination)).isRequired,
     initialStep: PropTypes.oneOf([...Object.values(AlertRuleBuilderSteps), null]),
+    onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
 };
 
