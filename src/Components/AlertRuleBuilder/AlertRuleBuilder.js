@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 import Analytics from "../../Utils/Analytics";
 import {
+    getSimpleAlertParametersForType,
     getSimpleAlertTarget,
     simpleAlertTypeRequiresContract,
     simpleAlertTypeRequiresParameters
@@ -11,6 +13,7 @@ import {
 import {SimpleAlertRuleTypes, AlertRuleBuilderSteps, SimpleAlertRuleTargetTypes} from "../../Common/constants";
 
 import {AlertRule, Contract, NotificationDestination, Project} from "../../Core/models";
+import * as contractActions from '../../Core/Contract/Contract.actions';
 
 import {Button} from "../../Elements";
 
@@ -46,6 +49,7 @@ class AlertRuleBuilder extends Component {
             step: initialStep || step,
             selectedType,
             selectedTarget: initialRule ? getSimpleAlertTarget(initialRule.expressions, contracts, networks) : null,
+            selectedParameters: initialRule ? getSimpleAlertParametersForType(initialRule.simpleType, initialRule.expressions) : null,
             selectedDestinations: initialRule ? initialRule.deliveryChannels : [],
             alertName: initialRule ? initialRule.name : '',
             alertDescription: initialRule ? initialRule.description : '',
@@ -122,7 +126,15 @@ class AlertRuleBuilder extends Component {
      * @param {Contract} contract
      */
     fetchMethodsForTarget = async (contract) => {
-        console.log('method', contract);
+        const {contractActions, project} = this.props;
+
+        const response = await contractActions.fetchMethodsForContract(project.id, contract.address, contract.network);
+
+        if (response.success) {
+            this.setState({
+                parameterOptions: response.data,
+            });
+        }
     };
 
     /**
@@ -130,7 +142,15 @@ class AlertRuleBuilder extends Component {
      * @param {Contract} contract
      */
     fetchLogsForTarget = async (contract) => {
-        console.log('log', contract);
+        const {contractActions, project} = this.props;
+
+        const response = await contractActions.fetchLogsForContract(project.id, contract.address, contract.network);
+
+        if (response.success) {
+            this.setState({
+                parameterOptions: response.data,
+            });
+        }
     };
 
     /**
@@ -140,7 +160,7 @@ class AlertRuleBuilder extends Component {
     fetchRequiredParameterOptions = async (type, target) => {
         if (!type || !target || !simpleAlertTypeRequiresParameters(type)) return;
 
-        if (simpleAlertTypeRequiresContract(type) && target.type !== SimpleAlertRuleTargetTypes.CONTRACT) return;
+        if (simpleAlertTypeRequiresContract(type) && (target.type !== SimpleAlertRuleTargetTypes.CONTRACT || !target.data)) return;
 
         this.setState({
             fetchingParameterOptions: true,
@@ -273,4 +293,13 @@ AlertRuleBuilder.defaultProps = {
     submitButtonLabel: 'Save',
 };
 
-export default AlertRuleBuilder;
+const mapDispatchToProps = dispatch => {
+    return {
+        contractActions: bindActionCreators(contractActions, dispatch)
+    }
+};
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(AlertRuleBuilder);
