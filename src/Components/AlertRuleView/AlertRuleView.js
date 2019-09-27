@@ -202,12 +202,15 @@ class AlertRuleView extends Component {
                         </div>}
                         <div>
                             <Button to={`/project/${projectId}/alerts/rules/${rule.id}/edit`}>
+                                <Icon icon="edit-3"/>
                                 <span>Edit</span>
                             </Button>
                             <Button outline={rule.enabled} onClick={this.toggleAlertRuleEnabled} disabled={inProgress}>
-                                <span>{rule.enabled ? 'Disable' : 'Enable'} Alert</span>
+                                <Icon icon={rule.enabled ? 'bell-off' : 'bell'}/>
+                                <span>{rule.enabled ? 'Disable' : 'Enable'}</span>
                             </Button>
                             <Button color="danger" outline onClick={this.openDeleteModal} disabled={inProgress}>
+                                <Icon icon="trash-2"/>
                                 <span>Remove Alert</span>
                             </Button>
                         </div>
