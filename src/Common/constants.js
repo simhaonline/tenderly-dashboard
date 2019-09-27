@@ -199,6 +199,13 @@ export const SimpleAlertRuleTypes = {
 };
 
 /**
+ * @typedef {Object} SimpleAlertRuleGeneralInformation
+ * @property {string} name
+ * @property {string} description
+ * @property {SimpleAlertRuleTypes} [simpleType]
+ */
+
+/**
  * @typedef {Object} SimpleAlertRuleTarget
  * @property {SimpleAlertRuleTargetTypes} type
  * @property {(Contract|Network|null)} data
