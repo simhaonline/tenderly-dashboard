@@ -205,6 +205,12 @@ export const SimpleAlertRuleTypes = {
  */
 
 /**
+ * @typedef {Object} SimpleAlertRuleParameters
+ * @property {SimpleAlertRuleTypes} type
+ * @property {Object} data
+ */
+
+/**
  * @enum {string}
  */
 export const SimpleAlertRuleTargetTypes = {
