@@ -231,6 +231,7 @@ export function generateAlertRuleExpressions(type, target, parameters) {
                 parameters: {
                     [AlertRuleExpressionParameterTypes.LINE_NUMBER]: parameters.lineNumber,
                     [AlertRuleExpressionParameterTypes.METHOD_NAME]: parameters.name,
+                    [AlertRuleExpressionParameterTypes.CALL_POSITION]: 'any',
                 },
             }));
             break;
