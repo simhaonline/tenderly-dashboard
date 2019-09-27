@@ -176,8 +176,5 @@ export function getSimpleAlertParametersForType(type, expressions) {
             break;
     }
 
-    return {
-        type,
-        data,
-    };
+    return data;
 }
