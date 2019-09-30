@@ -213,7 +213,9 @@ class AlertRuleBuilder extends Component {
         switch(type) {
             case SimpleAlertRuleTypes.FUNCTION_CALLED:
             case SimpleAlertRuleTypes.LOG_EMITTED:
-                const data = _.pick(option, ['id', 'name', 'lineNumber']);
+            case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+            case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+                const data = _.pick(option, ['id', 'name', 'lineNumber', 'addresses']);
 
                 this.setState({
                     selectedParameters: data,
@@ -267,6 +269,9 @@ class AlertRuleBuilder extends Component {
                 case SimpleAlertRuleTypes.LOG_EMITTED:
                 case SimpleAlertRuleTypes.FUNCTION_CALLED:
                     return !!selectedParameters && !!selectedParameters.id;
+                case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+                case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+                    return !!selectedParameters && !!selectedParameters.addresses && selectedParameters.addresses.length > 0;
                 default:
                     return false;
             }

@@ -42,7 +42,7 @@ class InputElement extends Component {
     };
 
     render() {
-        const {value, type, field, label, icon, autoFocus, autoComplete, placeholder, disabled, readOnly} = this.props;
+        const {value, type, field, className, label, icon, autoFocus, autoComplete, placeholder, disabled, readOnly} = this.props;
         const {focused} = this.state;
 
         return (
@@ -52,7 +52,7 @@ class InputElement extends Component {
                 'WithIcon': !!icon,
                 'Disabled': disabled,
                 'ReadOnly': readOnly,
-            })}>
+            }, className)}>
                 {!!icon && <Icon icon={icon} className="InputIcon"/>}
                 {(!!label && !value) && <label htmlFor={`input-${field}`} className={"InputLabel"}>{label}</label>
                 }

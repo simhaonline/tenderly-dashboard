@@ -98,3 +98,13 @@
   margin: 0;
   text-align: center;
 }
+
+.AlertBuilderParameters_AddressInputWrapper {
+  display: flex;
+}
+
+.AlertBuilderParameters_AddressInput {
+  margin-bottom: 0 !important;
+  flex: 1 1 0;
+  margin-right: $Spacing2;
+}
