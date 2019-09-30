@@ -16,6 +16,7 @@ stories.add('default', () => {
 
 stories.add('colors', () => {
     return <div>
+        <Card color="dark">Dark Card</Card>
         <Card>Default Card</Card>
         <Card color="light">Light Card</Card>
     </div>
