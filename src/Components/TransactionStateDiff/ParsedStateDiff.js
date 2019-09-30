@@ -6,6 +6,28 @@ import {StateDiff} from "../../Core/models";
 
 import {Icon, Tag} from "../../Elements";
 
+const ObjectPreview = ({propertyName, before, after}) => {
+    const isObject = _.isObject(before);
+    return (
+        <div className="MarginTop2 PaddingLeft4">
+            <div className="DisplayFlex">
+                <div className="MonospaceFont">
+                    <span className="MutedText">{propertyName}</span>
+                </div>
+                {!isObject && <div className="MonospaceFont MarginLeft4">
+                    <span className="MarginRight1 TransactionStateDiff__Before">{String(before)}</span>
+                    <Icon icon="arrow-right"/>
+                    <span className="MarginLeft1 TransactionStateDiff__After">{String(after)}</span>
+                </div>}
+            </div>
+            {isObject && _.uniq([
+                ...Object.keys(before),
+                ...Object.keys(after),
+            ]).map(objectKey => <ObjectPreview key={objectKey} propertyName={objectKey} before={before[objectKey]} after={after[objectKey]}/>)}
+        </div>
+    )
+};
+
 /**
  * @param {StateDiff} stateDiff
  * @returns {*}
@@ -29,7 +51,7 @@ class ParsedStateDiff extends PureComponent {
         const {stateDiff} = this.props;
 
         return (
-            <div className="MarginBottom1">
+            <div className="MarginBottom2">
                 <div className="DisplayFlex">
                     <div className="MonospaceFont">
                         {!!stateDiff.type && <Tag color="primary-outline" size="small">{stateDiff.type}</Tag>}
@@ -44,16 +66,7 @@ class ParsedStateDiff extends PureComponent {
                 {!isPrimitive && _.isObject(stateDiff.before) && _.uniq([
                     ...Object.keys(stateDiff.before),
                     ...Object.keys(stateDiff.after),
-                ]).map(objectKey => <div key={objectKey} className="MarginTop1 PaddingLeft2 DisplayFlex">
-                    <div className="MonospaceFont">
-                        <span className="MutedText">{objectKey}</span>
-                    </div>
-                    <div className="MonospaceFont MarginLeft4">
-                        <span className="MarginRight1 TransactionStateDiff__Before">{String(stateDiff.before[objectKey])}</span>
-                        <Icon icon="arrow-right"/>
-                        <span className="MarginLeft1 TransactionStateDiff__After">{String(stateDiff.after[objectKey])}</span>
-                    </div>
-                </div>)}
+                ]).map(objectKey => <ObjectPreview key={objectKey} propertyName={objectKey} before={stateDiff.before[objectKey]} after={stateDiff.after[objectKey]}/>)}
             </div>
         );
     }
