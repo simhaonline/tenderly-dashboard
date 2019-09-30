@@ -110,7 +110,7 @@ class AlertRuleBuilderTarget extends Component {
                     {isContractOptionActive && <Select value={value ? value.data : null} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.getUniqueId()} components={{
                         Option: ContractSelectOption,
                     }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts}/>}
-                    {isNetworkOptionActive && <Select value={value ? value.data : null} components={{
+                    {isNetworkOptionActive && <Select value={value ? value.data : null} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} components={{
                         Option: NetworkSelectOption,
                     }} selectLabel="Select network" onChange={this.handleNetworkSelect} options={networks}/>}
                 </div>}

@@ -14,11 +14,11 @@ function ContractSelectMultiValueLabel(props) {
     return (
         <components.MultiValueLabel {...props}>
             <div className="ContractSelectMultiValueLabel" >
-                <NetworkTag network={data.network} id={data.value.replace(':', '_')} useShorthand size="small" className="ContractSelectMultiValueLabel__Network"/>
+                <NetworkTag network={data.network} id={data.getUniqueId().replace(':', '_')} useShorthand size="small" className="ContractSelectMultiValueLabel__Network"/>
                 <div className="ContractSelectMultiValueLabel__Name">
-                    {data.label}
+                    {data.name}
                 </div>
-                <Tooltip id={data.value.replace(':', '_')} placement="top">
+                <Tooltip id={data.getUniqueId().replace(':', '_')} placement="top">
                     {NetworkLabelMap[data.network]}
                 </Tooltip>
             </div>
