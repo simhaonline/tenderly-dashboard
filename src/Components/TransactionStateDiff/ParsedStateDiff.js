@@ -1,16 +1,34 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, useState} from 'react';
 import PropTypes from "prop-types";
 import * as _ from "lodash";
+import classNames from 'classnames';
 
 import {StateDiff} from "../../Core/models";
 
 import {Icon, Tag} from "../../Elements";
 
 const ObjectPreview = ({propertyName, before, after}) => {
+    const [open, setOpen] = useState(false);
+
     const isObject = _.isObject(before);
+
+    if (!isObject && before === after) return null;
+
     return (
         <div className="MarginTop2 PaddingLeft4">
-            <div className="DisplayFlex">
+            <div className={classNames(
+                "DisplayFlex AlignItemsCenter",
+                {
+                    "CursorPointer": isObject,
+                },
+            )} onClick={() => {
+                if (!isObject) return;
+
+                setOpen(!open);
+            }}>
+                {isObject && <div className="MarginRight2">
+                    <Icon icon={open ? 'minus-square' : 'plus-square'}/>
+                </div>}
                 <div className="MonospaceFont">
                     <span className="MutedText">{propertyName}</span>
                 </div>
@@ -20,7 +38,7 @@ const ObjectPreview = ({propertyName, before, after}) => {
                     <span className="MarginLeft1 TransactionStateDiff__After">{String(after)}</span>
                 </div>}
             </div>
-            {isObject && _.uniq([
+            {isObject && open && _.uniq([
                 ...Object.keys(before),
                 ...Object.keys(after),
             ]).map(objectKey => <ObjectPreview key={objectKey} propertyName={objectKey} before={before[objectKey]} after={after[objectKey]}/>)}
