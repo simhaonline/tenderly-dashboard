@@ -5,8 +5,10 @@ import Blockies from "react-blockies";
 
 import {Contract, StateDiff} from "../../Core/models";
 
-import {Icon, Card, Tag, LinkButton} from "../../Elements";
+import {Icon, Card, LinkButton} from "../../Elements";
 import {EmptyState} from "../index";
+
+import ParsedStateDiff from "./ParsedStateDiff";
 
 import './TransactionStateDiff.scss';
 
@@ -47,17 +49,7 @@ class ContractStateDiffs extends PureComponent {
                         <span className="LinkText MonospaceFont">{address}</span>
                     </div>
                 </div>
-                {parsedDiffs.map((stateDiff, index) => <div key={index} className="DisplayFlex MarginBottom1">
-                    <div className="MonospaceFont">
-                        {!!stateDiff.type && <Tag color="primary-outline" size="small">{stateDiff.type}</Tag>}
-                        <span className="MarginLeft1 SemiBoldText">{stateDiff.name}</span>
-                    </div>
-                    <div className="MonospaceFont MarginLeft4">
-                        <span className="MarginRight1 TransactionStateDiff__Before">{String(stateDiff.before)}</span>
-                        <Icon icon="arrow-right"/>
-                        <span className="MarginLeft1 TransactionStateDiff__After">{String(stateDiff.after)}</span>
-                    </div>
-                </div>)}
+                {parsedDiffs.map((stateDiff, index) => <ParsedStateDiff key={index} stateDiff={stateDiff} />)}
                 {!!rawDiffs && rawDiffs.length > 0 && <div className="MarginBottom1">
                     <LinkButton onClick={this.toggleRawView}>
                         <Icon icon={viewRaw ? 'chevron-up' : "chevron-down"}/>
