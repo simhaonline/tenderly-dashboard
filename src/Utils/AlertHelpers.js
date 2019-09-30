@@ -174,6 +174,20 @@ export function getSimpleAlertParametersForType(type, expressions) {
         case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
             // @TODO
             break;
+        case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+            const blacklistExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES);
+
+            data = {
+                addresses: blacklistExpression.parameters[AlertRuleExpressionParameterTypes.ADDRESSES],
+            };
+            break;
+        case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+            const whitelistExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES);
+
+            data = {
+                addresses: whitelistExpression.parameters[AlertRuleExpressionParameterTypes.ADDRESSES],
+            };
+            break;
     }
 
     return data;
