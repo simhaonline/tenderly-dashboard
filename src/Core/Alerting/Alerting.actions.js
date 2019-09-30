@@ -135,6 +135,7 @@ export const createAlertRuleForProject = (projectId, general, expressions, desti
             const payload = {
                 name: general.name,
                 description: general.description || '',
+                simple_type: general.simpleType,
                 enabled: true,
                 expressions: expressions.map(AlertRuleExpression.transformToApiPayload),
                 delivery_channels: destinations.map(destination => ({
