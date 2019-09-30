@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import ReactJson from "react-json-view";
 
 import {AlertRuleExpression, Contract} from "../../Core/models";
+import {
+    AlertRuleExpressionParameterTypes,
+    AlertRuleExpressionTypes,
+    SimpleAlertRuleTypes
+} from "../../Common/constants";
 
 import {Card} from "../../Elements";
 
@@ -10,17 +16,7 @@ import AlertRuleTargetSelect from "./AlertRuleTargetSelect";
 import AlertRuleParameters from "./AlertRuleParameters";
 
 import './AlertRuleExpressionsBuilder.scss';
-import ReactJson from "react-json-view";
-import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes} from "../../Common/constants";
-
-const ParametersRequiredAlertTypes = [
-    'method_call',
-    'log_emitted',
-    'method_argument',
-    'log_argument',
-    'whitelisted_caller',
-    'blacklisted_caller',
-];
+import {simpleAlertTypeRequiresParameters} from "../../Utils/AlertHelpers";
 
 class AlertRuleExpressionsBuilder extends Component {
     constructor(props) {
@@ -38,11 +34,11 @@ class AlertRuleExpressionsBuilder extends Component {
     handleAlertTypeChange = (option) => {
         const expressions = [];
 
-        if (['successful_tx', 'failed_tx'].includes(option.value)) {
+        if ([SimpleAlertRuleTypes.SUCCESSFUL_TX, SimpleAlertRuleTypes.FAILED_TX].includes(option.value)) {
             const expression = new AlertRuleExpression({
                 type: AlertRuleExpressionTypes.TRANSACTION_STATUS,
                 parameters: {
-                    [AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS]: option.value === 'successful_tx',
+                    [AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS]: option.value === SimpleAlertRuleTypes.SUCCESSFUL_TX,
                 },
             });
 
@@ -80,7 +76,7 @@ class AlertRuleExpressionsBuilder extends Component {
 
             newExpressions.push(contractExpression);
 
-            if (['method_call'].includes(alertType.value)) {
+            if ([SimpleAlertRuleTypes.FUNCTION_CALLED].includes(alertType.value)) {
                 this.fetchContractMethods(option.address, option.network);
             }
         }
@@ -106,7 +102,7 @@ class AlertRuleExpressionsBuilder extends Component {
         const {alertType, alertTarget, expressions} = this.state;
         const {contracts} = this.props;
 
-        const parametersRequired = !!alertType && ParametersRequiredAlertTypes.includes(alertType.value);
+        const parametersRequired = !!alertType && simpleAlertTypeRequiresParameters(alertType.value);
 
         return (
             <div className="AlertRuleExpressionsBuilder">

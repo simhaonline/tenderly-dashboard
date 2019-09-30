@@ -124,18 +124,18 @@ export const deleteAlertRuleForProject = (projectId, ruleId) => {
 };
 
 /**
- * @param {string} projectId
- * @param {string} name
- * @param {string} [description]
+ * @param {Project.id} projectId
+ * @param {SimpleAlertRuleGeneralInformation} general
  * @param {AlertRuleExpression[]} expressions
  * @param {string[]} destinations - Array of destination IDs
  */
-export const createAlertRuleForProject = (projectId, name, description = '', expressions, destinations) => {
+export const createAlertRuleForProject = (projectId, general, expressions, destinations) => {
     return async dispatch => {
         try {
             const payload = {
-                name,
-                description,
+                name: general.name,
+                description: general.description || '',
+                simple_type: general.simpleType,
                 enabled: true,
                 expressions: expressions.map(AlertRuleExpression.transformToApiPayload),
                 delivery_channels: destinations.map(destination => ({
@@ -158,7 +158,7 @@ export const createAlertRuleForProject = (projectId, name, description = '', exp
                 rule,
             });
 
-            return new SuccessActionResponse();
+            return new SuccessActionResponse(rule);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error)

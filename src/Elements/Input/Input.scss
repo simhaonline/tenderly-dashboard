@@ -2,8 +2,8 @@
 @import "../../Common/Styles/typography";
 
 .InputWrapper {
-  background: $Slate300;
-  border: 1px solid transparentize($Primary500, 0.5);
+  background: $Slate100;
+  border: 1px solid transparentize($Primary500, 0.75);
   position: relative;
   border-radius: 4px;
   transition: 0.15s;

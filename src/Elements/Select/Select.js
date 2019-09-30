@@ -13,14 +13,14 @@ class Select extends Component {
     };
 
     render() {
-        const {options, value, multiple, selectLabel, isClearable, className, components} = this.props;
+        const {options, value, multiple, selectLabel, isClearable, className, components, ...props} = this.props;
 
         return (
             <div className={classNames(
                 "Select",
                 className,
             )}>
-                <ReactSelect value={value} components={components}
+                <ReactSelect {...props} value={value} components={components}
                              isClearable={isClearable}
                              placeholder={selectLabel} classNamePrefix="Select" isMulti={multiple} onChange={this.handleSelectChange} options={options}/>
             </div>
@@ -31,8 +31,8 @@ class Select extends Component {
 Select.propTypes = {
     value: PropTypes.any,
     options: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.any.isRequired,
+        label: PropTypes.string,
+        value: PropTypes.any,
         description: PropTypes.string,
         disabled: PropTypes.bool,
     })).isRequired,

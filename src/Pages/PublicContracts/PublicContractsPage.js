@@ -65,13 +65,6 @@ class PublicContractsPage extends Component {
     };
 
     /**
-     * @param {string} contractAddress
-     */
-    handleContractSearch = (contractAddress) => {
-        console.log('search this', contractAddress);
-    };
-
-    /**
      * @param {string} network
      */
     handleNetworkChange = (network) => {

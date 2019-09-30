@@ -1,6 +1,12 @@
 import * as _ from "lodash";
 
-import {AlertRuleExpressionParameterTypes, AlertRuleExpressionTypes, SimpleAlertRuleTypes} from "../Common/constants";
+import {
+    AlertRuleExpressionParameterTypes,
+    AlertRuleExpressionTypes,
+    SimpleAlertRuleTargetTypes,
+    SimpleAlertRuleTypes
+} from "../Common/constants";
+import {AlertRuleExpression, ContractMethod} from "../Core/models";
 
 /**
  * @param {AlertRuleExpression[]} expressions
@@ -59,4 +65,217 @@ export function getSimpleRuleType(expressions) {
     }
 
     return advanced ? SimpleAlertRuleTypes.ADVANCED : recognizedType;
+}
+
+/**
+ * Alert types that require additional parameters
+ * @type {SimpleAlertRuleTypes[]}
+ */
+const ParametersRequiredAlertTypes = [
+    SimpleAlertRuleTypes.FUNCTION_CALLED,
+    SimpleAlertRuleTypes.LOG_EMITTED,
+    SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER,
+    SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER,
+    SimpleAlertRuleTypes.WHITELISTED_CALLERS,
+    SimpleAlertRuleTypes.BLACKLISTED_CALLERS,
+];
+
+/**
+ * @param {SimpleAlertRuleTypes} type
+ * @return {boolean}
+ */
+export function simpleAlertTypeRequiresParameters(type) {
+    return ParametersRequiredAlertTypes.includes(type);
+}
+
+/**
+ * Alert types that require a selected contract
+ *
+ * @type {SimpleAlertRuleTypes[]}
+ */
+const ContractRequiredAlertTypes = [
+    SimpleAlertRuleTypes.FUNCTION_CALLED,
+    SimpleAlertRuleTypes.LOG_EMITTED,
+    SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER,
+    SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER,
+];
+
+/**
+ * @param {SimpleAlertRuleTypes} type
+ * @return {boolean}
+ */
+export function simpleAlertTypeRequiresContract(type) {
+    return ContractRequiredAlertTypes.includes(type);
+}
+
+/**
+ * @param {AlertRuleExpression[]} expressions
+ * @param {Contract[]} contracts
+ * @param {Network[]} networks
+ *
+ * @returns {SimpleAlertRuleTarget}
+ */
+export function getSimpleAlertTarget(expressions, contracts, networks) {
+    const contractExpression = expressions.find(expression => expression.type === AlertRuleExpressionTypes.CONTRACT_ADDRESS);
+    const networkExpression = expressions.find(expression => expression.type === AlertRuleExpressionTypes.NETWORK);
+
+    if (contractExpression && networkExpression) {
+        return {
+            type: SimpleAlertRuleTargetTypes.CONTRACT,
+            data: contracts.find(contract => contract.address === contractExpression.parameters[AlertRuleExpressionParameterTypes.ADDRESS] && contract.network === networkExpression.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]),
+        }
+    }
+
+    if (networkExpression) {
+        return {
+            type: SimpleAlertRuleTargetTypes.NETWORK,
+            data: networks.find(network => network.id === networkExpression.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]),
+        }
+    }
+
+    return {
+        type: SimpleAlertRuleTargetTypes.PROJECT,
+    };
+}
+
+/**
+ * @param {SimpleAlertRuleTypes} type
+ * @param {AlertRuleExpression} expressions
+ *
+ * @returns {SimpleAlertRuleParameters}
+ */
+export function getSimpleAlertParametersForType(type, expressions) {
+    let data;
+
+    switch (type) {
+        case SimpleAlertRuleTypes.LOG_EMITTED:
+            const logExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.LOG_EMITTED);
+
+            data = {
+                id: logExpression.parameters[AlertRuleExpressionParameterTypes.LOG_ID],
+                name: logExpression.parameters[AlertRuleExpressionParameterTypes.LOG_NAME],
+            };
+            break;
+        case SimpleAlertRuleTypes.FUNCTION_CALLED:
+            const methodExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.METHOD_CALL);
+
+            const name = methodExpression.parameters[AlertRuleExpressionParameterTypes.METHOD_NAME];
+            const lineNumber = methodExpression.parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER];
+
+            data = {
+                id: ContractMethod.generateMethodId(lineNumber, name),
+                name,
+                lineNumber,
+            };
+            break;
+        case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
+            // @TODO
+            break;
+        case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
+            // @TODO
+            break;
+        case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+            const blacklistExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES);
+
+            data = {
+                addresses: blacklistExpression.parameters[AlertRuleExpressionParameterTypes.ADDRESSES],
+            };
+            break;
+        case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+            const whitelistExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES);
+
+            data = {
+                addresses: whitelistExpression.parameters[AlertRuleExpressionParameterTypes.ADDRESSES],
+            };
+            break;
+    }
+
+    return data;
+}
+
+/**
+ * @param {SimpleAlertRuleTypes} type
+ * @param {SimpleAlertRuleTarget} target
+ * @param {SimpleAlertRuleParameters} [parameters]
+ *
+ * @returns {AlertRuleExpression[]} expressions
+ */
+export function generateAlertRuleExpressions(type, target, parameters) {
+    const expressions = [];
+
+    if (target.type === SimpleAlertRuleTargetTypes.CONTRACT) {
+        expressions.push(
+            new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.CONTRACT_ADDRESS,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.ADDRESS]: target.data.address,
+                },
+            }),
+            new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.NETWORK,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.NETWORK_ID]: target.data.network,
+                },
+            }),
+        );
+    }
+
+    if (target.type === SimpleAlertRuleTargetTypes.NETWORK) {
+        expressions.push(new AlertRuleExpression({
+            type: AlertRuleExpressionTypes.NETWORK,
+            parameters: {
+                [AlertRuleExpressionParameterTypes.NETWORK_ID]: target.data.id,
+            },
+        }));
+    }
+
+    switch (type) {
+        case SimpleAlertRuleTypes.SUCCESSFUL_TX:
+        case SimpleAlertRuleTypes.FAILED_TX:
+            expressions.push(new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.TRANSACTION_STATUS,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.TRANSACTION_SUCCESS]: type === SimpleAlertRuleTypes.SUCCESSFUL_TX,
+                },
+            }));
+            break;
+        case SimpleAlertRuleTypes.FUNCTION_CALLED:
+            expressions.push(new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.METHOD_CALL,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.LINE_NUMBER]: parameters.lineNumber,
+                    [AlertRuleExpressionParameterTypes.METHOD_NAME]: parameters.name,
+                    [AlertRuleExpressionParameterTypes.CALL_POSITION]: 'any',
+                },
+            }));
+            break;
+        case SimpleAlertRuleTypes.LOG_EMITTED:
+            expressions.push(new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.LOG_EMITTED,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.ADDRESS]: target.data.address,
+                    [AlertRuleExpressionParameterTypes.LOG_NAME]: parameters.name,
+                    [AlertRuleExpressionParameterTypes.LOG_ID]: parameters.id,
+                },
+            }));
+            break;
+        case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+            expressions.push(new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.ADDRESSES]: parameters.addresses,
+                },
+            }));
+            break;
+        case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+            expressions.push(new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.ADDRESSES]: parameters.addresses,
+                },
+            }));
+            break;
+    }
+
+    return expressions;
 }

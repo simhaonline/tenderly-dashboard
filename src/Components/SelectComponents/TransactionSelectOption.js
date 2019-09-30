@@ -12,8 +12,6 @@ import './TransactionSelectOption.scss';
 function TransactionSelectOption(props) {
     const data = props.data;
 
-    console.log(data);
-
     return (
         <components.Option {...props} className="TransactionSelectOption">
             <Blockies size={8} scale={5} className="TransactionSelectOption__Blockie" seed={data.value}/>

@@ -1,0 +1,40 @@
+@import "../../Common/common";
+
+.NetworkSelectOption {
+  display: flex !important;
+  align-items: center;
+}
+
+.NetworkSelectOption__IconWrapper {
+  background-color: $Primary500;
+  border-radius: 3px;
+  width: 32px;
+  flex: 0 0 32px;
+  height: 32px;
+  margin-right: $Spacing2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $FontSize400;
+}
+
+.NetworkSelectOption__IconWrapper--main_network {
+  background-color: $Primary500;
+}
+
+.NetworkSelectOption__IconWrapper--kovan_testnet {
+  background-color: $Secondary500;
+}
+
+.NetworkSelectOption__IconWrapper--ropsten_testnet {
+  background-color: $Danger500;
+}
+
+.NetworkSelectOption__IconWrapper--rinkeby_testnet {
+  background-color: $Success500;
+}
+
+.NetworkSelectOption__Label {
+  font-weight: 600;
+  margin-bottom: 2px;
+}

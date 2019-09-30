@@ -9,11 +9,15 @@ import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 
+import {AlertRuleBuilderSteps} from "../../Common/constants";
+
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
 import {
     areNotificationDestinationsLoaded,
     getNotificationDestinationsForRule
 } from "../../Common/Selectors/NotificationSelectors";
+import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {
     Button,
@@ -32,8 +36,7 @@ import {
 import {SimpleLoader, DestinationInformation, EmptyState, AlertExpressionsInfo} from "..";
 
 import './AlertRuleView.scss';
-import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
-import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+
 
 class AlertRuleView extends Component {
     constructor(props) {
@@ -191,13 +194,23 @@ class AlertRuleView extends Component {
                                         </Button>}
                                     </div>}
                                 </ListItem>)}
+                                <ListItem to={`/project/${projectId}/alerts/rules/${rule.id}/edit?tab=${AlertRuleBuilderSteps.DESTINATIONS}`} selectable className="DisplayFlex AlignItemsCenter JustifyContentCenter MutedText">
+                                    <Icon icon="plus-circle"/>
+                                    <span className="MarginLeft1">Add more destinations</span>
+                                </ListItem>
                             </List>
                         </div>}
                         <div>
-                            <Button color={rule.enabled ? null : "success"} outline onClick={this.toggleAlertRuleEnabled} disabled={inProgress}>
-                                <span>{rule.enabled ? 'Disable' : 'Enable'} Alert</span>
+                            <Button to={`/project/${projectId}/alerts/rules/${rule.id}/edit`}>
+                                <Icon icon="edit-3"/>
+                                <span>Edit</span>
+                            </Button>
+                            <Button outline={rule.enabled} onClick={this.toggleAlertRuleEnabled} disabled={inProgress}>
+                                <Icon icon={rule.enabled ? 'bell-off' : 'bell'}/>
+                                <span>{rule.enabled ? 'Disable' : 'Enable'}</span>
                             </Button>
                             <Button color="danger" outline onClick={this.openDeleteModal} disabled={inProgress}>
+                                <Icon icon="trash-2"/>
                                 <span>Remove Alert</span>
                             </Button>
                         </div>

@@ -14,7 +14,7 @@ class AlertRule {
         /** @type string */
         this.id = data.id;
 
-        /** @type string */
+        /** @type {Project.id} */
         this.projectId = data.projectId;
 
         /** @type string */
@@ -33,9 +33,9 @@ class AlertRule {
         this.expressions = data.expressions;
 
         /**
-         * This is map of Integration ids to which this rule is tied to.
+         * This is map of NotificationDestination ids to which this rule is tied to.
          *
-         * @type string[]
+         * @type {NotificationDestination.id[]}
          */
         this.deliveryChannels = data.deliveryChannels;
 
@@ -65,9 +65,14 @@ class AlertRule {
                 }).parameters[AlertRuleExpressionParameterTypes.LOG_NAME];
                 break;
             case SimpleAlertRuleTypes.FUNCTION_CALLED:
-                details = 'Line ' + _.find(this.expressions, {
+                const methodExpression = _.find(this.expressions, {
                     type: AlertRuleExpressionTypes.METHOD_CALL,
-                }).parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER];
+                });
+
+                const methodName = methodExpression.parameters[AlertRuleExpressionParameterTypes.METHOD_NAME];
+                const lineNumber = methodExpression.parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER];
+
+                details = `${methodName}() at line ${lineNumber}`;
                 break;
             case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
                 details = _.find(this.expressions, {

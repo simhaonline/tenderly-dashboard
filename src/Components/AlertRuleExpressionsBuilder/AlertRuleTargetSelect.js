@@ -5,7 +5,7 @@ import {components} from "react-select";
 import classNames from 'classnames';
 import Blockies from "react-blockies";
 
-import {NetworkLabelMap} from "../../Common/constants";
+import {NetworkLabelMap, SimpleAlertRuleTypes} from "../../Common/constants";
 
 import {Contract} from "../../Core/models";
 
@@ -15,10 +15,10 @@ import './AlertRuleTargetSelect.scss';
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 const RequiredContractAlertTypes = [
-    'method_call',
-    'log_emitted',
-    'method_argument',
-    'log_argument',
+    SimpleAlertRuleTypes.FUNCTION_CALLED,
+    SimpleAlertRuleTypes.LOG_EMITTED,
+    SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER,
+    SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER,
 ];
 
 function AlertTargetSelectOption(props) {

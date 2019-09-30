@@ -51,11 +51,11 @@ function SearchBarDropdownIndicator(props) {
 function SearchResultSelectOption(props) {
     const data = props.data;
 
-    if (data.type === 'contract') {
-        return <ContractSelectOption {...props}/>
+    if (data.type === 'transaction') {
+        return <TransactionSelectOption {...props}/>;
     }
 
-    return <TransactionSelectOption {...props}/>
+    return <ContractSelectOption {...props}/>;
 }
 
 class PublicNetworksSearch extends Component {
@@ -122,10 +122,10 @@ class PublicNetworksSearch extends Component {
     handleSearchSelect = (option) => {
         Analytics.trackEvent('explore_page_search_selected');
 
-        if (option.type === 'contract') {
-            this.goTo('contract', option.network, option.address);
-        } else if (option.type === 'transaction') {
+        if (option.type === 'transaction') {
             this.goTo('tx', option.network, option.txHash);
+        } else {
+            this.goTo('contract', option.network, option.address);
         }
     };
 

@@ -1,0 +1,110 @@
+@import "../../Common/common";
+
+.AlertRuleBuilder__StepHeader {
+  display: flex;
+  align-items: center;
+  margin: 0 -1 * $Spacing2 $Spacing4;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.2s;
+  padding: $Spacing1 $Spacing2;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: $Slate200;
+    border: 1px solid $Slate100;
+  }
+}
+
+.AlertRuleBuilder__StepHeader--Finished {
+  background-color: transparentize($Primary500, 0.8);
+  border: 1px solid transparentize($Primary500, 0.5);
+}
+
+.AlertRuleBuilder__Body {
+  display: flex;
+}
+
+.AlertRuleBuilder__Body__Divider {
+  margin: -1*$Spacing4 $Spacing7 0 $Spacing4;
+  border-left: 2px solid transparentize($Primary500, 0.25);
+}
+
+.AlertRuleBuilder__Body__Content {
+  flex: 1 1 0;
+}
+
+.AlertRuleBuilder__StepIcon {
+  width: 32px;
+  height: 32px;
+  background-color: transparentize($Primary500, 0.75);
+  border: 1px solid $Primary500;
+  border-radius: 20px;
+  font-size: $FontSize400;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.75;
+}
+
+.AlertRuleBuilder__StepIcon--Finished {
+  background-color: $Primary500;
+  opacity: 1;
+}
+
+.AlertRuleBuilder__StepInfo {
+  margin-left: $Spacing4;
+}
+
+.AlertRuleBuilder__StepInfo__Heading {
+  font-size: $FontSize400;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.AlertRuleBuilder__StepInfo__Description {
+  margin: 0;
+}
+
+.AlertRuleBuilderOptionsWrapper {
+  flex-wrap: wrap;
+  display: flex;
+  margin-right: -1*$Spacing5;
+  margin-bottom: $Spacing4;
+}
+
+.AlertRuleBuilderOption {
+  width: 210px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: $Spacing5;
+}
+
+.AlertRuleBuilderOption__Icon {
+  font-size: $FontSize600;
+  margin-bottom: $Spacing2;
+  opacity: 0.5;
+}
+.AlertRuleBuilderOption__Label {
+  font-size: $FontSize300;
+  margin-bottom: 4px;
+}
+.AlertRuleBuilderOption__Description {
+  font-size: $FontSize200;
+  margin: 0;
+  text-align: center;
+}
+
+.AlertBuilderParameters_AddressInputWrapper {
+  display: flex;
+}
+
+.AlertBuilderParameters_AddressInput {
+  margin-bottom: 0 !important;
+  flex: 1 1 0;
+  margin-right: $Spacing2;
+}

@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import * as _ from "lodash";
 
 import {Contract} from "../../Core/models";
 
-import {NetworkLabelMap, TransactionFilterTypes} from "../../Common/constants";
+import {TransactionFilterTypes} from "../../Common/constants";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, LinkButton, Select} from "../../Elements";
-import {ContractSelectMultiValueLabel, ContractSelectOption} from "../index";
+import {ContractSelectMultiValueLabel, ContractSelectOption, NetworkSelectOption} from "../index";
 
 import './TransactionFilters.scss';
+import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
 const transactionStatusOptions = [
     {
@@ -45,17 +45,9 @@ class TransactionFilters extends Component {
     constructor(props) {
         super(props);
 
-        const contractOptions = props.contracts.map(contract => ({
-            value: contract.getUniqueId(),
-            network: contract.network,
-            address: contract.address,
-            label: contract.name,
-        }));
+        const contractOptions = props.contracts || [];
 
-        const networkOptions = _.uniqBy(props.contracts, 'network').map(contract => ({
-            value: contract.network,
-            label: NetworkLabelMap[contract.network],
-        }));
+        const networkOptions = getUniqueNetworksForContracts(props.contracts);
 
         this.state = {
             contractOptions,
@@ -75,8 +67,8 @@ class TransactionFilters extends Component {
 
         const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value: 'all';
         const type = activeFilters[TransactionFilterTypes.TYPE] ? activeFilters[TransactionFilterTypes.TYPE].value: 'all';
-        const contracts = activeFilters[TransactionFilterTypes.CONTRACTS] ? contractOptions.filter(c => activeFilters[TransactionFilterTypes.CONTRACTS].value.includes(c.value)): [];
-        const networks = activeFilters[TransactionFilterTypes.NETWORKS] ? networkOptions.find(n => n.value === activeFilters[TransactionFilterTypes.NETWORKS].value): '';
+        const contracts = activeFilters[TransactionFilterTypes.CONTRACTS] ? contractOptions.filter(c => activeFilters[TransactionFilterTypes.CONTRACTS].value.includes(c.getUniqueId())): [];
+        const networks = activeFilters[TransactionFilterTypes.NETWORKS] ? networkOptions.find(n => n.id === activeFilters[TransactionFilterTypes.NETWORKS].value): '';
 
         this.setState({
             openModal: true,
@@ -157,12 +149,12 @@ class TransactionFilters extends Component {
 
         filters.push({
             type: TransactionFilterTypes.CONTRACTS,
-            value: draftContracts.map(c => c.value),
+            value: draftContracts.map(c => c.getUniqueId()),
         });
 
         filters.push({
             type: TransactionFilterTypes.NETWORKS,
-            value: draftNetworks ? draftNetworks.value : null,
+            value: draftNetworks ? draftNetworks.id : null,
         });
 
         onFiltersChange(filters);
@@ -210,13 +202,15 @@ class TransactionFilters extends Component {
                                         <Select multiple value={draftContracts} components={{
                                             Option: ContractSelectOption,
                                             MultiValueLabel: ContractSelectMultiValueLabel,
-                                        }} selectLabel="Select Contracts" options={contractOptions} onChange={this.handleDraftContractsChange}/>
+                                        }} selectLabel="Select Contracts" options={contractOptions} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.getUniqueId()} onChange={this.handleDraftContractsChange}/>
                                     </div>
                                 </div>
                                 <div className="TransactionFilters__Dialog__FilterRow">
                                     <div className="TransactionFilters__Dialog__FilterRow__Label">Network</div>
                                     <div className="TransactionFilters__Dialog__FilterRow__Filter">
-                                        <Select isClearable value={draftNetworks} selectLabel="Select Network" options={networkOptions} onChange={this.handleDraftNetworksChange}/>
+                                        <Select components={{
+                                            Option: NetworkSelectOption,
+                                        }} isClearable value={draftNetworks} selectLabel="Select Network" options={networkOptions} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} onChange={this.handleDraftNetworksChange}/>
                                     </div>
                                 </div>
                             </div>

@@ -1,12 +1,4 @@
-class ContractLogInput {
-    constructor(data) {
-        /** @type string */
-        this.type = data.type;
-
-        /** @type string */
-        this.name = data.name;
-    }
-}
+import {ContractInputParameter} from "../models";
 
 class ContractLog {
     constructor(data) {
@@ -16,7 +8,7 @@ class ContractLog {
         /** @type string */
         this.name = data.name;
 
-        /** @type ContractLogInput[] */
+        /** @type ContractInputParameter[] */
         this.inputs = data.inputs;
     }
 
@@ -24,7 +16,7 @@ class ContractLog {
         let inputs = [];
 
         if (response.inputs) {
-            inputs = response.inputs.map(input => new ContractLogInput(input));
+            inputs = response.inputs.map(input => ContractInputParameter.buildFromResponse(input));
         }
 
         return new ContractLog({

@@ -10,13 +10,14 @@ import {NetworkTag} from "..";
 import './ContractSelectOption.scss';
 
 function ContractSelectOption(props) {
+    /** @type {Contract} */
     const data = props.data;
 
     return (
         <components.Option {...props} className="ContractSelectOption">
-            <Blockies size={8} scale={5} className="ContractSelectOption__Blockie" seed={data.value}/>
+            <Blockies size={8} scale={5} className="ContractSelectOption__Blockie" seed={data.getUniqueId()}/>
             <div className="MarginLeft2">
-                <div className="SemiBoldText MarginBottom1">{data.label}</div>
+                <div className="SemiBoldText MarginBottom1">{data.name}</div>
                 <div>
                     <NetworkTag size="small" network={data.network}/>
                     <span className="MonospaceFont LinkText MarginLeft1">{generateShortAddress(data.address, 12, 6)}</span>

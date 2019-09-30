@@ -244,13 +244,7 @@ export const searchPublicData = (query) => {
             const searchData = {};
 
             if (data.contracts) {
-                searchData.contracts = data.contracts.map(contract => ({
-                    type: 'contract',
-                    network: NetworkApiToAppTypeMap[parseInt(contract.network_id)],
-                    value: Contract.generateUniqueContractId(contract.address, NetworkApiToAppTypeMap[parseInt(contract.network_id)]),
-                    label: contract.contract_name || contract.address,
-                    address: contract.address,
-                }));
+                searchData.contracts = data.contracts.map(contract => Contract.buildFromResponse(contract));
             }
 
             if (data.transactions) {

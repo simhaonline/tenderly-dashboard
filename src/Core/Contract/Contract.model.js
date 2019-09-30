@@ -1,9 +1,9 @@
 import moment from "moment";
+import _ from "lodash";
 
 import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
 
 import ContractFile from "./ContractFile.model";
-import _ from "lodash";
 
 class Contract {
     /**
@@ -16,7 +16,7 @@ class Contract {
         this.id = data.address;
 
         if (projectData) {
-            /** @type string */
+            /** @type Project.id */
             this.projectId = projectData.id;
 
             /** @type boolean */

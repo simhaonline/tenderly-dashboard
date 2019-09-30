@@ -67,8 +67,6 @@ class LoginPage extends Component {
 
         const oAuthResponse = await authActions.authenticateOAuth(type, code);
 
-        console.log(oAuthResponse);
-
         if (!oAuthResponse.success) {
             this.setState({
                 loginFailed: true,
