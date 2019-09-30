@@ -1,6 +1,6 @@
 @import "../../Common/common";
 
-.TransactionStateDiff__Before, .TransactionStateDiff__After {
+.TransactionStateDiff__Before, .TransactionStateDiff__After, .TransactionStateDiff__NoChange {
   border-radius: 3px;
   padding: 2px 4px;
 }
@@ -9,6 +9,12 @@
   border: 1px solid transparentize($Danger500, 0.5);
   background-color: transparentize($Danger500, 0.9);
   color: $Danger500;
+}
+
+.TransactionStateDiff__NoChange {
+  border: 1px solid transparentize($WhiteColor, 0.5);
+  background-color: transparentize($WhiteColor, 0.9);
+  color: $WhiteColor;
 }
 
 .TransactionStateDiff__After {

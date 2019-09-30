@@ -10,9 +10,9 @@ import {Icon, Tag} from "../../Elements";
 const ObjectPreview = ({propertyName, before, after}) => {
     const [open, setOpen] = useState(false);
 
-    const isObject = _.isObject(before);
+    const isObject = _.isObject(before) && _.isObject(after);
 
-    if (!isObject && before === after) return null;
+    const isSameValue = !isObject && before === after;
 
     return (
         <div className="MarginTop2 PaddingLeft4">
@@ -32,10 +32,13 @@ const ObjectPreview = ({propertyName, before, after}) => {
                 <div className="MonospaceFont">
                     <span className="MutedText">{propertyName}</span>
                 </div>
-                {!isObject && <div className="MonospaceFont MarginLeft4">
+                {!isObject && !isSameValue && <div className="MonospaceFont MarginLeft4">
                     <span className="MarginRight1 TransactionStateDiff__Before">{String(before)}</span>
                     <Icon icon="arrow-right"/>
                     <span className="MarginLeft1 TransactionStateDiff__After">{String(after)}</span>
+                </div>}
+                {!isObject && isSameValue && <div className="MonospaceFont MarginLeft4">
+                    <span className="MarginRight1 TransactionStateDiff__NoChange">{String(before)}</span>
                 </div>}
             </div>
             {isObject && open && _.uniq([
