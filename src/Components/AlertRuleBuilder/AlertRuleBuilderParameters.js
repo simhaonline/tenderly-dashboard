@@ -105,7 +105,7 @@ class AddressListParameters extends PureComponent {
         return (
             <div>
                 <List>
-                    {value.addresses.map(address => <ListItem key={address} className="DisplayFlex AlignItemsCenter">
+                    {!!value && value.addresses.map(address => <ListItem key={address} className="DisplayFlex AlignItemsCenter">
                         <span className="MonospaceFont">{address}</span>
                         <div className="MarginLeftAuto">
                             <Button size="small" outline onClick={() => this.toggleAddress(address)}>

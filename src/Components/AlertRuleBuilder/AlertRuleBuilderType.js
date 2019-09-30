@@ -41,7 +41,7 @@ class AlertRuleBuilderType extends Component {
     isStepCompleted = () => {
         const {value} = this.props;
 
-        return value !== SimpleAlertRuleTypes.UNSET;
+        return !!value &&  value !== SimpleAlertRuleTypes.UNSET;
     };
 
     render() {

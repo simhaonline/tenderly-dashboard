@@ -250,6 +250,50 @@ class AlertRuleBuilder extends Component {
         });
     };
 
+
+    /**
+     * @return {string}
+     */
+    getSimpleAlertRuleName = () => {
+        const {project} = this.props;
+        const {selectedType, selectedTarget, selectedParameters} = this.state;
+
+        let message = '';
+
+        switch (selectedType) {
+            case SimpleAlertRuleTypes.SUCCESSFUL_TX:
+                message = 'Successful transaction';
+                break;
+            case SimpleAlertRuleTypes.FAILED_TX:
+                message = 'Failed transaction';
+                break;
+            case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+                message = 'Transaction from non-whitelisted address';
+                break;
+            case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+                message = 'Transaction from blacklisted address';
+                break;
+            case SimpleAlertRuleTypes.FUNCTION_CALLED:
+                message = `Function ${selectedParameters.name} called`;
+                break;
+            case SimpleAlertRuleTypes.LOG_EMITTED:
+                message = `Event / Log ${selectedParameters.name} emitted`;
+                break;
+            default:
+                break;
+        }
+
+        if (selectedTarget.type === SimpleAlertRuleTargetTypes.PROJECT) {
+            message += ` in ${project.id}`;
+        } else if (selectedTarget.type === SimpleAlertRuleTargetTypes.CONTRACT) {
+            message += ` in ${selectedTarget.data.name}`;
+        } else if (selectedTarget.type === SimpleAlertRuleTargetTypes.NETWORK) {
+            message += ` on ${selectedTarget.data.name}`;
+        }
+
+        return message;
+    };
+
     /**
      *
      * @returns {boolean}
@@ -264,6 +308,8 @@ class AlertRuleBuilder extends Component {
 
         if (!selectedTarget || (selectedTarget.type !== SimpleAlertRuleTargetTypes.PROJECT && !selectedTarget.data)) return false;
 
+        if (!selectedDestinations || selectedDestinations.length === 0) return false;
+
         if (simpleAlertTypeRequiresParameters(selectedType)) {
             switch (selectedType) {
                 case SimpleAlertRuleTypes.LOG_EMITTED:
@@ -277,17 +323,17 @@ class AlertRuleBuilder extends Component {
             }
         }
 
-        return !!selectedDestinations && selectedDestinations.length > 0;
+        return true;
     };
 
     handleFormSubmit = () => {
-        const {onSubmit} = this.props;
+        const {onSubmit, skipGeneral} = this.props;
         const {alertName, alertDescription, selectedType, selectedTarget, selectedParameters, selectedDestinations} = this.state;
 
         const expressions = generateAlertRuleExpressions(selectedType, selectedTarget, selectedParameters);
 
         onSubmit({
-            name: alertName,
+            name: skipGeneral ? this.getSimpleAlertRuleName() : alertName,
             description: alertDescription,
             simpleType: selectedType,
         }, expressions, selectedDestinations);
