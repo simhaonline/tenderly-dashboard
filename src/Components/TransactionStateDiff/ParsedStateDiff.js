@@ -28,8 +28,6 @@ class ParsedStateDiff extends PureComponent {
         const {isPrimitive} = this.state;
         const {stateDiff} = this.props;
 
-        console.log(stateDiff, isPrimitive);
-
         return (
             <div className="MarginBottom1">
                 <div className="DisplayFlex">
@@ -43,7 +41,10 @@ class ParsedStateDiff extends PureComponent {
                         <span className="MarginLeft1 TransactionStateDiff__After">{String(stateDiff.after)}</span>
                     </div>}
                 </div>
-                {!isPrimitive && _.isObject(stateDiff.before) && Object.keys(stateDiff.before).map(objectKey => <div key={objectKey} className="MarginTop1 PaddingLeft2 DisplayFlex">
+                {!isPrimitive && _.isObject(stateDiff.before) && _.uniq([
+                    ...Object.keys(stateDiff.before),
+                    ...Object.keys(stateDiff.after),
+                ]).map(objectKey => <div key={objectKey} className="MarginTop1 PaddingLeft2 DisplayFlex">
                     <div className="MonospaceFont">
                         <span className="MutedText">{objectKey}</span>
                     </div>
