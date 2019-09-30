@@ -17,7 +17,7 @@ class ParsedStateDiff extends PureComponent {
 
         const {stateDiff} = props;
 
-        const isPrimitive = !_.isArray(stateDiff) && !_.isObject(stateDiff.before);
+        const isPrimitive = !_.isObject(stateDiff.before);
 
         this.state = {
             isPrimitive,
