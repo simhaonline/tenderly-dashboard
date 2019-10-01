@@ -1,15 +1,14 @@
 import React, {PureComponent} from 'react';
-
+import * as _ from "lodash";
 import {SimpleAlertRuleTargetTypes, SimpleAlertRuleTypes} from "../../Common/constants";
 
-import {simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
+import {isValidAddress} from "../../Utils/Ethereum";
+import {getConditionOptionForParameter, simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
 
 import {Form, Select, Input, ListItem, List, Button, Icon} from "../../Elements";
-import {SimpleLoader} from "..";
+import {SimpleLoader, ContractInputSelectOption, ContractMethodOrLogSelectOption, ConditionOperatorSelectOption} from "..";
 
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
-import {isValidAddress} from "../../Utils/Ethereum";
-import * as _ from "lodash";
 
 class OptionBuilder extends PureComponent {
     render() {
@@ -24,10 +23,80 @@ class OptionBuilder extends PureComponent {
 }
 
 class OptionParameterBuilder extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        // @TODO Handle initial state
+
+        this.state = {
+            selectedOption: null,
+            parameterOptions: [],
+            selectedParameter: null,
+            selectedOperator: null,
+            selectedCondition: '',
+        };
+    }
+
+    /**
+     * @param {(ContractMethod|ContractLog)} option
+     */
+    handleOptionSelect = (option) => {
+        console.log(option);
+
+        this.setState({
+            selectedOption: option,
+            parameterOptions: option.inputs,
+            selectedParameter: null,
+            selectedOperator: null,
+            selectedCondition: '',
+        });
+    };
+
+    /**
+     * @param {ContractInputParameter} parameter
+     */
+    handleParameterSelect = (parameter) => {
+        console.log(parameter);
+
+        this.setState({
+            selectedParameter: parameter,
+            selectedOperator: null,
+            selectedCondition: '',
+        });
+    };
+
+    /**
+     * @param {AlertParameterConditionOperatorOption} operatorOption
+     */
+    handleParameterOperatorSelect = (operatorOption) => {
+        console.log(operatorOption);
+
+        this.setState({
+            selectedOperator: operatorOption,
+        });
+    };
+
+    handleParameterConditionChange = (field, value) => {
+        console.log(field, value);
+    };
+
     render() {
+        const {options} = this.props;
+        const {selectedOption, parameterOptions, selectedParameter, selectedOperator, selectedCondition} = this.state;
+
         return (
             <div>
-                funct param
+                <Select value={selectedOption} options={options} onChange={this.handleOptionSelect} components={{
+                    Option: ContractMethodOrLogSelectOption,
+                }} getOptionLabel={option => option.name} getOptionValue={option => option.id}/>
+                {!!selectedOption && <Select value={selectedParameter} options={parameterOptions} onChange={this.handleParameterSelect} components={{
+                    Option: ContractInputSelectOption,
+                }}
+                                             getOptionLabel={option => option.name} getOptionValue={option => option.name}/>}
+                {!!selectedParameter && <Select value={selectedOperator} components={{
+                    Option: ConditionOperatorSelectOption,
+                }} options={getConditionOptionForParameter(selectedParameter)} onChange={this.handleParameterOperatorSelect}/>}
+                {!!selectedOperator && <Input value={selectedCondition} onChange={this.handleParameterConditionChange} field="selectedCondition"/>}
             </div>
         );
     }
@@ -182,7 +251,7 @@ class AlertRuleBuilderParameters extends PureComponent {
                             <OptionBuilder value={value} options={options} onChange={option => onChange(alertType, option)}/>
                         }
                         {[SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER, SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER].includes(alertType) &&
-                            <OptionParameterBuilder value={value} options={options} onChange={option => onChange(alertType, option)}/>
+                            <OptionParameterBuilder value={value} options={options.filter(option => !!option.inputs && option.inputs.length > 0)} onChange={option => onChange(alertType, option)}/>
                         }
                     </div>}
                 </div>}
