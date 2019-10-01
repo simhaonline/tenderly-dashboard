@@ -9,6 +9,7 @@ import {
     SimpleAlertRuleTypes
 } from "../Common/constants";
 import {AlertRuleExpression, ContractMethod} from "../Core/models";
+import {isValidAddress} from "./Ethereum";
 
 /**
  * @param {AlertRuleExpression[]} expressions
@@ -308,4 +309,22 @@ export function getConditionOptionForParameter(parameter) {
         value: option,
         label: AlertParameterConditionOperatorTypeLabelMap[option],
     }));
+}
+
+/**
+ * @param {string} value
+ * @param {ContractInputParameterSimpleTypes} type
+ */
+export function isValidValueForParameterType(value, type) {
+    switch (type) {
+        case ContractInputParameterSimpleTypes.INT:
+        case ContractInputParameterSimpleTypes.UINT:
+            return _.isNumber(value);
+        case ContractInputParameterSimpleTypes.ADDRESS:
+            return isValidAddress(value);
+        case ContractInputParameterSimpleTypes.HASH:
+            return _.startsWith(value, '0x');
+        default:
+            return value.length > 0;
+    }
 }
