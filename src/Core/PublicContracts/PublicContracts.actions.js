@@ -86,45 +86,6 @@ export const fetchPublicContract = (address, network, silentError = false) => {
 };
 
 /**
- * @TODO implement new api route for searching public contracts.
- *
- * @param {string} query
- * @param {NetworkTypes} network
- * @param {boolean} [silentError]
- */
-export const fetchPublicContractByQuery = (query, network, silentError = false) => {
-    return async dispatch => {
-        try {
-            const apiNetwork = NetworkAppToApiTypeMap[network];
-
-            const {data} = await Api.get(`/search-public-contracts/${apiNetwork}`, {
-                params: {
-                    query,
-                },
-            });
-
-            if (!data) {
-                return new ErrorActionResponse();
-            }
-
-            const contract = Contract.buildFromResponse(data);
-
-            dispatch({
-                type: FETCH_PUBLIC_CONTRACT_ACTION,
-                contract,
-            });
-
-            return new SuccessActionResponse(contract);
-        } catch (error) {
-            if (!silentError) {
-                console.error(error);
-            }
-            return new ErrorActionResponse(error);
-        }
-    }
-};
-
-/**
  * @param {Transaction} transaction
  */
 export const fetchPublicContractsForTransaction = (transaction) => {
