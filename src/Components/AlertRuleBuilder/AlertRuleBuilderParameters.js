@@ -181,6 +181,9 @@ class AlertRuleBuilderParameters extends PureComponent {
                         {[SimpleAlertRuleTypes.LOG_EMITTED, SimpleAlertRuleTypes.FUNCTION_CALLED].includes(alertType) &&
                             <OptionBuilder value={value} options={options} onChange={option => onChange(alertType, option)}/>
                         }
+                        {[SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER, SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER].includes(alertType) &&
+                            <OptionParameterBuilder value={value} options={options} onChange={option => onChange(alertType, option)}/>
+                        }
                     </div>}
                 </div>}
                 {!requiresContract && <div className="MarginBottom4">

@@ -255,7 +255,7 @@ export const SimpleAlertRuleTypeLabelMap = {
     [SimpleAlertRuleTypes.LOG_EMITTED]: 'Event/Log Emitted',
     [SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER]: 'Event Parameter',
     [SimpleAlertRuleTypes.FUNCTION_CALLED]: 'Function Call',
-    [SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]: 'Function Parameter',
+    [SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]: 'Function Argument',
     [SimpleAlertRuleTypes.ADVANCED]: 'Advanced Alert',
 };
 
@@ -318,6 +318,7 @@ export const AlertRuleExpressionParameterTypes = {
     CALL_POSITION: 'CALL_POSITION',
     LOG_NAME: 'LOG_NAME',
     LOG_ID: 'LOG_ID',
+    PARAMETER_CONDITIONS: 'PARAMETER_CONDITIONS',
 };
 
 export const AlertRuleExpressionParameterApiToAppTypeMap = {
@@ -331,6 +332,7 @@ export const AlertRuleExpressionParameterApiToAppTypeMap = {
     'call_position': AlertRuleExpressionParameterTypes.CALL_POSITION,
     'event_name': AlertRuleExpressionParameterTypes.LOG_NAME,
     'event_id': AlertRuleExpressionParameterTypes.LOG_ID,
+    'parameter_conditions': AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS,
 };
 
 export const AlertRuleExpressionParameterAppToApiTypeMap = {
@@ -344,7 +346,29 @@ export const AlertRuleExpressionParameterAppToApiTypeMap = {
     [AlertRuleExpressionParameterTypes.CALL_POSITION]: 'call_position',
     [AlertRuleExpressionParameterTypes.LOG_NAME]: 'event_name',
     [AlertRuleExpressionParameterTypes.LOG_ID]: 'event_id',
+    [AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS]: 'parameter_conditions',
 };
+
+/**
+ * @enum {string}
+ */
+export const AlertParameterConditionOperatorTypes = {
+    GTE: ">=",
+    GT: ">",
+    LTE: "<=",
+    LT: "<",
+    EQ: "==",
+    NEQ: "!=",
+};
+
+/**
+ * @typedef {Object} AlertRuleParameterCondition
+ * @property {string} name
+ * @property {string} type
+ * @property {string} nestedType
+ * @property {AlertParameterConditionOperatorTypes} operator
+ * @property {any} value
+ */
 
 /**
  * @enum {string}

@@ -11,7 +11,7 @@ class AlertRuleExpression {
         /** @type AlertRuleExpressionTypes */
         this.type = data.type;
 
-        /** @type Object */
+        /** @type {Object.<AlertRuleExpressionParameterTypes, (string|AlertRuleParameterCondition)>} */
         this.parameters = data.parameters;
     }
 

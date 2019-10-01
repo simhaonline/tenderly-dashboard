@@ -33,6 +33,10 @@ class AlertRuleBuilderType extends Component {
                 return 'Alert whenever a function is called inside a transaction.';
             case SimpleAlertRuleTypes.LOG_EMITTED:
                 return 'Alert whenever an event / log is emitted inside a transaction.';
+            case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
+                return 'Alert whenever a function argument condition is triggered.';
+            case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
+                return 'Alert whenever an event/log function argument condition is triggered.';
             default:
                 return 'Select an alert trigger type.';
         }
@@ -66,11 +70,21 @@ class AlertRuleBuilderType extends Component {
                                             icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.FUNCTION_CALLED]}
                                             label={SimpleAlertRuleTypeLabelMap[SimpleAlertRuleTypes.FUNCTION_CALLED]}
                                             description="Triggers whenever a specific function is called in one of your contracts"/>
+                    <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER)}
+                                            selected={value === SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER}
+                                            icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]}
+                                            label={SimpleAlertRuleTypeLabelMap[SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]}
+                                            description="Triggers whenever a specific argument in a function matches the set conditions."/>
                     <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.LOG_EMITTED)}
                                             selected={value === SimpleAlertRuleTypes.LOG_EMITTED}
                                             icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.LOG_EMITTED]}
                                             label={SimpleAlertRuleTypeLabelMap[SimpleAlertRuleTypes.LOG_EMITTED]}
                                             description="Triggers whenever a specific event / log  is emitted in one of your contracts"/>
+                    <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER)}
+                                            selected={value === SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER}
+                                            icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER]}
+                                            label={SimpleAlertRuleTypeLabelMap[SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER]}
+                                            description="Triggers whenever a specific argument in an event/log matches the set conditions."/>
                     <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.WHITELISTED_CALLERS)}
                                             selected={value === SimpleAlertRuleTypes.WHITELISTED_CALLERS}
                                             icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.WHITELISTED_CALLERS]}

@@ -1,5 +1,14 @@
 import {NotificationDestinationTypes} from "../../Common/constants";
 
+/**
+ * @typedef NotificationDestinationInformation
+ * @type {Object}
+ * @property {string} [email]
+ * @property {string[]} [emails]
+ * @property {string} [channel]
+ * @property {string} [team]
+ */
+
 class NotificationDestination {
     constructor(data) {
         /** @type string */
@@ -11,7 +20,7 @@ class NotificationDestination {
         /** @type string */
         this.label = data.label;
 
-        /** @type Object */
+        /** @type {NotificationDestinationInformation} */
         this.information = data.information;
     }
 
