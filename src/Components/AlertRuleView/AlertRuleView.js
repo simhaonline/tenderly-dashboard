@@ -114,20 +114,6 @@ class AlertRuleView extends Component {
         }
     };
 
-    /**
-     * @param {NotificationDestination} destination
-     */
-    removeDestination = (destination) => {
-        // const {actions, rule} = this.props;
-
-        // @TODO finish remove alert destination
-        // const updatedRule = rule.update({
-        //     enabled: !rule.enabled,
-        // });
-
-        // actions.updateAlertRuleForProject(projectId, updatedRule);
-    };
-
     render() {
         const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded, project, areContractsLoaded, contracts} = this.props;
         const {openDeleteModal, alertDeleted, errorFetching, inProgress} = this.state;
@@ -188,11 +174,6 @@ class AlertRuleView extends Component {
                                     <div className="MarginLeftAuto">
                                         <DestinationInformation destination={destination}/>
                                     </div>
-                                    {false && <div>
-                                        {destinations.length > 1 && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
-                                            <Icon icon="trash-2"/>
-                                        </Button>}
-                                    </div>}
                                 </ListItem>)}
                                 <ListItem to={`/project/${projectId}/alerts/rules/${rule.id}/edit?tab=${AlertRuleBuilderSteps.DESTINATIONS}`} selectable className="DisplayFlex AlignItemsCenter JustifyContentCenter MutedText">
                                     <Icon icon="plus-circle"/>
