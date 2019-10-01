@@ -235,6 +235,7 @@ export const SimpleAlertRuleTypes = {
  * @property {string} [name]
  * @property {string} [lineNumber]
  * @property {string[]} [addresses]
+ * @property {AlertRuleParameterCondition} [condition]
  */
 
 /**

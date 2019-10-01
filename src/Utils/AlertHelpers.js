@@ -262,6 +262,12 @@ export function generateAlertRuleExpressions(type, target, parameters) {
                 },
             }));
             break;
+        case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
+            // @TODO
+            break;
+        case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
+            // @TODO
+            break;
         case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
             expressions.push(new AlertRuleExpression({
                 type: AlertRuleExpressionTypes.WHITELISTED_CALLER_ADDRESSES,
