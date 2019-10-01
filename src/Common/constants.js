@@ -144,6 +144,24 @@ export const TransactionFilterTypes = {
     RESET: 'RESET',
 };
 
+/**
+ * @enum {string}
+ */
+export const ContractInputParameterSimpleTypes = {
+    INT: "int",
+    UINT: "uint",
+    BOOL: "bool",
+    STRING: "string",
+    SLICE: "slice",
+    ARRAY: "array",
+    TUPLE: "tuple",
+    ADDRESS: "address",
+    FIXED_BYTES: "fixed_bytes",
+    BYTES: "bytes",
+    HASH: "hash",
+    FUNCTION: "function",
+};
+
 export const OAuthServiceTypeMap = {
     GITHUB: 'github',
     GOOGLE: 'google',
@@ -362,12 +380,30 @@ export const AlertParameterConditionOperatorTypes = {
 };
 
 /**
+ * @enum {string}
+ */
+export const AlertParameterConditionOperatorTypeLabelMap = {
+    [AlertParameterConditionOperatorTypes.GTE]: "Greater than or equal",
+    [AlertParameterConditionOperatorTypes.GT]: "Greater than",
+    [AlertParameterConditionOperatorTypes.LTE]: "Less than or equal",
+    [AlertParameterConditionOperatorTypes.LT]: "Less than",
+    [AlertParameterConditionOperatorTypes.EQ]: "Is equal",
+    [AlertParameterConditionOperatorTypes.NEQ]: "Is not equal",
+};
+
+/**
  * @typedef {Object} AlertRuleParameterCondition
  * @property {string} name
  * @property {string} type
  * @property {string} nestedType
  * @property {AlertParameterConditionOperatorTypes} operator
  * @property {any} value
+ */
+
+/**
+ * @typedef {Object} AlertParameterConditionOperatorOption
+ * @property {AlertParameterConditionOperatorTypeLabelMap} label
+ * @property {AlertParameterConditionOperatorTypes} value
  */
 
 /**

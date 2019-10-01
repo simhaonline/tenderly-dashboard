@@ -14,6 +14,9 @@ export {default as OnboardingCreateOrganizationStep} from './Onboarding/Onboardi
 
 // Select Components
 export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
+export {default as ContractMethodOrLogSelectOption} from './SelectComponents/ContractMethodOrLogSelectOption';
+export {default as ContractInputSelectOption} from './SelectComponents/ContractInputSelectOption';
+export {default as ConditionOperatorSelectOption} from './SelectComponents/ConditionOperatorSelectOption';
 export {default as ContractSelectMultiValueLabel} from './SelectComponents/ContractSelectMultiValueLabel';
 export {default as TransactionSelectOption} from './SelectComponents/TransactionSelectOption';
 export {default as NetworkSelectOption} from './SelectComponents/NetworkSelectOption';
