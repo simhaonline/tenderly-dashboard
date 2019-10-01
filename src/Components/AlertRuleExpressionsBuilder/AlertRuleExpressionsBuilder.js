@@ -53,8 +53,6 @@ class AlertRuleExpressionsBuilder extends Component {
     };
 
     fetchContractMethods = async (address, network) => {
-        console.log(address, network);
-
     };
 
     handleAlertTargetChange = (option) => {

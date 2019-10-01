@@ -316,15 +316,17 @@ export function getConditionOptionForParameter(parameter) {
  * @param {ContractInputParameterSimpleTypes} type
  */
 export function isValidValueForParameterType(value, type) {
+    if (!value || value.length === 0) return false;
+
     switch (type) {
         case ContractInputParameterSimpleTypes.INT:
         case ContractInputParameterSimpleTypes.UINT:
-            return _.isNumber(value);
+            return !isNaN(value);
         case ContractInputParameterSimpleTypes.ADDRESS:
             return isValidAddress(value);
         case ContractInputParameterSimpleTypes.HASH:
             return _.startsWith(value, '0x');
         default:
-            return value.length > 0;
+            return true;
     }
 }

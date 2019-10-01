@@ -57,7 +57,6 @@ class CreateAlertRule extends Component {
         const response = await actions.createAlertRuleForProject(project.id, general, expressions, destinations);
 
         if (response.success) {
-            console.log(response);
             this.setState({
                 redirectToRule: response.data.id,
             });

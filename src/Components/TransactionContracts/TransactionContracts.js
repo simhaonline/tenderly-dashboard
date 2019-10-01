@@ -90,7 +90,7 @@ class TransactionContracts extends Component {
      * @param {ContractFile} file
      */
     handleContractFileSelect = (file) => {
-        console.log(file);
+        // @TODO handle selecting contract files
     };
 
     backToContracts = () => {

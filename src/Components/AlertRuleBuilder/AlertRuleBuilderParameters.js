@@ -3,7 +3,11 @@ import * as _ from "lodash";
 import {SimpleAlertRuleTargetTypes, SimpleAlertRuleTypes} from "../../Common/constants";
 
 import {isValidAddress} from "../../Utils/Ethereum";
-import {getConditionOptionForParameter, simpleAlertTypeRequiresContract} from "../../Utils/AlertHelpers";
+import {
+    getConditionOptionForParameter,
+    isValidValueForParameterType,
+    simpleAlertTypeRequiresContract
+} from "../../Utils/AlertHelpers";
 
 import {Form, Select, Input, ListItem, List, Button, Icon} from "../../Elements";
 import {SimpleLoader, ContractInputSelectOption, ContractMethodOrLogSelectOption, ConditionOperatorSelectOption} from "..";
@@ -41,8 +45,6 @@ class OptionParameterBuilder extends PureComponent {
      * @param {(ContractMethod|ContractLog)} option
      */
     handleOptionSelect = (option) => {
-        console.log(option);
-
         this.setState({
             selectedOption: option,
             parameterOptions: option.inputs,
@@ -56,8 +58,6 @@ class OptionParameterBuilder extends PureComponent {
      * @param {ContractInputParameter} parameter
      */
     handleParameterSelect = (parameter) => {
-        console.log(parameter);
-
         this.setState({
             selectedParameter: parameter,
             selectedOperator: null,
@@ -69,15 +69,15 @@ class OptionParameterBuilder extends PureComponent {
      * @param {AlertParameterConditionOperatorOption} operatorOption
      */
     handleParameterOperatorSelect = (operatorOption) => {
-        console.log(operatorOption);
-
         this.setState({
             selectedOperator: operatorOption,
         });
     };
 
     handleParameterConditionChange = (field, value) => {
-        console.log(field, value);
+        this.setState({
+            selectedCondition: value,
+        });
     };
 
     render() {
@@ -91,12 +91,14 @@ class OptionParameterBuilder extends PureComponent {
                 }} getOptionLabel={option => option.name} getOptionValue={option => option.id}/>
                 {!!selectedOption && <Select value={selectedParameter} options={parameterOptions} onChange={this.handleParameterSelect} components={{
                     Option: ContractInputSelectOption,
-                }}
-                                             getOptionLabel={option => option.name} getOptionValue={option => option.name}/>}
+                }} getOptionLabel={option => option.name} getOptionValue={option => option.name}/>}
                 {!!selectedParameter && <Select value={selectedOperator} components={{
                     Option: ConditionOperatorSelectOption,
                 }} options={getConditionOptionForParameter(selectedParameter)} onChange={this.handleParameterOperatorSelect}/>}
                 {!!selectedOperator && <Input value={selectedCondition} onChange={this.handleParameterConditionChange} field="selectedCondition"/>}
+                {!!selectedCondition && !isValidValueForParameterType(selectedCondition, selectedParameter.simpleType) && <div className="DangerText">
+                    No valid input
+                </div>}
             </div>
         );
     }
