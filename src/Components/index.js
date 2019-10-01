@@ -48,7 +48,6 @@ export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRule
 export {default as AlertRulesList} from './AlertRulesList/AlertRulesList';
 export {default as AlertRuleBuilder} from './AlertRuleBuilder/AlertRuleBuilder';
 export {default as AlertRuleExpressionsBuilder} from './AlertRuleExpressionsBuilder/AlertRuleExpressionsBuilder';
-export {default as CreateAlertRuleForm} from './CreateAlertRuleForm/CreateAlertRuleForm';
 export {default as AlertRuleView} from './AlertRuleView/AlertRuleView';
 export {default as EditAlertRule} from './AlertRuleForms/EditAlertRule';
 export {default as CreateAlertRule} from './AlertRuleForms/CreateAlertRule';
