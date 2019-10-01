@@ -1,8 +1,10 @@
 import * as _ from "lodash";
 
 import {
+    AlertParameterConditionOperatorTypeLabelMap,
+    AlertParameterConditionOperatorTypes,
     AlertRuleExpressionParameterTypes,
-    AlertRuleExpressionTypes,
+    AlertRuleExpressionTypes, ContractInputParameterSimpleTypes,
     SimpleAlertRuleTargetTypes,
     SimpleAlertRuleTypes
 } from "../Common/constants";
@@ -278,4 +280,32 @@ export function generateAlertRuleExpressions(type, target, parameters) {
     }
 
     return expressions;
+}
+
+/**
+ * @param {ContractInputParameter} parameter
+ * @returns {AlertParameterConditionOperatorOption[]}
+ */
+export function getConditionOptionForParameter(parameter) {
+    const possibleOptions = [
+        AlertParameterConditionOperatorTypes.EQ,
+        AlertParameterConditionOperatorTypes.NEQ,
+    ];
+
+    switch (parameter.simpleType) {
+        case ContractInputParameterSimpleTypes.INT:
+        case ContractInputParameterSimpleTypes.UINT:
+            possibleOptions.push(
+                AlertParameterConditionOperatorTypes.GTE,
+                AlertParameterConditionOperatorTypes.GT,
+                AlertParameterConditionOperatorTypes.LTE,
+                AlertParameterConditionOperatorTypes.LT,
+            );
+            break;
+    }
+
+    return possibleOptions.map(option => ({
+        value: option,
+        label: AlertParameterConditionOperatorTypeLabelMap[option],
+    }));
 }
