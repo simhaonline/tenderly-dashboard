@@ -338,6 +338,11 @@ export const AlertRuleExpressionParameterTypes = {
     LOG_NAME: 'LOG_NAME',
     LOG_ID: 'LOG_ID',
     PARAMETER_CONDITIONS: 'PARAMETER_CONDITIONS',
+    PARAMETER_CONDITION_NAME: 'PARAMETER_CONDITION_NAME',
+    PARAMETER_CONDITION_OPERATOR: 'PARAMETER_CONDITION_OPERATOR',
+    PARAMETER_CONDITION_TYPE: 'PARAMETER_CONDITION_TYPE',
+    PARAMETER_CONDITION_NESTED_TYPE: 'PARAMETER_CONDITION_NESTED_TYPE',
+    PARAMETER_CONDITION_COMPARISON_VALUE: 'PARAMETER_CONDITION_COMPARISON_VALUE',
 };
 
 export const AlertRuleExpressionParameterApiToAppTypeMap = {
@@ -352,6 +357,11 @@ export const AlertRuleExpressionParameterApiToAppTypeMap = {
     'event_name': AlertRuleExpressionParameterTypes.LOG_NAME,
     'event_id': AlertRuleExpressionParameterTypes.LOG_ID,
     'parameter_conditions': AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS,
+    'parameter_name': AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME,
+    'operator': AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR,
+    'parameter_type': AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE,
+    'nested_parameter_type': AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NESTED_TYPE,
+    'comparison_value': AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE,
 };
 
 export const AlertRuleExpressionParameterAppToApiTypeMap = {
@@ -366,6 +376,11 @@ export const AlertRuleExpressionParameterAppToApiTypeMap = {
     [AlertRuleExpressionParameterTypes.LOG_NAME]: 'event_name',
     [AlertRuleExpressionParameterTypes.LOG_ID]: 'event_id',
     [AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS]: 'parameter_conditions',
+    [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]: 'parameter_name',
+    [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]: 'operator',
+    [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE]: 'parameter_type',
+    [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NESTED_TYPE]: 'nested_parameter_type',
+    [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]: 'comparison_value',
 };
 
 /**
