@@ -144,7 +144,7 @@ class OptionParameterBuilder extends PureComponent {
                     }} options={getConditionOptionForParameter(selectedParameter)} onChange={this.handleParameterOperatorSelect}/>
                 </div>}
                 {!!selectedOperator && <div className="MarginTop2">
-                    <Input placeholder="Comparison value" value={comparisonValue} onChange={this.handleParameterConditionChange} field="comparisonValue"/>
+                    <Input placeholder="Comparison value" autoComplete="off" value={comparisonValue} onChange={this.handleParameterConditionChange} field="comparisonValue"/>
                     {!!comparisonValue && !isValidValueForParameterType(comparisonValue, selectedParameter.simpleType) && <div className="DangerText">
                         Invalid input value for <span className="MonospaceFont LinkText">{selectedParameter.type}</span> type
                     </div>}
