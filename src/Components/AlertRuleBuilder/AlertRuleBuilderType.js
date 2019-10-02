@@ -74,7 +74,7 @@ class AlertRuleBuilderType extends Component {
                                             selected={value === SimpleAlertRuleTypes.LOG_EMITTED}
                                             icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.LOG_EMITTED]}
                                             label={SimpleAlertRuleTypeLabelMap[SimpleAlertRuleTypes.LOG_EMITTED]}
-                                            description="Triggers whenever a specific event / log  is emitted in one of your contracts"/>
+                                            description="Triggers whenever a specific event/log  is emitted in one of your contracts"/>
                     <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER)}
                                             selected={value === SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER}
                                             icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER]}
