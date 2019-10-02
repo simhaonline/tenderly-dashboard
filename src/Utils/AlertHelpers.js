@@ -388,6 +388,8 @@ export function isValidValueForParameterType(value, type) {
         case ContractInputParameterSimpleTypes.ADDRESS:
             return isValidAddress(value);
         case ContractInputParameterSimpleTypes.HASH:
+        case ContractInputParameterSimpleTypes.BYTES:
+        case ContractInputParameterSimpleTypes.FIXED_BYTES:
             return _.startsWith(value, '0x');
         default:
             return true;
