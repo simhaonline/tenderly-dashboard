@@ -14,7 +14,6 @@ class ContractInputParameter {
     }
 
     static buildFromResponse(response) {
-        console.log(response.simple_type);
         return new ContractInputParameter({
             type: response.type,
             name: response.name,
