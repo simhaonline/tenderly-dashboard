@@ -3,6 +3,7 @@ import moment from "moment";
 import AlertRuleExpression from "./AlertRuleExpression.model";
 import {getSimpleRuleType} from "../../Utils/AlertHelpers";
 import {
+    AlertParameterConditionOperatorTypeLabelMap,
     AlertRuleExpressionParameterTypes,
     AlertRuleExpressionTypes,
     SimpleAlertRuleTypes
@@ -60,19 +61,35 @@ class AlertRule {
 
         switch (this.simpleType) {
             case SimpleAlertRuleTypes.LOG_EMITTED:
-                details = _.find(this.expressions, {
+            case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
+                const logExpressions = _.find(this.expressions, {
                     type: AlertRuleExpressionTypes.LOG_EMITTED,
-                }).parameters[AlertRuleExpressionParameterTypes.LOG_NAME];
+                });
+
+                const logName = logExpressions.parameters[AlertRuleExpressionParameterTypes.LOG_NAME];
+                const logCondition = logExpressions.parameters[AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS];
+
+                details = logName;
+
+                if (logCondition) {
+                    details = `${logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]} is ${AlertParameterConditionOperatorTypeLabelMap[logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]].toLowerCase()} ${logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]}`
+                }
                 break;
             case SimpleAlertRuleTypes.FUNCTION_CALLED:
+            case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
                 const methodExpression = _.find(this.expressions, {
                     type: AlertRuleExpressionTypes.METHOD_CALL,
                 });
 
                 const methodName = methodExpression.parameters[AlertRuleExpressionParameterTypes.METHOD_NAME];
                 const lineNumber = methodExpression.parameters[AlertRuleExpressionParameterTypes.LINE_NUMBER];
+                const methodCondition = methodExpression.parameters[AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS];
 
                 details = `${methodName}() at line ${lineNumber}`;
+
+                if (methodCondition) {
+                    details = `${methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]} is ${AlertParameterConditionOperatorTypeLabelMap[methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]].toLowerCase()} ${methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]}`
+                }
                 break;
             case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
                 details = _.find(this.expressions, {
