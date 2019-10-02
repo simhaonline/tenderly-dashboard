@@ -42,7 +42,7 @@ class AlertRuleBuilderDestinations extends Component {
                     </div>
                 </Card>)}
                 <Alert color="info">
-                    <div>Integrations are managed on an account level. If you wish to add another destination like a Slack channel, go to the Destinations tabs on the right.</div>
+                    <div>Integrations are managed on an account level. If you wish to add another destination like a Slack channel, go to the Destinations tabs on the left.</div>
                     <div className="MarginTop2">
                         <Button size="small" to={`/project/${projectId}/alerts/destinations`}>
                             <SlackIcon size={14}/>
