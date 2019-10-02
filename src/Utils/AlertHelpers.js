@@ -178,8 +178,9 @@ export function getSimpleAlertParametersForType(type, expressions) {
                 data.condition = {
                     name: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME],
                     type: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE],
+                    nestedType: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NESTED_TYPE],
                     operator: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR],
-                    value: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE],
+                    value: transformApiValueToValueForParameterType(logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE], logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE]),
                 };
             }
             break;
@@ -202,8 +203,9 @@ export function getSimpleAlertParametersForType(type, expressions) {
                 data.condition = {
                     name: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME],
                     type: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE],
+                    nestedType: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NESTED_TYPE],
                     operator: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR],
-                    value: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE],
+                    value: transformApiValueToValueForParameterType(methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE], methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE]),
                 };
             }
 
@@ -303,8 +305,9 @@ export function generateAlertRuleExpressions(type, target, parameters) {
                     [AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS]: {
                         [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]: parameters.condition.name,
                         [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE]: parameters.condition.type,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NESTED_TYPE]: parameters.condition.nestedType,
                         [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]: parameters.condition.operator,
-                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]: parameters.condition.value,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]: transformValueToApiValueForParameterType(parameters.condition.value, parameters.condition.type),
                     },
                 },
             }));
@@ -319,8 +322,9 @@ export function generateAlertRuleExpressions(type, target, parameters) {
                     [AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS]: {
                         [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]: parameters.condition.name,
                         [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE]: parameters.condition.type,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NESTED_TYPE]: parameters.condition.nestedType,
                         [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]: parameters.condition.operator,
-                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]: parameters.condition.value,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]: transformValueToApiValueForParameterType(parameters.condition.value, parameters.condition.type),
                     },
                 },
             }));
@@ -359,6 +363,8 @@ export function getConditionOptionForParameter(parameter) {
     switch (parameter.simpleType) {
         case ContractInputParameterSimpleTypes.INT:
         case ContractInputParameterSimpleTypes.UINT:
+        case ContractInputParameterSimpleTypes.BYTES:
+        case ContractInputParameterSimpleTypes.FIXED_BYTES:
             possibleOptions.push(
                 AlertParameterConditionOperatorTypes.GTE,
                 AlertParameterConditionOperatorTypes.GT,
@@ -377,8 +383,9 @@ export function getConditionOptionForParameter(parameter) {
 /**
  * @param {string} value
  * @param {ContractInputParameterSimpleTypes} type
+ * @param {ContractInputParameterSimpleTypes} [nestedType]
  */
-export function isValidValueForParameterType(value, type) {
+export function isValidValueForParameterType(value, type, nestedType) {
     if (!value || value.length === 0) return false;
 
     switch (type) {
@@ -390,8 +397,43 @@ export function isValidValueForParameterType(value, type) {
         case ContractInputParameterSimpleTypes.HASH:
         case ContractInputParameterSimpleTypes.BYTES:
         case ContractInputParameterSimpleTypes.FIXED_BYTES:
-            return _.startsWith(value, '0x');
+            return _.startsWith(value, '0x') && value.length > 2;
+        case ContractInputParameterSimpleTypes.SLICE:
+        case ContractInputParameterSimpleTypes.ARRAY:
+            return value.split(',').every(arrayValue => isValidValueForParameterType(arrayValue.trim(), nestedType));
         default:
             return true;
+    }
+}
+
+/**
+ * @param {string} value
+ * @param {ContractInputParameterSimpleTypes} type
+ */
+export function transformValueToApiValueForParameterType(value, type) {
+    switch (type) {
+        case ContractInputParameterSimpleTypes.SLICE:
+        case ContractInputParameterSimpleTypes.ARRAY:
+            return value.split(',').map(arrayValue => arrayValue.trim());
+        case ContractInputParameterSimpleTypes.BOOL:
+            return value === 'true';
+        default:
+            return value;
+    }
+}
+
+/**
+ * @param {string|string[]|boolean} value
+ * @param {ContractInputParameterSimpleTypes} type
+ */
+export function transformApiValueToValueForParameterType(value, type) {
+    switch (type) {
+        case ContractInputParameterSimpleTypes.SLICE:
+        case ContractInputParameterSimpleTypes.ARRAY:
+            return value.join(', ');
+        case ContractInputParameterSimpleTypes.BOOL:
+            return String(value);
+        default:
+            return value;
     }
 }
