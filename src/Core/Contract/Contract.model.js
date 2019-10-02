@@ -44,10 +44,6 @@ class Contract {
         /** @type NetworkTypes */
         this.network = NetworkApiToAppTypeMap[data.networkId];
 
-        // @TODO Fix this to not be hardcoded
-        /** @type Date */
-        this.lastDeploymentAt = data.createdAt;
-
         /** @type number */
         this.errorCount = data.errorCount;
 
