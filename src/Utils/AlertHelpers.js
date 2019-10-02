@@ -39,18 +39,30 @@ export function getSimpleRuleType(expressions) {
         recognizedType = SimpleAlertRuleTypes.FAILED_TX;
     }
 
-    if (_.find(expressions, {
+    const logEmittedExpression = _.find(expressions, {
         type: AlertRuleExpressionTypes.LOG_EMITTED,
-    })) {
+    });
+
+    if (logEmittedExpression) {
         advanced = !!recognizedType;
         recognizedType = SimpleAlertRuleTypes.LOG_EMITTED;
+
+        if (logEmittedExpression.parameters[AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS]) {
+            recognizedType = SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER;
+        }
     }
 
-    if (_.find(expressions, {
+    const methodCallExpression = _.find(expressions, {
         type: AlertRuleExpressionTypes.METHOD_CALL,
-    })) {
+    });
+
+    if (methodCallExpression) {
         advanced = !!recognizedType;
         recognizedType = SimpleAlertRuleTypes.FUNCTION_CALLED;
+
+        if (methodCallExpression.parameters[AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS]) {
+            recognizedType = SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER;
+        }
     }
 
     if (_.find(expressions, {
@@ -143,7 +155,7 @@ export function getSimpleAlertTarget(expressions, contracts, networks) {
 
 /**
  * @param {SimpleAlertRuleTypes} type
- * @param {AlertRuleExpression} expressions
+ * @param {AlertRuleExpression[]} expressions
  *
  * @returns {SimpleAlertRuleParameters}
  */
@@ -152,14 +164,27 @@ export function getSimpleAlertParametersForType(type, expressions) {
 
     switch (type) {
         case SimpleAlertRuleTypes.LOG_EMITTED:
+        case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
             const logExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.LOG_EMITTED);
 
             data = {
                 id: logExpression.parameters[AlertRuleExpressionParameterTypes.LOG_ID],
                 name: logExpression.parameters[AlertRuleExpressionParameterTypes.LOG_NAME],
             };
+
+            const logConditions = logExpression.parameters[AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS];
+
+            if (logConditions) {
+                data.condition = {
+                    name: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME],
+                    type: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE],
+                    operator: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR],
+                    value: logConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE],
+                };
+            }
             break;
         case SimpleAlertRuleTypes.FUNCTION_CALLED:
+        case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
             const methodExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.METHOD_CALL);
 
             const name = methodExpression.parameters[AlertRuleExpressionParameterTypes.METHOD_NAME];
@@ -170,12 +195,18 @@ export function getSimpleAlertParametersForType(type, expressions) {
                 name,
                 lineNumber,
             };
-            break;
-        case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
-            // @TODO
-            break;
-        case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
-            // @TODO
+
+            const methodConditions = methodExpression.parameters[AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS];
+
+            if (methodConditions) {
+                data.condition = {
+                    name: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME],
+                    type: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE],
+                    operator: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR],
+                    value: methodConditions[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE],
+                };
+            }
+
             break;
         case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
             const blacklistExpression = expressions.find(e => e.type === AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES);
@@ -263,10 +294,36 @@ export function generateAlertRuleExpressions(type, target, parameters) {
             }));
             break;
         case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
-            // @TODO
+            expressions.push(new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.METHOD_CALL,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.LINE_NUMBER]: parameters.lineNumber,
+                    [AlertRuleExpressionParameterTypes.METHOD_NAME]: parameters.name,
+                    [AlertRuleExpressionParameterTypes.CALL_POSITION]: 'any',
+                    [AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS]: {
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]: parameters.condition.name,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE]: parameters.condition.type,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]: parameters.condition.operator,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]: parameters.condition.value,
+                    },
+                },
+            }));
             break;
         case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
-            // @TODO
+            expressions.push(new AlertRuleExpression({
+                type: AlertRuleExpressionTypes.LOG_EMITTED,
+                parameters: {
+                    [AlertRuleExpressionParameterTypes.ADDRESS]: target.data.address,
+                    [AlertRuleExpressionParameterTypes.LOG_NAME]: parameters.name,
+                    [AlertRuleExpressionParameterTypes.LOG_ID]: parameters.id,
+                    [AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS]: {
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]: parameters.condition.name,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE]: parameters.condition.type,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]: parameters.condition.operator,
+                        [AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]: parameters.condition.value,
+                    },
+                },
+            }));
             break;
         case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
             expressions.push(new AlertRuleExpression({
