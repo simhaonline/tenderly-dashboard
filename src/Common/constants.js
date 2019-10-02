@@ -399,12 +399,12 @@ export const AlertParameterConditionOperatorTypes = {
  * @enum {string}
  */
 export const AlertParameterConditionOperatorTypeLabelMap = {
-    [AlertParameterConditionOperatorTypes.GTE]: "Greater than or equal",
+    [AlertParameterConditionOperatorTypes.GTE]: "Greater than or equal to",
     [AlertParameterConditionOperatorTypes.GT]: "Greater than",
-    [AlertParameterConditionOperatorTypes.LTE]: "Less than or equal",
+    [AlertParameterConditionOperatorTypes.LTE]: "Less than or equal to",
     [AlertParameterConditionOperatorTypes.LT]: "Less than",
-    [AlertParameterConditionOperatorTypes.EQ]: "Is equal",
-    [AlertParameterConditionOperatorTypes.NEQ]: "Is not equal",
+    [AlertParameterConditionOperatorTypes.EQ]: "Equal to",
+    [AlertParameterConditionOperatorTypes.NEQ]: "Not equal to",
 };
 
 /**
