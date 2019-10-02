@@ -331,7 +331,7 @@ class AlertRuleBuilder extends Component {
                     return !!selectedParameters
                         && !!selectedParameters.condition
                         && !!selectedParameters.condition.value
-                        && isValidValueForParameterType(selectedParameters.condition.value, selectedParameters.condition.type);
+                        && isValidValueForParameterType(selectedParameters.condition.value, selectedParameters.condition.type, selectedParameters.condition.nestedType);
                 default:
                     return false;
             }

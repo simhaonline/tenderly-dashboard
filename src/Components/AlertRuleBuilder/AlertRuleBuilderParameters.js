@@ -108,6 +108,7 @@ class OptionParameterBuilder extends PureComponent {
             data.condition = {
                 name: selectedParameter.name,
                 type: selectedParameter.simpleType,
+                nestedType: selectedParameter.nestedType,
             };
         }
 
@@ -145,7 +146,7 @@ class OptionParameterBuilder extends PureComponent {
                 </div>}
                 {!!selectedOperator && <div className="MarginTop2">
                     <Input placeholder="Comparison value" autoComplete="off" value={comparisonValue} onChange={this.handleParameterConditionChange} field="comparisonValue"/>
-                    {!!comparisonValue && !isValidValueForParameterType(comparisonValue, selectedParameter.simpleType) && <div className="DangerText">
+                    {!!comparisonValue && !isValidValueForParameterType(comparisonValue, selectedParameter.simpleType, selectedParameter.nestedType) && <div className="DangerText">
                         Invalid input value for <span className="MonospaceFont LinkText">{selectedParameter.type}</span> type
                     </div>}
                 </div>}
@@ -260,7 +261,7 @@ class AlertRuleBuilderParameters extends PureComponent {
         const {value, alertType} = this.props;
 
         if ([SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER, SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER].includes(alertType)) {
-            return !!value && !!value.condition && !!value.condition.value && isValidValueForParameterType(value.condition.value, value.condition.type);
+            return !!value && !!value.condition && !!value.condition.value && isValidValueForParameterType(value.condition.value, value.condition.type, value.condition.nestedType);
         }
 
         return !!value;
