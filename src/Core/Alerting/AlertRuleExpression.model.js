@@ -59,14 +59,18 @@ class AlertRuleExpression {
         return rawKeys.reduce((data, paramKey) => {
             const apiKey = AlertRuleExpressionParameterAppToApiTypeMap[paramKey];
 
-            if (paramKey === AlertRuleExpressionParameterTypes.NETWORK_ID) {
-                data[apiKey] = NetworkAppToApiTypeMap[parameters[paramKey]].toString();
-            } else if (paramKey === AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS) {
-                data[apiKey] = [
-                    AlertRuleExpression.transformExpressionParametersToApi(parameters[paramKey]),
-                ];
-            } else {
-                data[apiKey] = parameters[paramKey];
+            switch (paramKey) {
+                case AlertRuleExpressionParameterTypes.NETWORK_ID:
+                    data[apiKey] = NetworkAppToApiTypeMap[parameters[paramKey]].toString();
+                    break;
+                case AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS:
+                    data[apiKey] = [
+                        AlertRuleExpression.transformExpressionParametersToApi(parameters[paramKey]),
+                    ];
+                    break;
+                default:
+                    data[apiKey] = parameters[paramKey];
+                    break;
             }
 
             return data;
