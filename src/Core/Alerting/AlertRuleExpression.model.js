@@ -11,7 +11,7 @@ class AlertRuleExpression {
         /** @type AlertRuleExpressionTypes */
         this.type = data.type;
 
-        /** @type {Object.<AlertRuleExpressionParameterTypes, (string|AlertRuleParameterCondition)>} */
+        /** @type {Object.<AlertRuleExpressionParameterTypes, (string|number|Object)>} */
         this.parameters = data.parameters;
     }
 
@@ -36,10 +36,12 @@ class AlertRuleExpression {
         return rawKeys.reduce((data, paramKey) => {
             const appKey = AlertRuleExpressionParameterApiToAppTypeMap[paramKey];
 
-            data[appKey] = rawParameters[paramKey];
-
             if (appKey === AlertRuleExpressionParameterTypes.NETWORK_ID) {
                 data[appKey] = NetworkApiToAppTypeMap[parseInt(rawParameters[paramKey])];
+            } else if (appKey === AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS) {
+                data[appKey] = AlertRuleExpression.transformExpressionParametersToApp(rawParameters[paramKey][0]);
+            } else {
+                data[appKey] = rawParameters[paramKey];
             }
 
             return data;
@@ -56,10 +58,15 @@ class AlertRuleExpression {
 
         return rawKeys.reduce((data, paramKey) => {
             const apiKey = AlertRuleExpressionParameterAppToApiTypeMap[paramKey];
-            data[apiKey] = parameters[paramKey];
 
             if (paramKey === AlertRuleExpressionParameterTypes.NETWORK_ID) {
                 data[apiKey] = NetworkAppToApiTypeMap[parameters[paramKey]].toString();
+            } else if (paramKey === AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS) {
+                data[apiKey] = [
+                    AlertRuleExpression.transformExpressionParametersToApi(parameters[paramKey]),
+                ];
+            } else {
+                data[apiKey] = parameters[paramKey];
             }
 
             return data;
