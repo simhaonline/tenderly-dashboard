@@ -1,7 +1,7 @@
 import moment from "moment";
 
 import AlertRuleExpression from "./AlertRuleExpression.model";
-import {getSimpleRuleType} from "../../Utils/AlertHelpers";
+import {getSimpleRuleType, transformApiValueToValueForParameterType} from "../../Utils/AlertHelpers";
 import {
     AlertParameterConditionOperatorTypeLabelMap,
     AlertRuleExpressionParameterTypes,
@@ -72,7 +72,7 @@ class AlertRule {
                 details = logName;
 
                 if (logCondition) {
-                    details = `${logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]} is ${AlertParameterConditionOperatorTypeLabelMap[logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]].toLowerCase()} ${logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]}`
+                    details = `${logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]} is ${AlertParameterConditionOperatorTypeLabelMap[logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]].toLowerCase()} ${transformApiValueToValueForParameterType(logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE], logCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE])}`
                 }
                 break;
             case SimpleAlertRuleTypes.FUNCTION_CALLED:
@@ -88,7 +88,7 @@ class AlertRule {
                 details = `${methodName}() at line ${lineNumber}`;
 
                 if (methodCondition) {
-                    details = `${methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]} is ${AlertParameterConditionOperatorTypeLabelMap[methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]].toLowerCase()} ${methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE]}`
+                    details = `${methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_NAME]} is ${AlertParameterConditionOperatorTypeLabelMap[methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_OPERATOR]].toLowerCase()} ${transformApiValueToValueForParameterType(methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_COMPARISON_VALUE], methodCondition[AlertRuleExpressionParameterTypes.PARAMETER_CONDITION_TYPE])}`
                 }
                 break;
             case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
