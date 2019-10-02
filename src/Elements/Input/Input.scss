@@ -61,7 +61,7 @@
   }
 
   &:hover {
-    background-color: $Slate200;
+    background-color: darken($Slate100, 3);
   }
 
   &.Active {
@@ -69,7 +69,7 @@
   }
 
   &.Focused {
-    background-color: $Slate200;
+    background-color: darken($Slate100, 3);
     box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
     border-color: $Primary500;
   }

@@ -4,20 +4,20 @@
   position: relative;
 
   .Select__control {
-    background: $Slate300;
+    background: $Slate100;
     border: 1px solid transparentize($Primary500, 0.5);
     cursor: pointer;
     border-radius: 3px;
 
     &:hover {
       border: 1px solid transparentize($Primary500, 0.5);
-      background-color: $Slate200;
+      background-color: darken($Slate100, 3);
     }
 
     &--is-focused {
       box-shadow: 0 0 0 3px transparentize($Primary500, 0.6);
       border-color: $Primary500;
-      background-color: $Slate200;
+      background-color: darken($Slate100, 3);
 
       &:hover {
         border-color: $Primary500;
@@ -68,7 +68,7 @@
   }
 
   .Select__placeholder {
-    color: transparentize($WhiteColor, 0.3);
+    color: transparentize($WhiteColor, 0.1);
   }
 
   .Select__input {
