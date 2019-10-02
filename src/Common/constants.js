@@ -410,10 +410,10 @@ export const AlertParameterConditionOperatorTypeLabelMap = {
 /**
  * @typedef {Object} AlertRuleParameterCondition
  * @property {string} name
- * @property {string} type
- * @property {string} nestedType
+ * @property {ContractInputParameterSimpleTypes} type
+ * @property {ContractInputParameterSimpleTypes} [nestedType]
  * @property {AlertParameterConditionOperatorTypes} operator
- * @property {any} value
+ * @property {string|number} value
  */
 
 /**
