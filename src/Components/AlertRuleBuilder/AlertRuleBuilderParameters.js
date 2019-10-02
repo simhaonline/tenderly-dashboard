@@ -1,6 +1,10 @@
 import React, {PureComponent} from 'react';
 import * as _ from "lodash";
-import {SimpleAlertRuleTargetTypes, SimpleAlertRuleTypes} from "../../Common/constants";
+import {
+    AlertParameterConditionOperatorTypeLabelMap,
+    SimpleAlertRuleTargetTypes,
+    SimpleAlertRuleTypes
+} from "../../Common/constants";
 
 import {isValidAddress} from "../../Utils/Ethereum";
 import {
@@ -30,14 +34,23 @@ class OptionParameterBuilder extends PureComponent {
     constructor(props) {
         super(props);
 
-        // @TODO Handle initial state
+        const {value, options} = props;
+
+        /** @type {(ContractMethod|ContractLog)} */
+        const option = value && value.id ? options.find(o => o.id === value.id) : null;
+
+        /** @type {AlertRuleParameterCondition} */
+        const condition = value && value.condition ? value.condition : {};
 
         this.state = {
-            selectedOption: null,
-            parameterOptions: [],
-            selectedParameter: null,
-            selectedOperator: null,
-            selectedCondition: '',
+            selectedOption: option,
+            parameterOptions: option ? option.inputs : [],
+            selectedParameter: option && condition.name ? option.inputs.find(input => input.name === condition.name) : null,
+            selectedOperator: condition.operator ? {
+                value: condition.operator,
+                label: AlertParameterConditionOperatorTypeLabelMap[condition.operator],
+            } : null,
+            comparisonValue: condition ? condition.value || '' : '',
         };
     }
 
@@ -50,8 +63,8 @@ class OptionParameterBuilder extends PureComponent {
             parameterOptions: option.inputs,
             selectedParameter: null,
             selectedOperator: null,
-            selectedCondition: '',
-        });
+            comparisonValue: '',
+        }, this.propagateChanges);
     };
 
     /**
@@ -61,8 +74,8 @@ class OptionParameterBuilder extends PureComponent {
         this.setState({
             selectedParameter: parameter,
             selectedOperator: null,
-            selectedCondition: '',
-        });
+            comparisonValue: '',
+        }, this.propagateChanges);
     };
 
     /**
@@ -71,33 +84,70 @@ class OptionParameterBuilder extends PureComponent {
     handleParameterOperatorSelect = (operatorOption) => {
         this.setState({
             selectedOperator: operatorOption,
-        });
+        }, this.propagateChanges);
     };
 
+    /**
+     * @param {string} field
+     * @param {string} value
+     */
     handleParameterConditionChange = (field, value) => {
         this.setState({
-            selectedCondition: value,
-        });
+            comparisonValue: value,
+        }, this.propagateChanges);
+    };
+
+    propagateChanges = () => {
+        const {onChange} = this.props;
+        const {selectedOption, selectedParameter, selectedOperator, comparisonValue} = this.state;
+
+        /** @type {SimpleAlertRuleParameters} */
+        const data = _.pick(selectedOption, ['id', 'name', 'lineNumber']);
+
+        if (selectedParameter) {
+            data.condition = {
+                name: selectedParameter.name,
+                type: selectedParameter.simpleType,
+            };
+        }
+
+        if (selectedOperator) {
+            data.condition.operator = selectedOperator.value;
+        }
+
+        if (comparisonValue) {
+            data.condition.value = comparisonValue;
+        }
+
+        onChange(data);
     };
 
     render() {
         const {options} = this.props;
-        const {selectedOption, parameterOptions, selectedParameter, selectedOperator, selectedCondition} = this.state;
+        const {selectedOption, parameterOptions, selectedParameter, selectedOperator, comparisonValue} = this.state;
 
         return (
-            <div>
-                <Select value={selectedOption} options={options} onChange={this.handleOptionSelect} components={{
-                    Option: ContractMethodOrLogSelectOption,
-                }} getOptionLabel={option => option.name} getOptionValue={option => option.id}/>
-                {!!selectedOption && <Select value={selectedParameter} options={parameterOptions} onChange={this.handleParameterSelect} components={{
-                    Option: ContractInputSelectOption,
-                }} getOptionLabel={option => option.name} getOptionValue={option => option.name}/>}
-                {!!selectedParameter && <Select value={selectedOperator} components={{
-                    Option: ConditionOperatorSelectOption,
-                }} options={getConditionOptionForParameter(selectedParameter)} onChange={this.handleParameterOperatorSelect}/>}
-                {!!selectedOperator && <Input value={selectedCondition} onChange={this.handleParameterConditionChange} field="selectedCondition"/>}
-                {!!selectedCondition && !isValidValueForParameterType(selectedCondition, selectedParameter.simpleType) && <div className="DangerText">
-                    No valid input
+            <div className="OptionParameterBuilder">
+                <div>
+                    <Select selectLabel="Select" value={selectedOption} options={options} onChange={this.handleOptionSelect} components={{
+                        Option: ContractMethodOrLogSelectOption,
+                    }} getOptionLabel={option => option.name} getOptionValue={option => option.id}/>
+                </div>
+                {!!selectedOption && <div className="MarginTop2">
+                    <Select selectLabel="Select argument" value={selectedParameter} options={parameterOptions} onChange={this.handleParameterSelect} components={{
+                        Option: ContractInputSelectOption,
+                    }} getOptionLabel={option => option.name} getOptionValue={option => option.name}/>
+                </div>}
+                {!!selectedParameter && <div className="MarginTop2">
+                    <Select selectLabel="Select comparator" value={selectedOperator} components={{
+                        Option: ConditionOperatorSelectOption,
+                    }} options={getConditionOptionForParameter(selectedParameter)} onChange={this.handleParameterOperatorSelect}/>
+                </div>}
+                {!!selectedOperator && <div className="MarginTop2">
+                    <Input placeholder="Comparison value" value={comparisonValue} onChange={this.handleParameterConditionChange} field="comparisonValue"/>
+                    {!!comparisonValue && !isValidValueForParameterType(comparisonValue, selectedParameter.simpleType) && <div className="DangerText">
+                        Invalid input value for <span className="MonospaceFont LinkText">{selectedParameter.type}</span> type
+                    </div>}
                 </div>}
             </div>
         );
@@ -207,7 +257,11 @@ class AddressListParameters extends PureComponent {
 
 class AlertRuleBuilderParameters extends PureComponent {
     isStepCompleted = () => {
-        const {value} = this.props;
+        const {value, alertType} = this.props;
+
+        if ([SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER, SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER].includes(alertType)) {
+            return !!value && !!value.condition && !!value.condition.value && isValidValueForParameterType(value.condition.value, value.condition.type);
+        }
 
         return !!value;
     };
@@ -216,6 +270,8 @@ class AlertRuleBuilderParameters extends PureComponent {
         const {value, alertTarget, alertType} = this.props;
 
         const type = value ? alertType : null;
+
+        // @TODO Handle whitelisted, blacklisted, function arguments and event arguments
 
         switch (type) {
             case SimpleAlertRuleTypes.LOG_EMITTED:
