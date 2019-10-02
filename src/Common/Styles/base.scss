@@ -211,4 +211,11 @@
   }
 }
 
+// @TODO This so doesn't belong here :(
+.ContractPickerList__Item__Blockie {
+  border-radius: 4px;
+  box-shadow: 1px 1px 3px 0 transparentize($BlackColor, 0.85);
+  margin-right: $Spacing2;
+}
+
 @import "animations";
