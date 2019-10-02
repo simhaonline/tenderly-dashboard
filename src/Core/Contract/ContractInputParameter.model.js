@@ -8,13 +8,18 @@ class ContractInputParameter {
 
         /** @type {ContractInputParameterSimpleTypes} */
         this.simpleType = data.simpleType;
+
+        /** @type {ContractInputParameterSimpleTypes} */
+        this.nestedType = data.nestedType;
     }
 
     static buildFromResponse(response) {
+        console.log(response.simple_type);
         return new ContractInputParameter({
             type: response.type,
             name: response.name,
             simpleType: response.simple_type ? response.simple_type.type : null,
+            nestedType: response.simple_type && response.simple_type.nested_type ? response.simple_type.nested_type.type : null,
         });
     }
 }
