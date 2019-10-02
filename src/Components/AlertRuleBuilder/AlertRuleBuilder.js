@@ -8,7 +8,7 @@ import Analytics from "../../Utils/Analytics";
 import {
     generateAlertRuleExpressions,
     getSimpleAlertParametersForType,
-    getSimpleAlertTarget,
+    getSimpleAlertTarget, isValidValueForParameterType,
     simpleAlertTypeRequiresContract,
     simpleAlertTypeRequiresParameters
 } from "../../Utils/AlertHelpers";
@@ -213,9 +213,11 @@ class AlertRuleBuilder extends Component {
         switch(type) {
             case SimpleAlertRuleTypes.FUNCTION_CALLED:
             case SimpleAlertRuleTypes.LOG_EMITTED:
+            case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
+            case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
             case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
             case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
-                const data = _.pick(option, ['id', 'name', 'lineNumber', 'addresses']);
+                const data = _.pick(option, ['id', 'name', 'lineNumber', 'addresses', 'condition']);
 
                 this.setState({
                     selectedParameters: data,
@@ -318,6 +320,12 @@ class AlertRuleBuilder extends Component {
                 case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
                 case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
                     return !!selectedParameters && !!selectedParameters.addresses && selectedParameters.addresses.length > 0;
+                case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
+                case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
+                    return !!selectedParameters
+                        && !!selectedParameters.condition
+                        && !!selectedParameters.condition.value
+                        && isValidValueForParameterType(selectedParameters.condition.value, selectedParameters.condition.type);
                 default:
                     return false;
             }
