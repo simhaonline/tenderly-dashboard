@@ -70,11 +70,6 @@ class AlertRuleBuilderType extends Component {
                                             icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.FUNCTION_CALLED]}
                                             label={SimpleAlertRuleTypeLabelMap[SimpleAlertRuleTypes.FUNCTION_CALLED]}
                                             description="Triggers whenever a specific function is called in one of your contracts"/>
-                    <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER)}
-                                            selected={value === SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER}
-                                            icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]}
-                                            label={SimpleAlertRuleTypeLabelMap[SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]}
-                                            description="Triggers whenever a specific argument in a function matches the set conditions."/>
                     <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.LOG_EMITTED)}
                                             selected={value === SimpleAlertRuleTypes.LOG_EMITTED}
                                             icon={SimpleAlertRuleTypeIconMap[SimpleAlertRuleTypes.LOG_EMITTED]}
