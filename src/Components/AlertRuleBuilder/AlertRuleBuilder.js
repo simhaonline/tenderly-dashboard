@@ -279,7 +279,13 @@ class AlertRuleBuilder extends Component {
                 message = `Function ${selectedParameters.name} called`;
                 break;
             case SimpleAlertRuleTypes.LOG_EMITTED:
-                message = `Event / Log ${selectedParameters.name} emitted`;
+                message = `Event/Log ${selectedParameters.name} emitted`;
+                break;
+            case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
+                message = `Event/Log argument in ${selectedParameters.name} matched`;
+                break;
+            case SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER:
+                message = `Function argument in ${selectedParameters.name} matched`;
                 break;
             default:
                 break;
