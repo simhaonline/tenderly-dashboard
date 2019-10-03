@@ -17,7 +17,7 @@ export function getDashboardProjects(state, includeExample = true) {
 
 /**
  * @param {Object} state
- * @param {string} id
+ * @param {Project.id} id
  * @returns {Project}
  */
 export function getProject(state, id) {
@@ -26,7 +26,7 @@ export function getProject(state, id) {
 
 /**
  * @param {Object} state
- * @param {string} projectId
+ * @param {Project.id} projectId
  * @returns {boolean}
  */
 export function areProjectContractsLoaded(state, projectId) {
