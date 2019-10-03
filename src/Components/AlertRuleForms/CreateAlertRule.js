@@ -46,7 +46,7 @@ class CreateAlertRule extends Component {
     handleCreateCancel = () => {
         const {history, project} = this.props;
 
-        history.push(`/project/${project.id}/alerts/rules`);
+        history.push(`/${project.owner}/${project.slug}/alerts/rules`);
     };
 
     /**
@@ -57,7 +57,7 @@ class CreateAlertRule extends Component {
     handleCreateSubmit = async (general, expressions, destinations) => {
         const {project, actions} = this.props;
 
-        const response = await actions.createAlertRuleForProject(project.id, general, expressions, destinations);
+        const response = await actions.createAlertRuleForProject(project, general, expressions, destinations);
 
         if (response.success) {
             this.setState({

@@ -157,7 +157,6 @@ const mapStateToProps = (state, ownProps) => {
         transaction,
         networkType,
         project,
-        projectId: project.id,
         callTrace: getTransactionCallTrace(state, txHash),
         stackTrace: getTransactionStackTrace(state, txHash),
         eventLogs: getTransactionEventLogs(state, txHash),

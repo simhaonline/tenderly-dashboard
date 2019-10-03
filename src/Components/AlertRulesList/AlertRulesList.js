@@ -73,7 +73,7 @@ class AlertRulesList extends Component {
     };
 
     render() {
-        const {areRulesLoaded, rules, projectId, project} = this.props;
+        const {areRulesLoaded, rules, project} = this.props;
         const {createProjectModalOpen} = this.state;
 
         const isDemoProject = project.type === ProjectTypes.DEMO;
@@ -94,7 +94,7 @@ class AlertRulesList extends Component {
                     </div>}
                     {pageLoaded && !!rules.length && <div className="ActiveRules">
                         <List>
-                            {_.sortBy(rules, 'createdAt').map(rule => <ListItem key={rule.id} className="ActiveRules__Rule" to={`/project/${projectId}/alerts/rules/${rule.id}`} selectable>
+                            {_.sortBy(rules, 'createdAt').map(rule => <ListItem key={rule.id} className="ActiveRules__Rule" to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}`} selectable>
                                 <div className="ActiveRules__Rule__Info">
                                     <div className="SemiBoldText ActiveRules__Rule__Info__Name">{rule.name}</div>
                                     {!!rule.description && <div className="MutedText ActiveRules__Rule__Info__Description">{rule.description}</div>}
@@ -109,7 +109,7 @@ class AlertRulesList extends Component {
                                             <Icon icon="more-vertical" className="MoreIcon"/>
                                         </DropdownToggle>
                                         <DropdownMenu>
-                                            <Link to={`/project/${projectId}/alerts/rules/${rule.id}`}>
+                                            <Link to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}`}>
                                                 <DropdownItem>View Alert</DropdownItem>
                                             </Link>
                                             <DropdownItem onClick={() => this.toggleAlertRule(rule)}>
@@ -127,11 +127,11 @@ class AlertRulesList extends Component {
                             Setup alerts and be notified the moment events like <span className="SemiBoldText">transaction failures</span>, <span className="SemiBoldText">method calls</span> or <span className="SemiBoldText">blacklisted callers</span> happen on any of your Smart Contracts.
                         </span>} renderActions={() => <Fragment>
                             <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                                <Button color="secondary" width={160} outline to={`/project/${projectId}/alerts/rules/templates`}>
+                                <Button color="secondary" width={160} outline to={`/${project.owner}/${project.slug}/alerts/rules/templates`}>
                                     <span>Browse Templates</span>
                                 </Button>
                             </FeatureFlag>
-                            {!isDemoProject && <Button color="secondary" width={160} to={`/project/${projectId}/alerts/rules/create`} onClick={() => Analytics.trackEvent('create_alert_button_clicked')}>
+                            {!isDemoProject && <Button color="secondary" width={160} to={`/${project.owner}/${project.slug}/alerts/rules/create`} onClick={() => Analytics.trackEvent('create_alert_button_clicked')}>
                                 <span>Setup an Alert</span>
                             </Button>}
                             {isDemoProject && <Fragment>
@@ -154,7 +154,6 @@ const mapStateToProps = (state, ownProps) => {
     const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
-        projectId: project.id,
         project,
         rules: getAlertRulesForProject(state, project.id),
         areRulesLoaded: areAlertRulesLoadedForProject(state, project),

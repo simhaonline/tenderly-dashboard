@@ -24,10 +24,10 @@ export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PRO
 /**
  * @TODO update everywhere with username
  * @param {string} name
- * @param {User.username} username
+ * @param {User.username} [username]
  * @returns {Function}
  */
-export const createProject = (name, username) => {
+export const createProject = (name, username = 'me') => {
     return async (dispatch, getState) => {
         const state = getState();
         const {auth: {user: {showDemo}}} = state;

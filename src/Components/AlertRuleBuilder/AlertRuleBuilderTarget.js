@@ -23,7 +23,7 @@ class AlertRuleBuilderTarget extends Component {
      * @return {string}
      */
     getStepDescription = () => {
-        const {value, contracts, projectId} = this.props;
+        const {value, contracts, project} = this.props;
 
         const type = value ? value.type : null;
 
@@ -37,7 +37,7 @@ class AlertRuleBuilderTarget extends Component {
 
                 return `All contract that have been deployed on ${value.data.name}`;
             case SimpleAlertRuleTargetTypes.PROJECT:
-                return `All contracts in the ${projectId} project (total of ${contracts.length} contracts)`;
+                return `All contracts in the ${project.slug} project (total of ${contracts.length} contracts)`;
             default:
                 return 'Select contracts for which the alert will be triggered.'
         }

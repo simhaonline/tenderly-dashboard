@@ -60,7 +60,7 @@ class CreateProjectPage extends Component {
         const {projectCreated, project, error} = this.state;
 
         if (projectCreated) {
-            return <Redirect to={`/project/${project.id}`}/>;
+            return <Redirect to={`/${project.owner}/${project.slug}`}/>;
         }
 
         return (

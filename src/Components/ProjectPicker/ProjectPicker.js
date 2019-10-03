@@ -20,7 +20,7 @@ class ProjectPicker extends Component {
         super(props);
 
         this.state = {
-            currentProject: props.project.id,
+            currentProject: props.project,
             projectsDropdownOpen: false,
         };
     };
@@ -46,7 +46,7 @@ class ProjectPicker extends Component {
 
     switchProject = (project) => {
         this.setState({
-            currentProject: project.id,
+            currentProject: project,
             projectsDropdownOpen: false,
         });
     };
@@ -55,8 +55,8 @@ class ProjectPicker extends Component {
         const {project, projects, projectsLoaded} = this.props;
         const {currentProject, projectsDropdownOpen} = this.state;
 
-        if (project.id !== currentProject) {
-            return <Redirect to={`/project/${currentProject}`}/>
+        if (project.id !== currentProject.id) {
+            return <Redirect to={`/${currentProject.owner}/${currentProject.slug}`}/>
         }
 
         return (
@@ -78,7 +78,7 @@ class ProjectPicker extends Component {
                         </div>}
                         {projectsLoaded && projects.map(project => <div key={project.id} className={classNames(
                             "ProjectDropdownItem",
-                            {"Active": currentProject === project.id}
+                            {"Active": currentProject.id === project.id,},
                         )} onClick={() => this.switchProject(project)}>
                             <Icon icon="project" className="ProjectIcon"/>
                             <div>

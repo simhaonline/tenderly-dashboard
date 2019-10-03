@@ -20,9 +20,10 @@ const alertHistoryTableConf = [
         label: "Alert",
         renderColumn: (log, metadata) => {
             let rule = metadata.rules.find(rule => rule.id === log.alertRule);
+            const {project} = metadata;
 
             return <div>
-                {!!rule && <Link to={`/project/${metadata.projectId}/alerts/rules/${rule.id}`}>{rule.name}</Link>}
+                {!!rule && <Link to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}`}>{rule.name}</Link>}
                 {!rule && <span>{log.alertRule}</span>}
             </div>;
         },
@@ -30,10 +31,10 @@ const alertHistoryTableConf = [
     {
         label: "Tx Hash",
         renderColumn: (log, metadata) => {
-            const {slug, username} = Project.getSlugAndUsernameFromId(metadata.projectId);
+            const {project} = metadata;
 
             return <div>
-                <Link className="MonospaceFont" to={`/${username}/${slug}/tx/${NetworkAppToRouteTypeMap[log.network]}/${log.txHash}`}>{generateShortAddress(log.txHash, 12, 6)}</Link>
+                <Link className="MonospaceFont" to={`/${project.owner}/${project.slug}/tx/${NetworkAppToRouteTypeMap[log.network]}/${log.txHash}`}>{generateShortAddress(log.txHash, 12, 6)}</Link>
             </div>
         },
     },
@@ -114,7 +115,7 @@ class ProjectAlertHistory extends Component {
     };
 
     render() {
-        const {areRulesLoaded, rules, projectId} = this.props;
+        const {areRulesLoaded, rules, project} = this.props;
         const {initiallyLoaded, loading, alertLogs, page} = this.state;
 
         const hasLoaded = areRulesLoaded && initiallyLoaded;
@@ -130,7 +131,7 @@ class ProjectAlertHistory extends Component {
                 </Panel>}
                 {hasLoaded && <Table data={alertLogs} emptyStateLabel="No alert history" metadata={{
                     rules,
-                    projectId,
+                    project,
                 }} configuration={alertHistoryTableConf} currentPage={page} onPageChange={this.handlePageChange} keyAccessor="txHash" loading={loading}/>}
             </Fragment>
         );
@@ -141,7 +142,6 @@ const mapStateToProps = (state, ownProps) => {
     const {project} = ownProps;
 
     return {
-        projectId: project.id,
         project,
         rules: getAlertRulesForProject(state, project.id),
         areRulesLoaded: areAlertRulesLoadedForProject(state, project),

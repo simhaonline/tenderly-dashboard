@@ -275,7 +275,7 @@ class ProjectSetupGuide extends Component {
                 addingManualContractStep: "fetching_project",
             });
             setTimeout(async () => {
-                await actions.fetchProject(project.id);
+                await actions.fetchProject(project.slug, project.owner);
                 this.handleDialogClose();
             }, 1000);
 
@@ -546,7 +546,7 @@ class ProjectSetupGuide extends Component {
                             )}>
                                 <div className="StepContent">
                                     <p>Go to the root of your smart contract project. Tenderly uses the Truffle framework to track where your contracts have been deployed.</p>
-                                    <Code>cd {project.id}</Code>
+                                    <Code>cd {project.slug}</Code>
                                     <p>Use the init command to link your local project with the dashboard.</p>
                                     <Code copy="tenderly init">tenderly init</Code>
                                     <p>You can read more about <a target="_blank" rel="noopener noreferrer" href="https://docs.tenderly.dev/#/how-tenderly-integrates">how Tenderly integrates with Truffle</a> in this link.</p>

@@ -25,7 +25,7 @@ class AlertRuleBuilderDestinations extends Component {
     };
 
     render() {
-        const {destinations, selected, alertType, onSelect, onToggle, number, isActiveStep, projectId} = this.props;
+        const {destinations, selected, alertType, onSelect, onToggle, number, isActiveStep, project} = this.props;
 
         return (
             <AlertRuleBuilderStep number={number} onToggle={onToggle} label="Destinations"
@@ -44,7 +44,7 @@ class AlertRuleBuilderDestinations extends Component {
                 <Alert color="info">
                     <div>Integrations are managed on an account level. If you wish to add another destination like a Slack channel, go to the Destinations tabs on the left.</div>
                     <div className="MarginTop2">
-                        <Button size="small" to={`/project/${projectId}/alerts/destinations`}>
+                        <Button size="small" to={`/${project.owner}/${project.slug}/alerts/destinations`}>
                             <SlackIcon size={14}/>
                             <span className="MarginLeft1">Integrate Slack</span>
                         </Button>

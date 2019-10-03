@@ -205,16 +205,16 @@ export const deleteContract = (project, contractAddress, network) => {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} contractAddress
  * @param {NetworkTypes} network
  */
-export const fetchMethodsForContract = (projectId, contractAddress, network) => {
+export const fetchMethodsForContract = (project, contractAddress, network) => {
     return async dispatch => {
         try {
             const apiNetworkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}/methods`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}/methods`);
 
             if (!data) {
                 return new ErrorActionResponse();
@@ -237,16 +237,16 @@ export const fetchMethodsForContract = (projectId, contractAddress, network) => 
 };
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} contractAddress
  * @param {NetworkTypes} network
  */
-export const fetchLogsForContract = (projectId, contractAddress, network) => {
+export const fetchLogsForContract = (project, contractAddress, network) => {
     return async dispatch => {
         try {
             const apiNetworkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}/logs`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}/logs`);
 
             if (!data || !data.events) {
                 return new ErrorActionResponse();

@@ -131,7 +131,7 @@ class AlertRuleBuilder extends Component {
     fetchMethodsForTarget = async (contract) => {
         const {contractActions, project} = this.props;
 
-        const response = await contractActions.fetchMethodsForContract(project.id, contract.address, contract.network);
+        const response = await contractActions.fetchMethodsForContract(project, contract.address, contract.network);
 
         if (response.success) {
             this.setState({
@@ -147,7 +147,7 @@ class AlertRuleBuilder extends Component {
     fetchLogsForTarget = async (contract) => {
         const {contractActions, project} = this.props;
 
-        const response = await contractActions.fetchLogsForContract(project.id, contract.address, contract.network);
+        const response = await contractActions.fetchLogsForContract(project, contract.address, contract.network);
 
         if (response.success) {
             this.setState({
@@ -292,7 +292,7 @@ class AlertRuleBuilder extends Component {
         }
 
         if (selectedTarget.type === SimpleAlertRuleTargetTypes.PROJECT) {
-            message += ` in ${project.id}`;
+            message += ` in ${project.slug}`;
         } else if (selectedTarget.type === SimpleAlertRuleTargetTypes.CONTRACT) {
             message += ` in ${selectedTarget.data.name}`;
         } else if (selectedTarget.type === SimpleAlertRuleTargetTypes.NETWORK) {
@@ -374,7 +374,7 @@ class AlertRuleBuilder extends Component {
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
                             return <AlertRuleBuilderTarget {...commonProps} onSelect={this.handleAlertTargetSelect}
-                                                           projectId={project.id} contracts={contracts} networks={networks}
+                                                           project={project} contracts={contracts} networks={networks}
                                                            alertType={selectedType} value={selectedTarget}/>;
                         case AlertRuleBuilderSteps.PARAMETERS:
                             return <AlertRuleBuilderParameters {...commonProps} loading={fetchingParameterOptions} onChange={this.handleAlertParametersChange}
@@ -384,7 +384,7 @@ class AlertRuleBuilder extends Component {
                             return <AlertRuleBuilderAdvanced {...commonProps} contracts={contracts} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.DESTINATIONS:
                             return <AlertRuleBuilderDestinations {...commonProps} destinations={destinations} selected={selectedDestinations}
-                                                                 alertType={selectedType} projectId={project.id} onSelect={this.handleAlertDestinationsSelect}/>;
+                                                                 alertType={selectedType} project={project} onSelect={this.handleAlertDestinationsSelect}/>;
                         default:
                             return null;
                     }

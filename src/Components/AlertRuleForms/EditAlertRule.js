@@ -54,7 +54,7 @@ class EditAlertRule extends Component {
     handleEditingCancel = () => {
         const {history, project, rule} = this.props;
 
-        history.push(`/project/${project.id}/alerts/rules/${rule.id}`);
+        history.push(`/${project.owner}/${project.slug}/alerts/rules/${rule.id}`);
     };
 
     /**
@@ -87,14 +87,14 @@ class EditAlertRule extends Component {
         const pageLoaded = areContractsLoaded && destinationsLoaded && isRuleLoaded;
 
         if (redirectBackToRule) {
-            return <Redirect to={`/project/${project.id}/alerts/rules/${rule.id}`}/>
+            return <Redirect to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}`}/>
         }
 
         return (
             <Panel>
                 <PanelHeader>
                     <h3>
-                        {pageLoaded && <Link to={`/project/${project.id}/alerts/rules/${rule.id}`}>Back to Alert</Link>}
+                        {pageLoaded && <Link to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}`}>Back to Alert</Link>}
                         {pageLoaded && <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>}
                         <span>Edit Alert</span>
                     </h3>

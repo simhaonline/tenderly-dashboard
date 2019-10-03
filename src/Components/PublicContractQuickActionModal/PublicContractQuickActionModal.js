@@ -166,7 +166,7 @@ class PublicContractQuickActionModal extends Component {
             return;
         }
 
-        await actions.fetchProject(selectedProject.id);
+        await actions.fetchProject(selectedProject.slug, selectedProject.owner);
         await contractActions.fetchContractsForProject(selectedProject);
 
         this.goToProjectBasedOnAction(projectId);
