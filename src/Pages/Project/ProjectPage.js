@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Helmet} from "react-helmet";
 
+import {Project} from "../../Core/models";
+
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import * as projectActions from "../../Core/Project/Project.actions";
 
@@ -28,10 +30,10 @@ class ProjectPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, actions, projectId} = this.props;
+        const {project, actions, projectSlug, username} = this.props;
 
         if (!project) {
-            const fetchedProject = await actions.fetchProject(projectId);
+            const fetchedProject = await actions.fetchProject(projectSlug, username);
 
             if (!fetchedProject) {
                 this.setState({
@@ -60,16 +62,16 @@ class ProjectPage extends Component {
                 </Helmet>
                 <ProjectSidebar project={project}/>
                 <Switch>
-                    <Route path="/project/:id/transactions" component={ProjectTransactionsPage}/>
-                    <Route path="/project/:id/tx/:network/:txHash/:tab?" strict component={ProjectTransactionPage}/>
-                    <Route path="/project/:id/analytics" component={ProjectAnalyticsPage}/>
-                    <Route path="/project/:id/alerts/:tab" component={ProjectAlertsPage}/>
-                    <Redirect from="/project/:id/alerts" to="/project/:id/alerts/rules"/>
-                    <Route path="/project/:id/contracts" component={ProjectContractsPage}/>
-                    <Route path="/project/:id/contract/:network/:contractId" component={ProjectContractPage}/>
-                    <Route path="/project/:id/releases" component={ProjectReleasesPage}/>
-                    <Route path="/project/:id/settings" component={ProjectSettingsPage}/>
-                    <Redirect to={`/project/${project.id}/transactions`}/>
+                    <Route path="/:username/:id/transactions" component={ProjectTransactionsPage}/>
+                    <Route path="/:username/:id/tx/:network/:txHash/:tab?" strict component={ProjectTransactionPage}/>
+                    <Route path="/:username/:id/analytics" component={ProjectAnalyticsPage}/>
+                    <Route path="/:username/:id/alerts/:tab" component={ProjectAlertsPage}/>
+                    <Redirect from="/:username/:id/alerts" to="/:username/:id/alerts/rules"/>
+                    <Route path="/:username/:id/contracts" component={ProjectContractsPage}/>
+                    <Route path="/:username/:id/contract/:network/:contractId" component={ProjectContractPage}/>
+                    <Route path="/:username/:id/releases" component={ProjectReleasesPage}/>
+                    <Route path="/:username/:id/settings" component={ProjectSettingsPage}/>
+                    <Redirect to={`/:username/${project.slug}/transactions`}/>
                 </Switch>
             </Fragment>
         )
@@ -77,11 +79,12 @@ class ProjectPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id}}} = ownProps;
+    const {match: {params: {username, slug}}} = ownProps;
 
     return {
-        projectId: id,
-        project: getProject(state, id),
+        username,
+        projectSlug: slug,
+        project: getProject(state, Project.generateProjectId(slug, username)),
     }
 };
 
