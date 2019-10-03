@@ -226,7 +226,7 @@ class PublicContractPage extends Component {
                         <Route path="/contract/:network/:id" exact render={() => (
                             <Fragment>
                                 <h2 className="MarginBottom2 MarginLeft2">Transactions</h2>
-                                <TransactionsList transactions={transactions} contracts={[contract]} isPublicContracts
+                                <TransactionsList transactions={transactions} contracts={[contract]}
                                                   loading={fetching}
                                                   currentPage={page} onPageChange={this.handlePageChange}/>
                             </Fragment>

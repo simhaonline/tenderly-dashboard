@@ -98,19 +98,19 @@ export const fetchContractForProject = (project, contractAddress, network) => {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} txHash
  * @param {NetworkTypes} network
  */
-export const fetchContractsForTransaction = (projectId, txHash, network) => {
+export const fetchContractsForTransaction = (project, txHash, network) => {
     return async () => {
         try {
             const apiNetworkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/account/me/project/${projectId}/network/${apiNetworkId}/transaction/${txHash}/contracts`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/network/${apiNetworkId}/transaction/${txHash}/contracts`);
 
             const contracts = data.map(contract => Contract.buildFromResponse(contract, contract.in_project ? {
-                id: projectId,
+                id: project.id,
                 listening: true,
             } : null));
 
@@ -124,7 +124,7 @@ export const fetchContractsForTransaction = (projectId, txHash, network) => {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project.id} projectId
  * @return {function(): SuccessActionResponse}
  */
 export const fetchExampleContractsForTransaction = (projectId) => {

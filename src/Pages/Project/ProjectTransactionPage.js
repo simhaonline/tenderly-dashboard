@@ -7,7 +7,7 @@ import {
     getTransactionCallTrace, getTransactionEventLogs,
     getTransactionStackTrace, getTransactionStateDiffs
 } from "../../Common/Selectors/TransactionSelectors";
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getProject, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {EtherscanLinkTypes, NetworkRouteToAppTypeMap, ProjectTypes} from "../../Common/constants";
 
 import Notifications from "../../Utils/Notifications";
@@ -34,13 +34,13 @@ class ProjectTransactionPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, transaction, callTrace, projectId, contractActions, txActions, txHash, networkType} = this.props;
+        const {project, transaction, callTrace, contractActions, txActions, txHash, networkType} = this.props;
 
         let txContracts = [];
 
         if (project.type !== ProjectTypes.DEMO) {
             if (!transaction || !callTrace) {
-                const actionResponse = await txActions.fetchTransactionForProject(projectId, txHash, networkType);
+                const actionResponse = await txActions.fetchTransactionForProject(project, txHash, networkType);
 
                 if (!actionResponse.success) {
                     Notifications.error({title: "Failed fetching transaction"});
@@ -52,14 +52,14 @@ class ProjectTransactionPage extends Component {
 
             }
 
-            const contractsResponse = await contractActions.fetchContractsForTransaction(projectId, txHash, networkType);
+            const contractsResponse = await contractActions.fetchContractsForTransaction(project, txHash, networkType);
 
             if (contractsResponse.success) {
                 txContracts = contractsResponse.data;
             }
         } else {
             await txActions.fetchExampleTransaction();
-            const exampleContractsResponse = await contractActions.fetchExampleContractsForTransaction(projectId);
+            const exampleContractsResponse = await contractActions.fetchExampleContractsForTransaction(project.id);
 
             txContracts = exampleContractsResponse.data;
         }
@@ -71,11 +71,11 @@ class ProjectTransactionPage extends Component {
     }
 
     render() {
-        const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, projectId} = this.props;
+        const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project} = this.props;
         const {error, loading, txContracts, previousPageQuery} = this.state;
 
         const backUrl = {
-            pathname: `/project/${projectId}/transactions`,
+            pathname: `/${project.owner}/${project.slug}/transactions`,
             search: previousPageQuery,
         };
 
@@ -135,7 +135,7 @@ class ProjectTransactionPage extends Component {
                         </div>
                     </PageHeading>
                     <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace}
-                                            callTrace={callTrace} projectId={projectId} eventLogs={eventLogs}
+                                            callTrace={callTrace} project={project} eventLogs={eventLogs}
                                             stateDiffs={stateDiffs}/>
                 </Container>
             </Page>
@@ -144,18 +144,20 @@ class ProjectTransactionPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id, txHash, network}}} = ownProps;
+    const {match: {params: {slug, username, txHash, network}}} = ownProps;
 
     const transaction = getTransaction(state, txHash);
 
     const networkType = NetworkRouteToAppTypeMap[network];
 
+    const project = getProjectBySlugAndUsername(state, slug, username);
+
     return {
         txHash,
         transaction,
         networkType,
-        projectId: id,
-        project: getProject(state, id),
+        project,
+        projectId: project.id,
         callTrace: getTransactionCallTrace(state, txHash),
         stackTrace: getTransactionStackTrace(state, txHash),
         eventLogs: getTransactionEventLogs(state, txHash),

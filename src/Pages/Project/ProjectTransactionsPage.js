@@ -253,7 +253,7 @@ class ProjectTransactionsPage extends Component {
                     {!loading && projectIsSetup && <Fragment>
                         {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
-                                          loading={fetching}
+                                          loading={fetching} project={project}
                                           currentPage={page} onPageChange={this.handlePageChange}
                                           perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
                         {!shouldDisplayListAndFilters && <NoTransactionsEmptyState/>}

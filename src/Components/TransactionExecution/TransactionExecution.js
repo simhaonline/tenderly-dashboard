@@ -32,7 +32,7 @@ class TransactionExecution extends Component {
     constructor(props) {
         super(props);
 
-        const {transaction, projectId, match: {params: {tab}}} = props;
+        const {transaction, project, match: {params: {tab}}} = props;
 
         const tabs = [
             {
@@ -63,8 +63,8 @@ class TransactionExecution extends Component {
 
         let baseUrl = '';
 
-        if (projectId) {
-            baseUrl = `/project/${projectId}`
+        if (project) {
+            baseUrl = `/${project.owner}/${project.slug}`
         }
 
         baseUrl += `/tx/${NetworkAppToRouteTypeMap[transaction.network]}/${transaction.txHash}`;

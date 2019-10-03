@@ -91,23 +91,23 @@ export const fetchExampleTransactions = () => {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} txHash
  * @param {NetworkTypes} network
  * @return {Function<SuccessActionResponse|ErrorActionResponse>}
  */
-export const fetchTransactionForProject = (projectId, txHash, network) => {
+export const fetchTransactionForProject = (project, txHash, network) => {
     return async (dispatch) => {
         try {
             const networkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/account/me/project/${projectId}/network/${networkId}/transaction/${txHash}`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/network/${networkId}/transaction/${txHash}`);
 
             if (!data) {
                 return new ErrorActionResponse();
             }
 
-            const transaction = Transaction.buildFromResponse(data, projectId);
+            const transaction = Transaction.buildFromResponse(data, project.id);
 
             const callTrace = CallTrace.buildFromResponse(data);
 
@@ -127,7 +127,7 @@ export const fetchTransactionForProject = (projectId, txHash, network) => {
 
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
-                projectId,
+                projectId: project.id,
                 transaction,
                 callTrace,
                 stackTrace,

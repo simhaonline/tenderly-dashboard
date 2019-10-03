@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 
+import {Project} from "../../Core/models";
+
 import {NetworkAppToRouteTypeMap} from "../../Common/constants";
 
 import {Table} from "../../Elements";
@@ -41,16 +43,16 @@ const transactionTableConf = [
 
 class TransactionsList extends Component {
     handleRowClick = (transaction) => {
-        const {history, isPublicContracts, location: {search}} = this.props;
+        const {history, project, location: {search}} = this.props;
 
         let transactionRoute;
 
         const networkRoute = NetworkAppToRouteTypeMap[transaction.network];
 
-        if (isPublicContracts) {
-            transactionRoute = `/tx/${networkRoute}/${transaction.txHash}`;
+        if (project) {
+            transactionRoute = `/${project.owner}/${project.slug}/tx/${networkRoute}/${transaction.txHash}`;
         } else {
-            transactionRoute = `/project/${transaction.projectId}/tx/${networkRoute}/${transaction.txHash}`;
+            transactionRoute = `/tx/${networkRoute}/${transaction.txHash}`;
         }
 
         history.push({
@@ -80,8 +82,8 @@ TransactionsList.propTypes = {
     onPageChange: PropTypes.func,
     perPage: PropTypes.number,
     onPerPageChange: PropTypes.func,
-    isPublicContracts: PropTypes.bool,
     loading: PropTypes.bool,
+    project: PropTypes.instanceOf(Project),
 };
 
 TransactionsList.defaultProps = {
