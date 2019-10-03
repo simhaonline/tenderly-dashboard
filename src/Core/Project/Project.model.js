@@ -60,6 +60,28 @@ class Project {
     }
 
     /**
+     * @return {string}
+     */
+    getDisplaySlug = () => {
+        if (this.type === ProjectTypes.SHARED) {
+            return `${this.owner}/${this.slug}`
+        }
+
+        return this.slug;
+    };
+
+    /**
+     * @return {string}
+     */
+    getIcon = () => {
+        if (this.type === ProjectTypes.SHARED) {
+            return "two-hexa";
+        }
+
+        return "project";
+    };
+
+    /**
      * @param {string} slug
      * @param {string} username
      *

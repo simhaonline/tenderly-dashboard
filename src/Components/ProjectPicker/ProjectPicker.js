@@ -64,10 +64,10 @@ class ProjectPicker extends Component {
                 <div className="ProjectPicker">
                     <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
                         <div className="ProjectInfo">
-                            <Icon icon="project" className="ProjectIcon"/>
+                            <Icon icon={project.getIcon()} className="ProjectIcon"/>
                             <div>
                                 <div className="ProjectName">{project.name}</div>
-                                <div className="ProjectSlug">{project.slug}</div>
+                                <div className="ProjectSlug">{project.getDisplaySlug()}</div>
                             </div>
                         </div>
                         <Icon icon="chevron-down" className="DropdownIcon"/>
@@ -80,10 +80,10 @@ class ProjectPicker extends Component {
                             "ProjectDropdownItem",
                             {"Active": currentProject.id === project.id,},
                         )} onClick={() => this.switchProject(project)}>
-                            <Icon icon="project" className="ProjectIcon"/>
+                            <Icon icon={project.getIcon()} className="ProjectIcon"/>
                             <div>
                                 <div className="ProjectName">{project.name}</div>
-                                <div className="ProjectSlug">{project.slug}</div>
+                                <div className="ProjectSlug">{project.getDisplaySlug()}</div>
                             </div>
                         </div>)}
                     </div>}
