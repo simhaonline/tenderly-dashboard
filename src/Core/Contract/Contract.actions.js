@@ -13,15 +13,14 @@ export const FETCH_CONTRACT_METHODS_ACTION = 'FETCH_CONTRACT_METHODS';
 export const FETCH_CONTRACT_LOGS_ACTION = 'FETCH_CONTRACT_LOGS';
 
 /**
- * @param {Project.slug} projectSlug
- * @param {User.username} username
+ * @param {Project} project
  */
-export const fetchContractsForProject = (projectSlug, username) => {
+export const fetchContractsForProject = (project) => {
     return async dispatch => {
         try {
-            const {data} = await Api.get(`/account/${username}/project/${projectSlug}/contracts`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/contracts`);
 
-            const projectId = Project.generateProjectId(projectSlug, username);
+            const projectId = Project.generateProjectId(project.slug, project.owner);
 
             let contracts = [];
 

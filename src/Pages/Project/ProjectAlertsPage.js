@@ -4,7 +4,7 @@ import {Route, Switch} from "react-router-dom";
 
 import Analytics from "../../Utils/Analytics";
 
-import {getProject, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
 import {Container, Page, PageHeading, Button} from "../../Elements";

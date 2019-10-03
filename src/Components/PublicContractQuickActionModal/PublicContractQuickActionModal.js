@@ -121,7 +121,7 @@ class PublicContractQuickActionModal extends Component {
         const project = response.data;
 
         const addResponse = await actions.addVerifiedContractToProject(
-            project.id,
+            project,
             contract.network,
             contract.address
         );
@@ -135,8 +135,8 @@ class PublicContractQuickActionModal extends Component {
             return;
         }
 
-        await actions.fetchProject(project.id);
-        await contractActions.fetchContractsForProject(project.id);
+        await actions.fetchProject(project.slug, project.owner);
+        await contractActions.fetchContractsForProject(project);
 
         this.goToProjectBasedOnAction(project.slug);
     };
@@ -152,7 +152,7 @@ class PublicContractQuickActionModal extends Component {
         const projectId = selectedProject.value;
 
         const addResponse = await actions.addVerifiedContractToProject(
-            projectId,
+            selectedProject,
             contract.network,
             contract.address
         );
@@ -166,8 +166,8 @@ class PublicContractQuickActionModal extends Component {
             return;
         }
 
-        await actions.fetchProject(projectId);
-        await contractActions.fetchContractsForProject(projectId);
+        await actions.fetchProject(selectedProject.id);
+        await contractActions.fetchContractsForProject(selectedProject);
 
         this.goToProjectBasedOnAction(projectId);
     };
@@ -205,6 +205,9 @@ class PublicContractQuickActionModal extends Component {
                                     ...projects.map(project => ({
                                         value: project.slug,
                                         label: project.name,
+                                        slug: project.slug,
+                                        id: project.id,
+                                        owner: project.owner,
                                         icon: "project",
                                     })),
                                     {

@@ -35,7 +35,7 @@ class ProjectContractsPage extends Component {
         const projectIsSetup = !!project.lastPushAt;
 
         if (projectIsSetup && !contractsLoaded) {
-            await actions.fetchContractsForProject(project.slug, project.owner);
+            await actions.fetchContractsForProject(project);
         }
     }
 

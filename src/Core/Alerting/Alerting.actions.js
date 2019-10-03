@@ -40,13 +40,13 @@ export const fetchAlertRulesForProject = (project) => {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} ruleId
  */
-export const fetchAlertRuleForProject = (projectId, ruleId) => {
+export const fetchAlertRuleForProject = (project, ruleId) => {
     return async dispatch => {
         try {
-            const {data} = await Api.get(`/account/me/project/${projectId}/alert/${ruleId}`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/alert/${ruleId}`);
 
             if (!data || !data.alert) {
                 return new ErrorActionResponse();
@@ -56,7 +56,7 @@ export const fetchAlertRuleForProject = (projectId, ruleId) => {
 
             dispatch({
                 type: FETCH_ALERT_RULE_FOR_PROJECT_ACTION,
-                projectId,
+                projectId: project.id,
                 ruleId,
                 rule,
             });
@@ -70,15 +70,15 @@ export const fetchAlertRuleForProject = (projectId, ruleId) => {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  * @param {AlertRule} updateRule
  */
-export const updateAlertRuleForProject = (projectId, updateRule) => {
+export const updateAlertRuleForProject = (project, updateRule) => {
     return async dispatch => {
         try {
             const payload = updateRule.toPayload();
 
-            const {data} = await Api.patch(`/account/me/project/${projectId}/alert/${updateRule.id}`, payload);
+            const {data} = await Api.patch(`/account/${project.owner}/project/${project.slug}/alert/${updateRule.id}`, payload);
 
             if (!data || !data.alert) {
                 return new ErrorActionResponse();
@@ -88,7 +88,7 @@ export const updateAlertRuleForProject = (projectId, updateRule) => {
 
             dispatch({
                 type: UPDATE_ALERT_RULE_FOR_PROJECT_ACTION,
-                projectId,
+                projectId: project.id,
                 rule,
             });
 
@@ -101,18 +101,18 @@ export const updateAlertRuleForProject = (projectId, updateRule) => {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} ruleId
  */
-export const deleteAlertRuleForProject = (projectId, ruleId) => {
+export const deleteAlertRuleForProject = (project, ruleId) => {
     return async dispatch => {
         try {
-            await Api.delete(`/account/me/project/${projectId}/alert/${ruleId}`);
+            await Api.delete(`/account/${project.owner}/project/${project.slug}/alert/${ruleId}`);
 
             dispatch({
                 type: DELETE_ALERT_RULE_FOR_PROJECT_ACTION,
                 ruleId,
-                projectId,
+                projectId: project.id,
             });
 
             return new SuccessActionResponse();
@@ -124,12 +124,12 @@ export const deleteAlertRuleForProject = (projectId, ruleId) => {
 };
 
 /**
- * @param {Project.id} projectId
+ * @param {Project} project
  * @param {SimpleAlertRuleGeneralInformation} general
  * @param {AlertRuleExpression[]} expressions
  * @param {string[]} destinations - Array of destination IDs
  */
-export const createAlertRuleForProject = (projectId, general, expressions, destinations) => {
+export const createAlertRuleForProject = (project, general, expressions, destinations) => {
     return async dispatch => {
         try {
             const payload = {
@@ -144,7 +144,7 @@ export const createAlertRuleForProject = (projectId, general, expressions, desti
                 })),
             };
 
-            const {data} = await Api.post(`/account/me/project/${projectId}/alert`, payload);
+            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/alert`, payload);
 
             if (!data || !data.alert) {
                 return new ErrorActionResponse();
@@ -154,7 +154,7 @@ export const createAlertRuleForProject = (projectId, general, expressions, desti
 
             dispatch({
                 type: CREATE_ALERT_RULE_FOR_PROJECT_ACTION,
-                projectId,
+                projectId: project.id,
                 rule,
             });
 

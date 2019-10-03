@@ -58,7 +58,7 @@ class ProjectTransactionsPage extends Component {
             transactions = actionResponse.data;
 
             if (!contractsLoaded) {
-                await contractActions.fetchContractsForProject(project.slug, project.owner);
+                await contractActions.fetchContractsForProject(project);
             }
 
             if (project.isSetup) {

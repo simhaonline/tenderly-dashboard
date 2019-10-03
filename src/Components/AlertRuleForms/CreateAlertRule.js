@@ -3,7 +3,10 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
-import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
+import {
+    areProjectContractsLoaded,
+    getProjectBySlugAndUsername
+} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {
     areNotificationDestinationsLoaded, getNotificationDestinations,
@@ -36,7 +39,7 @@ class CreateAlertRule extends Component {
         }
 
         if (!areContractsLoaded) {
-            contractActions.fetchContractsForProject(project.id);
+            contractActions.fetchContractsForProject(project);
         }
     }
 
@@ -70,14 +73,14 @@ class CreateAlertRule extends Component {
         const pageLoaded = areContractsLoaded && destinationsLoaded;
 
         if (redirectToRule) {
-            return <Redirect to={`/project/${project.id}/alerts/rules/${redirectToRule}`}/>
+            return <Redirect to={`/${project.owner}/${project.slug}/alerts/rules/${redirectToRule}`}/>
         }
 
         return (
             <Panel>
                 <PanelHeader>
                     <h3>
-                        {pageLoaded && <Link to={`/project/${project.id}/alerts/rules`}>Alerts</Link>}
+                        {pageLoaded && <Link to={`/${project.owner}/${project.slug}/alerts/rules`}>Alerts</Link>}
                         {pageLoaded && <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>}
                         <span>Create Alert</span>
                     </h3>
@@ -97,16 +100,17 @@ class CreateAlertRule extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {projectId}}} = ownProps;
+    const {match: {params: {username, slug}}} = ownProps;
 
-    const contracts = getContractsForProject(state, projectId);
+    const project = getProjectBySlugAndUsername(state, slug, username);
+
+    const contracts = getContractsForProject(state, project.id);
 
     return {
-        projectId,
-        project: getProject(state, projectId),
+        project,
         contracts,
         networks: getUniqueNetworksForContracts(contracts),
-        areContractsLoaded: areProjectContractsLoaded(state, projectId),
+        areContractsLoaded: areProjectContractsLoaded(state, project.id),
         destinations: getNotificationDestinations(state),
         destinationsLoaded: areNotificationDestinationsLoaded(state),
     }

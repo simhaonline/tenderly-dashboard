@@ -71,7 +71,7 @@ class EditAlertRule extends Component {
             deliveryChannels: destinations,
         });
 
-        const response = await actions.updateAlertRuleForProject(project.id, updatedRule);
+        const response = await actions.updateAlertRuleForProject(project, updatedRule);
 
         if (response.success) {
             this.setState({

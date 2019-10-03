@@ -185,12 +185,12 @@ class ProjectSetupGuide extends Component {
             verifying: true,
         });
 
-        const fetchedProject = await actions.fetchProject(project.id);
+        const fetchedProject = await actions.fetchProject(project.slug, project.owner);
 
         const projectSetup = !!fetchedProject.lastPushAt;
 
         if (projectSetup) {
-            contractActions.fetchContractsForProject(project.id);
+            contractActions.fetchContractsForProject(project);
             onSetup();
         }
 
@@ -261,14 +261,14 @@ class ProjectSetupGuide extends Component {
         });
 
         const response = await actions.addVerifiedContractToProject(
-            project.id,
+            project,
             manualNetwork,
             manualContractAddress,
             this.handleImportStreamResponse
         );
 
         if (response.success) {
-            await contractActions.fetchContractsForProject(project.id);
+            await contractActions.fetchContractsForProject(project);
             onSetup();
 
             this.setState({

@@ -12,6 +12,7 @@ import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 import {
     Button, Dropdown, DropdownItem,
@@ -27,7 +28,7 @@ import {
 import {SimpleLoader, EmptyState, FeatureFlag, ExampleProjectInfoModal} from "..";
 
 import './AlertRulesList.scss';
-import {getProject, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+
 
 class AlertRulesList extends Component {
     constructor(props) {

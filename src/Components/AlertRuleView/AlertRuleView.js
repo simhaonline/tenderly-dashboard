@@ -16,7 +16,11 @@ import {
     areNotificationDestinationsLoaded,
     getNotificationDestinationsForRule
 } from "../../Common/Selectors/NotificationSelectors";
-import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
+import {
+    areProjectContractsLoaded,
+    getProject,
+    getProjectBySlugAndUsername
+} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {
@@ -51,14 +55,14 @@ class AlertRuleView extends Component {
     }
 
     async componentDidMount() {
-        const {ruleId, projectId, isRuleLoaded, actions, notificationActions, contractActions, destinationsLoaded, areContractsLoaded} = this.props;
+        const {ruleId, project, isRuleLoaded, actions, notificationActions, contractActions, destinationsLoaded, areContractsLoaded} = this.props;
 
         if (!destinationsLoaded) {
             notificationActions.fetchNotificationDestinations();
         }
 
         if (!isRuleLoaded) {
-            const response = await actions.fetchAlertRuleForProject(projectId, ruleId);
+            const response = await actions.fetchAlertRuleForProject(project, ruleId);
 
             if (!response.success) {
                 this.setState({
@@ -68,12 +72,12 @@ class AlertRuleView extends Component {
         }
 
         if (!areContractsLoaded) {
-            contractActions.fetchContractsForProject(projectId);
+            contractActions.fetchContractsForProject(project);
         }
     }
 
     toggleAlertRuleEnabled = async () => {
-        const {rule, projectId, actions} = this.props;
+        const {rule, project, actions} = this.props;
 
         this.setState({
             inProgress: true,
@@ -83,7 +87,7 @@ class AlertRuleView extends Component {
             enabled: !rule.enabled,
         });
 
-        await actions.updateAlertRuleForProject(projectId, updatedRule);
+        await actions.updateAlertRuleForProject(project, updatedRule);
 
         this.setState({
             inProgress: false,
@@ -103,9 +107,9 @@ class AlertRuleView extends Component {
     };
 
     deleteAlert = async () => {
-        const {actions, projectId, ruleId} = this.props;
+        const {actions, project, ruleId} = this.props;
 
-        const response = await actions.deleteAlertRuleForProject(projectId, ruleId);
+        const response = await actions.deleteAlertRuleForProject(project, ruleId);
 
         if (response.success) {
             this.setState({
@@ -115,20 +119,20 @@ class AlertRuleView extends Component {
     };
 
     render() {
-        const {isRuleLoaded, rule, projectId, destinations, destinationsLoaded, project, areContractsLoaded, contracts} = this.props;
+        const {isRuleLoaded, rule, destinations, destinationsLoaded, project, areContractsLoaded, contracts} = this.props;
         const {openDeleteModal, alertDeleted, errorFetching, inProgress} = this.state;
 
         const loading = (!isRuleLoaded || !destinationsLoaded || !areContractsLoaded) && !errorFetching;
 
         if (alertDeleted) {
-            return <Redirect to={`/project/${projectId}/alerts/rules`}/>
+            return <Redirect to={`/${project.owner}/${project.slug}/alerts/rules`}/>
         }
 
         return (
             <Panel className="AlertRuleView">
                 <PanelHeader>
                     <h3>
-                        <Link to={`/project/${projectId}/alerts/rules`}>Alerts</Link>
+                        <Link to={`/${project.owner}/${project.slug}/alerts/rules`}>Alerts</Link>
                         {isRuleLoaded && <Icon icon="chevron-right" className="MarginLeft1 MarginRight1 MutedText"/>}
                         {!!rule && <span>{rule.name}</span>}
                     </h3>
@@ -142,7 +146,7 @@ class AlertRuleView extends Component {
                     </div>}
                     {!loading && errorFetching && <div>
                         <EmptyState icon="bell-off" title="Alert not found" description="Seems that this alert does not exist any more." renderActions={() => <div>
-                            <Button outline to={`/project/${projectId}/alerts/rules`} size="small">
+                            <Button outline to={`/${project.owner}/${project.slug}/alerts/rules`} size="small">
                                 <Icon icon="arrow-left"/>
                                 <span>Back to alerts</span>
                             </Button>
@@ -175,14 +179,14 @@ class AlertRuleView extends Component {
                                         <DestinationInformation destination={destination}/>
                                     </div>
                                 </ListItem>)}
-                                <ListItem to={`/project/${projectId}/alerts/rules/${rule.id}/edit?tab=${AlertRuleBuilderSteps.DESTINATIONS}`} selectable className="DisplayFlex AlignItemsCenter JustifyContentCenter MutedText">
+                                <ListItem to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}/edit?tab=${AlertRuleBuilderSteps.DESTINATIONS}`} selectable className="DisplayFlex AlignItemsCenter JustifyContentCenter MutedText">
                                     <Icon icon="plus-circle"/>
                                     <span className="MarginLeft1">Add more destinations</span>
                                 </ListItem>
                             </List>
                         </div>}
                         <div>
-                            <Button to={`/project/${projectId}/alerts/rules/${rule.id}/edit`}>
+                            <Button to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}/edit`}>
                                 <Icon icon="edit-3"/>
                                 <span>Edit</span>
                             </Button>
@@ -219,15 +223,15 @@ class AlertRuleView extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {ruleId, projectId}}} = ownProps;
+    const {match: {params: {ruleId, username, slug}}} = ownProps;
 
     const rule = getAlertRule(state, ruleId);
+    const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
-        projectId,
-        project: getProject(state, projectId),
-        contracts: getContractsForProject(state, projectId),
-        areContractsLoaded: areProjectContractsLoaded(state, projectId),
+        project,
+        contracts: getContractsForProject(state, project.id),
+        areContractsLoaded: areProjectContractsLoaded(state, project.id),
         ruleId,
         rule,
         isRuleLoaded: isAlertRuleLoaded(state, ruleId),

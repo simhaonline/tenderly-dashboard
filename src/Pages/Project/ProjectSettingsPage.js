@@ -5,7 +5,7 @@ import {Redirect} from "react-router-dom";
 
 import * as projectActions from "../../Core/Project/Project.actions";
 
-import {getProject, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page, PageHeading} from "../../Elements";
 import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher, PageSegments, PageSegmentContent} from "../../Components";

@@ -250,21 +250,18 @@ export const updateProject = (project, data) => {
 };
 
 /**
- * @TODO update everywhere with username
- *
- * @param {Project.slug} slug
- * @param {User.username} username
+ * @param {Project} project
  * @param {NetworkTypes} networkType
  * @param {string} address
  * @param {Function} progressCallback
  * @return {Function}
  */
-export const addVerifiedContractToProject = (slug, username, networkType, address, progressCallback = () => {}) => {
+export const addVerifiedContractToProject = (project, networkType, address, progressCallback = () => {}) => {
     return async (dispatch) => {
         try {
             const networkId = NetworkAppToApiTypeMap[networkType];
 
-            const {data: responseData} = await StreamingApi.post(`/account/${username}/project/${slug}/streaming-address`, {
+            const {data: responseData} = await StreamingApi.post(`/account/${project.owner}/project/${project.slug}/streaming-address`, {
                 network_id: networkId.toString(),
                 address,
             }, progressCallback);
@@ -275,7 +272,7 @@ export const addVerifiedContractToProject = (slug, username, networkType, addres
 
             dispatch({
                 type: ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION,
-                projectSlug: slug,
+                projectId: project.id,
                 network: networkType,
                 address,
             });
