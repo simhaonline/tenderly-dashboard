@@ -11,7 +11,9 @@ import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "../Contract/Contract.actions";
 import {EntityStatusTypes} from "../../Common/constants";
 
 const initialState = {
+    /** @type {Object.<Project.id, Project>} */
     projects: {},
+    /** @type {Object.<Project.id, EntityStatusTypes>} */
     contractsStatus: {},
     projectsLoaded: false,
 };

@@ -149,7 +149,7 @@ export const getUser = (token) => {
             }
 
             if (user.showDemo) {
-                dispatchExampleProject(dispatch)
+                dispatchExampleProject(dispatch, user.username);
             }
 
             if (!impersonating) {
