@@ -15,32 +15,32 @@ class ProjectNavigation extends Component {
 
         return (
             <div className="ProjectNavigation">
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/transactions`}>
+                <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/transactions`}>
                     <span>Transactions</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                    <NavLink className="NavigationItem" strict to={`/project/${project.id}/errors`}>
+                    <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/errors`}>
                         <span>Errors</span>
                     </NavLink>
                 </FeatureFlag>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/contracts`}>
+                <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/contracts`}>
                     <span>Contracts</span>
                 </NavLink>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/alerts`}>
+                <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/alerts`}>
                     <span>Alerts</span>
                     <Tag size="small" className="MarginLeft1">
                         New
                     </Tag>
                 </NavLink>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/analytics`}>
+                <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/analytics`}>
                     <span>Analytics</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
-                    <NavLink className="NavigationItem" strict to={`/project/${project.id}/releases`}>
+                    <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/releases`}>
                         <span>Deployment</span>
                     </NavLink>
                 </FeatureFlag>
-                <NavLink className="NavigationItem" strict to={`/project/${project.id}/settings`}>
+                <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/settings`}>
                     <span>Settings</span>
                 </NavLink>
             </div>
