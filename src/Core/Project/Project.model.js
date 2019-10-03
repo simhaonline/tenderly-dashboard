@@ -4,9 +4,10 @@ import {ProjectTypes} from "../../Common/constants";
 class Project {
     /**
      * @param {Object} data
+     * @param {User.username} [username]
      * @param {ProjectTypes} [projectType]
      */
-    constructor(data, projectType) {
+    constructor(data, username, projectType) {
         /** @type string */
         this.id = data.id;
 
@@ -27,6 +28,9 @@ class Project {
 
         /** @type Date */
         this.createdAt = data.createdAt;
+
+        /** @type {User.username} */
+        this.owner = username;
 
         /** @type string */
         this.type = projectType || ProjectTypes.PRIVATE;
@@ -57,19 +61,21 @@ class Project {
 
     /**
      * @param {Object} response
+     * @param {User.username} username
      * @param {ProjectTypes} [projectType]
+     *
      * @return {Project}
      */
-    static buildFromResponse(response, projectType) {
+    static buildFromResponse(response, username, projectType) {
         return new Project({
-            id: response.slug,
+            id: response.id,
             name: response.name,
             slug: response.slug,
             lastPushAt: response.last_push_at,
             isSetup: !!response.last_push_at,
             setupViewed: !!response.last_push_at,
             createdAt: response.created_at,
-        }, projectType);
+        }, username, projectType);
     }
 }
 
