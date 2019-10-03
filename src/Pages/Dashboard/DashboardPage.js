@@ -16,14 +16,14 @@ import {DashboardProjectsList, WatchedContractsList, DashboardSidebar, FeatureFl
 
 class DashboardPage extends Component {
     componentDidMount() {
-        const {projectsLoaded, watchedContractsLoaded, usernameSet, actions, publicContractActions} = this.props;
+        const {projectsLoaded, watchedContractsLoaded, usernameSet, username, actions, publicContractActions} = this.props;
 
         if (!projectsLoaded && usernameSet) {
-            actions.fetchProjects();
+            actions.fetchProjects(username);
         }
 
         if (!watchedContractsLoaded && usernameSet) {
-            publicContractActions.fetchWatchedContracts();
+            publicContractActions.fetchWatchedContracts(username);
         }
     }
 
@@ -77,6 +77,7 @@ const mapStateToProps = (state) => {
         watchedContracts: getWatchedContracts(state),
         watchedContractsLoaded: areWatchedContractsLoaded(state),
         usernameSet: state.auth.usernameSet,
+        username: state.auth.user.username,
     }
 };
 
