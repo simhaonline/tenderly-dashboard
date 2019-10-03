@@ -22,10 +22,12 @@ export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
 export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PROJECT';
 
 /**
+ * @TODO update everywhere with username
  * @param {string} name
+ * @param {User.username} username
  * @returns {Function}
  */
-export const createProject = (name) => {
+export const createProject = (name, username) => {
     return async (dispatch, getState) => {
         const state = getState();
         const {auth: {user: {showDemo}}} = state;
@@ -40,7 +42,7 @@ export const createProject = (name) => {
         }
 
         try {
-            const {data} = await Api.post(`/account/me/project`, {
+            const {data} = await Api.post(`/account/${username}/project`, {
                 name,
             });
 
@@ -54,7 +56,7 @@ export const createProject = (name) => {
                 await dispatch(deleteProject(demoProject));
             }
 
-            const project = Project.buildFromResponse(data.project);
+            const project = Project.buildFromResponse(data.project, username);
 
             dispatch({
                 type: CREATE_PROJECT_ACTION,
@@ -71,10 +73,11 @@ export const createProject = (name) => {
 
 /**
  * @param {Function} dispatch
+ * @param {User.username} username
  * @return {SuccessActionResponse}
  */
-export const dispatchExampleProject = dispatch => {
-    const exampleProject = Project.buildFromResponse(exampleProjectPayload, ProjectTypes.DEMO);
+export const dispatchExampleProject = (dispatch, username) => {
+    const exampleProject = Project.buildFromResponse(exampleProjectPayload, username, ProjectTypes.DEMO);
 
     const exampleContracts = [
         Contract.buildFromResponse(exampleContract1Payload, {
@@ -102,7 +105,10 @@ export const dispatchExampleProject = dispatch => {
  * @return {Function}
  */
 export const createExampleProject = () => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const {auth: {user: {username}}} = state;
+
         try {
             const response = await dispatch(updateUser({
                 showDemo: true,
@@ -112,17 +118,22 @@ export const createExampleProject = () => {
                 return new ErrorActionResponse();
             }
 
-            return dispatchExampleProject(dispatch);
+            return dispatchExampleProject(dispatch, username);
         } catch (error) {
             return new ErrorActionResponse(error);
         }
     };
 };
 
-export const fetchProjects = () => {
+/**
+ * @TODO update everywhere with username
+ * @param {User.username} username
+ * @returns {Function}
+ */
+export const fetchProjects = (username) => {
     return async dispatch => {
         try {
-            const {data} = await Api.get(`/account/me/projects`);
+            const {data} = await Api.get(`/account/${username}/projects`);
 
             if (!data || !data.projects || !data.projects.length) {
                 dispatch({
@@ -133,7 +144,7 @@ export const fetchProjects = () => {
                 return;
             }
 
-            const projects = data.projects.map(project => Project.buildFromResponse(project));
+            const projects = data.projects.map(project => Project.buildFromResponse(project, username));
 
             dispatch({
                 type: FETCH_PROJECTS_ACTION,
@@ -146,19 +157,21 @@ export const fetchProjects = () => {
 };
 
 /**
- * @param {string} id
+ * @TODO update everywhere with username
+ * @param {Project.slug} slug
+ * @param {User.username} username
  */
-export const fetchProject = (id) => {
+export const fetchProject = (slug, username) => {
     return async (dispatch) => {
 
         try {
-            const {data} = await Api.get(`/account/me/project/${id}`);
+            const {data} = await Api.get(`/account/${username}/project/${slug}`);
 
             if (!data) {
                 return null;
             }
 
-            const project = Project.buildFromResponse(data);
+            const project = Project.buildFromResponse(data, username);
 
             dispatch({
                 type: FETCH_PROJECT_ACTION,
@@ -173,16 +186,18 @@ export const fetchProject = (id) => {
 };
 
 /**
+ * @TODO update everywhere with username
  * @param {Project} project
+ * @param {User.username} username
  */
-export const deleteProject = (project) => {
+export const deleteProject = (project, username) => {
     return async (dispatch) => {
         if (project.type === ProjectTypes.DEMO) {
             await dispatch(updateUser({
                 showDemo: false,
             }));
         } else {
-            await Api.delete(`/account/me/project/${project.id}`);
+            await Api.delete(`/account/${username}/project/${project.slug}`);
         }
 
         dispatch({
@@ -211,15 +226,17 @@ export const setProjectSetupViewed = (project) => {
 };
 
 /**
- * @param {string} id
+ * @TODO update everywhere with username
+ * @param {Project.slug} slug
+ * @param {User.username} username
  * @param {Object} data
  */
-export const updateProject = (id, data) => {
+export const updateProject = (slug, username, data) => {
     return async (dispatch) => {
         try {
-            const {data: responseData} = await Api.post(`/account/me/project/${id}`, data);
+            const {data: responseData} = await Api.post(`/account/${username}/project/${slug}`, data);
 
-            const project = Project.buildFromResponse(responseData);
+            const project = Project.buildFromResponse(responseData, username);
 
             dispatch({
                 type: UPDATE_PROJECT_ACTION,
@@ -235,18 +252,21 @@ export const updateProject = (id, data) => {
 };
 
 /**
- * @param {string} projectId
- * @param {string} networkType
+ * @TODO update everywhere with username
+ *
+ * @param {Project.slug} slug
+ * @param {User.username} username
+ * @param {NetworkTypes} networkType
  * @param {string} address
  * @param {Function} progressCallback
  * @return {Function}
  */
-export const addVerifiedContractToProject = (projectId, networkType, address, progressCallback = () => {}) => {
+export const addVerifiedContractToProject = (slug, username, networkType, address, progressCallback = () => {}) => {
     return async (dispatch) => {
         try {
             const networkId = NetworkAppToApiTypeMap[networkType];
 
-            const {data: responseData} = await StreamingApi.post(`/account/me/project/${projectId}/streaming-address`, {
+            const {data: responseData} = await StreamingApi.post(`/account/${username}/project/${slug}/streaming-address`, {
                 network_id: networkId.toString(),
                 address,
             }, progressCallback);
@@ -257,7 +277,7 @@ export const addVerifiedContractToProject = (projectId, networkType, address, pr
 
             dispatch({
                 type: ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION,
-                projectId,
+                projectSlug: slug,
                 network: networkType,
                 address,
             });
