@@ -34,10 +34,10 @@ class PublicContractQuickActionModal extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const {open, projectsLoaded, actions, loggedIn} = this.props;
+        const {open, projectsLoaded, actions, loggedIn, user} = this.props;
 
         if (open && !projectsLoaded && loggedIn && open !== prevProps.open) {
-            actions.fetchProjects();
+            actions.fetchProjects(user.username);
         }
     }
 
@@ -261,6 +261,7 @@ PublicContractQuickActionModal.propTypes = {
 const mapStateToProps = (state) => {
     return {
         loggedIn: state.auth.loggedIn,
+        user: state.auth.user,
         projectsLoaded: state.project.projectsLoaded,
         projects: getDashboardProjects(state, false),
     }

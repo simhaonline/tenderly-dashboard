@@ -22,7 +22,6 @@ export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
 export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PROJECT';
 
 /**
- * @TODO update everywhere with username
  * @param {string} name
  * @param {User.username} [username]
  * @returns {Function}
@@ -126,7 +125,6 @@ export const createExampleProject = () => {
 };
 
 /**
- * @TODO update everywhere with username
  * @param {User.username} username
  * @returns {Function}
  */

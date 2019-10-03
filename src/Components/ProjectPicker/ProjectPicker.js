@@ -27,14 +27,14 @@ class ProjectPicker extends Component {
 
     toggleProjectsDropdown = () => {
         const {projectsDropdownOpen} = this.state;
-        const {projectsLoaded, actions} = this.props;
+        const {projectsLoaded, username, actions} = this.props;
 
         this.setState({
             projectsDropdownOpen: !projectsDropdownOpen,
         });
 
         if (!projectsLoaded) {
-            actions.fetchProjects();
+            actions.fetchProjects(username);
         }
     };
 
@@ -99,6 +99,7 @@ ProjectPicker.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
+        username: state.auth.user.username,
         projectsLoaded: state.project.projectsLoaded,
         projects: getDashboardProjects(state),
     }
