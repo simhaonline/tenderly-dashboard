@@ -22,7 +22,6 @@ const AppPages = () => {
         <Switch>
             <PrivateRoute path="/dashboard" exact component={DashboardPage}/>
             <PrivateRoute path="/project/create" exact component={CreateProjectPage}/>
-            <PrivateRoute path="/project/:id" component={ProjectPage}/>
             <PrivateRoute path="/onboarding" exact component={OnboardingPage}/>
             <PrivateRoute path="/account/:tab?" component={AccountSettingsPage}/>
             <Route path="/login" exact component={LoginPage}/>
@@ -31,8 +30,9 @@ const AppPages = () => {
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
             <Route path="/public-contracts" exact component={PublicContractsPage}/>
-            <Route path="/contract/:network/:id" component={PublicContractPage}/>
+            <Route path="/contract/:network/:id" strict component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
+            <PrivateRoute path="/:username/:id" strict component={ProjectPage}/>
             <Redirect exact from="/" to="/login"/>
             <Route component={NotFoundPage}/>
         </Switch>
