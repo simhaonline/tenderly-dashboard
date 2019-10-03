@@ -26,7 +26,7 @@ class ProjectSettingsForm extends Component {
         const {project, actions} = this.props;
         const {formData: {projectName}} = this.state;
 
-        await actions.updateProject(project.id, {
+        await actions.updateProject(project, {
             name: projectName,
         });
 

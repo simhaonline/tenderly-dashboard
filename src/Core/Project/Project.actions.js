@@ -226,24 +226,22 @@ export const setProjectSetupViewed = (project) => {
 };
 
 /**
- * @TODO update everywhere with username
- * @param {Project.slug} slug
- * @param {User.username} username
+ * @param {Project} project
  * @param {Object} data
  */
-export const updateProject = (slug, username, data) => {
+export const updateProject = (project, data) => {
     return async (dispatch) => {
         try {
-            const {data: responseData} = await Api.post(`/account/${username}/project/${slug}`, data);
+            const {data: responseData} = await Api.post(`/account/${project.owner}/project/${project.slug}`, data);
 
-            const project = Project.buildFromResponse(responseData, username);
+            const updatedProject = Project.buildFromResponse(responseData, project.owner);
 
             dispatch({
                 type: UPDATE_PROJECT_ACTION,
-                project,
+                project: updatedProject,
             });
 
-            return new SuccessActionResponse(project);
+            return new SuccessActionResponse(updatedProject);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);
