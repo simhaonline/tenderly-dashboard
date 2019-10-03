@@ -11,6 +11,11 @@ import {SimpleLoader, NoProjectsEmptyState, ProjectSetupGuide, FeatureFlag} from
 
 import './DashboardProjectsList.scss';
 
+/**
+ * @param {Project[]} projects
+ * @param loaded
+ * @param onTryExample
+ */
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     const data = [
         {name: 'Page A', transactions: 1,},
@@ -35,14 +40,14 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
             {(loaded && projects.length === 0) && <NoProjectsEmptyState onTryExample={onTryExample}/>}
             {(loaded && projects.length !== 0) && <div className="ProjectList">
                 {_.sortBy(projects, 'createdAt').map(project =>
-                    <Link to={`/project/${project.id}`} className="ProjectListItem" key={project.id}>
+                    <Link to={`/${project.owner}/${project.slug}`} className="ProjectListItem" key={project.id}>
                         <Card className="ProjectListItemCard">
                             <div className="ProjectNameWrapper">
                                 <div className="ProjectName">
                                     {project.type === ProjectTypes.DEMO && <span className="DemoTag">Demo</span>}
                                     <span>{project.name}</span>
                                 </div>
-                                <div className="ProjectId">{project.id}</div>
+                                <div className="ProjectId">{project.slug}</div>
                             </div>
                             <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                                 <div className="ProjectChartWrapper">
