@@ -18,7 +18,6 @@ import {
 } from "../../Common/Selectors/NotificationSelectors";
 import {
     areProjectContractsLoaded,
-    getProject,
     getProjectBySlugAndUsername
 } from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
