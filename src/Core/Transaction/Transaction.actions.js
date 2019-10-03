@@ -4,7 +4,7 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {NetworkAppToApiTypeMap, TransactionFilterTypes} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
-import {EventLog, StackTrace, CallTrace, Transaction, StateDiff} from "../models";
+import {EventLog, StackTrace, CallTrace, Transaction, StateDiff, Project} from "../models";
 
 import {
     exampleTransaction1Paylod
@@ -32,13 +32,14 @@ const TypeValueToApiValue = {
 };
 
 /**
- * @param {string} projectId
+ * @param {Project.slug} projectSlug
+ * @param {User.username} username
  * @param {Object} filters
  * @param {number} page
  * @param {number} limit
  * @return {Function}
  */
-export const fetchTransactionsForProject = (projectId, filters, page = 1, limit = 50) => {
+export const fetchTransactionsForProject = (projectSlug, username, filters, page = 1, limit = 50) => {
     return async (dispatch) => {
         try {
             const statusFilter = filters[TransactionFilterTypes.STATUS];
@@ -46,7 +47,9 @@ export const fetchTransactionsForProject = (projectId, filters, page = 1, limit 
             const contractsFilter = filters[TransactionFilterTypes.CONTRACTS];
             const networksFilter = filters[TransactionFilterTypes.NETWORKS];
 
-            const {data} = await Api.get(`/account/me/project/${projectId}/transactions`, {
+            const projectId = Project.generateProjectId(projectSlug, username);
+
+            const {data} = await Api.get(`/account/${username}/project/${projectSlug}/transactions`, {
                 params: {
                     page,
                     perPage: limit,

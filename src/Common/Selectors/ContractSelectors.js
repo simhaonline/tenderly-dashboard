@@ -38,7 +38,7 @@ export function getContractStatus(state, address, network) {
 
 /**
  * @param {Object} state
- * @param {string} projectId
+ * @param {Project.id} projectId
  * @returns {Contract[]}
  */
 export function getContractsForProject(state, projectId) {

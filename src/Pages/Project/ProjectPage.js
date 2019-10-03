@@ -62,7 +62,7 @@ class ProjectPage extends Component {
                 </Helmet>
                 <ProjectSidebar project={project}/>
                 <Switch>
-                    <Route path="/:username/:id/transactions" component={ProjectTransactionsPage}/>
+                    <Route path="/:username/:slug/transactions" component={ProjectTransactionsPage}/>
                     <Route path="/:username/:id/tx/:network/:txHash/:tab?" strict component={ProjectTransactionPage}/>
                     <Route path="/:username/:id/analytics" component={ProjectAnalyticsPage}/>
                     <Route path="/:username/:id/alerts/:tab" component={ProjectAlertsPage}/>

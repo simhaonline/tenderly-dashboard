@@ -9,6 +9,8 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
 import Notifications from "../../Utils/Notifications";
 
+import {Project} from "../../Core/models";
+
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
@@ -35,13 +37,13 @@ class ProjectTransactionsPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, txActions, contractActions, contractsLoaded} = this.props;
+        const {project, txActions, contractActions, contractsLoaded, username} = this.props;
         const {filters, page, perPage} = this.state;
 
         let transactions = [];
 
         if (project.type !== ProjectTypes.DEMO) {
-            const actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, perPage);
+            const actionResponse = await txActions.fetchTransactionsForProject(project.slug, username, filters, page, perPage);
 
             if (!actionResponse.success) {
                 this.setState({
@@ -56,7 +58,7 @@ class ProjectTransactionsPage extends Component {
             transactions = actionResponse.data;
 
             if (!contractsLoaded) {
-                await contractActions.fetchContractsForProject(project.id);
+                await contractActions.fetchContractsForProject(project.slug, username);
             }
 
             if (project.isSetup) {
@@ -162,7 +164,7 @@ class ProjectTransactionsPage extends Component {
     };
 
     fetchTransactions = _.debounce(async () => {
-        const {project, txActions} = this.props;
+        const {project, txActions, username} = this.props;
         const {filters, page, perPage} = this.state;
 
         let actionResponse;
@@ -172,7 +174,7 @@ class ProjectTransactionsPage extends Component {
         if (project.type === ProjectTypes.DEMO) {
             actionResponse= await txActions.fetchExampleTransactions();
         } else {
-            actionResponse = await txActions.fetchTransactionsForProject(project.id, filters, page, perPage);
+            actionResponse = await txActions.fetchTransactionsForProject(project.slug, username, filters, page, perPage);
         }
 
         if (!actionResponse.success) {
@@ -263,7 +265,7 @@ class ProjectTransactionsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id}}, location: {search}} = ownProps;
+    const {match: {params: {username, slug}}, location: {search}} = ownProps;
 
     const searchParams = new URLSearchParams(search);
 
@@ -299,13 +301,16 @@ const mapStateToProps = (state, ownProps) => {
         };
     }
 
+    const projectId = Project.generateProjectId(slug, username);
+
     return {
         queryPage,
         queryPerPage,
         queryFilters,
-        project: getProject(state, id),
-        contracts: getContractsForProject(state, id),
-        contractsLoaded: areProjectContractsLoaded(state, id),
+        username,
+        project: getProject(state, projectId),
+        contracts: getContractsForProject(state, projectId),
+        contractsLoaded: areProjectContractsLoaded(state, projectId),
     }
 };
 

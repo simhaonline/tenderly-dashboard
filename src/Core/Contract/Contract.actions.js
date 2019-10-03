@@ -3,7 +3,7 @@ import Contract from './Contract.model';
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {NetworkAppToApiTypeMap} from "../../Common/constants";
 import {exampleContract1Payload, exampleContract2Payload} from "../../examples";
-import {ContractMethod, ContractLog} from "../models";
+import {ContractMethod, ContractLog, Project} from "../models";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
@@ -13,12 +13,15 @@ export const FETCH_CONTRACT_METHODS_ACTION = 'FETCH_CONTRACT_METHODS';
 export const FETCH_CONTRACT_LOGS_ACTION = 'FETCH_CONTRACT_LOGS';
 
 /**
- * @param {string} projectId
+ * @param {Project.slug} projectSlug
+ * @param {User.username} username
  */
-export const fetchContractsForProject = (projectId) => {
+export const fetchContractsForProject = (projectSlug, username) => {
     return async dispatch => {
         try {
-            const {data} = await Api.get(`/account/me/project/${projectId}/contracts`);
+            const {data} = await Api.get(`/account/${username}/project/${projectSlug}/contracts`);
+
+            const projectId = Project.generateProjectId(projectSlug, username);
 
             let contracts = [];
 
