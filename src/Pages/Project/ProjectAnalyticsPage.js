@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {FeatureFlagTypes} from "../../Common/constants";
 
 import {Container, Page, PageHeading} from "../../Elements";
@@ -30,10 +30,10 @@ class ProjectAnalyticsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id}}} = ownProps;
+    const {match: {params: {username, slug}}} = ownProps;
 
     return {
-        project: getProject(state, id),
+        project: getProjectBySlugAndUsername(state, slug, username),
     }
 };
 
