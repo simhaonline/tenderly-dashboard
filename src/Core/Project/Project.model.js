@@ -60,6 +60,16 @@ class Project {
     }
 
     /**
+     * @param {string} slug
+     * @param {string} username
+     *
+     * @return {Project.id} projectId
+     */
+    static generateProjectId(slug, username) {
+        return `${username}:${slug}`;
+    }
+
+    /**
      * @param {Object} response
      * @param {User.username} username
      * @param {ProjectTypes} [projectType]
@@ -68,7 +78,7 @@ class Project {
      */
     static buildFromResponse(response, username, projectType) {
         return new Project({
-            id: response.id,
+            id: Project.generateProjectId(response.slug, username),
             name: response.name,
             slug: response.slug,
             lastPushAt: response.last_push_at,
