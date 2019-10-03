@@ -73,11 +73,11 @@ class ProjectContractList extends Component{
     };
 
     handleContractClick = (contract) => {
-        const {history, match: {params: {id}}} = this.props;
+        const {history, match: {params: {username, slug}}} = this.props;
 
         const networkRoute = NetworkAppToRouteTypeMap[contract.network];
 
-        history.push(`/project/${id}/contract/${networkRoute}/${contract.address}`);
+        history.push(`/${username}/${slug}/contract/${networkRoute}/${contract.address}`);
     };
 
     render() {

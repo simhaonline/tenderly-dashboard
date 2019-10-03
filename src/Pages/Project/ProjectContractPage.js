@@ -14,6 +14,7 @@ import {
     ProjectContentLoader,
     ContractFiles, EtherscanLink,
 } from "../../Components";
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 class ProjectContractPage extends Component {
     constructor(props) {
@@ -25,10 +26,10 @@ class ProjectContractPage extends Component {
     }
 
     componentDidMount() {
-        const {contractStatus, networkType, contractId, actions, projectId} = this.props;
+        const {contractStatus, networkType, contractId, actions, project} = this.props;
 
         if (contractStatus === EntityStatusTypes.NOT_LOADED) {
-            actions.fetchContractForProject(projectId, contractId, networkType);
+            actions.fetchContractForProject(project, contractId, networkType);
         }
     }
 
@@ -45,18 +46,18 @@ class ProjectContractPage extends Component {
      * @param {Contract} contract
      */
     handleContractListeningToggle = (contract) => {
-        const {actions} = this.props;
+        const {actions, project} = this.props;
 
-        actions.toggleContractListening(contract.projectId, contract.address, contract.network);
+        actions.toggleContractListening(project, contract.address, contract.network);
     };
 
     /**
      * @param {Contract} contract
      */
     handleContractDelete = async (contract) => {
-        const {actions} = this.props;
+        const {actions, project} = this.props;
 
-        const response = await actions.deleteContract(contract.projectId, contract.address, contract.network);
+        const response = await actions.deleteContract(project, contract.address, contract.network);
 
         if (response.success) {
             this.setState({
@@ -66,11 +67,11 @@ class ProjectContractPage extends Component {
     };
 
     render() {
-        const {contract, contractStatus, projectId} = this.props;
+        const {contract, contractStatus, project} = this.props;
         const {contractRemoved} = this.state;
 
         if (contractStatus === EntityStatusTypes.NON_EXISTING || contractRemoved) {
-            return <Redirect to={`/project/${projectId}/contracts`}/>
+            return <Redirect to={`/${project.owner}/${project.slug}/contracts`}/>
         }
 
         const isContractFetched = this.isContractLoaded();
@@ -81,7 +82,7 @@ class ProjectContractPage extends Component {
                     {!isContractFetched && <ProjectContentLoader text="Fetching contract..."/>}
                     {isContractFetched && <Fragment>
                         <PageHeading>
-                            <Button outline to={`/project/${projectId}/contracts`}>
+                            <Button outline to={`/${project.owner}/${project.slug}/contracts`}>
                                 <Icon icon="arrow-left"/>
                             </Button>
                             <h1>{contract.name}</h1>
@@ -105,14 +106,16 @@ class ProjectContractPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id, contractId, network}}} = ownProps;
+    const {match: {params: {username, slug, contractId, network}}} = ownProps;
 
     const networkType = NetworkRouteToAppTypeMap[network];
+
+    const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
         networkType,
         contractId,
-        projectId: id,
+        project,
         contract: getContractByAddressAndNetwork(state, contractId, networkType),
         contractStatus: getContractStatus(state, contractId, networkType),
     }

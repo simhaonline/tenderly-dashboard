@@ -63,30 +63,30 @@ export const fetchContractsForProject = (projectSlug, username) => {
 
 /**
  *
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} contractAddress
  * @param {NetworkTypes} network
  */
-export const fetchContractForProject = (projectId, contractAddress, network) => {
+export const fetchContractForProject = (project, contractAddress, network) => {
     return async dispatch => {
         try {
             const apiNetworkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.get(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}`);
 
             if (!data) {
                 return new ErrorActionResponse();
             }
 
             const contract = Contract.buildFromResponse(data.contract, {
-                id: projectId,
+                id: project.id,
                 listening: data.include_in_transaction_listing,
             });
 
             await dispatch({
                 type: FETCH_CONTRACT_FOR_PROJECT_ACTION,
                 contract,
-                projectId,
+                projectId: project.id,
             });
 
             return new SuccessActionResponse(contract);
@@ -179,20 +179,20 @@ export const toggleContractListening = (project, contractAddress, network) => {
 
 /**
  *
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} contractAddress
  * @param {NetworkTypes} network
  */
-export const deleteContract = (projectId, contractAddress, network) => {
+export const deleteContract = (project, contractAddress, network) => {
     return async dispatch => {
         try {
             const apiNetworkId = NetworkAppToApiTypeMap[network];
 
-            await Api.delete(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}`);
+            await Api.delete(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}`);
 
             dispatch({
                 type: DELETE_CONTRACT_ACTION,
-                projectId,
+                projectId: project.id,
                 contractId: Contract.generateUniqueContractId(contractAddress, network),
                 network,
             });
