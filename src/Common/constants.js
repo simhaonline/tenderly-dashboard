@@ -90,6 +90,7 @@ export const EntityStatusTypes = {
  */
 export const ProjectTypes = {
     PRIVATE: 'PRIVATE',
+    SHARED: 'SHARED',
     PUBLIC: 'PUBLIC',
     DEMO: 'DEMO'
 };

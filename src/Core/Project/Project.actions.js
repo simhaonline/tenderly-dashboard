@@ -131,7 +131,11 @@ export const createExampleProject = () => {
 export const fetchProjects = (username) => {
     return async dispatch => {
         try {
-            const {data} = await Api.get(`/account/${username}/projects`);
+            const {data} = await Api.get(`/account/${username}/projects`, {
+                params: {
+                    withShared: true,
+                }
+            });
 
             if (!data || !data.projects || !data.projects.length) {
                 dispatch({

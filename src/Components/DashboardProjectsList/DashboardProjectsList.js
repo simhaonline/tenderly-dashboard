@@ -47,7 +47,10 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
                                     {project.type === ProjectTypes.DEMO && <span className="DemoTag">Demo</span>}
                                     <span>{project.name}</span>
                                 </div>
-                                <div className="ProjectId">{project.slug}</div>
+                                <div className="ProjectId">
+                                    {project.type !== ProjectTypes.SHARED && <span>{project.slug}</span>}
+                                    {project.type === ProjectTypes.SHARED && <span>{project.owner}/{project.slug}</span>}
+                                </div>
                             </div>
                             <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                                 <div className="ProjectChartWrapper">

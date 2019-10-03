@@ -4,10 +4,10 @@ import {ProjectTypes} from "../../Common/constants";
 class Project {
     /**
      * @param {Object} data
-     * @param {User.username} [username]
+     * @param {User.username} [owner]
      * @param {ProjectTypes} [projectType]
      */
-    constructor(data, username, projectType) {
+    constructor(data, owner, projectType) {
         /** @type string */
         this.id = data.id;
 
@@ -30,7 +30,7 @@ class Project {
         this.createdAt = data.createdAt;
 
         /** @type {User.username} */
-        this.owner = username;
+        this.owner = owner;
 
         /** @type string */
         this.type = projectType || ProjectTypes.PRIVATE;
@@ -85,20 +85,28 @@ class Project {
     /**
      * @param {Object} response
      * @param {User.username} username
-     * @param {ProjectTypes} [projectType]
+     * @param {ProjectTypes} [type]
      *
      * @return {Project}
      */
-    static buildFromResponse(response, username, projectType) {
+    static buildFromResponse(response, username, type) {
+        let projectOwner = username;
+        let projectType = type;
+
+        if (response.owner) {
+            projectOwner = response.owner.username;
+            projectType = ProjectTypes.SHARED;
+        }
+
         return new Project({
-            id: Project.generateProjectId(response.slug, username),
+            id: Project.generateProjectId(response.slug, projectOwner),
             name: response.name,
             slug: response.slug,
             lastPushAt: response.last_push_at,
             isSetup: !!response.last_push_at,
             setupViewed: !!response.last_push_at,
             createdAt: response.created_at,
-        }, username, projectType);
+        }, projectOwner, projectType);
     }
 }
 
