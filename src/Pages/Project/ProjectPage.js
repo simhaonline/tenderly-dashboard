@@ -65,13 +65,13 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/transactions" component={ProjectTransactionsPage}/>
                     <Route path="/:username/:slug/tx/:network/:txHash/:tab?" strict component={ProjectTransactionPage}/>
                     <Route path="/:username/:slug/analytics" component={ProjectAnalyticsPage}/>
-                    <Route path="/:username/:id/alerts/:tab" component={ProjectAlertsPage}/>
-                    <Redirect from="/:username/:id/alerts" to="/:username/:id/alerts/rules"/>
+                    <Route path="/:username/:slug/alerts/:tab" component={ProjectAlertsPage}/>
+                    <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
                     <Route path="/:username/:slug/contracts" component={ProjectContractsPage}/>
                     <Route path="/:username/:slug/contract/:network/:contractId" component={ProjectContractPage}/>
-                    <Route path="/:username/:id/releases" component={ProjectReleasesPage}/>
+                    <Route path="/:username/:slug/releases" component={ProjectReleasesPage}/>
                     <Route path="/:username/:slug/settings" component={ProjectSettingsPage}/>
-                    <Redirect to={`/:username/${project.slug}/transactions`}/>
+                    <Redirect to={`/:username/:slug/transactions`}/>
                 </Switch>
             </Fragment>
         )

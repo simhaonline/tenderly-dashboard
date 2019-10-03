@@ -27,7 +27,7 @@ import {
 import {SimpleLoader, EmptyState, FeatureFlag, ExampleProjectInfoModal} from "..";
 
 import './AlertRulesList.scss';
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getProject, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 class AlertRulesList extends Component {
     constructor(props) {
@@ -39,10 +39,10 @@ class AlertRulesList extends Component {
     }
 
     componentDidMount() {
-        const {actions, projectId, project, areRulesLoaded} = this.props;
+        const {actions, project, areRulesLoaded} = this.props;
 
         if (!areRulesLoaded && project.type !== ProjectTypes.DEMO) {
-            actions.fetchAlertRulesForProject(projectId);
+            actions.fetchAlertRulesForProject(project);
         }
     }
 
@@ -50,13 +50,13 @@ class AlertRulesList extends Component {
      * @param {AlertRule} rule
      */
     toggleAlertRule = (rule) => {
-        const {projectId, actions} = this.props;
+        const {project, actions} = this.props;
 
         const updatedRule = rule.update({
             enabled: !rule.enabled,
         });
 
-        actions.updateAlertRuleForProject(projectId, updatedRule);
+        actions.updateAlertRuleForProject(project, updatedRule);
     };
 
     handleOpenExampleProjectInfoModal = () => {
@@ -148,14 +148,14 @@ class AlertRulesList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {projectId}}} = ownProps;
+    const {match: {params: {username, slug}}} = ownProps;
 
-    const project = getProject(state, projectId);
+    const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
-        projectId,
+        projectId: project.id,
         project,
-        rules: getAlertRulesForProject(state, projectId),
+        rules: getAlertRulesForProject(state, project.id),
         areRulesLoaded: areAlertRulesLoadedForProject(state, project),
     };
 };

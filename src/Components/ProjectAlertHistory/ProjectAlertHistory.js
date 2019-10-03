@@ -60,17 +60,17 @@ class ProjectAlertHistory extends Component {
     }
 
     async componentDidMount() {
-        const {actions, areRulesLoaded, projectId, project} = this.props;
+        const {actions, areRulesLoaded, project} = this.props;
         const {page, filters} = this.state;
 
         let alertLogs = [];
 
         if (project.type !== ProjectTypes.DEMO) {
             if (!areRulesLoaded) {
-                actions.fetchAlertRulesForProject(projectId);
+                actions.fetchAlertRulesForProject(project);
             }
 
-            const response = await actions.fetchAlertHistoryforProject(projectId, filters, page);
+            const response = await actions.fetchAlertHistoryforProject(project, filters, page);
 
             if (response.success) {
                 alertLogs = response.data;
@@ -84,7 +84,7 @@ class ProjectAlertHistory extends Component {
     }
 
     handlePageChange = (nextPage) => {
-        const {actions, projectId} = this.props;
+        const {actions, project} = this.props;
         const {filters} = this.state;
 
         this.setState({
@@ -94,7 +94,7 @@ class ProjectAlertHistory extends Component {
                 loading: true,
             });
 
-            const response = await actions.fetchAlertHistoryforProject(projectId, filters, nextPage);
+            const response = await actions.fetchAlertHistoryforProject(project, filters, nextPage);
 
             let alertLogs = [];
 
@@ -134,14 +134,12 @@ class ProjectAlertHistory extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {projectId}}} = ownProps;
-
-    const project = getProject(state, projectId);
+    const {project} = ownProps;
 
     return {
-        projectId,
+        projectId: project.id,
         project,
-        rules: getAlertRulesForProject(state, projectId),
+        rules: getAlertRulesForProject(state, project.id),
         areRulesLoaded: areAlertRulesLoadedForProject(state, project),
     };
 };

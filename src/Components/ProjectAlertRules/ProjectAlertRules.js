@@ -7,11 +7,11 @@ class ProjectAlertRules extends Component {
     render() {
         return (
             <Switch>
-                <Route path={`/project/:projectId/alerts/rules`} exact component={AlertRulesList}/>
-                <Route path={`/project/:projectId/alerts/rules/templates`} exact component={AlertTemplates}/>
-                <Route path={`/project/:projectId/alerts/rules/create`} exact component={CreateAlertRule}/>
-                <Route path={`/project/:projectId/alerts/rules/:ruleId`} exact component={AlertRuleView}/>
-                <Route path={`/project/:projectId/alerts/rules/:ruleId/edit`} exact component={EditAlertRule}/>
+                <Route path={`/:username/:slug/alerts/rules`} exact component={AlertRulesList}/>
+                <Route path={`/:username/:slug/alerts/rules/templates`} exact component={AlertTemplates}/>
+                <Route path={`/:username/:slug/alerts/rules/create`} exact component={CreateAlertRule}/>
+                <Route path={`/:username/:slug/alerts/rules/:ruleId`} exact component={AlertRuleView}/>
+                <Route path={`/:username/:slug/alerts/rules/:ruleId/edit`} exact component={EditAlertRule}/>
             </Switch>
         );
     }

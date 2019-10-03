@@ -4,7 +4,7 @@ import {Route, Switch} from "react-router-dom";
 
 import Analytics from "../../Utils/Analytics";
 
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getProject, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
 import {Container, Page, PageHeading, Button} from "../../Elements";
@@ -55,7 +55,7 @@ class ProjectAlertsPage extends Component {
     handleSegmentSwitch = (segment) => {
         const {project} = this.props;
 
-        this.props.history.push(`/project/${project.id}/alerts/${segment}`);
+        this.props.history.push(`/${project.owner}/${project.slug}/alerts/${segment}`);
 
         this.setState({
             currentSegment: segment,
@@ -72,7 +72,7 @@ class ProjectAlertsPage extends Component {
                     <PageHeading>
                         <h1>Alerting</h1>
                         <div className="MarginLeftAuto">
-                            {areRulesLoaded && !!rules.length && <Button onClick={() => Analytics.trackEvent('create_alert_button_clicked')} to={`/project/${project.id}/alerts/rules/create`}>
+                            {areRulesLoaded && !!rules.length && <Button onClick={() => Analytics.trackEvent('create_alert_button_clicked')} to={`/${project.owner}/${project.slug}/alerts/rules/create`}>
                                 <span>New Alert</span>
                             </Button>}
                         </div>
@@ -81,13 +81,13 @@ class ProjectAlertsPage extends Component {
                     {project.isSetup && <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
                         <Switch>
-                            <Route path={`/project/:projectId/alerts/rules`} render={() => <PageSegmentContent>
-                                <ProjectAlertRules projectId={project.id}/>
+                            <Route path={`/:username/:slug/alerts/rules`} render={() => <PageSegmentContent>
+                                <ProjectAlertRules/>
                             </PageSegmentContent>}/>
-                            <Route path={`/project/:projectId/alerts/history`} render={() => <PageSegmentContent>
-                                <ProjectAlertHistory projectId={project.id}/>
+                            <Route path={`/:username/:slug/alerts/history`} render={() => <PageSegmentContent>
+                                <ProjectAlertHistory project={project}/>
                             </PageSegmentContent>}/>
-                            <Route path={`/project/:projectId/alerts/destinations`} render={() => <PageSegmentContent>
+                            <Route path={`/:username/:slug/alerts/destinations`} render={() => <PageSegmentContent>
                                 <ProjectAlertDestinations/>
                             </PageSegmentContent>}/>
                         </Switch>
@@ -99,14 +99,14 @@ class ProjectAlertsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id, tab}}} = ownProps;
+    const {match: {params: {username, slug, tab}}} = ownProps;
 
-    const project = getProject(state, id);
+    const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
         initialTab: tab,
         project,
-        rules: getAlertRulesForProject(state, id),
+        rules: getAlertRulesForProject(state, project.id),
         areRulesLoaded: areAlertRulesLoadedForProject(state, project),
     }
 };

@@ -12,12 +12,12 @@ export const UPDATE_ALERT_RULE_FOR_PROJECT_ACTION = 'UPDATE_ALERT_RULE_FOR_PROJE
 export const DELETE_ALERT_RULE_FOR_PROJECT_ACTION = 'DELETE_ALERT_RULE_FOR_PROJECT';
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  */
-export const fetchAlertRulesForProject = (projectId) => {
+export const fetchAlertRulesForProject = (project) => {
     return async dispatch => {
         try {
-            const {data} = await Api.get(`/account/me/project/${projectId}/alerts`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/alerts`);
 
             if (!data || !data.alerts) {
                 return new ErrorActionResponse();
@@ -27,7 +27,7 @@ export const fetchAlertRulesForProject = (projectId) => {
 
             dispatch({
                 type: FETCH_ALERT_RULES_FOR_PROJECT_ACTION,
-                projectId,
+                projectId: project.id,
                 rules,
             });
 
@@ -167,16 +167,16 @@ export const createAlertRuleForProject = (projectId, general, expressions, desti
 };
 
 /**
- * @param {string} projectId
+ * @param {Project} project
  * @param {Object} [filters]
  * @param {number} [page]
  * @param {number} [limit]
  * @return {Function}
  */
-export const fetchAlertHistoryforProject = (projectId, filters, page = 1, limit = 20) => {
+export const fetchAlertHistoryforProject = (project, filters, page = 1, limit = 20) => {
     return async () => {
         try {
-            const {data} = await Api.get(`/account/me/project/${projectId}/alert-history`, {
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/alert-history`, {
                 params: {
                     page,
                     perPage: limit,
