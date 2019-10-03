@@ -18,6 +18,7 @@ import {
 } from "../../Components";
 import NoContractsIcon from '../../Components/ProjectSetupEmptyState/no-contracts-watched.svg';
 import {ProjectTypes} from "../../Common/constants";
+import {Project} from "../../Core/models";
 
 class ProjectContractsPage extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class ProjectContractsPage extends Component {
         const projectIsSetup = !!project.lastPushAt;
 
         if (projectIsSetup && !contractsLoaded) {
-            await actions.fetchContractsForProject(project.id);
+            await actions.fetchContractsForProject(project.slug, project.owner);
         }
     }
 
@@ -42,9 +43,9 @@ class ProjectContractsPage extends Component {
      * @param {Contract} contract
      */
     handleContractListeningToggle = (contract) => {
-        const {actions} = this.props;
+        const {actions, project} = this.props;
 
-        actions.toggleContractListening(contract.projectId, contract.address, contract.network);
+        actions.toggleContractListening(project, contract.address, contract.network);
     };
 
     handleOpenExampleProjectInfoModal = () => {
@@ -99,12 +100,14 @@ class ProjectContractsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {id}}} = ownProps;
+    const {match: {params: {slug, username}}} = ownProps;
+
+    const projectId = Project.generateProjectId(slug, username);
 
     return {
-        project: getProject(state, id),
-        contracts: getContractsForProject(state, id),
-        contractsLoaded: areProjectContractsLoaded(state, id),
+        project: getProject(state, projectId),
+        contracts: getContractsForProject(state, projectId),
+        contractsLoaded: areProjectContractsLoaded(state, projectId),
     }
 };
 

@@ -1,3 +1,5 @@
+import Project from "../../Core/Project/Project.model";
+
 import {EntityStatusTypes, ProjectTypes} from "../constants";
 
 /**
@@ -22,6 +24,17 @@ export function getDashboardProjects(state, includeExample = true) {
  */
 export function getProject(state, id) {
     return state.project.projects[id];
+}
+
+/**
+ * @param {Object} state
+ * @param {string} slug
+ * @param {string} username
+ *
+ * @returns {Project}
+ */
+export function getProjectBySlugAndUsername(state, slug, username) {
+    return state.project.projects[Project.generateProjectId(slug, username)];
 }
 
 /**

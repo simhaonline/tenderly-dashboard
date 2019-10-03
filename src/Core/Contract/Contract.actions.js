@@ -146,16 +146,16 @@ export const fetchExampleContractsForTransaction = (projectId) => {
 
 /**
  *
- * @param {string} projectId
+ * @param {Project} project
  * @param {string} contractAddress
  * @param {NetworkTypes} network
  */
-export const toggleContractListening = (projectId, contractAddress, network) => {
+export const toggleContractListening = (project, contractAddress, network) => {
     return async dispatch => {
         try {
             const apiNetworkId = NetworkAppToApiTypeMap[network];
 
-            const {data} = await Api.post(`/account/me/project/${projectId}/contract/${apiNetworkId}/${contractAddress}/toggle`);
+            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}/toggle`);
 
             if (!data || !data.success) {
                 return new ErrorActionResponse();
@@ -163,7 +163,7 @@ export const toggleContractListening = (projectId, contractAddress, network) => 
 
             dispatch({
                 type: TOGGLE_CONTRACT_LISTENING_ACTION,
-                projectId,
+                projectId: project.id,
                 contract: contractAddress,
                 contractId: Contract.generateUniqueContractId(contractAddress, network),
                 network,
