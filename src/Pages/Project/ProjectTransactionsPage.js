@@ -37,13 +37,13 @@ class ProjectTransactionsPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, txActions, contractActions, contractsLoaded, username} = this.props;
+        const {project, txActions, contractActions, contractsLoaded} = this.props;
         const {filters, page, perPage} = this.state;
 
         let transactions = [];
 
         if (project.type !== ProjectTypes.DEMO) {
-            const actionResponse = await txActions.fetchTransactionsForProject(project.slug, username, filters, page, perPage);
+            const actionResponse = await txActions.fetchTransactionsForProject(project.slug, project.owner, filters, page, perPage);
 
             if (!actionResponse.success) {
                 this.setState({
@@ -58,7 +58,7 @@ class ProjectTransactionsPage extends Component {
             transactions = actionResponse.data;
 
             if (!contractsLoaded) {
-                await contractActions.fetchContractsForProject(project.slug, username);
+                await contractActions.fetchContractsForProject(project.slug, project.owner);
             }
 
             if (project.isSetup) {
@@ -164,7 +164,7 @@ class ProjectTransactionsPage extends Component {
     };
 
     fetchTransactions = _.debounce(async () => {
-        const {project, txActions, username} = this.props;
+        const {project, txActions} = this.props;
         const {filters, page, perPage} = this.state;
 
         let actionResponse;
@@ -174,7 +174,7 @@ class ProjectTransactionsPage extends Component {
         if (project.type === ProjectTypes.DEMO) {
             actionResponse= await txActions.fetchExampleTransactions();
         } else {
-            actionResponse = await txActions.fetchTransactionsForProject(project.slug, username, filters, page, perPage);
+            actionResponse = await txActions.fetchTransactionsForProject(project.slug, project.owner, filters, page, perPage);
         }
 
         if (!actionResponse.success) {
@@ -307,7 +307,6 @@ const mapStateToProps = (state, ownProps) => {
         queryPage,
         queryPerPage,
         queryFilters,
-        username,
         project: getProject(state, projectId),
         contracts: getContractsForProject(state, projectId),
         contractsLoaded: areProjectContractsLoaded(state, projectId),
