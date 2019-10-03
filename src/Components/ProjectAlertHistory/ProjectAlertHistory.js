@@ -7,9 +7,9 @@ import moment from "moment";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
+import Project from "../../Core/Project/Project.model";
 
 import {NetworkAppToRouteTypeMap, ProjectTypes} from "../../Common/constants";
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
 import {Panel, PanelContent, Table} from "../../Elements";
@@ -29,9 +29,13 @@ const alertHistoryTableConf = [
     },
     {
         label: "Tx Hash",
-        renderColumn: (log, metadata) => <div>
-            <Link className="MonospaceFont" to={`/project/${metadata.projectId}/tx/${NetworkAppToRouteTypeMap[log.network]}/${log.txHash}`}>{generateShortAddress(log.txHash, 12, 6)}</Link>
-        </div>,
+        renderColumn: (log, metadata) => {
+            const {slug, username} = Project.getSlugAndUsernameFromId(metadata.projectId);
+
+            return <div>
+                <Link className="MonospaceFont" to={`/${username}/${slug}/tx/${NetworkAppToRouteTypeMap[log.network]}/${log.txHash}`}>{generateShortAddress(log.txHash, 12, 6)}</Link>
+            </div>
+        },
     },
     {
         label: "When",

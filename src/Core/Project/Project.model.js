@@ -70,6 +70,19 @@ class Project {
     }
 
     /**
+     * @param {Project.id} projectId
+     * @return {{slug: string, username: string}}
+     */
+    static getSlugAndUsernameFromId(projectId) {
+        const [username, slug] = projectId.split(':');
+
+        return {
+            slug,
+            username,
+        };
+    }
+
+    /**
      * @param {Object} response
      * @param {User.username} username
      * @param {ProjectTypes} [projectType]
