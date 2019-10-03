@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import * as _ from "lodash";
 import {
-    AlertParameterConditionOperatorTypeLabelMap,
+    AlertParameterConditionOperatorTypeLabelMap, ContractInputParameterSimpleTypes,
     SimpleAlertRuleTargetTypes,
     SimpleAlertRuleTypes
 } from "../../Common/constants";
@@ -43,13 +43,18 @@ class OptionParameterBuilder extends PureComponent {
         const condition = value && value.condition ? value.condition : {};
 
         this.state = {
+            /** @type {(ContractMethod|ContractLog)} */
             selectedOption: option,
+            /** @type {ContractInputParameter[]} */
             parameterOptions: option ? option.inputs : [],
+            /** @type {ContractInputParameter} */
             selectedParameter: option && condition.name ? option.inputs.find(input => input.name === condition.name) : null,
+            /** @type {AlertParameterConditionOperatorOption} */
             selectedOperator: condition.operator ? {
                 value: condition.operator,
                 label: AlertParameterConditionOperatorTypeLabelMap[condition.operator],
             } : null,
+            /** {string} */
             comparisonValue: condition ? condition.value || '' : '',
         };
     }
@@ -145,7 +150,18 @@ class OptionParameterBuilder extends PureComponent {
                     }} options={getConditionOptionForParameter(selectedParameter)} onChange={this.handleParameterOperatorSelect}/>
                 </div>}
                 {!!selectedOperator && <div className="MarginTop2">
-                    <Input placeholder="Comparison value" autoComplete="off" value={comparisonValue} onChange={this.handleParameterConditionChange} field="comparisonValue"/>
+                    {selectedParameter.simpleType !== ContractInputParameterSimpleTypes.BOOL && <Input placeholder="Comparison value" autoComplete="off" value={comparisonValue} onChange={this.handleParameterConditionChange} field="comparisonValue"/>}
+                    {selectedParameter.simpleType === ContractInputParameterSimpleTypes.BOOL
+                        && <Select selectLabel="Comparison value" onChange={option => this.handleParameterConditionChange('', option.value)} field="comparisonValue"
+                                   value={{label: comparisonValue, value: comparisonValue,}}
+                                   options={[{
+                                       label: "true",
+                                       value: "true",
+                                   }, {
+                                       label: "false",
+                                       value: "false",
+                                   }]}
+                    />}
                     {!!comparisonValue && !isValidValueForParameterType(comparisonValue, selectedParameter.simpleType, selectedParameter.nestedType) && <div className="DangerText">
                         Invalid input value for <span className="MonospaceFont LinkText">{selectedParameter.type}</span> type
                     </div>}
