@@ -155,7 +155,6 @@ export const fetchProjects = (username) => {
 };
 
 /**
- * @TODO update everywhere with username
  * @param {Project.slug} slug
  * @param {User.username} username
  */
@@ -184,18 +183,16 @@ export const fetchProject = (slug, username) => {
 };
 
 /**
- * @TODO update everywhere with username
  * @param {Project} project
- * @param {User.username} username
  */
-export const deleteProject = (project, username) => {
+export const deleteProject = (project) => {
     return async (dispatch) => {
         if (project.type === ProjectTypes.DEMO) {
             await dispatch(updateUser({
                 showDemo: false,
             }));
         } else {
-            await Api.delete(`/account/${username}/project/${project.slug}`);
+            await Api.delete(`/account/${project.owner}/project/${project.slug}`);
         }
 
         dispatch({
