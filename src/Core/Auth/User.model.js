@@ -22,8 +22,21 @@ class User {
         this.passwordSet = data.password_is_set;
     }
 
+    /**
+     * @return {string}
+     */
     getFullName() {
         return `${this.firstName} ${this.lastName}`
+    }
+
+    getDisplayableIdentifier() {
+        const fullName = this.getFullName().trim();
+
+        if (!fullName) {
+            return this.email;
+        }
+
+        return fullName;
     }
 
     /**
