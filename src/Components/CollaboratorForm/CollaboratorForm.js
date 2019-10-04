@@ -81,7 +81,7 @@ class CollaboratorForm extends Component {
     };
 
     render() {
-        const {submitLabel, readOnlyEmail} = this.props;
+        const {submitLabel, readOnlyEmail, onCancel} = this.props;
         const {email, permissions, inProgress} = this.state;
 
         return (
@@ -104,6 +104,9 @@ class CollaboratorForm extends Component {
                         <Button type="submit" disabled={!this.isFormValid() || inProgress}>
                             <span>{submitLabel}</span>
                         </Button>
+                        {!!onCancel && <Button outline onClick={onCancel}>
+                            <span>Cancel</span>
+                        </Button>}
                     </div>
                 </Form>
             </div>
@@ -113,6 +116,7 @@ class CollaboratorForm extends Component {
 
 CollaboratorForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
     readOnlyEmail: PropTypes.bool,
     submitLabel: PropTypes.string,
     collaborator: PropTypes.instanceOf(Collaborator),
