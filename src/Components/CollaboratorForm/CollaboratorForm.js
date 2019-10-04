@@ -1,12 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {ValidateEmail} from "../../Utils/FormValidators";
+
+import {CollaboratorPermissionTypes} from "../../Common/constants";
+
 import {Collaborator} from "../../Core/models";
-import {Form, Button, Icon, Tooltip, PanelDivider, Toggle, Input} from "../../Elements";
+import {Form, Button, PanelDivider, Toggle, Input} from "../../Elements";
 
 import './CollaboratorForm.scss';
 
-const DEFAULT_PERMISSIONS = {};
+/** @type CollaboratorPermissions */
+const DEFAULT_PERMISSIONS = Object.keys(CollaboratorPermissionTypes).reduce((data, permission) => {
+    data[permission] = false;
+
+    return data;
+}, {});
 
 class CollaboratorForm extends Component {
     constructor(props) {
@@ -15,6 +24,7 @@ class CollaboratorForm extends Component {
         this.state = {
             email: '',
             permissions: DEFAULT_PERMISSIONS,
+            inProgress: false,
         };
     }
 
@@ -29,7 +39,7 @@ class CollaboratorForm extends Component {
     };
 
     /**
-     * @param {string} permission
+     * @param {CollaboratorPermissionTypes} permission
      */
     handlePermissionToggle = (permission) => {
         const {permissions} = this.state;
@@ -42,13 +52,21 @@ class CollaboratorForm extends Component {
         });
     };
 
-    handleFormSubmit = () => {
+    handleFormSubmit = async () => {
         const {email, permissions} = this.state;
         const {onSubmit} = this.props;
 
         if (!this.isFormValid()) return;
 
-        onSubmit(email, permissions);
+        this.setState({
+            inProgress: true,
+        });
+
+        await onSubmit(email, permissions);
+
+        this.setState({
+            inProgress: false,
+        });
     };
 
     /**
@@ -57,29 +75,55 @@ class CollaboratorForm extends Component {
     isFormValid = () => {
         const {email} = this.state;
 
-        return false;
+        return email.length > 0 && ValidateEmail(email);
+    };
+
+    /**
+     * @param {CollaboratorPermissionTypes} permission
+     *
+     * @return {string}
+     */
+    getLabelForPermission = (permission) => {
+        switch (permission) {
+            case CollaboratorPermissionTypes.ADD_CONTRACT:
+                return 'Add contracts to project';
+            case CollaboratorPermissionTypes.REMOVE_CONTRACT:
+                return 'Remove contracts from project';
+            case CollaboratorPermissionTypes.CREATE_ALERT:
+                return 'Create alerts in project';
+            case CollaboratorPermissionTypes.REMOVE_ALERT:
+                return 'Remove alerts in project';
+            case CollaboratorPermissionTypes.ADD_DESTINATION:
+                return 'Add destinations to alerts';
+            case CollaboratorPermissionTypes.REMOVE_DESTINATION:
+                return 'Remove destinations from alerts';
+            default:
+                return 'Unknown permission';
+        }
     };
 
     render() {
         const {submitLabel} = this.props;
-        const {email, permissions} = this.state;
+        const {email, permissions, inProgress} = this.state;
 
         return (
             <div className="CollaboratorForm">
                 <Form onSubmit={this.handleFormSubmit}>
-                    <Input icon="mail" label="E-mail" value={email} field="email" onChange={this.handleEmailChange}/>
+                    <div className="CollaboratorForm__EmailWrapper">
+                        <Input icon="mail" label="E-mail" value={email} field="email" onChange={this.handleEmailChange}/>
+                    </div>
                     <h3>Permissions</h3>
                     <PanelDivider/>
                     <div>
-                        {Object.keys(permissions).map(permission => <div key={permission}>
-                            <div>{permission}</div>
+                        {Object.keys(permissions).map(permission => <div key={permission} className="CollaboratorForm__Permission">
+                            <div className="CollaboratorForm__Permission__Label">{this.getLabelForPermission(permission)}</div>
                             <div>
                                 <Toggle value={permissions[permission]} onChange={() => this.handlePermissionToggle(permission)}/>
                             </div>
                         </div>)}
                     </div>
-                    <div>
-                        <Button type="submit" disabled={!this.isFormValid()}>
+                    <div className="MarginTop4">
+                        <Button type="submit" disabled={!this.isFormValid() || inProgress}>
                             <span>{submitLabel}</span>
                         </Button>
                     </div>

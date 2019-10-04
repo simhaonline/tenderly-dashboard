@@ -10,7 +10,7 @@ import {Button, Container, Icon, Page, PageHeading, PanelContent, PanelHeader, P
 import {CollaboratorForm} from "../../Components";
 
 class ProjectAddCollaboratorPage extends Component {
-    handleAddCollaborator = (email, permissions) => {
+    handleAddCollaborator = async (email, permissions) => {
         console.log(email, permissions);
     };
 

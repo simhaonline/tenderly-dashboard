@@ -7,11 +7,25 @@ class Collaborator extends User {
     constructor(data) {
         super(data);
 
+        /** @type {Project.id} */
         this.projectId = data.projectId;
+
+        /** @type {CollaboratorPermissions} */
+        this.permissions = data.permissions;
     }
 
+    /**
+     * @param {Object} apiPermissions
+     *
+     * @returns {CollaboratorPermissions}
+     */
     static transformPermissionsToApp(apiPermissions) {}
 
+    /**
+     * @param {CollaboratorPermissions} appPermissions
+     *
+     * @returns {Object}
+     */
     static transformPermissionsToApiPayload(appPermissions) {}
 
     /**
@@ -25,6 +39,7 @@ class Collaborator extends User {
 
         return new Collaborator({
             projectId,
+            permissions: Collaborator.transformPermissionsToApp(response.permissions),
         });
     }
 }

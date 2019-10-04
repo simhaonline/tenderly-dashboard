@@ -193,6 +193,46 @@ export const UsernameStatusMap = {
 /**
  * @enum {string}
  */
+export const CollaboratorPermissionTypes = {
+    ADD_CONTRACT: 'ADD_CONTRACT',
+    REMOVE_CONTRACT: 'REMOVE_CONTRACT',
+    CREATE_ALERT: 'CREATE_ALERT',
+    REMOVE_ALERT: 'REMOVE_ALERT',
+    ADD_DESTINATION: 'ADD_DESTINATION',
+    REMOVE_DESTINATION: 'REMOVE_DESTINATION',
+};
+
+/**
+ * @enum {string}
+ */
+export const CollaboratorPermissionAppToApiTypeMap = {
+    [CollaboratorPermissionTypes.ADD_CONTRACT]: 'add_contract',
+    [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'remove_contract',
+    [CollaboratorPermissionTypes.CREATE_ALERT]: 'create_alert',
+    [CollaboratorPermissionTypes.REMOVE_ALERT]: 'remove_alert',
+    [CollaboratorPermissionTypes.ADD_DESTINATION]: 'add_delivery_channel',
+    [CollaboratorPermissionTypes.REMOVE_DESTINATION]: 'remove_delivery_channel',
+};
+
+/**
+ * @enum {string}
+ */
+export const CollaboratorPermissionApiToAppTypeMap = {
+    'add_contract': CollaboratorPermissionTypes.ADD_CONTRACT,
+    'remove_contract': CollaboratorPermissionTypes.REMOVE_CONTRACT,
+    'create_alert': CollaboratorPermissionTypes.CREATE_ALERT,
+    'remove_alert': CollaboratorPermissionTypes.REMOVE_ALERT,
+    'add_delivery_channel': CollaboratorPermissionTypes.ADD_DESTINATION,
+    'remove_delivery_channel': CollaboratorPermissionTypes.REMOVE_DESTINATION,
+};
+
+/**
+ * @typedef {Object.<CollaboratorPermissionTypes, boolean>} CollaboratorPermissions
+ */
+
+/**
+ * @enum {string}
+ */
 export const CompanyTypes = {
     KYBER_NETWORK: 'KYBER_NETWORK',
 };

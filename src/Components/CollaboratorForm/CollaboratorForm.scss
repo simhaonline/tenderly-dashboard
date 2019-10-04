@@ -1,0 +1,18 @@
+@import "../../Common/common";
+
+.CollaboratorForm__EmailWrapper {
+  max-width: 400px;
+  margin-bottom: $Spacing7;
+}
+
+.CollaboratorForm__Permission {
+  display: flex;
+  align-items: center;
+  margin-bottom: $Spacing2;
+  padding: $Spacing1;
+}
+
+.CollaboratorForm__Permission__Label {
+  flex: 0 0 260px;
+  font-size: $FontSize400;
+}
