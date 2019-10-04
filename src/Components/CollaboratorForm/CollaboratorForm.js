@@ -21,9 +21,11 @@ class CollaboratorForm extends Component {
     constructor(props) {
         super(props);
 
+        const {collaborator} = props;
+
         this.state = {
-            email: '',
-            permissions: DEFAULT_PERMISSIONS,
+            email: collaborator ? collaborator.email : '',
+            permissions: collaborator ? collaborator.permissions : DEFAULT_PERMISSIONS,
             inProgress: false,
         };
     }
@@ -79,14 +81,14 @@ class CollaboratorForm extends Component {
     };
 
     render() {
-        const {submitLabel} = this.props;
+        const {submitLabel, readOnlyEmail} = this.props;
         const {email, permissions, inProgress} = this.state;
 
         return (
             <div className="CollaboratorForm">
                 <Form onSubmit={this.handleFormSubmit}>
                     <div className="CollaboratorForm__EmailWrapper">
-                        <Input icon="mail" label="E-mail" value={email} field="email" onChange={this.handleEmailChange}/>
+                        <Input readOnly={readOnlyEmail} icon="mail" label="E-mail" value={email} field="email" onChange={this.handleEmailChange}/>
                     </div>
                     <h3>Permissions</h3>
                     <PanelDivider/>
@@ -111,12 +113,14 @@ class CollaboratorForm extends Component {
 
 CollaboratorForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    readOnlyEmail: PropTypes.bool,
     submitLabel: PropTypes.string,
     collaborator: PropTypes.instanceOf(Collaborator),
 };
 
 CollaboratorForm.defaultProps = {
     submitLabel: "Save",
+    readOnlyEmail: false,
 };
 
 export default CollaboratorForm;
