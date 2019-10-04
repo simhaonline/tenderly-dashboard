@@ -8,7 +8,9 @@ import {Icon} from "../../Elements";
 
 import './CopyableText.scss';
 
-const CopyableText = ({text, onSuccessMessage, position}) => {
+const CopyableText = ({text, render, onSuccessMessage, position}) => {
+    const hasCustomRendering = !!render;
+
     return (
         <CopyToClipboard text={text} onCopy={() => onSuccessMessage && Notifications.success({
             title: onSuccessMessage,
@@ -18,7 +20,8 @@ const CopyableText = ({text, onSuccessMessage, position}) => {
                 {position === "left" && <div className="CopyableText_Icon">
                     <Icon icon="copy"/>
                 </div>}
-                <span className="CopyableText_Value">{text}</span>
+                {!hasCustomRendering && <span className="CopyableText_Value">{text}</span>}
+                {hasCustomRendering && render()}
                 {position === "right" && <div className="CopyableText_Icon">
                     <Icon icon="copy"/>
                 </div>}
@@ -32,6 +35,7 @@ CopyableText.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]).isRequired,
+    render: PropTypes.func,
     onSuccessMessage: PropTypes.string,
     position: PropTypes.oneOf([
         "left",

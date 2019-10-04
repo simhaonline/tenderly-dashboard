@@ -36,7 +36,7 @@ class ContractStateDiffs extends PureComponent {
         const {viewRaw, parsedDiffs, rawDiffs} = this.state;
 
         return (
-            <Card color="dark">
+            <Card color="dark" className="ContractStateDiffs">
                 <div className="MarginBottom3 DisplayFlex AlignItemsCenter">
                     <Blockies
                         seed={contract ? contract.getUniqueId() : address}

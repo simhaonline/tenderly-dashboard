@@ -1,14 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {CopyToClipboard} from "react-copy-to-clipboard";
 
 import Notifications from "../../Utils/Notifications";
 
 import {Icon, Button} from "../../Elements";
 
-const SharePageButton = () => {
+const SharePageButton = ({url, onCopyMessage}) => {
+    const link = url ? url : window.location.href;
+
     return (
-        <CopyToClipboard text={window.location.href} onCopy={() => Notifications.success({
-            title: "Copied link to clipboard",
+        <CopyToClipboard text={link} onCopy={() => Notifications.success({
+            title: onCopyMessage,
             icon: "clipboard",
         })}>
             <Button className="SharePageButton" size="small" outline color="secondary">
@@ -17,6 +20,15 @@ const SharePageButton = () => {
             </Button>
         </CopyToClipboard>
     )
+};
+
+SharePageButton.propTypes = {
+    url: PropTypes.string,
+    onCopyMessage: PropTypes.string,
+};
+
+SharePageButton.defaultProps = {
+    onCopyMessage: "Copied link to clipboard",
 };
 
 export default SharePageButton;

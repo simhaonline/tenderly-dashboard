@@ -395,9 +395,10 @@ export function isValidValueForParameterType(value, type, nestedType) {
         case ContractInputParameterSimpleTypes.ADDRESS:
             return isValidAddress(value);
         case ContractInputParameterSimpleTypes.HASH:
+            return _.startsWith(value, '0x') && value.length > 2;
         case ContractInputParameterSimpleTypes.BYTES:
         case ContractInputParameterSimpleTypes.FIXED_BYTES:
-            return _.startsWith(value, '0x') && value.length > 2;
+            return _.startsWith(value, '0x') && value.length > 3;
         case ContractInputParameterSimpleTypes.SLICE:
         case ContractInputParameterSimpleTypes.ARRAY:
             return value.split(',').every(arrayValue => isValidValueForParameterType(arrayValue.trim(), nestedType));

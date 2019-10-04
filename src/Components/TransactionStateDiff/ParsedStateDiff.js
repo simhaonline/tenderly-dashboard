@@ -6,11 +6,40 @@ import classNames from 'classnames';
 import {StateDiff} from "../../Core/models";
 
 import {Icon, Tag} from "../../Elements";
+import {CopyableText} from "../index";
+
+const StateDiffDisplayValueTypeClassMap = {
+    before: "TransactionStateDiff__Value--Before",
+    after: "TransactionStateDiff__Value--After",
+    same: "TransactionStateDiff__Value--Same",
+};
+
+const StateDiffDisplayValue = ({value, type, className}) => {
+    const parsedValue = String(value);
+    const isLongValue = parsedValue.length > 21;
+
+    return <CopyableText text={parsedValue} position={type === 'before' ? "left" : "right"} render={() => <div className={classNames(
+        "TransactionStateDiff__Value",
+        className,
+        StateDiffDisplayValueTypeClassMap[type],
+        {
+            "TransactionStateDiff__Value--LongText": isLongValue,
+        },
+    )}>
+        {parsedValue}
+    </div>}/>
+};
+
+StateDiffDisplayValue.propTypes = {
+    value: PropTypes.any,
+    className: PropTypes.string,
+    type: PropTypes.oneOf(['before', 'after', 'same']).isRequired,
+};
 
 const ObjectPreview = ({propertyName, before, after}) => {
     const [open, setOpen] = useState(false);
 
-    const isObject = _.isObject(before) && _.isObject(after);
+    const isObject = _.isObject(before) || _.isObject(after);
 
     const isSameValue = !isObject && before === after;
 
@@ -32,19 +61,25 @@ const ObjectPreview = ({propertyName, before, after}) => {
                 <div className="MonospaceFont">
                     <span className="MutedText">{propertyName}</span>
                 </div>
-                {!isObject && !isSameValue && <div className="MonospaceFont MarginLeft4">
-                    <span className="MarginRight1 TransactionStateDiff__Before">{String(before)}</span>
-                    <Icon icon="arrow-right"/>
-                    <span className="MarginLeft1 TransactionStateDiff__After">{String(after)}</span>
+                {!isObject && !isSameValue && <div className="MarginLeft2 DisplayFlex AlignItemsCenter">
+                    {!!before && <StateDiffDisplayValue value={before} type="before" className="MarginRight1"/>}
+                    {!!before && <Icon icon="arrow-right" className="MarginRight1"/>}
+                    <StateDiffDisplayValue value={after} type="after"/>
                 </div>}
-                {!isObject && isSameValue && <div className="MonospaceFont MarginLeft4">
-                    <span className="MarginRight1 TransactionStateDiff__NoChange">{String(before)}</span>
+                {!isObject && isSameValue && <div className="MonospaceFont MarginLeft2">
+                    <StateDiffDisplayValue value={before} type="same"/>
                 </div>}
             </div>
             {isObject && open && _.uniq([
-                ...Object.keys(before),
-                ...Object.keys(after),
-            ]).map(objectKey => <ObjectPreview key={objectKey} propertyName={objectKey} before={before[objectKey]} after={after[objectKey]}/>)}
+                ...Object.keys(before || {}),
+                ...Object.keys(after ||  {}),
+            ]).map(objectKey => {
+                const beforeObject = before || {};
+                const afterObject = after || {};
+
+                return <ObjectPreview key={objectKey} propertyName={objectKey}
+                                      before={beforeObject[objectKey]} after={afterObject[objectKey]}/>;
+            })}
         </div>
     )
 };
@@ -60,7 +95,7 @@ class ParsedStateDiff extends PureComponent {
 
         const {stateDiff} = props;
 
-        const isPrimitive = !_.isObject(stateDiff.before);
+        const isPrimitive = !_.isObject(stateDiff.before) && !_.isObject(stateDiff.after);
 
         this.state = {
             isPrimitive,
@@ -71,6 +106,8 @@ class ParsedStateDiff extends PureComponent {
         const {isPrimitive} = this.state;
         const {stateDiff} = this.props;
 
+        const isSameValue = isPrimitive && stateDiff.before === stateDiff.after;
+
         return (
             <div className="MarginBottom2">
                 <div className="DisplayFlex">
@@ -78,16 +115,24 @@ class ParsedStateDiff extends PureComponent {
                         {!!stateDiff.type && <Tag color="primary-outline" size="small">{stateDiff.type}</Tag>}
                         <span className="MarginLeft1 SemiBoldText">{stateDiff.name}</span>
                     </div>
-                    {isPrimitive && <div className="MonospaceFont MarginLeft4">
-                        <span className="MarginRight1 TransactionStateDiff__Before">{String(stateDiff.before)}</span>
-                        <Icon icon="arrow-right"/>
-                        <span className="MarginLeft1 TransactionStateDiff__After">{String(stateDiff.after)}</span>
+                    {isPrimitive && !isSameValue && <div className="MarginLeft2 DisplayFlex AlignItemsCenter">
+                        {!!stateDiff.before && <StateDiffDisplayValue type="before" className="MarginRight1" value={stateDiff.before}/>}
+                        {!!stateDiff.before && <Icon icon="arrow-right" className="MarginRight1"/>}
+                        <StateDiffDisplayValue type="after" value={stateDiff.after}/>
+                    </div>}
+                    {isPrimitive && isSameValue && <div className="MonospaceFont MarginLeft2">
+                        <StateDiffDisplayValue type="same" value={stateDiff.before}/>
                     </div>}
                 </div>
-                {!isPrimitive && _.isObject(stateDiff.before) && _.uniq([
-                    ...Object.keys(stateDiff.before),
-                    ...Object.keys(stateDiff.after),
-                ]).map(objectKey => <ObjectPreview key={objectKey} propertyName={objectKey} before={stateDiff.before[objectKey]} after={stateDiff.after[objectKey]}/>)}
+                {!isPrimitive && _.uniq([
+                    ...Object.keys(stateDiff.before || {}),
+                    ...Object.keys(stateDiff.after || {}),
+                ]).map(objectKey => {
+                    const beforeObject = stateDiff.before || {};
+                    const afterObject = stateDiff.after || {};
+
+                    return <ObjectPreview key={objectKey} propertyName={objectKey} before={beforeObject[objectKey]} after={afterObject[objectKey]}/>;
+                })}
             </div>
         );
     }

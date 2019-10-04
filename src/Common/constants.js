@@ -447,6 +447,8 @@ export const APP_HOST = process.env.REACT_APP_HOST;
 
 export const APP_PORT = process.env.REACT_APP_PORT;
 
+export const DASHBOARD_BASE_URL = process.env.REACT_APP_DASHBOARD_BASE_URL;
+
 export const GITHUB_CALLBACK_URL = process.env.REACT_APP_GITHUB_CALLBACK_URL;
 
 export const API_BASE_URL = process.env.REACT_APP_API_URL;
