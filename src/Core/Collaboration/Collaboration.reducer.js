@@ -2,6 +2,7 @@ import * as _ from "lodash";
 
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {
+    CREATE_COLLABORATOR_FOR_PROJECT_ACTION,
     DELETE_COLLABORATOR_FOR_PROJECT_ACTION,
     FETCH_COLLABORATORS_FOR_PROJECT_ACTION,
     UPDATE_COLLABORATOR_FOR_PROJECT_ACTION
@@ -44,6 +45,22 @@ const CollaborationReducer = (state = initialState, action) => {
                 collaborators: {
                     ...state.collaborators,
                     [action.collaborator.id]: action.collaborator,
+                },
+            };
+        case CREATE_COLLABORATOR_FOR_PROJECT_ACTION:
+            const existingProjectCollaborators = state.projectCollaborators[action.projectId] || [];
+            return {
+                ...state,
+                collaborators: {
+                    ...state.collaborators,
+                    [action.collaborator.id]: action.collaborator,
+                },
+                projectCollaborators: {
+                    ...state.projectCollaborators,
+                    [action.projectId]: [
+                        ...existingProjectCollaborators,
+                        action.collaborator.id,
+                    ],
                 },
             };
         case DELETE_COLLABORATOR_FOR_PROJECT_ACTION:
