@@ -7,7 +7,11 @@ import {collaborationActions} from '../../Core/actions';
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 import {Icon, Button, Container, Page, PageHeading} from "../../Elements";
-import {ProjectCollaborators} from "../../Components";
+import {ProjectCollaborators, ProjectContentLoader} from "../../Components";
+import {
+    areCollaboratorsLoadedForProject,
+    getCollaboratorsForProject
+} from "../../Common/Selectors/CollaborationSelectors";
 
 class ProjectCollaboratorsPage extends Component {
     componentDidMount() {
@@ -19,7 +23,7 @@ class ProjectCollaboratorsPage extends Component {
     }
 
     render() {
-        const {project, collaborators} = this.props;
+        const {project, collaborators, collaboratorsLoaded} = this.props;
 
         return (
             <Page id="ProjectPage">
@@ -33,7 +37,8 @@ class ProjectCollaboratorsPage extends Component {
                             </Button>
                         </div>
                     </PageHeading>
-                    <ProjectCollaborators project={project} collaborators={collaborators}/>
+                    {!collaboratorsLoaded && <ProjectContentLoader text="Fetching project collaborators..."/>}
+                    {collaboratorsLoaded && <ProjectCollaborators project={project} collaborators={collaborators}/>}
                 </Container>
             </Page>
         )
@@ -43,10 +48,12 @@ class ProjectCollaboratorsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {slug, username}}} = ownProps;
 
+    const project = getProjectBySlugAndUsername(state, slug, username);
+
     return {
-        project: getProjectBySlugAndUsername(state, slug, username),
-        collaborators: [],
-        collaboratorsLoaded: false,
+        project,
+        collaborators: getCollaboratorsForProject(state, project),
+        collaboratorsLoaded: areCollaboratorsLoadedForProject(state, project),
     }
 };
 
