@@ -1,5 +1,9 @@
 @import "../../Common/common";
 
+.ContractStateDiffs {
+  overflow-y: auto;
+}
+
 .TransactionStateDiff__Value {
   border-radius: 3px;
   padding: 2px 4px;
@@ -10,16 +14,26 @@
   border: 1px solid transparentize($Danger500, 0.5);
   background-color: transparentize($Danger500, 0.9);
   color: $Danger500;
+  margin-left: $Spacing1;
 }
 
 .TransactionStateDiff__Value--After {
   border: 1px solid transparentize($Success500, 0.5);
   background-color: transparentize($Success500, 0.9);
   color: $Success500;
+  margin-right: $Spacing1;
 }
 
 .TransactionStateDiff__Value--Same {
   border: 1px solid transparentize($WhiteColor, 0.5);
   background-color: transparentize($WhiteColor, 0.9);
   color: $WhiteColor;
+  margin-right: $Spacing1;
+}
+
+.TransactionStateDiff__Value--LongText {
+  width: 200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
