@@ -8,7 +8,13 @@ import {
     getTransactionStackTrace, getTransactionStateDiffs
 } from "../../Common/Selectors/TransactionSelectors";
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
-import {EtherscanLinkTypes, NetworkRouteToAppTypeMap, ProjectTypes} from "../../Common/constants";
+import {
+    DASHBOARD_BASE_URL,
+    EtherscanLinkTypes,
+    NetworkAppToRouteTypeMap,
+    NetworkRouteToAppTypeMap,
+    ProjectTypes
+} from "../../Common/constants";
 
 import Notifications from "../../Utils/Notifications";
 
@@ -16,7 +22,13 @@ import * as transactionActions from "../../Core/Transaction/Transaction.actions"
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Page, Container, Button, Icon, PageHeading} from "../../Elements";
-import {ProjectContentLoader, PageError, TransactionPageContent, EtherscanLink} from "../../Components";
+import {
+    ProjectContentLoader,
+    PageError,
+    TransactionPageContent,
+    EtherscanLink,
+    SharePageButton
+} from "../../Components";
 
 class ProjectTransactionPage extends Component {
     constructor(props) {
@@ -117,6 +129,8 @@ class ProjectTransactionPage extends Component {
             )
         }
 
+        const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
+
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
@@ -126,6 +140,8 @@ class ProjectTransactionPage extends Component {
                         </Button>
                         <h1>Transaction</h1>
                         <div className="RightContent">
+                            {canBeViewedOnExplorer && <SharePageButton url={`${DASHBOARD_BASE_URL}/tx/${NetworkAppToRouteTypeMap[transaction.network]}/${transaction.txHash}`}
+                                                                       onCopyMessage="Copied link to the public transaction page"/>}
                             <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={transaction.network} value={transaction.txHash}>
                                 <Button size="small" outline>
                                     <Icon icon="globe"/>
