@@ -41,6 +41,7 @@ export {default as ProjectContractList} from './ProjectContractList/ProjectContr
 
 // Project Collaborators
 export {default as CollaboratorForm} from './CollaboratorForm/CollaboratorForm';
+export {default as CollaboratorInfo} from './CollaboratorInfo/CollaboratorInfo';
 export {default as ProjectCollaborators} from './ProjectCollaborators/ProjectCollaborators';
 
 // Project Analytics

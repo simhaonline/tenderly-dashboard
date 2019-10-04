@@ -14,6 +14,21 @@ export function getCollaboratorsForProject(state, project) {
     });
 }
 
+/**
+ * @param {Object} state
+ * @param {Project} project
+ * @param {Collaborator.id} collaboratorId
+ *
+ * @returns {(Collaborator|null)}
+ */
+export function getCollaboratorForProject(state, project, collaboratorId) {
+    const projectCollaborators = state.collaboration.projectCollaborators[project.id];
+    if (!projectCollaborators || !projectCollaborators.includes(collaboratorId)) {
+        return null;
+    }
+
+    return state.collaboration.collaborators[collaboratorId];
+}
 
 /**
  * @param {Object} state
