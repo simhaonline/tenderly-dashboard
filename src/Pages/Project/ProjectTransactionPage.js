@@ -7,7 +7,7 @@ import {
     getTransactionCallTrace, getTransactionEventLogs,
     getTransactionStackTrace, getTransactionStateDiffs
 } from "../../Common/Selectors/TransactionSelectors";
-import {getProject, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {
     DASHBOARD_BASE_URL,
     EtherscanLinkTypes,

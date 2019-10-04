@@ -6,7 +6,6 @@ import {Redirect} from "react-router-dom";
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
 import {
     areProjectContractsLoaded,
-    getProject,
     getProjectBySlugAndUsername
 } from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";

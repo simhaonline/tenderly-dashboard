@@ -7,7 +7,6 @@ import moment from "moment";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
-import Project from "../../Core/Project/Project.model";
 
 import {NetworkAppToRouteTypeMap, ProjectTypes} from "../../Common/constants";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
