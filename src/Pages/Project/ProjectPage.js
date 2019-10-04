@@ -18,6 +18,8 @@ import ProjectReleasesPage from "./ProjectReleasesPage";
 import ProjectSettingsPage from "./ProjectSettingsPage";
 import ProjectContractPage from "./ProjectContractPage";
 import ProjectCollaboratorsPage from "./ProjectCollaboratorsPage";
+import ProjectAddCollaboratorPage from "./ProjectAddCollaboratorPage";
+import ProjectCollaboratorPage from "./ProjectCollaboratorPage";
 
 import {ProjectSidebar, ProjectPageLoader} from "../../Components";
 
@@ -71,7 +73,9 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/contracts" component={ProjectContractsPage}/>
                     <Route path="/:username/:slug/contract/:network/:contractId" component={ProjectContractPage}/>
                     <Route path="/:username/:slug/releases" component={ProjectReleasesPage}/>
-                    <Route path="/:username/:slug/collaborators" component={ProjectCollaboratorsPage}/>
+                    <Route path="/:username/:slug/collaborators" exact component={ProjectCollaboratorsPage}/>
+                    <Route path="/:username/:slug/collaborators/add" exact component={ProjectAddCollaboratorPage}/>
+                    <Route path="/:username/:slug/collaborators/:collaboratorId" strict component={ProjectCollaboratorPage}/>
                     <Route path="/:username/:slug/settings" component={ProjectSettingsPage}/>
                     <Redirect to={`/:username/:slug/transactions`}/>
                 </Switch>

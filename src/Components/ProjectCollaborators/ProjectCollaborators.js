@@ -7,6 +7,8 @@ import {Panel, PanelHeader, PanelContent, List, ListItem} from "../../Elements";
 
 class ProjectCollaborators extends Component {
     render() {
+        const {project} = this.props;
+
         return (
             <div>
                 <Panel>
@@ -14,11 +16,11 @@ class ProjectCollaborators extends Component {
                         <h3>qwe</h3>
                     </PanelHeader>
                     <PanelContent>
-                        <List>
-                            <ListItem>
+                        <List clickable>
+                            <ListItem to={`/${project.owner}/${project.slug}/collaborators/${'asd'}`}>
                                 Collab1
                             </ListItem>
-                            <ListItem>
+                            <ListItem to={`/${project.owner}/${project.slug}/collaborators/${'qwe'}`}>
                                 Collab1
                             </ListItem>
                         </List>
