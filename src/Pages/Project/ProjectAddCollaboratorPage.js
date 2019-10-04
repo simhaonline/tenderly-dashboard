@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+
+import {collaborationActions} from "../../Core/actions";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
-import {Button, Container, Icon, Page, PageHeading} from "../../Elements";
+import {Button, Container, Icon, Page, PageHeading, PanelContent, PanelHeader, Panel} from "../../Elements";
+import {CollaboratorForm} from "../../Components";
 
 class ProjectAddCollaboratorPage extends Component {
+    handleAddCollaborator = (email, permissions) => {
+        console.log(email, permissions);
+    };
+
     render() {
         const {project} = this.props;
 
@@ -18,6 +26,14 @@ class ProjectAddCollaboratorPage extends Component {
                         </Button>
                         <h1>Add Collaborator</h1>
                     </PageHeading>
+                    <Panel>
+                        <PanelHeader>
+                            <h3>Collaborator Details</h3>
+                        </PanelHeader>
+                        <PanelContent>
+                            <CollaboratorForm onSubmit={this.handleAddCollaborator}/>
+                        </PanelContent>
+                    </Panel>
                 </Container>
             </Page>
         )
@@ -32,7 +48,13 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(collaborationActions, dispatch),
+    };
+};
+
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps,
 )(ProjectAddCollaboratorPage);
