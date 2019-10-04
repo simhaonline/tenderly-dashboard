@@ -8,14 +8,6 @@ $ListBorderRadius: 4px;
   border-radius: $ListBorderRadius;
 }
 
-.List--Clickable .List__Item{
-  cursor: pointer;
-
-  &:hover {
-    background-color: $Slate200;
-  }
-}
-
 .List__Item {
   background-color: $Slate100;
   transition: 0.2s;
@@ -41,7 +33,7 @@ $ListBorderRadius: 4px;
 
 }
 
-.List__Item--Selectable {
+.List--Clickable .List__Item, .List__Item--Selectable {
   cursor: pointer;
 
   &:hover {
