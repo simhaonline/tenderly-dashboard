@@ -213,6 +213,17 @@ export const CollaboratorPermissionTypeIconMap = {
 };
 
 /**
+ * @type {Object.<CollaboratorPermissionTypes, string>}
+ */
+export const CollaboratorPermissionTypeDescriptionMap = {
+    [CollaboratorPermissionTypes.ADD_CONTRACT]: 'Add contracts to project',
+    [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'Remove contracts from project',
+    [CollaboratorPermissionTypes.CREATE_ALERT]: 'Create alerts in project',
+    [CollaboratorPermissionTypes.UPDATE_ALERT]: 'Make changes to existing alerts',
+    [CollaboratorPermissionTypes.REMOVE_ALERT]: 'Remove alerts in project',
+};
+
+/**
  * @enum {string}
  */
 export const CollaboratorPermissionAppToApiTypeMap = {

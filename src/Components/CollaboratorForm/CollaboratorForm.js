@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {ValidateEmail} from "../../Utils/FormValidators";
 
-import {CollaboratorPermissionTypes} from "../../Common/constants";
+import {CollaboratorPermissionTypeDescriptionMap, CollaboratorPermissionTypes} from "../../Common/constants";
 
 import {Collaborator} from "../../Core/models";
 import {Form, Button, PanelDivider, Toggle, Input} from "../../Elements";
@@ -78,28 +78,6 @@ class CollaboratorForm extends Component {
         return email.length > 0 && ValidateEmail(email);
     };
 
-    /**
-     * @param {CollaboratorPermissionTypes} permission
-     *
-     * @return {string}
-     */
-    getLabelForPermission = (permission) => {
-        switch (permission) {
-            case CollaboratorPermissionTypes.ADD_CONTRACT:
-                return 'Add contracts to project';
-            case CollaboratorPermissionTypes.REMOVE_CONTRACT:
-                return 'Remove contracts from project';
-            case CollaboratorPermissionTypes.CREATE_ALERT:
-                return 'Create alerts in project';
-            case CollaboratorPermissionTypes.REMOVE_ALERT:
-                return 'Remove alerts in project';
-            case CollaboratorPermissionTypes.UPDATE_ALERT:
-                return 'Make changes to existing alerts';
-            default:
-                return 'Unknown permission';
-        }
-    };
-
     render() {
         const {submitLabel} = this.props;
         const {email, permissions, inProgress} = this.state;
@@ -114,7 +92,7 @@ class CollaboratorForm extends Component {
                     <PanelDivider/>
                     <div>
                         {Object.keys(permissions).map(permission => <div key={permission} className="CollaboratorForm__Permission">
-                            <div className="CollaboratorForm__Permission__Label">{this.getLabelForPermission(permission)}</div>
+                            <div className="CollaboratorForm__Permission__Label">{CollaboratorPermissionTypeDescriptionMap[permission]}</div>
                             <div>
                                 <Toggle value={permissions[permission]} onChange={() => this.handlePermissionToggle(permission)}/>
                             </div>
