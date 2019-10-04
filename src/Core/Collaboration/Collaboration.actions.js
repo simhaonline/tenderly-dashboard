@@ -74,13 +74,16 @@ export const createCollaboratorForProject = (project, email, permissions) => {
 
 /**
  * @param {Project} project
- * @param {Collaborator} updateCollaborator
+ * @param {Collaborator} collaborator
+ * @param {CollaboratorPermissions} permissions
  *
  * @return {Function<(SuccessActionResponse|ErrorActionResponse)>}
  */
-export const updateCollaboratorForProject = (project, updateCollaborator) => {
+export const updateCollaboratorForProject = (project, collaborator, permissions) => {
     return async dispatch => {
         try {
+            console.log(permissions);
+
             const collaborator = {};
 
             dispatch({
@@ -106,6 +109,8 @@ export const updateCollaboratorForProject = (project, updateCollaborator) => {
 export const deleteCollaboratorForProject = (project, collaborator) => {
     return async dispatch => {
         try {
+            console.log(collaborator);
+
             dispatch({
                 type: DELETE_COLLABORATOR_FOR_PROJECT_ACTION,
                 projectId: project.id,
