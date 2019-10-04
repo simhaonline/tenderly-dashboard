@@ -93,10 +93,8 @@ class CollaboratorForm extends Component {
                 return 'Create alerts in project';
             case CollaboratorPermissionTypes.REMOVE_ALERT:
                 return 'Remove alerts in project';
-            case CollaboratorPermissionTypes.ADD_DESTINATION:
-                return 'Add destinations to alerts';
-            case CollaboratorPermissionTypes.REMOVE_DESTINATION:
-                return 'Remove destinations from alerts';
+            case CollaboratorPermissionTypes.UPDATE_ALERT:
+                return 'Make changes to existing alerts';
             default:
                 return 'Unknown permission';
         }

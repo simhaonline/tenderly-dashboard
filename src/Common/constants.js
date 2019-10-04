@@ -197,9 +197,19 @@ export const CollaboratorPermissionTypes = {
     ADD_CONTRACT: 'ADD_CONTRACT',
     REMOVE_CONTRACT: 'REMOVE_CONTRACT',
     CREATE_ALERT: 'CREATE_ALERT',
+    UPDATE_ALERT: 'UPDATE_ALERT',
     REMOVE_ALERT: 'REMOVE_ALERT',
-    ADD_DESTINATION: 'ADD_DESTINATION',
-    REMOVE_DESTINATION: 'REMOVE_DESTINATION',
+};
+
+/**
+ * @type {Object.<CollaboratorPermissionTypes, string>}
+ */
+export const CollaboratorPermissionTypeIconMap = {
+    [CollaboratorPermissionTypes.ADD_CONTRACT]: 'file-plus',
+    [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'file-minus',
+    [CollaboratorPermissionTypes.CREATE_ALERT]: 'bell',
+    [CollaboratorPermissionTypes.UPDATE_ALERT]: 'edit',
+    [CollaboratorPermissionTypes.REMOVE_ALERT]: 'bell-off',
 };
 
 /**
@@ -209,9 +219,8 @@ export const CollaboratorPermissionAppToApiTypeMap = {
     [CollaboratorPermissionTypes.ADD_CONTRACT]: 'add_contract',
     [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'remove_contract',
     [CollaboratorPermissionTypes.CREATE_ALERT]: 'create_alert',
+    [CollaboratorPermissionTypes.UPDATE_ALERT]: 'update_alert',
     [CollaboratorPermissionTypes.REMOVE_ALERT]: 'remove_alert',
-    [CollaboratorPermissionTypes.ADD_DESTINATION]: 'add_delivery_channel',
-    [CollaboratorPermissionTypes.REMOVE_DESTINATION]: 'remove_delivery_channel',
 };
 
 /**
@@ -221,9 +230,8 @@ export const CollaboratorPermissionApiToAppTypeMap = {
     'add_contract': CollaboratorPermissionTypes.ADD_CONTRACT,
     'remove_contract': CollaboratorPermissionTypes.REMOVE_CONTRACT,
     'create_alert': CollaboratorPermissionTypes.CREATE_ALERT,
+    'update_alert': CollaboratorPermissionTypes.UPDATE_ALERT,
     'remove_alert': CollaboratorPermissionTypes.REMOVE_ALERT,
-    'add_delivery_channel': CollaboratorPermissionTypes.ADD_DESTINATION,
-    'remove_delivery_channel': CollaboratorPermissionTypes.REMOVE_DESTINATION,
 };
 
 /**
