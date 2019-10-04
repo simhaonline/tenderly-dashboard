@@ -21,9 +21,9 @@ export const fetchCollaboratorsForProject = (project) => {
                 return new ErrorActionResponse();
             }
 
-            console.log(data);
-
             const collaborators = data.users.map(user => Collaborator.buildFromResponse(user, project.id));
+
+            console.log(collaborators, data);
 
             dispatch({
                 type: FETCH_COLLABORATORS_FOR_PROJECT_ACTION,
@@ -49,18 +49,16 @@ export const fetchCollaboratorsForProject = (project) => {
 export const createCollaboratorForProject = (project, email, permissions) => {
     return async dispatch => {
         try {
-            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/collaborate/users`, {
+            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/collaborate/user`, {
                 email,
-                parameters: Collaborator.transformPermissionsToApiPayload(permissions),
+                permissions: Collaborator.transformPermissionsToApiPayload(permissions),
             });
 
             if (!data) {
                 return new ErrorActionResponse();
             }
 
-            console.log(data);
-
-            const collaborator = {};
+            const collaborator = Collaborator.buildFromResponse(data, project.id);
 
             dispatch({
                 type: CREATE_COLLABORATOR_FOR_PROJECT_ACTION,

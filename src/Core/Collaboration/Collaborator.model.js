@@ -1,4 +1,7 @@
+import moment from "moment";
+
 import User from "../Auth/User.model";
+import {CollaboratorPermissionApiToAppTypeMap, CollaboratorPermissionAppToApiTypeMap} from "../../Common/constants";
 
 class Collaborator extends User {
     /**
@@ -12,6 +15,9 @@ class Collaborator extends User {
 
         /** @type {CollaboratorPermissions} */
         this.permissions = data.permissions;
+
+        /** @type {Date} */
+        this.addedAt = data.addedAt;
     }
 
     /**
@@ -19,14 +25,26 @@ class Collaborator extends User {
      *
      * @returns {CollaboratorPermissions}
      */
-    static transformPermissionsToApp(apiPermissions) {}
+    static transformPermissionsToApp(apiPermissions) {
+        return Object.keys(apiPermissions).reduce((data, permission) => {
+            data[CollaboratorPermissionApiToAppTypeMap[permission]] = apiPermissions[permission];
+
+            return data;
+        }, {});
+    }
 
     /**
      * @param {CollaboratorPermissions} appPermissions
      *
      * @returns {Object}
      */
-    static transformPermissionsToApiPayload(appPermissions) {}
+    static transformPermissionsToApiPayload(appPermissions) {
+        return Object.keys(appPermissions).reduce((data, permission) => {
+            data[CollaboratorPermissionAppToApiTypeMap[permission]] = appPermissions[permission];
+
+            return data;
+        }, {});
+    }
 
     /**
      * @param {Object} response
@@ -35,10 +53,10 @@ class Collaborator extends User {
      * @return {Collaborator}
      */
     static buildFromResponse(response, projectId) {
-        console.log(response);
-
         return new Collaborator({
+            ...response.user,
             projectId,
+            addedAt: moment(response.added_at),
             permissions: Collaborator.transformPermissionsToApp(response.permissions),
         });
     }

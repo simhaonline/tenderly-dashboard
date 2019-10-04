@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {Redirect} from "react-router-dom";
 
 import {collaborationActions} from "../../Core/actions";
 
@@ -10,12 +11,41 @@ import {Button, Container, Icon, Page, PageHeading, PanelContent, PanelHeader, P
 import {CollaboratorForm} from "../../Components";
 
 class ProjectAddCollaboratorPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            addedCollaborator: null,
+        };
+    }
+
+    /**
+     * @param {string} email
+     * @param {CollaboratorPermissions} permissions
+     *
+     * @return {Promise<void>}
+     */
     handleAddCollaborator = async (email, permissions) => {
-        console.log(email, permissions);
+        const {actions, project} = this.props;
+
+        const response = await actions.createCollaboratorForProject(project, email, permissions);
+
+        if (response.success) {
+            setTimeout(() => {
+                this.setState({
+                    addedCollaborator: response.data,
+                });
+            }, 0);
+        }
     };
 
     render() {
         const {project} = this.props;
+        const {addedCollaborator} = this.state;
+
+        if (addedCollaborator) {
+            return <Redirect to={`/${project.owner}/${project.slug}/collaborators/${addedCollaborator.id}`}/>
+        }
 
         return (
             <Page id="ProjectAddCollaboratorPage">
