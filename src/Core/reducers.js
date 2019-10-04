@@ -11,6 +11,7 @@ import TransactionReducer from "./Transaction/Transaction.reducer";
 import AlertingReducer from "./Alerting/Alerting.reducer";
 import NotificationReducer from "./Notification/Notification.reducer";
 import NetworkReducer from "./Network/Network.reducer";
+import CollaborationReducer from "./Collaboration/Collaboration.reducer";
 
 const reducers = combineReducers({
     auth: AuthReducer,
@@ -24,6 +25,7 @@ const reducers = combineReducers({
     alerting: AlertingReducer,
     notification: NotificationReducer,
     network: NetworkReducer,
+    collaboration: CollaborationReducer,
 });
 
 export default reducers;
