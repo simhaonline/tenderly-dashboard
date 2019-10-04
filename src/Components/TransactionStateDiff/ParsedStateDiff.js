@@ -7,6 +7,28 @@ import {StateDiff} from "../../Core/models";
 
 import {Icon, Tag} from "../../Elements";
 
+const StateDiffDisplayValueTypeClassMap = {
+    before: "TransactionStateDiff__Value--Before",
+    after: "TransactionStateDiff__Value--After",
+    same: "TransactionStateDiff__Value--Same",
+};
+
+const StateDiffDisplayValue = ({value, type, className}) => {
+    return <div className={classNames(
+        "TransactionStateDiff__Value",
+        className,
+        StateDiffDisplayValueTypeClassMap[type],
+    )}>
+        {String(value)}
+    </div>
+};
+
+StateDiffDisplayValue.propTypes = {
+    value: PropTypes.any.isRequired,
+    className: PropTypes.string,
+    type: PropTypes.oneOf(['before', 'after', 'same']).isRequired,
+};
+
 const ObjectPreview = ({propertyName, before, after}) => {
     const [open, setOpen] = useState(false);
 
@@ -32,13 +54,13 @@ const ObjectPreview = ({propertyName, before, after}) => {
                 <div className="MonospaceFont">
                     <span className="MutedText">{propertyName}</span>
                 </div>
-                {!isObject && !isSameValue && <div className="MonospaceFont MarginLeft4">
-                    {!!before && <span className="MarginRight1 TransactionStateDiff__Before">{String(before)}</span>}
+                {!isObject && !isSameValue && <div className="MarginLeft4 DisplayFlex AlignItemsCenter">
+                    {!!before && <StateDiffDisplayValue value={before} type="before" className="MarginRight1"/>}
                     {!!before && <Icon icon="arrow-right" className="MarginRight1"/>}
-                    <span className="TransactionStateDiff__After">{String(after)}</span>
+                    <StateDiffDisplayValue value={after} type="after"/>
                 </div>}
                 {!isObject && isSameValue && <div className="MonospaceFont MarginLeft4">
-                    <span className="TransactionStateDiff__NoChange">{String(before)}</span>
+                    <StateDiffDisplayValue value={before} type="same"/>
                 </div>}
             </div>
             {isObject && open && _.uniq([
@@ -86,13 +108,13 @@ class ParsedStateDiff extends PureComponent {
                         {!!stateDiff.type && <Tag color="primary-outline" size="small">{stateDiff.type}</Tag>}
                         <span className="MarginLeft1 SemiBoldText">{stateDiff.name}</span>
                     </div>
-                    {isPrimitive && !isSameValue && <div className="MonospaceFont MarginLeft4">
-                        {!!stateDiff.before && <span className="MarginRight1 TransactionStateDiff__Before">{String(stateDiff.before)}</span>}
+                    {isPrimitive && !isSameValue && <div className="MarginLeft4 DisplayFlex AlignItemsCenter">
+                        {!!stateDiff.before && <StateDiffDisplayValue type="before" className="MarginRight1" value={stateDiff.before}/>}
                         {!!stateDiff.before && <Icon icon="arrow-right" className="MarginRight1"/>}
-                        <span className="TransactionStateDiff__After">{String(stateDiff.after)}</span>
+                        <StateDiffDisplayValue type="after" value={stateDiff.after}/>
                     </div>}
                     {isPrimitive && isSameValue && <div className="MonospaceFont MarginLeft4">
-                        <span className="MarginRight1 TransactionStateDiff__NoChange">{String(stateDiff.before)}</span>
+                        <StateDiffDisplayValue type="same" value={stateDiff.before}/>
                     </div>}
                 </div>
                 {!isPrimitive && _.uniq([

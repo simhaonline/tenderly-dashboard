@@ -1,24 +1,25 @@
 @import "../../Common/common";
 
-.TransactionStateDiff__Before, .TransactionStateDiff__After, .TransactionStateDiff__NoChange {
+.TransactionStateDiff__Value {
   border-radius: 3px;
   padding: 2px 4px;
+  font-family: $MonospaceFontFamily;
 }
 
-.TransactionStateDiff__Before {
+.TransactionStateDiff__Value--Before {
   border: 1px solid transparentize($Danger500, 0.5);
   background-color: transparentize($Danger500, 0.9);
   color: $Danger500;
 }
 
-.TransactionStateDiff__NoChange {
-  border: 1px solid transparentize($WhiteColor, 0.5);
-  background-color: transparentize($WhiteColor, 0.9);
-  color: $WhiteColor;
-}
-
-.TransactionStateDiff__After {
+.TransactionStateDiff__Value--After {
   border: 1px solid transparentize($Success500, 0.5);
   background-color: transparentize($Success500, 0.9);
   color: $Success500;
+}
+
+.TransactionStateDiff__Value--Same {
+  border: 1px solid transparentize($WhiteColor, 0.5);
+  background-color: transparentize($WhiteColor, 0.9);
+  color: $WhiteColor;
 }
