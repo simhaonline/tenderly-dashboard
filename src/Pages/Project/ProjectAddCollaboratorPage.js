@@ -31,7 +31,7 @@ class ProjectAddCollaboratorPage extends Component {
                             <h3>Collaborator Details</h3>
                         </PanelHeader>
                         <PanelContent>
-                            <CollaboratorForm onSubmit={this.handleAddCollaborator}/>
+                            <CollaboratorForm onSubmit={this.handleAddCollaborator} submitLabel="Add Collaborator"/>
                         </PanelContent>
                     </Panel>
                 </Container>
