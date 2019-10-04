@@ -13,8 +13,6 @@ class ProjectCollaboratorsPage extends Component {
     render() {
         const {project, collaborators} = this.props;
 
-        console.log(project);
-
         return (
             <Page id="ProjectPage">
                 <Container>

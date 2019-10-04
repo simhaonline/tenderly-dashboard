@@ -41,6 +41,16 @@
       &:before {
         left: 0;
       }
+
+      .NavigationItem__Icon {
+        opacity: 1;
+      }
     }
+  }
+
+  .NavigationItem__Icon {
+    margin-right: $Spacing2;
+    opacity: 0.5;
+    transition: 0.2s;
   }
 }
