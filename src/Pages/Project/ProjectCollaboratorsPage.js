@@ -10,6 +10,14 @@ import {Icon, Button, Container, Page, PageHeading} from "../../Elements";
 import {ProjectCollaborators} from "../../Components";
 
 class ProjectCollaboratorsPage extends Component {
+    componentDidMount() {
+        const {actions, project, collaboratorsLoaded} = this.props;
+
+        if (!collaboratorsLoaded) {
+            actions.fetchCollaboratorsForProject(project);
+        }
+    }
+
     render() {
         const {project, collaborators} = this.props;
 
@@ -38,6 +46,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         project: getProjectBySlugAndUsername(state, slug, username),
         collaborators: [],
+        collaboratorsLoaded: false,
     }
 };
 
