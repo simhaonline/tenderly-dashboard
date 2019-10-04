@@ -4,7 +4,11 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
-import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
+import {
+    areProjectContractsLoaded,
+    getProject,
+    getProjectBySlugAndUsername
+} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {
     areNotificationDestinationsLoaded, getNotificationDestinations,
@@ -29,7 +33,7 @@ class EditAlertRule extends Component {
     }
 
     async componentDidMount() {
-        const {ruleId, projectId, isRuleLoaded, actions, notificationActions, contractActions, destinationsLoaded, areContractsLoaded} = this.props;
+        const {ruleId, project, isRuleLoaded, actions, notificationActions, contractActions, destinationsLoaded, areContractsLoaded} = this.props;
 
 
         if (!destinationsLoaded) {
@@ -37,7 +41,7 @@ class EditAlertRule extends Component {
         }
 
         if (!isRuleLoaded) {
-            const response = await actions.fetchAlertRuleForProject(projectId, ruleId);
+            const response = await actions.fetchAlertRuleForProject(project, ruleId);
 
             if (!response.success) {
                 this.setState({
@@ -47,7 +51,7 @@ class EditAlertRule extends Component {
         }
 
         if (!areContractsLoaded) {
-            contractActions.fetchContractsForProject(projectId);
+            contractActions.fetchContractsForProject(project);
         }
     }
 
@@ -114,21 +118,22 @@ class EditAlertRule extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {ruleId, projectId}}, location: {search}} = ownProps;
+    const {match: {params: {ruleId, slug, username}}, location: {search}} = ownProps;
 
     const searchParams = new URLSearchParams(search);
 
     const initialTab = searchParams.get('tab');
 
+    const project = getProjectBySlugAndUsername(state, slug, username);
+
     const rule = getAlertRule(state, ruleId);
-    const contracts = getContractsForProject(state, projectId);
+    const contracts = getContractsForProject(state, project.id);
 
     return {
-        projectId,
-        project: getProject(state, projectId),
+        project,
         contracts,
         networks: getUniqueNetworksForContracts(contracts),
-        areContractsLoaded: areProjectContractsLoaded(state, projectId),
+        areContractsLoaded: areProjectContractsLoaded(state, project.id),
         ruleId,
         rule,
         initialTab,
