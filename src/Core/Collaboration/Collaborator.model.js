@@ -10,6 +10,10 @@ class Collaborator extends User {
         this.projectId = data.projectId;
     }
 
+    static transformPermissionsToApp(apiPermissions) {}
+
+    static transformPermissionsToApiPayload(appPermissions) {}
+
     /**
      * @param {Object} response
      * @param {Project.id} projectId

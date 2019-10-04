@@ -41,12 +41,25 @@ export const fetchCollaboratorsForProject = (project) => {
 
 /**
  * @param {Project} project
+ * @param {string} email
+ * @param {Object} permissions
  *
  * @return {Function<(SuccessActionResponse|ErrorActionResponse)>}
  */
-export const createCollaboratorForProject = (project) => {
+export const createCollaboratorForProject = (project, email, permissions) => {
     return async dispatch => {
         try {
+            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/collaborate/users`, {
+                email,
+                parameters: Collaborator.transformPermissionsToApiPayload(permissions),
+            });
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            console.log(data);
+
             const collaborator = {};
 
             dispatch({
@@ -98,7 +111,7 @@ export const deleteCollaboratorForProject = (project, collaborator) => {
     return async dispatch => {
         try {
             dispatch({
-                type: UPDATE_COLLABORATOR_FOR_PROJECT_ACTION,
+                type: DELETE_COLLABORATOR_FOR_PROJECT_ACTION,
                 projectId: project.id,
                 collaboratorId: collaborator.id,
             });
