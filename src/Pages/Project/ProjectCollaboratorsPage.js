@@ -6,7 +6,7 @@ import {collaborationActions} from '../../Core/actions';
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
-import {Container, Page, PageHeading} from "../../Elements";
+import {Icon, Button, Container, Page, PageHeading} from "../../Elements";
 import {ProjectCollaborators} from "../../Components";
 
 class ProjectCollaboratorsPage extends Component {
@@ -18,6 +18,12 @@ class ProjectCollaboratorsPage extends Component {
                 <Container>
                     <PageHeading>
                         <h1>Collaborators</h1>
+                        <div className="MarginLeftAuto">
+                            <Button to={`/${project.owner}/${project.slug}/collaborators/add`}>
+                                <Icon icon="user-plus"/>
+                                <span>Add Collaborator</span>
+                            </Button>
+                        </div>
                     </PageHeading>
                     <ProjectCollaborators project={project} collaborators={collaborators}/>
                 </Container>
