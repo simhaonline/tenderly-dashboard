@@ -139,7 +139,7 @@ export const getUser = (token) => {
                 return new ErrorActionResponse();
             }
 
-            const user = new User(data.user);
+            const user = User.buildFromResponse(data.user);
             let impersonating = false;
 
             if (token) {

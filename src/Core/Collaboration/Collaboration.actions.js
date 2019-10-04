@@ -82,14 +82,22 @@ export const createCollaboratorForProject = (project, email, permissions) => {
 export const updateCollaboratorForProject = (project, collaborator, permissions) => {
     return async dispatch => {
         try {
-            console.log(permissions);
+            const {data} = await Api.patch(`/account/${project.owner}/project/${project.slug}/collaborate/user/${collaborator.id}`, {
+                permissions: Collaborator.transformPermissionsToApiPayload(permissions),
+            });
 
-            const collaborator = {};
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            const updateCollaborator = collaborator.update({
+                permissions,
+            });
 
             dispatch({
                 type: UPDATE_COLLABORATOR_FOR_PROJECT_ACTION,
                 projectId: project.id,
-                collaborator,
+                collaborator: updateCollaborator,
             });
 
             return new SuccessActionResponse(collaborator);

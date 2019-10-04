@@ -20,6 +20,12 @@ class Collaborator extends User {
         this.addedAt = data.addedAt;
     }
 
+    update(data) {
+        const updatedData = Object.assign({}, this, data);
+
+        return new Collaborator(updatedData);
+    }
+
     /**
      * @param {Object} apiPermissions
      *
@@ -54,7 +60,7 @@ class Collaborator extends User {
      */
     static buildFromResponse(response, projectId) {
         return new Collaborator({
-            ...response.user,
+            ...User.buildFromResponse(response.user),
             projectId,
             addedAt: moment(response.added_at),
             permissions: Collaborator.transformPermissionsToApp(response.permissions),

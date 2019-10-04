@@ -7,19 +7,19 @@ class User {
         this.email = data.email;
 
         /** @type string */
-        this.firstName = data.first_name;
+        this.firstName = data.firstName;
 
         /** @type string */
-        this.lastName = data.last_name;
+        this.lastName = data.lastName;
 
         /** @type string */
         this.username = data.username;
 
         /** @type boolean */
-        this.showDemo = !data.hide_demo;
+        this.showDemo = data.showDemo;
 
         /** @type boolean */
-        this.passwordSet = data.password_is_set;
+        this.passwordSet = data.passwordSet;
     }
 
     /**
@@ -43,15 +43,26 @@ class User {
      * @param {Object} data
      */
     update(data) {
-        const updateKeys = Object.keys(data);
+        const updatedData = Object.assign({}, this, data);
 
-        updateKeys.forEach(update => {
-            if (this.hasOwnProperty(update)) {
-                this[update] = data[update];
-            }
+        return new User(updatedData);
+    }
+
+    /**
+     * @param {Object} response
+     *
+     * @returns {User}
+     */
+    static buildFromResponse(response) {
+        return new User({
+            id: response.id,
+            email: response.email,
+            firstName: response.first_name,
+            lastName: response.last_name,
+            username: response.username,
+            showDemo: !response.hide_demo,
+            passwordSet: response.password_is_set,
         });
-
-        return this;
     }
 }
 
