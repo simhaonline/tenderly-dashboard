@@ -4,6 +4,9 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {Collaborator} from "../models";
 
 export const FETCH_COLLABORATORS_FOR_PROJECT_ACTION = 'FETCH_COLLABORATORS_FOR_PROJECT';
+export const CREATE_COLLABORATOR_FOR_PROJECT_ACTION = 'CREATE_COLLABORATOR_FOR_PROJECT';
+export const UPDATE_COLLABORATOR_FOR_PROJECT_ACTION = 'UPDATE_COLLABORATOR_FOR_PROJECT';
+export const DELETE_COLLABORATOR_FOR_PROJECT_ACTION = 'DELETE_COLLABORATOR_FOR_PROJECT';
 
 /**
  * @param {Project} project
@@ -29,6 +32,78 @@ export const fetchCollaboratorsForProject = (project) => {
             });
 
             return new SuccessActionResponse(collaborators);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {Project} project
+ *
+ * @return {Function<(SuccessActionResponse|ErrorActionResponse)>}
+ */
+export const createCollaboratorForProject = (project) => {
+    return async dispatch => {
+        try {
+            const collaborator = {};
+
+            dispatch({
+                type: CREATE_COLLABORATOR_FOR_PROJECT_ACTION,
+                projectId: project.id,
+                collaborator,
+            });
+
+            return new SuccessActionResponse(collaborator);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {Project} project
+ * @param {Collaborator} updateCollaborator
+ *
+ * @return {Function<(SuccessActionResponse|ErrorActionResponse)>}
+ */
+export const updateCollaboratorForProject = (project, updateCollaborator) => {
+    return async dispatch => {
+        try {
+            const collaborator = {};
+
+            dispatch({
+                type: UPDATE_COLLABORATOR_FOR_PROJECT_ACTION,
+                projectId: project.id,
+                collaborator,
+            });
+
+            return new SuccessActionResponse(collaborator);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {Project} project
+ * @param {Collaborator} collaborator
+ *
+ * @return {Function<(SuccessActionResponse|ErrorActionResponse)>}
+ */
+export const deleteCollaboratorForProject = (project, collaborator) => {
+    return async dispatch => {
+        try {
+            dispatch({
+                type: UPDATE_COLLABORATOR_FOR_PROJECT_ACTION,
+                projectId: project.id,
+                collaboratorId: collaborator.id,
+            });
+
+            return new SuccessActionResponse();
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);
