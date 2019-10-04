@@ -2,7 +2,7 @@ import React , {Component} from 'react';
 import PropTypes from 'prop-types';
 import {NavLink} from "react-router-dom";
 
-import {FeatureFlagTypes} from "../../Common/constants";
+import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 
 import {Tag} from "../../Elements";
 import {FeatureFlag} from "../index";
@@ -40,9 +40,12 @@ class ProjectNavigation extends Component {
                         <span>Deployment</span>
                     </NavLink>
                 </FeatureFlag>
-                <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/settings`}>
+                {project.type === ProjectTypes.PRIVATE && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/collaborators`}>
+                    <span>Collaborators</span>
+                </NavLink>}
+                {project.type === ProjectTypes.PRIVATE && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/settings`}>
                     <span>Settings</span>
-                </NavLink>
+                </NavLink>}
             </div>
         );
     }

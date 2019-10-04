@@ -38,6 +38,7 @@ export {default as ProjectNavigation} from './ProjectNavigation/ProjectNavigatio
 export {default as ProjectPicker} from './ProjectPicker/ProjectPicker';
 export {default as ProjectSidebar} from './ProjectSidebar/ProjectSidebar';
 export {default as ProjectContractList} from './ProjectContractList/ProjectContractList';
+export {default as ProjectCollaborators} from './ProjectCollaborators/ProjectCollaborators';
 
 // Project Analytics
 export {default as ProjectAnalyticsDashboard} from './ProjectAnalyticsDashboard/ProjectAnalyticsDashboard';
