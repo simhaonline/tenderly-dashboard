@@ -1,0 +1,46 @@
+@import "../../Common/common";
+
+.ProjectCollaborators__Collaborator {
+  display: flex;
+  align-items: center;
+}
+
+.ProjectCollaborators__Collaborator__NameColumn {
+  flex: 1 1 0;
+}
+
+.ProjectCollaborators__Collaborator__AddedColumn {
+  flex: 1 1 0;
+}
+
+.ProjectCollaborators__Collaborator__PermissionsColumn {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.ProjectCollaborators__Collaborator__PermissionsIcon {
+  width: 24px;
+  border-radius: 3px;
+  height: 24px;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $Spacing1;
+  opacity: 0.5;
+  font-size: $FontSize400;
+
+  &:hover {
+    background-color: transparentize($BlackColor, 0.8);
+  }
+}
+
+.ProjectCollaborators__Collaborator__PermissionsIcon--Active {
+  background-color: $Primary500;
+  opacity: 1;
+
+  &:hover {
+    background-color: $Primary700;
+  }
+}
