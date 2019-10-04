@@ -23,8 +23,6 @@ export const fetchCollaboratorsForProject = (project) => {
 
             const collaborators = data.users.map(user => Collaborator.buildFromResponse(user, project.id));
 
-            console.log(collaborators, data);
-
             dispatch({
                 type: FETCH_COLLABORATORS_FOR_PROJECT_ACTION,
                 collaborators,

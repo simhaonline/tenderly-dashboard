@@ -13,8 +13,23 @@ const initialState = {
 const CollaborationReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_COLLABORATORS_FOR_PROJECT_ACTION:
-            console.log(action);
-            return state;
+            return {
+                ...state,
+                collaborators: {
+                    ...state.collaborators,
+                    ...action.collaborators.reduce((data, collaborator) => {
+                        data[collaborator.id] = collaborator;
+
+                        return data;
+                    }, {}),
+                },
+                projectCollaborators: {
+                    [action.projectId]: action.collaborators.map(collaborator => collaborator.id),
+                },
+                projectCollaboratorsLoaded: {
+                    [action.projectId]: true,
+                },
+            };
         case LOG_OUT_ACTION:
             return initialState;
         default:
