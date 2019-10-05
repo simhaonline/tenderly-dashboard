@@ -25,6 +25,14 @@ function parseActionError(error) {
 
 export default class ErrorActionResponse extends ActionResponse {
     /**
+     * @type {Object}
+     * @property {ActionErrorTypes} type
+     * @property {string} error
+     * @property {number} [status] If the error is of type ActionErrorTypes.API then this will be the status code of the request.
+     */
+    data;
+
+    /**
      * @param {*} [error]
      */
     constructor(error) {
