@@ -1,12 +1,17 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {Collaborator} from "../../Core/models";
+
 import {ValidateEmail} from "../../Utils/FormValidators";
 
-import {CollaboratorPermissionTypeDescriptionMap, CollaboratorPermissionTypes} from "../../Common/constants";
+import {
+    CollaboratorPermissionTypeDescriptionMap,
+    CollaboratorPermissionTypeIconMap,
+    CollaboratorPermissionTypes
+} from "../../Common/constants";
 
-import {Collaborator} from "../../Core/models";
-import {Form, Button, PanelDivider, Toggle, Input} from "../../Elements";
+import {Form, Button, PanelDivider, Toggle, Input, Icon} from "../../Elements";
 
 import './CollaboratorForm.scss';
 
@@ -54,6 +59,21 @@ class CollaboratorForm extends Component {
         });
     };
 
+    /**
+     * @param {boolean} newValue
+     */
+    handleAllPermissionsToggle = (newValue) => {
+        const {permissions} = this.state;
+
+        this.setState({
+            permissions: Object.keys(permissions).reduce((data, permission) => {
+                data[permission] = newValue;
+
+                return data;
+            }, {}),
+        });
+    };
+
     handleFormSubmit = async () => {
         const {email, permissions} = this.state;
         const {onSubmit} = this.props;
@@ -84,6 +104,8 @@ class CollaboratorForm extends Component {
         const {submitLabel, readOnlyEmail, onCancel} = this.props;
         const {email, permissions, inProgress} = this.state;
 
+        const areAllPermissionActive = Object.keys(permissions).every(permission => permissions[permission]);
+
         return (
             <div className="CollaboratorForm">
                 <Form onSubmit={this.handleFormSubmit}>
@@ -93,8 +115,19 @@ class CollaboratorForm extends Component {
                     <h3>Permissions</h3>
                     <PanelDivider/>
                     <div>
+                        <div className="CollaboratorForm__Permission MarginBottom3">
+                            <div className="CollaboratorForm__Permission__Label">
+                                <span className="SemiBoldText">All Permissions</span>
+                            </div>
+                            <div>
+                                <Toggle value={areAllPermissionActive} onChange={() => this.handleAllPermissionsToggle(!areAllPermissionActive)}/>
+                            </div>
+                        </div>
                         {Object.keys(permissions).map(permission => <div key={permission} className="CollaboratorForm__Permission">
-                            <div className="CollaboratorForm__Permission__Label">{CollaboratorPermissionTypeDescriptionMap[permission]}</div>
+                            <div className="CollaboratorForm__Permission__Label">
+                                <Icon icon={CollaboratorPermissionTypeIconMap[permission]} className="MarginRight2 MutedText"/>
+                                <span>{CollaboratorPermissionTypeDescriptionMap[permission]}</span>
+                            </div>
                             <div>
                                 <Toggle value={permissions[permission]} onChange={() => this.handlePermissionToggle(permission)}/>
                             </div>
