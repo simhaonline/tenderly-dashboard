@@ -4,10 +4,10 @@ export default class ActionResponse {
      * @param {*} [data]
      */
     constructor(success, data) {
-        /** @type boolean */
+        /** @type {boolean} */
         this.success = success;
 
-        /** @type * */
+        /** @type {*} */
         this.data = data || null;
     }
 }

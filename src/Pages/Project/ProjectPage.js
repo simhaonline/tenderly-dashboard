@@ -51,6 +51,9 @@ class ProjectPage extends Component {
         const {nonExistingProject} = this.state;
 
         if (nonExistingProject) {
+            // @TODO Create empty for projects that do not exist or you do not have permission to.
+            // Should check if the username is the same as yours if not then display that it ether does not exist
+            // or user doesn't have permission.
             return <Redirect to="/dashboard"/>
         }
 

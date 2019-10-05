@@ -8,6 +8,7 @@ export const OSTypes = {
 
 export const ActionErrorTypes = {
     GENERAL: 'error',
+    NO_PERMISSION: 'no_permission',
     API: 'api_error',
 };
 
