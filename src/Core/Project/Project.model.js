@@ -8,7 +8,12 @@ class Project {
      * @param {ProjectTypes} [projectType]
      */
     constructor(data, owner, projectType) {
-        /** @type string */
+        /**
+         * Unique ID for project that is generated using the static Project.generateProjectId() method.
+         * @type string
+         * @example
+         * coolusername:my-project-slug
+         */
         this.id = data.id;
 
         /** @type string */
