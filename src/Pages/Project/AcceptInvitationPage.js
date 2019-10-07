@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 
-import {projectActions} from "../../Core/actions";
+import {projectActions, authActions} from "../../Core/actions";
 
 import {Container, Page} from "../../Elements";
 import {ProjectPageLoader, ProjectInvitationPreview} from "../../Components";
@@ -19,7 +19,7 @@ class AcceptInvitationPage extends Component {
     }
 
     async componentDidMount() {
-        const {actions, invitationCode, loggedIn} = this.props;
+        const {projectActions, invitationCode, loggedIn} = this.props;
 
         if (!loggedIn) return;
 
@@ -30,7 +30,7 @@ class AcceptInvitationPage extends Component {
             });
         }
 
-        const response = await actions.acceptProjectInvitation(invitationCode);
+        const response = await projectActions.acceptProjectInvitation(invitationCode);
 
         if (response.success) {
             return this.setState({
@@ -97,7 +97,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators(projectActions, dispatch),
+        projectActions: bindActionCreators(projectActions, dispatch),
+        authActions: bindActionCreators(authActions, dispatch),
     };
 };
 
