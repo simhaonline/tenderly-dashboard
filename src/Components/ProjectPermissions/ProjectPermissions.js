@@ -24,7 +24,7 @@ class ProjectPermissions extends PureComponent {
         return (
             <Panel className="ProjectPermissions">
                 <PanelHeader>
-                    <h3>Permissions</h3>
+                    <h3>Your Permissions</h3>
                 </PanelHeader>
                 <PanelContent>
                     {Object.keys(project.permissions).map(permission => <div key={permission} className="DisplayFlex AlignItemsCenter MarginBottom2">
@@ -33,8 +33,8 @@ class ProjectPermissions extends PureComponent {
                             {CollaboratorPermissionTypeDescriptionMap[permission]}
                         </div>
                         <div>
-                            {project.permissions[permission] && <span className="SuccessText SemiBoldText">Have permission</span>}
-                            {!project.permissions[permission] && <span className="DangerText SemiBoldText">Doesn't have permission</span>}
+                            {project.permissions[permission] && <span className="SuccessText SemiBoldText">Enabled</span>}
+                            {!project.permissions[permission] && <span className="DangerText SemiBoldText">Disabled</span>}
                         </div>
                     </div>)}
                 </PanelContent>
