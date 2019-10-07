@@ -151,8 +151,6 @@ class PublicContractQuickActionModal extends Component {
             actionInProgress: true,
         });
 
-        const projectId = selectedProject.value;
-
         const addResponse = await actions.addVerifiedContractToProject(
             selectedProject,
             contract.network,
