@@ -6,6 +6,7 @@ export {default as CodePreview} from './CodePreview/CodePreview';
 export {default as RegisterForm} from './RegisterForm/RegisterForm';
 export {default as ProgressiveButton} from './ProgressiveButton/ProgressiveButton';
 export {default as UsernameStatusInfo} from './UsernameStatusInfo/UsernameStatusInfo';
+export {default as PermissionControl} from './PermissionControl/PermissionControl';
 export {default as FeatureFlag} from './FeatureFlag/FeatureFlag';
 export {default as FeatureFlagControls} from './FeatureFlagControls/FeatureFlagControls';
 export {default as OnboardingWelcomeStep} from './Onboarding/OnboardingWelcomeStep';
