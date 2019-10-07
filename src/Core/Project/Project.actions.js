@@ -164,7 +164,6 @@ export const fetchProjects = (username) => {
  */
 export const fetchProject = (slug, username) => {
     return async (dispatch) => {
-
         try {
             const {data} = await Api.get(`/account/${username}/project/${slug}`);
 
@@ -181,7 +180,8 @@ export const fetchProject = (slug, username) => {
 
             return project;
         } catch (error) {
-            return null;
+            console.error(error);
+            return new ErrorActionResponse(error);
         }
     }
 };

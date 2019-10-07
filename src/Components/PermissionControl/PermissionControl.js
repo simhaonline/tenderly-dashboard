@@ -1,14 +1,20 @@
-import React, {Component} from 'react';
+import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
-import {CollaboratorPermissionTypes} from "../../Common/constants";
+import {CollaboratorPermissionTypes, ProjectTypes} from "../../Common/constants";
 
 import {Project} from "../../Core/models";
 
-class PermissionControl extends Component {
+class PermissionControl extends PureComponent {
     render() {
-        const {children} = this.props;
+        const {project, children, requiredPermission} = this.props;
+
+        if (project.type === ProjectTypes.SHARED) {
+            console.log(project);
+            if (!project.permissions.includes(requiredPermission)) {
+                return null;
+            }
+        }
 
         return children;
     }
@@ -16,16 +22,7 @@ class PermissionControl extends Component {
 
 PermissionControl.propTypes = {
     project: PropTypes.instanceOf(Project).isRequired,
-    requiredPermissions: PropTypes.oneOfType([
-        PropTypes.oneOf(Object.values(CollaboratorPermissionTypes)),
-        PropTypes.arrayOf(PropTypes.oneOf(Object.values(CollaboratorPermissionTypes))),
-    ]).isRequired,
+    requiredPermission: PropTypes.oneOf(Object.values(CollaboratorPermissionTypes)).isRequired,
 };
 
-const mapStateToProps = (state) => {
-    return {};
-};
-
-export default connect(
-    mapStateToProps,
-)(PermissionControl);
+export default PermissionControl;

@@ -2,6 +2,8 @@ import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
+import {CollaboratorPermissionTypes, ProjectTypes} from "../../Common/constants";
+import {Project} from "../../Core/models";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
@@ -13,12 +15,11 @@ import {
     ProjectContractList,
     ProjectContentLoader,
     ProjectSetupGuide,
+    PermissionControl,
     ExampleProjectInfoModal,
     EmptyState
 } from "../../Components";
 import NoContractsIcon from '../../Components/ProjectSetupEmptyState/no-contracts-watched.svg';
-import {ProjectTypes} from "../../Common/constants";
-import {Project} from "../../Core/models";
 
 class ProjectContractsPage extends Component {
     constructor(props) {
@@ -72,8 +73,10 @@ class ProjectContractsPage extends Component {
                     <PageHeading>
                         <h1>Contracts</h1>
                         {projectIsSetup && <div className="RightContent">
-                            {contractsLoaded && project.type !== ProjectTypes.DEMO && <ProjectSetupGuide project={project} label="Add Contract" outline={false}
-                                                                   initialCancelButtonLabel="Cancel"/>}
+                            {contractsLoaded && project.type !== ProjectTypes.DEMO && <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT}>
+                                <ProjectSetupGuide project={project} label="Add Contract" outline={false}
+                                                   initialCancelButtonLabel="Cancel"/>
+                            </PermissionControl>}
                             {contractsLoaded && project.type === ProjectTypes.DEMO && <Fragment>
                                 <Button onClick={this.handleOpenExampleProjectInfoModal}>
                                     <span>Add Contract</span>

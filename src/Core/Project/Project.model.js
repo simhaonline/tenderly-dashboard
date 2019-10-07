@@ -134,7 +134,7 @@ class Project {
         if (response.owner) {
             projectOwner = response.owner.username;
             projectType = ProjectTypes.SHARED;
-            permissions = Collaborator.transformPermissionsToApp(response.permissions);
+            permissions = response.permissions ? Collaborator.transformPermissionsToApp(response.permissions) : null;
         }
 
         return new Project({
