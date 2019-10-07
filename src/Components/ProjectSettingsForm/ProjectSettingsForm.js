@@ -44,10 +44,10 @@ class ProjectSettingsForm extends Component {
                 </PanelHeader>
                 <PanelContent>
                     <div>
-                        <Input disabled={project.type === ProjectTypes.DEMO} field="projectName" value={projectName} onChange={this.handleFormUpdate} icon="edit-3" label="Project name"/>
+                        <Input disabled={project.type === ProjectTypes.DEMO} readOnly={project.type === ProjectTypes.SHARED} field="projectName" value={projectName} onChange={this.handleFormUpdate} icon="edit-3" label="Project name"/>
                     </div>
                     <div className="SlugPreview">https://dashboard.tenderly.dev/project/<span className="ProjectSlug">{project.slug}</span></div>
-                    <ProgressiveButton disabled={project.type === ProjectTypes.DEMO} label="Save" progressLabel="Saving" color="primary" onClick={this.handleSettingsUpdate}/>
+                    {project.type !== ProjectTypes.SHARED && <ProgressiveButton disabled={project.type === ProjectTypes.DEMO} label="Save" progressLabel="Saving" color="primary" onClick={this.handleSettingsUpdate}/>}
                 </PanelContent>
             </Panel>
         );
