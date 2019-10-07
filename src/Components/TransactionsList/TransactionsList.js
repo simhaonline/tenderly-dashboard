@@ -37,7 +37,7 @@ const transactionTableConf = [
     },
     {
         className: "TransactionMoreColumn HideMobile",
-        renderColumn: tx => <TransactionMoreColumn transaction={tx}/>,
+        renderColumn: (tx, metadata) => <TransactionMoreColumn transaction={tx} project={metadata.project}/>,
     },
 ];
 
@@ -64,11 +64,12 @@ class TransactionsList extends Component {
     };
 
     render() {
-        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading} = this.props;
+        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading, project} = this.props;
 
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
                 contracts,
+                project,
             }} onRowClick={this.handleRowClick} minWidth={970} loading={loading} emptyStateLabel="No transactions scanned yet"
                    currentPage={currentPage} onPageChange={onPageChange}
                    perPage={perPage} onPerPageChange={onPerPageChange}/>
