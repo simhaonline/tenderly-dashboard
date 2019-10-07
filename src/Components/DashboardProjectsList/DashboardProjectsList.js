@@ -6,7 +6,7 @@ import * as _ from "lodash";
 import {ProjectTypes} from "../../Common/constants";
 
 import {Icon, Card} from "../../Elements";
-import {SimpleLoader, NoProjectsEmptyState, ProjectSetupGuide} from "../index";
+import {SimpleLoader, NoProjectsEmptyState} from "../index";
 
 import './DashboardProjectsList.scss';
 
