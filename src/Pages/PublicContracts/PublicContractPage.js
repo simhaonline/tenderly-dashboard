@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 
 import Analytics from '../../Utils/Analytics';
 
