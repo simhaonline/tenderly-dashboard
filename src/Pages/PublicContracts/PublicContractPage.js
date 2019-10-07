@@ -237,7 +237,6 @@ class PublicContractPage extends Component {
                                 <ContractFiles contract={contract}/>
                             </Fragment>
                         )}/>
-                        <Redirect to={`/project/${contract.address}/transactions`}/>
                     </Switch>
                     <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal} onLogin={this.handleLogin}/>
                 </Container>
