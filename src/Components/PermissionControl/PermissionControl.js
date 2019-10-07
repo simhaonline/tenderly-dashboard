@@ -9,11 +9,8 @@ class PermissionControl extends PureComponent {
     render() {
         const {project, children, requiredPermission} = this.props;
 
-        if (project.type === ProjectTypes.SHARED) {
-            console.log(project);
-            if (!project.permissions.includes(requiredPermission)) {
-                return null;
-            }
+        if (project.type === ProjectTypes.SHARED && !project.permissions[requiredPermission]) {
+            return null;
         }
 
         return children;
