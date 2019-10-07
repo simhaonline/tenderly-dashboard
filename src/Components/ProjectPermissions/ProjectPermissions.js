@@ -1,9 +1,15 @@
 import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 
-import {ProjectTypes} from "../../Common/constants";
+import {
+    CollaboratorPermissionTypeDescriptionMap,
+    CollaboratorPermissionTypeIconMap,
+    ProjectTypes
+} from "../../Common/constants";
 
 import {Project} from "../../Core/models";
+
+import {Icon, Panel, PanelContent, PanelHeader} from "../../Elements";
 
 import './ProjectPermissions.scss';
 
@@ -16,9 +22,23 @@ class ProjectPermissions extends PureComponent {
         }
 
         return (
-            <div className="ProjectPermissions">
-                permissioooooons
-            </div>
+            <Panel className="ProjectPermissions">
+                <PanelHeader>
+                    <h3>Permissions</h3>
+                </PanelHeader>
+                <PanelContent>
+                    {Object.keys(project.permissions).map(permission => <div key={permission} className="DisplayFlex AlignItemsCenter MarginBottom2">
+                        <div className="ProjectPermissions__PermissionDescription">
+                            <Icon icon={CollaboratorPermissionTypeIconMap[permission]} className="MutedText MarginRight1"/>
+                            {CollaboratorPermissionTypeDescriptionMap[permission]}
+                        </div>
+                        <div>
+                            {project.permissions[permission] && <span className="SuccessText SemiBoldText">Have permission</span>}
+                            {!project.permissions[permission] && <span className="DangerText SemiBoldText">Doesn't have permission</span>}
+                        </div>
+                    </div>)}
+                </PanelContent>
+            </Panel>
         );
     }
 }

@@ -2,15 +2,15 @@ import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
+import {ProjectTypes} from "../../Common/constants";
+
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import * as projectActions from "../../Core/Project/Project.actions";
 
 import {Panel, PanelHeader, PanelContent, Input} from "../../Elements";
-
-import ProgressiveButton from "../ProgressiveButton/ProgressiveButton";
+import {ProgressiveButton} from "../index";
 
 import './ProjectSettingsForm.scss';
-import {ProjectTypes} from "../../Common/constants";
 
 class ProjectSettingsForm extends Component {
     constructor(props) {
