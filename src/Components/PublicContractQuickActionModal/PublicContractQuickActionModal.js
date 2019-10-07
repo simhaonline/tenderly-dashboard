@@ -19,6 +19,7 @@ import {Dialog, DialogBody, DialogHeader, Input, Form, Button, Select, Card} fro
 import {SimpleLoader} from "..";
 
 import './PublicContractQuickActionModal.scss';
+import {CollaboratorPermissionTypes, ProjectTypes} from "../../Common/constants";
 
 class PublicContractQuickActionModal extends Component {
     constructor(props) {
@@ -202,7 +203,15 @@ class PublicContractQuickActionModal extends Component {
                             {!!projects.length && !createProject && <div>
                                 <h4 className="MarginBottom1">Select project</h4>
                                 <Select value={selectedProject} selectLabel="Select project" onChange={this.handleProjectSelect} options={[
-                                    ...projects.map(project => ({
+                                    ...projects
+                                        .filter(project => {
+                                            if (project.type === ProjectTypes.SHARED && !!project.permissions) {
+                                                return project.permissions[CollaboratorPermissionTypes.ADD_CONTRACT];
+                                            }
+
+                                            return project.type === ProjectTypes.PRIVATE;
+                                        })
+                                        .map(project => ({
                                         value: project.slug,
                                         label: project.name,
                                         slug: project.slug,
