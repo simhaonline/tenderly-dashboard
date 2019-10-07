@@ -175,7 +175,7 @@ export const fetchProject = (slug, username) => {
             const {data} = await Api.get(`/account/${username}/project/${slug}`);
 
             if (!data) {
-                return null;
+                return new ErrorActionResponse();
             }
 
             const project = Project.buildFromResponse(data, user);
@@ -185,7 +185,7 @@ export const fetchProject = (slug, username) => {
                 project,
             });
 
-            return project;
+            return new SuccessActionResponse(project);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);

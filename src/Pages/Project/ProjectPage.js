@@ -36,9 +36,9 @@ class ProjectPage extends Component {
         const {project, actions, projectSlug, username} = this.props;
 
         if (!project) {
-            const fetchedProject = await actions.fetchProject(projectSlug, username);
+            const response = await actions.fetchProject(projectSlug, username);
 
-            if (!fetchedProject) {
+            if (!response.success) {
                 this.setState({
                     nonExistingProject: true,
                 })

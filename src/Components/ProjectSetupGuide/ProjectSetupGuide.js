@@ -185,9 +185,9 @@ class ProjectSetupGuide extends Component {
             verifying: true,
         });
 
-        const fetchedProject = await actions.fetchProject(project.slug, project.owner);
+        const response = await actions.fetchProject(project.slug, project.owner);
 
-        const projectSetup = !!fetchedProject.lastPushAt;
+        const projectSetup = response.success && !!response.data.lastPushAt;
 
         if (projectSetup) {
             contractActions.fetchContractsForProject(project);
