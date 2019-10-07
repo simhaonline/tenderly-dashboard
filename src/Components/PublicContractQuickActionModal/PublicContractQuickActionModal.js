@@ -78,9 +78,10 @@ class PublicContractQuickActionModal extends Component {
     };
 
     /**
-     * @param {string} projectId
+     * @param {Project.slug} projectSlug
+     * @param {Project.owner} projectOwner
      */
-    goToProjectBasedOnAction = (projectId) => {
+    goToProjectBasedOnAction = (projectSlug, projectOwner) => {
         const {type} = this.props;
 
         let urlSuffix = '';
@@ -95,7 +96,7 @@ class PublicContractQuickActionModal extends Component {
 
         this.setState({
             actionInProgress: false,
-            redirectTo: `/project/${projectId}${urlSuffix}`,
+            redirectTo: `/${projectOwner}/${projectSlug}${urlSuffix}`,
         });
     };
 
@@ -139,7 +140,7 @@ class PublicContractQuickActionModal extends Component {
         await actions.fetchProject(project.slug, project.owner);
         await contractActions.fetchContractsForProject(project);
 
-        this.goToProjectBasedOnAction(project.slug);
+        this.goToProjectBasedOnAction(project.slug, project.owner);
     };
 
     addToProject = async () => {
@@ -170,7 +171,7 @@ class PublicContractQuickActionModal extends Component {
         await actions.fetchProject(selectedProject.slug, selectedProject.owner);
         await contractActions.fetchContractsForProject(selectedProject);
 
-        this.goToProjectBasedOnAction(projectId);
+        this.goToProjectBasedOnAction(selectedProject.slug, selectedProject.owner);
     };
 
     render() {
