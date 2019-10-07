@@ -72,8 +72,8 @@ class ResetPasswordForm extends Component {
     };
 
     render() {
+        const {redirectTo} = this.props;
         const {error, errorMessage, newPasswordSet, formData: {password, repeatedPassword}} = this.state;
-
 
         return (
             <div className="ResetPasswordForm">
@@ -96,7 +96,12 @@ class ResetPasswordForm extends Component {
                         </Form>}
                         {newPasswordSet && <div>
                             <Alert color="info">You new password has been successfully set. You can now login to the dashboard with your new password.</Alert>
-                            <Button to="/login" color="secondary" outline>
+                            <Button to={{
+                                pathname: "/login",
+                                state: {
+                                    from: redirectTo,
+                                },
+                            }} color="secondary" outline>
                                 <Icon icon="log-in"/>
                                 <span>Login</span>
                             </Button>
@@ -109,6 +114,7 @@ class ResetPasswordForm extends Component {
 }
 
 ResetPasswordForm.propTypes = {
+    redirectTo: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
 };
 

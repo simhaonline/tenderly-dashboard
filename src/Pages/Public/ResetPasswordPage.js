@@ -16,10 +16,12 @@ class ResetPasswordPage extends Component {
     };
 
     render() {
+        const {redirectTo} = this.props;
+
         return (
             <Page id="ResetPasswordPage" wholeScreenPage>
                 <Container>
-                    <ResetPasswordForm onSubmit={this.handleResetPasswordSubmit}/>
+                    <ResetPasswordForm redirectTo={redirectTo} onSubmit={this.handleResetPasswordSubmit}/>
                 </Container>
             </Page>
         )
@@ -32,9 +34,11 @@ const mapStateToProps = (state, ownProps) => {
     const searchParams = new URLSearchParams(search);
 
     const resetCode = searchParams.get('code') || null;
+    const redirectTo = searchParams.get('redirectTo') || null;
 
     return {
         resetCode,
+        redirectTo,
     };
 };
 
