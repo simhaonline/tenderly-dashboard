@@ -1,5 +1,8 @@
 import _ from 'lodash';
+
 import {ProjectTypes} from "../../Common/constants";
+
+import Collaborator from "../Collaboration/Collaborator.model";
 
 class Project {
     /**
@@ -39,6 +42,13 @@ class Project {
 
         /** @type string */
         this.type = projectType || ProjectTypes.PRIVATE;
+
+        /**
+         * This property exists only if the project is of ProjectTypes.SHARED type.
+         *
+         * @type {CollaboratorPermissions}
+         */
+        this.permissions = data.permissions;
     }
 
     /**
@@ -119,10 +129,12 @@ class Project {
     static buildFromResponse(response, username, type) {
         let projectOwner = username;
         let projectType = type;
+        let permissions;
 
         if (response.owner) {
             projectOwner = response.owner.username;
             projectType = ProjectTypes.SHARED;
+            permissions = Collaborator.transformPermissionsToApp(response.permissions);
         }
 
         return new Project({
@@ -133,6 +145,7 @@ class Project {
             isSetup: !!response.last_push_at,
             setupViewed: !!response.last_push_at,
             createdAt: response.created_at,
+            permissions,
         }, projectOwner, projectType);
     }
 }

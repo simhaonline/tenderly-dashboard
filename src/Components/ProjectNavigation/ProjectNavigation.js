@@ -48,7 +48,7 @@ class ProjectNavigation extends Component {
                         New
                     </Tag>
                 </NavLink>}
-                {project.type === ProjectTypes.PRIVATE && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/settings`}>
+                {project.type !== ProjectTypes.DEMO && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/settings`}>
                     <Icon className="NavigationItem__Icon" icon="settings"/>
                     <span>Settings</span>
                 </NavLink>}
