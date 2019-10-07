@@ -121,17 +121,17 @@ class Project {
 
     /**
      * @param {Object} response
-     * @param {User.username} username
+     * @param {User} user
      * @param {ProjectTypes} [type]
      *
      * @return {Project}
      */
-    static buildFromResponse(response, username, type) {
-        let projectOwner = username;
+    static buildFromResponse(response, user, type) {
+        let projectOwner = user.username;
         let projectType = type;
         let permissions;
 
-        if (response.owner) {
+        if (response.owner_id !== user.id) {
             projectOwner = response.owner.username;
             projectType = ProjectTypes.SHARED;
             permissions = response.permissions ? Collaborator.transformPermissionsToApp(response.permissions) : null;

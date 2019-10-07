@@ -10,7 +10,7 @@ import {
     exampleProjectPayload
 } from "../../examples";
 import {updateUser} from "../Auth/Auth.actions";
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {formatProjectSlug} from "../../Utils/Formatters";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
@@ -28,10 +28,10 @@ export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PRO
  */
 export const createProject = (name, username = 'me') => {
     return async (dispatch, getState) => {
-        const state = getState();
-        const {auth: {user: {showDemo}}} = state;
+        const {auth: {user}, project: {projects}} = getState();
+        const {showDemo} = user;
 
-        const existingProjects = Object.keys(state.project.projects);
+        const existingProjects = Object.keys(projects);
         const projectSlug = formatProjectSlug(name);
 
         if (existingProjects.includes(projectSlug)) {
@@ -50,12 +50,12 @@ export const createProject = (name, username = 'me') => {
             }
 
             if (showDemo) {
-                const demoProject = getProject(state, exampleProjectPayload.slug);
+                const demoProject = getProjectBySlugAndUsername(getState(), exampleProjectPayload.slug, user.username);
 
                 await dispatch(deleteProject(demoProject));
             }
 
-            const project = Project.buildFromResponse(data.project, username);
+            const project = Project.buildFromResponse(data.project, user);
 
             dispatch({
                 type: CREATE_PROJECT_ACTION,
@@ -72,11 +72,14 @@ export const createProject = (name, username = 'me') => {
 
 /**
  * @param {Function} dispatch
- * @param {User.username} username
+ * @param {User} user
  * @return {SuccessActionResponse}
  */
-export const dispatchExampleProject = (dispatch, username) => {
-    const exampleProject = Project.buildFromResponse(exampleProjectPayload, username, ProjectTypes.DEMO);
+export const dispatchExampleProject = (dispatch, user) => {
+    const exampleProject = Project.buildFromResponse({
+        ...exampleProjectPayload,
+        owner_id: user.id,
+    }, user, ProjectTypes.DEMO);
 
     const exampleContracts = [
         Contract.buildFromResponse(exampleContract1Payload, {
@@ -106,7 +109,7 @@ export const dispatchExampleProject = (dispatch, username) => {
 export const createExampleProject = () => {
     return async (dispatch, getState) => {
         const state = getState();
-        const {auth: {user: {username}}} = state;
+        const {auth: {user}} = state;
 
         try {
             const response = await dispatch(updateUser({
@@ -117,7 +120,7 @@ export const createExampleProject = () => {
                 return new ErrorActionResponse();
             }
 
-            return dispatchExampleProject(dispatch, username);
+            return dispatchExampleProject(dispatch, user);
         } catch (error) {
             return new ErrorActionResponse(error);
         }
@@ -129,7 +132,9 @@ export const createExampleProject = () => {
  * @returns {Function}
  */
 export const fetchProjects = (username) => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
         try {
             const {data} = await Api.get(`/account/${username}/projects`, {
                 params: {
@@ -146,7 +151,7 @@ export const fetchProjects = (username) => {
                 return;
             }
 
-            const projects = data.projects.map(project => Project.buildFromResponse(project, username));
+            const projects = data.projects.map(project => Project.buildFromResponse(project, user));
 
             dispatch({
                 type: FETCH_PROJECTS_ACTION,
@@ -163,7 +168,9 @@ export const fetchProjects = (username) => {
  * @param {User.username} username
  */
 export const fetchProject = (slug, username) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
         try {
             const {data} = await Api.get(`/account/${username}/project/${slug}`);
 
@@ -171,7 +178,7 @@ export const fetchProject = (slug, username) => {
                 return null;
             }
 
-            const project = Project.buildFromResponse(data, username);
+            const project = Project.buildFromResponse(data, user);
 
             dispatch({
                 type: FETCH_PROJECT_ACTION,
@@ -229,11 +236,13 @@ export const setProjectSetupViewed = (project) => {
  * @param {Object} data
  */
 export const updateProject = (project, data) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
         try {
             const {data: responseData} = await Api.post(`/account/${project.owner}/project/${project.slug}`, data);
 
-            const updatedProject = Project.buildFromResponse(responseData, project.owner);
+            const updatedProject = Project.buildFromResponse(responseData, user);
 
             dispatch({
                 type: UPDATE_PROJECT_ACTION,

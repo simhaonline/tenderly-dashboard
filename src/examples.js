@@ -53,6 +53,7 @@ contract ExampleContract {
 }`;
 
 export const exampleProjectPayload = {
+    id: 'example-project',
     slug: 'example-project',
     name: 'Example Project',
     last_push_at: Date.now(),
