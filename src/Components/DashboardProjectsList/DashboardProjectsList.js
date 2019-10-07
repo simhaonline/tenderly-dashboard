@@ -60,8 +60,8 @@ const DashboardProjectListItem = ({project}) => {
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     const groupedProjects = _.groupBy(projects, 'type');
 
-    const personalProjects = groupedProjects[ProjectTypes.PRIVATE];
-    const sharedProjects = groupedProjects[ProjectTypes.SHARED];
+    const personalProjects = groupedProjects[ProjectTypes.PRIVATE] || [];
+    const sharedProjects = groupedProjects[ProjectTypes.SHARED] || [];
 
     if (groupedProjects[ProjectTypes.DEMO]) {
         personalProjects.unshift(groupedProjects[ProjectTypes.DEMO]);
