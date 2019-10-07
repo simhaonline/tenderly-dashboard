@@ -67,6 +67,7 @@ export {default as DestinationInformation} from './DestinationInformation/Destin
 export {default as AddIntegrationModal} from './AddIntegrationModal/AddIntegrationModal';
 
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
+export {default as ProjectPermissions} from './ProjectPermissions/ProjectPermissions';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
 export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';
 export {default as ProjectSetupEmptyState} from './ProjectSetupEmptyState/ProjectSetupEmptyState';

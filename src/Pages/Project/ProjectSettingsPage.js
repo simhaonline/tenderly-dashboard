@@ -3,13 +3,13 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
-import * as projectActions from "../../Core/Project/Project.actions";
-
+import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
+import * as projectActions from "../../Core/Project/Project.actions";
+
 import {Container, Page, PageHeading} from "../../Elements";
-import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher, PageSegments, PageSegmentContent} from "../../Components";
-import {FeatureFlagTypes} from "../../Common/constants";
+import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher, PageSegments, PageSegmentContent, ProjectPermissions} from "../../Components";
 
 const SettingsSegments = [
     {
@@ -81,7 +81,8 @@ class ProjectSettingsPage extends Component {
                         <PageSegmentSwitcher current={currentSegment} options={SettingsSegments} onSelect={this.handleSegmentSwitch}/>
                         {currentSegment === 'general' && <PageSegmentContent>
                             <ProjectSettingsForm project={project}/>
-                            <ProjectSettingsActions onAction={this.handleProjectAction}/>
+                            {project.type === ProjectTypes.SHARED && <ProjectPermissions project={project}/>}
+                            {project.type !== ProjectTypes.SHARED && <ProjectSettingsActions onAction={this.handleProjectAction}/>}
                         </PageSegmentContent>}
                         <FeatureFlag flag={FeatureFlagTypes.ORGANIZATIONS}>
                             {currentSegment === 'members' && <PageSegmentContent>
