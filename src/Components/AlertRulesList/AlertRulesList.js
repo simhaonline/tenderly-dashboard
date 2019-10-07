@@ -7,7 +7,7 @@ import _ from "lodash";
 import Intercom from "../../Utils/Intercom";
 import Analytics from "../../Utils/Analytics";
 
-import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
+import {CollaboratorPermissionTypes, FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 
@@ -25,7 +25,7 @@ import {
     PanelContent,
     PanelHeader
 } from "../../Elements";
-import {SimpleLoader, EmptyState, FeatureFlag, ExampleProjectInfoModal} from "..";
+import {SimpleLoader, EmptyState, FeatureFlag, ExampleProjectInfoModal, PermissionControl} from "..";
 
 import './AlertRulesList.scss';
 
@@ -112,10 +112,12 @@ class AlertRulesList extends Component {
                                             <Link to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}`}>
                                                 <DropdownItem>View Alert</DropdownItem>
                                             </Link>
-                                            <DropdownItem onClick={() => this.toggleAlertRule(rule)}>
-                                                {rule.enabled && <span>Disable Alert</span>}
-                                                {!rule.enabled && <span>Enable Alert</span>}
-                                            </DropdownItem>
+                                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.UPDATE_ALERT}>
+                                                <DropdownItem onClick={() => this.toggleAlertRule(rule)}>
+                                                    {rule.enabled && <span>Disable Alert</span>}
+                                                    {!rule.enabled && <span>Enable Alert</span>}
+                                                </DropdownItem>
+                                            </PermissionControl>
                                         </DropdownMenu>
                                     </Dropdown>
                                 </div>

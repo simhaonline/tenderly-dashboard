@@ -9,7 +9,7 @@ import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 
-import {AlertRuleBuilderSteps} from "../../Common/constants";
+import {AlertRuleBuilderSteps, CollaboratorPermissionTypes} from "../../Common/constants";
 
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
 import {
@@ -36,7 +36,7 @@ import {
     ListItem,
     PanelDivider
 } from "../../Elements";
-import {SimpleLoader, DestinationInformation, EmptyState, AlertExpressionsInfo} from "..";
+import {SimpleLoader, DestinationInformation, EmptyState, AlertExpressionsInfo, PermissionControl} from "..";
 
 import './AlertRuleView.scss';
 
@@ -178,25 +178,33 @@ class AlertRuleView extends Component {
                                         <DestinationInformation destination={destination}/>
                                     </div>
                                 </ListItem>)}
-                                <ListItem to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}/edit?tab=${AlertRuleBuilderSteps.DESTINATIONS}`} selectable className="DisplayFlex AlignItemsCenter JustifyContentCenter MutedText">
-                                    <Icon icon="plus-circle"/>
-                                    <span className="MarginLeft1">Add more destinations</span>
-                                </ListItem>
+                                <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.UPDATE_ALERT}>
+                                    <ListItem to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}/edit?tab=${AlertRuleBuilderSteps.DESTINATIONS}`} selectable className="DisplayFlex AlignItemsCenter JustifyContentCenter MutedText">
+                                        <Icon icon="plus-circle"/>
+                                        <span className="MarginLeft1">Add more destinations</span>
+                                    </ListItem>
+                                </PermissionControl>
                             </List>
                         </div>}
                         <div>
-                            <Button to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}/edit`}>
-                                <Icon icon="edit-3"/>
-                                <span>Edit</span>
-                            </Button>
-                            <Button outline={rule.enabled} onClick={this.toggleAlertRuleEnabled} disabled={inProgress}>
-                                <Icon icon={rule.enabled ? 'bell-off' : 'bell'}/>
-                                <span>{rule.enabled ? 'Disable' : 'Enable'}</span>
-                            </Button>
-                            <Button color="danger" outline onClick={this.openDeleteModal} disabled={inProgress}>
-                                <Icon icon="trash-2"/>
-                                <span>Remove Alert</span>
-                            </Button>
+                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.UPDATE_ALERT}>
+                                <Button to={`/${project.owner}/${project.slug}/alerts/rules/${rule.id}/edit`}>
+                                    <Icon icon="edit-3"/>
+                                    <span>Edit</span>
+                                </Button>
+                            </PermissionControl>
+                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.UPDATE_ALERT}>
+                                <Button outline={rule.enabled} onClick={this.toggleAlertRuleEnabled} disabled={inProgress}>
+                                    <Icon icon={rule.enabled ? 'bell-off' : 'bell'}/>
+                                    <span>{rule.enabled ? 'Disable' : 'Enable'}</span>
+                                </Button>
+                            </PermissionControl>
+                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.REMOVE_ALERT}>
+                                <Button color="danger" outline onClick={this.openDeleteModal} disabled={inProgress}>
+                                    <Icon icon="trash-2"/>
+                                    <span>Remove Alert</span>
+                                </Button>
+                            </PermissionControl>
                         </div>
                     </div>}
                     <Dialog open={openDeleteModal} onClose={this.closeDeleteModal}>

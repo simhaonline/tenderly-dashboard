@@ -4,6 +4,7 @@ import {Route, Switch} from "react-router-dom";
 
 import Analytics from "../../Utils/Analytics";
 
+import {CollaboratorPermissionTypes} from "../../Common/constants";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
@@ -15,7 +16,8 @@ import {
     ProjectAlertHistory,
     ProjectAlertDestinations,
     ProjectAlertRules,
-    ProjectSetupEmptyState
+    ProjectSetupEmptyState,
+    PermissionControl,
 } from "../../Components";
 
 const RULES_TAB = 'rules';
@@ -72,9 +74,11 @@ class ProjectAlertsPage extends Component {
                     <PageHeading>
                         <h1>Alerting</h1>
                         <div className="MarginLeftAuto">
-                            {areRulesLoaded && !!rules.length && <Button onClick={() => Analytics.trackEvent('create_alert_button_clicked')} to={`/${project.owner}/${project.slug}/alerts/rules/create`}>
-                                <span>New Alert</span>
-                            </Button>}
+                            {areRulesLoaded && !!rules.length && <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.CREATE_ALERT}>
+                                <Button onClick={() => Analytics.trackEvent('create_alert_button_clicked')} to={`/${project.owner}/${project.slug}/alerts/rules/create`}>
+                                    <span>New Alert</span>
+                                </Button>
+                            </PermissionControl>}
                         </div>
                     </PageHeading>
                     {!project.isSetup && <ProjectSetupEmptyState project={project}/>}
