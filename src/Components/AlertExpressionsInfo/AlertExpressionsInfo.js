@@ -99,7 +99,9 @@ class AlertExpressionsInfo extends PureComponent {
 
         return (
             <div>
+                <h3 className="MarginBottom2">Alert Type</h3>
                 <ExpressionConditionPreview rule={rule}/>
+                <h3 className="MarginBottom2">Target</h3>
                 <ExpressionTargetPreview expressions={rule.expressions} contracts={contracts} project={project}/>
             </div>
         );

@@ -153,7 +153,7 @@ class AlertRuleView extends Component {
                     </div>}
                     {!loading && !errorFetching && <div>
                         <div className="MarginBottom3">
-                            <h4>ID: </h4>
+                            <h4>ID</h4>
                             <div>{rule.id}</div>
                         </div>
                         <PanelDivider/>
