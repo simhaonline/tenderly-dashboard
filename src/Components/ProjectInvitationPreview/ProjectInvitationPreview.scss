@@ -1,0 +1,45 @@
+@import "../../Common/common";
+
+.ProjectInvitationPreview {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.ProjectInvitationPreview__Logo {
+  height: 50px;
+  margin: 0 auto $Spacing8;
+  display: block;
+  width: 200px;
+}
+
+.ProjectInvitationPreview__ProjectCard {
+  padding: 0;
+  //overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.ProjectInvitationPreview__ProjectCard__IconWrapper {
+  width: 80px;
+  height: 80px;
+  background-image: $GradientRedPurple;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $FontSize700;
+  border-radius: 4px;
+}
+
+.ProjectInvitationPreview__ProjectCard__InfoWrapper {
+  padding: $Spacing2 $Spacing4;
+}
+
+.ProjectInvitationPreview__ProjectCard__ProjectName {
+  font-size: $FontSize400;
+  font-weight: 600;
+  margin-bottom: $Spacing1;
+}
+
+.ProjectInvitationPreview__ProjectCard__ProjectSlug {
+  opacity: 0.75;
+}
