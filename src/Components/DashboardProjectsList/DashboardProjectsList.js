@@ -23,7 +23,7 @@ const DashboardProjectListItem = ({project}) => {
     if (project.type === ProjectTypes.SHARED) {
         projectIcon = 'two-hexa';
     } else if (project.type === ProjectTypes.DEMO) {
-        projectIcon = 'code';
+        projectIcon = 'package';
     }
 
     return <Link to={`/${project.owner}/${project.slug}`} className="DashboardProjectListItem" key={project.id}>
@@ -41,7 +41,6 @@ const DashboardProjectListItem = ({project}) => {
             </div>
             <div className="DashboardProjectListItem__Info">
                 <div className="DashboardProjectListItem__ProjectName">
-                    {project.type === ProjectTypes.DEMO && <span className="DemoTag">Demo</span>}
                     <span>{project.name}</span>
                 </div>
                 <div className="DashboardProjectListItem__ProjectSlug">
@@ -64,7 +63,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     const sharedProjects = groupedProjects[ProjectTypes.SHARED] || [];
 
     if (groupedProjects[ProjectTypes.DEMO]) {
-        personalProjects.unshift(groupedProjects[ProjectTypes.DEMO]);
+        personalProjects.unshift(...groupedProjects[ProjectTypes.DEMO]);
     }
 
     return (
@@ -74,7 +73,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
             </div>}
             {(loaded && projects.length === 0) && <NoProjectsEmptyState onTryExample={onTryExample}/>}
             {(loaded && projects.length !== 0) && <div>
-                {sharedProjects && sharedProjects.length && <Fragment>
+                {(sharedProjects && sharedProjects.length > 0) && <Fragment>
                     <h2 className="DashboardProjectsList__SubHeading">Shared Projects</h2>
                     <div className="DashboardProjectsList__ListWrapper">
                         {_.sortBy(sharedProjects, 'createdAt').map(project => <DashboardProjectListItem key={project.id} project={project}/>)}
