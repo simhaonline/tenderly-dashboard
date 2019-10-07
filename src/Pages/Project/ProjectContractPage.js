@@ -3,10 +3,11 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 
-import * as contractActions from "../../Core/Contract/Contract.actions";
-
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getContractByAddressAndNetwork, getContractStatus} from "../../Common/Selectors/ContractSelectors";
 import {EntityStatusTypes, EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
+
+import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
 import {
@@ -14,7 +15,6 @@ import {
     ProjectContentLoader,
     ContractFiles, EtherscanLink,
 } from "../../Components";
-import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 class ProjectContractPage extends Component {
     constructor(props) {
@@ -95,7 +95,7 @@ class ProjectContractPage extends Component {
                                 </EtherscanLink>
                             </div>
                         </PageHeading>
-                        <ContractInformation contract={contract} onDelete={this.handleContractDelete}
+                        <ContractInformation contract={contract} project={project} onDelete={this.handleContractDelete}
                                              onListenToggle={this.handleContractListeningToggle}/>
                         <ContractFiles contract={contract}/>
                     </Fragment>}

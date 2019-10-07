@@ -2,10 +2,12 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {NavLink} from "react-router-dom";
 
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {CollaboratorPermissionTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+
+import {Contract, Project} from "../../Core/models";
 
 import {Panel, PanelContent, PanelDivider, Tooltip, Icon, Toggle, Button, Dialog, DialogBody, DialogHeader} from "../../Elements";
-import {CopyableText, NetworkTag} from "../index";
+import {CopyableText, NetworkTag, PermissionControl} from "../index";
 
 import './ContractInformation.scss';
 
@@ -45,7 +47,7 @@ class ContractInformation extends Component {
     };
 
     render() {
-        const {contract} = this.props;
+        const {contract, project} = this.props;
         const {deleteModalOpen} = this.state;
 
         return (
@@ -76,20 +78,24 @@ class ContractInformation extends Component {
                             </div>
                         </div>
                     </div>
-                    {!contract.isPublic && <Fragment>
+                    {!!project && <Fragment>
                         <PanelDivider/>
                         <div className="DisplayFlex AlignItemsCenter JustifyContentEnd">
-                            <div className="DisplayFlex AlignItemsStart MarginRight4">
-                                <span className="MarginRight2 SemiBoldText">Listening: <Icon icon="info" className="MutedText"/></span>
-                                <div>
-                                    <Toggle value={contract.listening} onChange={this.handleListeningToggle}/>
+                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT}>
+                                <div className="DisplayFlex AlignItemsStart MarginRight4">
+                                    <span className="MarginRight2 SemiBoldText">Listening: <Icon icon="info" className="MutedText"/></span>
+                                    <div>
+                                        <Toggle value={contract.listening} onChange={this.handleListeningToggle}/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <Button color="danger" outline size="small" onClick={this.openDeleteModal}>
-                                    <span>Remove Contract</span>
-                                </Button>
-                            </div>
+                            </PermissionControl>
+                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.REMOVE_CONTRACT}>
+                                <div>
+                                    <Button color="danger" outline size="small" onClick={this.openDeleteModal}>
+                                        <span>Remove Contract</span>
+                                    </Button>
+                                </div>
+                            </PermissionControl>
                         </div>
                         <Dialog onClose={this.closeDeleteModal} open={deleteModalOpen}>
                             <DialogHeader>
@@ -123,6 +129,8 @@ class ContractInformation extends Component {
 }
 
 ContractInformation.propTypes = {
+    contract: PropTypes.instanceOf(Contract).isRequired,
+    project: PropTypes.instanceOf(Project),
     onDelete: PropTypes.func,
     onListenToggle: PropTypes.func,
 };
