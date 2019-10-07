@@ -291,3 +291,24 @@ export const addVerifiedContractToProject = (project, networkType, address, prog
         }
     }
 };
+
+/**
+ * @param {string} code
+ */
+export const acceptProjectInvitation = (code) => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
+        try {
+            await Api.post(`/account/${user.username}/collaborate/manage-invite`, {
+                accept: true,
+                verification_code: code,
+            });
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    };
+};

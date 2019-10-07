@@ -17,6 +17,7 @@ import AccountRecoveryPage from "./Public/AccountRecoveryPage";
 import ResetPasswordPage from "./Public/ResetPasswordPage";
 import PublicContractTransactionPage from "./PublicContracts/PublicContractTransactionPage";
 import RedirectToProjectPage from "./Project/RedirectToProjectPage";
+import AcceptInvitationPage from "./Project/AcceptInvitationPage";
 
 const AppPages = () => {
     return (
@@ -33,6 +34,7 @@ const AppPages = () => {
             <Route path="/public-contracts" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" strict component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
+            <PrivateRoute path="/accept-invitation" exact component={AcceptInvitationPage}/>
             <PrivateRoute path="/project/:slug" component={RedirectToProjectPage}/>
             <PrivateRoute path="/:username/:slug" strict component={ProjectPage}/>
             <Redirect exact from="/" to="/login"/>
