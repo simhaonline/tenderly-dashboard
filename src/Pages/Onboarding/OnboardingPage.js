@@ -48,11 +48,13 @@ class OnboardingPage extends Component {
     };
 
     render() {
-        const {auth} = this.props;
+        const {auth, location: {state}} = this.props;
         const {step} = this.state;
 
         if (auth.usernameSet) {
-            return <Redirect to="/dashboard"/>
+            const redirectTo = state && state.redirectTo ? state.redirectTo : "/dashboard";
+            console.log(state, redirectTo);
+            return <Redirect to={redirectTo}/>
         }
 
         return (
