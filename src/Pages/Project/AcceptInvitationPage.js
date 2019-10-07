@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import {projectActions} from "../../Core/actions";
 
 import {Container, Page} from "../../Elements";
-import {ProjectPageLoader} from "../../Components";
+import {ProjectPageLoader, ProjectInvitationPreview} from "../../Components";
 
 class AcceptInvitationPage extends Component {
     constructor(props) {
@@ -19,16 +19,18 @@ class AcceptInvitationPage extends Component {
     }
 
     async componentDidMount() {
-        const {actions, code} = this.props;
+        const {actions, invitationCode, loggedIn} = this.props;
 
-        if (!code) {
+        if (!loggedIn) return;
+
+        if (!invitationCode) {
             return this.setState({
                 inProgress: false,
                 error: "Invalid URL",
             });
         }
 
-        const response = await actions.acceptProjectInvitation(code);
+        const response = await actions.acceptProjectInvitation(invitationCode);
 
         if (response.success) {
             return this.setState({
@@ -44,17 +46,22 @@ class AcceptInvitationPage extends Component {
     }
 
     render() {
-        const {projectSlug, projectOwner} = this.props;
+        const {projectName, projectSlug, projectOwner, loggedIn, inviterName} = this.props;
         const {inProgress, acceptedInvitation, error} = this.state;
 
         if (acceptedInvitation) {
-            return <Redirect to={`/${projectOwner}/${projectSlug}`}/>
+            return <Redirect to={`/${projectOwner}/${projectSlug}`}/>;
         }
 
         return (
-            <Page id="AcceptInvitationPage">
+            <Page id="AcceptInvitationPage" wholeScreenPage>
                 <Container>
-                    {inProgress && <ProjectPageLoader text="Accepting invitation..."/>}
+                    <ProjectInvitationPreview inviterName={inviterName} projectName={projectName}
+                                              projectOwner={projectOwner} projectSlug={projectSlug}/>
+                    {!loggedIn && <div>
+
+                    </div>}
+                    {loggedIn && inProgress && <ProjectPageLoader text="Accepting invitation..."/>}
                     {!inProgress && !!error && <div>
                         {error}
                     </div>}
@@ -69,14 +76,22 @@ const mapStateToProps = (state, ownProps) => {
 
     const searchParams = new URLSearchParams(search);
 
-    const projectSlug = searchParams.get('project') || null;
+    const projectSlug = searchParams.get('projectSlug') || null;
+    const projectName = searchParams.get('projectName') || null;
     const projectOwner = searchParams.get('username') || null;
-    const code = searchParams.get('code') || null;
+    const resetPasswordCode = searchParams.get('code') || null;
+    const invitationCode = searchParams.get('invitationCode') || null;
+    const inviterName = searchParams.get('inviterName') || null;
 
     return {
         projectSlug,
         projectOwner,
-        code,
+        invitationCode,
+        loggedIn: state.auth.loggedIn,
+        user: state.auth.user,
+        resetPasswordCode,
+        projectName,
+        inviterName,
     };
 };
 
@@ -90,3 +105,5 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(AcceptInvitationPage);
+
+// localhost:3000/accept-invitation?code=bogdan-feget-iovoje-tojeto&username=HabicBogdan&projectSlug=test-project&projectName=Test%20Project&invitationCode=bogdan-dali-ovo-stvarno-radi&inviterName=Bogdan%20Habic
