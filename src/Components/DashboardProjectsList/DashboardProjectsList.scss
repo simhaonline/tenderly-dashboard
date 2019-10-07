@@ -16,140 +16,17 @@
   margin-bottom: $Spacing6;
 }
 
-.ProjectList {
+.DashboardProjectsList__ListWrapper {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: $Spacing4;
-
-  .ProjectListItem {
-    flex: 0 0 250px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-
-    .ProjectListItemCard {
-      min-height: 170px;
-      cursor: pointer;
-      transition: 0.15s;
-      display: flex;
-      flex-direction: column;
-      color: $WhiteColor;
-      padding: $Spacing4 $Spacing5;
-
-      &:hover {
-        transform: translateY(-3px);
-        box-shadow: 2px 2px 5px 2px transparentize($BlackColor, 0.85);
-        text-decoration: none;
-      }
-    }
-
-    .ProjectNameWrapper {
-      flex: 0 0 auto;
-      padding-bottom: 15px;
-      color: $WhiteColor;
-
-      .ProjectName {
-        font-size: $FontSize400;
-        margin-bottom: 2px;
-        font-weight: 600;
-
-        .DemoTag {
-          color: $WhiteColor;
-          font-weight: 400;
-          background-color: $Secondary500;
-          border-radius: 2px;
-          font-size: $FontSize200;
-          margin-right: 5px;
-          padding: 0 5px;
-        }
-      }
-
-      .ProjectId {
-        //font-weight: 100;
-        opacity: 0.75;
-      }
-    }
-
-    .ProjectChartWrapper {
-      margin: 0 -1*$Spacing5 -1*$Spacing4;
-      height: 90px;
-    }
-
-    .ProjectNotSetupState {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding-top: 15px;
-      opacity: 0.5;
-
-      .TnIcon {
-        font-size: $FontSize400;
-        margin-bottom: 10px;
-      }
-
-      span {
-        font-size: $FontSize200;
-      }
-    }
-
-    .ProjectContractInfo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 0 16px;
-      flex: 1 1 0;
-    }
-
-    .LastDeployInfo {
-      width: 100%;
-      color: transparentize($WhiteColor, 0.2);
-
-      span {
-        color: $WhiteColor;
-        font-weight: 600;
-        margin-left: 3px;
-      }
-    }
-
-    &.CreateProjectItem {
-      opacity: 0.6;
-
-      .ProjectListItemCard {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        min-height: 170px;
-      }
-
-      .CreateIcon {
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-        opacity: 0.5;
-      }
-
-      .Title {
-        margin-bottom: 4px;
-        font-weight: 600;
-      }
-
-      .Description {
-        text-align: center;
-        font-weight: 300;
-      }
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
 }
 
 .DashboardProjectListItem {
   flex: 0 0 340px;
   width: 340px;
-  margin-right: $Spacing4;
-  margin-bottom: $Spacing4;
+  margin-right: $Spacing5;
+  margin-bottom: $Spacing5;
 }
 
 .DashboardProjectListItem--Create {

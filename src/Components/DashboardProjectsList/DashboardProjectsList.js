@@ -60,10 +60,12 @@ const DashboardProjectListItem = ({project}) => {
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     const groupedProjects = _.groupBy(projects, 'type');
 
-    console.log(groupedProjects);
-
     const personalProjects = groupedProjects[ProjectTypes.PRIVATE];
     const sharedProjects = groupedProjects[ProjectTypes.SHARED];
+
+    if (groupedProjects[ProjectTypes.DEMO]) {
+        personalProjects.unshift(groupedProjects[ProjectTypes.DEMO]);
+    }
 
     return (
         <div className="DashboardProjectsList">
@@ -74,12 +76,12 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
             {(loaded && projects.length !== 0) && <div>
                 {sharedProjects && sharedProjects.length && <Fragment>
                     <h2 className="DashboardProjectsList__SubHeading">Shared Projects</h2>
-                    <div className="ProjectList">
+                    <div className="DashboardProjectsList__ListWrapper">
                         {_.sortBy(sharedProjects, 'createdAt').map(project => <DashboardProjectListItem key={project.id} project={project}/>)}
                     </div>
                     <h2 className="DashboardProjectsList__SubHeading">Personal Projects</h2>
                 </Fragment>}
-                <div className="ProjectList">
+                <div className="DashboardProjectsList__ListWrapper">
                     {_.sortBy(personalProjects, 'createdAt').map(project => <DashboardProjectListItem key={project.id} project={project}/>)}
                     <Link to={`/project/create`} className="DashboardProjectListItem DashboardProjectListItem--Create">
                         <Card className="DashboardProjectListItem__Card" clickable>
