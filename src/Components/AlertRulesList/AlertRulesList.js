@@ -133,9 +133,11 @@ class AlertRulesList extends Component {
                                     <span>Browse Templates</span>
                                 </Button>
                             </FeatureFlag>
-                            {!isDemoProject && <Button color="secondary" width={160} to={`/${project.owner}/${project.slug}/alerts/rules/create`} onClick={() => Analytics.trackEvent('create_alert_button_clicked')}>
-                                <span>Setup an Alert</span>
-                            </Button>}
+                            {!isDemoProject && <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.CREATE_ALERT}>
+                                <Button color="secondary" width={160} to={`/${project.owner}/${project.slug}/alerts/rules/create`} onClick={() => Analytics.trackEvent('create_alert_button_clicked')}>
+                                    <span>Setup an Alert</span>
+                                </Button>
+                            </PermissionControl>}
                             {isDemoProject && <Fragment>
                                 <Button color="secondary" width={160} onClick={this.handleOpenExampleProjectInfoModal}>
                                     <span>Setup an Alert</span>
