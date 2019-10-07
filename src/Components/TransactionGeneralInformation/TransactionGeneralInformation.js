@@ -5,12 +5,14 @@ import moment from 'moment';
 
 import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
 
+import {Project} from "../../Core/models";
+
 import {Panel, PanelContent, PanelDivider, Icon} from "../../Elements";
 import {EtherscanLink, NetworkTag, TransactionStatusTag, CopyableText} from "../index";
 
 import './TransactionGeneralInformation.scss';
 
-const TransactionGeneralInformation = ({transaction, contracts}) => {
+const TransactionGeneralInformation = ({transaction, contracts, project}) => {
     let contractLink;
 
     const isInternal = transaction.isInternalTransaction(contracts);
@@ -23,7 +25,7 @@ const TransactionGeneralInformation = ({transaction, contracts}) => {
         if (contract.isPublic) {
             contractLink = `/contract/${networkRoute}/${contract.address}`;
         } else if (!isInternal) {
-            contractLink = `/project/${contract.projectId}/contract/${networkRoute}/${contract.address}`;
+            contractLink = `/${project.owner}/${project.slug}/contract/${networkRoute}/${contract.address}`;
         }
     }
 
@@ -91,6 +93,7 @@ const TransactionGeneralInformation = ({transaction, contracts}) => {
 
 TransactionGeneralInformation.propTypes = {
     transaction: PropTypes.object.isRequired,
+    project: PropTypes.instanceOf(Project),
     contracts: PropTypes.array.isRequired,
 };
 
