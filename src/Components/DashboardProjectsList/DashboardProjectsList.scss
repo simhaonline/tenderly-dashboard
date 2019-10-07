@@ -3,10 +3,6 @@
 .DashboardProjectsList {
   margin-bottom: 40px;
 
-  .SectionHeading {
-    margin-bottom: 20px;
-  }
-
   .LoadingProjects {
     height: 145px;
     display: flex;
@@ -15,10 +11,15 @@
   }
 }
 
+.DashboardProjectsList__SubHeading {
+  font-weight: 400;
+  margin-bottom: $Spacing6;
+}
+
 .ProjectList {
   display: flex;
   flex-wrap: wrap;
-
+  margin-bottom: $Spacing4;
 
   .ProjectListItem {
     flex: 0 0 250px;
@@ -142,4 +143,79 @@
       }
     }
   }
+}
+
+.DashboardProjectListItem {
+  flex: 0 0 340px;
+  width: 340px;
+  margin-right: $Spacing4;
+  margin-bottom: $Spacing4;
+}
+
+.DashboardProjectListItem--Create {
+  opacity: 0.5;
+}
+
+.DashboardProjectListItem__Card {
+  display: flex;
+  align-items: center;
+  color: $WhiteColor;
+  padding: $Spacing4;
+}
+
+.DashboardProjectListItem__IconWrapper {
+  background-color: $Primary500;
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $Spacing4;
+}
+
+.DashboardProjectListItem__IconWrapper--Personal {
+  background-image: $GradientBluePurple;
+}
+
+.DashboardProjectListItem__IconWrapper--Demo {
+  background-image: $Secondary500;
+}
+
+.DashboardProjectListItem__IconWrapper--Shared {
+  background-image: $GradientRedPurple;
+}
+
+.DashboardProjectListItem__IconWrapper--NotSetup {
+  background: $Slate500;
+}
+
+.DashboardProjectListItem__IconWrapper--Create {
+  background: $Slate100;
+}
+
+.DashboardProjectListItem__Icon {
+  font-size: $FontSize600;
+  opacity: 0.75;
+}
+
+.DashboardProjectListItem__Info {
+  flex: 1 1 0;
+  overflow: hidden;
+}
+
+.DashboardProjectListItem__ProjectName, .DashboardProjectListItem__ProjectSlug {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.DashboardProjectListItem__ProjectName {
+  font-weight: 600;
+  font-size: $FontSize400;
+  margin-bottom: 4px;
+}
+
+.DashboardProjectListItem__ProjectSlug {
+  opacity: 0.8;
 }

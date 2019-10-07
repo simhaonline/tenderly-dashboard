@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {Link} from "react-router-dom";
-import moment from "moment";
+import classNames from 'classnames';
 import * as _ from "lodash";
 
 import {ProjectTypes} from "../../Common/constants";
@@ -10,25 +10,43 @@ import {SimpleLoader, NoProjectsEmptyState, ProjectSetupGuide} from "../index";
 
 import './DashboardProjectsList.scss';
 
+/**
+ * @param {Project} project
+ */
 const DashboardProjectListItem = ({project}) => {
-    return <Link to={`/${project.owner}/${project.slug}`} className="ProjectListItem" key={project.id}>
-        <Card className="ProjectListItemCard">
-            <div className="ProjectNameWrapper">
-                <div className="ProjectName">
+    let projectIcon = 'project';
+
+    if (!project.isSetup) {
+        projectIcon = 'code';
+    }
+
+    if (project.type === ProjectTypes.SHARED) {
+        projectIcon = 'two-hexa';
+    } else if (project.type === ProjectTypes.DEMO) {
+        projectIcon = 'code';
+    }
+
+    return <Link to={`/${project.owner}/${project.slug}`} className="DashboardProjectListItem" key={project.id}>
+        <Card className="DashboardProjectListItem__Card" clickable>
+            <div className={classNames(
+                "DashboardProjectListItem__IconWrapper",
+                {
+                    "DashboardProjectListItem__IconWrapper--Personal": project.type === ProjectTypes.PRIVATE,
+                    "DashboardProjectListItem__IconWrapper--Demo": project.type === ProjectTypes.DEMO,
+                    "DashboardProjectListItem__IconWrapper--Shared": project.type === ProjectTypes.SHARED,
+                    "DashboardProjectListItem__IconWrapper--NotSetup": !project.isSetup,
+                },
+            )}>
+                <Icon icon={projectIcon} className="DashboardProjectListItem__Icon"/>
+            </div>
+            <div className="DashboardProjectListItem__Info">
+                <div className="DashboardProjectListItem__ProjectName">
                     {project.type === ProjectTypes.DEMO && <span className="DemoTag">Demo</span>}
                     <span>{project.name}</span>
                 </div>
-                <div className="ProjectId">
+                <div className="DashboardProjectListItem__ProjectSlug">
                     <span>{project.getDisplaySlug()}</span>
                 </div>
-            </div>
-            <div className="ProjectContractInfo">
-                {!!project.lastPushAt && <div className="LastDeployInfo">
-                    Last Push: <span>{moment(project.lastPushAt).fromNow()}</span>
-                </div>}
-                {!project.lastPushAt && <div onClick={event => event.preventDefault()}>
-                    <ProjectSetupGuide label="Add Contracts" project={project} size="small" color="secondary"/>
-                </div>}
             </div>
         </Card>
     </Link>
@@ -40,21 +58,42 @@ const DashboardProjectListItem = ({project}) => {
  * @param {Function} onTryExample
  */
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
+    const groupedProjects = _.groupBy(projects, 'type');
+
+    console.log(groupedProjects);
+
+    const personalProjects = groupedProjects[ProjectTypes.PRIVATE];
+    const sharedProjects = groupedProjects[ProjectTypes.SHARED];
+
     return (
         <div className="DashboardProjectsList">
-            {(loaded && projects.length === 0) && <NoProjectsEmptyState onTryExample={onTryExample}/>}
-            {(loaded && projects.length !== 0) && <div className="ProjectList">
-                {_.sortBy(projects, 'createdAt').map(project => <DashboardProjectListItem key={project.id} project={project}/>)}
-                <Link to={`/project/create`} className="ProjectListItem CreateProjectItem">
-                    <Card className="ProjectListItemCard">
-                        <Icon icon="plus" className="CreateIcon"/>
-                        <span className="Title">Create Project</span>
-                        <span className="Description">Monitor a public contract or upload your private contracts.</span>
-                    </Card>
-                </Link>
-            </div>}
             {!loaded && <div className="LoadingProjects">
                 <SimpleLoader/>
+            </div>}
+            {(loaded && projects.length === 0) && <NoProjectsEmptyState onTryExample={onTryExample}/>}
+            {(loaded && projects.length !== 0) && <div>
+                {sharedProjects && sharedProjects.length && <Fragment>
+                    <h2 className="DashboardProjectsList__SubHeading">Shared Projects</h2>
+                    <div className="ProjectList">
+                        {_.sortBy(sharedProjects, 'createdAt').map(project => <DashboardProjectListItem key={project.id} project={project}/>)}
+                    </div>
+                    <h2 className="DashboardProjectsList__SubHeading">Personal Projects</h2>
+                </Fragment>}
+                <div className="ProjectList">
+                    {_.sortBy(personalProjects, 'createdAt').map(project => <DashboardProjectListItem key={project.id} project={project}/>)}
+                    <Link to={`/project/create`} className="DashboardProjectListItem DashboardProjectListItem--Create">
+                        <Card className="DashboardProjectListItem__Card" clickable>
+                            <div className="DashboardProjectListItem__IconWrapper DashboardProjectListItem__IconWrapper--Create">
+                                <Icon icon="plus" className="DashboardProjectListItem__Icon"/>
+                            </div>
+                            <div className="DashboardProjectListItem__Info">
+                                <div className="DashboardProjectListItem__ProjectName">
+                                    <span>Create Project</span>
+                                </div>
+                            </div>
+                        </Card>
+                    </Link>
+                </div>
             </div>}
         </div>
     )
