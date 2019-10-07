@@ -22,6 +22,7 @@ class ProjectCollaborators extends PureComponent {
                         <h3>Collaborators in {project.name}</h3>
                     </PanelHeader>
                     <PanelContent>
+                        {collaborators.length === 0 && <EmptyState icon="users" title="Add Collaborators" description="Add collaborators to this project to share with your team mates."/>}
                         {collaborators.length > 0 && <List clickable>
                             {collaborators.map(collaborator => <ListItem key={collaborator.id} to={`/${project.owner}/${project.slug}/collaborators/${collaborator.id}`} className="ProjectCollaborators__Collaborator">
                                 <div className="ProjectCollaborators__Collaborator__NameColumn">
@@ -49,7 +50,6 @@ class ProjectCollaborators extends PureComponent {
                                 </div>
                             </ListItem>)}
                         </List>}
-                        {collaborators.length === 0 && <EmptyState icon="users" title="Add Collaborators" description="Des"/>}
                     </PanelContent>
                 </Panel>
             </div>
