@@ -14,16 +14,10 @@ import './DashboardProjectsList.scss';
  * @param {Project} project
  */
 const DashboardProjectListItem = ({project}) => {
-    let projectIcon = 'project';
+    let projectIcon = project.getIcon();
 
-    if (!project.isSetup) {
+    if (!project.isSetup && project.type !== ProjectTypes.SHARED) {
         projectIcon = 'code';
-    }
-
-    if (project.type === ProjectTypes.SHARED) {
-        projectIcon = 'two-hexa';
-    } else if (project.type === ProjectTypes.DEMO) {
-        projectIcon = 'package';
     }
 
     return <Link to={`/${project.owner}/${project.slug}`} className="DashboardProjectListItem" key={project.id}>

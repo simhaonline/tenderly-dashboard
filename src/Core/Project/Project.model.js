@@ -90,7 +90,11 @@ class Project {
      */
     getIcon = () => {
         if (this.type === ProjectTypes.SHARED) {
-            return "two-hexa";
+            return "organization";
+        }
+
+        if (this.type === ProjectTypes.DEMO) {
+            return "package";
         }
 
         return "project";
