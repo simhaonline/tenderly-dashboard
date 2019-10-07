@@ -1,13 +1,12 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import moment from "moment";
-import {Area, AreaChart, YAxis, Tooltip} from "recharts";
 import * as _ from "lodash";
 
-import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
+import {ProjectTypes} from "../../Common/constants";
 
 import {Icon, Card} from "../../Elements";
-import {SimpleLoader, NoProjectsEmptyState, ProjectSetupGuide, FeatureFlag} from "../index";
+import {SimpleLoader, NoProjectsEmptyState, ProjectSetupGuide} from "../index";
 
 import './DashboardProjectsList.scss';
 
@@ -37,8 +36,8 @@ const DashboardProjectListItem = ({project}) => {
 
 /**
  * @param {Project[]} projects
- * @param loaded
- * @param onTryExample
+ * @param {boolean} loaded
+ * @param {Function} onTryExample
  */
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
     return (

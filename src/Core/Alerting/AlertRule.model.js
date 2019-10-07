@@ -101,6 +101,8 @@ class AlertRule {
                     type: AlertRuleExpressionTypes.BLACKLISTED_CALLER_ADDRESSES,
                 }).parameters[AlertRuleExpressionParameterTypes.ADDRESSES].length + ` addresses`;
                 break;
+            default:
+                break;
         }
 
         return details;

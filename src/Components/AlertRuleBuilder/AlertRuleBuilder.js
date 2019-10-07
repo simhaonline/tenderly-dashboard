@@ -178,6 +178,8 @@ class AlertRuleBuilder extends Component {
             case SimpleAlertRuleTypes.EMITTED_LOG_PARAMETER:
                 await this.fetchLogsForTarget(target.data);
                 break;
+            default:
+                break;
         }
 
         this.setState({
@@ -222,6 +224,8 @@ class AlertRuleBuilder extends Component {
                 this.setState({
                     selectedParameters: data,
                 });
+                break;
+            default:
                 break;
         }
     };

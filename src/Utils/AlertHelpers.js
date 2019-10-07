@@ -224,6 +224,8 @@ export function getSimpleAlertParametersForType(type, expressions) {
                 addresses: whitelistExpression.parameters[AlertRuleExpressionParameterTypes.ADDRESSES],
             };
             break;
+        default:
+            break;
     }
 
     return data;
@@ -345,6 +347,8 @@ export function generateAlertRuleExpressions(type, target, parameters) {
                 },
             }));
             break;
+        default:
+            break;
     }
 
     return expressions;
@@ -371,6 +375,8 @@ export function getConditionOptionForParameter(parameter) {
                 AlertParameterConditionOperatorTypes.LTE,
                 AlertParameterConditionOperatorTypes.LT,
             );
+            break;
+        default:
             break;
     }
 
