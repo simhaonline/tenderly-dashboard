@@ -42,7 +42,7 @@ class CollaboratorForm extends Component {
     handleEmailChange = (field, value) => {
         this.setState({
             email: value,
-        })
+        });
     };
 
     /**
@@ -110,7 +110,7 @@ class CollaboratorForm extends Component {
             <div className="CollaboratorForm">
                 <Form onSubmit={this.handleFormSubmit}>
                     <div className="CollaboratorForm__EmailWrapper">
-                        <Input readOnly={readOnlyEmail} icon="mail" label="E-mail" value={email} field="email" onChange={this.handleEmailChange}/>
+                        <Input readOnly={readOnlyEmail} icon="mail" label="E-mail" value={email} field="collaborator-email" onChange={this.handleEmailChange}/>
                     </div>
                     <h3>Permissions</h3>
                     <PanelDivider/>
