@@ -53,7 +53,7 @@ class OnboardingPage extends Component {
 
         if (auth.usernameSet) {
             const redirectTo = state && state.redirectTo ? state.redirectTo : "/dashboard";
-            console.log(state, redirectTo);
+
             return <Redirect to={redirectTo}/>
         }
 
