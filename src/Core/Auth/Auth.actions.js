@@ -251,12 +251,16 @@ export const recoverAccount = (email) => {
 export const resetPassword = (code, newPassword) => {
     return async () => {
         try {
-            await PublicApi.post('/reset-password-set', {
+            const {data} = await PublicApi.post('/reset-password-set', {
                 code,
                 new_password: newPassword,
             });
 
-            return new SuccessActionResponse();
+            if (!data || !data.token) {
+                return new ErrorActionResponse();
+            }
+
+            return new SuccessActionResponse(data.token);
         } catch (error) {
             return new ErrorActionResponse(error);
         }
