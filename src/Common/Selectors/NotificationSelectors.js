@@ -8,6 +8,19 @@ export function getNotificationDestinations(state) {
 
 /**
  * @param {Object} state
+ * @param {AlertRule.id} ruleId
+ * @return {NotificationDestination[]}
+ */
+export function getOtherNotificationDestinationsForRule(state, ruleId) {
+    if (!state.notification.ruleOtherDestinations[ruleId]) {
+        return [];
+    }
+
+    return state.notification.ruleOtherDestinations[ruleId];
+}
+
+/**
+ * @param {Object} state
  * @param {AlertRule} rule
  * @return {NotificationDestination[]}
  */

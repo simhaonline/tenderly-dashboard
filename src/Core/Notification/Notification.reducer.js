@@ -11,12 +11,8 @@ import {FETCH_ALERT_RULE_FOR_PROJECT_ACTION, FETCH_ALERT_RULES_FOR_PROJECT_ACTIO
 const initialState = {
     /** @type {Object.<NotificationDestination.id, NotificationDestination>} */
     destinations: {},
-    /** @type {Object.<Project.id, NotificationDestination.id[]>} */
-    projectDestinations: {},
     /** @type {Object.<AlertRule.id, NotificationDestination[]>} */
     ruleOtherDestinations: {},
-    /** @type {Object.<Project.id, boolean>} */
-    projectDestinationsLoaded: {},
     destinationsLoaded: false,
 };
 
