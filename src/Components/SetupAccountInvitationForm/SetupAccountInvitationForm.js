@@ -68,15 +68,24 @@ class SetupAccountInvitationForm extends Component {
 
         if (!username || usernameStatus !== UsernameStatusMap.VALID) return false;
 
-        return true;
+        return password.length > 3;
     };
 
     handleFormSubmit = () => {
+        const {onSubmit} = this.props;
+        const {username, password} = this.state;
 
+        if (!this.isFormValid) return;
+
+        onSubmit({
+            username,
+            password,
+        });
     };
 
     render() {
         const {username, password, repeatedPassword, usernameStatus} = this.state;
+        const {inProgress} = this.props;
 
         return (
             <Panel className="SetupAccountInvitationForm">
@@ -85,12 +94,12 @@ class SetupAccountInvitationForm extends Component {
                 </PanelHeader>
                 <PanelContent>
                     <Form onSubmit={this.handleFormSubmit}>
-                        <Input field="username" label="Username" value={username} icon="user" onChange={this.handleUsernameChange} />
+                        <Input autoFocus readOnly={inProgress} field="username" label="Username" value={username} icon="user" onChange={this.handleUsernameChange} />
                         {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
-                        <Input icon="lock" autoFocus type="password" field="password" value={password} onChange={this.handlePasswordFieldChange} label="New password"/>
-                        <Input icon="lock" type="password" field="repeatedPassword" value={repeatedPassword} onChange={this.handlePasswordFieldChange} label="Repeat new password"/>
+                        <Input readOnly={inProgress} icon="lock" type="password" field="password" value={password} onChange={this.handlePasswordFieldChange} label="New password"/>
+                        <Input readOnly={inProgress} icon="lock" type="password" field="repeatedPassword" value={repeatedPassword} onChange={this.handlePasswordFieldChange} label="Repeat new password"/>
                         <div>
-                            <Button type="submit" disabled={!this.isFormValid()}>
+                            <Button type="submit" disabled={!this.isFormValid() || inProgress}>
                                 <span>Create Account</span>
                             </Button>
                         </div>
