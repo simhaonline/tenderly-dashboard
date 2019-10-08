@@ -46,15 +46,27 @@ class CallTraceFlameGraph extends Component {
      * @return {Object}
      */
     computeGraphData = (callTrace, transaction) => {
+        console.log(callTrace.trace + callTrace.initialGas);
+        const totalGas = callTrace.trace.gasUsed + callTrace.initialGas;
         return {
-            name: `Total Gas Used - ${transaction.gasUsed} Gas`,
-            value: transaction.gasUsed,
+            name: `Total Gas - ${totalGas} Gas`,
+            value: callTrace.trace.gasUsed + callTrace.initialGas,
             children: [
                 {
-                    name: `Initial Gas Used - ${transaction.gasUsed - callTrace.trace.gasUsed} Gas`,
-                    value: transaction.gasUsed - callTrace.trace.gasUsed,
+                    name: `Actual Gas Used - ${transaction.gasUsed} Gas`,
+                    value: transaction.gasUsed,
+                    children: [
+                        {
+                            name: `Initial Gas - ${callTrace.initialGas} Gas`,
+                            value: callTrace.initialGas,
+                        },
+                        ...this.computeTraceToGraphChildren([callTrace.trace]),
+                    ],
                 },
-                ...this.computeTraceToGraphChildren([callTrace.trace])
+                {
+                    name: `Refunded Gas - ${callTrace.refundedGas} Gas`,
+                    value: callTrace.refundedGas,
+                },
             ],
         }
     };
