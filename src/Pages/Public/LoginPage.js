@@ -8,7 +8,7 @@ import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import {authActions} from "../../Core/actions";
 
 import {Page, Button, Form, Input, Alert, Panel, PanelContent, PanelDivider} from "../../Elements";
-import {GoogleLoginButton, GitHubLoginButton} from "../../Components";
+import {GoogleLoginButton, GitHubLoginButton, ProjectInvitationPreview} from "../../Components";
 
 import LogoImage from "./logo-vertical.svg";
 
@@ -103,7 +103,16 @@ class LoginPage extends Component {
             return <Redirect to="/dashboard"/>;
         }
 
-        console.log(flow);
+        let flowData = {};
+
+        if (flow === "project-invitation") {
+            const searchParams = new URLSearchParams(state.from.search);
+
+            flowData.projectSlug = searchParams.get('projectSlug') || null;
+            flowData.projectName = searchParams.get('projectName') || null;
+            flowData.projectOwner = searchParams.get('username') || null;
+            flowData.inviterName = searchParams.get('inviterName') || null;
+        }
 
         const loginButtonDisabled = this.isLoginButtonDisabled();
 
@@ -116,10 +125,13 @@ class LoginPage extends Component {
                                 <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
                             </a>
                         </div>
+                        {flow === "project-invitation" && <ProjectInvitationPreview inviterName={flowData.inviterName} projectName={flowData.projectName}
+                                                                                    projectOwner={flowData.projectOwner} projectSlug={flowData.projectSlug}/>}
                         <Panel className="LoginFormPanel">
                             <PanelContent>
                                 <Form onSubmit={this.handleFormSubmit}>
-                                    <h3 className="FormHeading">Welcome back</h3>
+                                    {!flow && <h3 className="FormHeading">Welcome back</h3>}
+                                    {flow === "project-invitation" && <h3 className="FormHeading">Login to Accept</h3>}
                                     <p className="FormDescription">Enter your credentials below to login.</p>
                                     <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
                                     <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
