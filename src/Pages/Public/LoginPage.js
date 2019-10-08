@@ -4,7 +4,8 @@ import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
-import * as authActions from "../../Core/Auth/Auth.actions";
+
+import {authActions} from "../../Core/actions";
 
 import {Page, Button, Form, Input, Alert, Panel, PanelContent, PanelDivider} from "../../Elements";
 import {GoogleLoginButton, GitHubLoginButton} from "../../Components";

@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import {projectActions, authActions} from "../../Core/actions";
 
 import {Container, Page} from "../../Elements";
-import {ProjectPageLoader, ProjectInvitationPreview} from "../../Components";
+import {ProjectPageLoader, SetupAccountInvitationForm, ProjectInvitationPreview} from "../../Components";
 
 class AcceptInvitationPage extends Component {
     constructor(props) {
@@ -45,12 +45,33 @@ class AcceptInvitationPage extends Component {
         }
     }
 
+    handleAccountCreation = async ({username, password}) => {
+        const {resetPasswordCode, invitationCode, authActions, projectActions} = this.props;
+
+        console.log({
+            username,
+            password,
+            resetPasswordCode,
+            invitationCode,
+        });
+    };
+
     render() {
-        const {projectName, projectSlug, projectOwner, loggedIn, inviterName} = this.props;
+        const {projectName, projectSlug, projectOwner, loggedIn, inviterName, resetPasswordCode} = this.props;
         const {inProgress, acceptedInvitation, error} = this.state;
 
         if (acceptedInvitation) {
             return <Redirect to={`/${projectOwner}/${projectSlug}`}/>;
+        }
+
+        if (!loggedIn && !resetPasswordCode) {
+            return <Redirect to={{
+                pathname: "/login",
+                state: {
+                    from: this.props.location,
+                    flow: "project-invitation",
+                },
+            }}/>;
         }
 
         return (
@@ -58,8 +79,8 @@ class AcceptInvitationPage extends Component {
                 <Container>
                     <ProjectInvitationPreview inviterName={inviterName} projectName={projectName}
                                               projectOwner={projectOwner} projectSlug={projectSlug}/>
-                    {!loggedIn && <div>
-
+                    {!loggedIn && <div className="MarginTop4">
+                        <SetupAccountInvitationForm onSubmit={this.handleAccountCreation}/>
                     </div>}
                     {loggedIn && inProgress && <ProjectPageLoader text="Accepting invitation..."/>}
                     {!inProgress && !!error && <div>
@@ -108,3 +129,4 @@ export default connect(
 )(AcceptInvitationPage);
 
 // localhost:3000/accept-invitation?code=bogdan-feget-iovoje-tojeto&username=HabicBogdan&projectSlug=test-project&projectName=Test%20Project&invitationCode=bogdan-dali-ovo-stvarno-radi&inviterName=Bogdan%20Habic
+// localhost:3000/accept-invitation?username=HabicBogdan&projectSlug=test-project&projectName=Test%20Project&invitationCode=bogdan-dali-ovo-stvarno-radi&inviterName=Bogdan%20Habic
