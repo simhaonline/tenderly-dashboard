@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import _ from "lodash";
 
 import {UsernameStatusMap} from "../../Common/constants";
 
@@ -31,9 +32,34 @@ class SetupAccountInvitationForm extends Component {
         await this.checkIfValidUsername(value);
     };
 
-    checkIfValidUsername = async () => {
-
+    handlePasswordFieldChange = (field, value) => {
+        this.setState({
+            [field]: value,
+        });
     };
+
+    /**
+     * @param {string} username
+     */
+    checkIfValidUsername = _.debounce(async (username) => {
+        const {authActions} = this.props;
+
+        this.setState({
+            usernameStatus: UsernameStatusMap.VALIDATING,
+        });
+
+        const response = await authActions.validateUsername(username);
+
+        if (response.success) {
+            this.setState({
+                usernameStatus: response.data.status,
+            });
+        } else {
+            this.setState({
+                usernameStatus: UsernameStatusMap.UNKNOWN,
+            });
+        }
+    }, 1000);
 
     isFormValid = () => {
         const {username, password, repeatedPassword, usernameStatus} = this.state;
@@ -61,8 +87,8 @@ class SetupAccountInvitationForm extends Component {
                     <Form onSubmit={this.handleFormSubmit}>
                         <Input field="username" label="Username" value={username} icon="user" onChange={this.handleUsernameChange} />
                         {usernameStatus !== UsernameStatusMap.UNKNOWN && <UsernameStatusInfo status={usernameStatus}/>}
-                        <Input autoFocus type="password" field="password" value={password} onChange={this.handleFormUpdate} label="New password"/>
-                        <Input type="password" field="repeatedPassword" value={repeatedPassword} onChange={this.handleFormUpdate} label="Repeat new password"/>
+                        <Input icon="lock" autoFocus type="password" field="password" value={password} onChange={this.handlePasswordFieldChange} label="New password"/>
+                        <Input icon="lock" type="password" field="repeatedPassword" value={repeatedPassword} onChange={this.handlePasswordFieldChange} label="Repeat new password"/>
                         <div>
                             <Button type="submit" disabled={!this.isFormValid()}>
                                 <span>Create Account</span>
