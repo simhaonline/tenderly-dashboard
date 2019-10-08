@@ -97,6 +97,11 @@
   justify-content: space-between;
 }
 
+.MarginCentered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .MarginBottom1 {
   margin-bottom: 0.5rem;
 }
@@ -216,6 +221,10 @@
   border-radius: 4px;
   box-shadow: 1px 1px 3px 0 transparentize($BlackColor, 0.85);
   margin-right: $Spacing2;
+}
+
+.MaxWidth480 {
+  max-width: 480px;
 }
 
 @import "animations";
