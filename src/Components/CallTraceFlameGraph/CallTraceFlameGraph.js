@@ -46,8 +46,8 @@ class CallTraceFlameGraph extends Component {
      * @return {Object}
      */
     computeGraphData = (callTrace, transaction) => {
-        console.log(callTrace.trace + callTrace.initialGas);
         const totalGas = callTrace.trace.gasUsed + callTrace.initialGas;
+
         return {
             name: `Total Gas - ${totalGas} Gas`,
             value: callTrace.trace.gasUsed + callTrace.initialGas,
