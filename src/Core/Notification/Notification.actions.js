@@ -5,6 +5,7 @@ import {NotificationDestinationAppToApiTypes, OAuthServiceTypeMap, SLACK_REDIREC
 import NotificationDestination from "./NotificationDestination.model";
 
 export const FETCH_NOTIFICATION_DESTINATIONS_ACTION = 'FETCH_NOTIFICATION_DESTINATIONS';
+export const FETCH_NOTIFICATION_DESTINATIONS_FOR_PROJECT_ACTION = 'FETCH_NOTIFICATION_DESTINATIONS_FOR_PROJECT';
 export const CREATE_NOTIFICATION_DESTINATION_ACTION = 'CREATE_NOTIFICATION_DESTINATION';
 export const DELETE_NOTIFICATION_DESTINATION_ACTION = 'DELETE_NOTIFICATION_DESTINATION';
 
@@ -105,6 +106,34 @@ export const deleteNotificaitonDestination = (id) => {
             return new ErrorActionResponse(error);
         }
     }
+};
+
+/**
+ * @param {Project} project
+ */
+export const fetchNotificationDestinationsForProject = (project) => {
+    return async dispatch => {
+        try {
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/delivery-channels`);
+
+            if (!data || !data.delivery_channels) {
+                return new ErrorActionResponse();
+            }
+
+            const destinations = data.delivery_channels.map(destination => NotificationDestination.buildFromResponse(destination));
+
+            dispatch({
+                type: FETCH_NOTIFICATION_DESTINATIONS_FOR_PROJECT_ACTION,
+                destinations,
+                projectId: project.id,
+            });
+
+            return new SuccessActionResponse(destinations);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    };
 };
 
 /**
