@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
 import {
@@ -20,7 +21,6 @@ import * as contractActions from "../../Core/Contract/Contract.actions";
 
 import {Panel, PanelHeader, PanelContent, Icon} from "../../Elements";
 import {AlertRuleBuilder, SimpleLoader} from "..";
-import {Link} from "react-router-dom";
 
 class EditAlertRule extends Component {
     constructor(props) {

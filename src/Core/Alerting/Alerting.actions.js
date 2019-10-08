@@ -3,7 +3,7 @@ import {Api} from "../../Utils/Api";
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import AlertRule from "./AlertRule.model";
-import {AlertRuleExpression, AlertLog} from "../models";
+import {AlertRuleExpression, AlertLog, NotificationDestination} from "../models";
 
 export const FETCH_ALERT_RULES_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULES_FOR_PROJECT';
 export const FETCH_ALERT_RULE_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULE_FOR_PROJECT';
@@ -12,10 +12,33 @@ export const UPDATE_ALERT_RULE_FOR_PROJECT_ACTION = 'UPDATE_ALERT_RULE_FOR_PROJE
 export const DELETE_ALERT_RULE_FOR_PROJECT_ACTION = 'DELETE_ALERT_RULE_FOR_PROJECT';
 
 /**
+ * @param {User} user
+ * @param {Object} ruleResponse
+ * @returns {NotificationDestination[]}
+ */
+function extractOtherDestinationsForRuleResponse(user, ruleResponse) {
+    const ruleDeliveryChannels = [];
+
+    ruleResponse.delivery_channels.forEach(ruleChannel => {
+        const deliveryChannelResponse = ruleChannel.delivery_channel;
+
+        if (deliveryChannelResponse && deliveryChannelResponse.owner_id !== user.id) {
+            const deliveryChannel = NotificationDestination.buildFromResponse(deliveryChannelResponse);
+
+            ruleDeliveryChannels.push(deliveryChannel);
+        }
+    });
+
+    return ruleDeliveryChannels;
+}
+
+/**
  * @param {Project} project
  */
 export const fetchAlertRulesForProject = (project) => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
         try {
             const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/alerts`);
 
@@ -23,12 +46,22 @@ export const fetchAlertRulesForProject = (project) => {
                 return new ErrorActionResponse();
             }
 
-            const rules = data.alerts.map(response => AlertRule.buildFromResponse(response));
+            const rulesDestinationChannels = {};
+
+            const rules = data.alerts.map(response => {
+                const ruleDeliveryChannels = extractOtherDestinationsForRuleResponse(user, response);
+                const alertRule = AlertRule.buildFromResponse(response);
+
+                rulesDestinationChannels[alertRule.id] = ruleDeliveryChannels;
+
+                return alertRule;
+            });
 
             dispatch({
                 type: FETCH_ALERT_RULES_FOR_PROJECT_ACTION,
                 projectId: project.id,
                 rules,
+                rulesDestinationChannels,
             });
 
             return new SuccessActionResponse(rules);
@@ -44,7 +77,9 @@ export const fetchAlertRulesForProject = (project) => {
  * @param {string} ruleId
  */
 export const fetchAlertRuleForProject = (project, ruleId) => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
         try {
             const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/alert/${ruleId}`);
 
@@ -53,12 +88,14 @@ export const fetchAlertRuleForProject = (project, ruleId) => {
             }
 
             const rule = AlertRule.buildFromResponse(data.alert);
+            const ruleDeliveryChannels = extractOtherDestinationsForRuleResponse(user, data.alert);
 
             dispatch({
                 type: FETCH_ALERT_RULE_FOR_PROJECT_ACTION,
                 projectId: project.id,
                 ruleId,
                 rule,
+                ruleDeliveryChannels,
             });
 
             return new SuccessActionResponse(rule);
