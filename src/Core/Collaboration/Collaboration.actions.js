@@ -117,9 +117,7 @@ export const updateCollaboratorForProject = (project, collaborator, permissions)
 export const deleteCollaboratorForProject = (project, collaborator) => {
     return async dispatch => {
         try {
-            const {data} = await Api.delete(`/account/${project.owner}/project/${project.slug}/collaborate/user/${collaborator.id}`);
-
-            console.log(data);
+            await Api.delete(`/account/${project.owner}/project/${project.slug}/collaborate/user/${collaborator.id}`);
 
             dispatch({
                 type: DELETE_COLLABORATOR_FOR_PROJECT_ACTION,
