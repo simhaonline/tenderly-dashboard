@@ -14,7 +14,7 @@ import {AlertRuleBuilderSteps, CollaboratorPermissionTypes} from "../../Common/c
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
 import {
     areNotificationDestinationsLoaded,
-    getNotificationDestinationsForRule
+    getNotificationDestinationsForRule, getOtherNotificationDestinationsForRule
 } from "../../Common/Selectors/NotificationSelectors";
 import {
     areProjectContractsLoaded,
@@ -118,7 +118,7 @@ class AlertRuleView extends Component {
     };
 
     render() {
-        const {isRuleLoaded, rule, destinations, destinationsLoaded, project, areContractsLoaded, contracts} = this.props;
+        const {isRuleLoaded, rule, destinations, otherDestinations, destinationsLoaded, project, areContractsLoaded, contracts} = this.props;
         const {openDeleteModal, alertDeleted, errorFetching, inProgress} = this.state;
 
         const loading = (!isRuleLoaded || !destinationsLoaded || !areContractsLoaded) && !errorFetching;
@@ -126,6 +126,8 @@ class AlertRuleView extends Component {
         if (alertDeleted) {
             return <Redirect to={`/${project.owner}/${project.slug}/alerts/rules`}/>
         }
+
+        const allDestinations = [...otherDestinations, ...destinations];
 
         return (
             <Panel className="AlertRuleView">
@@ -167,10 +169,10 @@ class AlertRuleView extends Component {
                         </div>}
                         <AlertExpressionsInfo project={project} rule={rule} contracts={contracts}/>
                         <PanelDivider/>
-                        {!!destinations.length && <div className="MarginBottom4">
+                        {!!allDestinations.length && <div className="MarginBottom4">
                             <h4 className="MarginBottom2">Alerts will be sent to these destinations</h4>
                             <List>
-                                {destinations.map(destination => <ListItem key={destination.id} className="DisplayFlex">
+                                {allDestinations.map(destination => <ListItem key={destination.id} className="DisplayFlex">
                                     <div>
                                         <span className="SemiBoldText">{destination.label}</span>
                                     </div>
@@ -243,6 +245,7 @@ const mapStateToProps = (state, ownProps) => {
         rule,
         isRuleLoaded: isAlertRuleLoaded(state, ruleId),
         destinations: getNotificationDestinationsForRule(state, rule),
+        otherDestinations: getOtherNotificationDestinationsForRule(state, ruleId),
         destinationsLoaded: areNotificationDestinationsLoaded(state),
     }
 };

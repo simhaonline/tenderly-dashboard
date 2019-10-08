@@ -11,7 +11,7 @@ import {
 } from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {
-    areNotificationDestinationsLoaded, getNotificationDestinations,
+    areNotificationDestinationsLoaded, getNotificationDestinations, getOtherNotificationDestinationsForRule,
 } from "../../Common/Selectors/NotificationSelectors";
 import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
@@ -84,7 +84,7 @@ class EditAlertRule extends Component {
     };
 
     render() {
-        const {rule, contracts, networks, destinations, areContractsLoaded, destinationsLoaded, project, isRuleLoaded, initialTab} = this.props;
+        const {rule, contracts, networks, destinations, otherDestinations, areContractsLoaded, destinationsLoaded, project, isRuleLoaded, initialTab} = this.props;
         const {redirectBackToRule} = this.state;
 
         const pageLoaded = areContractsLoaded && destinationsLoaded && isRuleLoaded;
@@ -108,7 +108,7 @@ class EditAlertRule extends Component {
                     </div>}
                     {pageLoaded && <div>
                         <AlertRuleBuilder initialStep={initialTab} initialRule={rule} contracts={contracts} project={project} onSubmit={this.handleEditSubmit}
-                                          networks={networks} destinations={destinations} onCancel={this.handleEditingCancel}/>
+                                          networks={networks} destinations={destinations} otherDestinations={otherDestinations} onCancel={this.handleEditingCancel}/>
                     </div>}
                 </PanelContent>
             </Panel>
@@ -138,6 +138,7 @@ const mapStateToProps = (state, ownProps) => {
         initialTab,
         isRuleLoaded: isAlertRuleLoaded(state, ruleId),
         destinations: getNotificationDestinations(state),
+        otherDestinations: getOtherNotificationDestinationsForRule(state, ruleId),
         destinationsLoaded: areNotificationDestinationsLoaded(state),
     }
 };
