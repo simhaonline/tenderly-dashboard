@@ -21,6 +21,7 @@ class LoginPage extends Component {
         this.state = {
             loginFailed: false,
             loginAttempts: 0,
+            flow: props.location && props.location.state ? props.location.state.flow : null,
         };
 
         initializeForm(this, {
@@ -82,7 +83,7 @@ class LoginPage extends Component {
     };
 
     render() {
-        const {formData, loginFailed} = this.state;
+        const {formData, loginFailed, flow} = this.state;
         const {auth, location: {state}} = this.props;
 
         if (auth.loggedIn) {
@@ -101,6 +102,8 @@ class LoginPage extends Component {
 
             return <Redirect to="/dashboard"/>;
         }
+
+        console.log(flow);
 
         const loginButtonDisabled = this.isLoginButtonDisabled();
 
