@@ -1,16 +1,20 @@
+import * as _ from "lodash";
+
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {
     CREATE_NOTIFICATION_DESTINATION_ACTION,
     DELETE_NOTIFICATION_DESTINATION_ACTION,
     FETCH_NOTIFICATION_DESTINATIONS_ACTION,
 } from "./Notification.actions";
-import * as _ from "lodash";
+import {FETCH_ALERT_RULE_FOR_PROJECT_ACTION, FETCH_ALERT_RULES_FOR_PROJECT_ACTION} from "../Alerting/Alerting.actions";
 
 const initialState = {
     /** @type {Object.<NotificationDestination.id, NotificationDestination>} */
     destinations: {},
     /** @type {Object.<Project.id, NotificationDestination.id[]>} */
     projectDestinations: {},
+    /** @type {Object.<AlertRule.id, NotificationDestination[]>} */
+    ruleOtherDestinations: {},
     /** @type {Object.<Project.id, boolean>} */
     projectDestinationsLoaded: {},
     destinationsLoaded: false,
@@ -43,6 +47,22 @@ const NotificationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 destinations: _.omit(state.destinations, action.destinationId),
+            };
+        case FETCH_ALERT_RULES_FOR_PROJECT_ACTION:
+            return {
+                ...state,
+                ruleOtherDestinations: {
+                    ...state.ruleOtherDestinations,
+                    ...action.rulesDestinationChannels,
+                },
+            };
+        case FETCH_ALERT_RULE_FOR_PROJECT_ACTION:
+            return {
+                ...state,
+                ruleOtherDestinations: {
+                    ...state.ruleOtherDestinations,
+                    [action.ruleId]: action.ruleDeliveryChannels,
+                },
             };
         case LOG_OUT_ACTION:
             return initialState;

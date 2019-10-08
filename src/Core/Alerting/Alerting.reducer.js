@@ -8,7 +8,6 @@ import {EntityStatusTypes} from "../../Common/constants";
 
 const initialState = {
     rules: {},
-    rulesOtherDestinations: {},
     projectRules: {},
     projectRulesLoaded: {},
 };
@@ -33,10 +32,6 @@ const AlertingReducer = (state = initialState, action) => {
                     ...state.projectRulesLoaded,
                     [action.projectId]: EntityStatusTypes.LOADED,
                 },
-                rulesOtherDestinations: {
-                    ...state.rulesOtherDestinations,
-                    ...action.rulesDestinationChannels,
-                },
             };
         case FETCH_ALERT_RULE_FOR_PROJECT_ACTION:
             return {
@@ -44,10 +39,6 @@ const AlertingReducer = (state = initialState, action) => {
                 rules: {
                     ...state.rules,
                     [action.ruleId]: action.rule,
-                },
-                rulesOtherDestinations: {
-                    ...state.rulesOtherDestinations,
-                    [action.ruleId]: action.ruleDeliveryChannels,
                 },
             };
         case CREATE_ALERT_RULE_FOR_PROJECT_ACTION:
