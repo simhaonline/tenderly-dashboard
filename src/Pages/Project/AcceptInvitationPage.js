@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 
 import {projectActions, authActions} from "../../Core/actions";
 
-import {Container, Page} from "../../Elements";
+import {Container, Page, Alert, Icon} from "../../Elements";
 import {ProjectPageLoader, SetupAccountInvitationForm, ProjectInvitationPreview} from "../../Components";
 
 class AcceptInvitationPage extends Component {
@@ -13,47 +13,106 @@ class AcceptInvitationPage extends Component {
         super(props);
 
         this.state = {
-            inProgress: true,
+            inProgress: false,
             acceptedInvitation: false,
         };
     }
 
-    async componentDidMount() {
-        const {projectActions, invitationCode, loggedIn} = this.props;
+    componentDidMount() {
+        const {invitationCode, loggedIn} = this.props;
 
         if (!loggedIn) return;
 
         if (!invitationCode) {
             return this.setState({
-                inProgress: false,
                 error: "Invalid URL",
             });
         }
 
+        this.setState({
+            inProgress: true,
+        });
+
+        this.acceptInvitationCode(invitationCode);
+    }
+
+    /**
+     * @param {string} invitationCode
+     */
+    acceptInvitationCode = async (invitationCode) => {
+        const {projectActions} = this.props;
+
         const response = await projectActions.acceptProjectInvitation(invitationCode);
 
-        if (response.success) {
-            return this.setState({
-                inProgress: false,
-                acceptedInvitation: true,
-            });
-        } else {
+        if (!response.success) {
             return this.setState({
                 inProgress: false,
                 error: "There was an issue while trying to accept the invitation to this project.",
             });
         }
-    }
+
+        return this.setState({
+            inProgress: false,
+            acceptedInvitation: true,
+        });
+    };
+
+    /**
+     * @param {string} resetPasswordCode
+     * @param {string} password
+     */
+    resetPassword = async (resetPasswordCode, password) => {
+        const {authActions} = this.props;
+
+        const response = await authActions.resetPassword(resetPasswordCode, password);
+
+        if (!response.success) {
+            return this.setState({
+                inProgress: false,
+                error: "There was an issue while trying to set the new password for this account.",
+            });
+        }
+
+        return response.data;
+    };
+
+    /**
+     * @param {string} username
+     */
+    setUsername = async (username) => {
+        const {authActions} = this.props;
+
+        const response = await authActions.setUsername(username);
+
+        if (!response.success) {
+            return this.setState({
+                inProgress: false,
+                error: "There was an issue while trying to set the username for this account.",
+            });
+        }
+
+        return response.data;
+    };
 
     handleAccountCreation = async ({username, password}) => {
-        const {resetPasswordCode, invitationCode, authActions, projectActions} = this.props;
+        const {resetPasswordCode, invitationCode, authActions} = this.props;
 
-        console.log({
-            username,
-            password,
-            resetPasswordCode,
-            invitationCode,
+        this.setState({
+            inProgress: true,
+            error: null,
         });
+
+        const token = await this.resetPassword(resetPasswordCode, password);
+
+        if (!token) {
+            return;
+        }
+
+        await authActions.retrieveToken(token);
+
+        await this.setUsername(username);
+
+        await this.acceptInvitationCode(invitationCode);
     };
 
     render() {
@@ -77,14 +136,17 @@ class AcceptInvitationPage extends Component {
         return (
             <Page id="AcceptInvitationPage" wholeScreenPage>
                 <Container>
-                    <ProjectInvitationPreview inviterName={inviterName} projectName={projectName}
+                    <ProjectInvitationPreview inviterName={inviterName} projectName={projectName} showLogo
                                               projectOwner={projectOwner} projectSlug={projectSlug}/>
-                    {!loggedIn && <div className="MarginTop4">
-                        <SetupAccountInvitationForm onSubmit={this.handleAccountCreation}/>
+                    {!loggedIn && !inProgress && <div>
+                        <SetupAccountInvitationForm onSubmit={this.handleAccountCreation} inProgress={inProgress}/>
                     </div>}
-                    {loggedIn && inProgress && <ProjectPageLoader text="Accepting invitation..."/>}
-                    {!inProgress && !!error && <div>
-                        {error}
+                    {inProgress && <ProjectPageLoader text="Accepting invitation..."/>}
+                    {!inProgress && !!error && <div className="MarginTop4 MaxWidth480 MarginCentered">
+                        <Alert color="danger" animation>
+                            <Icon icon="alert-triangle" className="MarginRight1"/>
+                            <span>{error}</span>
+                        </Alert>
                     </div>}
                 </Container>
             </Page>
