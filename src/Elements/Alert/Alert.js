@@ -33,6 +33,8 @@ class Alert extends Component {
 
 Alert.propTypes = {
     color: PropTypes.oneOf(['info', 'danger', 'warning']),
+    animation: PropTypes.bool,
+    className: PropTypes.string,
 };
 
 Alert.defaultProps = {
