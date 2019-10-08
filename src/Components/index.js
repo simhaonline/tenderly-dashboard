@@ -78,6 +78,7 @@ export {default as PageSegmentContent} from './PageSegments/PageSegmentContent';
 export {default as AccountRecoveryForm} from './AccountRecoveryForm/AccountRecoveryForm';
 export {default as ResetPasswordForm} from './ResetPasswordForm/ResetPasswordForm';
 export {default as ProjectInvitationPreview} from './ProjectInvitationPreview/ProjectInvitationPreview';
+export {default as SetupAccountInvitationForm} from './SetupAccountInvitationForm/SetupAccountInvitationForm';
 export {CircularLoader, SimpleLoader} from './Loaders/Loaders';
 export {default as ProjectPageLoader} from './ProjectPageLoader/ProjectPageLoader';
 export {default as ProjectContentLoader} from './ProjectContentLoader/ProjectContentLoader';
