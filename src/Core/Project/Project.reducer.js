@@ -3,7 +3,7 @@ import {
     CREATE_PROJECT_ACTION,
     DELETE_PROJECT_ACTION,
     FETCH_PROJECT_ACTION,
-    FETCH_PROJECTS_ACTION, UPDATE_PROJECT_ACTION
+    FETCH_PROJECTS_ACTION, LEAVE_SHARED_PROJECT_ACTION, UPDATE_PROJECT_ACTION
 } from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "../Contract/Contract.actions";
@@ -103,6 +103,7 @@ const ProjectReducer = (state = initialState, action) => {
                 }
             };
         case DELETE_PROJECT_ACTION:
+        case LEAVE_SHARED_PROJECT_ACTION:
             const deletedProject = action.projectId;
 
             const computedProjectList = state.projects;

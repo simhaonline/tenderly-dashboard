@@ -20,6 +20,7 @@ export const UPDATE_PROJECT_ACTION = 'UPDATE_PROJECT';
 export const FETCH_PROJECT_ACTION = 'FETCH_PROJECT';
 export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
 export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PROJECT';
+export const LEAVE_SHARED_PROJECT_ACTION = 'LEAVE_SHARED_PROJECT';
 
 /**
  * @param {string} name
@@ -311,4 +312,27 @@ export const acceptProjectInvitation = (code) => {
             return new ErrorActionResponse(error);
         }
     };
+};
+
+/**
+ * @param {Project} project
+ */
+export const leaveSharedProject = (project) => {
+    return async (dispatch, getState) => {
+        const {auth: {user}} = getState();
+
+        try {
+            await Api.delete(`/account/${project.owner}/project/${project.slug}/collaborate/user/${user.id}`);
+
+            dispatch({
+                type: LEAVE_SHARED_PROJECT_ACTION,
+                projectId: project.id,
+            });
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
 };
