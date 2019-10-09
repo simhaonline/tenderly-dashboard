@@ -49,6 +49,9 @@ class Project {
          * @type {CollaboratorPermissions}
          */
         this.permissions = data.permissions;
+
+        /** @type {number} */
+        this.collaborators = data.collaborators;
     }
 
     /**
@@ -149,6 +152,7 @@ class Project {
             isSetup: !!response.last_push_at,
             setupViewed: !!response.last_push_at,
             createdAt: response.created_at,
+            collaborators: response.number_of_users,
             permissions,
         }, projectOwner, projectType);
     }

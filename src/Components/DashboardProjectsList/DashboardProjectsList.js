@@ -20,7 +20,7 @@ const DashboardProjectListItem = ({project}) => {
         projectIcon = 'code';
     }
 
-    return <Link to={`/${project.owner}/${project.slug}`} className="DashboardProjectListItem" key={project.id}>
+    return <Link to={`/${project.owner}/${project.slug}`} className={"DashboardProjectListItem"} key={project.id}>
         <Card className="DashboardProjectListItem__Card" clickable>
             <div className={classNames(
                 "DashboardProjectListItem__IconWrapper",
@@ -51,14 +51,21 @@ const DashboardProjectListItem = ({project}) => {
  * @param {Function} onTryExample
  */
 const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
-    const groupedProjects = _.groupBy(projects, 'type');
+    const groupedProjects = projects.reduce((data, project) => {
+        if (project.type === ProjectTypes.SHARED || project.collaborators > 0) {
+            data.shared.push(project);
+        } else {
+            data.private.push(project);
+        }
 
-    const personalProjects = groupedProjects[ProjectTypes.PRIVATE] || [];
-    const sharedProjects = groupedProjects[ProjectTypes.SHARED] || [];
+        return data;
+    }, {
+        private: [],
+        shared: [],
+    });
 
-    if (groupedProjects[ProjectTypes.DEMO]) {
-        personalProjects.unshift(...groupedProjects[ProjectTypes.DEMO]);
-    }
+    const personalProjects = groupedProjects.private;
+    const sharedProjects = groupedProjects.shared;
 
     return (
         <div className="DashboardProjectsList">
@@ -72,7 +79,7 @@ const DashboardProjectsList = ({projects, loaded, onTryExample = () => {}}) => {
                     <div className="DashboardProjectsList__ListWrapper">
                         {_.sortBy(sharedProjects, 'createdAt').map(project => <DashboardProjectListItem key={project.id} project={project}/>)}
                     </div>
-                    <h2 className="DashboardProjectsList__SubHeading">Personal Projects</h2>
+                    <h2 className="DashboardProjectsList__SubHeading">Private Projects</h2>
                 </Fragment>}
                 <div className="DashboardProjectsList__ListWrapper">
                     {_.sortBy(personalProjects, 'createdAt').map(project => <DashboardProjectListItem key={project.id} project={project}/>)}

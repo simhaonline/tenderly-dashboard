@@ -37,18 +37,18 @@
   display: flex;
   align-items: center;
   color: $WhiteColor;
-  padding: $Spacing4;
+  padding: $Spacing1;
 }
 
 .DashboardProjectListItem__IconWrapper {
   background-color: $Primary500;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: $Spacing4;
+  position: relative;
 }
 
 .DashboardProjectListItem__IconWrapper--Personal {
@@ -79,6 +79,7 @@
 .DashboardProjectListItem__Info {
   flex: 1 1 0;
   overflow: hidden;
+  padding: 0 $Spacing4;
 }
 
 .DashboardProjectListItem__ProjectName, .DashboardProjectListItem__ProjectSlug {
