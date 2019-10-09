@@ -29,6 +29,12 @@
     width: 100%;
   }
 
+  &.Large {
+    font-size: $FontSize400;
+    padding: 12px 16px;
+    border-radius: 6px;
+  }
+
   &.Small {
     font-size: $FontSize200;
     padding: 7px 10px;
