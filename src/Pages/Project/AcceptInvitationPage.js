@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 
 import {projectActions, authActions} from "../../Core/actions";
 
-import {Container, Page, Alert, Icon} from "../../Elements";
+import {Container, Page, Alert, Icon, Button} from "../../Elements";
 import {ProjectPageLoader, SetupAccountInvitationForm, ProjectInvitationPreview} from "../../Components";
 
 class AcceptInvitationPage extends Component {
@@ -13,8 +13,10 @@ class AcceptInvitationPage extends Component {
         super(props);
 
         this.state = {
-            inProgress: false,
+            settingUpAccount: false,
+            acceptingInvite: false,
             acceptedInvitation: false,
+            declinedInvitation: false,
         };
     }
 
@@ -28,32 +30,31 @@ class AcceptInvitationPage extends Component {
                 error: "Invalid URL",
             });
         }
-
-        this.setState({
-            inProgress: true,
-        });
-
-        this.acceptInvitationCode(invitationCode);
     }
 
     /**
-     * @param {string} invitationCode
+     * @param {boolean} accept
      */
-    acceptInvitationCode = async (invitationCode) => {
-        const {projectActions} = this.props;
+    acceptInvitationCode = async (accept) => {
+        const {invitationCode, projectActions} = this.props;
 
-        const response = await projectActions.acceptProjectInvitation(invitationCode);
+        this.setState({
+            acceptingInvite: true,
+        });
+
+        const response = await projectActions.acceptProjectInvitation(accept, invitationCode);
 
         if (!response.success) {
             return this.setState({
-                inProgress: false,
-                error: "There was an issue while trying to accept the invitation to this project.",
+                acceptingInvite: false,
+                error: `There was an issue while trying to ${accept ? 'accept' : 'decline'} the invitation to this project.`,
             });
         }
 
         return this.setState({
-            inProgress: false,
-            acceptedInvitation: true,
+            acceptingInvite: false,
+            acceptedInvitation: accept === true,
+            declinedInvitation: accept === false,
         });
     };
 
@@ -68,7 +69,7 @@ class AcceptInvitationPage extends Component {
 
         if (!response.success) {
             return this.setState({
-                inProgress: false,
+                settingUpAccount: false,
                 error: "There was an issue while trying to set the new password for this account.",
             });
         }
@@ -86,7 +87,7 @@ class AcceptInvitationPage extends Component {
 
         if (!response.success) {
             return this.setState({
-                inProgress: false,
+                settingUpAccount: false,
                 error: "There was an issue while trying to set the username for this account.",
             });
         }
@@ -95,10 +96,10 @@ class AcceptInvitationPage extends Component {
     };
 
     handleAccountCreation = async ({username, password}) => {
-        const {resetPasswordCode, invitationCode, authActions} = this.props;
+        const {resetPasswordCode, authActions} = this.props;
 
         this.setState({
-            inProgress: true,
+            settingUpAccount: true,
             error: null,
         });
 
@@ -112,15 +113,21 @@ class AcceptInvitationPage extends Component {
 
         await this.setUsername(username);
 
-        await this.acceptInvitationCode(invitationCode);
+        this.setState({
+            settingUpAccount: false,
+        });
     };
 
     render() {
         const {projectName, projectSlug, projectOwner, loggedIn, inviterName, resetPasswordCode} = this.props;
-        const {inProgress, acceptedInvitation, error} = this.state;
+        const {settingUpAccount, acceptingInvite, acceptedInvitation, declinedInvitation, error} = this.state;
 
         if (acceptedInvitation) {
             return <Redirect to={`/${projectOwner}/${projectSlug}`}/>;
+        }
+
+        if (declinedInvitation) {
+            return <Redirect to={`/dashboard`}/>;
         }
 
         if (!loggedIn && !resetPasswordCode) {
@@ -138,11 +145,21 @@ class AcceptInvitationPage extends Component {
                 <Container>
                     <ProjectInvitationPreview inviterName={inviterName} projectName={projectName} showLogo
                                               projectOwner={projectOwner} projectSlug={projectSlug}/>
-                    {!loggedIn && !inProgress && <div>
-                        <SetupAccountInvitationForm onSubmit={this.handleAccountCreation} inProgress={inProgress}/>
+                    {!loggedIn && <div>
+                        <SetupAccountInvitationForm onSubmit={this.handleAccountCreation} inProgress={settingUpAccount}/>
                     </div>}
-                    {inProgress && <ProjectPageLoader text="Accepting invitation..."/>}
-                    {!inProgress && !!error && <div className="MarginTop4 MaxWidth480 MarginCentered">
+                    {!settingUpAccount && !acceptingInvite && loggedIn && <div className="MaxWidth480 MarginCentered">
+                        <div className="DisplayFlex JustifyContentCenter">
+                            <Button color="secondary" onClick={() => this.acceptInvitationCode(true)} stretch size="large">
+                                <span>Accept</span>
+                            </Button>
+                            <Button color="secondary" outline onClick={() => this.acceptInvitationCode(false)} stretch size="large">
+                                <span>Decline</span>
+                            </Button>
+                        </div>
+                    </div>}
+                    {!settingUpAccount && acceptingInvite && loggedIn && <ProjectPageLoader text="Accepting invitation..."/>}
+                    {!settingUpAccount && !acceptingInvite && !!error && <div className="MarginTop4 MaxWidth480 MarginCentered">
                         <Alert color="danger" animation>
                             <Icon icon="alert-triangle" className="MarginRight1"/>
                             <span>{error}</span>
@@ -189,6 +206,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(AcceptInvitationPage);
-
-// localhost:3000/accept-invitation?code=bogdan-feget-iovoje-tojeto&username=HabicBogdan&projectSlug=test-project&projectName=Test%20Project&invitationCode=bogdan-dali-ovo-stvarno-radi&inviterName=Bogdan%20Habic
-// localhost:3000/accept-invitation?username=HabicBogdan&projectSlug=test-project&projectName=Test%20Project&invitationCode=bogdan-dali-ovo-stvarno-radi&inviterName=Bogdan%20Habic

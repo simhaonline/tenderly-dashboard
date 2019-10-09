@@ -294,15 +294,16 @@ export const addVerifiedContractToProject = (project, networkType, address, prog
 };
 
 /**
+ * @param {boolean} accept
  * @param {string} code
  */
-export const acceptProjectInvitation = (code) => {
+export const acceptProjectInvitation = (accept, code) => {
     return async (dispatch, getState) => {
         const {auth: {user}} = getState();
 
         try {
             await Api.post(`/account/${user.username}/collaborate/manage-invite`, {
-                accept: true,
+                accept,
                 verification_code: code,
             });
 

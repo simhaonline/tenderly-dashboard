@@ -49,6 +49,13 @@ class ProjectSettingsPage extends Component {
 
                 await actions.deleteProject(project);
                 break;
+            case "LEAVE":
+                this.setState({
+                    projectDeleted: true,
+                });
+
+                await actions.leaveSharedProject(project);
+                break;
             default:
                 break;
         }
@@ -82,7 +89,7 @@ class ProjectSettingsPage extends Component {
                         {currentSegment === 'general' && <PageSegmentContent>
                             <ProjectSettingsForm project={project}/>
                             {project.type === ProjectTypes.SHARED && <ProjectPermissions project={project}/>}
-                            {project.type !== ProjectTypes.SHARED && <ProjectSettingsActions onAction={this.handleProjectAction}/>}
+                            <ProjectSettingsActions project={project} onAction={this.handleProjectAction}/>
                         </PageSegmentContent>}
                         <FeatureFlag flag={FeatureFlagTypes.ORGANIZATIONS}>
                             {currentSegment === 'members' && <PageSegmentContent>
