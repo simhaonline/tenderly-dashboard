@@ -10,6 +10,12 @@ class CallTrace {
 
         /** @type Trace */
         this.trace = data.callTrace;
+
+        /** @type {number} */
+        this.initialGas = data.initialGas;
+
+        /** @type {number} */
+        this.refundedGas = data.refundedGas;
     }
 
     /**
@@ -32,6 +38,8 @@ class CallTrace {
         return new CallTrace({
             txHash: response.hash,
             callTrace,
+            initialGas: response.transaction_info.intrinsic_gas || 0,
+            refundedGas: response.transaction_info.refund_gas || 0,
         });
     };
 }
