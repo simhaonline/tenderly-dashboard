@@ -10,7 +10,6 @@ class ProjectAnalyticsDashboard extends Component {
 
         return (
             <div className="ProjectAnalyticsDashboard">
-                <h3>{dashboard.name}</h3>
                 {(dashboard.widgets && dashboard.widgets.length > 0) && <div className="ProjectAnalyticsDashboard__WidgetsWrapper">
                     {dashboard.widgets.map(widget => <AnalyticsWidget key={widget.id} widget={widget}/>)}
                 </div>}

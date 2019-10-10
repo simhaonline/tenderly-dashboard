@@ -5,12 +5,30 @@ import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelecto
 import {FeatureFlagTypes} from "../../Common/constants";
 
 import {Container, Page, PageHeading} from "../../Elements";
-import {ProjectAnalyticsDashboard, FeatureFlag, FeatureComingSoon} from "../../Components";
+import {ProjectAnalyticsDashboard, FeatureFlag, FeatureComingSoon, ProjectContentLoader} from "../../Components";
 
 import dashboardData from './AnalyticsDashboardData';
 
 class ProjectAnalyticsPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+        }
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                loading: false,
+            })
+        }, 1100);
+    }
+
     render() {
+        const {loading} = this.state;
+
         return (
             <Page id="ProjectPage">
                 <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
@@ -25,7 +43,8 @@ class ProjectAnalyticsPage extends Component {
                     <PageHeading>
                         <h1>Analytics</h1>
                     </PageHeading>
-                    <ProjectAnalyticsDashboard dashboard={dashboardData}/>
+                    {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
+                    {!loading && <ProjectAnalyticsDashboard dashboard={dashboardData}/>}
                 </FeatureFlag>
             </Page>
         )

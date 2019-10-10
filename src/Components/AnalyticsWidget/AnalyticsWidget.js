@@ -12,6 +12,7 @@ import {
 } from "../../Common/constants";
 
 import {Panel, Tag, Icon, Tooltip} from "../../Elements";
+import {SimpleLoader} from "..";
 
 import './AnalyticsWidget.scss';
 
@@ -36,8 +37,25 @@ const AnalyticsWidgetTooltip = ({ active, payload, label, coordinate }) => {
 };
 
 class AnalyticsWidget extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+        };
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                loading: false,
+            })
+        }, _.random(1000, 2400));
+    }
+
     render() {
         const {widget} = this.props;
+        const {loading} = this.state;
 
         let dataMetadata;
 
@@ -86,7 +104,10 @@ class AnalyticsWidget extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className={classNames(
+                    {loading && <div className="AnalyticsWidget__Data AnalyticsWidget__Data--Loader">
+                        <SimpleLoader/>
+                    </div>}
+                    {!loading && <div className={classNames(
                         "AnalyticsWidget__Data",
                         `AnalyticsWidget__Data--${widget.type}`,
                     )}>
@@ -156,7 +177,7 @@ class AnalyticsWidget extends Component {
                                 </BarChart>
                             </ResponsiveContainer>
                         </Fragment>}
-                    </div>
+                    </div>}
                 </Panel>
             </div>
         );
