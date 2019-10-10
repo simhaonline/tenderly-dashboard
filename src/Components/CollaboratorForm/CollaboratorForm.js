@@ -123,7 +123,7 @@ class CollaboratorForm extends Component {
                                 <Toggle value={areAllPermissionActive} onChange={() => this.handleAllPermissionsToggle(!areAllPermissionActive)}/>
                             </div>
                         </div>
-                        {Object.keys(permissions).map(permission => <div key={permission} className="CollaboratorForm__Permission">
+                        {Object.keys(CollaboratorPermissionTypes).map(permission => <div key={permission} className="CollaboratorForm__Permission">
                             <div className="CollaboratorForm__Permission__Label">
                                 <Icon icon={CollaboratorPermissionTypeIconMap[permission]} className="MarginRight2 MutedText"/>
                                 <span>{CollaboratorPermissionTypeDescriptionMap[permission]}</span>
