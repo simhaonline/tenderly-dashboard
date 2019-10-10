@@ -105,6 +105,14 @@ $AnalyticsWidgetSizeUnit: 200px;
   padding-left: $Spacing1;
 }
 
+.AnalyticsWidget__Data__ListItem:nth-child(1) .AnalyticsWidget__Data__Bar {background-color: $Primary700;}
+.AnalyticsWidget__Data__ListItem:nth-child(2) .AnalyticsWidget__Data__Bar {background-color: $Primary600;}
+.AnalyticsWidget__Data__ListItem:nth-child(3) .AnalyticsWidget__Data__Bar {background-color: $Primary500;}
+.AnalyticsWidget__Data__ListItem:nth-child(4) .AnalyticsWidget__Data__Bar {background-color: $Primary400;}
+.AnalyticsWidget__Data__ListItem:nth-child(5) .AnalyticsWidget__Data__Bar {background-color: $Primary300;}
+.AnalyticsWidget__Data__ListItem:nth-child(6) .AnalyticsWidget__Data__Bar {background-color: $Primary200;}
+.AnalyticsWidget__Data__ListItem:nth-child(7) .AnalyticsWidget__Data__Bar {background-color: $Primary100;}
+
 .AnalyticsWidgetTooltip {
   background-color: transparentize($Slate700, 0.25);
   padding: $Spacing2 $Spacing4;
