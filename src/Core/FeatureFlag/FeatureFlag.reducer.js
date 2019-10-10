@@ -21,6 +21,8 @@ const FeatureFlagReducer = (state = initialState, action) => {
                     map[key] = false;
                     return map;
                 }, {});
+
+                flags[FeatureFlagTypes.ANALYTICS] = true;
             }
 
             return {

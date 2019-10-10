@@ -13,17 +13,20 @@ class ProjectAnalyticsPage extends Component {
     render() {
         return (
             <Page id="ProjectPage">
-                <Container>
+                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
+                    <Container>
+                        <PageHeading>
+                            <h1>Analytics</h1>
+                        </PageHeading>
+                        <FeatureComingSoon feature="analytics"/>
+                    </Container>
+                </FeatureFlag>
+                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
                     <PageHeading>
                         <h1>Analytics</h1>
                     </PageHeading>
-                    <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
-                        <FeatureComingSoon feature="analytics"/>
-                    </FeatureFlag>
-                    <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
-                        <ProjectAnalyticsDashboard dashboard={dashboardData}/>
-                    </FeatureFlag>
-                </Container>
+                    <ProjectAnalyticsDashboard dashboard={dashboardData}/>
+                </FeatureFlag>
             </Page>
         )
     }

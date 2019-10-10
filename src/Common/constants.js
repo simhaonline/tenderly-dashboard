@@ -113,6 +113,14 @@ export const AnalyticsWidgetTypes = {
     BAR_CHART: 'BAR_CHART',
     PIE_CHART: 'LINE_CHART',
     METRIC: 'METRIC',
+    LIST: 'LIST',
+};
+
+export const AnalyticsWidgetListTypeColumnTypes = {
+    VALUE: 'VALUE',
+    COUNT: 'COUNT',
+    PERCENTAGE: 'PERCENTAGE',
+    BAR: 'BAR',
 };
 
 export const AnalyticsWidgetSizeTypes = {

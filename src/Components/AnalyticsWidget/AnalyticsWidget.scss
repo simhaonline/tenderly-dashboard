@@ -1,27 +1,30 @@
 @import "../../Common/common";
 
+$AnalyticsWidgetSizeUnit: 200px;
+
 .AnalyticsWidget {
   padding: 0 $Spacing2;
+  max-width: 100%;
 }
 
 .AnalyticsWidget--One {
-  flex: 0 0 25%;
-  width: 25%
+  flex: 1 0 $AnalyticsWidgetSizeUnit;
+  //width: $AnalyticsWidgetSizeUnit;
 }
 
 .AnalyticsWidget--Two {
-  flex: 0 0 50%;
-  width: 50%
+  flex: 1 0 2*$AnalyticsWidgetSizeUnit;
+  //width: 2*$AnalyticsWidgetSizeUnit;
 }
 
 .AnalyticsWidget--Three {
-  flex: 0 0 75%;
-  width: 75%
+  flex: 1 0 3*$AnalyticsWidgetSizeUnit;
+  //width: 3*$AnalyticsWidgetSizeUnit;
 }
 
 .AnalyticsWidget--Four {
-  flex: 0 0 100%;
-  width: 100%
+  flex: 1 0 4*$AnalyticsWidgetSizeUnit;
+  //width: 4*$AnalyticsWidgetSizeUnit;
 }
 
 .AnalyticsWidget__Data {

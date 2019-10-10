@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 import moment from "moment";
-import {Area, AreaChart, ResponsiveContainer, Tooltip as RechartsTooltip} from "recharts";
+import {Area, AreaChart, Line, CartesianGrid, LineChart, Bar, BarChart, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip} from "recharts";
 
 import {AnalyticsWidgetDataRangeTypes, AnalyticsWidgetSizeTypes, AnalyticsWidgetTypes} from "../../Common/constants";
 
@@ -44,6 +44,8 @@ class AnalyticsWidget extends Component {
                             <div>{widget.name}</div>
                             <div>
                                 {widget.dataRange === AnalyticsWidgetDataRangeTypes.LAST_7_DAYS && <span>Last 7 Days</span>}
+                                {widget.dataRange === AnalyticsWidgetDataRangeTypes.LAST_14_DAYS && <span>Last 14 Days</span>}
+                                {widget.dataRange === AnalyticsWidgetDataRangeTypes.LAST_30_DAYS && <span>Last 30 Days</span>}
                                 {widget.dataRange === AnalyticsWidgetDataRangeTypes.LAST_WEEK && <span>Last Week</span>}
                             </div>
                         </div>
@@ -78,6 +80,42 @@ class AnalyticsWidget extends Component {
                                         <Area type="monotone" dataKey={point.key} name={point.name || point.key} stroke={point.color} fill={`url(#${point.color + point.key})`} key={point.key}/>
                                     )}
                                 </AreaChart>
+                            </ResponsiveContainer>
+                        </Fragment>}
+                        {widget.type === AnalyticsWidgetTypes.LINE_CHART && <Fragment>
+                            <ResponsiveContainer>
+                                <LineChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+                                    <RechartsTooltip content={<AnalyticsWidgetTooltip/>} position={{x: 'auto', y: 150,}}/>
+                                    {widget.dataPoints.map(point =>
+                                        <Line type="monotone" dataKey={point.key} name={point.name || point.key} stroke={point.color} key={point.key}/>
+                                    )}
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </Fragment>}
+                        {widget.type === AnalyticsWidgetTypes.LIST && <Fragment>
+                            <div className="DisplayFlex">
+                                {widget.dataPoints.map(point => <div key={point.key} className="Padding1">
+                                    {point.name}
+                                </div>)}
+                            </div>
+                            <div className="OverflowYScroll">
+                                {widget.data.map((datum, index) => <div key={index} className="DisplayFlex">
+                                    {widget.dataPoints.map(point => <div key={point.key} className="Padding1">
+                                        {datum[point.key]}
+                                    </div>)}
+                                </div>)}
+                            </div>
+                        </Fragment>}
+                        {widget.type === AnalyticsWidgetTypes.BAR_CHART && <Fragment>
+                            <ResponsiveContainer>
+                                <BarChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+                                    <RechartsTooltip content={<AnalyticsWidgetTooltip/>}/>
+                                    <CartesianGrid vertical={false} strokeDasharray="6" stroke="rgba(255,255,255,0.5)"/>
+                                    <YAxis orientation="right" tick={{fill: 'white'}} mirror/>
+                                    {widget.dataPoints.map(point =>
+                                        <Bar type="monotone" dataKey={point.key} name={point.name || point.key} fill={point.color} barSize={20} stroke={point.color} key={point.key}/>
+                                    )}
+                                </BarChart>
                             </ResponsiveContainer>
                         </Fragment>}
                     </div>
