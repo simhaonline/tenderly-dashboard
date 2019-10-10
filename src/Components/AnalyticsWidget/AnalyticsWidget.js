@@ -53,8 +53,6 @@ class AnalyticsWidget extends Component {
             }, {});
         }
 
-        console.log(dataMetadata);
-
         return (
             <div className={classNames(
                 "AnalyticsWidget",
