@@ -6,10 +6,20 @@ export const OSTypes = {
     LINUX: "Linux",
 };
 
+/**
+ * @enum {string}
+ */
 export const ActionErrorTypes = {
     GENERAL: 'error',
     NO_PERMISSION: 'no_permission',
     API: 'api_error',
+};
+
+/**
+ * @enum {string}
+ */
+export const LocalStorageKeys = {
+    LOGIN_REDIRECT: 'LOGIN_REDIRECT',
 };
 
 /**
