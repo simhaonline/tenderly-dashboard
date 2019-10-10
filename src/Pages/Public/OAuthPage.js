@@ -3,10 +3,12 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Redirect} from "react-router-dom";
 
+import {LocalStorageKeys, OAuthServiceTypeMap, OAuthStatusMap} from "../../Common/constants";
+
+import LocalStorage from "../../Utils/LocalStorage";
+
 import * as authActions from "../../Core/Auth/Auth.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
-
-import {OAuthServiceTypeMap, OAuthStatusMap} from "../../Common/constants";
 
 import {Page, Container} from "../../Elements";
 import OAuthStatus from "../../Components/OAuthStatus/OAuthStatus";
@@ -15,9 +17,18 @@ class OAuthPage extends Component {
     constructor(props) {
         super(props);
 
+        let redirectTo = props.redirectTo;
+
+        if (LocalStorage.getItem(LocalStorageKeys.LOGIN_REDIRECT)) {
+            redirectTo = LocalStorage.getItem(LocalStorageKeys.LOGIN_REDIRECT);
+
+            LocalStorage.removeItem(LocalStorageKeys.LOGIN_REDIRECT);
+        }
+
         this.state = {
             alreadyLoggedIn: false,
             authenticating: false,
+            redirectTo,
         };
     }
 
@@ -66,8 +77,8 @@ class OAuthPage extends Component {
     }
 
     render() {
-        const {authenticating, authResponse, alreadyLoggedIn} = this.state;
-        const {service, redirectTo, auth: {loggedIn}} = this.props;
+        const {authenticating, redirectTo, authResponse, alreadyLoggedIn} = this.state;
+        const {service, auth: {loggedIn}} = this.props;
 
         if (alreadyLoggedIn) {
             return <Redirect to="/"/>;
