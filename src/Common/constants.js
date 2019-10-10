@@ -20,6 +20,7 @@ export const ActionErrorTypes = {
  */
 export const LocalStorageKeys = {
     LOGIN_REDIRECT: 'LOGIN_REDIRECT',
+    LOGIN_FLOW: 'LOGIN_FLOW',
 };
 
 /**

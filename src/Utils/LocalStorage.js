@@ -5,7 +5,7 @@ class LocalStorage {
      */
     static setItem(key, item) {
         try {
-            localStorage.setItem(key, item);
+            localStorage.setItem(key, JSON.stringify(item));
 
             return true;
         } catch (error) {
@@ -16,12 +16,12 @@ class LocalStorage {
 
     /**
      * @param {LocalStorageKeys} key
+     *
+     * @returns {*}
      */
     static getItem(key) {
         try {
-            localStorage.getItem(key);
-
-            return true;
+            return JSON.parse(localStorage.getItem(key));
         } catch (error) {
             console.error(error);
             return false;
