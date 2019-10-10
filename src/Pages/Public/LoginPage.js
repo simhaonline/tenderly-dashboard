@@ -3,7 +3,10 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 
+import {LocalStorageKeys} from "../../Common/constants";
+
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
+import LocalStorage from "../../Utils/LocalStorage";
 
 import {authActions} from "../../Core/actions";
 
@@ -18,10 +21,36 @@ class LoginPage extends Component {
     constructor(props) {
         super(props);
 
+        const {location} = props;
+
+        let redirectToState;
+        let loginFlow;
+
+        if (LocalStorage.getItem(LocalStorageKeys.LOGIN_REDIRECT)) {
+            redirectToState = LocalStorage.getItem(LocalStorageKeys.LOGIN_REDIRECT);
+
+            LocalStorage.removeItem(LocalStorageKeys.LOGIN_REDIRECT);
+        }
+
+        if (LocalStorage.getItem(LocalStorageKeys.LOGIN_FLOW)) {
+            loginFlow = LocalStorage.getItem(LocalStorageKeys.LOGIN_FLOW);
+
+            LocalStorage.removeItem(LocalStorageKeys.LOGIN_FLOW);
+        }
+
+        if (location.state && location.state.from) {
+            redirectToState = location.state.from;
+        }
+
+        if (location.state && location.state.flow) {
+            loginFlow = location.state.flow;
+        }
+
         this.state = {
             loginFailed: false,
             loginAttempts: 0,
-            flow: props.location && props.location.state ? props.location.state.flow : null,
+            flow: loginFlow,
+            redirectToState,
         };
 
         initializeForm(this, {
@@ -82,22 +111,34 @@ class LoginPage extends Component {
         return !formData.email || !formData.password || inProgress;
     };
 
+    handleBeforeGitHubOAuth = () => {
+        const {redirectToState, flow} = this.state;
+
+        if (redirectToState) {
+            LocalStorage.setItem(LocalStorageKeys.LOGIN_REDIRECT, redirectToState);
+        }
+
+        if (flow) {
+            LocalStorage.setItem(LocalStorageKeys.LOGIN_FLOW, flow);
+        }
+    };
+
     render() {
-        const {formData, loginFailed, flow} = this.state;
-        const {auth, location: {state}} = this.props;
+        const {formData, loginFailed, flow, redirectToState} = this.state;
+        const {auth} = this.props;
 
         if (auth.loggedIn) {
             if (!auth.usernameSet) {
                 return <Redirect to={{
                     pathname: "/onboarding",
                     state: {
-                        redirectTo: state && state.from ? state.from : "/dashboard",
+                        redirectTo: redirectToState ? redirectToState : "/dashboard",
                     },
                 }}/>;
             }
 
-            if (state && state.from) {
-                return <Redirect to={state.from}/>;
+            if (redirectToState) {
+                return <Redirect to={redirectToState}/>;
             }
 
             return <Redirect to="/dashboard"/>;
@@ -106,7 +147,7 @@ class LoginPage extends Component {
         let flowData = {};
 
         if (flow === "project-invitation") {
-            const searchParams = new URLSearchParams(state.from.search);
+            const searchParams = new URLSearchParams(redirectToState.search);
 
             flowData.projectSlug = searchParams.get('projectSlug') || null;
             flowData.projectName = searchParams.get('projectName') || null;
@@ -147,7 +188,7 @@ class LoginPage extends Component {
                                             <GoogleLoginButton onAuthentication={this.handleOAuth}/>
                                         </div>
                                         <div className="ButtonWrapper">
-                                            <GitHubLoginButton/>
+                                            <GitHubLoginButton onClick={this.handleBeforeGitHubOAuth}/>
                                         </div>
                                     </div>
                                 </Form>
