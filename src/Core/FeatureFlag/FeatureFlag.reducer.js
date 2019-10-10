@@ -12,7 +12,6 @@ const FeatureFlagReducer = (state = initialState, action) => {
             return initialState;
         case GET_USER_ACTION:
             const [email, emailDomain] = action.user.email.split('@');
-            console.log(email, emailDomain);
             const isInternalUser = ['andrej', 'miljan', 'bogdan', 'nebojsa', 'vvk'].includes(email) && emailDomain.includes('tenderly.');
 
             let flags = {};
