@@ -7,6 +7,28 @@ $AnalyticsWidgetSizeUnit: 200px;
   max-width: 100%;
 }
 
+.AnalyticsWidget__Header {
+  //margin-bottom: $Spacing4;
+}
+
+.AnalyticsWidget__Header__MainInfo {
+  display: flex;
+  align-items: center;
+  padding: $Spacing2 $Spacing4;
+}
+
+.AnalyticsWidget__Header__WidgetName {
+  font-size: $FontSize500;
+  font-weight: 700;
+}
+
+.AnalyticsWidget__Header__SubInfo {
+  background-color: $Slate400;
+  border-top: 1px solid $Slate800;
+  border-bottom: 1px solid $Slate800;
+  padding: $Spacing1 $Spacing4;
+}
+
 .AnalyticsWidget--One {
   flex: 1 0 $AnalyticsWidgetSizeUnit;
   //width: $AnalyticsWidgetSizeUnit;
@@ -32,6 +54,49 @@ $AnalyticsWidgetSizeUnit: 200px;
   overflow: hidden;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+.AnalyticsWidget__Data--LIST {
+  display: flex;
+  flex-direction: column;
+}
+
+.AnalyticsWidget__Data__ListItems {
+  flex: 1 1 0;
+  overflow-y: scroll;
+}
+
+.AnalyticsWidget__Data__ListHeader, .AnalyticsWidget__Data__ListItem {
+  display: flex;
+  align-items: center;
+  padding: 0 ($Spacing4 - $Spacing2);
+}
+
+.AnalyticsWidget__Data__ListHeader {
+  flex: 0 0 auto;
+  background-color: $Slate500;
+  border-bottom: 1px solid $Slate800;
+  padding-right: $Spacing4;
+}
+
+.AnalyticsWidget__Data__ListItem {
+  padding-top: $Spacing1;
+  padding-bottom: $Spacing1;
+  &:nth-child(even) {
+    background-color: transparentize($Slate400, 0.25);
+  }
+}
+
+.AnalyticsWidget__Data__ListColumn {
+  padding: $Spacing1 $Spacing2;
+}
+
+.AnalyticsWidget__Data__BarValue {}
+
+.AnalyticsWidget__Data__Bar {
+  background-color: $Primary500;
+  border-radius: 2px;
+  padding-left: $Spacing1;
 }
 
 .AnalyticsWidgetTooltip {
