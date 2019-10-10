@@ -23,6 +23,7 @@ class OAuthPage extends Component {
             redirectTo = LocalStorage.getItem(LocalStorageKeys.LOGIN_REDIRECT);
 
             LocalStorage.removeItem(LocalStorageKeys.LOGIN_REDIRECT);
+            LocalStorage.removeItem(LocalStorageKeys.LOGIN_FLOW);
         }
 
         this.state = {
