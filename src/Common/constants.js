@@ -31,6 +31,7 @@ export const NetworkTypes = {
     KOVAN: 'kovan_testnet',
     ROPSTEN: 'ropsten_testnet',
     RINKEBY: 'rinkeby_testnet',
+    GOERLI: 'goerli_testnet',
 };
 
 export const NetworkRouteTypes = {
@@ -38,6 +39,7 @@ export const NetworkRouteTypes = {
     KOVAN: 'kovan',
     ROPSTEN: 'ropsten',
     RINKEBY: 'rinkeby',
+    GOERLI: 'goerli',
 };
 
 export const NetworkAppToApiTypeMap = {
@@ -45,6 +47,7 @@ export const NetworkAppToApiTypeMap = {
     [NetworkTypes.KOVAN]: 42,
     [NetworkTypes.ROPSTEN]: 3,
     [NetworkTypes.RINKEBY]: 4,
+    [NetworkTypes.GOERLI]: 5,
 };
 
 export const NetworkApiToAppTypeMap = {
@@ -52,6 +55,7 @@ export const NetworkApiToAppTypeMap = {
     [NetworkAppToApiTypeMap[NetworkTypes.KOVAN]]: NetworkTypes.KOVAN,
     [NetworkAppToApiTypeMap[NetworkTypes.ROPSTEN]]: NetworkTypes.ROPSTEN,
     [NetworkAppToApiTypeMap[NetworkTypes.RINKEBY]]: NetworkTypes.RINKEBY,
+    [NetworkAppToApiTypeMap[NetworkTypes.GOERLI]]: NetworkTypes.GOERLI,
 };
 
 export const NetworkRouteToAppTypeMap = {
@@ -59,6 +63,7 @@ export const NetworkRouteToAppTypeMap = {
     [NetworkRouteTypes.KOVAN]: NetworkTypes.KOVAN,
     [NetworkRouteTypes.ROPSTEN]: NetworkTypes.ROPSTEN,
     [NetworkRouteTypes.RINKEBY]: NetworkTypes.RINKEBY,
+    [NetworkRouteTypes.GOERLI]: NetworkTypes.GOERLI,
 };
 
 export const NetworkAppToRouteTypeMap = {
@@ -66,6 +71,7 @@ export const NetworkAppToRouteTypeMap = {
     [NetworkTypes.KOVAN]: NetworkRouteTypes.KOVAN,
     [NetworkTypes.ROPSTEN]: NetworkRouteTypes.ROPSTEN,
     [NetworkTypes.RINKEBY]: NetworkRouteTypes.RINKEBY,
+    [NetworkTypes.GOERLI]: NetworkRouteTypes.GOERLI,
 };
 
 export const NetworkLabelMap = {
@@ -73,6 +79,7 @@ export const NetworkLabelMap = {
     [NetworkTypes.KOVAN]: 'Kovan',
     [NetworkTypes.ROPSTEN]: 'Ropsten',
     [NetworkTypes.RINKEBY]: 'Rinkeby',
+    [NetworkTypes.GOERLI]: 'Görli',
 };
 
 export const NetworkLabelShorthandMap = {
@@ -80,6 +87,7 @@ export const NetworkLabelShorthandMap = {
     [NetworkTypes.KOVAN]: 'K',
     [NetworkTypes.ROPSTEN]: 'RO',
     [NetworkTypes.RINKEBY]: 'RK',
+    [NetworkTypes.GOERLI]: 'G',
 };
 
 export const EtherscanLinkTypes = {

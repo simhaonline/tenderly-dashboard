@@ -58,6 +58,7 @@ const groupSorting = [
     NetworkTypes.KOVAN,
     NetworkTypes.ROPSTEN,
     NetworkTypes.RINKEBY,
+    NetworkTypes.GOERLI,
 ];
 
 class ProjectContractList extends Component{

@@ -7,6 +7,7 @@ const NetworkToPrefixMap = {
     [NetworkTypes.KOVAN]: 'kovan.',
     [NetworkTypes.RINKEBY]: 'rinkeby.',
     [NetworkTypes.ROPSTEN]: 'ropsten.',
+    [NetworkTypes.GOERLI]: 'goerli.',
 };
 
 const TypeToUrlPathMap = {

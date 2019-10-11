@@ -3,12 +3,13 @@
 
 .NetworkTag {
   color: $WhiteColor;
-  padding: 4px 8px;
+  padding: 3px 8px;
   border-radius: 3px;
   display: inline-block;
   font-size: $FontSize300;
   width: 100px;
   text-align: center;
+  border: 1px solid transparent;
   background-color: transparentize($WhiteColor, 0.65);
 }
 
@@ -26,6 +27,11 @@
 
 .NetworkTag--rinkeby {
   background-color: transparentize($Success500, 0.2);
+}
+
+.NetworkTag--goerli {
+  background-color: transparentize($BlackColor, 0.1);
+  border-color: $WhiteColor;
 }
 
 .NetworkTag--Shorthand {

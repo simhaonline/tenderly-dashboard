@@ -11,6 +11,7 @@ const networkTypeToClassNameMap = {
     [NetworkTypes.KOVAN]: 'NetworkTag--kovan',
     [NetworkTypes.ROPSTEN]: 'NetworkTag--ropsten',
     [NetworkTypes.RINKEBY]: 'NetworkTag--rinkeby',
+    [NetworkTypes.GOERLI]: 'NetworkTag--goerli',
 };
 
 const networkTagSizeToClassNameMap = {
