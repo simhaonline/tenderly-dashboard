@@ -14,6 +14,14 @@ class FlameGraph extends Component {
         this.drawFlameGraph();
     }
 
+    handleGraphItemClick = (item) => {
+        const {onClick} = this.props;
+
+        if (onClick) {
+            onClick(item);
+        }
+    };
+
     drawFlameGraph() {
         const {data} = this.props;
 
@@ -24,7 +32,8 @@ class FlameGraph extends Component {
             .tooltip(false)
             .cellHeight(24)
             .elided(true)
-            .inverted(true);
+            .inverted(true)
+            .onClick(this.handleGraphItemClick);
 
         d3.select(element)
             .datum(data)
@@ -40,6 +49,7 @@ class FlameGraph extends Component {
 
 FlameGraph.propTypes = {
     data: PropTypes.object.isRequired,
+    onClick: PropTypes.func,
 };
 
 export default FlameGraph;
