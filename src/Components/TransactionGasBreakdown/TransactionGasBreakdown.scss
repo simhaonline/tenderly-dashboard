@@ -29,4 +29,17 @@
       }
     }
   }
+
+  .frame {
+    cursor: pointer;
+
+    .d3-flame-graph-label {
+      line-height: 24px;
+      transition: 0.1s;
+
+      &:hover {
+        background-color: transparentize($BlackColor, 0.9);
+      }
+    }
+  }
 }

@@ -56,7 +56,7 @@ class TransactionExecution extends Component {
                 value: 'state_change',
             },
             {
-                label: "Gas Breakdown",
+                label: "Gas Profiler",
                 value: 'gas_breakdown',
             },
         ];

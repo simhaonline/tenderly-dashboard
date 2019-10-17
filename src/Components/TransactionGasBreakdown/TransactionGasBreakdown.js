@@ -38,7 +38,8 @@ class TransactionGasBreakdown extends Component {
                     </div>
                 </div>
                 <PanelDivider/>
-                <h3 className="MarginBottom2">Gas Flame Graph</h3>
+                <h3 className="MarginBottom2">Gas Usage Breakdown by Function Call</h3>
+                <p className="MarginBottom2">Click on a function in the stack in order to expand the view and zoom in on that particular function.</p>
                 <CallTraceFlameGraph callTrace={callTrace} transaction={transaction}/>
             </div>
         );
