@@ -53,8 +53,8 @@ const SelectedTraceBreakdown = ({parentTrace, trace}) => {
     return <div className="DisplayFlex">
         <div>
             <PieChart width={150} height={150}>
-                <Pie dataKey="gas" data={graphData} cx={75} cy={75} innerRadius={20} startAngle={450} endAngle={90} isAnimationActive={false} outerRadius={60}>
-                    {graphData.map((entry, index) => <Cell key={`cell-${index}`} fill={colorScale(1 / (graphData.length - 1) * index).hex()} stroke="none"/>)}
+                <Pie dataKey="gas" data={graphData} cx={75} cy={75} innerRadius={30} startAngle={450} endAngle={90} isAnimationActive={false} outerRadius={60}>
+                    {graphData.map((entry, index) => <Cell key={`cell-${index}`} fill={colorScale(1 / (Math.max(graphData.length - 1, 1)) * index).hex()} stroke="#ADD3FF"/>)}
                 </Pie>
                 <Tooltip/>
             </PieChart>
