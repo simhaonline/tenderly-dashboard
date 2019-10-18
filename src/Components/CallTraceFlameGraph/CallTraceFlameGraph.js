@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {Pie, PieChart, Tooltip} from "recharts";
+import chroma from 'chroma-js';
+import {Cell, Pie, PieChart, Tooltip} from "recharts";
 
 import {CallTrace, Transaction} from "../../Core/models";
 
@@ -47,10 +48,14 @@ const SelectedTraceBreakdown = ({parentTrace, trace}) => {
         percentage: otherGasUsed / trace.gasUsed,
     });
 
+    const colorScale = chroma.scale(['#0069E0', '#ADD3FF']).correctLightness();
+
     return <div className="DisplayFlex">
         <div>
             <PieChart width={150} height={150}>
-                <Pie dataKey="gas" data={graphData} cx={75} cy={75} innerRadius={20} startAngle={450} endAngle={90} isAnimationActive={false} outerRadius={60} fill="#0076FF"/>
+                <Pie dataKey="gas" data={graphData} cx={75} cy={75} innerRadius={20} startAngle={450} endAngle={90} isAnimationActive={false} outerRadius={60}>
+                    {graphData.map((entry, index) => <Cell key={`cell-${index}`} fill={colorScale(1 / (graphData.length - 1) * index).hex()} stroke="none"/>)}
+                </Pie>
                 <Tooltip/>
             </PieChart>
         </div>
