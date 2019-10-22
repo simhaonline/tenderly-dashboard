@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import {Redirect, Route, Switch} from "react-router-dom";
 import {Helmet} from "react-helmet";
 
+import {isTransactionOrContractUrl} from "../../Utils/UrlHelpers";
+
 import {Project} from "../../Core/models";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
@@ -47,14 +49,18 @@ class ProjectPage extends Component {
     }
 
     render(){
-        const {project} = this.props;
+        const {project, location, match} = this.props;
         const {nonExistingProject} = this.state;
 
         if (nonExistingProject) {
+            if (isTransactionOrContractUrl(location.pathname)) {
+                return <Redirect to={location.pathname.replace(match.url, '')}/>;
+            }
+
             // @TODO Create empty for projects that do not exist or you do not have permission to.
             // Should check if the username is the same as yours if not then display that it ether does not exist
             // or user doesn't have permission.
-            return <Redirect to="/dashboard"/>
+            return <Redirect to="/dashboard"/>;
         }
 
         if (!project) {
