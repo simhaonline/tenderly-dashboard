@@ -11,14 +11,14 @@ export const REMOVE_PROJECT_CONTEXT_ACTION = 'REMOVE_PROJECT_CONTEXT';
  */
 export function getSearchResults(query) {
     return async (dispatch, getState) => {
-        const {auth: {loggedIn}, search: {projectContext}} = getState();
+        const {auth: {loggedIn}, search: {currentProject}} = getState();
         try {
             let searchQuery;
 
             let username, projectSlug;
 
-            if (projectContext) {
-                const projectInfo = Project.getSlugAndUsernameFromId(projectContext);
+            if (currentProject) {
+                const projectInfo = Project.getSlugAndUsernameFromId(currentProject);
 
                 username = projectInfo.username;
                 projectSlug = projectInfo.slug;
@@ -52,7 +52,7 @@ export function getSearchResults(query) {
 
             dispatch({
                 type: FETCH_SEARCH_RESULTS_ACTION,
-                projectId: projectContext,
+                projectId: currentProject,
                 query,
                 results,
             });

@@ -2,11 +2,16 @@ import React, {Component} from 'react';
 import AsyncSelect from 'react-select/async';
 import * as _ from "lodash";
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {components} from "react-select";
+
+import Analytics from "../../Utils/Analytics";
+
+import {searchActions} from "../../Core/actions";
+
+import {Icon} from "../../Elements";
 
 import './AppSearch.scss';
-import Analytics from "../../Utils/Analytics";
-import {components} from "react-select";
-import {Icon} from "../../Elements";
 
 function AppSearchDropdownIndicator(props) {
     return <components.DropdownIndicator {...props}>
@@ -16,13 +21,13 @@ function AppSearchDropdownIndicator(props) {
 
 class AppSearch extends Component {
     debouncedSearch = _.debounce(async (query, callback) => {
-        const {publicActions} = this.props;
+        const {searchActions} = this.props;
 
         if (!callback) return;
 
-        const searchResponse = await publicActions.searchPublicData(query);
+        const searchResponse = await searchActions.getSearchResults(query);
 
-        Analytics.trackEvent('explore_page_search');
+        Analytics.trackEvent('app_header_search');
 
         if (searchResponse.success) {
             const data = [];
@@ -47,13 +52,11 @@ class AppSearch extends Component {
         } else {
             callback([]);
         }
-
-
-        this.setState({
-            searchPromise: null,
-            promiseResolver: null,
-        });
     }, 1000);
+
+    handleInputChange = () => {};
+
+    handleSearchSelect = () => {};
 
     fetchSearchResults = (query, callback) => {
         this.debouncedSearch(query, callback);
@@ -61,8 +64,6 @@ class AppSearch extends Component {
 
     render() {
         const {projectContext} = this.props;
-
-        console.log(projectContext);
 
         return (
             <div className="AppSearch">
@@ -84,7 +85,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        searchActions: bindActionCreators(searchActions, dispatch),
+    };
 };
 
 export default connect(
