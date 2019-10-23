@@ -15,7 +15,7 @@ class Navigation extends Component {
                     <Icon icon="project" className="NavIcon DisplayMobile"/>
                     <span>Dashboard</span>
                 </NavLink>
-                <NavLink className="HeaderNavItem" exact to="/public-contracts">
+                <NavLink className="HeaderNavItem" exact to="/explorer">
                     <Icon icon="diamond" className="NavIcon DisplayMobile"/>
                     <span>Public Contracts</span>
                 </NavLink>

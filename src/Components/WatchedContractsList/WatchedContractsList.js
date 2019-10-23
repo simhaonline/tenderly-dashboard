@@ -18,7 +18,7 @@ const WatchedContractsList = ({contracts, loaded}) => {
         return <Panel>
             <PanelContent>
                 <EmptyState image={NoContractsWatchedIcon} title="No watched contracts" description="You can watch all contracts that have their source code public. Add them to your dashboard to keep track of them and have easy access." renderActions={() => (
-                    <Button to={'/public-contracts'} color="secondary" size="small">
+                    <Button to={'/explorer'} color="secondary" size="small">
                         <span>Discover Public Contracts</span>
                     </Button>
                 )}/>

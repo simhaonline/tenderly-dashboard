@@ -31,13 +31,14 @@ const AppPages = () => {
             <Route path="/register" exact component={RegisterPage}/>
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
-            <Route path="/public-contracts" exact component={PublicContractsPage}/>
+            <Route path="/explorer" exact component={PublicContractsPage}/>
             <Route path="/contract/:network/:id" strict component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
             <Route path="/accept-invitation" exact component={AcceptInvitationPage}/>
             <PrivateRoute path="/project/:slug" component={RedirectToProjectPage}/>
             <PrivateRoute path="/:username/:slug" strict component={ProjectPage}/>
             <Redirect exact from="/" to="/login"/>
+            <Redirect exact from="/public-contracts" to="/explorer"/>
             <Route component={NotFoundPage}/>
         </Switch>
     )

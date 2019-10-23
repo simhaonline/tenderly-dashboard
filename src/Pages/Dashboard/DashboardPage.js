@@ -57,7 +57,7 @@ class DashboardPage extends Component {
                         <PageHeading>
                             <h1>Watched Contracts</h1>
                             <div className="RightContent">
-                                {(watchedContractsLoaded && !!watchedContracts.length) && <Button to={`/public-contracts`} outline size="small">
+                                {(watchedContractsLoaded && !!watchedContracts.length) && <Button to={`/explorer`} outline size="small">
                                     <span>Discover Contracts</span>
                                 </Button>}
                             </div>
