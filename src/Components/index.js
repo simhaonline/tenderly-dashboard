@@ -1,4 +1,5 @@
 export {default as AppHeader} from './AppHeader/AppHeader';
+export {default as AppSearch} from './AppSearch/AppSearch';
 export {default as Navigation} from './Navigation/Navigation';
 export {default as PrivateRoute} from './PrivateRoute/PrivateRoute';
 export {default as EtherscanLink} from './EtherscanLink/EtherscanLink';

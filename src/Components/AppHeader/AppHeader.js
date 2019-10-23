@@ -4,7 +4,7 @@ import {Link, withRouter} from "react-router-dom";
 import jwt from 'jsonwebtoken';
 
 import {Header} from "../../Elements";
-import {Navigation} from "../index";
+import {Navigation, AppSearch} from "../index";
 import SessionHeaderMenu from "../SessionHeaderMenu/SessionHeaderMenu";
 import HeaderMessage from "../HeaderMessage/HeaderMessage";
 
@@ -37,6 +37,9 @@ class AppHeader extends Component {
                     </Link>
                     <div className="NavWrapper">
                         <Navigation/>
+                    </div>
+                    <div className="SearchWrapper">
+                        <AppSearch/>
                     </div>
                     <div className="SessionWrapper">
                         <SessionHeaderMenu/>
