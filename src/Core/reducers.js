@@ -12,6 +12,7 @@ import AlertingReducer from "./Alerting/Alerting.reducer";
 import NotificationReducer from "./Notification/Notification.reducer";
 import NetworkReducer from "./Network/Network.reducer";
 import CollaborationReducer from "./Collaboration/Collaboration.reducer";
+import SearchReducer from "./Search/Search.reducer";
 
 const reducers = combineReducers({
     auth: AuthReducer,
@@ -26,6 +27,7 @@ const reducers = combineReducers({
     notification: NotificationReducer,
     network: NetworkReducer,
     collaboration: CollaborationReducer,
+    search: SearchReducer,
 });
 
 export default reducers;
