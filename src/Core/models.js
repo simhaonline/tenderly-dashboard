@@ -18,5 +18,7 @@ export {default as AlertRule} from './Alerting/AlertRule.model';
 export {default as AlertRuleExpression} from './Alerting/AlertRuleExpression.model';
 export {default as NotificationDestination} from './Notification/NotificationDestination.model';
 
+export {default as SearchResults} from './Search/SearchResult.model';
+
 export {default as Widget} from './Analytics/Widget.model';
 
