@@ -527,6 +527,15 @@ export const NotificationDestinationAppToApiTypes = {
     [NotificationDestinationTypes.WEBHOOK]: 'webhook',
 };
 
+/**
+ * @enum {string}
+ */
+const SearchResultTypes = {
+    PUBLIC_CONTRACT: 'PUBLIC_CONTRACT',
+    PROJECT_CONTRACT: 'PROJECT_CONTRACT',
+    TRANSACTION: 'TRANSACTION',
+};
+
 export const ONE_MIN_INTERVAL = 60 * 1000;
 export const FIVE_MIN_INTERVAL = 5 * ONE_MIN_INTERVAL;
 
