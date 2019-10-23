@@ -5,6 +5,14 @@ import {connect} from "react-redux";
 
 import './AppSearch.scss';
 import Analytics from "../../Utils/Analytics";
+import {components} from "react-select";
+import {Icon} from "../../Elements";
+
+function AppSearchDropdownIndicator(props) {
+    return <components.DropdownIndicator {...props}>
+        <Icon icon="search" className="AppSearchDropdownIndicator__IndicatorIcon"/>
+    </components.DropdownIndicator>;
+}
 
 class AppSearch extends Component {
     debouncedSearch = _.debounce(async (query, callback) => {
@@ -61,8 +69,8 @@ class AppSearch extends Component {
                 <AsyncSelect classNamePrefix="Select" onInputChange={this.handleInputChange} onChange={this.handleSearchSelect} components={{
                     // Option: SearchResultSelectOption,
                     // NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
-                    // IndicatorSeparator: () => null,
-                    // DropdownIndicator: SearchBarDropdownIndicator,
+                    IndicatorSeparator: () => null,
+                    DropdownIndicator: AppSearchDropdownIndicator,
                 }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
             </div>
         );

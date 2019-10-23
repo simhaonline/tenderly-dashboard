@@ -1,5 +1,4 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
+@import "../../Common/common";
 
 #AppHeader {
   position: relative;
@@ -31,6 +30,12 @@
 
   .NavWrapper {
     display: flex;
+  }
+
+  .SearchWrapper {
+    flex: 1 1 0;
+    max-width: 560px;
+    padding: 10px $Spacing6;
   }
 
   .SessionWrapper {
