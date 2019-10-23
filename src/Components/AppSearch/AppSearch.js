@@ -30,25 +30,7 @@ class AppSearch extends Component {
         Analytics.trackEvent('app_header_search');
 
         if (searchResponse.success) {
-            const data = [];
-
-            if (searchResponse.data.contracts) {
-                data.push({
-                    label: 'Contracts',
-                    value: 'contracts',
-                    options: searchResponse.data.contracts,
-                })
-            }
-
-            if (searchResponse.data.transactions) {
-                data.push({
-                    label: 'Transactions',
-                    value: 'transactions',
-                    options: searchResponse.data.transactions,
-                })
-            }
-
-            callback(data)
+            callback(searchResponse.data)
         } else {
             callback([]);
         }

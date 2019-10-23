@@ -10,7 +10,7 @@
     align-items: center;
     padding: 5px 12px;
     margin-left: 20px;
-    margin-right: 80px;
+    margin-right: 20px;
     transition: 0.2s;
 
     .AppLogo {
@@ -35,7 +35,7 @@
   .SearchWrapper {
     flex: 1 1 0;
     max-width: 560px;
-    padding: 10px $Spacing6;
+    padding: 10px $Spacing4;
   }
 
   .SessionWrapper {

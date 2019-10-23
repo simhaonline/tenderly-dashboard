@@ -530,7 +530,7 @@ export const NotificationDestinationAppToApiTypes = {
 /**
  * @enum {string}
  */
-const SearchResultTypes = {
+export const SearchResultTypes = {
     PUBLIC_CONTRACT: 'PUBLIC_CONTRACT',
     PROJECT_CONTRACT: 'PROJECT_CONTRACT',
     TRANSACTION: 'TRANSACTION',
