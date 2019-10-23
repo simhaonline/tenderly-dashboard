@@ -79,7 +79,7 @@ class AppSearch extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        projectContext: state.search.projectContext,
+        projectContext: state.search.currentProject,
     };
 };
 

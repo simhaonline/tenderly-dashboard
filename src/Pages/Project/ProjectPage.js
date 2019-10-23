@@ -10,6 +10,7 @@ import {Project} from "../../Core/models";
 
 import {getProject} from "../../Common/Selectors/ProjectSelectors";
 import * as projectActions from "../../Core/Project/Project.actions";
+import {searchActions} from "../../Core/actions";
 
 import ProjectTransactionsPage from "./ProjectTransactionsPage";
 import ProjectTransactionPage from "./ProjectTransactionPage";
@@ -35,7 +36,9 @@ class ProjectPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, actions, projectSlug, username} = this.props;
+        const {project, actions, projectSlug, username, searchActions} = this.props;
+
+        searchActions.setProjectContext(projectSlug, username);
 
         if (!project) {
             const response = await actions.fetchProject(projectSlug, username);
@@ -46,6 +49,12 @@ class ProjectPage extends Component {
                 })
             }
         }
+    }
+
+    componentWillUnmount() {
+        const {searchActions} = this.props;
+
+        searchActions.removeProjectContext();
     }
 
     render(){
@@ -106,6 +115,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(projectActions, dispatch),
+        searchActions: bindActionCreators(searchActions, dispatch),
     }
 };
 
