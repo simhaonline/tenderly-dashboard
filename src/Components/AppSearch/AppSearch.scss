@@ -3,3 +3,10 @@
 .AppSearch {
   width: 100%;
 }
+
+.AppSearch__Select {
+  .Select__control {
+    background-color: $Slate400;
+    border-color: $Slate600;
+  }
+}

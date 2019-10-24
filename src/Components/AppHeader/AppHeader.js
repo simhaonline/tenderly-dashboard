@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
-import {Link, withRouter} from "react-router-dom";
+import {Link, NavLink, withRouter} from "react-router-dom";
 import jwt from 'jsonwebtoken';
 
-import {Header} from "../../Elements";
+import {Header, Icon} from "../../Elements";
 import {Navigation, AppSearch} from "../index";
 import SessionHeaderMenu from "../SessionHeaderMenu/SessionHeaderMenu";
 import HeaderMessage from "../HeaderMessage/HeaderMessage";
@@ -40,6 +40,12 @@ class AppHeader extends Component {
                     </div>
                     <div className="SearchWrapper">
                         <AppSearch/>
+                    </div>
+                    <div className="HideMobile">
+                        <NavLink to="/explorer">
+                            <Icon icon="compass"/>
+                            <span> Explorer</span>
+                        </NavLink>
                     </div>
                     <div className="SessionWrapper">
                         <SessionHeaderMenu/>
