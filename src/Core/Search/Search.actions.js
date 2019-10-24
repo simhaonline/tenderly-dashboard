@@ -71,8 +71,8 @@ export function getSearchResults(query) {
             if (data.transactions) {
                 results.push({
                     label: "Transactions",
-                    value: SearchResultTypes.TRANSACTION,
-                    options: data.transactions.map(tx => SearchResult.buildFromResponse(tx, SearchResultTypes.TRANSACTION)),
+                    value: SearchResultTypes.PUBLIC_TRANSACTION,
+                    options: data.transactions.map(tx => SearchResult.buildFromResponse(tx, SearchResultTypes.PUBLIC_TRANSACTION)),
                 });
             }
 

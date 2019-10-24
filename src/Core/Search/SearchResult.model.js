@@ -14,13 +14,30 @@ class SearchResult {
         this.projectId = data.projectId;
     }
 
+    /**
+     * @returns {string}
+     */
+    getUrl() {
+        switch (this.type) {
+            case SearchResultTypes.PROJECT_CONTRACT:
+                return 'response.contract.contract_name';
+            case SearchResultTypes.PUBLIC_CONTRACT:
+                return 'response.contract_name';
+            case SearchResultTypes.PUBLIC_TRANSACTION:
+                return 'Transaction';
+            default:
+                return '';
+        }
+    }
+
     static getLabelForType(type, response) {
         switch (type) {
             case SearchResultTypes.PROJECT_CONTRACT:
                 return response.contract.contract_name;
             case SearchResultTypes.PUBLIC_CONTRACT:
                 return response.contract_name;
-            case SearchResultTypes.TRANSACTION:
+            case SearchResultTypes.PUBLIC_TRANSACTION:
+            case SearchResultTypes.PROJECT_TRANSACTION:
                 return 'Transaction';
             default:
                 return '';
@@ -32,7 +49,7 @@ class SearchResult {
             case SearchResultTypes.PROJECT_CONTRACT:
                 return NetworkApiToAppTypeMap[response.contract.network_id];
             case SearchResultTypes.PUBLIC_CONTRACT:
-            case SearchResultTypes.TRANSACTION:
+            case SearchResultTypes.PUBLIC_TRANSACTION:
                 return NetworkApiToAppTypeMap[response.network_id];
             default:
                 return null;
