@@ -55,6 +55,15 @@ class SearchResult {
         return url + `/${networkRoute}/${this.hex}`;
     }
 
+    /**
+     * @returns {null|{slug: string, username: string}}
+     */
+    getProjectInfo() {
+        if (!this.projectId) return null;
+
+        return Project.getSlugAndUsernameFromId(this.projectId);
+    }
+
     static getLabelForType(type, response) {
         switch (type) {
             case SearchResultTypes.PROJECT_CONTRACT:
@@ -75,6 +84,7 @@ class SearchResult {
                 return NetworkApiToAppTypeMap[response.contract.network_id];
             case SearchResultTypes.PUBLIC_CONTRACT:
             case SearchResultTypes.PUBLIC_TRANSACTION:
+            case SearchResultTypes.PROJECT_TRANSACTION:
                 return NetworkApiToAppTypeMap[response.network_id];
             default:
                 return null;
@@ -88,7 +98,8 @@ class SearchResult {
             case SearchResultTypes.PUBLIC_CONTRACT:
                 return response.address;
             case SearchResultTypes.PUBLIC_TRANSACTION:
-                return NetworkApiToAppTypeMap[response.network_id];
+            case SearchResultTypes.PROJECT_TRANSACTION:
+                return response.hash;
             default:
                 return null;
         }

@@ -68,6 +68,14 @@ export function getSearchResults(query) {
                 });
             }
 
+            if (data.project_transactions) {
+                results.push({
+                    label: "Project Transactions",
+                    value: SearchResultTypes.PROJECT_TRANSACTION,
+                    options: data.project_transactions.map(tx => SearchResult.buildFromResponse(tx, SearchResultTypes.PROJECT_TRANSACTION)),
+                });
+            }
+
             if (data.transactions) {
                 results.push({
                     label: "Transactions",
