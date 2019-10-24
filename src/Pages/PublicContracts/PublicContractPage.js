@@ -9,6 +9,8 @@ import Analytics from '../../Utils/Analytics';
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 
+import {Contract} from "../../Core/models";
+
 import {
     areWatchedContractsLoaded,
     getPublicContractById,
@@ -43,10 +45,10 @@ class PublicContractPage extends Component {
     }
 
     async componentDidMount() {
-        const {contract, contractLoaded, networkType, actions, contractId, watchedContractsLoaded} = this.props;
+        const {contract, contractLoaded, networkType, actions, contractAddress, watchedContractsLoaded} = this.props;
 
         if (!contract || !contractLoaded) {
-            await actions.fetchPublicContract(contractId, networkType);
+            await actions.fetchPublicContract(contractAddress, networkType);
         }
 
         await this.fetchTransactions();
@@ -62,11 +64,33 @@ class PublicContractPage extends Component {
         });
     }
 
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const {contractId, contractLoaded, networkType, actions, contractAddress, watchedContractsLoaded} = this.props;
+
+        if (!contractLoaded && contractId !== prevProps.contractId) {
+            this.setState({
+                loading: true,
+            });
+
+            await actions.fetchPublicContract(contractAddress, networkType);
+
+            await this.fetchTransactions();
+
+            if (!watchedContractsLoaded) {
+                actions.fetchWatchedContracts();
+            }
+
+            this.setState({
+                loading: false,
+            });
+        }
+    }
+
     fetchTransactions = async () => {
-        const {networkType, txActions, contractId} = this.props;
+        const {networkType, txActions, contractAddress} = this.props;
         const {page} = this.state;
 
-        const response = await txActions.fetchTransactionsForPublicContract(contractId, networkType, page);
+        const response = await txActions.fetchTransactionsForPublicContract(contractAddress, networkType, page);
 
         let transactions = [];
 
@@ -162,7 +186,7 @@ class PublicContractPage extends Component {
     };
 
     render() {
-        const {contract, isContractWatched, networkType, watchedContractsLoaded, contractId} = this.props;
+        const {contract, isContractWatched, networkType, watchedContractsLoaded, contractAddress} = this.props;
         const {loading, transactions, page, actionInProgress, fetching, loginModalOpen} = this.state;
 
         if (loading) {
@@ -176,7 +200,7 @@ class PublicContractPage extends Component {
                     <Container>
                         <PageHeading>
                             <NetworkTag network={networkType}/>
-                            <h1>{contractId}</h1>
+                            <h1>{contractAddress}</h1>
                         </PageHeading>
                         <Panel>
                             <PanelContent className="DisplayFlex AlignItemsCenter JustifyContentCenter">
@@ -256,7 +280,8 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         networkType,
-        contractId: id,
+        contractId: Contract.generateUniqueContractId(contractAddress, networkType),
+        contractAddress: contractAddress,
         loggedIn,
         contract: getPublicContractById(state, contractAddress, networkType),
         contractLoaded: isPublicContractLoaded(state, contractAddress, networkType),
