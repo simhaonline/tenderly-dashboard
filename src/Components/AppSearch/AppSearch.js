@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {components} from "react-select";
+import {withRouter} from "react-router-dom";
 
 import Analytics from "../../Utils/Analytics";
 
@@ -38,7 +39,12 @@ class AppSearch extends Component {
 
     handleInputChange = () => {};
 
-    handleSearchSelect = () => {};
+    /**
+     * @param {SearchResult} searchResult
+     */
+    handleSearchSelect = (searchResult) => {
+        console.log(searchResult);
+    };
 
     fetchSearchResults = (query, callback) => {
         this.debouncedSearch(query, callback);
@@ -49,12 +55,14 @@ class AppSearch extends Component {
 
         return (
             <div className="AppSearch">
-                <AsyncSelect classNamePrefix="Select" onInputChange={this.handleInputChange} onChange={this.handleSearchSelect} components={{
-                    // Option: SearchResultSelectOption,
-                    // NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
-                    IndicatorSeparator: () => null,
-                    DropdownIndicator: AppSearchDropdownIndicator,
-                }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
+                <div className="Select AppSearch__Select">
+                    <AsyncSelect classNamePrefix="Select" onInputChange={this.handleInputChange} onChange={this.handleSearchSelect} components={{
+                        // Option: SearchResultSelectOption,
+                        // NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
+                        IndicatorSeparator: () => null,
+                        DropdownIndicator: AppSearchDropdownIndicator,
+                    }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
+                </div>
             </div>
         );
     }
@@ -72,7 +80,7 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps,
-)(AppSearch);
+)(AppSearch));
