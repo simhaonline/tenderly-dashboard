@@ -89,7 +89,14 @@ class TracePoint extends Component {
                     </div>
                 </div>
                 {isOpen && !!file && <div className="CallTracePreview__TracePoint__SourceWrapper">
-                    <CodePreview line={trace.lineNumber} linePreview={5} file={file} highlightColor={trace.hasErrored ? 'danger' : ''}/>
+                    <CodePreview line={trace.lineNumber} linePreview={5} file={file} highlightColor={trace.hasErrored ? 'danger' : ''} highlightAppend={() => {
+                        if (!trace.hasErrored) return '';
+
+                        return <span className="MarginLeft2">
+                            <Icon icon="alert-triangle" className="MarginRight1"/>
+                            {trace.errorMessage}
+                        </span>;
+                    }}/>
                 </div>}
                 {!!trace.calls && trace.calls.map((trace, index) =>
                     <TracePoint trace={trace} key={index} onDebuggerView={onDebuggerView} openTrace={openTrace} onSourceView={onSourceView} depth={depth + 1} contracts={contracts} onTraceOpen={onTraceOpen}/>

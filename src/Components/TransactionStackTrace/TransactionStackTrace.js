@@ -40,6 +40,7 @@ const TransactionStackTraceLine = ({trace, contracts, first, last, onContractSou
                 {!first && !last && <div className="TransactionStackTraceLine__Line"/>}
             </div>
             {!!file && !!trace.functionName && <div className="TransactionStackTraceLine__TraceInfo">
+                {!!trace.errorMessage && <div className="TransactionStackTraceLine__ErrorMessage"><span className="SemiBoldText">Error Message:</span> <span>{trace.errorMessage}</span></div>}
                 {!first && <div>{trace.functionName.trim()}()</div>}
                 {first && <div>{file.source.split('\n')[trace.lineNumber - 1].trim()}</div>}
                 <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">at</span> <LinkButton onClick={() => onContractSourceClick(trace)}>{contract.name}:{trace.lineNumber}</LinkButton></div>

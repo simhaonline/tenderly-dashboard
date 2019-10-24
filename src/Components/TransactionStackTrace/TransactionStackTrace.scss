@@ -57,6 +57,11 @@
     justify-content: center;
   }
 
+  &__ErrorMessage {
+    color: $Danger500;
+    margin-bottom: $Spacing1;
+  }
+
   &__ContractInfo {
     margin-top: 4px;
     margin-left: $Spacing7;

@@ -32,6 +32,9 @@ export class Trace {
         /** @type boolean */
         this.hasErrored = data.hasErrored;
 
+        /** @type {string} */
+        this.errorMessage = data.errorMessage;
+
         /** @type string */
         this.depthId = data.depthId;
 
@@ -195,6 +198,7 @@ export class Trace {
             lineNumber: traceData.lineNumber,
             hasErrored: traceData.hasErrored,
             gasUsed: rawCallTrace.gas_used,
+            errorMessage: rawCallTrace.error,
             inputVariables,
             outputVariables,
             stateVariables,
@@ -216,6 +220,7 @@ export class Trace {
             fileName: rawStackTrace.name,
             lineNumber: rawStackTrace.line,
             op: rawStackTrace.op,
+            errorMessage: rawStackTrace.error,
             fileId: rawStackTrace.file_index,
         });
     }

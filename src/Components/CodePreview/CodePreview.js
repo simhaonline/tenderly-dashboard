@@ -85,7 +85,7 @@ class CodePreview extends Component {
     };
 
     render() {
-        const {file, line, linePreview, isExpandable, minHeight, scrollEnabled, highlightColor} = this.props;
+        const {file, line, linePreview, isExpandable, minHeight, scrollEnabled, highlightColor, highlightAppend} = this.props;
         const {offsetTop, offsetBottom, centerLine} = this.state;
 
         const lineNumbers = [];
@@ -140,7 +140,10 @@ class CodePreview extends Component {
                     </div>
                     <pre className="StackCode">
                         {lineNumbers.map(num =>
-                            <div key={num.number} id={`line-${num.number}`} dangerouslySetInnerHTML={{__html: file.sourceCompiledMap[num.number]}}/>
+                            <div key={num.number} id={`line-${num.number}`} style={{display: 'flex'}}>
+                                <span dangerouslySetInnerHTML={{__html: file.sourceCompiledMap[num.number]}}/>
+                                {num.active && highlightAppend ? highlightAppend() : null}
+                            </div>
                         )}
                     </pre>
                 </div>
@@ -164,6 +167,7 @@ CodePreview.propTypes = {
     file: PropTypes.object.isRequired,
     scrollEnabled: PropTypes.bool,
     isExpandable: PropTypes.bool,
+    highlightAppend: PropTypes.func,
 };
 
 export default CodePreview;
