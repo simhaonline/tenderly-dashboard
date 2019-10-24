@@ -38,9 +38,25 @@
     padding: 10px $Spacing4;
   }
 
-  .SessionWrapper {
+  .ExplorerLinkWrapper {
+    display: flex;
+    align-items: center;
     margin-left: auto;
-    padding-right: 30px;
+    padding: $Spacing1 $Spacing2;
+
+    .ExplorerLink {
+      color: $WhiteColor;
+      font-size: $FontSize400;
+      opacity: 0.75;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .SessionWrapper {
+    padding-right: $Spacing5;
   }
 
   @media (max-width: 760px) {

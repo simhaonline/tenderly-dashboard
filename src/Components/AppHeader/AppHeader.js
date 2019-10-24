@@ -41,8 +41,8 @@ class AppHeader extends Component {
                     <div className="SearchWrapper">
                         <AppSearch/>
                     </div>
-                    <div className="HideMobile">
-                        <NavLink to="/explorer">
+                    <div className="HideMobile ExplorerLinkWrapper">
+                        <NavLink to="/explorer" className="ExplorerLink">
                             <Icon icon="compass"/>
                             <span> Explorer</span>
                         </NavLink>

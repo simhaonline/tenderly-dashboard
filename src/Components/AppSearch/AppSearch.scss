@@ -10,3 +10,12 @@
     border-color: $Slate600;
   }
 }
+
+.Select__option.AppSearchSelectOption {
+  display: flex;
+  align-items: center;
+}
+
+.AppSearchSelectOption__Blockie {
+  border-radius: 3px;
+}

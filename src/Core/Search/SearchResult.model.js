@@ -10,7 +10,7 @@ class SearchResult {
         this.label = data.label;
 
         /** @type {string} */
-        this.value = data.label;
+        this.value = `${data.network}:${data.hex}`;
 
         /**
          * This is unique hex for this search results. It can be either the contract address or transaction hash.

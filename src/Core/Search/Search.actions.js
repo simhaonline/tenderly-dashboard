@@ -50,8 +50,6 @@ export function getSearchResults(query) {
 
             const results = [];
 
-
-
             if (data.project_contracts) {
                 results.push({
                     label: "Project Contracts",
@@ -83,8 +81,6 @@ export function getSearchResults(query) {
                     options: data.transactions.map(tx => SearchResult.buildFromResponse(tx, SearchResultTypes.PUBLIC_TRANSACTION)),
                 });
             }
-
-            console.log(results, data);
 
             dispatch({
                 type: FETCH_SEARCH_RESULTS_ACTION,

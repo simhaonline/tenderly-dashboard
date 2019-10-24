@@ -5,12 +5,15 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {components} from "react-select";
 import {withRouter} from "react-router-dom";
+import Blockies from "react-blockies";
 
 import Analytics from "../../Utils/Analytics";
+import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 import {searchActions} from "../../Core/actions";
 
 import {Icon} from "../../Elements";
+import {NetworkTag} from "../index";
 
 import './AppSearch.scss';
 
@@ -18,6 +21,31 @@ function AppSearchDropdownIndicator(props) {
     return <components.DropdownIndicator {...props}>
         <Icon icon="search" className="AppSearchDropdownIndicator__IndicatorIcon"/>
     </components.DropdownIndicator>;
+}
+
+function AppSearchSelectOption(props) {
+    /** @type {SearchResult} */
+    const data = props.data;
+
+    const projectInfo = data.getProjectInfo();
+
+    return (
+        <components.Option {...props} className="AppSearchSelectOption">
+            <Blockies size={8} scale={5} className="AppSearchSelectOption__Blockie" seed={data.value}/>
+            <div className="MarginLeft2">
+                <div className="MarginBottom1">
+                    <span className="SemiBoldText">{data.label}</span>
+                    {!!projectInfo && <span className="MarginLeft1 MutedText">{projectInfo.username}/{projectInfo.slug}</span>}
+                </div>
+                <div>
+                    <span className="MonospaceFont LinkText">{generateShortAddress(data.hex, 12, 6)}</span>
+                </div>
+            </div>
+            <div className="MarginLeftAuto">
+                <NetworkTag size="small" network={data.network}/>
+            </div>
+        </components.Option>
+    );
 }
 
 class AppSearch extends Component {
@@ -71,7 +99,7 @@ class AppSearch extends Component {
             <div className="AppSearch">
                 <div className="Select AppSearch__Select">
                     <AsyncSelect classNamePrefix="Select" onInputChange={this.handleInputChange} onChange={this.handleSearchSelect} components={{
-                        // Option: SearchResultSelectOption,
+                        Option: AppSearchSelectOption,
                         // NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
                         IndicatorSeparator: () => null,
                         DropdownIndicator: AppSearchDropdownIndicator,
