@@ -204,15 +204,15 @@
 
 @media (max-width: 760px) {
   .HideMobile {
-    display: none;
+    display: none !important;
   }
 }
 
 .DisplayMobile {
-  display: none;
+  display: none !important;
 
   @media (max-width: 760px) {
-    display: inherit;
+    display: inherit !important;
   }
 }
 
