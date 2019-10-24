@@ -25,6 +25,13 @@
     }
   }
 
+  .Select__placeholder {
+    white-space: nowrap;
+    overflow: hidden;
+    width: calc(100% - 20px);
+    text-overflow: ellipsis;
+  }
+
   .Select__multi-value {
     background-color: $Slate500;
     margin: 0 4px
