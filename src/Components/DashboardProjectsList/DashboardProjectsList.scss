@@ -27,6 +27,11 @@
   width: 340px;
   margin-right: $Spacing5;
   margin-bottom: $Spacing5;
+
+  @media (max-width: 760px) {
+    margin-right: 0;
+    flex: 0 0 100%;
+  }
 }
 
 .DashboardProjectListItem--Create {
