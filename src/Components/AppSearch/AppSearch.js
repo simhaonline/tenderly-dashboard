@@ -21,6 +21,10 @@ function AppSearchDropdownIndicator(props) {
 }
 
 class AppSearch extends Component {
+    state = {
+        searchQuery: '',
+    };
+
     debouncedSearch = _.debounce(async (query, callback) => {
         const {searchActions} = this.props;
 
@@ -37,13 +41,23 @@ class AppSearch extends Component {
         }
     }, 1000);
 
-    handleInputChange = () => {};
+    handleInputChange = (value) => {
+        this.setState({
+            searchQuery: value,
+        });
+    };
 
     /**
      * @param {SearchResult} searchResult
      */
     handleSearchSelect = (searchResult) => {
-        console.log(searchResult.getUrl(), searchResult);
+        const {history} = this.props;
+
+        this.setState({
+            searchQuery: '',
+        });
+
+        history.push(searchResult.getUrl());
     };
 
     fetchSearchResults = (query, callback) => {
@@ -51,7 +65,7 @@ class AppSearch extends Component {
     };
 
     render() {
-        const {projectContext} = this.props;
+        const {searchQuery} = this.state;
 
         return (
             <div className="AppSearch">
@@ -61,7 +75,7 @@ class AppSearch extends Component {
                         // NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
                         IndicatorSeparator: () => null,
                         DropdownIndicator: AppSearchDropdownIndicator,
-                    }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name"/>
+                    }} loadOptions={this.fetchSearchResults} value={searchQuery} placeholder="Search by tx hash, address or contract name"/>
                 </div>
             </div>
         );
