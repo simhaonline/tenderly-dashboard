@@ -48,6 +48,23 @@ function AppSearchSelectOption(props) {
     );
 }
 
+function AppSearchNoOptionsMessage(props) {
+    const {query} = props;
+
+    return <div className="AppSearchNoOptionsMessage TextAlignCenter">
+        {query.length === 0 && <div>
+            Search by transaction hash, address or contract name
+        </div>}
+        {!!query.length && query.length < 3 && <div>
+            Type in at least 3 characters in order to see results
+        </div>}
+        {query.length >= 3 && <div>
+            <div className="MarginBottom1 SemiBoldText">No transactions or contracts found for this query</div>
+            <div>This can happen if the contract is not verified or does not exist</div>
+        </div>}
+    </div>
+}
+
 class AppSearch extends Component {
     state = {
         searchQuery: '',
@@ -100,10 +117,10 @@ class AppSearch extends Component {
                 <div className="Select AppSearch__Select">
                     <AsyncSelect classNamePrefix="Select" onInputChange={this.handleInputChange} onChange={this.handleSearchSelect} components={{
                         Option: AppSearchSelectOption,
-                        // NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
+                        NoOptionsMessage: (props) => <AppSearchNoOptionsMessage {...props} query={searchQuery}/>,
                         IndicatorSeparator: () => null,
                         DropdownIndicator: AppSearchDropdownIndicator,
-                    }} loadOptions={this.fetchSearchResults} value={searchQuery} placeholder="Search by tx hash, address or contract name"/>
+                    }} loadOptions={this.fetchSearchResults} value={searchQuery} placeholder="Search"/>
                 </div>
             </div>
         );
