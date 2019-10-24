@@ -15,9 +15,9 @@ class Navigation extends Component {
                     <Icon icon="project" className="NavIcon DisplayMobile"/>
                     <span>Dashboard</span>
                 </NavLink>
-                <NavLink className="HeaderNavItem" exact to="/explorer">
-                    <Icon icon="diamond" className="NavIcon DisplayMobile"/>
-                    <span>Public Contracts</span>
+                <NavLink className="HeaderNavItem DisplayMobile" exact to="/explorer">
+                    <Icon icon="compass" className="NavIcon"/>
+                    <span>Explorer</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                     <a className="HeaderNavItem" rel="noopener noreferrer" target="_blank" href="https://docs.tenderly.dev">
