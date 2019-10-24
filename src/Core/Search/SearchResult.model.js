@@ -1,16 +1,27 @@
-import {NetworkApiToAppTypeMap, SearchResultTypes} from "../../Common/constants";
+import {NetworkApiToAppTypeMap, NetworkAppToRouteTypeMap, SearchResultTypes} from "../../Common/constants";
 import Project from "../Project/Project.model";
 
 class SearchResult {
     constructor(data) {
+        /** @type {SearchResultTypes} */
         this.type = data.type;
 
+        /** @type {string} */
         this.label = data.label;
 
+        /** @type {string} */
         this.value = data.label;
 
+        /**
+         * This is unique hex for this search results. It can be either the contract address or transaction hash.
+         * @type {string}
+         */
+        this.hex = data.hex;
+
+        /** @type {NetworkTypes} */
         this.network = data.network;
 
+        /** @type {(Project.id|null)} */
         this.projectId = data.projectId;
     }
 
@@ -18,16 +29,30 @@ class SearchResult {
      * @returns {string}
      */
     getUrl() {
+        let url = '';
+
+        if (this.projectId) {
+            const {slug, username} = Project.getSlugAndUsernameFromId(this.projectId);
+
+            url += `/${username}/${slug}`;
+        }
+
         switch (this.type) {
             case SearchResultTypes.PROJECT_CONTRACT:
-                return 'response.contract.contract_name';
             case SearchResultTypes.PUBLIC_CONTRACT:
-                return 'response.contract_name';
+                url += '/contract';
+                break;
+            case SearchResultTypes.PROJECT_TRANSACTION:
             case SearchResultTypes.PUBLIC_TRANSACTION:
-                return 'Transaction';
+                url += '/tx';
+                break;
             default:
-                return '';
+                break;
         }
+
+        const networkRoute = NetworkAppToRouteTypeMap[this.network];
+
+        return url + `/${networkRoute}/${this.hex}`;
     }
 
     static getLabelForType(type, response) {
@@ -56,6 +81,19 @@ class SearchResult {
         }
     }
 
+    static getHexForType(type, response) {
+        switch (type) {
+            case SearchResultTypes.PROJECT_CONTRACT:
+                return response.contract.address;
+            case SearchResultTypes.PUBLIC_CONTRACT:
+                return response.address;
+            case SearchResultTypes.PUBLIC_TRANSACTION:
+                return NetworkApiToAppTypeMap[response.network_id];
+            default:
+                return null;
+        }
+    }
+
     /**
      * @param {Object} response
      * @param {SearchResultTypes} type
@@ -65,7 +103,8 @@ class SearchResult {
         return new SearchResult({
             label: SearchResult.getLabelForType(type, response),
             network: SearchResult.getNetworkForType(type, response),
-            projectId: response.project ? Project.generateProjectId(response.project.slug, response.project.owner) : null,
+            hex: SearchResult.getHexForType(type, response),
+            projectId: response.project ? Project.generateProjectId(response.project.slug, response.project.owner.username) : null,
             type,
         });
     }

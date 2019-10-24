@@ -43,7 +43,7 @@ class AppSearch extends Component {
      * @param {SearchResult} searchResult
      */
     handleSearchSelect = (searchResult) => {
-        console.log(searchResult);
+        console.log(searchResult.getUrl(), searchResult);
     };
 
     fetchSearchResults = (query, callback) => {
