@@ -61,7 +61,7 @@ class AppSearch extends Component {
                         // NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
                         IndicatorSeparator: () => null,
                         DropdownIndicator: AppSearchDropdownIndicator,
-                    }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
+                    }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name"/>
                 </div>
             </div>
         );
