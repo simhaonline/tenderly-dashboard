@@ -61,7 +61,7 @@ class ProjectPicker extends Component {
 
         return (
             <OutsideClickHandler onOutsideClick={this.closeProjectsDropdown}>
-                <div className="ProjectPicker">
+                <div className="ProjectPicker HideMobile">
                     <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
                         <div className="ProjectInfo">
                             <Icon icon={project.getIcon()} className="ProjectIcon"/>

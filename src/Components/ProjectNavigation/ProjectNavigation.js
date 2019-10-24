@@ -17,40 +17,40 @@ class ProjectNavigation extends Component {
             <div className="ProjectNavigation">
                 <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/transactions`}>
                     <Icon className="NavigationItem__Icon" icon="box"/>
-                    <span>Transactions</span>
+                    <span className="HideMobile">Transactions</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                     <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/errors`}>
-                        <span>Errors</span>
+                        <span className="HideMobile">Errors</span>
                     </NavLink>
                 </FeatureFlag>
                 <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/contracts`}>
                     <Icon className="NavigationItem__Icon" icon="file-text"/>
-                    <span>Contracts</span>
+                    <span className="HideMobile">Contracts</span>
                 </NavLink>
                 <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/alerts`}>
                     <Icon className="NavigationItem__Icon" icon="bell"/>
-                    <span>Alerts</span>
+                    <span className="HideMobile">Alerts</span>
                 </NavLink>
                 <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/analytics`}>
                     <Icon className="NavigationItem__Icon" icon="bar-chart-2"/>
-                    <span>Analytics</span>
+                    <span className="HideMobile">Analytics</span>
                 </NavLink>
                 <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                     <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/releases`}>
-                        <span>Deployment</span>
+                        <span className="HideMobile">Deployment</span>
                     </NavLink>
                 </FeatureFlag>
                 {project.type === ProjectTypes.PRIVATE && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/collaborators`}>
                     <Icon className="NavigationItem__Icon" icon="users"/>
-                    <span>Collaborators</span>
-                    <Tag size="small" className="MarginLeft1">
+                    <span className="HideMobile">Collaborators</span>
+                    <Tag size="small" className="MarginLeft1 HideMobile">
                         New
                     </Tag>
                 </NavLink>}
                 {project.type !== ProjectTypes.DEMO && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/settings`}>
                     <Icon className="NavigationItem__Icon" icon="settings"/>
-                    <span>Settings</span>
+                    <span className="HideMobile">Settings</span>
                 </NavLink>}
             </div>
         );

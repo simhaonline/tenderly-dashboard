@@ -9,7 +9,7 @@ class ProjectSidebar extends Component {
         const {project} = this.props;
 
         return (
-            <Sidebar>
+            <Sidebar id="ProjectSidebar">
                 <ProjectPicker project={project}/>
                 <ProjectNavigation project={project}/>
             </Sidebar>

@@ -53,4 +53,45 @@
     opacity: 0.5;
     transition: 0.2s;
   }
+
+  @media (max-width: 760px) {
+    display: flex;
+    height: 100%;
+
+    .NavigationItem {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1 1 0;
+
+      &:before {
+        width: initial;
+        top: initial;
+        height: 6px;
+        left: 4px;
+        right: 4px;
+        bottom: -6px;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        border-bottom-right-radius: 0;
+      }
+
+      &:hover {
+        &:before {
+          left: 4px;
+          bottom: -4px;
+        }
+      }
+
+      &.active:before {
+        left: 4px;
+        bottom: -2px;
+      }
+    }
+
+    .NavigationItem__Icon {
+      margin-right: 0;
+    }
+  }
 }
