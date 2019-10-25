@@ -199,20 +199,25 @@ export const fetchProject = (slug, username) => {
  */
 export const deleteProject = (project) => {
     return async (dispatch) => {
-        if (project.type === ProjectTypes.DEMO) {
-            await dispatch(updateUser({
-                showDemo: false,
-            }));
-        } else {
-            await Api.delete(`/account/${project.owner}/project/${project.slug}`);
+        try {
+            if (project.type === ProjectTypes.DEMO) {
+                await dispatch(updateUser({
+                    showDemo: false,
+                }));
+            } else {
+                await Api.delete(`/account/${project.owner}/project/${project.slug}`);
+            }
+
+            dispatch({
+                type: DELETE_PROJECT_ACTION,
+                projectId: project.id,
+            });
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
         }
-
-        dispatch({
-            type: DELETE_PROJECT_ACTION,
-            projectId: project.id,
-        });
-
-        return true;
     }
 };
 
