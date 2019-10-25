@@ -112,7 +112,7 @@ class AnalyticsWidget extends Component {
                         `AnalyticsWidget__Data--${widget.type}`,
                     )}>
                         {widget.type === AnalyticsWidgetTypes.STACKED_CHART && <Fragment>
-                            <ResponsiveContainer>
+                            <ResponsiveContainer debounce={100}>
                                 <AreaChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                                     <defs>
                                         {widget.dataPoints.map(point =>
@@ -130,7 +130,7 @@ class AnalyticsWidget extends Component {
                             </ResponsiveContainer>
                         </Fragment>}
                         {widget.type === AnalyticsWidgetTypes.LINE_CHART && <Fragment>
-                            <ResponsiveContainer>
+                            <ResponsiveContainer debounce={100}>
                                 <LineChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                                     <RechartsTooltip content={<AnalyticsWidgetTooltip/>} cursor={{stroke: '#060e18'}} position={{y: 150,}}/>
                                     {widget.dataPoints.map(point =>
@@ -166,7 +166,7 @@ class AnalyticsWidget extends Component {
                             </div>
                         </Fragment>}
                         {widget.type === AnalyticsWidgetTypes.BAR_CHART && <Fragment>
-                            <ResponsiveContainer>
+                            <ResponsiveContainer debounce={100}>
                                 <BarChart data={widget.data} margin={{ top: 24, right: 0, bottom: 0, left: 0 }}>
                                     <RechartsTooltip cursor={{fill: 'rgba(15, 39, 67, 0.75)'}} content={<AnalyticsWidgetTooltip/>}/>
                                     <CartesianGrid vertical={false} strokeDasharray="6" stroke="#040b13"/>
