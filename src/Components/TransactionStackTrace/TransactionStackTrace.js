@@ -46,6 +46,7 @@ const TransactionStackTraceLine = ({trace, contracts, first, last, onContractSou
                 <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">at</span> <LinkButton onClick={() => onContractSourceClick(trace)}>{contract.name}:{trace.lineNumber}</LinkButton></div>
             </div>}
             {(!file || !trace.functionName) && <div className="TransactionStackTraceLine__TraceInfo">
+                {!!trace.errorMessage && <div className="TransactionStackTraceLine__ErrorMessage"><span className="SemiBoldText">Error Message:</span> <span>{trace.errorMessage}</span></div>}
                 <div>Opcode: [{trace.op}]</div>
                 <div className="TransactionStackTraceLine__ContractInfo"><span className="MutedText">in</span> <CopyableText text={trace.contract} position="right"/></div>
             </div>}
