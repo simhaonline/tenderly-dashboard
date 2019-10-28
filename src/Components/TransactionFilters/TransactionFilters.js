@@ -210,7 +210,7 @@ class TransactionFilters extends Component {
                                     <div className="TransactionFilters__Dialog__FilterRow__Filter">
                                         <Select components={{
                                             Option: NetworkSelectOption,
-                                        }} isClearable value={draftNetworks} selectLabel="Select Network" options={networkOptions} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} onChange={this.handleDraftNetworksChange}/>
+                                        }} isClearable value={draftNetworks} selectLabel="Select Network" options={networkOptions} getOptionLabel={network => network.name} getOptionValue={network => network.id} onChange={this.handleDraftNetworksChange}/>
                                     </div>
                                 </div>
                             </div>
