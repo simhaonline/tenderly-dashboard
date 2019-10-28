@@ -41,13 +41,13 @@ class ProjectNavigation extends Component {
                         <span className="HideMobile">Deployment</span>
                     </NavLink>
                 </FeatureFlag>
-                {project.type === ProjectTypes.PRIVATE && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/collaborators`}>
+                <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/collaborators`}>
                     <Icon className="NavigationItem__Icon" icon="users"/>
                     <span className="HideMobile">Collaborators</span>
                     <Tag size="small" className="MarginLeft1 HideMobile">
                         New
                     </Tag>
-                </NavLink>}
+                </NavLink>
                 {project.type !== ProjectTypes.DEMO && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/settings`}>
                     <Icon className="NavigationItem__Icon" icon="settings"/>
                     <span className="HideMobile">Settings</span>
