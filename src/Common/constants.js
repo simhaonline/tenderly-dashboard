@@ -238,6 +238,29 @@ export const CollaboratorPermissionTypes = {
 };
 
 /**
+ * @enum {string}
+ */
+export const CollaboratorPermissionGroupTypes = {
+    ALERT: 'ALERT',
+    CONTRACT: 'CONTRACT',
+    OTHER: 'OTHER',
+};
+
+export const CollaboratorPermissionGroupLabelMap = {
+    [CollaboratorPermissionGroupTypes.ALERT]: 'Alerts',
+    [CollaboratorPermissionGroupTypes.CONTRACT]: 'Contracts',
+    [CollaboratorPermissionGroupTypes.OTHER]: 'Other',
+};
+
+export const CollaboratorPermissionTypeGroupMap = {
+    ADD_CONTRACT: CollaboratorPermissionGroupTypes.CONTRACT,
+    REMOVE_CONTRACT: CollaboratorPermissionGroupTypes.CONTRACT,
+    CREATE_ALERT: CollaboratorPermissionGroupTypes.ALERT,
+    UPDATE_ALERT: CollaboratorPermissionGroupTypes.ALERT,
+    REMOVE_ALERT: CollaboratorPermissionGroupTypes.ALERT,
+};
+
+/**
  * @type {Object.<CollaboratorPermissionTypes, string>}
  */
 export const CollaboratorPermissionTypeIconMap = {

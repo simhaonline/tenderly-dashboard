@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import {Collaborator} from "../../Core/models";
 
 import {ValidateEmail} from "../../Utils/FormValidators";
 
 import {
-    CollaboratorPermissionTypeDescriptionMap,
+    CollaboratorPermissionGroupLabelMap,
+    CollaboratorPermissionGroupTypes,
+    CollaboratorPermissionTypeDescriptionMap, CollaboratorPermissionTypeGroupMap,
     CollaboratorPermissionTypeIconMap,
     CollaboratorPermissionTypes
 } from "../../Common/constants";
@@ -106,6 +109,14 @@ class CollaboratorForm extends Component {
 
         const areAllPermissionActive = Object.keys(permissions).every(permission => permissions[permission]);
 
+        const groupedPermissions = _.groupBy(Object.keys(CollaboratorPermissionTypes), permissionType => {
+            if (!CollaboratorPermissionTypeGroupMap[permissionType]) {
+                return CollaboratorPermissionGroupTypes.OTHER;
+            }
+
+            return CollaboratorPermissionTypeGroupMap[permissionType];
+        });
+
         return (
             <div className="CollaboratorForm">
                 <Form onSubmit={this.handleFormSubmit}>
@@ -123,15 +134,20 @@ class CollaboratorForm extends Component {
                                 <Toggle value={areAllPermissionActive} onChange={() => this.handleAllPermissionsToggle(!areAllPermissionActive)}/>
                             </div>
                         </div>
-                        {Object.keys(CollaboratorPermissionTypes).map(permission => <div key={permission} className="CollaboratorForm__Permission">
-                            <div className="CollaboratorForm__Permission__Label">
-                                <Icon icon={CollaboratorPermissionTypeIconMap[permission]} className="MarginRight2 MutedText"/>
-                                <span>{CollaboratorPermissionTypeDescriptionMap[permission]}</span>
-                            </div>
-                            <div>
-                                <Toggle value={permissions[permission]} onChange={() => this.handlePermissionToggle(permission)}/>
-                            </div>
-                        </div>)}
+                        <div className="CollaboratorForm__PermissionGroups">
+                            {Object.keys(groupedPermissions).map((permissionGroup) => <div key={permissionGroup} className="CollaboratorForm__PermissionGroup">
+                                <h3 className="CollaboratorForm__PermissionGroup__Heading">{CollaboratorPermissionGroupLabelMap[permissionGroup]}</h3>
+                                {groupedPermissions[permissionGroup].map(permission => <div key={permission} className="CollaboratorForm__Permission">
+                                    <div className="CollaboratorForm__Permission__Label">
+                                        <Icon icon={CollaboratorPermissionTypeIconMap[permission]} className="MarginRight2 MutedText"/>
+                                        <span>{CollaboratorPermissionTypeDescriptionMap[permission]}</span>
+                                    </div>
+                                    <div>
+                                        <Toggle value={permissions[permission]} onChange={() => this.handlePermissionToggle(permission)}/>
+                                    </div>
+                                </div>)}
+                            </div>)}
+                        </div>
                     </div>
                     <div className="MarginTop4">
                         <Button type="submit" disabled={!this.isFormValid() || inProgress}>

@@ -5,6 +5,21 @@
   margin-bottom: $Spacing7;
 }
 
+.CollaboratorForm__PermissionGroups {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.CollaboratorForm__PermissionGroup {
+  flex: 0 0 460px;
+  margin-bottom: $Spacing4;
+}
+
+.CollaboratorForm__PermissionGroup__Heading {
+  margin-bottom: $Spacing4;
+  padding-left: $Spacing1;
+}
+
 .CollaboratorForm__Permission {
   display: flex;
   align-items: center;
