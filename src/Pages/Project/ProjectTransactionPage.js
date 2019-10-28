@@ -52,27 +52,32 @@ class ProjectTransactionPage extends Component {
         let txContracts = [];
 
         if (project.type !== ProjectTypes.DEMO) {
-            if (!transaction || !callTrace) {
-                const actionResponse = await txActions.fetchTransactionForProject(project, txHash, networkType);
+            await Promise.all([
+                (async () => {
+                    if (!transaction || !callTrace) {
+                        const actionResponse = await txActions.fetchTransactionForProject(project, txHash, networkType);
 
-                if (!actionResponse.success) {
-                    Notifications.error({title: "Failed fetching transaction"});
+                        if (!actionResponse.success) {
+                            Notifications.error({title: "Failed fetching transaction"});
 
-                    this.setState({
-                        error: "There was an error trying to fetch information about this transaction.",
-                    });
-                }
+                            this.setState({
+                                error: "There was an error trying to fetch information about this transaction.",
+                            });
+                        }
 
-                this.setState({
-                    loadedTx: true,
-                });
-            }
+                        this.setState({
+                            loadedTx: true,
+                        });
+                    }
+                })(),
+                (async () => {
+                    const contractsResponse = await contractActions.fetchContractsForTransaction(project, txHash, networkType);
 
-            const contractsResponse = await contractActions.fetchContractsForTransaction(project, txHash, networkType);
-
-            if (contractsResponse.success) {
-                txContracts = contractsResponse.data;
-            }
+                    if (contractsResponse.success) {
+                        txContracts = contractsResponse.data;
+                    }
+                })(),
+            ]);
         } else {
             await txActions.fetchExampleTransaction();
             const exampleContractsResponse = await contractActions.fetchExampleContractsForTransaction(project.id);
@@ -144,6 +149,8 @@ class ProjectTransactionPage extends Component {
         }
 
         const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
+
+        console.log(loading);
 
         return (
             <Page id="ProjectTransactionsPage">
