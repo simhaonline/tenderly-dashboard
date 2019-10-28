@@ -43,12 +43,16 @@ class ProjectTransactionsPage extends Component {
         let transactions = [];
 
         if (project.type !== ProjectTypes.DEMO) {
+            if (!contractsLoaded) {
+                await contractActions.fetchContractsForProject(project);
+            }
+
             const actionResponse = await txActions.fetchTransactionsForProject(project.slug, project.owner, filters, page, perPage);
 
             if (!actionResponse.success) {
                 this.setState({
                     loading: false,
-                    error: true,
+                    error: actionResponse.data,
                     lastFetch: moment.now(),
                 });
 
@@ -56,10 +60,6 @@ class ProjectTransactionsPage extends Component {
             }
 
             transactions = actionResponse.data;
-
-            if (!contractsLoaded) {
-                await contractActions.fetchContractsForProject(project);
-            }
 
             if (project.isSetup) {
                 this.startPolling();
@@ -228,7 +228,7 @@ class ProjectTransactionsPage extends Component {
     };
 
     render() {
-        const {loading, transactions, filters, page, perPage, refreshSubscriber, fetching} = this.state;
+        const {loading, transactions, filters, page, perPage, refreshSubscriber, fetching, error} = this.state;
         const {contracts, project} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
@@ -256,7 +256,7 @@ class ProjectTransactionsPage extends Component {
                                           loading={fetching} project={project}
                                           currentPage={page} onPageChange={this.handlePageChange}
                                           perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
-                        {!shouldDisplayListAndFilters && <NoTransactionsEmptyState/>}
+                        {!shouldDisplayListAndFilters && <NoTransactionsEmptyState error={error}/>}
                     </Fragment>}
                 </Container>
             </Page>
