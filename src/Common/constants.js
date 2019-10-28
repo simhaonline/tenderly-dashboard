@@ -109,6 +109,13 @@ export const EntityStatusTypes = {
 /**
  * @enum {string}
  */
+export const ErrorSlugTypes = {
+    TOO_MANY_CONTRACTS: 'too_many_contracts',
+};
+
+/**
+ * @enum {string}
+ */
 export const ProjectTypes = {
     PRIVATE: 'PRIVATE',
     SHARED: 'SHARED',
