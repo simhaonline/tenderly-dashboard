@@ -13,7 +13,7 @@ class Contract {
      */
     constructor(data, projectData, parentContract) {
         /** @type string */
-        this.id = data.address;
+        this.id = data.id;
 
         if (projectData) {
             /** @type Project.id */
@@ -42,7 +42,7 @@ class Contract {
         this.creationTx = data.creationTx;
 
         /** @type NetworkTypes */
-        this.network = NetworkApiToAppTypeMap[data.networkId];
+        this.network = data.network;
 
         /** @type number */
         this.errorCount = data.errorCount;
@@ -197,14 +197,17 @@ class Contract {
             mainFile = files.find(file => file.id === data.data.main_contract);
         }
 
+        const network = NetworkApiToAppTypeMap[data.network_id];
+
         /**
          * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
          * accordingly as those mocked responses are used for the Example Project and might break it.
          */
         return new Contract({
+            id: Contract.generateUniqueContractId(data.address, network),
             name: data.contract_name,
             address: data.address,
-            networkId: data.network_id,
+            network,
             creationTx: data.creation_tx,
             isPublic: data.public,
             createdAt: data.created_at,
