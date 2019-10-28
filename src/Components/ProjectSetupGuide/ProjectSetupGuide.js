@@ -305,7 +305,7 @@ class ProjectSetupGuide extends Component {
             fetchedPublicContract,
             fetchingPublicContract
         } = this.state;
-        const {label, color, size, outline, project, os, initialCancelButtonLabel, buttonClassName} = this.props;
+        const {label, color, size, outline, project, os, token, initialCancelButtonLabel, buttonClassName} = this.props;
 
         return (
             <Fragment>
@@ -524,8 +524,8 @@ class ProjectSetupGuide extends Component {
                                     </Fragment>}
                                     {os === OSTypes.MAC && <Code copy="brew tap tenderly/tenderly && brew install tenderly">brew tap tenderly/tenderly && brew install tenderly</Code>}
                                     {(os === OSTypes.UNIX || os === OSTypes.LINUX) && <Code copy="curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sh">curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sh</Code>}
-                                    <p>After installing the CLI you need to authenticate via your account email and password.</p>
-                                    <Code copy="tenderly login">tenderly login</Code>
+                                    <p>After installing the CLI you need to authenticate via your login token.</p>
+                                    <Code copy={`tenderly login --authentication-method=token --token=${token}`}>tenderly login --authentication-method=token --token={token}</Code>
                                 </div>
                                 <div className="StepActions">
                                     <Button onClick={this.handleDialogClose} outline color="secondary">
@@ -615,6 +615,7 @@ ProjectSetupGuide.defaultProps = {
 const mapStateToProps = state => {
     return {
         os: state.app.os,
+        token: state.auth.token,
     }
 };
 
