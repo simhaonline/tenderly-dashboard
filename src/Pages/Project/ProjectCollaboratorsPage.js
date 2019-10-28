@@ -31,12 +31,12 @@ class ProjectCollaboratorsPage extends Component {
                 <Container>
                     <PageHeading>
                         <h1>Collaborators</h1>
-                        <div className="MarginLeftAuto">
+                        {project.type === ProjectTypes.PRIVATE && <div className="MarginLeftAuto">
                             <Button to={`/${project.owner}/${project.slug}/collaborators/add`}>
                                 <Icon icon="user-plus"/>
                                 <span>Add Collaborator</span>
                             </Button>
-                        </div>
+                        </div>}
                     </PageHeading>
                     {!collaboratorsLoaded && <ProjectContentLoader text="Fetching project collaborators..."/>}
                     {collaboratorsLoaded && <ProjectCollaborators project={project} collaborators={collaborators} readOnly={project.type === ProjectTypes.SHARED}/>}
