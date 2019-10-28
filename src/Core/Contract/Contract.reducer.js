@@ -10,9 +10,11 @@ import {CREATE_EXAMPLE_PROJECT_ACTION} from "../Project/Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 
 const initialState = {
-    /** @type {Object.<Contract.id, Collaborator>} */
+    /** @type {Object.<Contract.id, Contract>} */
     contracts: {},
+    /** @type {Object.<Contract.id, EntityStatusTypes>} */
     contractStatus: {},
+    /** @type {Object.<Project.id, Contract.id[]>} */
     projectContractsMap: {},
 };
 
