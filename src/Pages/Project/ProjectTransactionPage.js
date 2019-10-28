@@ -137,6 +137,7 @@ class ProjectTransactionPage extends Component {
                         </PageHeading>
                         {loadedTx && !!transaction && <TransactionGeneralInformation contracts={[]} transaction={transaction} project={project}/>}
                         {!loadedTx && <ProjectContentLoader text="Fetching transaction..."/>}
+                        {loadedTx && <ProjectContentLoader text="Fetching execution data..."/>}
                     </Container>
                 </Page>
             );
