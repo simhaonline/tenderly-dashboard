@@ -27,7 +27,7 @@ import {
     PageError,
     TransactionPageContent,
     EtherscanLink,
-    SharePageButton
+    SharePageButton, TransactionGeneralInformation
 } from "../../Components";
 
 class ProjectTransactionPage extends Component {
@@ -40,6 +40,7 @@ class ProjectTransactionPage extends Component {
 
         this.state = {
             error: null,
+            loadedTx: false,
             loading: true,
             previousPageQuery,
         };
@@ -62,6 +63,9 @@ class ProjectTransactionPage extends Component {
                     });
                 }
 
+                this.setState({
+                    loadedTx: true,
+                });
             }
 
             const contractsResponse = await contractActions.fetchContractsForTransaction(project, txHash, networkType);
@@ -83,29 +87,13 @@ class ProjectTransactionPage extends Component {
     }
 
     render() {
-        const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project} = this.props;
-        const {error, loading, txContracts, previousPageQuery} = this.state;
+        const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project, txHash, networkType} = this.props;
+        const {error, loading, txContracts, loadedTx, previousPageQuery} = this.state;
 
         const backUrl = {
             pathname: `/${project.owner}/${project.slug}/transactions`,
             search: previousPageQuery,
         };
-
-        if (loading) {
-            return (
-                <Page>
-                    <Container>
-                        <PageHeading>
-                            <Button to={backUrl} outline>
-                                <Icon icon="arrow-left"/>
-                            </Button>
-                            <h1>Transaction</h1>
-                        </PageHeading>
-                        <ProjectContentLoader text="Fetching transaction..."/>
-                    </Container>
-                </Page>
-            );
-        }
 
         if (error) {
             return (
@@ -127,6 +115,31 @@ class ProjectTransactionPage extends Component {
                     </Container>
                 </Page>
             )
+        }
+
+        if (loading) {
+            return (
+                <Page>
+                    <Container>
+                        <PageHeading>
+                            <Button to={backUrl} outline>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>Transaction</h1>
+                            <div className="RightContent">
+                                <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
+                                    <Button size="small" outline>
+                                        <Icon icon="globe"/>
+                                        <span>View in Explorer</span>
+                                    </Button>
+                                </EtherscanLink>
+                            </div>
+                        </PageHeading>
+                        {loadedTx && !!transaction && <TransactionGeneralInformation contracts={[]} transaction={transaction} project={project}/>}
+                        {!loadedTx && <ProjectContentLoader text="Fetching transaction..."/>}
+                    </Container>
+                </Page>
+            );
         }
 
         const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
