@@ -65,12 +65,12 @@ class TracePoint extends Component {
                     </div>}
                     {!file && <div>
                         {trace.depthId === '0' && <Fragment>
-                            <span className="SemiBoldText">[{trace.op}]</span>
-                            <span className="MutedText"> to </span>
+                            <span className="SemiBoldText">{trace.functionName ? trace.functionName : `[${trace.op}]`}</span>
+                            <span className="MutedText"> {trace.functionName ? 'in' : `to`} </span>
                             <span className="SemiBoldText">{trace.contract}</span>
                         </Fragment>}
                         {trace.depthId !== '0' && <Fragment>
-                            <span className="SemiBoldText">[{trace.op}]</span>
+                            <span className="SemiBoldText">{trace.functionName ? trace.functionName : `[${trace.op}]`}</span>
                             <span className="MutedText"> from </span>
                             <span className="SemiBoldText">{fromContract}</span>
                             <span className="MutedText"> to </span>
