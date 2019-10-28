@@ -13,7 +13,7 @@ import './ProjectCollaborators.scss';
 
 class ProjectCollaborators extends PureComponent {
     render() {
-        const {project, collaborators} = this.props;
+        const {project, collaborators, readOnly} = this.props;
 
         return (
             <div>
@@ -23,8 +23,8 @@ class ProjectCollaborators extends PureComponent {
                     </PanelHeader>
                     <PanelContent>
                         {collaborators.length === 0 && <EmptyState icon="users" title="Add Collaborators" description="Add collaborators to this project to share with your team mates."/>}
-                        {collaborators.length > 0 && <List clickable>
-                            {collaborators.map(collaborator => <ListItem key={collaborator.id} to={`/${project.owner}/${project.slug}/collaborators/${collaborator.id}`} className="ProjectCollaborators__Collaborator">
+                        {collaborators.length > 0 && <List clickable={!readOnly}>
+                            {collaborators.map(collaborator => <ListItem key={collaborator.id} to={!readOnly ? `/${project.owner}/${project.slug}/collaborators/${collaborator.id}` : null} className="ProjectCollaborators__Collaborator">
                                 <div className="ProjectCollaborators__Collaborator__NameColumn">
                                     <div className="SemiBoldText">{collaborator.getDisplayableIdentifier()}</div>
                                     <div className="MutedText">{collaborator.email}</div>
@@ -60,6 +60,11 @@ class ProjectCollaborators extends PureComponent {
 ProjectCollaborators.propTypes = {
     project: PropTypes.instanceOf(Project).isRequired,
     collaborators: PropTypes.arrayOf(PropTypes.instanceOf(Collaborator)).isRequired,
+    readOnly: PropTypes.bool,
+};
+
+ProjectCollaborators.defaultProps = {
+    readOnly: false,
 };
 
 export default ProjectCollaborators;

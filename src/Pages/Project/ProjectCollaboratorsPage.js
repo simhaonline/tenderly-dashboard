@@ -12,6 +12,7 @@ import {
     areCollaboratorsLoadedForProject,
     getCollaboratorsForProject
 } from "../../Common/Selectors/CollaborationSelectors";
+import {ProjectTypes} from "../../Common/constants";
 
 class ProjectCollaboratorsPage extends Component {
     componentDidMount() {
@@ -38,7 +39,7 @@ class ProjectCollaboratorsPage extends Component {
                         </div>
                     </PageHeading>
                     {!collaboratorsLoaded && <ProjectContentLoader text="Fetching project collaborators..."/>}
-                    {collaboratorsLoaded && <ProjectCollaborators project={project} collaborators={collaborators}/>}
+                    {collaboratorsLoaded && <ProjectCollaborators project={project} collaborators={collaborators} readOnly={project.type === ProjectTypes.SHARED}/>}
                 </Container>
             </Page>
         )
