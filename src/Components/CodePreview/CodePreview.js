@@ -88,6 +88,8 @@ class CodePreview extends Component {
         const {file, line, linePreview, isExpandable, minHeight, scrollEnabled, highlightColor, highlightAppend} = this.props;
         const {offsetTop, offsetBottom, centerLine} = this.state;
 
+        if (!file) return null;
+
         const lineNumbers = [];
         const wrapperStyle = {};
 

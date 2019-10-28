@@ -49,7 +49,7 @@ class ContractFiles extends Component {
                             </div>)}
                         </div>
                         <PanelDivider/>
-                        <CodePreview file={selectedFile}/>
+                        {!!selectedFile && <CodePreview file={selectedFile}/>}
                     </div>
                 </PanelContent>
             </Panel>
