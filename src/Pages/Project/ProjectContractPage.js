@@ -28,7 +28,7 @@ class ProjectContractPage extends Component {
     componentDidMount() {
         const {contractStatus, networkType, contractId, actions, project} = this.props;
 
-        if (contractStatus === EntityStatusTypes.NOT_LOADED) {
+        if (contractStatus !== EntityStatusTypes.LOADED) {
             actions.fetchContractForProject(project, contractId, networkType);
         }
     }
