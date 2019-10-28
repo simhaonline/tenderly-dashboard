@@ -50,6 +50,9 @@ class Contract {
         /** @type number */
         this.watchCount = data.watchCount;
 
+        /** @type number */
+        this.filesCount = data.filesCount;
+
         /** @type ContractFile[] */
         this.files = data.files;
 
@@ -213,6 +216,7 @@ class Contract {
             createdAt: data.created_at,
             errorCount: data.number_of_exceptions,
             watchCount: data.number_of_watches,
+            filesCount: data.number_of_files,
             lastEventAt: data.last_event_occurred_at,
             verifiedAt: data.verification_date,
             verifiedBy: data.verified_by,
