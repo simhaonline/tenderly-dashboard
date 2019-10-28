@@ -150,8 +150,6 @@ class ProjectTransactionPage extends Component {
 
         const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
 
-        console.log(loading);
-
         return (
             <Page id="ProjectTransactionsPage">
                 <Container>
