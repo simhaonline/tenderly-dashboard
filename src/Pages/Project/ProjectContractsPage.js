@@ -46,7 +46,7 @@ class ProjectContractsPage extends Component {
     handleContractListeningToggle = (contract) => {
         const {actions, project} = this.props;
 
-        actions.toggleContractListening(project, contract.address, contract.network);
+        actions.toggleContractListening(project, contract);
     };
 
     handleOpenExampleProjectInfoModal = () => {

@@ -25,17 +25,15 @@ const ContractReducer = (state = initialState, action) => {
         case CREATE_EXAMPLE_PROJECT_ACTION:
         case FETCH_CONTRACTS_FOR_PROJECT_ACTION:
             const computedData = action.contracts.reduce((data, contract) => {
-                const contractId = contract.getUniqueId();
+                if (state.contracts[contract.id]) {
+                    const existingContract = state.contracts[contract.id];
 
-                if (state.contracts[contractId]) {
-                    const existingContract = state.contracts[contractId];
-
-                    data.contracts[contractId] = existingContract.update(contract);
+                    data.contracts[contract.id] = existingContract.update(contract);
                 } else {
-                    data.contracts[contractId] = contract;
+                    data.contracts[contract.id] = contract;
                 }
 
-                data.contractStatus[contractId] = EntityStatusTypes.LOADED;
+                data.contractStatus[contract.id] = EntityStatusTypes.PARTIALLY_LOADED;
 
                 return data;
             }, {
@@ -67,15 +65,15 @@ const ContractReducer = (state = initialState, action) => {
                 ...state,
                 contracts: {
                     ...state.contracts,
-                    [contract.getUniqueId()]: contract,
+                    [contract.id]: contract,
                 },
                 contractStatus: {
                     ...state.contractStatus,
-                    [contract.getUniqueId()]: EntityStatusTypes.LOADED,
+                    [contract.id]: EntityStatusTypes.LOADED,
                 },
             };
         case TOGGLE_CONTRACT_LISTENING_ACTION:
-            const toggledContract = state.contracts[action.contractId];
+            const toggledContract = state.contracts[action.contract.id];
 
             const toggleUpdatedContract = toggledContract.update({
                 listening: !toggledContract.listening,
@@ -85,7 +83,7 @@ const ContractReducer = (state = initialState, action) => {
                 ...state,
                 contracts: {
                     ...state.contracts,
-                    [toggledContract.getUniqueId()]: toggleUpdatedContract,
+                    [toggledContract.id]: toggleUpdatedContract,
                 },
             };
         case DELETE_CONTRACT_ACTION:
