@@ -10,7 +10,7 @@ class SearchResult {
         this.label = data.label;
 
         /** @type {string} */
-        this.value = `${data.network}:${data.hex}`;
+        this.value = data.value;
 
         /**
          * This is unique hex for this search results. It can be either the contract address or transaction hash.
@@ -111,10 +111,14 @@ class SearchResult {
      * @returns {SearchResult}
      */
     static buildFromResponse(response, type) {
+        const network = SearchResult.getNetworkForType(type, response);
+        const hex = SearchResult.getHexForType(type, response);
+
         return new SearchResult({
             label: SearchResult.getLabelForType(type, response),
-            network: SearchResult.getNetworkForType(type, response),
-            hex: SearchResult.getHexForType(type, response),
+            network,
+            hex,
+            value: `${network}:${hex}`,
             projectId: response.project ? Project.generateProjectId(response.project.slug, response.project.owner.username) : null,
             type,
         });

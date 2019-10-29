@@ -49,16 +49,23 @@ function AppSearchSelectOption(props) {
 }
 
 function AppSearchNoOptionsMessage(props) {
-    const {query} = props;
+    const {query, recentSearches} = props;
 
-    return <div className="AppSearchNoOptionsMessage TextAlignCenter">
+    return <div className="AppSearchNoOptionsMessage">
+        <p className="TextAlignCenter PaddingLeft2">Search by transaction hash, address or contract name</p>
         {query.length === 0 && <div>
-            Search by transaction hash, address or contract name
+            <h3 className="PaddingLeft2 MarginBottom1">Recent Searches</h3>
+            {recentSearches && recentSearches.length > 0 && <div>
+                {recentSearches.map((recentSearch, index) => <AppSearchSelectOption key={index + recentSearch.value} {...props} data={recentSearch} innerProps={{
+                    ...props.innerProps,
+                    onClick: () => props.selectOption(recentSearch),
+                }}/>)}
+            </div>}
         </div>}
-        {!!query.length && query.length < 3 && <div>
+        {!!query.length && query.length < 3 && <div className="TextAlignCenter">
             Type in at least 3 characters in order to see results
         </div>}
-        {query.length >= 3 && <div>
+        {query.length >= 3 && <div className="TextAlignCenter">
             <div className="MarginBottom1 SemiBoldText">No transactions or contracts found for this query</div>
             <div>This can happen if the contract is not verified or does not exist</div>
         </div>}
@@ -96,7 +103,9 @@ class AppSearch extends Component {
      * @param {SearchResult} searchResult
      */
     handleSearchSelect = (searchResult) => {
-        const {history} = this.props;
+        const {history, searchActions} = this.props;
+
+        searchActions.registerSearchResultSelected(searchResult);
 
         this.setState({
             searchQuery: '',
@@ -110,6 +119,7 @@ class AppSearch extends Component {
     };
 
     render() {
+        const {recentSearches} = this.props;
         const {searchQuery} = this.state;
 
         return (
@@ -117,7 +127,7 @@ class AppSearch extends Component {
                 <div className="Select AppSearch__Select">
                     <AsyncSelect classNamePrefix="Select" onInputChange={this.handleInputChange} onChange={this.handleSearchSelect} components={{
                         Option: AppSearchSelectOption,
-                        NoOptionsMessage: (props) => <AppSearchNoOptionsMessage {...props} query={searchQuery}/>,
+                        NoOptionsMessage: (props) => <AppSearchNoOptionsMessage {...props} query={searchQuery} recentSearches={recentSearches}/>,
                         IndicatorSeparator: () => null,
                         DropdownIndicator: AppSearchDropdownIndicator,
                     }} loadOptions={this.fetchSearchResults} value={searchQuery} placeholder="Search"/>
@@ -130,6 +140,7 @@ class AppSearch extends Component {
 const mapStateToProps = (state) => {
     return {
         projectContext: state.search.currentProject,
+        recentSearches: state.search.recentSearches,
     };
 };
 

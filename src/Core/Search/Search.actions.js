@@ -2,11 +2,14 @@ import {Api, PublicApi} from "../../Utils/Api";
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import Project from "../Project/Project.model";
 import SearchResult from "./SearchResult.model";
-import {SearchResultTypes} from "../../Common/constants";
+import {LocalStorageKeys, SearchResultTypes} from "../../Common/constants";
+import LocalStorage from "../../Utils/LocalStorage";
 
 export const FETCH_SEARCH_RESULTS_ACTION = 'FETCH_SEARCH_RESULTS';
 export const SET_PROJECT_CONTEXT_ACTION = 'SET_PROJECT_CONTEXT';
 export const REMOVE_PROJECT_CONTEXT_ACTION = 'REMOVE_PROJECT_CONTEXT';
+export const SEARCH_RESULT_SELECTED_ACTION = 'SEARCH_RESULT_SELECTED';
+export const SET_RECENT_SEARCH_RESULTS_ACTION = 'SET_RECENT_SEARCH_RESULTS';
 
 /**
  * @param {string} query
@@ -114,6 +117,41 @@ export function removeProjectContext() {
     return (dispatch) => {
         dispatch({
             type: REMOVE_PROJECT_CONTEXT_ACTION,
+        });
+    };
+}
+
+/**
+ * @param {SearchResult} searchResult
+ */
+export function registerSearchResultSelected(searchResult) {
+    return (dispatch, getState) => {
+        const {search: {recentSearches}} = getState();
+
+        if (recentSearches.find(search => search.value === searchResult.value && search.projectId === searchResult.projectId)) return;
+
+        const updatedRecentSearches = [
+            searchResult,
+            ...recentSearches.slice(0, 4),
+        ];
+
+        LocalStorage.setItem(LocalStorageKeys.RECENT_SEARCHES, updatedRecentSearches);
+
+        dispatch({
+            type: SEARCH_RESULT_SELECTED_ACTION,
+            recentSearches: updatedRecentSearches,
+        });
+    }
+}
+
+/**
+ * @param {Object[]} cachedSearchResults
+ */
+export function setRecentSearchesFromCache(cachedSearchResults) {
+    return dispatch => {
+        dispatch({
+            type: SET_RECENT_SEARCH_RESULTS_ACTION,
+            recentSearches: cachedSearchResults.map(searchResultCache => new SearchResult(searchResultCache)),
         });
     };
 }

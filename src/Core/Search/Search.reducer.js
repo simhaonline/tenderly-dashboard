@@ -1,12 +1,14 @@
 import {
-    REMOVE_PROJECT_CONTEXT_ACTION,
-    SET_PROJECT_CONTEXT_ACTION
+    REMOVE_PROJECT_CONTEXT_ACTION, SEARCH_RESULT_SELECTED_ACTION,
+    SET_PROJECT_CONTEXT_ACTION, SET_RECENT_SEARCH_RESULTS_ACTION
 } from "./Search.actions";
 
 
 const initialState = {
     /** @type {Project.id} */
     currentProject: null,
+    /** @type {SearchResult[]} */
+    recentSearches: [],
 };
 
 const SearchReducer = (state = initialState, action) => {
@@ -20,6 +22,12 @@ const SearchReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentProject: null,
+            };
+        case SET_RECENT_SEARCH_RESULTS_ACTION:
+        case SEARCH_RESULT_SELECTED_ACTION:
+            return {
+                ...state,
+                recentSearches: action.recentSearches,
             };
         default:
             return state;

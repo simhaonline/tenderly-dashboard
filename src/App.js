@@ -11,15 +11,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Common/Styles/reset.scss';
 import './Common/Styles/base.scss';
 
-import * as authActions from "./Core/Auth/Auth.actions";
 import Intercom from "./Utils/Intercom";
 
+import {searchActions, authActions} from "./Core/actions";
 import {store} from './Core';
 
 import {AppHeader, FeatureFlagControls} from "./Components";
 
 import {AppPages} from "./Pages";
 import GeneralErrorPage from "./Pages/General/GeneralErrorPage";
+import LocalStorage from "./Utils/LocalStorage";
+import {LocalStorageKeys} from "./Common/constants";
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
@@ -58,6 +60,12 @@ class App extends Component {
         }
 
         await store.dispatch(authActions.retrieveToken(tokenCookie));
+
+        const recentSearchesCache = LocalStorage.getItem(LocalStorageKeys.RECENT_SEARCHES);
+
+        if (recentSearchesCache) {
+            await store.dispatch(searchActions.setRecentSearchesFromCache(recentSearchesCache));
+        }
 
         this.setState({
             loaded: true,
