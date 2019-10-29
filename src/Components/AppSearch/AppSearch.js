@@ -52,10 +52,10 @@ function AppSearchNoOptionsMessage(props) {
     const {query, recentSearches} = props;
 
     return <div className="AppSearchNoOptionsMessage">
-        <p className="TextAlignCenter PaddingLeft2">Search by transaction hash, address or contract name</p>
         {query.length === 0 && <div>
-            <h3 className="PaddingLeft2 MarginBottom1">Recent Searches</h3>
-            {recentSearches && recentSearches.length > 0 && <div>
+            <div className="TextAlignCenter PaddingLeft2">Search by transaction hash, address or contract name</div>
+            {!!recentSearches && recentSearches.length > 0 && <div className="MarginTop2">
+                <h3 className="PaddingLeft2 MarginBottom1">Recent Searches</h3>
                 {recentSearches.map((recentSearch, index) => <AppSearchSelectOption key={index + recentSearch.value} {...props} data={recentSearch} innerProps={{
                     ...props.innerProps,
                     onClick: () => props.selectOption(recentSearch),
