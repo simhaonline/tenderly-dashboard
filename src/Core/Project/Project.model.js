@@ -82,10 +82,14 @@ class Project {
      */
     getDisplaySlug = () => {
         if (this.type === ProjectTypes.SHARED) {
-            return `${this.owner}/${this.slug}`
+            return `${this.owner}/${this.slug}`;
         }
 
         return this.slug;
+    };
+
+    getUrlBase = () => {
+        return `/${this.owner}/${this.slug}`
     };
 
     /**
