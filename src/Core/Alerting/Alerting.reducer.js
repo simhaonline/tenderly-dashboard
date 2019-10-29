@@ -5,6 +5,7 @@ import {
 } from "./Alerting.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {EntityStatusTypes} from "../../Common/constants";
+import {DELETE_COLLABORATOR_FOR_PROJECT_ACTION} from "../Collaboration/Collaboration.actions";
 
 const initialState = {
     rules: {},
@@ -31,6 +32,14 @@ const AlertingReducer = (state = initialState, action) => {
                 projectRulesLoaded: {
                     ...state.projectRulesLoaded,
                     [action.projectId]: EntityStatusTypes.LOADED,
+                },
+            };
+        case DELETE_COLLABORATOR_FOR_PROJECT_ACTION:
+            return {
+                ...state,
+                projectRulesLoaded: {
+                    ...state.projectRulesLoaded,
+                    [action.projectId]: EntityStatusTypes.NOT_LOADED,
                 },
             };
         case FETCH_ALERT_RULE_FOR_PROJECT_ACTION:
