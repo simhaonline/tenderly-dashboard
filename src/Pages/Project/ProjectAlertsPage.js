@@ -74,11 +74,11 @@ class ProjectAlertsPage extends Component {
                     <PageHeading>
                         <h1>Alerting</h1>
                         <div className="MarginLeftAuto">
-                            {areRulesLoaded && !!rules.length && <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.CREATE_ALERT}>
+                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.CREATE_ALERT}>
                                 <Button onClick={() => Analytics.trackEvent('create_alert_button_clicked')} to={`/${project.owner}/${project.slug}/alerts/rules/create`}>
                                     <span>New Alert</span>
                                 </Button>
-                            </PermissionControl>}
+                            </PermissionControl>
                         </div>
                     </PageHeading>
                     {!project.isSetup && <ProjectSetupEmptyState project={project}/>}
