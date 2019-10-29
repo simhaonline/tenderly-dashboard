@@ -81,6 +81,14 @@ class ContractInformation extends Component {
                     {!!project && <Fragment>
                         <PanelDivider/>
                         <div className="DisplayFlex AlignItemsCenter JustifyContentEnd">
+                            <div className="MarginRightAuto">
+                                <Button size="small" disabled={!contract.listening} to={{
+                                    pathname: `${project.getUrlBase()}/transactions`,
+                                    search: `?contracts=${contract.id}`,
+                                }}>
+                                    <span>View Transactions</span>
+                                </Button>
+                            </div>
                             <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT}>
                                 <div className="DisplayFlex AlignItemsStart MarginRight4">
                                     <span className="MarginRight2 SemiBoldText">Listening: <Icon icon="info" className="MutedText"/></span>
