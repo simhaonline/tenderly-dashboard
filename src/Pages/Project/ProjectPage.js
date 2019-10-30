@@ -23,6 +23,7 @@ import ProjectContractPage from "./ProjectContractPage";
 import ProjectCollaboratorsPage from "./ProjectCollaboratorsPage";
 import ProjectAddCollaboratorPage from "./ProjectAddCollaboratorPage";
 import ProjectCollaboratorPage from "./ProjectCollaboratorPage";
+import ProjectAddContractPage from "./ProjectAddContractPage";
 
 import {ProjectSidebar, ProjectPageLoader} from "../../Components";
 
@@ -88,7 +89,8 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/analytics" component={ProjectAnalyticsPage}/>
                     <Route path="/:username/:slug/alerts/:tab" component={ProjectAlertsPage}/>
                     <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
-                    <Route path="/:username/:slug/contracts" component={ProjectContractsPage}/>
+                    <Route path="/:username/:slug/contracts" exact component={ProjectContractsPage}/>
+                    <Route path="/:username/:slug/contracts/add" exact component={ProjectAddContractPage}/>
                     <Route path="/:username/:slug/contract/:network/:contractId" component={ProjectContractPage}/>
                     <Route path="/:username/:slug/releases" component={ProjectReleasesPage}/>
                     <Route path="/:username/:slug/collaborators" exact component={ProjectCollaboratorsPage}/>

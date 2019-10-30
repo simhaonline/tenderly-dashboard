@@ -14,7 +14,6 @@ import {
     ProjectSetupEmptyState,
     ProjectContractList,
     ProjectContentLoader,
-    ProjectSetupGuide,
     PermissionControl,
     ExampleProjectInfoModal,
     EmptyState
@@ -73,9 +72,12 @@ class ProjectContractsPage extends Component {
                     <PageHeading>
                         <h1>Contracts</h1>
                         {projectIsSetup && <div className="RightContent">
-                            {contractsLoaded && project.type !== ProjectTypes.DEMO && <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT}>
-                                <ProjectSetupGuide project={project} label="Add Contract" outline={false}
-                                                   initialCancelButtonLabel="Cancel"/>
+                            {contractsLoaded && project.type !== ProjectTypes.DEMO &&
+                            <PermissionControl project={project}
+                                               requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT}>
+                                <Button to={`${project.getUrlBase()}/contracts/add`}>
+                                    <span>Add Contract</span>
+                                </Button>
                             </PermissionControl>}
                             {contractsLoaded && project.type === ProjectTypes.DEMO && <Fragment>
                                 <Button onClick={this.handleOpenExampleProjectInfoModal}>
