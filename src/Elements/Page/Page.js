@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 
 import * as appActions from "../../Core/App/App.actions";
 
+import {Icon} from "../";
+
 import './Page.scss';
 
 class Page extends Component {
@@ -26,7 +28,9 @@ class Page extends Component {
     }
 
     render() {
-        const {children, wholeScreenPage, padding, ...props} = this.props;
+        const {children, scrollToTopEnabled, wholeScreenPage, padding, ...props} = this.props;
+
+        console.log(scrollToTopEnabled);
 
         return (
             <div className={classNames(
@@ -36,6 +40,9 @@ class Page extends Component {
                 }
             )} {...props}>
                 {children}
+                {scrollToTopEnabled && <div className="Page__ScrollTopButton">
+                    <Icon icon="arrow-up" className="Page__ScrollTopButton__Icon"/>
+                </div>}
             </div>
         );
     }
@@ -44,10 +51,12 @@ class Page extends Component {
 Page.defaultProps = {
     padding: true,
     wholeScreenPage: false,
+    scrollToTopEnabled: false,
 };
 
 Page.propTypes = {
     wholeScreenPage: PropTypes.bool,
+    scrollToTopEnabled: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => {
