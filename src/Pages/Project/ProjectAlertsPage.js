@@ -6,7 +6,6 @@ import Analytics from "../../Utils/Analytics";
 
 import {CollaboratorPermissionTypes} from "../../Common/constants";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
-import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
 import {Container, Page, PageHeading, Button} from "../../Elements";
 import {
@@ -65,7 +64,7 @@ class ProjectAlertsPage extends Component {
     };
 
     render() {
-        const {project, areRulesLoaded, rules} = this.props;
+        const {project} = this.props;
         const {currentSegment} = this.state;
 
         return (
@@ -110,8 +109,6 @@ const mapStateToProps = (state, ownProps) => {
     return {
         initialTab: tab,
         project,
-        rules: getAlertRulesForProject(state, project.id),
-        areRulesLoaded: areAlertRulesLoadedForProject(state, project),
     }
 };
 
