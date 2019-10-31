@@ -57,6 +57,14 @@
   display: flex;
 }
 
+.Flex1 {
+  flex: 1 1 0;
+}
+
+.FlexAuto {
+  flex: 0 0 auto;
+}
+
 .FlexWrap {
   flex-wrap: wrap;
 }
@@ -204,6 +212,22 @@
 
 .Padding4 {
   padding: 2rem;
+}
+
+.BorderRadius1 {
+  border-radius: 3px;
+}
+
+.BorderRadius2 {
+  border-radius: 4px;
+}
+
+.BorderRadius3 {
+  border-radius: 6px;
+}
+
+.BorderRadius4 {
+  border-radius: 8px;
 }
 
 @media (max-width: 760px) {

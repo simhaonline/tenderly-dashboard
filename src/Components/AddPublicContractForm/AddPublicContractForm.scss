@@ -1,8 +1,15 @@
 @import "../../Common/common";
 
+.AddPublicContractForm__SearchQueryResults {
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+}
+
 .SearchResultsByNetwork {
   display: flex;
   flex-direction: column;
+  flex: 1 1 0;
 }
 .SearchResultsByNetwork__NetworkPicker {
   display: flex;
@@ -26,6 +33,8 @@
 }
 .SearchResultsByNetwork__Results {
   padding: $Spacing2 0;
+  flex: 1 1 0;
+  overflow-y: auto;
 }
 
 .SearchResultsByNetwork__Result {

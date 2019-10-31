@@ -3,13 +3,14 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as _ from "lodash";
 import classNames from "classnames";
+import Blockies from "react-blockies";
 
 import {NetworkLabelMap, NetworkTypes, SearchResultTypes} from "../../Common/constants";
 
 import {projectActions, searchActions} from "../../Core/actions";
 
-import {Icon, Panel, Card, PanelContent, Tag, PanelHeader, Button, Input} from "../../Elements";
-import {SimpleLoader} from "..";
+import {Icon, Panel, Card, PanelContent, List, ListItem, Tag, PanelHeader, Button, Input} from "../../Elements";
+import {SimpleLoader, NetworkTag} from "..";
 
 import './AddPublicContractForm.scss';
 
@@ -88,6 +89,8 @@ class AddPublicContractForm extends Component {
     debouncedSearch = _.debounce(async (query) => {
         const {searchActions} = this.props;
 
+        if (!query) return;
+
         const searchResponse = await searchActions.getSearchResults(query);
 
         this.setState({searching: true});
@@ -111,7 +114,7 @@ class AddPublicContractForm extends Component {
     /**
      * @param {SearchResult} searchResult
      */
-    addContractToSelection = (searchResult) => {
+    handleContractSelection = (searchResult) => {
         const {selectedContracts} = this.state;
 
         const existing = selectedContracts.find(sc => sc.data.value === searchResult.value);
@@ -143,18 +146,31 @@ class AddPublicContractForm extends Component {
                 </PanelHeader>
                 <PanelContent>
                     <Input icon="search" label="Find a public contract by name or address" field="searchQuery" value={searchQuery} disabled={searching} onChange={this.handleQueryUpdate}/>
-                    {!!searchQuery && <Card color="dark" noPadding>
-                        {isTyping && <SimpleLoader/>}
-                        {!isTyping && searchResults.length === 0 && <div>No Results</div>}
-                        {!isTyping && searchResults.length > 0 && <SearchResultsByNetwork searchResults={searchResults} onSelect={this.addContractToSelection} existingContracts={[]} selectedContracts={selectedContracts}/>}
-                    </Card>}
-                    <Card color="light">
-                        {selectedContracts.length > 0 && <div>
-                            {selectedContracts.map(selectedContract => <div key={selectedContract.data.value}>
-                                {selectedContract.data.label}
-                            </div>)}
+                    {!!searchQuery && <Card color="dark" noPadding className="AddPublicContractForm__SearchQueryResults">
+                        {isTyping && <div className="Flex1 DisplayFlex AlignItemsCenter JustifyContentCenter">
+                            <SimpleLoader/>
                         </div>}
-                    </Card>
+                        {!isTyping && searchResults.length === 0 && <div className="Flex1 DisplayFlex AlignItemsCenter JustifyContentCenter">
+                            <span>No contracts found that match this query</span>
+                        </div>}
+                        {!isTyping && searchResults.length > 0 && <SearchResultsByNetwork searchResults={searchResults} onSelect={this.handleContractSelection} existingContracts={[]} selectedContracts={selectedContracts}/>}
+                    </Card>}
+                    {selectedContracts.length > 0 && <List className="MarginBottom3">
+                        {selectedContracts.map(selectedContract => <ListItem key={selectedContract.data.value} className="DisplayFlex AlignItemsCenter">
+                            <Blockies size={8} scale={5} className="BorderRadius1 MarginRight2" seed={selectedContract.data.value}/>
+                            <div className="MarginRight2 Flex1">
+                                <div className="SemiBoldText">{selectedContract.data.label}</div>
+                                <div className="MarginTop1">
+                                    <NetworkTag size="small" network={selectedContract.data.network}/>
+                                    <span className="MarginLeft1 MonospaceFont LinkText">{selectedContract.data.hex}</span>
+                                </div>
+                            </div>
+                            <div onClick={() => this.handleContractSelection(selectedContract.data)} className="Padding1 SemiBoldText CursorPointer DangerText">Remove</div>
+                        </ListItem>)}
+                    </List>}
+                    {selectedContracts.length === 0 && <Card color="light">
+                        Search up there
+                    </Card>}
                     <div>
                         <Button disabled={selectedContracts.length === 0 || searching}>
                             <span>Import Contracts</span>
