@@ -30,8 +30,6 @@ class Page extends Component {
     render() {
         const {children, scrollToTopEnabled, wholeScreenPage, padding, ...props} = this.props;
 
-        console.log(scrollToTopEnabled);
-
         return (
             <div className={classNames(
                 "Page",
