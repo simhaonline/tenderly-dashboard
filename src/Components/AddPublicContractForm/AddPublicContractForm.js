@@ -168,9 +168,6 @@ class AddPublicContractForm extends Component {
                             <div onClick={() => this.handleContractSelection(selectedContract.data)} className="Padding1 SemiBoldText CursorPointer DangerText">Remove</div>
                         </ListItem>)}
                     </List>}
-                    {selectedContracts.length === 0 && <Card color="light">
-                        Search up there
-                    </Card>}
                     <div>
                         <Button disabled={selectedContracts.length === 0 || searching}>
                             <span>Import Contracts</span>

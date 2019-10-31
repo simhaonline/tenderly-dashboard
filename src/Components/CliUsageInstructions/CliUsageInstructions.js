@@ -9,8 +9,7 @@ class CliUsageInstructions extends Component {
         return (
             <Panel className="CliUsageInstructions">
                 <PanelHeader>
-                    <Icon className="MarginRight1" icon="project"/>
-                    <h3>qwe</h3>
+                    <h3>Upload via CLI</h3>
                 </PanelHeader>
                 <PanelContent>
 
