@@ -1,0 +1,70 @@
+@import "../../Common/common";
+
+.SearchResultsByNetwork {
+  display: flex;
+  flex-direction: column;
+}
+.SearchResultsByNetwork__NetworkPicker {
+  display: flex;
+  background-color: transparentize($BlackColor, 0.75);
+}
+.SearchResultsByNetwork__Network {
+  padding: $Spacing1 $Spacing3;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  border-top: 2px solid transparent;
+  transition: 0.15s ease-in;
+
+  &:hover {
+    background-color: transparentize($Primary500, 0.9);
+  }
+
+  &--Active {
+    background-color: transparentize($Primary500, 0.9);
+    border-bottom-color: $Primary500;
+  }
+}
+.SearchResultsByNetwork__Results {
+  padding: $Spacing2 0;
+}
+
+.SearchResultsByNetwork__Result {
+  padding: $Spacing1 $Spacing3;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: transparentize($Primary500, 0.9);
+  }
+
+  &--Selected {
+    background-color: transparentize($Primary500, 0.8)!important;
+
+    .SearchResultsByNetwork__Result__Checkbox {
+      background-color: $Primary500;
+      color: $WhiteColor;
+    }
+  }
+
+  &--Disabled {
+    pointer-events: none;
+    opacity: 0.75;
+  }
+}
+
+.SearchResultsByNetwork__Result__Label {
+  margin-bottom: 4px;
+}
+
+.SearchResultsByNetwork__Result__Checkbox {
+  margin-right: $Spacing3;
+  border: 2px solid $Primary500;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
