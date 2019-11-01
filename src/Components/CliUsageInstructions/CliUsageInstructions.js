@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Panel, PanelHeader, Icon, PanelContent} from "../../Elements";
+import {Panel, PanelHeader, PanelContent} from "../../Elements";
 
 import './CliUsageInstructions.scss';
 
