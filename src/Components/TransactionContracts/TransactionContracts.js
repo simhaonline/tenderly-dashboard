@@ -47,7 +47,6 @@ class TransactionContracts extends Component {
         if (initialTrace) {
             selectedContract = contracts.find(contract => contract.address === initialTrace.contract);
 
-
             if (selectedContract && initialTrace.fileId !== null) {
                 selectedFile = selectedContract.getFileById(initialTrace.fileId);
             }
@@ -67,12 +66,46 @@ class TransactionContracts extends Component {
     componentDidMount() {
         const {highlightedLine} = this.state;
 
-        if(highlightedLine) {
+        if (highlightedLine) {
             const scrollToLine = Math.max(1, highlightedLine - 10);
 
             setTimeout(() => {
                 document.getElementById(`line-${scrollToLine}`).scrollIntoView();
             }, 0);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {initialTrace, contracts} = this.props;
+
+        if (!!initialTrace && prevProps.initialTrace !== initialTrace) {
+            let selectedContract;
+            let selectedFile;
+            let highlightedLine;
+
+            selectedContract = contracts.find(contract => contract.address === initialTrace.contract);
+
+            if (selectedContract && initialTrace.fileId !== null) {
+                selectedFile = selectedContract.getFileById(initialTrace.fileId);
+            }
+
+            if (selectedFile && initialTrace.lineNumber !== null) {
+                highlightedLine = initialTrace.lineNumber;
+            }
+
+            this.setState({
+                selectedContract,
+                selectedFile,
+                highlightedLine,
+            });
+
+            const scrollToLine = Math.max(1, highlightedLine - 10);
+
+            setTimeout(() => {
+                document.getElementById(`line-${scrollToLine}`).scrollIntoView();
+            }, 0);
+        } else {
+            console.log('didnot changed');
         }
     }
 
