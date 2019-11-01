@@ -104,8 +104,6 @@ class TransactionContracts extends Component {
             setTimeout(() => {
                 document.getElementById(`line-${scrollToLine}`).scrollIntoView();
             }, 0);
-        } else {
-            console.log('didnot changed');
         }
     }
 
