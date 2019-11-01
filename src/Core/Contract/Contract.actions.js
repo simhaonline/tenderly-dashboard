@@ -265,3 +265,18 @@ export const fetchLogsForContract = (project, contractAddress, network) => {
         }
     };
 };
+
+/**
+ * @param {Project} project
+ * @param {Contract} contract
+ */
+export const getContractBackFillingStatus = (project, contract) => {
+    return async dispatch => {
+        try {
+            const {data: responseData} = await Api.get(`/api/v1/account/${project.owner}/project/${project.slug}/network/${contract.network}/contract/${contract.address}/backfilling-status`);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
