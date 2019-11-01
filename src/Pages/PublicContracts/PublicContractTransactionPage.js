@@ -74,7 +74,7 @@ class PublicContractTransactionPage extends Component {
         const {contracts, transaction, callTrace, stackTrace, networkType, txHash, stateDiffs, eventLogs} = this.props;
 
         return (
-            <Page>
+            <Page scrollToTopEnabled>
                 <Container>
                     <Helmet>
                         <title>{txHash} | Tenderly</title>
