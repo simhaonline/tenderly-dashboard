@@ -7,7 +7,7 @@ import './AddContractMethodPicker.scss';
 const AddContractMethods = [
     {
         slug: 'verified',
-        icon: 'compass',
+        icon: 'file-text',
         title: 'Import Verified',
     },
     {

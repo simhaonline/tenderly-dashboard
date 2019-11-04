@@ -47,7 +47,7 @@ class ProjectAddContractPage extends Component {
                     {contractsLoaded && <Fragment>
                         <AddContractMethodPicker onSelect={this.setCurrentType} currentActive={currentMethod}/>
                         {currentMethod === 'verified' && <AddPublicContractForm project={project} contracts={contracts}/>}
-                        {currentMethod === 'cli' && <CliUsageInstructions/>}
+                        {currentMethod === 'cli' && <CliUsageInstructions project={project}/>}
                     </Fragment>}
                 </Container>
             </Page>

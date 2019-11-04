@@ -10,7 +10,7 @@
   cursor: pointer;
   border: 1px solid $Slate100;
   background-color: $Slate200;
-  padding: $Spacing1 $Spacing3;
+  padding: $Spacing2 $Spacing3;
   border-radius: 6px;
   user-select: none;
 
@@ -30,5 +30,5 @@
 }
 
 .Accordion__Content {
-  padding: $Spacing2 $Spacing3;
+  padding: $Spacing2 $Spacing4;
 }

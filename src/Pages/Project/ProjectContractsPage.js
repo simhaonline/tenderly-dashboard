@@ -64,7 +64,7 @@ class ProjectContractsPage extends Component {
         const {project, contracts, contractsLoaded} = this.props;
         const {createProjectModalOpen} = this.state;
 
-        const projectIsSetup = !!project.lastPushAt;
+        const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
 
         return (
             <Page id="ProjectContractsPage">

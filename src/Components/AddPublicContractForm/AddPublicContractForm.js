@@ -246,7 +246,10 @@ class AddPublicContractForm extends Component {
                                     <span className="MarginLeft1 MonospaceFont LinkText">{selectedContract.hex}</span>
                                 </div>
                             </div>
-                            {!importInProgress && <div onClick={() => this.handleContractSelection(selectedContract)} className="Padding1 SemiBoldText CursorPointer DangerText">Remove</div>}
+                            {!importInProgress && <div onClick={() => this.handleContractSelection(selectedContract)} className="Padding1 CursorPointer LinkText">
+                                <Icon icon="x" className="MarginRight1"/>
+                                <span>Remove</span>
+                            </div>}
                         </ListItem>)}
                     </List>}
                     <div>
