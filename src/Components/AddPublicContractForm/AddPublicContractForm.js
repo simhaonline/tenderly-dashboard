@@ -7,6 +7,9 @@ import Blockies from "react-blockies";
 
 import {NetworkLabelMap, NetworkTypes, SearchResultTypes} from "../../Common/constants";
 
+import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+
 import {projectActions, searchActions} from "../../Core/actions";
 
 import {Icon, Panel, Card, PanelContent, List, ListItem, Tag, PanelHeader, Button, Input} from "../../Elements";
@@ -57,7 +60,10 @@ const SearchResultsByNetwork = ({searchResults, onSelect, existingContracts, sel
                             {(isAlreadyAdded || isSelected) && <Icon icon="check"/>}
                         </div>
                         <div>
-                            <div className="SemiBoldText SearchResultsByNetwork__Result__Label">{searchResult.label}</div>
+                            <div className="SemiBoldText SearchResultsByNetwork__Result__Label">
+                                <span>{searchResult.label}</span>
+                                {isAlreadyAdded && <span className="MarginLeft1 SearchResultsByNetwork__Result__AlreadyAdded">Already added to this project</span>}
+                            </div>
                             <div className="MonospaceFont LinkText">{searchResult.hex}</div>
                         </div>
                     </div>
@@ -138,6 +144,7 @@ class AddPublicContractForm extends Component {
 
     render() {
         const {searchQuery, searchResults, searching, isTyping, selectedContracts} = this.state;
+        const {contracts} = this.props;
 
         return (
             <Panel className="AddPublicContractForm">
@@ -153,7 +160,7 @@ class AddPublicContractForm extends Component {
                         {!isTyping && searchResults.length === 0 && <div className="Flex1 DisplayFlex AlignItemsCenter JustifyContentCenter">
                             <span>No contracts found that match this query</span>
                         </div>}
-                        {!isTyping && searchResults.length > 0 && <SearchResultsByNetwork searchResults={searchResults} onSelect={this.handleContractSelection} existingContracts={[]} selectedContracts={selectedContracts}/>}
+                        {!isTyping && searchResults.length > 0 && <SearchResultsByNetwork searchResults={searchResults} onSelect={this.handleContractSelection} existingContracts={contracts} selectedContracts={selectedContracts}/>}
                     </Card>}
                     {selectedContracts.length > 0 && <List className="MarginBottom3">
                         {selectedContracts.map(selectedContract => <ListItem key={selectedContract.data.value} className="DisplayFlex AlignItemsCenter">
@@ -179,7 +186,7 @@ class AddPublicContractForm extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {};
 };
 

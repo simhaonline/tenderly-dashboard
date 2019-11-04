@@ -5,14 +5,14 @@
 .AddContractMethodPicker__Method {
   width: 200px;
   display: flex;
-  flex-direction: column;
+  //flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 .AddContractMethodPicker__Method__Icon {
   font-size: $FontSize600;
-  margin-bottom: $Spacing3;
+  margin-right: $Spacing3;
 }
 
 .AddContractMethodPicker__Method__Title {

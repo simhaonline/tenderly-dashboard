@@ -31,7 +31,7 @@ class ProjectAddContractPage extends Component {
     };
 
     render() {
-        const {contractsLoaded, project} = this.props;
+        const {contractsLoaded, contracts, project} = this.props;
         const {currentMethod} = this.state;
 
         return (
@@ -46,7 +46,7 @@ class ProjectAddContractPage extends Component {
                     {!contractsLoaded && <ProjectContentLoader text="Fetching required data"/>}
                     {contractsLoaded && <Fragment>
                         <AddContractMethodPicker onSelect={this.setCurrentType} currentActive={currentMethod}/>
-                        {currentMethod === 'verified' && <AddPublicContractForm/>}
+                        {currentMethod === 'verified' && <AddPublicContractForm project={project} contracts={contracts}/>}
                         {currentMethod === 'cli' && <CliUsageInstructions/>}
                     </Fragment>}
                 </Container>

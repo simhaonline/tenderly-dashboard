@@ -59,11 +59,21 @@
   &--Disabled {
     pointer-events: none;
     opacity: 0.75;
+
+    .SearchResultsByNetwork__Result__Checkbox {
+      background-color: $Secondary500;
+      border-color: $Secondary500;
+      color: $WhiteColor;
+    }
   }
 }
 
 .SearchResultsByNetwork__Result__Label {
   margin-bottom: 4px;
+}
+
+.SearchResultsByNetwork__Result__AlreadyAdded {
+  font-weight: 100;
 }
 
 .SearchResultsByNetwork__Result__Checkbox {
