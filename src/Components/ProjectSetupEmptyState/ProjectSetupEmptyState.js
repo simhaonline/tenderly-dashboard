@@ -1,12 +1,16 @@
 import React from 'react';
 
 import {Panel, PanelContent, Button} from '../../Elements';
-import {ProjectSetupGuide} from "../index";
 
 import EmptyStateImage from './no-contracts-watched.svg';
 
 import './ProjectSetupEmptyState.scss';
 
+/**
+ * @param {Project} project
+ * @param {boolean} open
+ * @param {Function} onSetup
+ */
 const ProjectSetupEmptyState = ({project, open, onSetup}) => {
     return (
         <Panel>
@@ -20,7 +24,9 @@ const ProjectSetupEmptyState = ({project, open, onSetup}) => {
                     <Button to={`/explorer`} outline color="secondary" className="EmptyStateButton">
                         <span>Discover Public Contracts</span>
                     </Button>
-                    <ProjectSetupGuide buttonClassName="EmptyStateButton" project={project} open={open} onSetup={onSetup} label="Add Contracts" color="secondary" outline={false}/>
+                    <Button to={`${project.getUrlBase()}/contracts/add`} color="secondary">
+                        <span>Add Contracts</span>
+                    </Button>
                 </div>
             </PanelContent>
         </Panel>

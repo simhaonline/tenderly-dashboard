@@ -1,7 +1,7 @@
 @import "../../Common/common";
 
 .Card {
-  padding: 15px 20px;
+  padding: $Spacing3 $Spacing5;
   background-color: $Slate300;
   box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
   border-radius: 4px;
@@ -74,4 +74,8 @@
 .Card--Disabled {
   pointer-events: none;
   opacity: 0.6;
+}
+
+.Card--NoPadding {
+  padding: 0;
 }

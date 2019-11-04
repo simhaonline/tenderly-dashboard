@@ -1,0 +1,116 @@
+@import "../../Common/common";
+
+.AddPublicContractForm__SearchQueryResults {
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+}
+
+.AddPublicContractForm__SelectedContractImage {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.AddPublicContractForm__SelectedContractImage__InProgress {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparentize($BlackColor, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font-size: $FontSize500;
+
+  &--success {
+    background-color: transparentize($Primary500, 0.15);
+  }
+  &--failed {
+    background-color: transparentize($Danger500, 0.15);
+  }
+}
+
+.SearchResultsByNetwork {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+}
+.SearchResultsByNetwork__NetworkPicker {
+  display: flex;
+  background-color: transparentize($BlackColor, 0.75);
+}
+.SearchResultsByNetwork__Network {
+  padding: $Spacing1 $Spacing3;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  border-top: 2px solid transparent;
+  transition: 0.15s ease-in;
+
+  &:hover {
+    background-color: transparentize($Primary500, 0.9);
+  }
+
+  &--Active {
+    background-color: transparentize($Primary500, 0.9);
+    border-bottom-color: $Primary500;
+  }
+}
+.SearchResultsByNetwork__Results {
+  padding: $Spacing2 0;
+  flex: 1 1 0;
+  overflow-y: auto;
+}
+
+.SearchResultsByNetwork__Result {
+  padding: $Spacing1 $Spacing3;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: transparentize($Primary500, 0.9);
+  }
+
+  &--Selected {
+    background-color: transparentize($Primary500, 0.8)!important;
+
+    .SearchResultsByNetwork__Result__Checkbox {
+      background-color: $Primary500;
+      color: $WhiteColor;
+    }
+  }
+
+  &--Disabled {
+    pointer-events: none;
+    opacity: 0.75;
+
+    .SearchResultsByNetwork__Result__Checkbox {
+      background-color: $Secondary500;
+      border-color: $Secondary500;
+      color: $WhiteColor;
+    }
+  }
+}
+
+.SearchResultsByNetwork__Result__Label {
+  margin-bottom: 4px;
+}
+
+.SearchResultsByNetwork__Result__AlreadyAdded {
+  font-weight: 100;
+}
+
+.SearchResultsByNetwork__Result__Checkbox {
+  margin-right: $Spacing3;
+  border: 2px solid $Primary500;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

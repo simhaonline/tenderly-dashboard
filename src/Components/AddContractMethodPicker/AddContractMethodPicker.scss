@@ -1,0 +1,17 @@
+@import "../../Common/common";
+
+.AddContractMethodPicker {}
+
+.AddContractMethodPicker__Method {
+  width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AddContractMethodPicker__Method__Icon {
+  font-size: $FontSize500;
+  margin-right: $Spacing1;
+}
+
+.AddContractMethodPicker__Method__Title {}
