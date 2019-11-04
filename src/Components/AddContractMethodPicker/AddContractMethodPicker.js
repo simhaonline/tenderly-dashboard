@@ -8,7 +8,7 @@ const AddContractMethods = [
     {
         slug: 'verified',
         icon: 'compass',
-        title: 'Verified Contracts',
+        title: 'Import Verified',
     },
     {
         slug: 'cli',
@@ -19,10 +19,10 @@ const AddContractMethods = [
 
 const AddContractMethodPicker = ({onSelect, currentActive}) => {
     return (
-        <CardsWrapper horizontal className="MarginBottom4">
-            {AddContractMethods.map(method => <Card key={method.slug} className="Upload" selectable onClick={() => onSelect(method.slug)} selected={currentActive === method.slug}>
-                <Icon icon={method.icon}/>
-                <div>{method.title}</div>
+        <CardsWrapper horizontal className="MarginBottom4 AddContractMethodPicker">
+            {AddContractMethods.map(method => <Card key={method.slug} className="AddContractMethodPicker__Method" selectable onClick={() => onSelect(method.slug)} selected={currentActive === method.slug}>
+                <Icon icon={method.icon} className="AddContractMethodPicker__Method__Icon"/>
+                <div className="AddContractMethodPicker__Method__Title">{method.title}</div>
             </Card>)}
         </CardsWrapper>
     );
