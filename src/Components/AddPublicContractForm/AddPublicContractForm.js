@@ -1,16 +1,14 @@
-import React, {Component, useState} from 'react';
+import React, {Component, Fragment, useState} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as _ from "lodash";
 import classNames from "classnames";
 import Blockies from "react-blockies";
+import {Redirect} from "react-router-dom";
 
 import {NetworkLabelMap, NetworkTypes, SearchResultTypes} from "../../Common/constants";
 
-import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
-import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
-
-import {projectActions, searchActions} from "../../Core/actions";
+import {projectActions, searchActions, contractActions} from "../../Core/actions";
 
 import {Icon, Panel, Card, PanelContent, List, ListItem, Tag, PanelHeader, Button, Input} from "../../Elements";
 import {SimpleLoader, NetworkTag} from "..";
@@ -46,7 +44,7 @@ const SearchResultsByNetwork = ({searchResults, onSelect, existingContracts, sel
             </div>
             <div className="SearchResultsByNetwork__Results">
                 {groupedResults[currentNetwork].map(searchResult => {
-                    const isSelected = selectedContracts.find(sc => sc.data.value === searchResult.value);
+                    const isSelected = selectedContracts.find(sc => sc.value === searchResult.value);
                     const isAlreadyAdded = existingContracts.find(c => c.id === searchResult.value);
 
                     return <div key={searchResult.value} onClick={() => onSelect(searchResult)} className={classNames(
@@ -80,6 +78,9 @@ class AddPublicContractForm extends Component {
         searching: false,
         isTyping: false,
         selectedContracts: [],
+        selectedContractsStatus: {},
+        redirectBack: false,
+        importInProgress: false,
     };
 
     handleQueryUpdate = (field, value) => {
@@ -123,7 +124,7 @@ class AddPublicContractForm extends Component {
     handleContractSelection = (searchResult) => {
         const {selectedContracts} = this.state;
 
-        const existing = selectedContracts.find(sc => sc.data.value === searchResult.value);
+        const existing = selectedContracts.find(sc => sc.value === searchResult.value);
 
         if (existing) {
             this.setState({
@@ -133,18 +134,81 @@ class AddPublicContractForm extends Component {
             this.setState({
                 selectedContracts: [
                     ...selectedContracts,
-                    {
-                        data: searchResult,
-                        status: 'selected',
-                    },
-                ]
+                    searchResult,
+                ],
             });
         }
     };
 
+    /**
+     * @param {Project} project
+     * @param {SearchResult} searchResult
+     * @returns {Promise<void>}
+     */
+    importContractToProject = async (project, searchResult) => {
+        const {selectedContractsStatus} = this.state;
+        const {projectActions} = this.props;
+
+        this.setState({
+            selectedContractsStatus: {
+                ...selectedContractsStatus,
+                [searchResult.value]: 'importing',
+            },
+        });
+
+        const response = await projectActions.addVerifiedContractToProject(project, searchResult.network, searchResult.hex);
+
+        let finalStatus = 'success';
+
+        if (!response.success) {
+            finalStatus = 'failed';
+        }
+
+        this.setState({
+            selectedContractsStatus: {
+                ...selectedContractsStatus,
+                [searchResult.value]: finalStatus,
+            },
+        });
+
+        return response.success;
+    };
+
+    importSelectedContractsToProject = async () => {
+        const {project, contractActions} = this.props;
+        const {selectedContracts} = this.state;
+
+        let allSuccessful = true;
+
+        this.setState({
+            importInProgress: true,
+        });
+
+        // For some reason eslint says that searchResult is not used
+        // eslint-disable-next-line
+        for (const searchResult of selectedContracts) {
+            const addedSuccessfully = await this.importContractToProject(project, searchResult);
+
+            if (!addedSuccessfully) {
+                allSuccessful = false;
+            }
+        }
+
+        await contractActions.fetchContractsForProject(project);
+
+        this.setState({
+            redirectBack: allSuccessful,
+            importInProgress: false,
+        });
+    };
+
     render() {
-        const {searchQuery, searchResults, searching, isTyping, selectedContracts} = this.state;
-        const {contracts} = this.props;
+        const {searchQuery, searchResults, searching, isTyping, selectedContracts, importInProgress, redirectBack, selectedContractsStatus} = this.state;
+        const {project, contracts} = this.props;
+
+        if (redirectBack) {
+            return <Redirect to={`${project.getUrlBase()}/contracts`}/>
+        }
 
         return (
             <Panel className="AddPublicContractForm">
@@ -152,31 +216,41 @@ class AddPublicContractForm extends Component {
                     <h3>Import Public Contracts</h3>
                 </PanelHeader>
                 <PanelContent>
-                    <Input icon="search" label="Find a public contract by name or address" field="searchQuery" value={searchQuery} disabled={searching} onChange={this.handleQueryUpdate}/>
-                    {!!searchQuery && <Card color="dark" noPadding className="AddPublicContractForm__SearchQueryResults">
-                        {isTyping && <div className="Flex1 DisplayFlex AlignItemsCenter JustifyContentCenter">
-                            <SimpleLoader/>
-                        </div>}
-                        {!isTyping && searchResults.length === 0 && <div className="Flex1 DisplayFlex AlignItemsCenter JustifyContentCenter">
-                            <span>No contracts found that match this query</span>
-                        </div>}
-                        {!isTyping && searchResults.length > 0 && <SearchResultsByNetwork searchResults={searchResults} onSelect={this.handleContractSelection} existingContracts={contracts} selectedContracts={selectedContracts}/>}
-                    </Card>}
+                    <p className="MarginBottom3">You can import contracts that have been verified publicly on either Etherscan or Tenderly to the project.</p>
+                    {!importInProgress && <Fragment>
+                        <Input icon="search" label="Find a public contract by name or address" field="searchQuery" value={searchQuery} disabled={searching} onChange={this.handleQueryUpdate}/>
+                        {!!searchQuery && <Card color="dark" noPadding className="AddPublicContractForm__SearchQueryResults">
+                            {isTyping && <div className="Flex1 DisplayFlex AlignItemsCenter JustifyContentCenter">
+                                <SimpleLoader/>
+                            </div>}
+                            {!isTyping && searchResults.length === 0 && <div className="Flex1 DisplayFlex AlignItemsCenter JustifyContentCenter">
+                                <span>No contracts found that match this query</span>
+                            </div>}
+                            {!isTyping && searchResults.length > 0 && <SearchResultsByNetwork searchResults={searchResults} onSelect={this.handleContractSelection} existingContracts={contracts} selectedContracts={selectedContracts}/>}
+                        </Card>}
+                    </Fragment>}
                     {selectedContracts.length > 0 && <List className="MarginBottom3">
-                        {selectedContracts.map(selectedContract => <ListItem key={selectedContract.data.value} className="DisplayFlex AlignItemsCenter">
-                            <Blockies size={8} scale={5} className="BorderRadius1 MarginRight2" seed={selectedContract.data.value}/>
+                        {selectedContracts.map(selectedContract => <ListItem key={selectedContract.value} className="DisplayFlex AlignItemsCenter Padding1">
+                            <div className="MarginRight2 AddPublicContractForm__SelectedContractImage">
+                                <Blockies size={8} scale={5} className="BorderRadius1" seed={selectedContract.value}/>
+                                {selectedContractsStatus[selectedContract.value] && <div className={`AddPublicContractForm__SelectedContractImage__InProgress AddPublicContractForm__SelectedContractImage__InProgress--${selectedContractsStatus[selectedContract.value]}`}>
+                                    {selectedContractsStatus[selectedContract.value] === 'importing' && <SimpleLoader inverse/>}
+                                    {selectedContractsStatus[selectedContract.value] === 'success' && <Icon icon="check"/>}
+                                    {selectedContractsStatus[selectedContract.value] === 'failed' && <Icon icon="x-circle"/>}
+                                </div>}
+                            </div>
                             <div className="MarginRight2 Flex1">
-                                <div className="SemiBoldText">{selectedContract.data.label}</div>
+                                <div className="SemiBoldText">{selectedContract.label}</div>
                                 <div className="MarginTop1">
-                                    <NetworkTag size="small" network={selectedContract.data.network}/>
-                                    <span className="MarginLeft1 MonospaceFont LinkText">{selectedContract.data.hex}</span>
+                                    <NetworkTag size="small" network={selectedContract.network}/>
+                                    <span className="MarginLeft1 MonospaceFont LinkText">{selectedContract.hex}</span>
                                 </div>
                             </div>
-                            <div onClick={() => this.handleContractSelection(selectedContract.data)} className="Padding1 SemiBoldText CursorPointer DangerText">Remove</div>
+                            {!importInProgress && <div onClick={() => this.handleContractSelection(selectedContract)} className="Padding1 SemiBoldText CursorPointer DangerText">Remove</div>}
                         </ListItem>)}
                     </List>}
                     <div>
-                        <Button disabled={selectedContracts.length === 0 || searching}>
+                        <Button disabled={selectedContracts.length === 0 || searching || importInProgress} onClick={this.importSelectedContractsToProject}>
                             <span>Import Contracts</span>
                         </Button>
                     </div>
@@ -193,6 +267,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         projectActions: bindActionCreators(projectActions, dispatch),
+        contractActions: bindActionCreators(contractActions, dispatch),
         searchActions: bindActionCreators(searchActions, dispatch),
     }
 };
