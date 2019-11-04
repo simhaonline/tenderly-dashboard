@@ -70,7 +70,6 @@ export {default as AddIntegrationModal} from './AddIntegrationModal/AddIntegrati
 export {default as ProjectSettingsForm} from './ProjectSettingsForm/ProjectSettingsForm';
 export {default as ProjectPermissions} from './ProjectPermissions/ProjectPermissions';
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
-export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';
 export {default as AddPublicContractForm} from './AddPublicContractForm/AddPublicContractForm';
 export {default as AddContractMethodPicker} from './AddContractMethodPicker/AddContractMethodPicker';
 export {default as CliUsageInstructions} from './CliUsageInstructions/CliUsageInstructions';
