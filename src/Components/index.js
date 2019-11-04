@@ -72,6 +72,7 @@ export {default as ProjectPermissions} from './ProjectPermissions/ProjectPermiss
 export {default as ProjectSettingsActions} from './ProjectSettingsActions/ProjectSettingsActions';
 export {default as ProjectSetupGuide} from './ProjectSetupGuide/ProjectSetupGuide';
 export {default as AddPublicContractForm} from './AddPublicContractForm/AddPublicContractForm';
+export {default as AddContractMethodPicker} from './AddContractMethodPicker/AddContractMethodPicker';
 export {default as CliUsageInstructions} from './CliUsageInstructions/CliUsageInstructions';
 export {default as ProjectSetupEmptyState} from './ProjectSetupEmptyState/ProjectSetupEmptyState';
 export {default as ProjectSettingsBilling} from './ProjectSettingsBilling/ProjectSettingsBilling';

@@ -10,12 +10,12 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {contractActions} from "../../Core/actions";
 
-import {Page, Container, PageHeading, Icon, Button, CardsWrapper, Card} from "../../Elements";
-import {CliUsageInstructions, AddPublicContractForm, ProjectContentLoader} from "../../Components";
+import {Page, Container, PageHeading, Icon, Button} from "../../Elements";
+import {CliUsageInstructions, AddPublicContractForm, ProjectContentLoader, AddContractMethodPicker} from "../../Components";
 
 class ProjectAddContractPage extends Component {
     state = {
-        currentType: 'verified',
+        currentMethod: 'verified',
     };
 
     componentDidMount() {
@@ -27,12 +27,12 @@ class ProjectAddContractPage extends Component {
     }
 
     setCurrentType = (type) => {
-        this.setState({currentType: type,});
+        this.setState({currentMethod: type,});
     };
 
     render() {
         const {contractsLoaded, project} = this.props;
-        const {currentType} = this.state;
+        const {currentMethod} = this.state;
 
         return (
             <Page>
@@ -45,26 +45,9 @@ class ProjectAddContractPage extends Component {
                     </PageHeading>
                     {!contractsLoaded && <ProjectContentLoader text="Fetching required data"/>}
                     {contractsLoaded && <Fragment>
-                        <CardsWrapper horizontal className="MarginBottom4">
-                            <Card selectable onClick={() => this.setCurrentType('verified')} selected={currentType === 'verified'}>
-                                <Icon icon="compass"/>
-                                <div>Import Verified</div>
-                            </Card>
-                            <Card selectable onClick={() => this.setCurrentType('cli')} selected={currentType === 'cli'}>
-                                <Icon icon="terminal"/>
-                                <div>CLI Upload</div>
-                            </Card>
-                            <Card selectable onClick={() => this.setCurrentType('folder')} selected={currentType === 'folder'}>
-                                <Icon icon="folder"/>
-                                <div>Upload Folder</div>
-                            </Card>
-                            <Card selectable onClick={() => this.setCurrentType('superblocks')} selected={currentType === 'superblocks'} highlightColor="secondary">
-                                <Icon icon="box"/>
-                                <div>SuperBlocks</div>
-                            </Card>
-                        </CardsWrapper>
-                        {currentType === 'verified' && <AddPublicContractForm/>}
-                        {currentType === 'cli' && <CliUsageInstructions/>}
+                        <AddContractMethodPicker onSelect={this.setCurrentType} currentActive={currentMethod}/>
+                        {currentMethod === 'verified' && <AddPublicContractForm/>}
+                        {currentMethod === 'cli' && <CliUsageInstructions/>}
                     </Fragment>}
                 </Container>
             </Page>
