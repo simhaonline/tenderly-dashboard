@@ -24,7 +24,7 @@ const ProjectSetupEmptyState = ({project, open, onSetup}) => {
                     <Button to={`/explorer`} outline color="secondary" className="EmptyStateButton">
                         <span>Discover Public Contracts</span>
                     </Button>
-                    <Button to={`${project.getUrlBase()}/contracts/add`} color="secondary">
+                    <Button to={`${project.getUrlBase()}/contracts/add`} color="secondary" className="EmptyStateButton">
                         <span>Add Contracts</span>
                     </Button>
                 </div>
