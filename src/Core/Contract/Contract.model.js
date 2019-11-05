@@ -200,7 +200,7 @@ class Contract {
             mainFile = files.find(file => file.id === data.data.main_contract);
         }
 
-        const network = NetworkApiToAppTypeMap[data.network_id];
+        const network = NetworkApiToAppTypeMap[data.network_id] || data.network_id;
 
         /**
          * @Notice When ever changing the mapping from response data, be sure to check `examples.js` and adjust them
