@@ -79,19 +79,18 @@ class ProjectTransactionsPage extends Component {
         });
 
         if (project.type !== ProjectTypes.DEMO)  {
-            // const backfillingResponse = await projectActions.getProjectBackFillingStatus(project);
-            // console.log(backfillingResponse);
+            const backfillingResponse = await projectActions.getProjectBackFillingStatus(project);
 
-            this.setState({
-                backfillingStatus: {
-                    step: 2,
-                    completed: 754,
-                    total: 1043,
-                },
-            });
+            if (backfillingResponse.success) {
+                if (backfillingResponse.data.step !== 3) {
+                    this.pollBackfillingStatus();
+                }
+                this.setState({
+                    backfillingStatus: backfillingResponse.data,
+                });
+            }
         }
     }
-
 
     startPolling = () => {
         const refreshSubscriber = setInterval(() => {
@@ -104,6 +103,28 @@ class ProjectTransactionsPage extends Component {
         this.setState({
             refreshSubscriber,
         });
+    };
+
+    pollBackfillingStatus = () => {
+        const {project, projectActions} = this.props;
+
+        setTimeout(async () => {
+            const backfillingResponse = await projectActions.getProjectBackFillingStatus(project);
+
+            if (backfillingResponse.success) {
+                if (backfillingResponse.data.step !== 3) {
+                    this.pollBackfillingStatus();
+                }
+
+                this.setState({
+                    backfillingStatus: backfillingResponse.data,
+                });
+            } else {
+                this.setState({
+                    backfillingStatus: null,
+                });
+            }
+        }, ONE_MIN_INTERVAL);
     };
 
     stopPolling = () => {

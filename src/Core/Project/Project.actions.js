@@ -349,9 +349,7 @@ export const leaveSharedProject = (project) => {
 export const getProjectBackFillingStatus = (project) => {
     return async dispatch => {
         try {
-            const {data: responseData} = await Api.get(`/api/v1/account/${project.owner}/project/${project.slug}/backfilling-status`);
-
-            console.log(responseData);
+            const {data: responseData} = await Api.get(`/account/${project.owner}/project/${project.slug}/backfilling-status`);
 
             return new SuccessActionResponse(responseData);
         } catch (error) {
