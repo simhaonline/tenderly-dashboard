@@ -93,7 +93,7 @@ class ProjectPage extends Component {
                     <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
                     <Route path="/:username/:slug/contracts" exact component={ProjectContractsPage}/>
                     <Route path="/:username/:slug/contracts/add" exact component={ProjectAddContractPage}/>
-                    <Route path="/:username/:slug/contract/:network/:contractId" component={ProjectContractPage}/>
+                    <Route path="/:username/:slug/contract/:network/:address" component={ProjectContractPage}/>
                     <Route path="/:username/:slug/releases" component={ProjectReleasesPage}/>
                     <Route path="/:username/:slug/collaborators" exact component={ProjectCollaboratorsPage}/>
                     <Route path="/:username/:slug/collaborators/add" exact component={ProjectAddCollaboratorPage}/>

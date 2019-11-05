@@ -19,6 +19,23 @@ export function getContractByAddressAndNetwork(state, address, network) {
 }
 
 /**
+ * @param {Object} state
+ * @param {Project} project
+ * @param {string} address
+ * @param {NetworkTypes} network
+ * @return {Object[]}
+ */
+export function getContractTagsByAddressAndNetwork(state, project, address, network) {
+    const contractId = Contract.generateUniqueContractId(address, network);
+
+    if (!state.contract.projectContractTagsMap[project.id] || !state.contract.projectContractTagsMap[project.id][contractId]) {
+        return [];
+    }
+
+    return state.contract.projectContractTagsMap[project.id][contractId];
+}
+
+/**
  * @param {object} state
  * @param {string} address
  * @param {NetworkTypes} network

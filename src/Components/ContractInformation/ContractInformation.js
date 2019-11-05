@@ -8,7 +8,7 @@ import {CollaboratorPermissionTypes} from "../../Common/constants";
 
 import {Contract, Project} from "../../Core/models";
 
-import {Panel, PanelContent, PanelDivider, Tooltip, Icon, Toggle, Button, Dialog, DialogBody, DialogHeader} from "../../Elements";
+import {Tag, Panel, PanelContent, PanelDivider, Tooltip, Icon, Toggle, Button, Dialog, DialogBody, DialogHeader} from "../../Elements";
 import {CopyableText, NetworkTag, PermissionControl} from "../index";
 
 import './ContractInformation.scss';
@@ -49,7 +49,7 @@ class ContractInformation extends Component {
     };
 
     render() {
-        const {contract, project} = this.props;
+        const {contract, project, tags} = this.props;
         const {deleteModalOpen} = this.state;
 
         return (
@@ -81,6 +81,15 @@ class ContractInformation extends Component {
                         </div>
                     </div>
                     {!!project && <Fragment>
+                        {!!tags && tags.length > 0 && <Fragment>
+                            <PanelDivider/>
+                            <div>
+                                <span className="MarginRight2 SemiBoldText">Tags:</span>
+                                {tags.map(tag => <Tag color="primary-outline" key={tag.tag}>
+                                    {tag.tag}
+                                </Tag>)}
+                            </div>
+                        </Fragment>}
                         <PanelDivider/>
                         <div className="DisplayFlex AlignItemsCenter JustifyContentEnd">
                             <div className="MarginRightAuto">
@@ -140,6 +149,7 @@ class ContractInformation extends Component {
 
 ContractInformation.propTypes = {
     contract: PropTypes.instanceOf(Contract).isRequired,
+    tags: PropTypes.array,
     project: PropTypes.instanceOf(Project),
     onDelete: PropTypes.func,
     onListenToggle: PropTypes.func,
