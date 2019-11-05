@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+
 import {Contract} from "../../Core/models";
 
 import {Table} from '../../Elements';
@@ -34,7 +35,7 @@ class PublicContractList extends Component {
     handleContractClick = (contract) => {
         const {history} = this.props;
 
-        const networkRoute = NetworkAppToRouteTypeMap[contract.network];
+        const networkRoute = getRouteSlugForNetwork(contract.network);
 
         history.push(`/contract/${networkRoute}/${contract.address}`);
     };
