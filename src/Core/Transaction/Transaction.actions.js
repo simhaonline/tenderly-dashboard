@@ -46,6 +46,7 @@ export const fetchTransactionsForProject = (projectSlug, username, filters, page
             const typeFilter = filters[TransactionFilterTypes.TYPE];
             const contractsFilter = filters[TransactionFilterTypes.CONTRACTS];
             const networksFilter = filters[TransactionFilterTypes.NETWORKS];
+            const tagFilter = filters[TransactionFilterTypes.TAG];
 
             const projectId = Project.generateProjectId(projectSlug, username);
 
@@ -57,6 +58,7 @@ export const fetchTransactionsForProject = (projectSlug, username, filters, page
                     status: statusFilter ? StatusValueToApiValue[statusFilter.value] : null,
                     contractId: contractsFilter ? contractsFilter.value.map(contractId => Contract.generateApiIdFromUniqueId(contractId)) : null,
                     network: networksFilter ? NetworkAppToApiTypeMap[networksFilter.value] : null,
+                    tag: tagFilter ? tagFilter.value : null,
                 },
             });
 
