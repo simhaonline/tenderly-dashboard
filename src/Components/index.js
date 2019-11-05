@@ -91,6 +91,7 @@ export {default as TransactionStatusTag} from './TransactionStatusTag/Transactio
 export {default as FeatureComingSoon} from './FeatureComingSoon/FeatureComingSoon';
 export {default as UserInformationForm} from './UserInformationForm/UserInformationForm';
 export {default as TransactionsList} from './TransactionsList/TransactionsList';
+export {default as BackfillingProgress} from './BackfillingProgress/BackfillingProgress';
 export {default as NoTransactionsEmptyState} from './NoTransactionsEmptyState/NoTransactionsEmptyState';
 export {default as TransactionFilters} from './TransactionFilters/TransactionFilters';
 export {default as TransactionExecution} from './TransactionExecution/TransactionExecution';
