@@ -343,6 +343,9 @@ export const leaveSharedProject = (project) => {
     }
 };
 
+/**
+ * @param {Project} project
+ */
 export const getProjectBackFillingStatus = (project) => {
     return async dispatch => {
         try {
