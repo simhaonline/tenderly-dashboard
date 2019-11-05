@@ -34,5 +34,6 @@ export {default as ListItem} from './List/ListItem';
 export {default as Notification} from './Notification/Notification';
 export {default as Tooltip} from './Tooltip/Tooltip';
 export {default as Tag} from './Tag/Tag';
+export {default as ProgressBar} from './ProgressBar/ProgressBar';
 
 export {default as Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from './Dropdown/Dropdown';

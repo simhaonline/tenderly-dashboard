@@ -1,0 +1,42 @@
+@import "../../Common/common";
+
+$ProgressBarHeight: 16px;
+
+.ProgressBar {
+  &--Success {
+    .ProgressBar__Bar {
+      background-color: $Success500;
+    }
+  }
+  &--Secondary {
+    .ProgressBar__Bar {
+      background-color: $Secondary500;
+    }
+  }
+  &--Danger {
+    .ProgressBar__Bar {
+      background-color: $Danger500;
+    }
+  }
+
+  &:not(:last-child) {
+    margin-bottom: $Spacing3;
+  }
+}
+
+.ProgressBar__Bar {
+  height: $ProgressBarHeight;
+  min-width: $ProgressBarHeight /2;
+  padding: 0 $Spacing1;
+  overflow: hidden;
+  border-radius: $ProgressBarHeight / 2;
+  background-color: $Primary500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ProgressBar__Bar__Progress {
+  //overflow: hidden;
+  text-align: center;
+}
