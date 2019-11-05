@@ -1,4 +1,5 @@
-import {NetworkApiToAppTypeMap, NetworkAppToRouteTypeMap, SearchResultTypes} from "../../Common/constants";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+import {NetworkApiToAppTypeMap, SearchResultTypes} from "../../Common/constants";
 import Project from "../Project/Project.model";
 
 class SearchResult {
@@ -50,7 +51,7 @@ class SearchResult {
                 break;
         }
 
-        const networkRoute = NetworkAppToRouteTypeMap[this.network];
+        const networkRoute = getRouteSlugForNetwork(this.network);
 
         return url + `/${networkRoute}/${this.hex}`;
     }
@@ -81,11 +82,11 @@ class SearchResult {
     static getNetworkForType(type, response) {
         switch (type) {
             case SearchResultTypes.PROJECT_CONTRACT:
-                return NetworkApiToAppTypeMap[response.contract.network_id];
+                return NetworkApiToAppTypeMap[response.contract.network_id] || response.contract.network_id;
             case SearchResultTypes.PUBLIC_CONTRACT:
             case SearchResultTypes.PUBLIC_TRANSACTION:
             case SearchResultTypes.PROJECT_TRANSACTION:
-                return NetworkApiToAppTypeMap[response.network_id];
+                return NetworkApiToAppTypeMap[response.network_id] || response.contract.network_id;
             default:
                 return null;
         }

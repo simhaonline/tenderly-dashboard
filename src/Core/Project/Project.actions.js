@@ -3,7 +3,7 @@ import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../
 
 import Project from "./Project.model";
 import Contract from "../Contract/Contract.model";
-import {NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
+import {ProjectTypes} from "../../Common/constants";
 import {
     exampleContract1Payload,
     exampleContract2Payload,
@@ -12,6 +12,7 @@ import {
 import {updateUser} from "../Auth/Auth.actions";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {formatProjectSlug} from "../../Utils/Formatters";
+import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -274,7 +275,7 @@ export const updateProject = (project, data) => {
 export const addVerifiedContractToProject = (project, networkType, address, progressCallback = () => {}) => {
     return async (dispatch) => {
         try {
-            const networkId = NetworkAppToApiTypeMap[networkType];
+            const networkId = getApiIdForNetwork(networkType);
 
             const {data: responseData} = await StreamingApi.post(`/account/${project.owner}/project/${project.slug}/streaming-address`, {
                 network_id: networkId.toString(),

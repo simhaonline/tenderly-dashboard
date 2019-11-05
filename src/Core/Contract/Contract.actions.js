@@ -1,9 +1,11 @@
 import {Api} from "../../Utils/Api";
-import Contract from './Contract.model';
+import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
-import {NetworkAppToApiTypeMap} from "../../Common/constants";
+
 import {exampleContract1Payload, exampleContract2Payload} from "../../examples";
-import {ContractMethod, ContractLog, Project} from "../models";
+
+import {Contract, ContractMethod, ContractLog, Project} from "../models";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
@@ -69,7 +71,7 @@ export const fetchContractsForProject = (project) => {
 export const fetchContractForProject = (project, contractAddress, network) => {
     return async dispatch => {
         try {
-            const apiNetworkId = NetworkAppToApiTypeMap[network];
+            const apiNetworkId = getApiIdForNetwork(network);
 
             const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}`);
 
@@ -104,7 +106,7 @@ export const fetchContractForProject = (project, contractAddress, network) => {
 export const fetchContractsForTransaction = (project, txHash, network) => {
     return async () => {
         try {
-            const apiNetworkId = NetworkAppToApiTypeMap[network];
+            const apiNetworkId = getApiIdForNetwork(network);
 
             const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/network/${apiNetworkId}/transaction/${txHash}/contracts`);
 
@@ -151,7 +153,7 @@ export const fetchExampleContractsForTransaction = (projectId) => {
 export const toggleContractListening = (project, contract) => {
     return async dispatch => {
         try {
-            const apiNetworkId = NetworkAppToApiTypeMap[contract.network];
+            const apiNetworkId = getApiIdForNetwork(contract.network);
 
             const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contract.address}/toggle`);
 
@@ -163,7 +165,7 @@ export const toggleContractListening = (project, contract) => {
                 type: TOGGLE_CONTRACT_LISTENING_ACTION,
                 projectId: project.id,
                 contract: contract,
-                network: contract.id,
+                network: contract.network,
             });
 
             return new SuccessActionResponse();
@@ -183,7 +185,7 @@ export const toggleContractListening = (project, contract) => {
 export const deleteContract = (project, contractAddress, network) => {
     return async dispatch => {
         try {
-            const apiNetworkId = NetworkAppToApiTypeMap[network];
+            const apiNetworkId = getApiIdForNetwork(network);
 
             await Api.delete(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}`);
 
@@ -210,7 +212,7 @@ export const deleteContract = (project, contractAddress, network) => {
 export const fetchMethodsForContract = (project, contractAddress, network) => {
     return async dispatch => {
         try {
-            const apiNetworkId = NetworkAppToApiTypeMap[network];
+            const apiNetworkId = getApiIdForNetwork(network);
 
             const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}/methods`);
 
@@ -242,7 +244,7 @@ export const fetchMethodsForContract = (project, contractAddress, network) => {
 export const fetchLogsForContract = (project, contractAddress, network) => {
     return async dispatch => {
         try {
-            const apiNetworkId = NetworkAppToApiTypeMap[network];
+            const apiNetworkId = getApiIdForNetwork(network);
 
             const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}/logs`);
 

@@ -1,9 +1,11 @@
+import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+
 import {
     AlertRuleExpressionApiToAppTypeMap,
     AlertRuleExpressionAppToApiTypeMap,
     AlertRuleExpressionParameterApiToAppTypeMap,
     AlertRuleExpressionParameterAppToApiTypeMap,
-    AlertRuleExpressionParameterTypes, NetworkApiToAppTypeMap, NetworkAppToApiTypeMap
+    AlertRuleExpressionParameterTypes, NetworkApiToAppTypeMap,
 } from "../../Common/constants";
 
 class AlertRuleExpression {
@@ -37,7 +39,7 @@ class AlertRuleExpression {
             const appKey = AlertRuleExpressionParameterApiToAppTypeMap[paramKey];
 
             if (appKey === AlertRuleExpressionParameterTypes.NETWORK_ID) {
-                data[appKey] = NetworkApiToAppTypeMap[parseInt(rawParameters[paramKey])];
+                data[appKey] = NetworkApiToAppTypeMap[parseInt(rawParameters[paramKey])] || rawParameters[paramKey];
             } else if (appKey === AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS) {
                 data[appKey] = AlertRuleExpression.transformExpressionParametersToApp(rawParameters[paramKey][0]);
             } else {
@@ -61,7 +63,7 @@ class AlertRuleExpression {
 
             switch (paramKey) {
                 case AlertRuleExpressionParameterTypes.NETWORK_ID:
-                    data[apiKey] = NetworkAppToApiTypeMap[parameters[paramKey]].toString();
+                    data[apiKey] = getApiIdForNetwork(parameters[paramKey]).toString();
                     break;
                 case AlertRuleExpressionParameterTypes.PARAMETER_CONDITIONS:
                     data[apiKey] = [

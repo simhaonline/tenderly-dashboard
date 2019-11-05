@@ -1,9 +1,5 @@
-import {
-    NetworkAppToApiTypeMap,
-    NetworkAppToRouteTypeMap,
-    NetworkLabelMap,
-    NetworkLabelShorthandMap
-} from "../../Common/constants";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+import {getApiIdForNetwork, getLabelForNetwork, getShorthandForNetwork} from "../../Utils/NetworkHelpers";
 
 class Network {
     constructor(data) {
@@ -29,10 +25,10 @@ class Network {
     static buildFromNetworkType(type) {
         return new Network({
             id: type,
-            name: NetworkLabelMap[type],
-            shorthand: NetworkLabelShorthandMap[type],
-            apiId: NetworkAppToApiTypeMap[type],
-            routeId: NetworkAppToRouteTypeMap[type],
+            name: getLabelForNetwork(type),
+            shorthand: getShorthandForNetwork(type),
+            apiId: getApiIdForNetwork(type),
+            routeId: getRouteSlugForNetwork(type),
         });
     }
 }

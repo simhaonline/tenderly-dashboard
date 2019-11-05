@@ -2,9 +2,9 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {Route, Switch, withRouter} from "react-router-dom";
 
-import {EventLog, StateDiff} from "../../Core/models";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {EventLog, StateDiff} from "../../Core/models";
 
 import {PanelContent, Panel, PanelTabs} from "../../Elements";
 import {CallTracePreview, TraceDebugger, TransactionEventLogs, TransactionGasBreakdown, TransactionContracts, TransactionStateDiff} from "../index";
@@ -67,7 +67,7 @@ class TransactionExecution extends Component {
             baseUrl = `/${project.owner}/${project.slug}`
         }
 
-        baseUrl += `/tx/${NetworkAppToRouteTypeMap[transaction.network]}/${transaction.txHash}`;
+        baseUrl += `/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`;
 
         this.state = {
             currentTab: tab ? UrlToTabMap[tab] : 'overview',

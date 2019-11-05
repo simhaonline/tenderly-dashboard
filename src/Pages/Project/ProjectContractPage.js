@@ -3,9 +3,11 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 
+import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
+
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getContractByAddressAndNetwork, getContractStatus} from "../../Common/Selectors/ContractSelectors";
-import {EntityStatusTypes, EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EntityStatusTypes, EtherscanLinkTypes} from "../../Common/constants";
 
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
@@ -108,7 +110,7 @@ class ProjectContractPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {username, slug, contractId, network}}} = ownProps;
 
-    const networkType = NetworkRouteToAppTypeMap[network];
+    const networkType = getNetworkForRouteSlug(network);
 
     const project = getProjectBySlugAndUsername(state, slug, username);
 

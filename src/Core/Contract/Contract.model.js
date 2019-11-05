@@ -1,9 +1,10 @@
 import moment from "moment";
 import _ from "lodash";
 
-import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
+import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 import ContractFile from "./ContractFile.model";
+import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 
 class Contract {
     /**
@@ -83,7 +84,7 @@ class Contract {
      * @return {string}
      */
     getApiId() {
-        return `eth:${NetworkAppToApiTypeMap[this.network]}:${this.id}`;
+        return `eth:${getApiIdForNetwork(this.network)}:${this.id}`;
     }
 
     /**
@@ -182,7 +183,7 @@ class Contract {
     static generateApiIdFromUniqueId(uniqueContractId) {
         const [network, address] = uniqueContractId.split(':');
 
-        return `eth:${NetworkAppToApiTypeMap[network]}:${address}`;
+        return `eth:${getApiIdForNetwork(network)}:${address}`;
     }
 
     /**

@@ -1,12 +1,13 @@
 import {Api} from '../../Utils/Api';
-import {NetworkApiToAppTypeMap, NetworkAppToApiTypeMap} from "../../Common/constants";
+import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+
+import {NetworkApiToAppTypeMap} from "../../Common/constants";
 import Contract from "../Contract/Contract.model";
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 export const FETCH_PUBLIC_CONTRACTS_ACTION = 'FETCH_PUBLIC_CONTRACTS';
 export const FETCH_PUBLIC_CONTRACTS_FOR_TX_ACTION = 'FETCH_PUBLIC_CONTRACTS_FOR_TX';
 export const FETCH_PUBLIC_CONTRACT_ACTION = 'FETCH_PUBLIC_CONTRACT';
-export const FETCH_PUBLIC_CONTRACT_EVENTS_ACTION = 'FETCH_PUBLIC_CONTRACT_EVENTS';
 
 export const FETCH_WATCHED_CONTRACTS_ACTION = 'FETCH_WATCHED_CONTRACTS';
 export const TOGGLE_WATCHED_CONTRACT_ACTION = 'TOGGLE_WATCHED_CONTRACT';
@@ -20,7 +21,7 @@ export const TOGGLE_WATCHED_CONTRACT_ACTION = 'TOGGLE_WATCHED_CONTRACT';
 export const fetchPublicContracts = (network, page, perPage = 20, query) => {
     return async dispatch => {
         try {
-            const apiNetwork = NetworkAppToApiTypeMap[network];
+            const apiNetwork = getApiIdForNetwork(network);
 
             const {data} = await Api.get(`/public-contracts/${apiNetwork}`, {
                 params: {
@@ -60,7 +61,7 @@ export const fetchPublicContracts = (network, page, perPage = 20, query) => {
 export const fetchPublicContract = (address, network, silentError = false) => {
     return async dispatch => {
         try {
-            const apiNetwork = NetworkAppToApiTypeMap[network];
+            const apiNetwork = getApiIdForNetwork(network);
 
             const {data} = await Api.get(`/public-contracts/${apiNetwork}/${address}`);
 
@@ -91,7 +92,7 @@ export const fetchPublicContract = (address, network, silentError = false) => {
 export const fetchPublicContractsForTransaction = (transaction) => {
     return async dispatch => {
         try {
-            const apiNetwork = NetworkAppToApiTypeMap[transaction.network];
+            const apiNetwork = getApiIdForNetwork(transaction.network);
 
             const {data} = await Api.get(`/public-contract/${apiNetwork}/tx/${transaction.txHash}/contracts`);
 
@@ -145,7 +146,7 @@ export const fetchWatchedContracts = () => {
 export const toggleWatchedContract = (contract, network) => {
     return async dispatch => {
         try {
-            const networkId = NetworkAppToApiTypeMap[network];
+            const networkId = getApiIdForNetwork(network);
 
             const {data} = await Api.post(`/public-contract/${networkId}/address/${contract.address}/toggle-watch`);
 
@@ -213,7 +214,7 @@ export const searchPublicData = (query) => {
                     type: 'transaction',
                     txHash: tx.hash,
                     value: `${tx.network_id}:${tx.hash}`,
-                    network: NetworkApiToAppTypeMap[parseInt(tx.network_id)],
+                    network: NetworkApiToAppTypeMap[parseInt(tx.network_id)] || tx.network_id,
                     status: tx.status,
                 }));
             }

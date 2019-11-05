@@ -4,8 +4,9 @@ import {connect} from "react-redux";
 import { Helmet } from "react-helmet";
 
 import Analytics from "../../Utils/Analytics";
+import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
 
-import {NetworkLabelMap, NetworkRouteToAppTypeMap, NetworkTypes} from "../../Common/constants";
+import {NetworkLabelMap, NetworkTypes} from "../../Common/constants";
 import {getNetworkPublicContractsForPage} from "../../Common/Selectors/PublicContractSelectors";
 
 import * as publicContractsActions from '../../Core/PublicContracts/PublicContracts.actions';
@@ -126,7 +127,7 @@ class PublicContractsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: { network }}} = ownProps;
 
-    let networkType = NetworkRouteToAppTypeMap[network];
+    let networkType = getNetworkForRouteSlug(network);
 
     return {
         contracts: getNetworkPublicContractsForPage(state, networkType, 0),
