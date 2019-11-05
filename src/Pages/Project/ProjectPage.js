@@ -61,7 +61,7 @@ class ProjectPage extends Component {
     }
 
     render(){
-        const {project, location, match} = this.props;
+        const {project, tagsLoaded, location, match} = this.props;
         const {nonExistingProject} = this.state;
 
         if (nonExistingProject) {
@@ -75,7 +75,7 @@ class ProjectPage extends Component {
             return <Redirect to="/dashboard"/>;
         }
 
-        if (!project) {
+        if (!project || !tagsLoaded) {
             return <ProjectPageLoader text="Fetching Project..."/>;
         }
 
