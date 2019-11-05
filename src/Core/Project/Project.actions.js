@@ -21,7 +21,7 @@ export const FETCH_PROJECT_ACTION = 'FETCH_PROJECT';
 export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
 export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PROJECT';
 export const LEAVE_SHARED_PROJECT_ACTION = 'LEAVE_SHARED_PROJECT';
-export const GET_PROJECT_TAGS_ACTION = 'GET_PROJECT_TAGS';
+export const FETCH_PROJECT_TAGS_ACTION = 'FETCH_PROJECT_TAGS';
 
 /**
  * @param {string} name
@@ -357,7 +357,7 @@ export const fetchProjectTags = (project) => {
             }
 
             dispatch({
-                type: GET_PROJECT_TAGS_ACTION,
+                type: FETCH_PROJECT_TAGS_ACTION,
                 projectId: project.id,
                 tags: data.tags,
             });

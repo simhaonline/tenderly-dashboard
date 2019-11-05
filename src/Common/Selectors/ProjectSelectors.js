@@ -47,3 +47,27 @@ export function areProjectContractsLoaded(state, projectId) {
 
     return projectContractsStatus && projectContractsStatus === EntityStatusTypes.LOADED;
 }
+
+/**
+ * @param {Object} state
+ * @param {Project} project
+ * @returns {Array}
+ */
+export function getProjectTags(state, project) {
+    if (!project || !state.project.projectTags[project.id]) return [];
+
+    return state.project.projectTags[project.id];
+}
+
+/**
+ * @param {Object} state
+ * @param {Project} project
+ * @returns {Array}
+ */
+export function areProjectTagsLoaded(state, project) {
+    if (!project || !state.project.projectTags[project.id]) {
+        return false;
+    }
+
+    return true;
+}

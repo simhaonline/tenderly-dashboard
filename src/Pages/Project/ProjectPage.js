@@ -6,11 +6,9 @@ import {Helmet} from "react-helmet";
 
 import {isTransactionOrContractUrl} from "../../Utils/UrlHelpers";
 
-import {Project} from "../../Core/models";
+import {areProjectTagsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
-import * as projectActions from "../../Core/Project/Project.actions";
-import {searchActions} from "../../Core/actions";
+import {searchActions, projectActions} from "../../Core/actions";
 
 import ProjectTransactionsPage from "./ProjectTransactionsPage";
 import ProjectTransactionPage from "./ProjectTransactionPage";
@@ -37,7 +35,7 @@ class ProjectPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, actions, projectSlug, username, searchActions} = this.props;
+        const {project, actions, projectSlug, tagsLoaded, username, searchActions} = this.props;
 
         searchActions.setProjectContext(projectSlug, username);
 
@@ -51,6 +49,8 @@ class ProjectPage extends Component {
             }
 
             await actions.fetchProjectTags(response.data);
+        } else if (!tagsLoaded) {
+            await actions.fetchProjectTags(project);
         }
     }
 
@@ -109,10 +109,13 @@ class ProjectPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {username, slug}}} = ownProps;
 
+    const project = getProjectBySlugAndUsername(state, slug, username);
+
     return {
         username,
         projectSlug: slug,
-        project: getProject(state, Project.generateProjectId(slug, username)),
+        project,
+        tagsLoaded: areProjectTagsLoaded(state, project),
     }
 };
 
