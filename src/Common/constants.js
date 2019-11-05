@@ -177,6 +177,7 @@ export const TransactionFilterTypes = {
     QUERY: 'QUERY',
     CONTRACTS: 'CONTRACTS',
     NETWORKS: 'NETWORKS',
+    TAG: 'TAG',
     STATUS: 'STATUS',
     TYPE: 'TYPE',
     RESET: 'RESET',
