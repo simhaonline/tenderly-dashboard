@@ -2,7 +2,9 @@ import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {NavLink} from "react-router-dom";
 
-import {CollaboratorPermissionTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+
+import {CollaboratorPermissionTypes} from "../../Common/constants";
 
 import {Contract, Project} from "../../Core/models";
 
@@ -122,10 +124,10 @@ class ContractInformation extends Component {
                     {contract.isPublic && <Fragment>
                         <PanelDivider/>
                         <div className="ContractInformation__PublicNavigation">
-                            <NavLink exact to={`/contract/${NetworkAppToRouteTypeMap[contract.network]}/${contract.address}`} className="ContractInformation__PublicNavigation__NavItem">
+                            <NavLink exact to={`/contract/${getRouteSlugForNetwork(contract.network)}/${contract.address}`} className="ContractInformation__PublicNavigation__NavItem">
                                 <span>Transactions</span>
                             </NavLink>
-                            <NavLink exact to={`/contract/${NetworkAppToRouteTypeMap[contract.network]}/${contract.address}/source`} className="ContractInformation__PublicNavigation__NavItem">
+                            <NavLink exact to={`/contract/${getRouteSlugForNetwork(contract.network)}/${contract.address}/source`} className="ContractInformation__PublicNavigation__NavItem">
                                 <span>Source Code</span>
                             </NavLink>
                         </div>
