@@ -102,7 +102,7 @@ class ProjectTransactionPage extends Component {
 
         if (error) {
             return (
-                <Page scrollToTopEnabled>
+                <Page>
                     <Container>
                         <PageHeading>
                             <Button to={backUrl} outline>
@@ -124,7 +124,7 @@ class ProjectTransactionPage extends Component {
 
         if (loading) {
             return (
-                <Page scrollToTopEnabled>
+                <Page>
                     <Container>
                         <PageHeading>
                             <Button to={backUrl} outline>
@@ -151,7 +151,7 @@ class ProjectTransactionPage extends Component {
         const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
 
         return (
-            <Page id="ProjectTransactionsPage" scrollToTopEnabled>
+            <Page id="ProjectTransactionsPage">
                 <Container>
                     <PageHeading>
                         <Button to={backUrl} outline>
