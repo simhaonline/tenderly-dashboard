@@ -16,6 +16,7 @@ stories.add('default', () => {
         </div>
         <Panel>
             <PanelContent>
+                <ProgressBar value={40} displayPercentage/>
                 <ProgressBar value={50} color="secondary" displayPercentage/>
                 <ProgressBar value={60} color="success" displayPercentage/>
                 <ProgressBar value={70} color="danger" displayPercentage/>

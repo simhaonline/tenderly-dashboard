@@ -3,17 +3,23 @@
 $ProgressBarHeight: 16px;
 
 .ProgressBar {
+  border-radius: $ProgressBarHeight / 2;
+  background-color: transparentize($Primary500, 0.7);
+
   &--Success {
+    background-color: transparentize($Success500, 0.6);
     .ProgressBar__Bar {
       background-color: $Success500;
     }
   }
   &--Secondary {
+    background-color: transparentize($Secondary500, 0.6);
     .ProgressBar__Bar {
       background-color: $Secondary500;
     }
   }
   &--Danger {
+    background-color: transparentize($Danger500, 0.7);
     .ProgressBar__Bar {
       background-color: $Danger500;
     }
