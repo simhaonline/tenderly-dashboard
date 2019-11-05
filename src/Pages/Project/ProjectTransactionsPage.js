@@ -4,15 +4,14 @@ import {bindActionCreators} from "redux";
 import moment from "moment";
 import _ from 'lodash';
 
-import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
-import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
-import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
 import Notifications from "../../Utils/Notifications";
 
-import {Project} from "../../Core/models";
+import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
 
-import * as transactionActions from "../../Core/Transaction/Transaction.actions";
-import * as contractActions from "../../Core/Contract/Contract.actions";
+import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+
+import {contractActions, projectActions, transactionActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading, Toggle} from "../../Elements";
 import {ProjectContentLoader, TransactionsList, TransactionFilters, ProjectSetupEmptyState, NoTransactionsEmptyState} from "../../Components";
@@ -301,21 +300,22 @@ const mapStateToProps = (state, ownProps) => {
         };
     }
 
-    const projectId = Project.generateProjectId(slug, username);
+    const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
         queryPage,
         queryPerPage,
         queryFilters,
-        project: getProject(state, projectId),
-        contracts: getContractsForProject(state, projectId),
-        contractsLoaded: areProjectContractsLoaded(state, projectId),
+        project,
+        contracts: getContractsForProject(state, project.id),
+        contractsLoaded: areProjectContractsLoaded(state, project.id),
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         txActions: bindActionCreators(transactionActions, dispatch),
+        projectActions: bindActionCreators(projectActions, dispatch),
         contractActions: bindActionCreators(contractActions, dispatch),
     }
 };

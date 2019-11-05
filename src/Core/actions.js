@@ -3,6 +3,7 @@ import * as projectActions from './Project/Project.actions';
 import * as contractActions from './Contract/Contract.actions';
 import * as authActions from './Auth/Auth.actions';
 import * as searchActions from './Search/Search.actions';
+import * as transactionActions from './Transaction/Transaction.actions';
 
 export {
     collaborationActions,
@@ -10,4 +11,5 @@ export {
     contractActions,
     authActions,
     searchActions,
+    transactionActions,
 };
