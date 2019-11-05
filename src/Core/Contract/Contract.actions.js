@@ -274,6 +274,10 @@ export const getContractBackFillingStatus = (project, contract) => {
     return async dispatch => {
         try {
             const {data: responseData} = await Api.get(`/api/v1/account/${project.owner}/project/${project.slug}/network/${contract.network}/contract/${contract.address}/backfilling-status`);
+
+            console.log(responseData);
+
+            return new SuccessActionResponse(responseData);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);
