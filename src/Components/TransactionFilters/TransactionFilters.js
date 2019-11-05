@@ -45,30 +45,40 @@ class TransactionFilters extends Component {
     constructor(props) {
         super(props);
 
-        const contractOptions = props.contracts || [];
+        const {contracts, tags} = props;
 
-        const networkOptions = getUniqueNetworksForContracts(props.contracts);
+        const contractOptions = contracts || [];
+
+        const networkOptions = getUniqueNetworksForContracts(contracts);
+
+        const tagOptions = tags.map(tag => ({
+            label: tag,
+            value: tag,
+        }));
 
         this.state = {
             contractOptions,
             networkOptions,
+            tagOptions,
             openModal: false,
             draftStatus: 'all',
             draftType: 'all',
             draftContracts: [],
             draftNetworks: '',
+            draftTag: '',
             draftQuery: '',
         };
     }
 
     handleModalOpen = () => {
         const {activeFilters} = this.props;
-        const {contractOptions, networkOptions} = this.state;
+        const {contractOptions, tagOptions, networkOptions} = this.state;
 
         const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value: 'all';
         const type = activeFilters[TransactionFilterTypes.TYPE] ? activeFilters[TransactionFilterTypes.TYPE].value: 'all';
         const contracts = activeFilters[TransactionFilterTypes.CONTRACTS] ? contractOptions.filter(c => activeFilters[TransactionFilterTypes.CONTRACTS].value.includes(c.getUniqueId())): [];
         const networks = activeFilters[TransactionFilterTypes.NETWORKS] ? networkOptions.find(n => n.id === activeFilters[TransactionFilterTypes.NETWORKS].value): '';
+        const tag = activeFilters[TransactionFilterTypes.TAG] ? tagOptions.find(t => t.value === activeFilters[TransactionFilterTypes.TAG].value) : '';
 
         this.setState({
             openModal: true,
@@ -76,6 +86,7 @@ class TransactionFilters extends Component {
             draftType: type,
             draftContracts: contracts,
             draftNetworks: networks,
+            draftTag: tag,
         });
     };
 
@@ -123,6 +134,12 @@ class TransactionFilters extends Component {
         });
     };
 
+    handleDraftTagChange = (value) => {
+        this.setState({
+            draftTag: value,
+        });
+    };
+
     resetFilters = () => {
         const {onFiltersChange} = this.props;
 
@@ -132,7 +149,7 @@ class TransactionFilters extends Component {
     };
 
     handleApplyFilters = () => {
-        const {draftStatus, draftType, draftContracts, draftNetworks} = this.state;
+        const {draftStatus, draftType, draftContracts, draftTag, draftNetworks} = this.state;
         const {onFiltersChange} = this.props;
 
         const filters = [];
@@ -157,13 +174,18 @@ class TransactionFilters extends Component {
             value: draftNetworks ? draftNetworks.id : null,
         });
 
+        filters.push({
+            type: TransactionFilterTypes.TAG,
+            value: draftTag ? draftTag.value : null,
+        });
+
         onFiltersChange(filters);
 
         this.handleModalClose();
     };
 
     render() {
-        const {openModal, draftStatus, draftType, draftContracts, draftNetworks, contractOptions, networkOptions} = this.state;
+        const {openModal, draftStatus, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
         const {activeFilters} = this.props;
 
         const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
@@ -213,6 +235,12 @@ class TransactionFilters extends Component {
                                         }} isClearable value={draftNetworks} selectLabel="Select Network" options={networkOptions} getOptionLabel={network => network.name} getOptionValue={network => network.id} onChange={this.handleDraftNetworksChange}/>
                                     </div>
                                 </div>
+                                {tagOptions.length > 0 && <div className="TransactionFilters__Dialog__FilterRow">
+                                    <div className="TransactionFilters__Dialog__FilterRow__Label">Tag</div>
+                                    <div className="TransactionFilters__Dialog__FilterRow__Filter">
+                                        <Select isClearable value={draftTag} selectLabel="Select Tag" options={tagOptions} onChange={this.handleDraftTagChange}/>
+                                    </div>
+                                </div>}
                             </div>
                             <div className="DisplayFlex AlignItemsCenter">
                                 <div>
@@ -238,6 +266,7 @@ class TransactionFilters extends Component {
 TransactionFilters.propTypes = {
     activeFilters: PropTypes.object,
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
+    tags: PropTypes.array.isRequired,
     onFiltersChange: PropTypes.func.isRequired,
 };
 
