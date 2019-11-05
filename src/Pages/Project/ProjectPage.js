@@ -45,10 +45,12 @@ class ProjectPage extends Component {
             const response = await actions.fetchProject(projectSlug, username);
 
             if (!response.success) {
-                this.setState({
+                return this.setState({
                     nonExistingProject: true,
                 })
             }
+
+            await actions.fetchProjectTags(response.data);
         }
     }
 
