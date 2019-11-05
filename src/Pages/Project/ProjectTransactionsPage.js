@@ -4,16 +4,16 @@ import {bindActionCreators} from "redux";
 import moment from "moment";
 import _ from 'lodash';
 
+import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
+
 import {
     areProjectContractsLoaded,
     getProjectBySlugAndUsername,
     getProjectTags
 } from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
-import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
-import Notifications from "../../Utils/Notifications";
 
-import {Project} from "../../Core/models";
+import Notifications from "../../Utils/Notifications";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
