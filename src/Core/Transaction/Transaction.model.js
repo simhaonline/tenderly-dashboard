@@ -46,7 +46,7 @@ class Transaction {
         this.nonce = data.nonce;
 
         /** @type NetworkTypes */
-        this.network = NetworkApiToAppTypeMap[data.networkId];
+        this.network = data.network;
 
         /** @type string */
         this.projectId = projectId;
@@ -85,7 +85,7 @@ class Transaction {
             gasUsed: response.gas_used,
             nonce: response.nonce,
             timestamp: response.timestamp,
-            networkId: parseInt(response.network_id),
+            network: NetworkApiToAppTypeMap[parseInt(response.network_id)] || response.network_id,
         }, projectId);
     }
 }
