@@ -13,7 +13,7 @@ const CardHighlightColorClassMap = {
     'secondary': 'Card--HighlightSecondary',
 };
 
-const Card = ({children, className, color, clickable, selectable, selected, onClick, highlightColor, disabled}) => {
+const Card = ({children, className, color, clickable, selectable, selected, onClick, highlightColor, noPadding, disabled}) => {
     return (
         <div className={classNames(
             "Card",
@@ -25,6 +25,7 @@ const Card = ({children, className, color, clickable, selectable, selected, onCl
                 "Card--Selectable": selectable,
                 "Card--Selected": selected,
                 "Card--Disabled": disabled,
+                "Card--NoPadding": noPadding,
             },
         )} onClick={onClick}>
             {children}
@@ -37,12 +38,14 @@ Card.propTypes = {
     selectable: PropTypes.bool,
     selected: PropTypes.bool,
     disabled: PropTypes.bool,
+    noPadding: PropTypes.bool,
     highlightColor: PropTypes.oneOf(['secondary']),
     color: PropTypes.oneOf(['light', 'dark']),
 };
 
 Card.defaultProps = {
     clickable: false,
+    noPadding: false,
 };
 
 export default Card;

@@ -22,25 +22,25 @@ class Page extends Component {
     }
 
     componentDidMount() {
-        const {actions, wholeScreenPage, scrollToTopEnabled} = this.props;
+        const {actions, wholeScreenPage} = this.props;
 
         if (wholeScreenPage) {
             actions.setWholeScreenPage(true);
         }
 
-        if (scrollToTopEnabled && this.pageRef) {
+        if (this.pageRef) {
             this.pageRef.current.addEventListener('scroll', this.handlePageScrollEvent);
         }
     }
 
     componentWillUnmount() {
-        const {actions, wholeScreenPage, scrollToTopEnabled} = this.props;
+        const {actions, wholeScreenPage} = this.props;
 
         if (wholeScreenPage) {
             actions.setWholeScreenPage(false);
         }
 
-        if (scrollToTopEnabled && this.pageRef) {
+        if (this.pageRef) {
             this.pageRef.current.removeEventListener('scroll', this.handlePageScrollEvent);
         }
     }
@@ -51,9 +51,6 @@ class Page extends Component {
     handlePageScrollEvent = ({target}) => {
         const {scrollTop, clientHeight} = target;
         const {showToTop} = this.state;
-        const {scrollToTopEnabled} = this.props;
-
-        if (!scrollToTopEnabled) return;
 
         if (showToTop && scrollTop <= clientHeight) {
             this.setState({
@@ -73,7 +70,7 @@ class Page extends Component {
     };
 
     render() {
-        const {children, scrollToTopEnabled, wholeScreenPage, padding, ...props} = this.props;
+        const {children, wholeScreenPage, padding, ...props} = this.props;
         const {showToTop} = this.state;
 
         return (
@@ -84,7 +81,7 @@ class Page extends Component {
                 }
             )} {...props} ref={this.pageRef}>
                 {children}
-                {scrollToTopEnabled && showToTop && <Fragment>
+                {showToTop && <Fragment>
                     <div className="Page__ScrollTopButton" id="PageScrollTopButton" onClick={this.scrollToTopOfPage}>
                         <Icon icon="chevrons-up" className="Page__ScrollTopButton__Icon"/>
                     </div>
@@ -98,12 +95,10 @@ class Page extends Component {
 Page.defaultProps = {
     padding: true,
     wholeScreenPage: false,
-    scrollToTopEnabled: false,
 };
 
 Page.propTypes = {
     wholeScreenPage: PropTypes.bool,
-    scrollToTopEnabled: PropTypes.bool,
 };
 
 const mapDispatchToProps = (dispatch) => {
