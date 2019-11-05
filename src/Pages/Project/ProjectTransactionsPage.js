@@ -14,7 +14,7 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {contractActions, projectActions, transactionActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading, Toggle} from "../../Elements";
-import {ProjectContentLoader, TransactionsList, TransactionFilters, ProjectSetupEmptyState, NoTransactionsEmptyState} from "../../Components";
+import {ProjectContentLoader, TransactionsList, BackfillingProgress, TransactionFilters, ProjectSetupEmptyState, NoTransactionsEmptyState} from "../../Components";
 
 const DEFAULT_TX_PER_PAGE = 20;
 
@@ -36,7 +36,7 @@ class ProjectTransactionsPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, txActions, contractActions, contractsLoaded} = this.props;
+        const {project, projectActions, txActions, contractActions, contractsLoaded} = this.props;
         const {filters, page, perPage} = this.state;
 
         let transactions = [];
@@ -58,6 +58,9 @@ class ProjectTransactionsPage extends Component {
                 return;
             }
 
+            // const backfillingResponse = await projectActions.getProjectBackFillingStatus(project);
+            // console.log(backfillingResponse);
+
             transactions = actionResponse.data;
 
             if (project.isSetup) {
@@ -74,7 +77,21 @@ class ProjectTransactionsPage extends Component {
             transactions,
             lastFetch: moment.now(),
         });
+
+        if (project.type !== ProjectTypes.DEMO)  {
+            // const backfillingResponse = await projectActions.getProjectBackFillingStatus(project);
+            // console.log(backfillingResponse);
+
+            this.setState({
+                backfillingStatus: {
+                    step: 2,
+                    completed: 754,
+                    total: 1043,
+                },
+            });
+        }
     }
+
 
     startPolling = () => {
         const refreshSubscriber = setInterval(() => {
@@ -227,7 +244,7 @@ class ProjectTransactionsPage extends Component {
     };
 
     render() {
-        const {loading, transactions, filters, page, perPage, refreshSubscriber, fetching, error} = this.state;
+        const {loading, transactions, backfillingStatus, filters, page, perPage, refreshSubscriber, fetching, error} = this.state;
         const {contracts, project} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
@@ -256,6 +273,7 @@ class ProjectTransactionsPage extends Component {
                                           currentPage={page} onPageChange={this.handlePageChange}
                                           perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
                         {!shouldDisplayListAndFilters && <NoTransactionsEmptyState error={error}/>}
+                        {!!backfillingStatus && <BackfillingProgress context="project" status={backfillingStatus}/>}
                     </Fragment>}
                 </Container>
             </Page>
