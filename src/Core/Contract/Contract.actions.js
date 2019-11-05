@@ -26,12 +26,18 @@ export const fetchContractsForProject = (project) => {
 
             let contracts = [];
 
+            const contractTags = {};
+
             if (data) {
                 data.forEach(contractResponse => {
                     const contract = Contract.buildFromResponse(contractResponse.contract, {
                         id: projectId,
                         listening: contractResponse.include_in_transaction_listing,
                     });
+
+                    if (contractResponse.tags) {
+                        contractTags[contract.id] = contractResponse.tags;
+                    }
 
                     contracts.push(contract);
 
@@ -41,6 +47,10 @@ export const fetchContractsForProject = (project) => {
                                 id: projectId,
                                 listening: childContractResponse.include_in_transaction_listing,
                             }, contract.address);
+
+                            if (childContractResponse.tags) {
+                                contractTags[childContract.id] = childContractResponse.tags;
+                            }
 
                             contracts.push(childContract);
                         });
@@ -52,6 +62,7 @@ export const fetchContractsForProject = (project) => {
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
                 contracts,
                 projectId,
+                contractTags,
             });
 
             return new SuccessActionResponse(contracts);
@@ -87,6 +98,7 @@ export const fetchContractForProject = (project, contractAddress, network) => {
             await dispatch({
                 type: FETCH_CONTRACT_FOR_PROJECT_ACTION,
                 contract,
+                tags: data.tags,
                 projectId: project.id,
             });
 
