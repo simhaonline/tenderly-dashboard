@@ -62,9 +62,6 @@ class ProjectTransactionsPage extends Component {
                 return;
             }
 
-            // const backfillingResponse = await projectActions.getProjectBackFillingStatus(project);
-            // console.log(backfillingResponse);
-
             transactions = actionResponse.data;
 
             if (project.isSetup) {
@@ -87,8 +84,9 @@ class ProjectTransactionsPage extends Component {
 
             if (backfillingResponse.success) {
                 if (backfillingResponse.data.step !== 3) {
-                    this.pollBackfillingStatus();
+                    this.startBackfillingPolling();
                 }
+
                 this.setState({
                     backfillingStatus: backfillingResponse.data,
                 });
@@ -109,15 +107,15 @@ class ProjectTransactionsPage extends Component {
         });
     };
 
-    pollBackfillingStatus = () => {
+    startBackfillingPolling = () => {
         const {project, projectActions} = this.props;
 
-        setTimeout(async () => {
+        const backfillingSubscriber = setInterval(async () => {
             const backfillingResponse = await projectActions.getProjectBackFillingStatus(project);
 
             if (backfillingResponse.success) {
-                if (backfillingResponse.data.step !== 3) {
-                    this.pollBackfillingStatus();
+                if (backfillingResponse.data.step === 3) {
+                    this.stopBackfillingPolling();
                 }
 
                 this.setState({
@@ -129,6 +127,22 @@ class ProjectTransactionsPage extends Component {
                 });
             }
         }, ONE_MIN_INTERVAL);
+
+        this.setState({
+            backfillingSubscriber,
+        });
+    };
+
+    stopBackfillingPolling = () => {
+        const {backfillingSubscriber} = this.state;
+
+        if (backfillingSubscriber) {
+            clearInterval(backfillingSubscriber);
+        }
+
+        this.setState({
+            backfillingSubscriber: null,
+        });
     };
 
     stopPolling = () => {
@@ -144,10 +158,14 @@ class ProjectTransactionsPage extends Component {
     };
 
     componentWillUnmount() {
-        const {refreshSubscriber} = this.state;
+        const {refreshSubscriber, backfillingSubscriber} = this.state;
 
         if (refreshSubscriber) {
             clearInterval(refreshSubscriber);
+        }
+
+        if (backfillingSubscriber) {
+            clearInterval(backfillingSubscriber);
         }
     }
 
