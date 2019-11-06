@@ -36,6 +36,20 @@ export function getContractTagsByAddressAndNetwork(state, project, address, netw
 }
 
 /**
+ *
+ * @param {Object} state
+ * @param {Project} project
+ * @returns {Object<Contract.id, Object[]>|null}
+ */
+export function getTagsForProjectContracts(state, project) {
+    if (!state.contract.projectContractTagsMap[project.id]) {
+        return null;
+    }
+
+    return state.contract.projectContractTagsMap[project.id];
+}
+
+/**
  * @param {object} state
  * @param {string} address
  * @param {NetworkTypes} network
@@ -66,46 +80,6 @@ export function getContractsForProject(state, projectId) {
     const contracts = state.contract.projectContractsMap[projectId].map(contractId => {
         return state.contract.contracts[contractId];
     });
-
-    return contracts;
-}
-
-/**
- * @param {Object} state
- * @param {Event} event
- * @return {Contract}
- */
-export function getContractForEvent(state, event) {
-    if (!event) {
-        return null;
-    }
-
-    const contract = state.contract.contracts[event.contractId];
-
-    if (!contract) {
-        return null;
-    }
-
-    return contract;
-}
-
-/**
- * @param {Object} state
- * @param {Transaction} transaction
- * @return {Contract[]}
- */
-export function getContractsForTransaction(state, transaction) {
-    if (!transaction) {
-        return null;
-    }
-
-    const contracts = transaction.contracts
-        .map(contract => state.contract.contracts[contract])
-        .filter(contract => !!contract);
-
-    if (!contracts || !contracts.length) {
-        return [];
-    }
 
     return contracts;
 }
