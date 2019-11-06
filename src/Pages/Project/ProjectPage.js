@@ -54,6 +54,14 @@ class ProjectPage extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {tagsLoaded, project, actions} = this.props;
+
+        if (prevProps.project !== project && !tagsLoaded) {
+            actions.fetchProjectTags(project)
+        }
+    }
+
     componentWillUnmount() {
         const {searchActions} = this.props;
 
