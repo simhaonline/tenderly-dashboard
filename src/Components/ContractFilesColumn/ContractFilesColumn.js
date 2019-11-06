@@ -18,7 +18,7 @@ const ContractFilesColumn = ({contract, tags}) => {
             </div>
             {tags && tags.length > 0 && <div className="MarginLeft2">
                 <Icon className="MutedText" icon="tag"/>
-                {tags.length === 1 && <span> {tags[0].tag}</span>}
+                {tags.length === 1 && <span className="MonospaceFont"> {tags[0].tag}</span>}
                 {tags.length > 1 && <span> {tags.length} Tags</span>}
             </div>}
         </div>
