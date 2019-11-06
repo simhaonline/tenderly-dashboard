@@ -86,7 +86,8 @@ class ContractInformation extends Component {
                             <div>
                                 <span className="MarginRight2 SemiBoldText">Tags:</span>
                                 {tags.map(tag => <Tag color="primary-outline" key={tag.tag}>
-                                    {tag.tag}
+                                    <Icon icon="tag"/>
+                                    <span>{tag.tag}</span>
                                 </Tag>)}
                             </div>
                         </Fragment>}
