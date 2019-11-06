@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/browser";
 
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
-import {NetworkAppToApiTypeMap, TransactionFilterTypes} from "../../Common/constants";
+import {TransactionFilterTypes} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
 import {EventLog, StackTrace, CallTrace, Transaction, StateDiff, Project} from "../models";
@@ -10,6 +10,7 @@ import {
     exampleTransaction1Paylod
 } from "../../examples";
 import Contract from "../Contract/Contract.model";
+import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
@@ -46,6 +47,7 @@ export const fetchTransactionsForProject = (projectSlug, username, filters, page
             const typeFilter = filters[TransactionFilterTypes.TYPE];
             const contractsFilter = filters[TransactionFilterTypes.CONTRACTS];
             const networksFilter = filters[TransactionFilterTypes.NETWORKS];
+            const tagFilter = filters[TransactionFilterTypes.TAG];
 
             const projectId = Project.generateProjectId(projectSlug, username);
 
@@ -56,7 +58,8 @@ export const fetchTransactionsForProject = (projectSlug, username, filters, page
                     txType: typeFilter ? TypeValueToApiValue[typeFilter.value] : null,
                     status: statusFilter ? StatusValueToApiValue[statusFilter.value] : null,
                     contractId: contractsFilter ? contractsFilter.value.map(contractId => Contract.generateApiIdFromUniqueId(contractId)) : null,
-                    network: networksFilter ? NetworkAppToApiTypeMap[networksFilter.value] : null,
+                    network: networksFilter ? getApiIdForNetwork(networksFilter.value) : null,
+                    tag: tagFilter ? tagFilter.value : null,
                 },
             });
 
@@ -99,7 +102,7 @@ export const fetchExampleTransactions = () => {
 export const fetchTransactionForProject = (project, txHash, network) => {
     return async (dispatch) => {
         try {
-            const networkId = NetworkAppToApiTypeMap[network];
+            const networkId = getApiIdForNetwork(network);
 
             const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/network/${networkId}/transaction/${txHash}`);
 
@@ -175,7 +178,7 @@ export const fetchExampleTransaction = () => {
 export const fetchTransactionsForPublicContract = (contractAddress, network, page = 1) => {
     return async (dispatch) => {
         try {
-            const networkId = NetworkAppToApiTypeMap[network];
+            const networkId = getApiIdForNetwork(network);
 
             const {data} = await Api.get(`/public-contract/${networkId}/address/${contractAddress}/transactions`, {
                 params: {
@@ -210,7 +213,7 @@ export const fetchTransactionsForPublicContract = (contractAddress, network, pag
  */
 export const fetchTransactionForPublicContract = (txHash, network, silentError = false) => {
     return async (dispatch) => {
-        const networkId = NetworkAppToApiTypeMap[network];
+        const networkId = getApiIdForNetwork(network);
 
         try {
             const {data} = await Api.get(`/public-contract/${networkId}/tx/${txHash}`);

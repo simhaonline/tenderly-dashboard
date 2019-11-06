@@ -3,9 +3,15 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 
+import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
+
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
-import {getContractByAddressAndNetwork, getContractStatus} from "../../Common/Selectors/ContractSelectors";
-import {EntityStatusTypes, EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {
+    getContractByAddressAndNetwork,
+    getContractStatus,
+    getContractTagsByAddressAndNetwork
+} from "../../Common/Selectors/ContractSelectors";
+import {EntityStatusTypes, EtherscanLinkTypes} from "../../Common/constants";
 
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
@@ -26,10 +32,10 @@ class ProjectContractPage extends Component {
     }
 
     componentDidMount() {
-        const {contractStatus, networkType, contractId, actions, project} = this.props;
+        const {contractStatus, networkType, contractAddress, actions, project} = this.props;
 
         if (contractStatus !== EntityStatusTypes.LOADED) {
-            actions.fetchContractForProject(project, contractId, networkType);
+            actions.fetchContractForProject(project, contractAddress, networkType);
         }
     }
 
@@ -67,7 +73,7 @@ class ProjectContractPage extends Component {
     };
 
     render() {
-        const {contract, contractStatus, project} = this.props;
+        const {contract, contractTags, contractStatus, project} = this.props;
         const {contractRemoved} = this.state;
 
         if (contractStatus === EntityStatusTypes.NON_EXISTING || contractRemoved) {
@@ -95,7 +101,7 @@ class ProjectContractPage extends Component {
                                 </EtherscanLink>
                             </div>
                         </PageHeading>
-                        <ContractInformation contract={contract} project={project} onDelete={this.handleContractDelete}
+                        <ContractInformation contract={contract} tags={contractTags} project={project} onDelete={this.handleContractDelete}
                                              onListenToggle={this.handleContractListeningToggle}/>
                         <ContractFiles contract={contract}/>
                     </Fragment>}
@@ -106,18 +112,19 @@ class ProjectContractPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {username, slug, contractId, network}}} = ownProps;
+    const {match: {params: {username, slug, address, network}}} = ownProps;
 
-    const networkType = NetworkRouteToAppTypeMap[network];
+    const networkType = getNetworkForRouteSlug(network);
 
     const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
         networkType,
-        contractId,
+        contractAddress: address,
         project,
-        contract: getContractByAddressAndNetwork(state, contractId, networkType),
-        contractStatus: getContractStatus(state, contractId, networkType),
+        contract: getContractByAddressAndNetwork(state, address, networkType),
+        contractTags: getContractTagsByAddressAndNetwork(state, project, address, networkType),
+        contractStatus: getContractStatus(state, address, networkType),
     }
 };
 

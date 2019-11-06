@@ -6,7 +6,7 @@ import classNames from "classnames";
 import Blockies from "react-blockies";
 import {Redirect} from "react-router-dom";
 
-import {NetworkLabelMap, NetworkTypes, SearchResultTypes} from "../../Common/constants";
+import {NetworkTypes, SearchResultTypes} from "../../Common/constants";
 
 import {projectActions, searchActions, contractActions} from "../../Core/actions";
 
@@ -14,6 +14,7 @@ import {Icon, Panel, Card, PanelContent, List, ListItem, Tag, PanelHeader, Butto
 import {SimpleLoader, NetworkTag} from "..";
 
 import './AddPublicContractForm.scss';
+import {getLabelForNetwork} from "../../Utils/NetworkHelpers";
 
 /**
  * @param {SearchResult[]} searchResults
@@ -38,7 +39,7 @@ const SearchResultsByNetwork = ({searchResults, onSelect, existingContracts, sel
                         "SearchResultsByNetwork__Network--Active": networkKey === currentNetwork,
                     },
                 )}>
-                    {NetworkLabelMap[networkKey]}
+                    {getLabelForNetwork(networkKey)}
                     <Tag size="small" color="primary-outline" className="MarginLeft1">{groupedResults[networkKey].length}</Tag>
                 </div>)}
             </div>

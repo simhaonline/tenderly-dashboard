@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import Blockies from "react-blockies";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
+import {getLabelForNetwork} from "../../Utils/NetworkHelpers";
 
 import {AlertRule, Contract, Project} from "../../Core/models";
 
 import {
     AlertRuleExpressionParameterTypes,
     AlertRuleExpressionTypes,
-    NetworkLabelMap,
     SimpleAlertRuleTypeIconMap, SimpleAlertRuleTypeLabelMap, SimpleAlertRuleTypes
 } from "../../Common/constants";
 
@@ -79,7 +79,7 @@ class ExpressionTargetPreview extends PureComponent {
                                     hasAddress.parameters[AlertRuleExpressionParameterTypes.ADDRESS],
                                     hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]
                                 )).name}</span>}
-                                {!hasAddress && <span>{NetworkLabelMap[hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]]}</span>}
+                                {!hasAddress && <span>{getLabelForNetwork(hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID])}</span>}
                             </div>
                             <div>
                                 <NetworkTag size="small" network={hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]}/>

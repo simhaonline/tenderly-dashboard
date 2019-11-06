@@ -11,11 +11,10 @@ import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelecto
 import {
     DASHBOARD_BASE_URL,
     EtherscanLinkTypes,
-    NetworkAppToRouteTypeMap,
-    NetworkRouteToAppTypeMap,
     ProjectTypes
 } from "../../Common/constants";
 
+import {getNetworkForRouteSlug, getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 import Notifications from "../../Utils/Notifications";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -159,7 +158,7 @@ class ProjectTransactionPage extends Component {
                         </Button>
                         <h1>Transaction</h1>
                         <div className="RightContent">
-                            {canBeViewedOnExplorer && <SharePageButton url={`${DASHBOARD_BASE_URL}/tx/${NetworkAppToRouteTypeMap[transaction.network]}/${transaction.txHash}`}
+                            {canBeViewedOnExplorer && <SharePageButton url={`${DASHBOARD_BASE_URL}/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`}
                                                                        onCopyMessage="Copied link to the public transaction page"/>}
                             <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={transaction.network} value={transaction.txHash}>
                                 <Button size="small" outline>
@@ -183,7 +182,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const transaction = getTransaction(state, txHash);
 
-    const networkType = NetworkRouteToAppTypeMap[network];
+    const networkType = getNetworkForRouteSlug(network);
 
     const project = getProjectBySlugAndUsername(state, slug, username);
 

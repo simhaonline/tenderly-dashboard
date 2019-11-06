@@ -3,7 +3,7 @@ import {
     CREATE_PROJECT_ACTION,
     DELETE_PROJECT_ACTION,
     FETCH_PROJECT_ACTION,
-    FETCH_PROJECTS_ACTION, LEAVE_SHARED_PROJECT_ACTION, UPDATE_PROJECT_ACTION
+    FETCH_PROJECTS_ACTION, FETCH_PROJECT_TAGS_ACTION, LEAVE_SHARED_PROJECT_ACTION, UPDATE_PROJECT_ACTION
 } from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "../Contract/Contract.actions";
@@ -15,6 +15,8 @@ const initialState = {
     projects: {},
     /** @type {Object.<Project.id, EntityStatusTypes>} */
     contractsStatus: {},
+    /** @type {Object.<Project.id, string[]>} */
+    projectTags: {},
     projectsLoaded: false,
 };
 
@@ -140,6 +142,15 @@ const ProjectReducer = (state = initialState, action) => {
                     [action.project.id]: updatedProject,
                 },
             };
+        case FETCH_PROJECT_TAGS_ACTION: {
+            return {
+                ...state,
+                projectTags: {
+                    ...state.projectTags,
+                    [action.projectId]: action.tags,
+                },
+            };
+        }
         default:
             return state;
     }

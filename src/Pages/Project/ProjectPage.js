@@ -6,11 +6,9 @@ import {Helmet} from "react-helmet";
 
 import {isTransactionOrContractUrl} from "../../Utils/UrlHelpers";
 
-import {Project} from "../../Core/models";
+import {areProjectTagsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
-import {getProject} from "../../Common/Selectors/ProjectSelectors";
-import * as projectActions from "../../Core/Project/Project.actions";
-import {searchActions} from "../../Core/actions";
+import {searchActions, projectActions} from "../../Core/actions";
 
 import ProjectTransactionsPage from "./ProjectTransactionsPage";
 import ProjectTransactionPage from "./ProjectTransactionPage";
@@ -37,7 +35,7 @@ class ProjectPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, actions, projectSlug, username, searchActions} = this.props;
+        const {project, actions, projectSlug, tagsLoaded, username, searchActions} = this.props;
 
         searchActions.setProjectContext(projectSlug, username);
 
@@ -45,10 +43,14 @@ class ProjectPage extends Component {
             const response = await actions.fetchProject(projectSlug, username);
 
             if (!response.success) {
-                this.setState({
+                return this.setState({
                     nonExistingProject: true,
                 })
             }
+
+            await actions.fetchProjectTags(response.data);
+        } else if (!tagsLoaded) {
+            await actions.fetchProjectTags(project);
         }
     }
 
@@ -59,7 +61,7 @@ class ProjectPage extends Component {
     }
 
     render(){
-        const {project, location, match} = this.props;
+        const {project, tagsLoaded, location, match} = this.props;
         const {nonExistingProject} = this.state;
 
         if (nonExistingProject) {
@@ -73,7 +75,7 @@ class ProjectPage extends Component {
             return <Redirect to="/dashboard"/>;
         }
 
-        if (!project) {
+        if (!project || !tagsLoaded) {
             return <ProjectPageLoader text="Fetching Project..."/>;
         }
 
@@ -91,7 +93,7 @@ class ProjectPage extends Component {
                     <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
                     <Route path="/:username/:slug/contracts" exact component={ProjectContractsPage}/>
                     <Route path="/:username/:slug/contracts/add" exact component={ProjectAddContractPage}/>
-                    <Route path="/:username/:slug/contract/:network/:contractId" component={ProjectContractPage}/>
+                    <Route path="/:username/:slug/contract/:network/:address" component={ProjectContractPage}/>
                     <Route path="/:username/:slug/releases" component={ProjectReleasesPage}/>
                     <Route path="/:username/:slug/collaborators" exact component={ProjectCollaboratorsPage}/>
                     <Route path="/:username/:slug/collaborators/add" exact component={ProjectAddCollaboratorPage}/>
@@ -107,10 +109,13 @@ class ProjectPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {username, slug}}} = ownProps;
 
+    const project = getProjectBySlugAndUsername(state, slug, username);
+
     return {
         username,
         projectSlug: slug,
-        project: getProject(state, Project.generateProjectId(slug, username)),
+        project,
+        tagsLoaded: areProjectTagsLoaded(state, project),
     }
 };
 

@@ -19,6 +19,10 @@ export const DELETE_ALERT_RULE_FOR_PROJECT_ACTION = 'DELETE_ALERT_RULE_FOR_PROJE
 function extractOtherDestinationsForRuleResponse(user, ruleResponse) {
     const ruleDeliveryChannels = [];
 
+    if (!ruleResponse.delivery_channels) {
+        return ruleDeliveryChannels;
+    }
+
     ruleResponse.delivery_channels.forEach(ruleChannel => {
         const deliveryChannelResponse = ruleChannel.delivery_channel;
 

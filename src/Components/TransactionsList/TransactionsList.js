@@ -4,10 +4,9 @@ import {withRouter} from 'react-router-dom';
 
 import {Project} from "../../Core/models";
 
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
-
 import {Table} from "../../Elements";
 import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn, TransactionMoreColumn, TransactionContractsColumn, TimeAgoColumn} from "../index";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 const transactionTableConf = [
     {
@@ -42,12 +41,15 @@ const transactionTableConf = [
 ];
 
 class TransactionsList extends Component {
+    /**
+     * @param {Transaction} transaction
+     */
     handleRowClick = (transaction) => {
         const {history, project, location: {search}} = this.props;
 
         let transactionRoute;
 
-        const networkRoute = NetworkAppToRouteTypeMap[transaction.network];
+        const networkRoute = getRouteSlugForNetwork(transaction.network);
 
         if (project) {
             transactionRoute = `/${project.owner}/${project.slug}/tx/${networkRoute}/${transaction.txHash}`;

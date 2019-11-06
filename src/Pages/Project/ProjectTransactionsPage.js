@@ -8,7 +8,11 @@ import Notifications from "../../Utils/Notifications";
 
 import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
 
-import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {
+    areProjectContractsLoaded,
+    getProjectBySlugAndUsername,
+    getProjectTags
+} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {contractActions, projectActions, transactionActions} from "../../Core/actions";
@@ -266,7 +270,7 @@ class ProjectTransactionsPage extends Component {
 
     render() {
         const {loading, transactions, backfillingStatus, filters, page, perPage, refreshSubscriber, fetching, error} = this.state;
-        const {contracts, project} = this.props;
+        const {contracts, project, projectTags} = this.props;
 
         const projectIsSetup = !!project.lastPushAt;
         const isPolling = !!refreshSubscriber || loading;
@@ -288,7 +292,7 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
-                        {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} contracts={contracts} onFiltersChange={this.handleFilterChange}/>}
+                        {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
                                           loading={fetching} project={project}
                                           currentPage={page} onPageChange={this.handlePageChange}
@@ -347,6 +351,7 @@ const mapStateToProps = (state, ownProps) => {
         queryFilters,
         project,
         contracts: getContractsForProject(state, project.id),
+        projectTags: getProjectTags(state, project),
         contractsLoaded: areProjectContractsLoaded(state, project.id),
     }
 };

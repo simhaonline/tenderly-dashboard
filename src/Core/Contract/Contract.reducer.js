@@ -16,6 +16,8 @@ const initialState = {
     contractStatus: {},
     /** @type {Object.<Project.id, Contract.id[]>} */
     projectContractsMap: {},
+    /** @type {Object.<Project.id, Object.<Contract.id, Object[]>>} */
+    projectContractTagsMap: {},
 };
 
 const ContractReducer = (state = initialState, action) => {
@@ -35,10 +37,13 @@ const ContractReducer = (state = initialState, action) => {
 
                 data.contractStatus[contract.id] = EntityStatusTypes.PARTIALLY_LOADED;
 
+                data.contractTags[contract.id] = action.contractTags[contract.id] || [];
+
                 return data;
             }, {
                 contracts: {},
                 contractStatus: {},
+                contractTags: {},
             });
 
             const projectContractIds = Object.keys(computedData.contracts);
@@ -53,6 +58,10 @@ const ContractReducer = (state = initialState, action) => {
                     ...state.contractStatus,
                     ...computedData.contractStatus,
                 },
+                projectContractTagsMap: {
+                    ...state.projectContractTagsMap,
+                    [action.projectId]: computedData.contractTags,
+                },
                 projectContractsMap: {
                     ...state.projectContractsMap,
                     [action.projectId]: projectContractIds,
@@ -66,6 +75,13 @@ const ContractReducer = (state = initialState, action) => {
                 contracts: {
                     ...state.contracts,
                     [contract.id]: contract,
+                },
+                projectContractTagsMap: {
+                    ...state.projectContractTagsMap,
+                    [action.projectId]: {
+                        ...state.projectContractTagsMap[action.projectId],
+                        [action.contract.id]: action.tags,
+                    },
                 },
                 contractStatus: {
                     ...state.contractStatus,

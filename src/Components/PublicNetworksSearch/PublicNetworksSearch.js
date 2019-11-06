@@ -4,10 +4,10 @@ import {bindActionCreators} from "redux";
 import {withRouter} from "react-router-dom";
 import {components} from 'react-select';
 import AsyncSelect from 'react-select/async';
+import * as _ from "lodash";
 
 import Analytics from "../../Utils/Analytics";
-
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 import * as publicActions from "../../Core/PublicContracts/PublicContracts.actions";
 
@@ -15,7 +15,6 @@ import {Icon} from '../../Elements';
 import {ContractSelectOption, TransactionSelectOption} from "../index";
 
 import './PublicNetworksSearch.scss';
-import * as _ from "lodash";
 
 function SearchResultsNoOptionsMessage(props) {
     const {query} = props;
@@ -114,7 +113,7 @@ class PublicNetworksSearch extends Component {
     goTo = (type, network, suffix) => {
         const {history} = this.props;
 
-        const networkRoute = NetworkAppToRouteTypeMap[network];
+        const networkRoute = getRouteSlugForNetwork(network);
 
         history.push(`/${type}/${networkRoute}/${suffix}`);
     };

@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+
 import {Contract} from "../../Core/models";
-import {NetworkAppToRouteTypeMap, NetworkTypes} from "../../Common/constants";
+import {NetworkTypes} from "../../Common/constants";
 
 import Table from "../../Elements/Table/Table";
 import {
@@ -32,7 +34,8 @@ const projectContractsTableConfiguration = [
     },
     {
         label: "Files",
-        renderColumn: contract => <ContractFilesColumn contract={contract}/>,
+        renderColumn: (contract, metadata) => <ContractFilesColumn contract={contract}
+                                                                   tags={metadata.contractTags ? metadata.contractTags[contract.id] : []}/>,
     },
 ];
 
@@ -76,19 +79,20 @@ class ProjectContractList extends Component{
     handleContractClick = (contract) => {
         const {history, match: {params: {username, slug}}} = this.props;
 
-        const networkRoute = NetworkAppToRouteTypeMap[contract.network];
+        const networkRoute = getRouteSlugForNetwork(contract.network);
 
         history.push(`/${username}/${slug}/contract/${networkRoute}/${contract.address}`);
     };
 
     render() {
-        const {contracts} = this.props;
+        const {contracts, contractTags} = this.props;
 
         return (
             <div className="ProjectContractList">
                 <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
                        groupBy={(contract) => `${contract.network}:${contract.parent}`} sortGroupBy={group => groupSorting.indexOf(group[0].network)}
                        groupingConfiguration={groupingConfiguration} metadata={{
+                    contractTags,
                     handleListeningToggle: this.handleListeningToggle,
                 }} onRowClick={this.handleContractClick}/>
             </div>
@@ -98,6 +102,7 @@ class ProjectContractList extends Component{
 
 ProjectContractList.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
+    contractTags: PropTypes.object,
     onListenToggle: PropTypes.func,
 };
 

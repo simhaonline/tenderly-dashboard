@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import moment from 'moment';
 
-import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+
+import {EtherscanLinkTypes} from "../../Common/constants";
 
 import {Project} from "../../Core/models";
 
@@ -20,7 +22,7 @@ const TransactionGeneralInformation = ({transaction, contracts, project}) => {
     const contract = contracts.find(c => c.address === transaction.to);
 
     if (contract) {
-        const networkRoute  = NetworkAppToRouteTypeMap[contract.network];
+        const networkRoute  = getRouteSlugForNetwork(contract.network);
 
         if (contract.isPublic) {
             contractLink = `/contract/${networkRoute}/${contract.address}`;

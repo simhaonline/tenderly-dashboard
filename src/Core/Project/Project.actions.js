@@ -3,7 +3,7 @@ import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../
 
 import Project from "./Project.model";
 import Contract from "../Contract/Contract.model";
-import {NetworkAppToApiTypeMap, ProjectTypes} from "../../Common/constants";
+import {ProjectTypes} from "../../Common/constants";
 import {
     exampleContract1Payload,
     exampleContract2Payload,
@@ -12,6 +12,7 @@ import {
 import {updateUser} from "../Auth/Auth.actions";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {formatProjectSlug} from "../../Utils/Formatters";
+import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -21,6 +22,7 @@ export const FETCH_PROJECT_ACTION = 'FETCH_PROJECT';
 export const FETCH_PROJECTS_ACTION = 'FETCH_PROJECTS';
 export const ADD_PUBLIC_CONTRACT_TO_PROJECT_ACTION = 'ADD_PUBLIC_CONTRACT_TO_PROJECT';
 export const LEAVE_SHARED_PROJECT_ACTION = 'LEAVE_SHARED_PROJECT';
+export const FETCH_PROJECT_TAGS_ACTION = 'FETCH_PROJECT_TAGS';
 
 /**
  * @param {string} name
@@ -273,7 +275,7 @@ export const updateProject = (project, data) => {
 export const addVerifiedContractToProject = (project, networkType, address, progressCallback = () => {}) => {
     return async (dispatch) => {
         try {
-            const networkId = NetworkAppToApiTypeMap[networkType];
+            const networkId = getApiIdForNetwork(networkType);
 
             const {data: responseData} = await StreamingApi.post(`/account/${project.owner}/project/${project.slug}/streaming-address`, {
                 network_id: networkId.toString(),
@@ -336,6 +338,32 @@ export const leaveSharedProject = (project) => {
             });
 
             return new SuccessActionResponse();
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse(error);
+        }
+    }
+};
+
+/**
+ * @param {Project} project
+ */
+export const fetchProjectTags = (project) => {
+    return async (dispatch) => {
+        try {
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/tags`);
+
+            if (!data || !data.tags) {
+                return new ErrorActionResponse();
+            }
+
+            dispatch({
+                type: FETCH_PROJECT_TAGS_ACTION,
+                projectId: project.id,
+                tags: data.tags,
+            });
+
+            return new SuccessActionResponse(data.tags);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);

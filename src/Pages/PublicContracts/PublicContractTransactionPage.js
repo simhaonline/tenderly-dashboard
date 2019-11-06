@@ -14,7 +14,7 @@ import {
     arePublicContractsLoadedForTransaction,
     getPublicContractsForTransaction
 } from "../../Common/Selectors/PublicContractSelectors";
-import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes} from "../../Common/constants";
 
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
 import * as publicContractActions from "../../Core/PublicContracts/PublicContracts.actions";
@@ -23,6 +23,7 @@ import NoTransactionsIcon from "../../Components/NoTransactionsEmptyState/no-tra
 
 import {Page, Container, Button, Icon, PageHeading, Panel, PanelContent} from "../../Elements";
 import {EmptyState, EtherscanLink, ProjectPageLoader, SharePageButton, TransactionPageContent} from "../../Components";
+import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
 
 class PublicContractTransactionPage extends Component {
     constructor(props) {
@@ -113,7 +114,7 @@ const mapStateToProps = (state, ownProps) => {
     const transactionHash = txHash.toLowerCase();
     const transaction = getTransaction(state, transactionHash);
 
-    const networkType = NetworkRouteToAppTypeMap[network];
+    const networkType = getNetworkForRouteSlug(network);
 
     return {
         txHash: transactionHash,

@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {NetworkLabelMap, NetworkLabelShorthandMap, NetworkTypes} from "../../Common/constants";
+import {getLabelForNetwork, getShorthandForNetwork} from "../../Utils/NetworkHelpers";
+
+import {NetworkTypes} from "../../Common/constants";
 
 import './NetworkTag.scss';
 
@@ -19,12 +21,12 @@ const networkTagSizeToClassNameMap = {
 };
 
 const NetworkTag = ({size, network, prefix, className, id, useShorthand}) => {
-    let networkLabel = NetworkLabelMap[network] || 'Unknown';
+    let networkLabel = getLabelForNetwork(network);
     const networkClassName = networkTypeToClassNameMap[network];
     const sizeClassName = networkTagSizeToClassNameMap[size];
 
     if (useShorthand) {
-        networkLabel = NetworkLabelShorthandMap[network] || 'N/A';
+        networkLabel = getShorthandForNetwork(network);
     }
 
     if (prefix) {

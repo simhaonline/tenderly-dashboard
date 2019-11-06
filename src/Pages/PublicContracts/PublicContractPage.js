@@ -5,6 +5,7 @@ import {Helmet} from "react-helmet";
 import {Route, Switch} from "react-router-dom";
 
 import Analytics from '../../Utils/Analytics';
+import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
 
 import * as publicContractsActions from "../../Core/PublicContracts/PublicContracts.actions";
 import * as transactionActions from "../../Core/Transaction/Transaction.actions";
@@ -17,7 +18,7 @@ import {
     isPublicContractLoaded, isPublicContractWatched
 } from "../../Common/Selectors/PublicContractSelectors";
 
-import {EtherscanLinkTypes, NetworkRouteToAppTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes} from "../../Common/constants";
 
 import {Page, Container, PageHeading, Button, Icon, ButtonGroup, PanelContent, Panel} from "../../Elements";
 import {
@@ -274,7 +275,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const contractAddress = id.toLowerCase();
 
-    const networkType = NetworkRouteToAppTypeMap[network];
+    const networkType = getNetworkForRouteSlug(network);
 
     const loggedIn = state.auth.loggedIn;
 

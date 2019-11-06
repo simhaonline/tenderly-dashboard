@@ -5,10 +5,11 @@ import {Link, withRouter} from "react-router-dom";
 import moment from "moment";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 
-import {NetworkAppToRouteTypeMap, ProjectTypes} from "../../Common/constants";
+import {ProjectTypes} from "../../Common/constants";
 import {areAlertRulesLoadedForProject, getAlertRulesForProject} from "../../Common/Selectors/AlertingSelectors";
 
 import {Panel, PanelContent, Table} from "../../Elements";
@@ -33,7 +34,7 @@ const alertHistoryTableConf = [
             const {project} = metadata;
 
             return <div>
-                <Link className="MonospaceFont" to={`/${project.owner}/${project.slug}/tx/${NetworkAppToRouteTypeMap[log.network]}/${log.txHash}`}>{generateShortAddress(log.txHash, 12, 6)}</Link>
+                <Link className="MonospaceFont" to={`/${project.owner}/${project.slug}/tx/${getRouteSlugForNetwork(log.network)}/${log.txHash}`}>{generateShortAddress(log.txHash, 12, 6)}</Link>
             </div>
         },
     },

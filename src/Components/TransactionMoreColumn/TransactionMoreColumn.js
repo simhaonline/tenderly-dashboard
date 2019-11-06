@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
-import {EtherscanLinkTypes, NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {EtherscanLinkTypes} from "../../Common/constants";
 
 import {Project, Transaction} from "../../Core/models";
 
@@ -10,11 +10,12 @@ import {Icon, Dropdown, DropdownMenu, DropdownItem, DropdownToggle} from '../../
 import {EtherscanLink} from "../index";
 
 import './TransactionMoreColumn.scss';
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 const TransactionMoreColumn = ({transaction, project}) => {
     let transactionRoute;
 
-    const networkRoute = NetworkAppToRouteTypeMap[transaction.network];
+    const networkRoute = getRouteSlugForNetwork(transaction.network);
 
     if (!project) {
         transactionRoute = `/tx/${networkRoute}/${transaction.txHash}`;

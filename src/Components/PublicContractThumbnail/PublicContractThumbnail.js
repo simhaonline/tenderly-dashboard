@@ -4,7 +4,7 @@ import Blockies from "react-blockies";
 import {Contract} from "../../Core/models";
 
 import {generateShortAddress} from "../../Utils/AddressFormatter";
-import {NetworkAppToRouteTypeMap} from "../../Common/constants";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 import {Card, Tag, Icon, Tooltip} from "../../Elements";
 import {PageLink, NetworkTag} from "../index";
@@ -12,7 +12,7 @@ import {PageLink, NetworkTag} from "../index";
 import './PublicContractThumbnail.scss';
 
 const PublicContractThumbnail = ({contract, displayWatchCount}) => {
-    const networkId = NetworkAppToRouteTypeMap[contract.network];
+    const networkId = getRouteSlugForNetwork(contract.network);
 
     return (
         <PageLink to={`/contract/${networkId}/${contract.address.toLowerCase()}`} className="PublicContractThumbnail">
