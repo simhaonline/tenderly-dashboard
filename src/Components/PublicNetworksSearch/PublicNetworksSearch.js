@@ -32,7 +32,7 @@ function SearchResultsNoOptionsMessage(props) {
             <p className="SearchResultsNoOptionsMessage__Description">It seems that we didn't find the contract/transaction your were looking for. We currently only parse contracts and transactions that have been verified on Tenderly or Etherscan.</p>
             <p className="SearchResultsNoOptionsMessage__Description">If you wish to monitor and inspect private contracts and transactions in your project you can do so in one of the following ways:</p>
             <div className="SearchResultsNoOptionsMessage__Actions">
-                <a className="SearchResultsNoOptionsMessage__ActionLink" href="https://medium.com/tenderly/a-tenderly-update-debugging-ethereum-transactions-verifying-contracts-and-other-newsworthy-4d7f20317f92#75c6" target="_blank" rel="noopener noreferrer">
+                <a className="SearchResultsNoOptionsMessage__ActionLink" href="https://blog.tenderly.dev/a-tenderly-update-debugging-ethereum-transactions-verifying-contracts-and-other-newsworthy-updates/" target="_blank" rel="noopener noreferrer">
                     <Icon className="SearchResultsNoOptionsMessage__ActionLink__Icon" icon="arrow-right"/>
                     <h4>Verifying your contracts on Tenderly</h4>
                 </a>
