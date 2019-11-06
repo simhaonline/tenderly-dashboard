@@ -34,7 +34,8 @@ const projectContractsTableConfiguration = [
     },
     {
         label: "Files",
-        renderColumn: contract => <ContractFilesColumn contract={contract}/>,
+        renderColumn: (contract, metadata) => <ContractFilesColumn contract={contract}
+                                                                   tags={metadata.contractTags ? metadata.contractTags[contract.id] : []}/>,
     },
 ];
 
@@ -84,13 +85,14 @@ class ProjectContractList extends Component{
     };
 
     render() {
-        const {contracts} = this.props;
+        const {contracts, contractTags} = this.props;
 
         return (
             <div className="ProjectContractList">
                 <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
                        groupBy={(contract) => `${contract.network}:${contract.parent}`} sortGroupBy={group => groupSorting.indexOf(group[0].network)}
                        groupingConfiguration={groupingConfiguration} metadata={{
+                    contractTags,
                     handleListeningToggle: this.handleListeningToggle,
                 }} onRowClick={this.handleContractClick}/>
             </div>
@@ -100,6 +102,7 @@ class ProjectContractList extends Component{
 
 ProjectContractList.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
+    contractTags: PropTypes.object,
     onListenToggle: PropTypes.func,
 };
 

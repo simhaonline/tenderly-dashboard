@@ -3,11 +3,13 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
 import {CollaboratorPermissionTypes, ProjectTypes} from "../../Common/constants";
-import {Project} from "../../Core/models";
-import * as contractActions from "../../Core/Contract/Contract.actions";
+import {contractActions} from "../../Core/actions";
 
-import {areProjectContractsLoaded, getProject} from "../../Common/Selectors/ProjectSelectors";
-import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+import {
+    areProjectContractsLoaded,
+    getProjectBySlugAndUsername
+} from "../../Common/Selectors/ProjectSelectors";
+import {getContractsForProject, getTagsForProjectContracts} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page, PageHeading, Panel, PanelContent, Button} from "../../Elements";
 import {
@@ -61,7 +63,7 @@ class ProjectContractsPage extends Component {
     };
 
     render() {
-        const {project, contracts, contractsLoaded} = this.props;
+        const {project, contracts, contractsLoaded, contractTags} = this.props;
         const {createProjectModalOpen} = this.state;
 
         const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
@@ -88,7 +90,7 @@ class ProjectContractsPage extends Component {
                         </div>}
                     </PageHeading>
                     {projectIsSetup && <Fragment>
-                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} onListenToggle={this.handleContractListeningToggle}/>}
+                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} contractTags={contractTags} onListenToggle={this.handleContractListeningToggle}/>}
                         {contractsLoaded && !contracts.length && <Panel>
                             <PanelContent>
                                 <EmptyState image={NoContractsIcon} title="No contracts watched"
@@ -107,12 +109,13 @@ class ProjectContractsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {slug, username}}} = ownProps;
 
-    const projectId = Project.generateProjectId(slug, username);
+    const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
-        project: getProject(state, projectId),
-        contracts: getContractsForProject(state, projectId),
-        contractsLoaded: areProjectContractsLoaded(state, projectId),
+        project,
+        contracts: getContractsForProject(state, project.id),
+        contractTags: getTagsForProjectContracts(state, project),
+        contractsLoaded: areProjectContractsLoaded(state, project.id),
     }
 };
 
