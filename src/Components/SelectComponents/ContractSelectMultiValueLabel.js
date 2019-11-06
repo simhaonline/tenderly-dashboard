@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {components} from "react-select";
 
+import {getLabelForNetwork} from "../../Utils/NetworkHelpers";
+
 import {Tooltip} from "../../Elements";
 import {NetworkTag} from "..";
 
 import './ContractSelectMultiValueLabel.scss';
-import {NetworkLabelMap} from "../../Common/constants";
 
 function ContractSelectMultiValueLabel(props) {
     const {data} = props;
@@ -19,7 +20,7 @@ function ContractSelectMultiValueLabel(props) {
                     {data.name}
                 </div>
                 <Tooltip id={data.getUniqueId().replace(':', '_')} placement="top">
-                    {NetworkLabelMap[data.network]}
+                    {getLabelForNetwork(data.network)}
                 </Tooltip>
             </div>
         </components.MultiValueLabel>

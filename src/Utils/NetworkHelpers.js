@@ -21,7 +21,7 @@ export function getLabelForNetwork(network) {
         return NetworkLabelMap[network];
     }
 
-    return 'Private Network';
+    return 'Private';
 }
 
 /**
