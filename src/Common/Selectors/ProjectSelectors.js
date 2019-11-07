@@ -66,7 +66,7 @@ export function getProjectTags(state, project) {
  */
 export function areProjectTagsLoaded(state, project) {
     if (!project || !state.project.projectTags[project.id]) {
-        return false;
+        return project.type === ProjectTypes.DEMO;
     }
 
     return true;

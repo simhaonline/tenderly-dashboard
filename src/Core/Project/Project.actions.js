@@ -99,6 +99,7 @@ export const dispatchExampleProject = (dispatch, user) => {
         type: CREATE_EXAMPLE_PROJECT_ACTION,
         project: exampleProject,
         projectId: exampleProject.id,
+        contractTags: {},
         contracts: exampleContracts,
         page: 1,
     });
