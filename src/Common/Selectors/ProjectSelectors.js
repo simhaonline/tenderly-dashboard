@@ -62,11 +62,15 @@ export function getProjectTags(state, project) {
 /**
  * @param {Object} state
  * @param {Project} project
- * @returns {Array}
+ * @returns {boolean}
  */
 export function areProjectTagsLoaded(state, project) {
+    if (!!project && project.type === ProjectTypes.DEMO) {
+        return true;
+    }
+
     if (!project || !state.project.projectTags[project.id]) {
-        return project.type === ProjectTypes.DEMO;
+        return false;
     }
 
     return true;
