@@ -296,6 +296,7 @@ export const addVerifiedContractToProject = (project, networkType, address, prog
 
             return new SuccessActionResponse(responseData);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }

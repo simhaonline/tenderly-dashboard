@@ -1,6 +1,7 @@
 import {GET_USER_ACTION, LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {FeatureFlagTypes} from "../../Common/constants";
 import {TOGGLE_FEATURE_FLAG_ACTION} from "./FeatureFlag.actions";
+import {isInternalUserByEmail} from "../../Utils/UserHelpers";
 
 const initialState = {
     flags: {},
@@ -11,8 +12,7 @@ const FeatureFlagReducer = (state = initialState, action) => {
         case LOG_OUT_ACTION:
             return initialState;
         case GET_USER_ACTION:
-            const [email, emailDomain] = action.user.email.split('@');
-            const isInternalUser = ['andrej', 'miljan', 'bogdan', 'nebojsa', 'vvk'].includes(email) && emailDomain.includes('tenderly.');
+            const isInternalUser = isInternalUserByEmail(action.user.email);
 
             let flags = {};
 
