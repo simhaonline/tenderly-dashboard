@@ -14,3 +14,10 @@
   display: block;
   margin: 0 auto 60px;
 }
+
+@media (max-width: 760px) {
+  #ExplorerPage {
+    display: block;
+    padding-top: 100px;
+  }
+}

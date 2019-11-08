@@ -9,6 +9,8 @@
   align-items: center;
   height: 80px;
   padding: 0 $Spacing5;
+  background-color: $Slate800;
+  z-index: 9999;
 }
 
 .ExplorerHeader__Navigation {
@@ -37,5 +39,11 @@
 
   &:active, &:focus {
     color: $WhiteColor
+  }
+}
+
+@media (max-width: 760px) {
+  .ExplorerHeader {
+    height: 60px;
   }
 }

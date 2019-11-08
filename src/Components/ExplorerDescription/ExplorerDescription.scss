@@ -19,3 +19,13 @@
 .ExplorerDescription__Block__Description {
   letter-spacing: 0.75px;
 }
+
+@media (max-width: 760px) {
+  .ExplorerDescription {
+    display: block;
+  }
+
+  .ExplorerDescription__Block {
+    margin-bottom: $Spacing5;
+  }
+}
