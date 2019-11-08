@@ -10,7 +10,7 @@ class ExplorerHeader extends Component {
         return (
             <div className="ExplorerHeader">
                 <div className="ExplorerHeader__Navigation">
-                    <Link to="login">Login</Link>
+                    <Link to="login" className="ExplorerHeader__Navigation__Link">Login</Link>
                     <Button className="ExplorerHeader__Navigation__CtaButton" to="/register">
                         <span>Create Account </span>
                     </Button>

@@ -15,6 +15,7 @@ import {Icon} from '../../Elements';
 import {ContractSelectOption, TransactionSelectOption} from "../index";
 
 import './PublicNetworksSearch.scss';
+import {SimpleLoader} from "..";
 
 function SearchResultsNoOptionsMessage(props) {
     const {query} = props;
@@ -39,6 +40,12 @@ function SearchResultsNoOptionsMessage(props) {
             </div>
         </div>}
     </div>
+}
+
+function SearchBarLoadingIndicator(props) {
+    return <components.LoadingIndicator {...props}>
+        <SimpleLoader/>
+    </components.LoadingIndicator>;
 }
 
 function SearchBarDropdownIndicator(props) {
@@ -146,13 +153,9 @@ class PublicNetworksSearch extends Component {
                             NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
                             IndicatorSeparator: () => null,
                             DropdownIndicator: SearchBarDropdownIndicator,
-                        }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
-                    </div>
-                </div>
-                <div className="PublicNetworksSearch__ResultsWrapper">
-                    <div className="PublicNetworksSearch__EmptyState">
-                        <h5 className="PublicNetworksSearch__EmptyState__Heading">Find a transaction or contract</h5>
-                        <p className="PublicNetworksSearch__EmptyState__Description">Paste any transaction hash or contract address into input above and if it is from a publicly verified contract it will be parsed by us.</p>
+                            LoadingIndicator: SearchBarLoadingIndicator,
+                        }} loadOptions={this.fetchSearchResults} isLoading={true} placeholder="Search for transactions or Smart Contracts"/>
+                        <div className="PublicNetworksSearch__SupportedNetworks"><span className="MutedText">Supported Networks:</span> Mainnet, Kovan, Rinkeby, Ropsten, Görli</div>
                     </div>
                 </div>
             </div>

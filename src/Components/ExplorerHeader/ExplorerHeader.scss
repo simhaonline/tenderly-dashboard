@@ -7,12 +7,22 @@
   width: 100%;
   display: flex;
   align-items: center;
-  height: 60px;
-  padding: 0 $Spacing4;
+  height: 80px;
+  padding: 0 $Spacing5;
 }
 
 .ExplorerHeader__Navigation {
   margin-left: auto;
+}
+
+.ExplorerHeader__Navigation__Link {
+  font-size: $FontSize400;
+  margin-right: $Spacing4;
+  color: $WhiteColor;
+
+  &:hover {
+    color: $WhiteColor;
+  }
 }
 
 .ExplorerHeader__Navigation__CtaButton {
