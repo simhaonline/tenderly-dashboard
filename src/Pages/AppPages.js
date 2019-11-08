@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
+import {connect} from "react-redux";
 
 import {PrivateRoute} from "../Components";
 import PublicContractsPage from "./PublicContracts/PublicContractsPage";
@@ -19,7 +20,7 @@ import PublicContractTransactionPage from "./PublicContracts/PublicContractTrans
 import RedirectToProjectPage from "./Project/RedirectToProjectPage";
 import AcceptInvitationPage from "./Project/AcceptInvitationPage";
 
-const AppPages = () => {
+const AppPages = ({loggedIn}) => {
     return (
         <Switch>
             <PrivateRoute path="/dashboard" exact component={DashboardPage}/>
@@ -37,11 +38,21 @@ const AppPages = () => {
             <Route path="/accept-invitation" exact component={AcceptInvitationPage}/>
             <PrivateRoute path="/project/:slug" component={RedirectToProjectPage}/>
             <PrivateRoute path="/:username/:slug" strict component={ProjectPage}/>
-            <Redirect exact from="/" to="/login"/>
+            {loggedIn && <Redirect exact from="/" to="/dashboard"/>}
+            {!loggedIn && <Redirect exact from="/" to="/explorer"/>}
             <Redirect exact from="/public-contracts" to="/explorer"/>
             <Route component={NotFoundPage}/>
         </Switch>
     )
 };
 
-export default AppPages;
+const mapStateToProps = (state) => {
+    return {
+        loggedIn: state.auth.loggedIn,
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    null,
+)(AppPages);
