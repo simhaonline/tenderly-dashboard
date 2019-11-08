@@ -109,6 +109,7 @@ class SessionHeaderMenu extends Component {
                             <Link className="DropdownItem" to={'/account'}>Account</Link>
                             <div className="DropdownItem" onClick={this.openFeedbackDialog}>Give feedback</div>
                             <div className="DropdownItem" onClick={this.openSupportDialog}>Contact support</div>
+                            <a className="DropdownItem" href="https://status.tenderly.dev" rel="noopener noreferrer" target="_blank">Status Page</a>
                             <div className="DropdownItem" onClick={this.handleLogoutUser}>Logout</div>
                         </div>
                     </div>
