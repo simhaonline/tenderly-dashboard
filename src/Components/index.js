@@ -1,3 +1,4 @@
+export {default as TenderlyLogo} from './TenderlyLogo/TenderlyLogo';
 export {default as AppHeader} from './AppHeader/AppHeader';
 export {default as AppSearch} from './AppSearch/AppSearch';
 export {default as Navigation} from './Navigation/Navigation';
