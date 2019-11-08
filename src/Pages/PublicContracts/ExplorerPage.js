@@ -14,7 +14,7 @@ import * as publicContractsActions from '../../Core/PublicContracts/PublicContra
 import {Page, Container, PageHeading} from "../../Elements";
 import {PublicNetworksSearch, NetworkSegmentedPicker, PublicContractThumbnail, SimpleLoader, PublicContractList} from "../../Components";
 
-class PublicContractsPage extends Component {
+class ExplorerPage extends Component {
     constructor(props) {
         super(props);
 
@@ -144,4 +144,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(PublicContractsPage);
+)(ExplorerPage);

@@ -3,7 +3,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 
 import {PrivateRoute} from "../Components";
-import PublicContractsPage from "./PublicContracts/PublicContractsPage";
+import ExplorerPage from "./PublicContracts/ExplorerPage";
 import PublicContractPage from "./PublicContracts/PublicContractPage";
 import LoginPage from "./Public/LoginPage";
 import DashboardPage from "./Dashboard/DashboardPage";
@@ -32,7 +32,7 @@ const AppPages = ({loggedIn}) => {
             <Route path="/register" exact component={RegisterPage}/>
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
-            <Route path="/explorer" exact component={PublicContractsPage}/>
+            <Route path="/explorer" exact component={ExplorerPage}/>
             <Route path="/contract/:network/:id" strict component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
             <Route path="/accept-invitation" exact component={AcceptInvitationPage}/>
