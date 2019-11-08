@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import Notifications from "../../Utils/Notifications";
 
-import {ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
+import {FIVE_SECOND_INTERVAL, ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
 
 import {
     areProjectContractsLoaded,
@@ -126,7 +126,7 @@ class ProjectTransactionsPage extends Component {
                     backfillingStatus: null,
                 });
             }
-        }, ONE_MIN_INTERVAL);
+        }, FIVE_SECOND_INTERVAL);
 
         this.setState({
             backfillingSubscriber,
