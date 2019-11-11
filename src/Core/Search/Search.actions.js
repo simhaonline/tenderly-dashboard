@@ -10,6 +10,7 @@ export const SET_PROJECT_CONTEXT_ACTION = 'SET_PROJECT_CONTEXT';
 export const REMOVE_PROJECT_CONTEXT_ACTION = 'REMOVE_PROJECT_CONTEXT';
 export const SEARCH_RESULT_SELECTED_ACTION = 'SEARCH_RESULT_SELECTED';
 export const SET_RECENT_SEARCH_RESULTS_ACTION = 'SET_RECENT_SEARCH_RESULTS';
+export const CLEAR_RECENT_SEARCH_RESULTS_ACTION = 'CLEAR_RECENT_SEARCH_RESULTS';
 
 /**
  * @param {string} query
@@ -142,6 +143,16 @@ export function registerSearchResultSelected(searchResult) {
             recentSearches: updatedRecentSearches,
         });
     }
+}
+
+export function clearRecentSearches() {
+    return dispatch => {
+        LocalStorage.removeItem(LocalStorageKeys.RECENT_SEARCHES);
+
+        dispatch({
+            type: CLEAR_RECENT_SEARCH_RESULTS_ACTION,
+        });
+    };
 }
 
 /**

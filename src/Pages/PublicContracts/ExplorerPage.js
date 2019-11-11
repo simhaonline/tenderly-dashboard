@@ -4,17 +4,24 @@ import {connect} from "react-redux";
 
 import Analytics from "../../Utils/Analytics";
 
+import {searchActions} from '../../Core/actions';
+
 import {Page, Container} from "../../Elements";
 import {PublicNetworksSearch, TenderlyLogo, ExplorerDescription, ExplorerRecentSearches, ExplorerHeader} from "../../Components";
 
 import "./ExplorerPage.scss";
+import {bindActionCreators} from "redux";
 
 class ExplorerPage extends Component {
     async componentDidMount() {
         Analytics.page('Loaded Explore Page');
     }
 
-    handleClearSearches = () => {};
+    handleClearSearches = () => {
+        const {searchActions} = this.props;
+
+        searchActions.clearRecentSearches();
+    };
 
     render() {
         const {recentSearches} = this.props;
@@ -45,7 +52,13 @@ const mapStateToProps = (state) => {
     }
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        searchActions: bindActionCreators(searchActions, dispatch),
+    }
+};
+
 export default connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
 )(ExplorerPage);
