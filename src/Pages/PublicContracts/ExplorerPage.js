@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import {Helmet} from "react-helmet";
+import {connect} from "react-redux";
 
 import Analytics from "../../Utils/Analytics";
 
 import {Page, Container} from "../../Elements";
-import {PublicNetworksSearch, TenderlyLogo, ExplorerDescription, ExplorerHeader} from "../../Components";
+import {PublicNetworksSearch, TenderlyLogo, ExplorerDescription, ExplorerRecentSearches, ExplorerHeader} from "../../Components";
 
 import "./ExplorerPage.scss";
 
@@ -13,7 +14,11 @@ class ExplorerPage extends Component {
         Analytics.page('Loaded Explore Page');
     }
 
+    handleClearSearches = () => {};
+
     render() {
+        const {recentSearches} = this.props;
+
         return (
             <Page wholeScreenPage id="ExplorerPage">
                 <Helmet>
@@ -26,11 +31,21 @@ class ExplorerPage extends Component {
                     <ExplorerHeader/>
                     <TenderlyLogo className="ExplorerPage__Logo" width={240}/>
                     <PublicNetworksSearch/>
-                    <ExplorerDescription/>
+                    {recentSearches.length === 0 && <ExplorerDescription/>}
+                    {recentSearches.length !== 0 && <ExplorerRecentSearches searches={recentSearches} onClear={this.handleClearSearches}/>}
                 </Container>
             </Page>
         )
     }
 }
 
-export default ExplorerPage;
+const mapStateToProps = (state) => {
+    return {
+        recentSearches: state.search.recentSearches,
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    null,
+)(ExplorerPage);

@@ -33,6 +33,7 @@ export {default as SlackIcon} from './SlackIcon/SlackIcon';
 // Explorer Components
 export {default as ExplorerHeader} from './ExplorerHeader/ExplorerHeader';
 export {default as ExplorerDescription} from './ExplorerDescription/ExplorerDescription';
+export {default as ExplorerRecentSearches} from './ExplorerRecentSearches/ExplorerRecentSearches';
 
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';

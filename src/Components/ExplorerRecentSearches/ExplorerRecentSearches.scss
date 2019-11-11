@@ -1,0 +1,48 @@
+@import "../../Common/common";
+
+.ExplorerRecentSearches {
+
+}
+
+.ExplorerRecentSearches__Heading {
+  margin-bottom: $Spacing4;
+  font-size: $FontSize500;
+  font-weight: 100;
+}
+
+.ExplorerRecentSearches__ClearButton {
+  font-size: $FontSize300;
+  margin-left: $Spacing3;
+}
+
+.ExplorerRecentSearches__SearchWrapper {
+  display: flex;
+}
+
+.ExplorerRecentSearches__Search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  padding: $Spacing3;
+  border-radius: 4px;
+  transition: 0.2s ease-in;
+
+  &:hover {
+    background-color: $Slate700;
+    box-shadow:  0 0 16px -2px transparentize($Primary500, 0.5);
+  }
+
+  &:not(:last-child) {
+    margin-right: $Spacing6;
+  }
+}
+
+.ExplorerRecentSearches__Search__Label {
+  font-size: $FontSize400;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: $WhiteColor;
+  margin-top: $Spacing3;
+}
