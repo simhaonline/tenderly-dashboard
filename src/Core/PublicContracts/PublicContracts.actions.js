@@ -1,7 +1,6 @@
 import {Api} from '../../Utils/Api';
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 
-import {NetworkApiToAppTypeMap} from "../../Common/constants";
 import Contract from "../Contract/Contract.model";
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
@@ -180,46 +179,6 @@ export const fetchMostWatchedContracts = () => {
             const contracts = data.map(contract => Contract.buildFromResponse(contract));
 
             return new SuccessActionResponse(contracts);
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
-    }
-};
-
-/**
- * @param {string} query
- */
-export const searchPublicData = (query) => {
-    return async () => {
-        try {
-            const {data} = await Api.get('/search-public-data', {
-                params: {
-                    query,
-                },
-            });
-
-            if (!data) {
-                return new ErrorActionResponse();
-            }
-
-            const searchData = {};
-
-            if (data.contracts) {
-                searchData.contracts = data.contracts.map(contract => Contract.buildFromResponse(contract));
-            }
-
-            if (data.transactions) {
-                searchData.transactions = data.transactions.map(tx => ({
-                    type: 'transaction',
-                    txHash: tx.hash,
-                    value: `${tx.network_id}:${tx.hash}`,
-                    network: NetworkApiToAppTypeMap[parseInt(tx.network_id)] || tx.network_id,
-                    status: tx.status,
-                }));
-            }
-
-            return new SuccessActionResponse(searchData);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse(error);

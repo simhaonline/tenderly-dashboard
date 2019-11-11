@@ -5,17 +5,17 @@ import {withRouter} from "react-router-dom";
 import {components} from 'react-select';
 import AsyncSelect from 'react-select/async';
 import * as _ from "lodash";
+import Blockies from "react-blockies";
 
 import Analytics from "../../Utils/Analytics";
-import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
-import * as publicActions from "../../Core/PublicContracts/PublicContracts.actions";
+import {searchActions} from "../../Core/actions";
 
 import {Icon} from '../../Elements';
-import {ContractSelectOption, TransactionSelectOption} from "../index";
+import {SimpleLoader, NetworkTag} from "..";
 
 import './PublicNetworksSearch.scss';
-import {SimpleLoader} from "..";
+import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 function SearchResultsNoOptionsMessage(props) {
     const {query} = props;
@@ -55,13 +55,28 @@ function SearchBarDropdownIndicator(props) {
 }
 
 function SearchResultSelectOption(props) {
+    /** @type {SearchResult} */
     const data = props.data;
 
-    if (data.type === 'transaction') {
-        return <TransactionSelectOption {...props}/>;
-    }
+    const projectInfo = data.getProjectInfo();
 
-    return <ContractSelectOption {...props}/>;
+    return (
+        <components.Option {...props} className="AppSearchSelectOption">
+            <Blockies size={8} scale={5} className="BorderRadius1" seed={data.value}/>
+            <div className="MarginLeft2">
+                <div className="MarginBottom1">
+                    <span className="SemiBoldText">{data.label}</span>
+                    {!!projectInfo && <span className="MarginLeft1 MutedText">{projectInfo.username}/{projectInfo.slug}</span>}
+                </div>
+                <div>
+                    <span className="MonospaceFont LinkText">{generateShortAddress(data.hex, 12, 6)}</span>
+                </div>
+            </div>
+            <div className="MarginLeftAuto">
+                <NetworkTag size="small" network={data.network}/>
+            </div>
+        </components.Option>
+    );
 }
 
 class PublicNetworksSearch extends Component {
@@ -74,65 +89,36 @@ class PublicNetworksSearch extends Component {
     }
 
     debouncedSearch = _.debounce(async (query, callback) => {
-        const {publicActions} = this.props;
+        const {searchActions} = this.props;
 
         if (!callback) return;
 
-        const searchResponse = await publicActions.searchPublicData(query);
+        const searchResponse = await searchActions.getSearchResults(query);
 
         Analytics.trackEvent('explore_page_search');
 
         if (searchResponse.success) {
-            const data = [];
-
-            if (searchResponse.data.contracts) {
-                data.push({
-                    label: 'Contracts',
-                    value: 'contracts',
-                    options: searchResponse.data.contracts,
-                })
-            }
-
-            if (searchResponse.data.transactions) {
-                data.push({
-                    label: 'Transactions',
-                    value: 'transactions',
-                    options: searchResponse.data.transactions,
-                })
-            }
-
-            callback(data)
+            callback(searchResponse.data)
         } else {
             callback([]);
         }
-
-
-        this.setState({
-            searchPromise: null,
-            promiseResolver: null,
-        });
     }, 1000);
 
     fetchSearchResults = (query, callback) => {
         this.debouncedSearch(query, callback);
     };
 
-    goTo = (type, network, suffix) => {
-        const {history} = this.props;
+    /**
+     * @param {SearchResult} searchResult
+     */
+    handleSearchSelect = (searchResult) => {
+        const {history, searchActions} = this.props;
 
-        const networkRoute = getRouteSlugForNetwork(network);
+        searchActions.registerSearchResultSelected(searchResult);
 
-        history.push(`/${type}/${networkRoute}/${suffix}`);
-    };
-
-    handleSearchSelect = (option) => {
         Analytics.trackEvent('explore_page_search_selected');
 
-        if (option.type === 'transaction') {
-            this.goTo('tx', option.network, option.txHash);
-        } else {
-            this.goTo('contract', option.network, option.address);
-        }
+        history.push(searchResult.getUrl());
     };
 
     handleInputChange = (value) => {
@@ -165,7 +151,7 @@ class PublicNetworksSearch extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        publicActions: bindActionCreators(publicActions, dispatch),
+        searchActions: bindActionCreators(searchActions, dispatch),
     }
 };
 
