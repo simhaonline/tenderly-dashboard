@@ -5,7 +5,7 @@ import {Contract} from "../../Core/models";
 
 import {TransactionFilterTypes} from "../../Common/constants";
 
-import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, LinkButton, Select} from "../../Elements";
+import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, Checkbox, LinkButton, Select} from "../../Elements";
 import {ContractSelectMultiValueLabel, ContractSelectOption, NetworkSelectOption} from "../index";
 
 import './TransactionFilters.scss';
@@ -52,8 +52,9 @@ class TransactionFilters extends Component {
         const networkOptions = getUniqueNetworksForContracts(contracts);
 
         const tagOptions = tags.map(tag => ({
-            label: tag,
-            value: tag,
+            label: tag.tag,
+            value: tag.tag,
+            createdAt: tag.created_at,
         }));
 
         this.state = {
@@ -65,7 +66,9 @@ class TransactionFilters extends Component {
             draftType: 'all',
             draftContracts: [],
             draftNetworks: '',
-            draftTag: '',
+            draftTag: null,
+            draftAfter: null,
+            fromTagCreation: false,
             draftQuery: '',
         };
     }
@@ -135,8 +138,21 @@ class TransactionFilters extends Component {
     };
 
     handleDraftTagChange = (value) => {
+        const {fromTagCreation, draftAfter} = this.state;
+
         this.setState({
             draftTag: value,
+            draftAfter: fromTagCreation && !value ? null : draftAfter,
+            fromTagCreation: !value ? false : fromTagCreation,
+        });
+    };
+
+    handleFromTagCreation = (field, newValue) => {
+        const {draftTag} = this.state;
+
+        this.setState({
+            fromTagCreation: newValue,
+            draftAfter: newValue ? draftTag.createdAt : null,
         });
     };
 
@@ -149,7 +165,7 @@ class TransactionFilters extends Component {
     };
 
     handleApplyFilters = () => {
-        const {draftStatus, draftType, draftContracts, draftTag, draftNetworks} = this.state;
+        const {draftStatus, draftAfter, draftType, draftContracts, draftTag, draftNetworks} = this.state;
         const {onFiltersChange} = this.props;
 
         const filters = [];
@@ -179,13 +195,18 @@ class TransactionFilters extends Component {
             value: draftTag ? draftTag.value : null,
         });
 
+        filters.push({
+            type: TransactionFilterTypes.AFTER,
+            value: draftAfter ? draftAfter : null,
+        });
+
         onFiltersChange(filters);
 
         this.handleModalClose();
     };
 
     render() {
-        const {openModal, draftStatus, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
+        const {openModal, draftStatus, fromTagCreation, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
         const {activeFilters} = this.props;
 
         const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
@@ -239,6 +260,12 @@ class TransactionFilters extends Component {
                                     <div className="TransactionFilters__Dialog__FilterRow__Label">Tag</div>
                                     <div className="TransactionFilters__Dialog__FilterRow__Filter">
                                         <Select isClearable value={draftTag} selectLabel="Select Tag" options={tagOptions} onChange={this.handleDraftTagChange}/>
+                                    </div>
+                                </div>}
+                                {!!draftTag && <div className="TransactionFilters__Dialog__FilterRow">
+                                    <div className="TransactionFilters__Dialog__FilterRow__Label"/>
+                                    <div className="TransactionFilters__Dialog__FilterRow__Filter">
+                                        <Checkbox value={fromTagCreation} field="fromTagCreation" onChange={this.handleFromTagCreation} label="Txs after contract was tagged"/>
                                     </div>
                                 </div>}
                             </div>

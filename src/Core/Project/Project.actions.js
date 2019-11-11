@@ -353,7 +353,7 @@ export const leaveSharedProject = (project) => {
 export const fetchProjectTags = (project) => {
     return async (dispatch) => {
         try {
-            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/tags`);
+            const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/tag-filters`);
 
             if (!data || !data.tags) {
                 return new ErrorActionResponse();
