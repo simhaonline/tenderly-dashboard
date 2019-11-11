@@ -6,6 +6,7 @@ import {PublicApi, Api, StreamingApi} from '../../Utils/Api';
 import Analytics from "../../Utils/Analytics";
 import Intercom from "../../Utils/Intercom";
 import FullStory from "../../Utils/FullStory";
+import {isInternalUserByEmail} from "../../Utils/UserHelpers";
 
 import User from "./User.model";
 import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
@@ -76,6 +77,7 @@ export const loginUser = (username, password) => {
 
             return new ActionResponse(true, data.token);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }
@@ -109,6 +111,7 @@ export const registerUser = (userData) => {
 
             return new ActionResponse(true, data.token);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     };
@@ -155,7 +158,12 @@ export const getUser = (token) => {
             if (!impersonating) {
                 Analytics.identifyUser(user);
                 Intercom.setUser(user);
-                FullStory.identifyUser(user);
+
+                if (isInternalUserByEmail(user.email)) {
+                    FullStory.disable();
+                } else {
+                    FullStory.identifyUser(user);
+                }
             }
 
             Sentry.configureScope(scope => {
@@ -194,6 +202,7 @@ export const changePassword = (oldPassword, newPassword) => {
 
             return new SuccessActionResponse();
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }
@@ -216,6 +225,7 @@ export const setPassword = (newPassword) => {
 
             return new SuccessActionResponse(data.ok);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }
@@ -238,6 +248,7 @@ export const recoverAccount = (email) => {
 
             return new SuccessActionResponse(data);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     }
@@ -262,6 +273,7 @@ export const resetPassword = (code, newPassword) => {
 
             return new SuccessActionResponse(data.token);
         } catch (error) {
+            console.error(error);
             return new ErrorActionResponse(error);
         }
     };

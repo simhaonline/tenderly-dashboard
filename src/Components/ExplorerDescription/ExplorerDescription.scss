@@ -1,0 +1,31 @@
+@import "../../Common/common";
+
+.ExplorerDescription {
+  display: flex;
+  justify-content: space-around;
+  margin-top: $Spacing7;
+}
+
+.ExplorerDescription__Block {
+  flex: 0 0 30%;
+}
+
+.ExplorerDescription__Block__Headline {
+  font-size: $FontSize500;
+  margin-bottom: $Spacing2;
+  font-weight: 900;
+}
+
+.ExplorerDescription__Block__Description {
+  letter-spacing: 0.75px;
+}
+
+@media (max-width: 760px) {
+  .ExplorerDescription {
+    display: block;
+  }
+
+  .ExplorerDescription__Block {
+    margin-bottom: $Spacing5;
+  }
+}

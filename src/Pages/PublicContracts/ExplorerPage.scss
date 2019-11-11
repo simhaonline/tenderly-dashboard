@@ -1,0 +1,23 @@
+@import "../../Common/common";
+
+#ExplorerPage {
+  background-color: $Slate800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ExplorerPage__Container {}
+
+.ExplorerPage__Logo {
+  display: block;
+  margin: 0 auto 60px;
+}
+
+@media (max-width: 760px) {
+  #ExplorerPage {
+    display: block;
+    padding-top: 100px;
+  }
+}

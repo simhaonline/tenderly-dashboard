@@ -4,12 +4,9 @@ import {Link, NavLink, withRouter} from "react-router-dom";
 import jwt from 'jsonwebtoken';
 
 import {Header, Icon} from "../../Elements";
-import {Navigation, AppSearch} from "../index";
+import {Navigation, AppSearch, TenderlyLogo} from "../index";
 import SessionHeaderMenu from "../SessionHeaderMenu/SessionHeaderMenu";
 import HeaderMessage from "../HeaderMessage/HeaderMessage";
-
-import LogoHorizontal from './logo-horizontal.svg';
-import LogoSymbol from './logo-symbol.svg';
 
 import './AppHeader.scss';
 
@@ -32,8 +29,8 @@ class AppHeader extends Component {
                 {decodedToken.impersonate && <HeaderMessage color="purple" message="Impersonating Mode"/>}
                 <Header id="AppHeader">
                     <Link to="/" className="LogoWrapper">
-                        <img className="AppLogo" src={LogoHorizontal} alt="Tenderly Logo"/>
-                        <img className="AppSymbol" src={LogoSymbol} alt="Tenderly Logo"/>
+                        <TenderlyLogo className="AppLogo"/>
+                        <TenderlyLogo className="AppSymbol" symbol/>
                     </Link>
                     <div className="NavWrapper">
                         <Navigation/>

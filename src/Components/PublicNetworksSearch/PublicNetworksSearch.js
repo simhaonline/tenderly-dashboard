@@ -15,6 +15,7 @@ import {Icon} from '../../Elements';
 import {ContractSelectOption, TransactionSelectOption} from "../index";
 
 import './PublicNetworksSearch.scss';
+import {SimpleLoader} from "..";
 
 function SearchResultsNoOptionsMessage(props) {
     const {query} = props;
@@ -32,13 +33,19 @@ function SearchResultsNoOptionsMessage(props) {
             <p className="SearchResultsNoOptionsMessage__Description">It seems that we didn't find the contract/transaction your were looking for. We currently only parse contracts and transactions that have been verified on Tenderly or Etherscan.</p>
             <p className="SearchResultsNoOptionsMessage__Description">If you wish to monitor and inspect private contracts and transactions in your project you can do so in one of the following ways:</p>
             <div className="SearchResultsNoOptionsMessage__Actions">
-                <a className="SearchResultsNoOptionsMessage__ActionLink" href="https://medium.com/tenderly/a-tenderly-update-debugging-ethereum-transactions-verifying-contracts-and-other-newsworthy-4d7f20317f92#75c6" target="_blank" rel="noopener noreferrer">
+                <a className="SearchResultsNoOptionsMessage__ActionLink" href="https://blog.tenderly.dev/a-tenderly-update-debugging-ethereum-transactions-verifying-contracts-and-other-newsworthy-updates/" target="_blank" rel="noopener noreferrer">
                     <Icon className="SearchResultsNoOptionsMessage__ActionLink__Icon" icon="arrow-right"/>
                     <h4>Verifying your contracts on Tenderly</h4>
                 </a>
             </div>
         </div>}
     </div>
+}
+
+function SearchBarLoadingIndicator(props) {
+    return <components.LoadingIndicator {...props}>
+        <SimpleLoader/>
+    </components.LoadingIndicator>;
 }
 
 function SearchBarDropdownIndicator(props) {
@@ -146,13 +153,9 @@ class PublicNetworksSearch extends Component {
                             NoOptionsMessage: (props) => <SearchResultsNoOptionsMessage {...props} query={searchQuery}/>,
                             IndicatorSeparator: () => null,
                             DropdownIndicator: SearchBarDropdownIndicator,
-                        }} loadOptions={this.fetchSearchResults} placeholder="Search by tx hash, address or contract name" cacheOptions/>
-                    </div>
-                </div>
-                <div className="PublicNetworksSearch__ResultsWrapper">
-                    <div className="PublicNetworksSearch__EmptyState">
-                        <h5 className="PublicNetworksSearch__EmptyState__Heading">Find a transaction or contract</h5>
-                        <p className="PublicNetworksSearch__EmptyState__Description">Paste any transaction hash or contract address into input above and if it is from a publicly verified contract it will be parsed by us.</p>
+                            LoadingIndicator: SearchBarLoadingIndicator,
+                        }} loadOptions={this.fetchSearchResults} isLoading={true} placeholder="Search for transactions or Smart Contracts"/>
+                        <div className="PublicNetworksSearch__SupportedNetworks"><span className="MutedText">Supported Networks:</span> Mainnet, Kovan, Rinkeby, Ropsten, Görli</div>
                     </div>
                 </div>
             </div>

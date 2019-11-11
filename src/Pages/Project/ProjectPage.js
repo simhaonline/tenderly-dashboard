@@ -24,6 +24,7 @@ import ProjectCollaboratorPage from "./ProjectCollaboratorPage";
 import ProjectAddContractPage from "./ProjectAddContractPage";
 
 import {ProjectSidebar, ProjectPageLoader} from "../../Components";
+import {ProjectTypes} from "../../Common/constants";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -49,8 +50,16 @@ class ProjectPage extends Component {
             }
 
             await actions.fetchProjectTags(response.data);
-        } else if (!tagsLoaded) {
+        } else if (!tagsLoaded && project.type !== ProjectTypes.DEMO) {
             await actions.fetchProjectTags(project);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {tagsLoaded, project, actions} = this.props;
+
+        if (prevProps.project !== project && !tagsLoaded) {
+            actions.fetchProjectTags(project)
         }
     }
 

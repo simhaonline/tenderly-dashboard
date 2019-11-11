@@ -1,0 +1,43 @@
+@import "../../Common/common";
+
+.ExplorerHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 0 $Spacing5;
+  background-color: $Slate800;
+  z-index: 9999;
+}
+
+.ExplorerHeader__Navigation, .ExplorerHeader__SessionMenu {
+  margin-left: auto;
+}
+
+.ExplorerHeader__Navigation__Link {
+  font-size: $FontSize400;
+  margin-right: $Spacing4;
+  color: $WhiteColor;
+
+  &:hover {
+    color: $WhiteColor;
+  }
+}
+
+.ExplorerHeader__Navigation__CtaButton {
+  background: $GradientPurpleRed;
+  font-weight: 600;
+  border: none;
+  transition: 0.15s ease-in;
+
+  &:hover {
+    box-shadow: 0 0 10px -2px #f02056;
+  }
+
+  &:active, &:focus {
+    color: $WhiteColor
+  }
+}

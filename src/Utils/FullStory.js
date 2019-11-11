@@ -10,6 +10,12 @@ class FullStory {
             });
         }
     }
+
+    static disable() {
+        if (process.env.NODE_ENV !== 'development' && window.FS) {
+            window.FS.shutdown();
+        }
+    }
 }
 
 export default FullStory;

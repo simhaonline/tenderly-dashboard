@@ -1,3 +1,4 @@
+export {default as TenderlyLogo} from './TenderlyLogo/TenderlyLogo';
 export {default as AppHeader} from './AppHeader/AppHeader';
 export {default as AppSearch} from './AppSearch/AppSearch';
 export {default as Navigation} from './Navigation/Navigation';
@@ -28,6 +29,10 @@ export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButto
 export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButton';
 export {default as SlackConnectButton} from './SlackConnectButton/SlackConnectButton';
 export {default as SlackIcon} from './SlackIcon/SlackIcon';
+
+// Explorer Components
+export {default as ExplorerHeader} from './ExplorerHeader/ExplorerHeader';
+export {default as ExplorerDescription} from './ExplorerDescription/ExplorerDescription';
 
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';

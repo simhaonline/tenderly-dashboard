@@ -40,11 +40,46 @@
 .PublicSearchInput {
   .Select__control {
     border-radius: 8px;
+    background-color: $Slate600;
+    border-color: $Slate300;
+    box-shadow: 0 0 16px -1px transparentize($Primary600, 0.5);
+    flex-direction: row-reverse;
+    transition: background-color 0.15s ease-in, border-color 0.15s ease-in;
+
+    &:hover, &--is-focused {
+      background-color: $Slate500;
+      border-color: $Primary500;
+      box-shadow: 0 0 20px -2px transparentize($Primary600, 0.4);
+    }
+
+    &--menu-is-open {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .Select__menu {
+    margin-top: -1px;
+    background-color: $Slate500;
+    border: 1px solid $Primary500;
+    border-top: none;
+    border-radius:  0 0 8px 8px;
+    //box-shadow: 0 0 20px -2px transparentize($Primary600, 0.4);
   }
 
   .Select__value-container {
-    padding: $Spacing1 $Spacing6;
+    padding: $Spacing2 $Spacing6 $Spacing2 0;
     font-size: $FontSize400;
+  }
+
+  .Select__indicator {
+    padding: $Spacing1 $Spacing5;
+  }
+
+  .Select__loading-indicator {
+    & + .Select__dropdown-indicator {
+      display: none;
+    }
   }
 
   .Select__input {
@@ -53,10 +88,17 @@
   }
 }
 
+.PublicNetworksSearch__SupportedNetworks {
+  margin-left: auto;
+  text-align: right;
+  font-size: $FontSize200;
+  margin-top: $Spacing2;
+}
+
 .SearchBarDropdownIndicator__Icon {
-  font-size: $FontSize500;
+  font-size: $FontSize600;
   padding: 1px;
-  margin-right: $Spacing1;
+  color: $Primary700;
 }
 
 .SearchResultsNoOptionsMessage__Wrapper {

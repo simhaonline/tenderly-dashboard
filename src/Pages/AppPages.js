@@ -1,8 +1,9 @@
 import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
+import {connect} from "react-redux";
 
 import {PrivateRoute} from "../Components";
-import PublicContractsPage from "./PublicContracts/PublicContractsPage";
+import ExplorerPage from "./PublicContracts/ExplorerPage";
 import PublicContractPage from "./PublicContracts/PublicContractPage";
 import LoginPage from "./Public/LoginPage";
 import DashboardPage from "./Dashboard/DashboardPage";
@@ -19,7 +20,7 @@ import PublicContractTransactionPage from "./PublicContracts/PublicContractTrans
 import RedirectToProjectPage from "./Project/RedirectToProjectPage";
 import AcceptInvitationPage from "./Project/AcceptInvitationPage";
 
-const AppPages = () => {
+const AppPages = ({loggedIn}) => {
     return (
         <Switch>
             <PrivateRoute path="/dashboard" exact component={DashboardPage}/>
@@ -31,17 +32,27 @@ const AppPages = () => {
             <Route path="/register" exact component={RegisterPage}/>
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
-            <Route path="/explorer" exact component={PublicContractsPage}/>
+            <Route path="/explorer" exact component={ExplorerPage}/>
             <Route path="/contract/:network/:id" strict component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
             <Route path="/accept-invitation" exact component={AcceptInvitationPage}/>
             <PrivateRoute path="/project/:slug" component={RedirectToProjectPage}/>
             <PrivateRoute path="/:username/:slug" strict component={ProjectPage}/>
-            <Redirect exact from="/" to="/login"/>
+            {loggedIn && <Redirect exact from="/" to="/dashboard"/>}
+            {!loggedIn && <Redirect exact from="/" to="/explorer"/>}
             <Redirect exact from="/public-contracts" to="/explorer"/>
             <Route component={NotFoundPage}/>
         </Switch>
     )
 };
 
-export default AppPages;
+const mapStateToProps = (state) => {
+    return {
+        loggedIn: state.auth.loggedIn,
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    null,
+)(AppPages);
