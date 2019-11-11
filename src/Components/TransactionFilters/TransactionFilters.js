@@ -265,7 +265,7 @@ class TransactionFilters extends Component {
                                 {!!draftTag && <div className="TransactionFilters__Dialog__FilterRow">
                                     <div className="TransactionFilters__Dialog__FilterRow__Label"/>
                                     <div className="TransactionFilters__Dialog__FilterRow__Filter">
-                                        <Checkbox value={fromTagCreation} field="fromTagCreation" onChange={this.handleFromTagCreation} label="Txs after contract was tagged"/>
+                                        <Checkbox value={fromTagCreation} field="fromTagCreation" onChange={this.handleFromTagCreation} label="Show only transactions after this tag was created"/>
                                     </div>
                                 </div>}
                             </div>
