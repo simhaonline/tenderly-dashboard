@@ -13,12 +13,16 @@ class ExplorerHeader extends Component {
 
         return (
             <div className="ExplorerHeader">
+                {loggedIn && <div className="ExplorerHeader__AppNavigation">
+                    <Link to="/dashboard" className="ExplorerHeader__Navigation__Link">Dashboard</Link>
+                </div>}
                 {!loggedIn && <div className="ExplorerHeader__Navigation">
                     <Link to="login" className="ExplorerHeader__Navigation__Link">Login</Link>
                     <Button className="ExplorerHeader__Navigation__CtaButton" to="/register">
                         <span>Create Account </span>
                     </Button>
                 </div>}
+
                 {loggedIn && <div className="ExplorerHeader__SessionMenu">
                     <SessionHeaderMenu/>
                 </div>}
