@@ -290,7 +290,7 @@ class ProjectTransactionsPage extends Component {
         const {loading, transactions, backfillingStatus, filters, page, perPage, refreshSubscriber, fetching, error} = this.state;
         const {contracts, project, projectTags} = this.props;
 
-        const projectIsSetup = !!project.lastPushAt;
+        const projectIsSetup = contracts.length > 0;
         const isPolling = !!refreshSubscriber || loading;
 
         const shouldDisplayListAndFilters = !!transactions.length || page !== 1 || Object.values(filters).length || fetching;
