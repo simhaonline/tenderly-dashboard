@@ -25,10 +25,12 @@ const projectContractsTableConfiguration = [
     },
     {
         label: "Added",
+        size: 260,
         renderColumn: contract => <ContractDeployedAtColumn contract={contract}/>,
     },
     {
         label: "Listening",
+        size: 150,
         renderColumn: (contract, metadata) => <ContractListeningColumn contract={contract}
                                                            onToggle={metadata.handleListeningToggle}/>,
     },
@@ -46,9 +48,11 @@ const groupingConfiguration = [
         </div>,
     },
     {
+        size: 260,
         renderColumn: groupData => <NetworkColumn network={groupData[0].network}/>,
     },
     {
+        size: 150,
         renderColumn: () => <div/>,
     },
     {
