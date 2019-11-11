@@ -19,7 +19,7 @@ class BackfillingProgress extends PureComponent {
                         <h3 className="MarginBottom1">Backfill in Progress!</h3>
                         <p className="MutedText">We are currently backfilling the last 1000 transactions for every contract in this project.</p>
                     </div>
-                    {status.step !== 0 && <Fragment>
+                    {status.step === 2 && <Fragment>
                         <div className="MarginBottom2">
                             <span className="MarginRight1">Current Progress:</span>
                             <span className="SemiBoldText">{status.completed} / {status.total}</span> <span className="MutedText">({_.round(percentage, 2)}%)</span>
