@@ -77,9 +77,9 @@ class Table extends Component {
      * @param event
      */
     handlePageChange = (nextPage, event) => {
-        const {data, onPageChange, loading} = this.props;
+        const {data, onPageChange, loading, currentPage} = this.props;
 
-        if (loading || nextPage <= 0 || (nextPage !== 1 && data.length === 0)) {
+        if (loading || nextPage <= 0 || (nextPage > currentPage && data.length === 0)) {
             return;
         }
 
