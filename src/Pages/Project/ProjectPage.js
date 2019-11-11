@@ -58,7 +58,7 @@ class ProjectPage extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {tagsLoaded, project, actions} = this.props;
 
-        if (prevProps.project !== project && !tagsLoaded) {
+        if (!!prevProps.project && prevProps.project !== project && !tagsLoaded) {
             actions.fetchProjectTags(project)
         }
     }
