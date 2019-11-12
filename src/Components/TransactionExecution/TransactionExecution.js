@@ -6,7 +6,7 @@ import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 import {EventLog, StateDiff} from "../../Core/models";
 
-import {PanelContent, Panel, PanelTabs} from "../../Elements";
+import {PanelContent, Panel} from "../../Elements";
 import {CallTracePreview, TraceDebugger, TransactionEventLogs, TransactionGasBreakdown, TransactionContracts, TransactionStateDiff} from "../index";
 
 const tabToUrlMap = {
@@ -19,47 +19,11 @@ const tabToUrlMap = {
     state_change: '/state-diff'
 };
 
-const UrlToTabMap = {
-    "contracts": 'contracts',
-    "debugger": 'debugger',
-    "gas-usage": 'gas_breakdown',
-    "error": 'error',
-    "logs": 'events',
-    "state-diff": 'state_change'
-};
-
 class TransactionExecution extends Component {
     constructor(props) {
         super(props);
 
-        const {transaction, project, match: {params: {tab}}} = props;
-
-        const tabs = [
-            {
-                label: "Overview",
-                value: 'overview',
-            },
-            {
-                label: "Events / Logs",
-                value: 'events',
-            },
-            {
-                label: "Contracts",
-                value: 'contracts',
-            },
-            {
-                label: "Debugger",
-                value: 'debugger',
-            },
-            {
-                label: "State Changes",
-                value: 'state_change',
-            },
-            {
-                label: "Gas Profiler",
-                value: 'gas_breakdown',
-            },
-        ];
+        const {transaction, project} = props;
 
         let baseUrl = '';
 
@@ -70,8 +34,6 @@ class TransactionExecution extends Component {
         baseUrl += `/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`;
 
         this.state = {
-            currentTab: tab ? UrlToTabMap[tab] : 'overview',
-            tabs,
             baseUrl,
         };
     }
@@ -80,7 +42,6 @@ class TransactionExecution extends Component {
         const {baseUrl} = this.state;
 
         this.setState({
-            currentTab: value,
             selectedTrace,
         });
 
@@ -106,13 +67,11 @@ class TransactionExecution extends Component {
 
     render() {
         const {callTrace, contracts, transaction, eventLogs, stateDiffs} = this.props;
-        const {currentTab, tabs, selectedTrace, baseUrl} = this.state;
+        const {selectedTrace, baseUrl} = this.state;
 
         return (
             <Fragment>
-                <h2 className="MarginBottom2 MarginLeft2">Execution</h2>
                 <Panel className="TransactionExecution">
-                    <PanelTabs tabs={tabs} active={currentTab} onChange={tab => this.handleTabChange(tab)}/>
                     <PanelContent>
                         <Switch>
                             <Route path={baseUrl} exact render={() => <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger} onSourceView={this.handleTraceViewSource}/>}/>

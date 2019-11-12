@@ -32,9 +32,9 @@ function getContextFromUrl(url, base) {
     return null;
 }
 
-const AppSidebarLink = ({to, icon, label}) => {
+const AppSidebarLink = ({to, icon, label, strict = true, exact = false}) => {
     return (
-        <NavLink activeClassName="AppSidebar__NavGroup__Link--Active" to={to} strict className="AppSidebar__NavGroup__Link">
+        <NavLink activeClassName="AppSidebar__NavGroup__Link--Active" to={to} strict={strict} exact={exact} className="AppSidebar__NavGroup__Link">
             <Icon icon={icon} className="AppSidebar__NavGroup__Link__Icon"/>
             <span className="AppSidebar__NavGroup__Link__Label">{label}</span>
         </NavLink>
@@ -89,12 +89,12 @@ class AppSidebar extends Component {
                         <span>Transaction</span>
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
-                        <AppSidebarLink to={`${routeBase}/tx/${network}/${txHash}`} icon="align-right" label="Overview"/>
-                        <AppSidebarLink to={`${routeBase}/tx/${network}/${txHash}/contracts`} icon="file-text" label="Contracts"/>
-                        <AppSidebarLink to={`${routeBase}/tx/${network}/${txHash}/logs`} icon="bookmark" label="Events / Logs"/>
-                        <AppSidebarLink to={`${routeBase}/tx/${network}/${txHash}/state-diff`} icon="code" label="State Changes"/>
-                        <AppSidebarLink to={`${routeBase}/tx/${network}/${txHash}/debugger`} icon="terminal" label="Debugger"/>
-                        <AppSidebarLink to={`${routeBase}/tx/${network}/${txHash}/gas-usage`} icon="cpu" label="Gas Profiler"/>
+                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}`} icon="align-right" label="Overview"/>
+                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/contracts`} icon="file-text" label="Contracts"/>
+                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/logs`} icon="bookmark" label="Events / Logs"/>
+                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/state-diff`} icon="code" label="State Changes"/>
+                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/debugger`} icon="terminal" label="Debugger"/>
+                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/gas-usage`} icon="cpu" label="Gas Profiler"/>
                     </div>
                 </div>}
 
