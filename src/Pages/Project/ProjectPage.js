@@ -23,7 +23,7 @@ import ProjectAddCollaboratorPage from "./ProjectAddCollaboratorPage";
 import ProjectCollaboratorPage from "./ProjectCollaboratorPage";
 import ProjectAddContractPage from "./ProjectAddContractPage";
 
-import {ProjectSidebar, ProjectPageLoader} from "../../Components";
+import {AppSidebar, ProjectPageLoader} from "../../Components";
 import {ProjectTypes} from "../../Common/constants";
 
 class ProjectPage extends Component {
@@ -69,6 +69,15 @@ class ProjectPage extends Component {
         searchActions.removeProjectContext();
     }
 
+    renderComponent = (Component) => {
+        const {project} = this.props;
+
+        return (routeProps) => <Fragment>
+            <AppSidebar project={project} {...routeProps}/>
+            <Component {...routeProps}/>
+        </Fragment>;
+    };
+
     render(){
         const {project, tagsLoaded, location, match} = this.props;
         const {nonExistingProject} = this.state;
@@ -93,21 +102,20 @@ class ProjectPage extends Component {
                 <Helmet>
                     <title>{project.name} | Tenderly</title>
                 </Helmet>
-                <ProjectSidebar project={project}/>
                 <Switch>
-                    <Route path="/:username/:slug/transactions" component={ProjectTransactionsPage}/>
-                    <Route path="/:username/:slug/tx/:network/:txHash/:tab?" strict component={ProjectTransactionPage}/>
-                    <Route path="/:username/:slug/analytics" component={ProjectAnalyticsPage}/>
-                    <Route path="/:username/:slug/alerts/:tab" component={ProjectAlertsPage}/>
+                    <Route path="/:username/:slug/transactions" render={this.renderComponent(ProjectTransactionsPage)}/>
+                    <Route path="/:username/:slug/tx/:network/:txHash/:tab?" strict render={this.renderComponent(ProjectTransactionPage)}/>
+                    <Route path="/:username/:slug/analytics" render={this.renderComponent(ProjectAnalyticsPage)}/>
+                    <Route path="/:username/:slug/alerts/:tab" render={this.renderComponent(ProjectAlertsPage)}/>
                     <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
-                    <Route path="/:username/:slug/contracts" exact component={ProjectContractsPage}/>
-                    <Route path="/:username/:slug/contracts/add" exact component={ProjectAddContractPage}/>
-                    <Route path="/:username/:slug/contract/:network/:address" component={ProjectContractPage}/>
-                    <Route path="/:username/:slug/releases" component={ProjectReleasesPage}/>
-                    <Route path="/:username/:slug/collaborators" exact component={ProjectCollaboratorsPage}/>
-                    <Route path="/:username/:slug/collaborators/add" exact component={ProjectAddCollaboratorPage}/>
-                    <Route path="/:username/:slug/collaborators/:collaboratorId" strict component={ProjectCollaboratorPage}/>
-                    <Route path="/:username/:slug/settings" component={ProjectSettingsPage}/>
+                    <Route path="/:username/:slug/contracts" exact render={this.renderComponent(ProjectContractsPage)}/>
+                    <Route path="/:username/:slug/contracts/add" exact render={this.renderComponent(ProjectAddContractPage)}/>
+                    <Route path="/:username/:slug/contract/:network/:address" render={this.renderComponent(ProjectContractPage)}/>
+                    <Route path="/:username/:slug/releases" render={this.renderComponent(ProjectReleasesPage)}/>
+                    <Route path="/:username/:slug/collaborators" exact render={this.renderComponent(ProjectCollaboratorsPage)}/>
+                    <Route path="/:username/:slug/collaborators/add" exact render={this.renderComponent(ProjectAddCollaboratorPage)}/>
+                    <Route path="/:username/:slug/collaborators/:collaboratorId" strict render={this.renderComponent(ProjectCollaboratorPage)}/>
+                    <Route path="/:username/:slug/settings" render={this.renderComponent(ProjectSettingsPage)}/>
                     <Redirect to={`/:username/:slug/transactions`}/>
                 </Switch>
             </Fragment>
