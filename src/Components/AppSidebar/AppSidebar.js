@@ -29,12 +29,24 @@ function getContextFromUrl(url, base) {
         return 'alerting';
     }
 
+    if (_.startsWith(strippedUrl, '/transactions')) {
+        return 'transactions';
+    }
+
+    if (_.startsWith(strippedUrl, '/contracts')) {
+        return 'contracts';
+    }
+
+    if (_.startsWith(strippedUrl, '/plan')) {
+        return 'plan';
+    }
+
     return null;
 }
 
-const AppSidebarLink = ({to, icon, label, strict = true, exact = false}) => {
+const AppSidebarLink = ({to, icon, label, exact = false}) => {
     return (
-        <NavLink activeClassName="AppSidebar__NavGroup__Link--Active" to={to} strict={strict} exact={exact} className="AppSidebar__NavGroup__Link">
+        <NavLink activeClassName="AppSidebar__NavGroup__Link--Active" to={to} strict={!exact} exact={exact} className="AppSidebar__NavGroup__Link">
             <Icon icon={icon} className="AppSidebar__NavGroup__Link__Icon"/>
             <span className="AppSidebar__NavGroup__Link__Label">{label}</span>
         </NavLink>
@@ -70,8 +82,17 @@ class AppSidebar extends Component {
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
                         <AppSidebarLink to={`${routeBase}/transactions`} icon="box" label="Transactions"/>
+                        {context === 'transactions' && <div className="MarginBottom1 MarginTop1">
+                            <AppSidebarSubLink to={`${routeBase}/transactions`} exact label="All Transactions"/>
+                            <AppSidebarSubLink to={`${routeBase}/transactions/filter`} exact label="History"/>
+                            <AppSidebarSubLink to={`${routeBase}/transactions/create-filter`} exact label="Create filter"/>
+                        </div>}
                         <AppSidebarLink to={`${routeBase}/events`} icon="bookmark" label="Event / Logs"/>
                         <AppSidebarLink to={`${routeBase}/contracts`} icon="file-text" label="Contracts"/>
+                        {context === 'contracts' && <div className="MarginBottom1 MarginTop1">
+                            <AppSidebarSubLink to={`${routeBase}/contracts`} exact label="All Contracts"/>
+                            <AppSidebarSubLink to={`${routeBase}/contracts/create-filter`} exact label="Create filter"/>
+                        </div>}
                         <AppSidebarLink to={`${routeBase}/wallets`} icon="inbox" label="Wallets"/>
                     </div>
                 </div>}
@@ -105,7 +126,7 @@ class AppSidebar extends Component {
                     <div className="AppSidebar__NavGroup__Links">
                         <AppSidebarLink to={`${routeBase}/analytics`} icon="bar-chart-2" label="Analytics"/>
                         <AppSidebarLink to={`${routeBase}/alerts`} icon="bell" label="Alerting"/>
-                        {context === 'alerting' && <div>
+                        {context === 'alerting' && <div className="MarginTop1">
                             <AppSidebarSubLink to={`${routeBase}/alerts/rules`} label="Alerts"/>
                             <AppSidebarSubLink to={`${routeBase}/alerts/history`} label="History"/>
                             <AppSidebarSubLink to={`${routeBase}/alerts/destinations`} label="Destinations"/>
@@ -119,6 +140,11 @@ class AppSidebar extends Component {
                     <div className="AppSidebar__NavGroup__Links">
                         <AppSidebarLink to={`${routeBase}/collaborators`} icon="users" label="Collaborators"/>
                         <AppSidebarLink to={`${routeBase}/plan`} icon="credit-card" label="Plan"/>
+                        {context === 'plan' && <div className="MarginTop1">
+                            <AppSidebarSubLink to={`${routeBase}/plan`} exact label="Usage"/>
+                            <AppSidebarSubLink to={`${routeBase}/plan/billing-cards`} label="Billing & Cards"/>
+                            <AppSidebarSubLink to={`${routeBase}/plan/history`} label="Invoices"/>
+                        </div>}
                         <AppSidebarLink to={`${routeBase}/settings`} icon="settings" label="Settings"/>
                     </div>
                 </div>}
