@@ -1,0 +1,93 @@
+@import "../../Common/common";
+
+@keyframes EnterContextMenu {
+  0% {
+    transform: translate(0);
+    box-shadow: 0 0 0 0 $Primary900;
+  }
+
+  100% {
+    transform: translate(20px, -20px);
+    box-shadow: -10px 10px 0 0 $Slate500;
+  }
+}
+
+#AppSidebar {
+  padding: $Spacing6 0;
+}
+
+.AppSidebar__NavGroup {
+  padding: $Spacing4 0;
+  margin-bottom: $Spacing4;
+
+  &--Context {
+    background-color: $Slate400;
+
+    .AppSidebar__NavGroup__Link__Icon {
+      color: $WhiteColor;
+    }
+
+    .AppSidebar__NavGroup__Link--Active {
+      background-color: $Slate400;
+      color: $WhiteColor;
+    }
+  }
+
+  &--Monitoring {
+    }
+}
+
+.AppSidebar__NavGroup__Heading {
+  padding: 0 $Spacing3;
+  margin-bottom: $Spacing2;
+  font-size: $FontSize200;
+  text-transform: uppercase;
+}
+
+.AppSidebar__NavGroup__Links {}
+
+.AppSidebar__NavGroup__Link {
+  color: $WhiteColor;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-size: $FontSize400;
+  padding: 0 $Spacing3;
+}
+
+.AppSidebar__NavGroup__Link--Active {
+  background-color: $Primary500;
+
+  .AppSidebar__NavGroup__Link__Icon {
+    color: $WhiteColor;
+  }
+
+  .AppSidebar__NavGroup__Link__Label {
+    font-weight: 600;
+  }
+}
+
+.AppSidebar__NavGroup__Link__Icon {
+  color: $Primary500;
+}
+
+.AppSidebar__NavGroup__Link__Label {
+  margin-left: $Spacing3;
+  color: $WhiteColor;
+}
+
+.AppSidebar__NavGroup__SubLink {
+  color: $WhiteColor;
+  display: block;
+  padding: $Spacing1 $Spacing2 $Spacing1 ($Spacing8 + $Spacing4);
+
+  &:hover {
+    color: $WhiteColor;
+    background-color: transparentize($BlackColor, 0.8);
+  }
+
+  &:focus, &--Active {
+    color: $WhiteColor !important;
+    background-color: $Primary900 !important;
+  }
+}

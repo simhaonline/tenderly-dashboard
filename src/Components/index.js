@@ -32,6 +32,7 @@ export {default as SlackIcon} from './SlackIcon/SlackIcon';
 
 // Explorer Components
 export {default as ExplorerHeader} from './ExplorerHeader/ExplorerHeader';
+export {default as AppSidebar} from './AppSidebar/AppSidebar';
 export {default as ExplorerDescription} from './ExplorerDescription/ExplorerDescription';
 export {default as ExplorerRecentSearches} from './ExplorerRecentSearches/ExplorerRecentSearches';
 
