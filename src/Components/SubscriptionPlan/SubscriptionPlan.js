@@ -33,7 +33,7 @@ class SubscriptionPlan extends Component {
                             <p>You are currently on our free developer plan</p>
                             <div>
                                 <Button>
-                                    Upgrade Plan
+                                    <span>Upgrade</span>
                                 </Button>
                             </div>
                         </div>}
@@ -42,7 +42,7 @@ class SubscriptionPlan extends Component {
                             <p>$500/mo</p>
                             <p>You are currently on our free developer plan</p>
                             <Button>
-                                Upgrade to Enterprise
+                                <span>Upgrade</span>
                             </Button>
                         </div>}
                     </div>
