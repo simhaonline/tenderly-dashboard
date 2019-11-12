@@ -33,7 +33,7 @@ const AppPages = ({loggedIn}) => {
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
             <Route path="/explorer" exact component={ExplorerPage}/>
-            <Route path="/contract/:network/:id" strict component={PublicContractPage}/>
+            <Route path="/contract/:network/:address" strict component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
             <Route path="/accept-invitation" exact component={AcceptInvitationPage}/>
             <PrivateRoute path="/project/:slug" component={RedirectToProjectPage}/>

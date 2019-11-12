@@ -24,6 +24,7 @@ import {Page, Container, PageHeading, Button, Icon, ButtonGroup, PanelContent, P
 import {
     ContractInformation,
     ProjectPageLoader,
+    AppSidebar,
     NetworkTag,
     TransactionsList, EtherscanLink, SharePageButton,
     PublicContractQuickActions,
@@ -197,83 +198,89 @@ class PublicContractPage extends Component {
         }
         if (!contract) {
             return (
-                <Page>
-                    <Container>
-                        <PageHeading>
-                            <NetworkTag network={networkType}/>
-                            <h1>{contractAddress}</h1>
-                        </PageHeading>
-                        <Panel>
-                            <PanelContent className="DisplayFlex AlignItemsCenter JustifyContentCenter">
-                            </PanelContent>
-                        </Panel>
-                    </Container>
-                </Page>
+                <Fragment>
+                    <AppSidebar/>
+                    <Page>
+                        <Container>
+                            <PageHeading>
+                                <NetworkTag network={networkType}/>
+                                <h1>{contractAddress}</h1>
+                            </PageHeading>
+                            <Panel>
+                                <PanelContent className="DisplayFlex AlignItemsCenter JustifyContentCenter">
+                                </PanelContent>
+                            </Panel>
+                        </Container>
+                    </Page>
+                </Fragment>
             );
         }
 
         return (
-            <Page>
-                <Container>
-                    <Helmet>
-                        <title>{contract.name} | Tenderly</title>
-                    </Helmet>
-                    <PageHeading>
-                        <Button outline onClick={this.handleBackClick}>
-                            <Icon icon="arrow-left"/>
-                        </Button>
-                        <h1>{contract.name}</h1>
-                        <div className="RightContent">
-                            <ButtonGroup>
-                                <Button outline={!isContractWatched} size="small" color="secondary"
-                                        onClick={this.toggleWatchedContract} disabled={actionInProgress || !watchedContractsLoaded}>
-                                    <Icon icon="star"/>
-                                    {!isContractWatched && <span className="HideMobile">Watch</span>}
-                                    {isContractWatched && <span className="HideMobile">Unwatch</span>}
-                                </Button>
-                                <Button size="small" color="secondary" readOnly>
-                                    <span>{contract.watchCount}</span>
-                                </Button>
-                            </ButtonGroup>
-                            <SharePageButton/>
-                            <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
-                                <Button size="small" outline>
-                                    <Icon icon="globe"/>
-                                    <span className="HideMobile">View in Explorer</span>
-                                </Button>
-                            </EtherscanLink>
-                        </div>
-                    </PageHeading>
-                    <ContractInformation contract={contract} back/>
-                    <h2 className="MarginBottom2 MarginLeft2">Quick Actions</h2>
-                    <PublicContractQuickActions contract={contract}/>
-                    <Switch>
-                        <Route path="/contract/:network/:id" exact render={() => (
-                            <Fragment>
-                                <h2 className="MarginBottom2 MarginLeft2">Transactions</h2>
-                                <TransactionsList transactions={transactions} contracts={[contract]}
-                                                  loading={fetching}
-                                                  currentPage={page} onPageChange={this.handlePageChange}/>
-                            </Fragment>
-                        )}/>
-                        <Route path="/contract/:network/:id/source" render={() => (
-                            <Fragment>
-                                <h2 className="MarginBottom2 MarginLeft2">Source Code</h2>
-                                <ContractFiles contract={contract}/>
-                            </Fragment>
-                        )}/>
-                    </Switch>
-                    <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal} onLogin={this.handleLogin}/>
-                </Container>
-            </Page>
+            <Fragment>
+                <AppSidebar/>
+                <Page>
+                    <Container>
+                        <Helmet>
+                            <title>{contract.name} | Tenderly</title>
+                        </Helmet>
+                        <PageHeading>
+                            <Button outline onClick={this.handleBackClick}>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>{contract.name}</h1>
+                            <div className="RightContent">
+                                <ButtonGroup>
+                                    <Button outline={!isContractWatched} size="small" color="secondary"
+                                            onClick={this.toggleWatchedContract} disabled={actionInProgress || !watchedContractsLoaded}>
+                                        <Icon icon="star"/>
+                                        {!isContractWatched && <span className="HideMobile">Watch</span>}
+                                        {isContractWatched && <span className="HideMobile">Unwatch</span>}
+                                    </Button>
+                                    <Button size="small" color="secondary" readOnly>
+                                        <span>{contract.watchCount}</span>
+                                    </Button>
+                                </ButtonGroup>
+                                <SharePageButton/>
+                                <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
+                                    <Button size="small" outline>
+                                        <Icon icon="globe"/>
+                                        <span className="HideMobile">View in Explorer</span>
+                                    </Button>
+                                </EtherscanLink>
+                            </div>
+                        </PageHeading>
+                        <ContractInformation contract={contract} back/>
+                        <h2 className="MarginBottom2 MarginLeft2">Quick Actions</h2>
+                        <PublicContractQuickActions contract={contract}/>
+                        <Switch>
+                            <Route path="/contract/:network/:id" exact render={() => (
+                                <Fragment>
+                                    <h2 className="MarginBottom2 MarginLeft2">Transactions</h2>
+                                    <TransactionsList transactions={transactions} contracts={[contract]}
+                                                      loading={fetching}
+                                                      currentPage={page} onPageChange={this.handlePageChange}/>
+                                </Fragment>
+                            )}/>
+                            <Route path="/contract/:network/:id/source" render={() => (
+                                <Fragment>
+                                    <h2 className="MarginBottom2 MarginLeft2">Source Code</h2>
+                                    <ContractFiles contract={contract}/>
+                                </Fragment>
+                            )}/>
+                        </Switch>
+                        <LoginRequiredModal open={loginModalOpen} onClose={this.closeLoginModal} onLogin={this.handleLogin}/>
+                    </Container>
+                </Page>
+            </Fragment>
         )
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: { id, network }}} = ownProps;
+    const {match: {params: { address, network }}} = ownProps;
 
-    const contractAddress = id.toLowerCase();
+    const contractAddress = address.toLowerCase();
 
     const networkType = getNetworkForRouteSlug(network);
 

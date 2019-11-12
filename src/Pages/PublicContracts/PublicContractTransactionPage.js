@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
@@ -22,7 +22,14 @@ import * as publicContractActions from "../../Core/PublicContracts/PublicContrac
 import NoTransactionsIcon from "../../Components/NoTransactionsEmptyState/no-transactions-icon.svg";
 
 import {Page, Container, Button, Icon, PageHeading, Panel, PanelContent} from "../../Elements";
-import {EmptyState, EtherscanLink, ProjectPageLoader, SharePageButton, TransactionPageContent} from "../../Components";
+import {
+    EmptyState,
+    EtherscanLink,
+    AppSidebar,
+    ProjectPageLoader,
+    SharePageButton,
+    TransactionPageContent
+} from "../../Components";
 import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
 
 class PublicContractTransactionPage extends Component {
@@ -75,35 +82,38 @@ class PublicContractTransactionPage extends Component {
         const {contracts, transaction, callTrace, stackTrace, networkType, txHash, stateDiffs, eventLogs} = this.props;
 
         return (
-            <Page>
-                <Container>
-                    <Helmet>
-                        <title>{txHash} | Tenderly</title>
-                    </Helmet>
-                    <PageHeading>
-                        <Button outline onClick={this.handleBackClick}>
-                            <Icon icon="arrow-left"/>
-                        </Button>
-                        <h1>Transaction</h1>
-                        <div className="RightContent">
-                            <SharePageButton/>
-                            <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
-                                <Button size="small" outline>
-                                    <Icon icon="globe"/>
-                                    <span className="HideMobile">View in Explorer</span>
-                                </Button>
-                            </EtherscanLink>
-                        </div>
-                    </PageHeading>
-                    {!loaded && <ProjectPageLoader text="Fetching Transaction Data..."/>}
-                    {loaded && !error && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace} stackTrace={stackTrace} eventLogs={eventLogs} stateDiffs={stateDiffs}/>}
-                    {loaded && error && <Panel>
-                        <PanelContent>
-                            <EmptyState image={NoTransactionsIcon} title="Bummer, we couldn't find this transaction" description="This transaction probably has not been processed by us yet or the transaction hash is not a valid one."/>
-                        </PanelContent>
-                    </Panel>}
-                </Container>
-            </Page>
+            <Fragment>
+                <AppSidebar/>
+                <Page>
+                    <Container>
+                        <Helmet>
+                            <title>{txHash} | Tenderly</title>
+                        </Helmet>
+                        <PageHeading>
+                            <Button outline onClick={this.handleBackClick}>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>Transaction</h1>
+                            <div className="RightContent">
+                                <SharePageButton/>
+                                <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
+                                    <Button size="small" outline>
+                                        <Icon icon="globe"/>
+                                        <span className="HideMobile">View in Explorer</span>
+                                    </Button>
+                                </EtherscanLink>
+                            </div>
+                        </PageHeading>
+                        {!loaded && <ProjectPageLoader text="Fetching Transaction Data..."/>}
+                        {loaded && !error && <TransactionPageContent transaction={transaction} contracts={contracts} callTrace={callTrace} stackTrace={stackTrace} eventLogs={eventLogs} stateDiffs={stateDiffs}/>}
+                        {loaded && error && <Panel>
+                            <PanelContent>
+                                <EmptyState image={NoTransactionsIcon} title="Bummer, we couldn't find this transaction" description="This transaction probably has not been processed by us yet or the transaction hash is not a valid one."/>
+                            </PanelContent>
+                        </Panel>}
+                    </Container>
+                </Page>
+            </Fragment>
         );
     }
 }
