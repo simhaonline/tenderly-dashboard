@@ -30,6 +30,11 @@ export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButto
 export {default as SlackConnectButton} from './SlackConnectButton/SlackConnectButton';
 export {default as SlackIcon} from './SlackIcon/SlackIcon';
 
+// Billing
+export {default as SubscriptionPlan} from './SubscriptionPlan/SubscriptionPlan';
+export {default as PaidFeatureMessage} from './PaidFeatureMessage/PaidFeatureMessage';
+export {default as ProjectPlanUsage} from './ProjectPlanUsage/ProjectPlanUsage';
+
 // Explorer Components
 export {default as ExplorerHeader} from './ExplorerHeader/ExplorerHeader';
 export {default as AppSidebar} from './AppSidebar/AppSidebar';

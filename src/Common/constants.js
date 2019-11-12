@@ -232,6 +232,17 @@ export const UsernameStatusMap = {
 /**
  * @enum {string}
  */
+export const UserPlanTypes = {
+    FREE: 'free',
+    PRO: 'pro',
+    PRO_TRIAL: 'pro_trial',
+    ENTERPRISE: 'enterprise',
+    ENTERPRISE_TRIAL: 'enterprise_trial',
+};
+
+/**
+ * @enum {string}
+ */
 export const CollaboratorPermissionTypes = {
     ADD_CONTRACT: 'ADD_CONTRACT',
     REMOVE_CONTRACT: 'REMOVE_CONTRACT',
