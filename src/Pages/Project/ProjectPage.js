@@ -6,6 +6,7 @@ import {Helmet} from "react-helmet";
 
 import {isTransactionOrContractUrl} from "../../Utils/UrlHelpers";
 
+import {ProjectTypes} from "../../Common/constants";
 import {areProjectTagsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 import {searchActions, projectActions} from "../../Core/actions";
@@ -22,9 +23,10 @@ import ProjectCollaboratorsPage from "./ProjectCollaboratorsPage";
 import ProjectAddCollaboratorPage from "./ProjectAddCollaboratorPage";
 import ProjectCollaboratorPage from "./ProjectCollaboratorPage";
 import ProjectAddContractPage from "./ProjectAddContractPage";
+import ProjectWalletsPage from "./ProjectWalletsPage";
 
 import {AppSidebar, ProjectPageLoader} from "../../Components";
-import {ProjectTypes} from "../../Common/constants";
+import ProjectPlanPage from "./ProjectPlanPage";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -109,6 +111,7 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/alerts/:tab" render={this.renderComponent(ProjectAlertsPage)}/>
                     <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
                     <Route path="/:username/:slug/contracts" exact render={this.renderComponent(ProjectContractsPage)}/>
+                    <Route path="/:username/:slug/wallets" exact render={this.renderComponent(ProjectWalletsPage)}/>
                     <Route path="/:username/:slug/contracts/add" exact render={this.renderComponent(ProjectAddContractPage)}/>
                     <Route path="/:username/:slug/contract/:network/:address" render={this.renderComponent(ProjectContractPage)}/>
                     <Route path="/:username/:slug/releases" render={this.renderComponent(ProjectReleasesPage)}/>
@@ -116,6 +119,7 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/collaborators/add" exact render={this.renderComponent(ProjectAddCollaboratorPage)}/>
                     <Route path="/:username/:slug/collaborators/:collaboratorId" strict render={this.renderComponent(ProjectCollaboratorPage)}/>
                     <Route path="/:username/:slug/settings" render={this.renderComponent(ProjectSettingsPage)}/>
+                    <Route path="/:username/:slug/plan" render={this.renderComponent(ProjectPlanPage)}/>
                     <Redirect to={`/:username/:slug/transactions`}/>
                 </Switch>
             </Fragment>

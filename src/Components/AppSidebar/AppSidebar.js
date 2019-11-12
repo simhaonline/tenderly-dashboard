@@ -70,9 +70,9 @@ class AppSidebar extends Component {
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
                         <AppSidebarLink to={`${routeBase}/transactions`} icon="box" label="Transactions"/>
+                        <AppSidebarLink to={`${routeBase}/events`} icon="bookmark" label="Event / Logs"/>
                         <AppSidebarLink to={`${routeBase}/contracts`} icon="file-text" label="Contracts"/>
                         <AppSidebarLink to={`${routeBase}/wallets`} icon="inbox" label="Wallets"/>
-                        <AppSidebarLink to={`${routeBase}/events`} icon="bookmark" label="Event / Logs"/>
                     </div>
                 </div>}
                 {context === 'contract' && <div className="AppSidebar__NavGroup AppSidebar__NavGroup--Context">
@@ -80,7 +80,7 @@ class AppSidebar extends Component {
                         <span>Contract</span>
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
-                        <AppSidebarLink to={`${routeBase}/contract/${network}/${address}`} icon="box" label="Transactions"/>
+                        <AppSidebarLink to={`${routeBase}/contract/${network}/${address}`} exact strict={false} icon="box" label="Transactions"/>
                         <AppSidebarLink to={`${routeBase}/contract/${network}/${address}/source`} icon="file-text" label="Source Code"/>
                     </div>
                 </div>}
