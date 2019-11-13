@@ -75,3 +75,16 @@ export function areProjectTagsLoaded(state, project) {
 
     return true;
 }
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @returns {ProjectContract[]}
+ */
+export function getMainProjectContracts(state, projectId) {
+    const projectContracts = state.project.projectContracts[projectId];
+
+    if (!projectContracts) return [];
+
+    return projectContracts.filter(contract => contract.contractId === contract.parentContract);
+}

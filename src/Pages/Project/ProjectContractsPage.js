@@ -6,10 +6,10 @@ import {CollaboratorPermissionTypes, ProjectTypes} from "../../Common/constants"
 import {contractActions} from "../../Core/actions";
 
 import {
-    areProjectContractsLoaded,
+    areProjectContractsLoaded, getMainProjectContracts,
     getProjectBySlugAndUsername
 } from "../../Common/Selectors/ProjectSelectors";
-import {getMainContractsForProject, getTagsForProjectContracts} from "../../Common/Selectors/ContractSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page, PageHeading, Panel, PanelContent, Button} from "../../Elements";
 import {
@@ -63,7 +63,7 @@ class ProjectContractsPage extends Component {
     };
 
     render() {
-        const {project, contracts, contractsLoaded, contractTags} = this.props;
+        const {project, contracts, contractsLoaded, projectContracts} = this.props;
         const {createProjectModalOpen} = this.state;
 
         const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
@@ -90,7 +90,7 @@ class ProjectContractsPage extends Component {
                         </div>}
                     </PageHeading>
                     {projectIsSetup && <Fragment>
-                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} contractTags={contractTags} onListenToggle={this.handleContractListeningToggle}/>}
+                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} projectContracts={projectContracts} onListenToggle={this.handleContractListeningToggle}/>}
                         {contractsLoaded && !contracts.length && <Panel>
                             <PanelContent>
                                 <EmptyState image={NoContractsIcon} title="No contracts watched"
@@ -113,8 +113,8 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project,
-        contracts: getMainContractsForProject(state, project.id),
-        contractTags: getTagsForProjectContracts(state, project),
+        projectContracts: getMainProjectContracts(state, project.id),
+        contracts: getContractsForProject(state, project.id),
         contractsLoaded: areProjectContractsLoaded(state, project.id),
     }
 };

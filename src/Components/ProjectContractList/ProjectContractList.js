@@ -4,7 +4,7 @@ import {withRouter} from "react-router-dom";
 
 import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
-import {Contract} from "../../Core/models";
+import {Contract, ProjectContract} from "../../Core/models";
 import {NetworkTypes} from "../../Common/constants";
 
 import Table from "../../Elements/Table/Table";
@@ -80,25 +80,14 @@ class ProjectContractList extends Component{
         }
     };
 
-    handleContractClick = (contract) => {
-        const {history, match: {params: {username, slug}}} = this.props;
-
-        const networkRoute = getRouteSlugForNetwork(contract.network);
-
-        history.push(`/${username}/${slug}/contract/${networkRoute}/${contract.address}`);
-    };
-
     render() {
-        const {contracts, contractTags} = this.props;
+        const {contracts, projectContracts} = this.props;
 
         return (
             <div className="ProjectContractList">
-                <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
-                       groupBy={(contract) => `${contract.network}:${contract.parent}`} sortGroupBy={group => groupSorting.indexOf(group[0].network)}
-                       groupingConfiguration={groupingConfiguration} metadata={{
-                    contractTags,
-                    handleListeningToggle: this.handleListeningToggle,
-                }} onRowClick={this.handleContractClick}/>
+                {projectContracts.map(projectContract => <div key={projectContract.id}>
+                    {projectContract.name}
+                </div>)}
             </div>
         )
     }
@@ -106,7 +95,7 @@ class ProjectContractList extends Component{
 
 ProjectContractList.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
-    contractTags: PropTypes.object,
+    projectContracts: PropTypes.arrayOf(PropTypes.instanceOf(ProjectContract)),
     onListenToggle: PropTypes.func,
 };
 
