@@ -1,17 +1,5 @@
 @import "../../Common/common";
 
-@keyframes EnterContextMenu {
-  0% {
-    transform: translate(0);
-    box-shadow: 0 0 0 0 $Primary900;
-  }
-
-  100% {
-    transform: translate(20px, -20px);
-    box-shadow: -10px 10px 0 0 $Slate500;
-  }
-}
-
 #AppSidebar {
   padding: $Spacing6 0;
 }
@@ -30,9 +18,6 @@
       color: $WhiteColor;
     }
   }
-
-  &--Monitoring {
-    }
 }
 
 .AppSidebar__NavGroup__Heading {
@@ -79,12 +64,12 @@
   display: block;
   padding: $Spacing1 $Spacing2 $Spacing1 ($Spacing8 + $Spacing4);
 
-  &:hover {
+  &:focus, &:hover {
     color: $WhiteColor;
     background-color: transparentize($BlackColor, 0.8);
   }
 
-  &:focus, &--Active {
+  &--Active {
     color: $WhiteColor !important;
     background-color: $Primary900 !important;
   }

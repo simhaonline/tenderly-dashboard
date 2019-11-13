@@ -41,6 +41,9 @@ export {default as AppSidebar} from './AppSidebar/AppSidebar';
 export {default as ExplorerDescription} from './ExplorerDescription/ExplorerDescription';
 export {default as ExplorerRecentSearches} from './ExplorerRecentSearches/ExplorerRecentSearches';
 
+// Wallet Components
+export {default as ProjectWalletsList} from './ProjectWalletsList/ProjectWalletsList';
+
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';
 export {default as DashboardSidebar} from './DashboardSidebar/DashboardSidebar';
