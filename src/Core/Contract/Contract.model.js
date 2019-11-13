@@ -5,6 +5,7 @@ import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 import ContractFile from "./ContractFile.model";
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 class Contract {
     /**
@@ -78,6 +79,12 @@ class Contract {
      */
     getFileName() {
         return `${this.name}.sol`;
+    }
+
+    getUrlBase() {
+        const networkRoute = getRouteSlugForNetwork(this.network);
+
+        return `/${networkRoute}/${this.address}`;
     }
 
     /**
