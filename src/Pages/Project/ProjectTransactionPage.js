@@ -33,7 +33,9 @@ class ProjectTransactionPage extends Component {
     constructor(props) {
         super(props);
 
-        const {location: {state: locationState}} = props;
+        const {location: {state: locationState}, match: {params: {slug, username, txHash, network}}} = props;
+
+        const routeBase = `/${username}/${slug}/tx/${network}/${txHash}`;
 
         const previousPageQuery = locationState && locationState.previousPageQuery;
 
@@ -42,6 +44,38 @@ class ProjectTransactionPage extends Component {
             loadedTx: false,
             loading: true,
             previousPageQuery,
+            tabs: [
+                {
+                    route: `${routeBase}`,
+                    label: 'Overview',
+                    icon: 'align-right',
+                },
+                {
+                    route: `${routeBase}/contracts`,
+                    label: 'Contracts',
+                    icon: 'file-text',
+                },
+                {
+                    route: `${routeBase}/logs`,
+                    label: 'Events / Logs',
+                    icon: 'bookmark',
+                },
+                {
+                    route: `${routeBase}/state-diff`,
+                    label: 'State Changes',
+                    icon: 'code',
+                },
+                {
+                    route: `${routeBase}/debugger`,
+                    label: 'Debugger',
+                    icon: 'terminal',
+                },
+                {
+                    route: `${routeBase}/gas-usage`,
+                    label: 'Gas Profiler',
+                    icon: 'cpu',
+                },
+            ],
         };
     }
 
@@ -92,7 +126,7 @@ class ProjectTransactionPage extends Component {
 
     render() {
         const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project, txHash, networkType} = this.props;
-        const {error, loading, txContracts, loadedTx, previousPageQuery} = this.state;
+        const {error, tabs, loading, txContracts, loadedTx, previousPageQuery} = this.state;
 
         const backUrl = {
             pathname: `/${project.owner}/${project.slug}/transactions`,
@@ -101,7 +135,7 @@ class ProjectTransactionPage extends Component {
 
         if (error) {
             return (
-                <Page>
+                <Page tabs={tabs}>
                     <Container>
                         <PageHeading>
                             <Button to={backUrl} outline>
@@ -123,7 +157,7 @@ class ProjectTransactionPage extends Component {
 
         if (loading) {
             return (
-                <Page>
+                <Page tabs={tabs}>
                     <Container>
                         <PageHeading>
                             <Button to={backUrl} outline>
@@ -150,7 +184,7 @@ class ProjectTransactionPage extends Component {
         const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
 
         return (
-            <Page id="ProjectTransactionsPage">
+            <Page id="ProjectTransactionsPage" tabs={tabs}>
                 <Container>
                     <PageHeading>
                         <Button to={backUrl} outline>

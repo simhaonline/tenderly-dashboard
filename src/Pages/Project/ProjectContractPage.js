@@ -7,7 +7,7 @@ import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {
-    getContractByAddressAndNetwork,
+    getContractByAddressAndNetwork, getContractRevisionsForProjectContract,
     getContractStatus,
     getContractTagsByAddressAndNetwork
 } from "../../Common/Selectors/ContractSelectors";
@@ -26,8 +26,24 @@ class ProjectContractPage extends Component {
     constructor(props) {
         super(props);
 
+        const {project, match: {params: {address, network}}} = props;
+
         this.state = {
             contractRemoved: false,
+            tabs: [
+                {
+                    route: `${project.getUrlBase()}/contract/${network}/${address}`,
+                    label: 'General',
+                },
+                {
+                    route: `${project.getUrlBase()}/contract/${network}/${address}/files`,
+                    label: 'Files',
+                },
+                {
+                    route: `${project.getUrlBase()}/contract/${network}/${address}/revisions`,
+                    label: 'Revisions',
+                },
+            ],
         };
     }
 
@@ -74,7 +90,7 @@ class ProjectContractPage extends Component {
 
     render() {
         const {contract, contractTags, contractStatus, project} = this.props;
-        const {contractRemoved} = this.state;
+        const {contractRemoved, tabs} = this.state;
 
         if (contractStatus === EntityStatusTypes.NON_EXISTING || contractRemoved) {
             return <Redirect to={`/${project.owner}/${project.slug}/contracts`}/>
@@ -83,29 +99,27 @@ class ProjectContractPage extends Component {
         const isContractFetched = this.isContractLoaded();
 
         return (
-            <Page>
-                <Container>
-                    {!isContractFetched && <ProjectContentLoader text="Fetching contract..."/>}
-                    {isContractFetched && <Fragment>
-                        <PageHeading>
-                            <Button outline to={`/${project.owner}/${project.slug}/contracts`}>
-                                <Icon icon="arrow-left"/>
-                            </Button>
-                            <h1>{contract.name}</h1>
-                            <div className="RightContent">
-                                <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
-                                    <Button size="small" outline>
-                                        <Icon icon="globe"/>
-                                        <span>View in Explorer</span>
-                                    </Button>
-                                </EtherscanLink>
-                            </div>
-                        </PageHeading>
-                        <ContractInformation contract={contract} tags={contractTags} project={project} onDelete={this.handleContractDelete}
-                                             onListenToggle={this.handleContractListeningToggle}/>
-                        <ContractFiles contract={contract}/>
-                    </Fragment>}
-                </Container>
+            <Page tabs={tabs}>
+                {!isContractFetched && <ProjectContentLoader text="Fetching contract..."/>}
+                {isContractFetched && <Fragment>
+                    <PageHeading>
+                        <Button outline to={`/${project.owner}/${project.slug}/contracts`}>
+                            <Icon icon="arrow-left"/>
+                        </Button>
+                        <h1>{contract.name}</h1>
+                        <div className="RightContent">
+                            <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
+                                <Button size="small" outline>
+                                    <Icon icon="globe"/>
+                                    <span>View in Explorer</span>
+                                </Button>
+                            </EtherscanLink>
+                        </div>
+                    </PageHeading>
+                    <ContractInformation contract={contract} tags={contractTags} project={project} onDelete={this.handleContractDelete}
+                                         onListenToggle={this.handleContractListeningToggle}/>
+                    <ContractFiles contract={contract}/>
+                </Fragment>}
             </Page>
         );
     }
@@ -117,12 +131,14 @@ const mapStateToProps = (state, ownProps) => {
     const networkType = getNetworkForRouteSlug(network);
 
     const project = getProjectBySlugAndUsername(state, slug, username);
+    const contract = getContractByAddressAndNetwork(state, address, networkType);
 
     return {
         networkType,
         contractAddress: address,
         project,
-        contract: getContractByAddressAndNetwork(state, address, networkType),
+        contract,
+        revisions: getContractRevisionsForProjectContract(state, project.id, contract),
         contractTags: getContractTagsByAddressAndNetwork(state, project, address, networkType),
         contractStatus: getContractStatus(state, address, networkType),
     }
