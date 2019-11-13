@@ -17,14 +17,6 @@ import './AppSidebar.scss';
 function getContextFromUrl(url, base) {
     const strippedUrl  = url.replace(base, '');
 
-    if (_.startsWith(strippedUrl, '/tx/')) {
-        return 'transaction';
-    }
-
-    if (_.startsWith(strippedUrl, '/contract/')) {
-        return 'contract';
-    }
-
     if (_.startsWith(strippedUrl, '/alerts/')) {
         return 'alerting';
     }
@@ -63,7 +55,7 @@ const AppSidebarSubLink = ({to, label}) => {
 
 class AppSidebar extends Component {
     render() {
-        const {location: {pathname}, match: {params: {address, network, txHash}}, project} = this.props;
+        const {location: {pathname}, project} = this.props;
 
         let routeBase = '';
 
@@ -75,7 +67,6 @@ class AppSidebar extends Component {
 
         return (
             <Sidebar id="AppSidebar">
-
                 {!!project && <div className="AppSidebar__NavGroup">
                     <div className="AppSidebar__NavGroup__Heading">
                         <span>On-Chain Data</span>
@@ -96,29 +87,6 @@ class AppSidebar extends Component {
                         <AppSidebarLink to={`${routeBase}/wallets`} icon="inbox" label="Wallets"/>
                     </div>
                 </div>}
-                {context === 'contract' && <div className="AppSidebar__NavGroup AppSidebar__NavGroup--Context">
-                    <div className="AppSidebar__NavGroup__Heading">
-                        <span>Contract</span>
-                    </div>
-                    <div className="AppSidebar__NavGroup__Links">
-                        <AppSidebarLink to={`${routeBase}/contract/${network}/${address}`} exact strict={false} icon="box" label="Transactions"/>
-                        <AppSidebarLink to={`${routeBase}/contract/${network}/${address}/source`} icon="file-text" label="Source Code"/>
-                    </div>
-                </div>}
-                {context === 'transaction' && <div className="AppSidebar__NavGroup AppSidebar__NavGroup--Context">
-                    <div className="AppSidebar__NavGroup__Heading">
-                        <span>Transaction</span>
-                    </div>
-                    <div className="AppSidebar__NavGroup__Links">
-                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}`} icon="align-right" label="Overview"/>
-                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/contracts`} icon="file-text" label="Contracts"/>
-                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/logs`} icon="bookmark" label="Events / Logs"/>
-                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/state-diff`} icon="code" label="State Changes"/>
-                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/debugger`} icon="terminal" label="Debugger"/>
-                        <AppSidebarLink exact strinct={false} to={`${routeBase}/tx/${network}/${txHash}/gas-usage`} icon="cpu" label="Gas Profiler"/>
-                    </div>
-                </div>}
-
                 <div className="AppSidebar__NavGroup AppSidebar__NavGroup--Monitoring">
                     <div className="AppSidebar__NavGroup__Heading">
                         <span>Monitoring</span>
