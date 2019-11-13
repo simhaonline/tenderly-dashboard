@@ -582,6 +582,14 @@ export const SearchResultTypes = {
     PUBLIC_TRANSACTION: 'PUBLIC_TRANSACTION',
 };
 
+/**
+ * @enum {string}
+ */
+export const AccountTypes = {
+    CONTRACT: 'contract',
+    WALLET: 'wallet',
+};
+
 export const FIVE_SECOND_INTERVAL = 5 * 1000;
 export const ONE_MIN_INTERVAL = 60 * 1000;
 export const FIVE_MIN_INTERVAL = 5 * ONE_MIN_INTERVAL;
