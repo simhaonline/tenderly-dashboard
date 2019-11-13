@@ -1,7 +1,9 @@
 export {default as User} from './Auth/User.model';
 export {default as Project} from './Project/Project.model';
+export {default as ProjectContract} from './Project/ProjectContract.model';
 export {default as Organization} from './Collaboration/Organization.model';
 export {default as Collaborator} from './Collaboration/Collaborator.model';
+export {default as Account} from './Account/Account.model';
 export {default as Contract} from './Contract/Contract.model';
 export {default as Network} from './Network/Network.model';
 export {default as ContractFile} from './Contract/ContractFile.model';
