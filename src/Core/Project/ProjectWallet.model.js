@@ -1,11 +1,17 @@
 class ProjectWallet {
     constructor(data) {
+        /** @type {string} */
         this.id = data.id;
 
+        /** @type {Project.id} */
         this.projectId = data.projectId;
 
+        /** @type {Wallet.id} */
         this.walletId = data.walletId;
 
+        this.defaultToken = data.defaultToken;
+
+        /** @type {boolean} */
         this.enabled = data.enabled;
     }
 

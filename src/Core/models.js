@@ -4,6 +4,11 @@ export {default as ProjectContract} from './Project/ProjectContract.model';
 export {default as Organization} from './Collaboration/Organization.model';
 export {default as Collaborator} from './Collaboration/Collaborator.model';
 export {default as Account} from './Account/Account.model';
+
+export {default as Wallet} from './Wallet/Wallet.model';
+export {default as WalletToken} from './Wallet/WalletToken.model';
+export {default as ProjectWallet} from './Project/ProjectWallet.model';
+
 export {default as Contract} from './Contract/Contract.model';
 export {default as Network} from './Network/Network.model';
 export {default as ContractFile} from './Contract/ContractFile.model';

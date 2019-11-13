@@ -5,6 +5,17 @@ import {Account} from "../models";
 class Wallet extends Account {
     constructor(data) {
         super(data, AccountTypes.WALLET);
+
+        /** @type {WalletToken[]} */
+        this.walletTokens = data.walletTokens;
+    }
+
+    /**
+     * @param {string} token
+     * @returns {WalletToken}
+     */
+    getWalletToken(token) {
+        return this.walletTokens.find(walletToken => walletToken.token === token);
     }
 
     static buildFromResponse(response) {
@@ -13,3 +24,5 @@ class Wallet extends Account {
         });
     }
 }
+
+export default Wallet;
