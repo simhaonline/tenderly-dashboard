@@ -83,3 +83,26 @@ export function getContractsForProject(state, projectId) {
 
     return contracts;
 }
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @returns {Contract[]}
+ */
+export function getMainContractsForProject(state, projectId) {
+    const allContracts = getContractsForProject(state, projectId);
+
+    return allContracts.filter(contract => contract.address === contract.parent);
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @param {Contract} mainContract
+ * @returns {Contract[]}
+ */
+export function getContractRevisionsForProjectContract(state, projectId, mainContract) {
+    const allContracts = getContractsForProject(state, projectId);
+
+    return allContracts.filter(contract => mainContract.address === contract.parent);
+}
