@@ -1,3 +1,5 @@
+import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+
 class Account {
     /**
      * @param {Object} data
@@ -25,10 +27,20 @@ class Account {
     /**
      * @param {string} address
      * @param {NetworkTypes} network
-     * @return {string}
+     * @return {Account.id}
      */
     static generateUniqueId(address, network) {
         return `${network}:${address}`;
+    }
+
+    /**
+     * @param {Account.id} accountId
+     * @return {string}
+     */
+    static generateApiId(accountId) {
+        const [network, address] = accountId.split(':');
+
+        return `eth:${getApiIdForNetwork(network)}:${address}`;
     }
 }
 

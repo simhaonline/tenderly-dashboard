@@ -58,7 +58,7 @@ export const fetchTransactionsForProject = (projectSlug, username, filters, page
                     perPage: limit,
                     txType: typeFilter ? TypeValueToApiValue[typeFilter.value] : null,
                     status: statusFilter ? StatusValueToApiValue[statusFilter.value] : null,
-                    contractId: contractsFilter ? contractsFilter.value.map(contractId => Contract.generateApiIdFromUniqueId(contractId)) : null,
+                    contractId: contractsFilter ? contractsFilter.value.map(contractId => Contract.generateApiId(contractId)) : null,
                     network: networksFilter ? getApiIdForNetwork(networksFilter.value) : null,
                     tag: tagFilter ? tagFilter.value : null,
                     after: afterFilter ? afterFilter.value : null,

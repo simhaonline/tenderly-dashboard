@@ -160,20 +160,10 @@ class Contract extends Account {
     }
 
     /**
-     * @return {string}
+     * @return {Contract.id}
      */
     getUniqueId() {
         return Contract.generateUniqueId(this.address, this.network);
-    }
-
-    /**
-     * @param {string} uniqueContractId
-     * @return {string}
-     */
-    static generateApiIdFromUniqueId(uniqueContractId) {
-        const [network, address] = uniqueContractId.split(':');
-
-        return `eth:${getApiIdForNetwork(network)}:${address}`;
     }
 
     /**
