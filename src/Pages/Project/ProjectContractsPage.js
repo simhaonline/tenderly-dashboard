@@ -9,7 +9,7 @@ import {
     areProjectContractsLoaded,
     getProjectBySlugAndUsername
 } from "../../Common/Selectors/ProjectSelectors";
-import {getContractsForProject, getTagsForProjectContracts} from "../../Common/Selectors/ContractSelectors";
+import {getMainContractsForProject, getTagsForProjectContracts} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page, PageHeading, Panel, PanelContent, Button} from "../../Elements";
 import {
@@ -113,7 +113,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project,
-        contracts: getContractsForProject(state, project.id),
+        contracts: getMainContractsForProject(state, project.id),
         contractTags: getTagsForProjectContracts(state, project),
         contractsLoaded: areProjectContractsLoaded(state, project.id),
     }
