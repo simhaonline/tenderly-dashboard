@@ -212,7 +212,7 @@ export const deleteContract = (project, contractAddress, network) => {
             dispatch({
                 type: DELETE_CONTRACT_ACTION,
                 projectId: project.id,
-                contractId: Contract.generateUniqueContractId(contractAddress, network),
+                contractId: Contract.generateUniqueId(contractAddress, network),
                 network,
             });
 
@@ -244,7 +244,7 @@ export const fetchMethodsForContract = (project, contractAddress, network) => {
 
             dispatch({
                 type: FETCH_CONTRACT_METHODS_ACTION,
-                contractId: Contract.generateUniqueContractId(contractAddress, network),
+                contractId: Contract.generateUniqueId(contractAddress, network),
                 methods,
             });
 
@@ -276,7 +276,7 @@ export const fetchLogsForContract = (project, contractAddress, network) => {
 
             dispatch({
                 type: FETCH_CONTRACT_LOGS_ACTION,
-                contractId: Contract.generateUniqueContractId(contractAddress, network),
+                contractId: Contract.generateUniqueId(contractAddress, network),
                 logs,
             });
 

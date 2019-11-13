@@ -8,7 +8,7 @@ import Contract from "../../Core/Contract/Contract.model";
  * @return {Contract|null}
  */
 export function getContractByAddressAndNetwork(state, address, network) {
-    const contractId = Contract.generateUniqueContractId(address, network);
+    const contractId = Contract.generateUniqueId(address, network);
     const contract = state.contract.contracts[contractId];
 
     if (!contract) {
@@ -26,7 +26,7 @@ export function getContractByAddressAndNetwork(state, address, network) {
  * @return {Object[]}
  */
 export function getContractTagsByAddressAndNetwork(state, project, address, network) {
-    const contractId = Contract.generateUniqueContractId(address, network);
+    const contractId = Contract.generateUniqueId(address, network);
 
     if (!state.contract.projectContractTagsMap[project.id] || !state.contract.projectContractTagsMap[project.id][contractId]) {
         return [];
@@ -56,7 +56,7 @@ export function getTagsForProjectContracts(state, project) {
  * @return {string}
  */
 export function getContractStatus(state, address, network) {
-    const contractId = Contract.generateUniqueContractId(address, network);
+    const contractId = Contract.generateUniqueId(address, network);
 
     let contractStatus = state.contract.contractStatus[contractId];
 

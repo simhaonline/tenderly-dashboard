@@ -163,16 +163,7 @@ class Contract extends Account {
      * @return {string}
      */
     getUniqueId() {
-        return Contract.generateUniqueContractId(this.address, this.network);
-    }
-
-    /**
-     * @param {string} address
-     * @param {NetworkTypes} network
-     * @return {string}
-     */
-    static generateUniqueContractId(address, network) {
-        return `${network}:${address}`;
+        return Contract.generateUniqueId(this.address, this.network);
     }
 
     /**

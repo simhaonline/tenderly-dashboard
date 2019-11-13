@@ -288,7 +288,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         networkType,
-        contractId: Contract.generateUniqueContractId(contractAddress, networkType),
+        contractId: Contract.generateUniqueId(contractAddress, networkType),
         contractAddress: contractAddress,
         loggedIn,
         contract: getPublicContractById(state, contractAddress, networkType),
