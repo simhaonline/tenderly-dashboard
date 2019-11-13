@@ -74,13 +74,13 @@ class Page extends Component {
         const {showToTop} = this.state;
 
         return (
-            <div className={classNames(
-                "Page",
-                {
-                    "NoPadding": !padding,
-                }
-            )} {...props} ref={this.pageRef}>
-                {children}
+            <div className="Page">
+                <div className={classNames(
+                    "Page__Content",
+                    {
+                        "Page__Content--NoPadding": !padding,
+                    }
+                )} {...props} ref={this.pageRef}>{children}</div>
                 {showToTop && <Fragment>
                     <div className="Page__ScrollTopButton" id="PageScrollTopButton" onClick={this.scrollToTopOfPage}>
                         <Icon icon="chevrons-up" className="Page__ScrollTopButton__Icon"/>
