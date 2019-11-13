@@ -5,7 +5,7 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import {exampleContract1Payload, exampleContract2Payload} from "../../examples";
 
-import {Contract, ContractMethod, ContractLog, Project} from "../models";
+import {Contract, ContractMethod, ContractLog, Project, ProjectContract} from "../models";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
@@ -25,6 +25,7 @@ export const fetchContractsForProject = (project) => {
             const projectId = Project.generateProjectId(project.slug, project.owner);
 
             let contracts = [];
+            let projectContracts = [];
 
             const contractTags = {};
 
@@ -35,11 +36,14 @@ export const fetchContractsForProject = (project) => {
                         listening: contractResponse.include_in_transaction_listing,
                     });
 
+                    const projectContract = ProjectContract.buildFromResponse(contractResponse, projectId, contract.id);
+
                     if (contractResponse.tags) {
                         contractTags[contract.id] = contractResponse.tags;
                     }
 
                     contracts.push(contract);
+                    projectContracts.push(projectContract);
 
                     if (contractResponse.previous_versions) {
                         contractResponse.previous_versions.forEach(childContractResponse => {
@@ -48,11 +52,14 @@ export const fetchContractsForProject = (project) => {
                                 listening: childContractResponse.include_in_transaction_listing,
                             }, contract.address);
 
+                            const childProjectContract = ProjectContract.buildFromResponse(childContractResponse, projectId, childContract.id, contract.id);
+
                             if (childContractResponse.tags) {
                                 contractTags[childContract.id] = childContractResponse.tags;
                             }
 
                             contracts.push(childContract);
+                            projectContracts.push(childProjectContract);
                         });
                     }
                 });
@@ -61,6 +68,7 @@ export const fetchContractsForProject = (project) => {
             await dispatch({
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
                 contracts,
+                projectContracts,
                 projectId,
                 contractTags,
             });
