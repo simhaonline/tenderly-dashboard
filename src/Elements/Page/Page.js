@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
+import {NavLink} from "react-router-dom";
 
 import * as appActions from "../../Core/App/App.actions";
 
@@ -70,11 +71,17 @@ class Page extends Component {
     };
 
     render() {
-        const {children, wholeScreenPage, padding, ...props} = this.props;
+        const {children, wholeScreenPage, tabs, padding, ...props} = this.props;
         const {showToTop} = this.state;
 
         return (
             <div className="Page">
+                {!!tabs && tabs.length > 0 && <div className="Page__TabsHeader">
+                    {tabs.map(tab => <NavLink className="Page__Tab" to={tab.route} exact activeClassName="Page__Tab--Active" key={tab.route}>
+                        {!!tab.icon && <Icon icon={tab.icon} className="Page__Tab__Icon"/>}
+                        <span className="Page__Tab__Label">{tab.label}</span>
+                    </NavLink>)}
+                </div>}
                 <div className={classNames(
                     "Page__Content",
                     {
@@ -99,6 +106,7 @@ Page.defaultProps = {
 
 Page.propTypes = {
     wholeScreenPage: PropTypes.bool,
+    tabs: PropTypes.array,
 };
 
 const mapDispatchToProps = (dispatch) => {
