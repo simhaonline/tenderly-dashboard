@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {
+    areProjectWalletsLoaded,
+    getProjectBySlugAndUsername,
+    getProjectWallets
+} from "../../Common/Selectors/ProjectSelectors";
 
 import {walletActions} from "../../Core/actions";
 
@@ -17,13 +21,16 @@ class ProjectWalletsPage extends Component {
     }
 
     render() {
-        const {wallets, project} = this.props;
+        const {wallets, walletsLoaded, project} = this.props;
+
+        console.log(walletsLoaded);
 
         return (
             <Page>
                 <PageHeading>
                     <h1>Wallets</h1>
                 </PageHeading>
+                {}
                 <ProjectWalletsList project={project} wallets={wallets}/>
             </Page>
         );
@@ -37,6 +44,8 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project,
+        walletsLoaded: areProjectWalletsLoaded(state, project.id),
+        projectWallets: getProjectWallets(state, project.id),
         wallets: [],
     };
 };
