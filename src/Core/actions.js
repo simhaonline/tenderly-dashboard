@@ -1,5 +1,7 @@
 import * as collaborationActions from './Collaboration/Collaboration.actions';
+
 import * as projectActions from './Project/Project.actions';
+import * as networkActions from './Network/Network.actions';
 
 import * as contractActions from './Contract/Contract.actions';
 import * as walletActions from './Wallet/Wallet.actions';
@@ -11,6 +13,7 @@ import * as transactionActions from './Transaction/Transaction.actions';
 export {
     collaborationActions,
     projectActions,
+    networkActions,
     contractActions,
     walletActions,
     authActions,
