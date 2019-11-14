@@ -6,6 +6,9 @@ class ProjectWallet {
         /** @type {Project.id} */
         this.projectId = data.projectId;
 
+        /** @type {string} */
+        this.name = data.name;
+
         /** @type {Wallet.id} */
         this.walletId = data.walletId;
 

@@ -1,7 +1,7 @@
 import {asyncActionWrapper} from "../../Utils/ActionHelpers";
-import {Api} from "../../Utils/Api";
+// import {Api} from "../../Utils/Api";
 
-import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
+import {SuccessActionResponse} from "../../Common";
 import {NetworkTypes} from "../../Common/constants";
 
 import {ProjectWallet, Wallet, WalletToken} from "../models";
@@ -22,6 +22,7 @@ export const fetchWalletsForProject = (project) => asyncActionWrapper('fetchWall
         new ProjectWallet({
             id: `${project.id}:${walletNetwork}:${walletOneAddress}`,
             projectId: project.id,
+            name: 'Personal',
             walletId: `${walletNetwork}:${walletOneAddress}`,
             defaultToken: 'eth',
             enabled: true,
