@@ -4,69 +4,70 @@ import Blockies from "react-blockies";
 import {Link, withRouter} from "react-router-dom";
 
 import {ProjectContract} from "../../Core/models";
-import {NetworkTypes} from "../../Common/constants";
+// import {NetworkTypes} from "../../Common/constants";
 
 import {Card, Icon, Input} from "../../Elements";
 import {
-    ContractAddressColumn,
-    ContractDeployedAtColumn,
-    ContractListeningColumn,
-    ContractFilesColumn,
-    NetworkColumn, NetworkTag
+    // ContractAddressColumn,
+    // ContractDeployedAtColumn,
+    // ContractListeningColumn,
+    // ContractFilesColumn,
+    // NetworkColumn,
+    NetworkTag
 } from "../index";
 
 import './ProjectContractList.scss';
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
-const projectContractsTableConfiguration = [
-    {
-        label: "Contract",
-        renderColumn: contract => <ContractAddressColumn address={contract.address}/>,
-    },
-    {
-        label: "Added",
-        size: 260,
-        renderColumn: contract => <ContractDeployedAtColumn contract={contract}/>,
-    },
-    {
-        label: "Listening",
-        size: 150,
-        renderColumn: (contract, metadata) => <ContractListeningColumn contract={contract}
-                                                           onToggle={metadata.handleListeningToggle}/>,
-    },
-    {
-        label: "Files",
-        renderColumn: (contract, metadata) => <ContractFilesColumn contract={contract}
-                                                                   tags={metadata.contractTags ? metadata.contractTags[contract.id] : []}/>,
-    },
-];
-
-const groupingConfiguration = [
-    {
-        renderColumn: groupData => <div>
-            <span className="SemiBoldText">{groupData[0].name}</span>
-        </div>,
-    },
-    {
-        size: 260,
-        renderColumn: groupData => <NetworkColumn network={groupData[0].network}/>,
-    },
-    {
-        size: 150,
-        renderColumn: () => <div/>,
-    },
-    {
-        renderColumn: groupData => <div>{groupData.length} Revisions</div>,
-    },
-];
-
-const groupSorting = [
-    NetworkTypes.MAIN,
-    NetworkTypes.KOVAN,
-    NetworkTypes.ROPSTEN,
-    NetworkTypes.RINKEBY,
-    NetworkTypes.GOERLI,
-];
+// const projectContractsTableConfiguration = [
+//     {
+//         label: "Contract",
+//         renderColumn: contract => <ContractAddressColumn address={contract.address}/>,
+//     },
+//     {
+//         label: "Added",
+//         size: 260,
+//         renderColumn: contract => <ContractDeployedAtColumn contract={contract}/>,
+//     },
+//     {
+//         label: "Listening",
+//         size: 150,
+//         renderColumn: (contract, metadata) => <ContractListeningColumn contract={contract}
+//                                                            onToggle={metadata.handleListeningToggle}/>,
+//     },
+//     {
+//         label: "Files",
+//         renderColumn: (contract, metadata) => <ContractFilesColumn contract={contract}
+//                                                                    tags={metadata.contractTags ? metadata.contractTags[contract.id] : []}/>,
+//     },
+// ];
+//
+// const groupingConfiguration = [
+//     {
+//         renderColumn: groupData => <div>
+//             <span className="SemiBoldText">{groupData[0].name}</span>
+//         </div>,
+//     },
+//     {
+//         size: 260,
+//         renderColumn: groupData => <NetworkColumn network={groupData[0].network}/>,
+//     },
+//     {
+//         size: 150,
+//         renderColumn: () => <div/>,
+//     },
+//     {
+//         renderColumn: groupData => <div>{groupData.length} Revisions</div>,
+//     },
+// ];
+//
+// const groupSorting = [
+//     NetworkTypes.MAIN,
+//     NetworkTypes.KOVAN,
+//     NetworkTypes.ROPSTEN,
+//     NetworkTypes.RINKEBY,
+//     NetworkTypes.GOERLI,
+// ];
 
 /**
  * @param {ProjectContract} projectContract
