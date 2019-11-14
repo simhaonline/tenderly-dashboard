@@ -94,11 +94,12 @@ class AppSidebar extends Component {
                     <div className="AppSidebar__NavGroup__Links">
                         <AppSidebarLink to={`${routeBase}/analytics`} icon="bar-chart-2" label="Analytics"/>
                         <AppSidebarLink to={`${routeBase}/alerts`} icon="bell" label="Alerting"/>
-                        {context === 'alerting' && <div className="MarginTop1">
+                        {context === 'alerting' && <div className="MarginBottom1 MarginTop1">
                             <AppSidebarSubLink to={`${routeBase}/alerts/rules`} label="Alerts"/>
                             <AppSidebarSubLink to={`${routeBase}/alerts/history`} label="History"/>
                             <AppSidebarSubLink to={`${routeBase}/alerts/destinations`} label="Destinations"/>
                         </div>}
+                        <AppSidebarLink to={`${routeBase}/private-networks`} icon="layers" label="Private Networks"/>
                     </div>
                 </div>
                 {!!project && <div className="AppSidebar__NavGroup">
