@@ -1,4 +1,5 @@
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 class Account {
     /**
@@ -23,6 +24,13 @@ class Account {
         /** @type {AccountTypes} */
         this.type = type;
     }
+
+    /**
+     * @returns {string}
+     */
+    getRouteSlug = () => {
+        return getRouteSlugForNetwork(this.network);
+    };
 
     /**
      * @param {string} address
