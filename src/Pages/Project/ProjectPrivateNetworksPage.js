@@ -10,6 +10,9 @@ class ProjectPrivateNetworksPage extends Component {
                 <PageHeading>
                     <h1>Private Networks</h1>
                 </PageHeading>
+                <div>
+
+                </div>
             </Page>
         );
     }
