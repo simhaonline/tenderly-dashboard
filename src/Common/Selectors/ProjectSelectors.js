@@ -86,5 +86,5 @@ export function getMainProjectContracts(state, projectId) {
 
     if (!projectContracts) return [];
 
-    return projectContracts.filter(contract => contract.contractId === contract.parentContract);
+    return projectContracts;
 }

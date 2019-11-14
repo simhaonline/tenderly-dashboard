@@ -36,20 +36,6 @@ export function getContractTagsByAddressAndNetwork(state, project, address, netw
 }
 
 /**
- *
- * @param {Object} state
- * @param {Project} project
- * @returns {Object<Contract.id, Object[]>|null}
- */
-export function getTagsForProjectContracts(state, project) {
-    if (!state.contract.projectContractTagsMap[project.id]) {
-        return null;
-    }
-
-    return state.contract.projectContractTagsMap[project.id];
-}
-
-/**
  * @param {object} state
  * @param {string} address
  * @param {NetworkTypes} network

@@ -4,6 +4,7 @@ import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 import Project from "./Project.model";
 import ProjectTag from './ProjectTag.model';
+import ProjectContractRevision from "./ProjectContractRevision.model";
 
 class ProjectContract {
     constructor(data) {
@@ -19,9 +20,6 @@ class ProjectContract {
         /** @type {Project.id} */
         this.projectId = data.projectId;
 
-        /** @type {Contract.id} */
-        this.contractId = data.contractId;
-
         /** @type {boolean} */
         this.enabled = data.enabled;
 
@@ -34,14 +32,11 @@ class ProjectContract {
         /** @type {string} */
         this.address = data.address;
 
-        /** @type {number} */
-        this.revisionsCount = data.revisionsCount;
+        /** @type {ProjectContractRevision} */
+        this.revisions = data.revisions;
 
         /** @type {ProjectTag[]} */
         this.tags = data.tags;
-
-        /** @type {Contract.id} */
-        this.parentContract = data.parentContract;
     }
 
     getUrl() {
@@ -81,6 +76,16 @@ class ProjectContract {
         const tags = response.tags ? response.tags.map(tag => ProjectTag.buildFromResponse(tag)) : [];
         const network = NetworkApiToAppTypeMap[response.contract.network_id] || response.contract.network_id;
 
+        const revisions = [];
+
+
+
+        revisions.push(ProjectContractRevision.buildFromResponse(response.contract));
+
+        if (response.previous_versions) {
+            revisions.push(...response.previous_versions.map(revisionResponse => ProjectContractRevision.buildFromResponse(revisionResponse.contract)));
+        }
+
         return new ProjectContract({
             id: ProjectContract.generateId(projectId, contractId),
             projectId,
@@ -90,6 +95,7 @@ class ProjectContract {
             network,
             address: response.contract.address,
             revisionsCount: response.previous_versions ? response.previous_versions.length + 1 : 1,
+            revisions,
             tags,
             parentContract: parentContractId || contractId,
         });

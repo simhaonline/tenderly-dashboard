@@ -109,7 +109,6 @@ class ProjectContractList extends Component{
                                 <NetworkTag size="small" network={projectContract.network}/>
 
                             </div>
-                            <div className="MarginTop2">{projectContract.revisionsCount} Revisions</div>
                             <div className="ProjectContractList__Item__AddedByWrapper">
                                 <div className="DisplayFlex AlignItemsCenter">
                                     <div></div>

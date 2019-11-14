@@ -52,14 +52,11 @@ export const fetchContractsForProject = (project) => {
                                 listening: childContractResponse.include_in_transaction_listing,
                             }, contract.address);
 
-                            const childProjectContract = ProjectContract.buildFromResponse(childContractResponse, projectId, childContract.id, contract.id);
-
                             if (childContractResponse.tags) {
                                 contractTags[childContract.id] = childContractResponse.tags;
                             }
 
                             contracts.push(childContract);
-                            projectContracts.push(childProjectContract);
                         });
                     }
                 });
