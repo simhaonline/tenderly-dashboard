@@ -1,0 +1,24 @@
+@import "../../Common/common";
+
+.ProjectContractList__FilterWrapper {
+  margin-bottom: $Spacing8;
+}
+
+.ProjectContractList__ItemsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ProjectContractList__Item {
+  flex: 0 0 400px;
+  width: 400px;
+  margin-right: $Spacing6;
+  margin-bottom: $Spacing6;
+}
+
+.ProjectContractList__Item__AddedByWrapper {
+  margin: 0 -1*$Spacing5 -1*$Spacing3;
+  margin-top: $Spacing4;
+  padding: $Spacing2 $Spacing5;
+  background-color: transparentize($Slate900, 0.75);
+}
