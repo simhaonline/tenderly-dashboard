@@ -1,5 +1,9 @@
-import ProjectTag from './ProjectTag.model';
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
+
+import Project from "./Project.model";
+import ProjectTag from './ProjectTag.model';
 
 class ProjectContract {
     constructor(data) {
@@ -38,6 +42,23 @@ class ProjectContract {
 
         /** @type {Contract.id} */
         this.parentContract = data.parentContract;
+    }
+
+    getUrl() {
+        const {slug, username} = Project.getSlugAndUsernameFromId(this.projectId);
+
+        const networkRoute = getRouteSlugForNetwork(this.network);
+
+        return `/${username}/${slug}/contract/${networkRoute}/${this.address}`;
+    };
+
+    /**
+     * @returns {null|ProjectTag}
+     */
+    getLatestTag() {
+        if (!this.tags || this.tags.length === 0) return null;
+
+        return this.tags[this.tags.length - 1];
     }
 
     /**
