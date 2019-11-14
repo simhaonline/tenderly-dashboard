@@ -100,26 +100,28 @@ class ProjectContractPage extends Component {
 
         return (
             <Page tabs={tabs}>
-                {!isContractFetched && <ProjectContentLoader text="Fetching contract..."/>}
-                {isContractFetched && <Fragment>
-                    <PageHeading>
-                        <Button outline to={`/${project.owner}/${project.slug}/contracts`}>
-                            <Icon icon="arrow-left"/>
-                        </Button>
-                        <h1>{contract.name}</h1>
-                        <div className="RightContent">
-                            <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
-                                <Button size="small" outline>
-                                    <Icon icon="globe"/>
-                                    <span>View in Explorer</span>
-                                </Button>
-                            </EtherscanLink>
-                        </div>
-                    </PageHeading>
-                    <ContractInformation contract={contract} tags={contractTags} project={project} onDelete={this.handleContractDelete}
-                                         onListenToggle={this.handleContractListeningToggle}/>
-                    <ContractFiles contract={contract}/>
-                </Fragment>}
+                <Container>
+                    {!isContractFetched && <ProjectContentLoader text="Fetching contract..."/>}
+                    {isContractFetched && <Fragment>
+                        <PageHeading>
+                            <Button outline to={`/${project.owner}/${project.slug}/contracts`}>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>{contract.name}</h1>
+                            <div className="RightContent">
+                                <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
+                                    <Button size="small" outline>
+                                        <Icon icon="globe"/>
+                                        <span>View in Explorer</span>
+                                    </Button>
+                                </EtherscanLink>
+                            </div>
+                        </PageHeading>
+                        <ContractInformation contract={contract} tags={contractTags} project={project} onDelete={this.handleContractDelete}
+                                             onListenToggle={this.handleContractListeningToggle}/>
+                        <ContractFiles contract={contract}/>
+                    </Fragment>}
+                </Container>
             </Page>
         );
     }

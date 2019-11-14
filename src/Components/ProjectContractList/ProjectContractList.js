@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Blockies from "react-blockies";
 import {Link, withRouter} from "react-router-dom";
 
-import {Contract, ProjectContract} from "../../Core/models";
+import {ProjectContract} from "../../Core/models";
 import {NetworkTypes} from "../../Common/constants";
 
 import {Card, Icon, Input} from "../../Elements";
@@ -68,6 +68,50 @@ const groupSorting = [
     NetworkTypes.GOERLI,
 ];
 
+/**
+ * @param {ProjectContract} projectContract
+ */
+const ProjectContractListItem = ({projectContract}) => {
+    const mainRevision = projectContract.getMainRevision();
+
+    return <Link to={projectContract.getUrl()} key={projectContract.id} className="ProjectContractList__Item">
+        <Card clickable>
+            <div className="DisplayFlex AlignItemsCenter">
+                <NetworkTag size="small" network={projectContract.network}/>
+                <div className="MarginLeft2">
+                    <div className="SemiBoldText MarginBottom1">{projectContract.name}</div>
+                    <div className="LinkText MonospaceFont">{generateShortAddress(mainRevision.address, 12, 6)}</div>
+                </div>
+            </div>
+            <div className="MarginTop2">
+                {projectContract.revisions.map(revision => <div key={revision.id} className="DisplayFlex AlignItemsCenter MarginBottom1">
+                    <Blockies size={8} scale={3} className="BorderRadius1 MarginRight2" seed={revision.id}/>
+                    <div className="LinkText MonospaceFont">{generateShortAddress(revision.address, 12, 6)}</div>
+                </div>)}
+            </div>
+            <div className="ProjectContractList__Item__AddedByWrapper">
+                <div className="DisplayFlex AlignItemsCenter">
+                    <div></div>
+                    <div className="MarginLeft2">
+                        <div>Miljan Tekic</div>
+                        <div>Pushed 5 hours ago</div>
+                    </div>
+                    <div className="MarginLeftAuto TextAlignRight">
+                        {mainRevision.tags.length > 0 && <div>
+                            <Icon icon="tag" className="MarginRight1"/>
+                            <span>{mainRevision.getLatestTag().label}</span>
+                        </div>}
+                        <div>
+                            <span>View Push</span>
+                            <Icon icon="external-link" className="MarginLeft1"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Card>
+    </Link>
+};
+
 class ProjectContractList extends Component{
     state = {
         searchQuery: '',
@@ -85,7 +129,7 @@ class ProjectContractList extends Component{
     };
 
     render() {
-        const {contracts, projectContracts} = this.props;
+        const {projectContracts} = this.props;
         const {searchQuery} = this.state;
 
         return (
@@ -96,40 +140,7 @@ class ProjectContractList extends Component{
                     </div>
                 </div>}
                 <div className="ProjectContractList__ItemsWrapper">
-                    {projectContracts.map(projectContract => <Link to={projectContract.getUrl()} key={projectContract.id} className="ProjectContractList__Item">
-                        <Card clickable>
-                            <div className="DisplayFlex AlignItemsCenter">
-                                <Blockies size={8} scale={5} className="BorderRadius2" seed={projectContract.contractId}/>
-                                <div className="MarginLeft2">
-                                    <div className="SemiBoldText MarginBottom1">{projectContract.name}</div>
-                                    <div className="LinkText MonospaceFont">{generateShortAddress(projectContract.address, 12, 6)}</div>
-                                </div>
-                            </div>
-                            <div className="MarginTop2">
-                                <NetworkTag size="small" network={projectContract.network}/>
-
-                            </div>
-                            <div className="ProjectContractList__Item__AddedByWrapper">
-                                <div className="DisplayFlex AlignItemsCenter">
-                                    <div></div>
-                                    <div className="MarginLeft2">
-                                        <div>Miljan Tekic</div>
-                                        <div>Pushed 5 hours ago</div>
-                                    </div>
-                                    <div className="MarginLeftAuto TextAlignRight">
-                                        {projectContract.tags.length > 0 && <div>
-                                            <Icon icon="tag" className="MarginRight1"/>
-                                            <span>{projectContract.getLatestTag().label}</span>
-                                        </div>}
-                                        <div>
-                                            <span>View Push</span>
-                                            <Icon icon="external-link" className="MarginLeft1"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    </Link>)}
+                    {projectContracts.map(projectContract => <ProjectContractListItem key={projectContract.id} projectContract={projectContract}/>)}
                 </div>
             </div>
         )
@@ -137,7 +148,6 @@ class ProjectContractList extends Component{
 }
 
 ProjectContractList.propTypes = {
-    contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
     projectContracts: PropTypes.arrayOf(PropTypes.instanceOf(ProjectContract)),
     onListenToggle: PropTypes.func,
 };

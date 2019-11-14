@@ -1,10 +1,11 @@
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
 
 import {Contract} from "../models";
+import ProjectTag from "./ProjectTag.model";
 
 class ProjectContractRevision {
     constructor(data) {
-        /** @type {string} */
+        /** @type {Contract.id} */
         this.id = data.id;
 
         /** @type {string} */
@@ -15,15 +16,36 @@ class ProjectContractRevision {
 
         /** @type {ContractsPush.id} */
         this.push = data.push;
+
+        /** @type {boolean} */
+        this.enabled = data.enabled;
+
+        /** @type {ProjectTag[]} */
+        this.tags = data.tags;
+    }
+
+    /**
+     * @returns {null|ProjectTag}
+     */
+    getLatestTag() {
+        if (!this.tags || this.tags.length === 0) return null;
+
+        return this.tags[this.tags.length - 1];
     }
 
     static buildFromResponse(response) {
-        const network = NetworkApiToAppTypeMap[response.network_id] || response.network_id;
+        const {contract} = response;
+
+        const tags = response.tags ? response.tags.map(tag => ProjectTag.buildFromResponse(tag)) : [];
+
+        const network = NetworkApiToAppTypeMap[contract.network_id] || contract.network_id;
 
         return new ProjectContractRevision({
-            id: Contract.generateUniqueId(response.address, network),
-            address: response.address,
+            id: Contract.generateUniqueId(contract.address, network),
+            address: contract.address,
             network,
+            enabled: response.include_in_transaction_listing,
+            tags,
         });
     }
 }

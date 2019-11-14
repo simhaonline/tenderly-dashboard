@@ -9,7 +9,6 @@ import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "../Contract/Contract.actions";
 
 import {EntityStatusTypes} from "../../Common/constants";
-import {actions} from "@storybook/addon-actions";
 
 const initialState = {
     /** @type {Object.<Project.id, Project>} */
