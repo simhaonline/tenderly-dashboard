@@ -15,8 +15,6 @@ export const FETCH_WALLETS_FOR_PROJECT_ACTION = 'FETCH_WALLETS_FOR_PROJECT';
 export const fetchWalletsForProject = (project) => asyncActionWrapper('fetchWalletsForProject', async dispatch => {
     // const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/wallets`);
 
-    console.log(project);
-
     const walletOneAddress = '0xabcdef123456789';
     const walletNetwork = NetworkTypes.RINKEBY;
 

@@ -9,6 +9,7 @@ class ProjectWallet {
         /** @type {Wallet.id} */
         this.walletId = data.walletId;
 
+        /** @type {string} */
         this.defaultToken = data.defaultToken;
 
         /** @type {boolean} */

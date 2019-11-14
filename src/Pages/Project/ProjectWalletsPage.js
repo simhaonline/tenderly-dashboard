@@ -7,31 +7,32 @@ import {
     getProjectBySlugAndUsername,
     getProjectWallets
 } from "../../Common/Selectors/ProjectSelectors";
+import {getWalletsForProject} from "../../Common/Selectors/WalletSelectors";
 
 import {walletActions} from "../../Core/actions";
 
 import {Page, PageHeading} from "../../Elements";
-import {ProjectWalletsList} from "../../Components";
+import {ProjectContentLoader, ProjectWalletsList} from "../../Components";
 
 class ProjectWalletsPage extends Component {
     componentDidMount() {
-        const {project, walletActions} = this.props;
+        const {project, walletActions, walletsLoaded} = this.props;
 
-        walletActions.fetchWalletsForProject(project);
+        if (!walletsLoaded) {
+            walletActions.fetchWalletsForProject(project);
+        }
     }
 
     render() {
-        const {wallets, walletsLoaded, project} = this.props;
-
-        console.log(walletsLoaded);
+        const {projectWallets, wallets, walletsLoaded, project} = this.props;
 
         return (
             <Page>
                 <PageHeading>
                     <h1>Wallets</h1>
                 </PageHeading>
-                {}
-                <ProjectWalletsList project={project} wallets={wallets}/>
+                {!walletsLoaded && <ProjectContentLoader text="Fetching project wallets..."/>}
+                {walletsLoaded && <ProjectWalletsList project={project} projectWallets={projectWallets} wallets={wallets}/>}
             </Page>
         );
     }
@@ -46,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
         project,
         walletsLoaded: areProjectWalletsLoaded(state, project.id),
         projectWallets: getProjectWallets(state, project.id),
-        wallets: [],
+        wallets: getWalletsForProject(state, project.id),
     };
 };
 

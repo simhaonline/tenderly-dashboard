@@ -5,12 +5,15 @@ import {Link} from "react-router-dom";
 
 class ProjectWalletsList extends Component {
     render() {
-        const {wallets, project} = this.props;
+        const {projectWallets, wallets, project} = this.props;
 
         console.log(wallets, project);
 
         return (
             <div>
+                {projectWallets.map(wallet => <Link to={}>
+
+                </Link>)}
                 <Link to={`${project.getUrlBase()}/wallets/add`}>
                     <Card>
                         Add Wallet
