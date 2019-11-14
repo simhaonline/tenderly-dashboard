@@ -50,6 +50,17 @@ export function areProjectContractsLoaded(state, projectId) {
 
 /**
  * @param {Object} state
+ * @param {Project.id} projectId
+ * @returns {boolean}
+ */
+export function areProjectWalletsLoaded(state, projectId) {
+    const projectWalletsStatus = state.project.walletsStatus[projectId];
+
+    return projectWalletsStatus && projectWalletsStatus === EntityStatusTypes.LOADED;
+}
+
+/**
+ * @param {Object} state
  * @param {Project} project
  * @returns {Array}
  */
@@ -87,4 +98,17 @@ export function getMainProjectContracts(state, projectId) {
     if (!projectContracts) return [];
 
     return projectContracts;
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @returns {ProjectWallet[]}
+ */
+export function getProjectWallets(state, projectId) {
+    const projectWallets = state.project.projectWallets[projectId];
+
+    if (!projectWallets) return [];
+
+    return projectWallets;
 }
