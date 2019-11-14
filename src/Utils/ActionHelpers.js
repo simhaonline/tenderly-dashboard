@@ -15,7 +15,7 @@ export function asyncActionWrapper(actionName, action, onError = () => {}) {
             console.error(error);
 
             Sentry.withScope(scope => {
-                scope.setTag("action", transaction.txHash);
+                scope.setTag("action", actionName);
                 scope.setLevel(Sentry.Severity.Warning);
                 Sentry.captureException(error);
             });

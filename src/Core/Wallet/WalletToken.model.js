@@ -10,7 +10,7 @@ class WalletToken {
         this.shorthand = data.shorthand;
 
         /** @type {number} */
-        this.amount = data.amount;
+        this.balance = data.balance;
     }
 
 }
