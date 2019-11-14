@@ -27,6 +27,7 @@ import ProjectWalletsPage from "./ProjectWalletsPage";
 
 import {AppSidebar, ProjectPageLoader} from "../../Components";
 import ProjectPlanPage from "./ProjectPlanPage";
+import ProjectPrivateNetworksPage from "./ProjectPrivateNetworksPage";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -115,6 +116,7 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/contracts/add" exact render={this.renderComponent(ProjectAddContractPage)}/>
                     <Route path="/:username/:slug/contract/:network/:address" render={this.renderComponent(ProjectContractPage)}/>
                     <Route path="/:username/:slug/releases" render={this.renderComponent(ProjectReleasesPage)}/>
+                    <Route path="/:username/:slug/private-networks" render={this.renderComponent(ProjectPrivateNetworksPage)}/>
                     <Route path="/:username/:slug/collaborators" exact render={this.renderComponent(ProjectCollaboratorsPage)}/>
                     <Route path="/:username/:slug/collaborators/add" exact render={this.renderComponent(ProjectAddCollaboratorPage)}/>
                     <Route path="/:username/:slug/collaborators/:collaboratorId" strict render={this.renderComponent(ProjectCollaboratorPage)}/>
