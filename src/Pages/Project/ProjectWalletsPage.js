@@ -1,12 +1,21 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+
+import {walletActions} from "../../Core/actions";
 
 import {Page, PageHeading} from "../../Elements";
 import {ProjectWalletsList} from "../../Components";
 
 class ProjectWalletsPage extends Component {
+    componentDidMount() {
+        const {project, walletActions} = this.props;
+
+        walletActions.fetchWalletsForProject(project);
+    }
+
     render() {
         const {wallets, project} = this.props;
 
@@ -32,7 +41,13 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        walletActions: bindActionCreators(walletActions, dispatch),
+    };
+};
+
 export default connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
 )(ProjectWalletsPage);
