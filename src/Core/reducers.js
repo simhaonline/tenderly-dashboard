@@ -12,12 +12,14 @@ import NotificationReducer from "./Notification/Notification.reducer";
 import NetworkReducer from "./Network/Network.reducer";
 import CollaborationReducer from "./Collaboration/Collaboration.reducer";
 import SearchReducer from "./Search/Search.reducer";
+import WalletReducer from "./Wallet/Wallet.reducer";
 
 const reducers = combineReducers({
     auth: AuthReducer,
     publicContracts: PublicContractsReducer,
     project: ProjectReducer,
     contract: ContractReducer,
+    wallet: WalletReducer,
     app: AppReducer,
     transaction: TransactionReducer,
     featureFlag: FeatureFlagReducer,
