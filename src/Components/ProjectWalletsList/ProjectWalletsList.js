@@ -7,13 +7,25 @@ class ProjectWalletsList extends Component {
     render() {
         const {projectWallets, wallets, project} = this.props;
 
-        console.log(wallets, project);
-
         return (
             <div>
-                {projectWallets.map(wallet => <Link to={}>
+                {projectWallets.map(projectWallet => {
+                    const wallet = wallets.find(w => w.id === projectWallet.walletId);
 
-                </Link>)}
+                    const tokenBalance = wallet.getWalletToken(projectWallet.defaultToken);
+
+                    return <Link key={projectWallet.id} to={`${project.getUrlBase()}/wallet/${wallet.getRouteSlug()}/${wallet.address}`}>
+                        <Card className="DisplayFlex AlignItemsCenter">
+                            <div>
+                                <div className="SemiBoldText MarginBottom1">{projectWallet.name}</div>
+                                <div className="LinkText MonospaceFont">{wallet.address}</div>
+                            </div>
+                            <div className="MarginLeftAuto">
+                                <h2>{tokenBalance.balance} {tokenBalance.shorthand}</h2>
+                            </div>
+                        </Card>
+                    </Link>;
+                })}
                 <Link to={`${project.getUrlBase()}/wallets/add`}>
                     <Card>
                         Add Wallet
