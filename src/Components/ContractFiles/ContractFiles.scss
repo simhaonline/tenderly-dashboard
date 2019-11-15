@@ -5,56 +5,50 @@
 
 .ContractFiles {
   display: flex;
-  flex-direction: column;
+  background-color: $Slate700;
+}
 
-  .FilesList {
-    flex: 0 0 auto;
-    margin-right: 20px;
-    display: flex;
-    flex-wrap: wrap;
+.ContractFiles__FilesList {
+  flex: 0 0 300px;
+  width: 300px;
+  overflow: hidden;
+  border-right: 1px solid $Slate300;
+  padding: $Spacing6 0;
+}
 
-    .ContractFileWrapper {
-      width: 240px;
-      cursor: pointer;
-      border-radius: 4px;
-      margin-bottom: 8px;
-      margin-right: 8px;
-      padding: 10px 15px;
-      background-color: $Slate500;
-      transition: 0.1s;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 1px 1px 3px 0 transparentize($BlackColor, 0.75);
+.ContractFiles__FilesList__Item {
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: $Spacing2 $Spacing2;
+  transition: 0.15s ease-in;
 
-      .FileName {
-        font-weight: 600;
-        margin-bottom: 2px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .FileVersion {
-        font-size: $FontSize200;
-        opacity: 0.5;
-      }
+  .FileName {
+    font-family: $MonospaceFontFamily;
+    text-overflow: ellipsis;
+    margin-left: $Spacing1;
+    overflow: hidden;
+  }
 
-      &:hover {
-        background-color: $Slate700;
-      }
+  .FileIcon {
+  }
 
-      &.Active {
-        background-color: $Slate700;
+  &:hover {
+    background-color: $Slate900
+  }
 
-        &:before {
-          @include Gradient('blue-purple');
-          position: absolute;
-          width: 8px;
-          border-radius: 3px;
-          top: 8px;
-          bottom: 8px;
-          left: -4px;
-          content: "";
-        }
-      }
+  &--Active {
+    background-color: $Slate900;
+
+    .FileIcon {
+      color: $Primary500;
     }
   }
+}
+
+.ContractFiles__CodeWrapper {
+  flex: 1 1 0;
+  box-shadow:  10px 0 10px -10px transparentize($BlackColor, 0.5) inset;
+  padding: $Spacing1;
 }

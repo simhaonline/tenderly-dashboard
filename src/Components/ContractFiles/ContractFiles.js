@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import {Contract} from "../../Core/models";
 
-import {Panel, PanelHeader, PanelContent, PanelDivider} from "../../Elements";
+import {FullWidthContainer, Icon} from "../../Elements";
 import {CodePreview} from "../index";
 
 import './ContractFiles.scss';
@@ -31,28 +31,24 @@ class ContractFiles extends Component {
         const {selectedFile} = this.state;
 
         return (
-            <Panel>
-                <PanelHeader>
-                    <h3>Contract Files</h3>
-                </PanelHeader>
-                <PanelContent>
-                    <div className="ContractFiles">
-                        <div className="FilesList">
-                            {contract.files.map(file => <div key={file.id}
-                                                             onClick={() => this.setSelectedFile(file)}
-                                                             className={classNames(
-                                                                 "ContractFileWrapper",
-                                                                 {"Active": selectedFile.id === file.id},
-                                                             )}>
-                                <div className="FileName">{file.getFileName()}</div>
-                                <div className="FileVersion">Solidity Version: {file.solidityVersion}</div>
-                            </div>)}
-                        </div>
-                        <PanelDivider/>
-                        {!!selectedFile && <CodePreview file={selectedFile}/>}
+            <FullWidthContainer>
+                <div className="ContractFiles">
+                    <div className="ContractFiles__FilesList">
+                        {contract.files.map(file => <div key={file.id}
+                                                         onClick={() => this.setSelectedFile(file)}
+                                                         className={classNames(
+                                                             "ContractFiles__FilesList__Item",
+                                                             {"ContractFiles__FilesList__Item--Active": selectedFile.id === file.id},
+                                                         )}>
+                            <Icon icon="file-text" className="FileIcon"/>
+                            <span className="FileName">{file.getFileName()}</span>
+                        </div>)}
                     </div>
-                </PanelContent>
-            </Panel>
+                    {!!selectedFile && <div className="ContractFiles__CodeWrapper">
+                        <CodePreview file={selectedFile}/>
+                    </div>}
+                </div>
+            </FullWidthContainer>
         );
     }
 }
