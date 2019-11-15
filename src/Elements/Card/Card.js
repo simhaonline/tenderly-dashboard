@@ -11,6 +11,7 @@ const CardColorClassMap = {
 
 const CardHighlightColorClassMap = {
     'secondary': 'Card--HighlightSecondary',
+    'danger': 'Card--HighlightDanger',
 };
 
 const Card = ({children, className, color, clickable, selectable, selected, onClick, highlightColor, noPadding, disabled}) => {
@@ -39,7 +40,7 @@ Card.propTypes = {
     selected: PropTypes.bool,
     disabled: PropTypes.bool,
     noPadding: PropTypes.bool,
-    highlightColor: PropTypes.oneOf(['secondary']),
+    highlightColor: PropTypes.oneOf(['secondary', 'danger']),
     color: PropTypes.oneOf(['light', 'dark']),
 };
 

@@ -71,6 +71,18 @@
   }
 }
 
+.Card--HighlightDanger {
+  &.Card--Selectable {
+    &:hover {
+      background-color: $Danger500;
+    }
+  }
+
+  &.Card--Selected {
+    background-color: $Danger500;
+  }
+}
+
 .Card--Disabled {
   pointer-events: none;
   opacity: 0.6;
