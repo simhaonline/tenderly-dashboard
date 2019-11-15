@@ -23,6 +23,7 @@ export {default as Input} from './Input/Input';
 export {default as Checkbox} from './Checkbox/Checkbox';
 export {default as TextArea} from './TextArea/TextArea';
 export {default as Container} from './Container/Container';
+export {default as FullWidthContainer} from './Container/FullWidthContainer';
 export {default as Panel} from './Panel/Panel';
 export {default as PanelContent} from './Panel/PanelContent';
 export {PanelDivider} from './Panel/PanelContent';

@@ -46,6 +46,11 @@
   overflow-y: auto;
   flex: 1 1 0;
 
+  // @TODO probably doesn't belong here
+  .FullWidthContainer {
+    margin: 0 -80px;
+  }
+
   &--NoPadding {
     padding: 0;
   }
@@ -82,6 +87,11 @@
       h1 {
         font-size: 1.6rem;
       }
+    }
+
+    // @TODO probably doesn't belong here
+    .FullWidthContainer {
+      margin: 0 -16px;
     }
   }
 }
