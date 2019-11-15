@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
-import {FeatureFlagTypes} from "../../Common/constants";
 
 import {Container, Page, PageHeading} from "../../Elements";
-import {ProjectAnalyticsDashboard, FeatureFlag, FeatureComingSoon, ProjectContentLoader} from "../../Components";
+import {ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
 
 import dashboardData from './AnalyticsDashboardData';
 
@@ -31,21 +30,13 @@ class ProjectAnalyticsPage extends Component {
 
         return (
             <Page id="ProjectPage">
-                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
-                    <Container>
-                        <PageHeading>
-                            <h1>Analytics</h1>
-                        </PageHeading>
-                        <FeatureComingSoon feature="analytics"/>
-                    </Container>
-                </FeatureFlag>
-                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
+                <Container>
                     <PageHeading>
                         <h1>Analytics</h1>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
                     {!loading && <ProjectAnalyticsDashboard dashboard={dashboardData}/>}
-                </FeatureFlag>
+                </Container>
             </Page>
         )
     }
