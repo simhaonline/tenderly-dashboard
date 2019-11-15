@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from "react";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
+import {Redirect, Route, Switch} from "react-router-dom";
 import {bindActionCreators} from "redux";
 
 import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
@@ -19,6 +19,7 @@ import {Page, Container, PageHeading, Button, Icon} from "../../Elements";
 import {
     ContractInformation,
     ProjectContentLoader,
+    ProjectContractActions,
     ContractFiles, EtherscanLink,
 } from "../../Components";
 
@@ -88,6 +89,10 @@ class ProjectContractPage extends Component {
         }
     };
 
+    handleContractAction = (actionType) => {
+
+    };
+
     render() {
         const {contract, contractTags, contractStatus, project} = this.props;
         const {contractRemoved, tabs} = this.state;
@@ -117,9 +122,15 @@ class ProjectContractPage extends Component {
                                 </EtherscanLink>
                             </div>
                         </PageHeading>
-                        <ContractInformation contract={contract} tags={contractTags} project={project} onDelete={this.handleContractDelete}
-                                             onListenToggle={this.handleContractListeningToggle}/>
-                        <ContractFiles contract={contract}/>
+                        <Switch>
+                            <Route path="/:username/:slug/contract/:network/:address" exact render={() => <Fragment>
+                                <ContractInformation contract={contract} tags={contractTags} project={project} onDelete={this.handleContractDelete}
+                                                     onListenToggle={this.handleContractListeningToggle}/>
+                                 <ProjectContractActions onAction={this.handleContractAction}/>
+                            </Fragment>}/>
+                            <Route path="/:username/:slug/contract/:network/:address/files" exact render={() => <ContractFiles contract={contract}/>}/>
+                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => null}/>
+                        </Switch>
                     </Fragment>}
                 </Container>
             </Page>

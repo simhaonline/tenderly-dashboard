@@ -115,10 +115,10 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/analytics" render={this.renderComponent(ProjectAnalyticsPage)}/>
                     <Route path="/:username/:slug/alerts/:tab" render={this.renderComponent(ProjectAlertsPage)}/>
                     <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
-                    <Route path="/:username/:slug/contracts" exact render={this.renderComponent(ProjectContractsPage)}/>
                     <Route path="/:username/:slug/wallets" exact render={this.renderComponent(ProjectWalletsPage)}/>
                     <Route path="/:username/:slug/wallets/add" exact render={this.renderComponent(ProjectAddWalletPage)}/>
                     <Route path="/:username/:slug/wallet/:network/:address" exact render={this.renderComponent(ProjectWalletPage)}/>
+                    <Route path="/:username/:slug/contracts" exact render={this.renderComponent(ProjectContractsPage)}/>
                     <Route path="/:username/:slug/contracts/add" exact render={this.renderComponent(ProjectAddContractPage)}/>
                     <Route path="/:username/:slug/contract/:network/:address" render={this.renderComponent(ProjectContractPage)}/>
                     <Route path="/:username/:slug/releases" render={this.renderComponent(ProjectReleasesPage)}/>
