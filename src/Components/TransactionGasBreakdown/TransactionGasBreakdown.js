@@ -18,6 +18,10 @@ class TransactionGasBreakdown extends Component {
 
         return (
             <div className="TransactionGasBreakdown">
+                <CallTraceFlameGraph callTrace={callTrace} transaction={transaction}/>
+                <h3 className="MarginBottom2">Gas Usage Breakdown by Function Call</h3>
+                <p className="MarginBottom2">Click on a function in the stack in order to expand the view and zoom in on that particular function.</p>
+                <PanelDivider/>
                 <div className="MarginBottom4">
                     <div className="GasUsageInfo">
                         <div className="MonospaceFont MarginBottom2">{transaction.gasUsed} / {transaction.gasLimit} Gas Used</div>
@@ -37,10 +41,6 @@ class TransactionGasBreakdown extends Component {
                         </div>
                     </div>
                 </div>
-                <PanelDivider/>
-                <h3 className="MarginBottom2">Gas Usage Breakdown by Function Call</h3>
-                <p className="MarginBottom2">Click on a function in the stack in order to expand the view and zoom in on that particular function.</p>
-                <CallTraceFlameGraph callTrace={callTrace} transaction={transaction}/>
             </div>
         );
     }
