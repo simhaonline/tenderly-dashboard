@@ -50,6 +50,15 @@ class ExpressionTargetPreview extends PureComponent {
         const hasNetwork = expressions.find(expression => expression.type === AlertRuleExpressionTypes.NETWORK);
         const hasAddress = expressions.find(expression => expression.type === AlertRuleExpressionTypes.CONTRACT_ADDRESS);
 
+        let contract = null;
+
+        if (hasAddress) {
+            contract = contracts.find(contract => contract.getUniqueId() === Contract.generateUniqueContractId(
+                hasAddress.parameters[AlertRuleExpressionParameterTypes.ADDRESS],
+                hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]
+            ));
+        }
+
         const isProjectWide = !hasAddress && !hasNetwork;
 
         return (
@@ -75,10 +84,7 @@ class ExpressionTargetPreview extends PureComponent {
                         </div>
                         <div>
                             <div className="SemiBoldText MarginBottom1">
-                                {!!hasAddress && <span>{contracts.find(contract => contract.getUniqueId() === Contract.generateUniqueContractId(
-                                    hasAddress.parameters[AlertRuleExpressionParameterTypes.ADDRESS],
-                                    hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]
-                                )).name}</span>}
+                                {!!hasAddress && <span>{contract ? contract.name : 'Unknown contract'}</span>}
                                 {!hasAddress && <span>{getLabelForNetwork(hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID])}</span>}
                             </div>
                             <div>
