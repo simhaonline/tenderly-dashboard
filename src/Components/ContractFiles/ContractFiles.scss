@@ -5,7 +5,7 @@
 
 .ContractFiles {
   display: flex;
-  background-color: $Slate700;
+  background-color: $Slate800;
 }
 
 .ContractFiles__FilesList {
@@ -49,6 +49,4 @@
 
 .ContractFiles__CodeWrapper {
   flex: 1 1 0;
-  box-shadow:  10px 0 10px -10px transparentize($BlackColor, 0.5) inset;
-  padding: $Spacing1;
 }
