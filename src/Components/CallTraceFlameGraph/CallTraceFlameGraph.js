@@ -9,6 +9,8 @@ import {CallTrace, Transaction} from "../../Core/models";
 import {FlameGraph} from "../index";
 import {FullWidthContainer, Panel, PanelContent} from "../../Elements";
 
+import './CallTraceFlameGraph.scss';
+
 /**
  * @param {Trace} parentTrace
  * @param {Trace} trace
@@ -179,7 +181,9 @@ class CallTraceFlameGraph extends Component {
         return (
             <div className="CallTraceFlameGraph">
                 <FullWidthContainer>
-                    <FlameGraph onClick={this.handleTraceClick} data={graphData} stretch/>
+                    <div className="CallTraceFlameGraph__GraphWrapper">
+                        <FlameGraph onClick={this.handleTraceClick} data={graphData} stretch/>
+                    </div>
                 </FullWidthContainer>
                 {!!node && <SelectedTraceBreakdown parentTrace={flatCallTrace[node.parent.data.depthId]}
                                                    trace={flatCallTrace[node.data.depthId]}/>}
