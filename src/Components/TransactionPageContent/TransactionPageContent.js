@@ -1,16 +1,50 @@
-import React, {PureComponent} from 'react';
+import React, {Fragment, PureComponent} from 'react';
 import PropTypes from 'prop-types';
+import {Route, Switch} from "react-router-dom";
+
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 import {EventLog, StateDiff, Transaction, Project} from "../../Core/models";
 
-import {TransactionExecution, TransactionGeneralInformation, TransactionStackTrace} from "../index";
+import {
+    CallTracePreview, TraceDebugger, TransactionContracts,
+    TransactionEventLogs,
+    TransactionGasBreakdown,
+    TransactionGeneralInformation,
+    TransactionStackTrace, TransactionStateDiff
+} from "../index";
+
+const tabToUrlMap = {
+    overview: '',
+    events: '/logs',
+    contracts: '/contracts',
+    debugger: '/debugger',
+    gas_breakdown: '/gas-usage',
+    error: '/error',
+    state_change: '/state-diff'
+};
 
 class TransactionPageContent extends PureComponent {
     constructor(props) {
         super(props);
 
+        const {transaction, project} = props;
+
+        let baseUrl = '';
+
+        if (project) {
+            baseUrl = `/${project.owner}/${project.slug}`
+        }
+
+        baseUrl += `/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`;
+
+        this.state = {
+            baseUrl,
+        };
+
         this.state = {
             action: null,
+            baseUrl,
         };
     }
 
@@ -20,9 +54,36 @@ class TransactionPageContent extends PureComponent {
         });
     };
 
+    handleTabChange = (value, selectedTrace) => {
+        const {baseUrl} = this.state;
+
+        this.setState({
+            selectedTrace,
+        });
+
+        this.props.history.push(`${baseUrl}${tabToUrlMap[value]}`);
+    };
+
+    handleTraceViewInDebugger = (trace) => {
+        this.handleTabChange('debugger', trace);
+    };
+
+    handleTraceViewSource = (trace) => {
+        this.handleTabChange('contracts', trace);
+    };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {action} = this.state;
+        const {action: prevAction} = prevState;
+
+        if (action !== prevAction) {
+            this.handleTabChange(action.tab, action.trace);
+        }
+    }
+
     render() {
         const {transaction, stateDiffs, contracts, callTrace, eventLogs, stackTrace, project} = this.props;
-        const {action} = this.state;
+        const {baseUrl, selectedTrace} = this.state;
 
         if (!transaction) {
             return null;
@@ -30,9 +91,18 @@ class TransactionPageContent extends PureComponent {
 
         return (
             <div className="TransactionPageContent">
-                <TransactionGeneralInformation contracts={contracts} transaction={transaction} project={project}/>
-                {!transaction.status && !!stackTrace && <TransactionStackTrace onNavigate={this.handleNavigationAction} stackTrace={stackTrace} contracts={contracts}/>}
-                <TransactionExecution project={project} action={action} transaction={transaction} stateDiffs={stateDiffs} eventLogs={eventLogs} callTrace={callTrace} contracts={contracts}/>
+                <Switch>
+                    <Route path={baseUrl} exact render={() => <Fragment>
+                        <TransactionGeneralInformation contracts={contracts} transaction={transaction} project={project}/>
+                        {!transaction.status && !!stackTrace && <TransactionStackTrace onNavigate={this.handleNavigationAction} stackTrace={stackTrace} contracts={contracts}/>}
+                        <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger} onSourceView={this.handleTraceViewSource}/>
+                    </Fragment>}/>
+                    <Route path={`${baseUrl}/logs`} exact render={() => <TransactionEventLogs contracts={contracts} eventLogs={eventLogs}/>}/>
+                    <Route path={`${baseUrl}/contracts`} exact render={() => <TransactionContracts contracts={contracts} initialTrace={selectedTrace}/>}/>
+                    <Route path={`${baseUrl}/debugger`} exact render={() => <TraceDebugger callTrace={callTrace} contracts={contracts} initialTrace={selectedTrace}/>}/>
+                    <Route path={`${baseUrl}/state-diff`} exact render={() => <TransactionStateDiff contracts={contracts} stateDiffs={stateDiffs}/>}/>
+                    <Route path={`${baseUrl}/gas-usage`} exact render={() => <TransactionGasBreakdown transaction={transaction} callTrace={callTrace}/>}/>
+                </Switch>
             </div>
         )
     }

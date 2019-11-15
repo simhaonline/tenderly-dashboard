@@ -28,6 +28,7 @@ import {
     EtherscanLink,
     SharePageButton, TransactionGeneralInformation
 } from "../../Components";
+import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 class ProjectTransactionPage extends Component {
     constructor(props) {
@@ -141,7 +142,10 @@ class ProjectTransactionPage extends Component {
                             <Button to={backUrl} outline>
                                 <Icon icon="arrow-left"/>
                             </Button>
-                            <h1>Transaction</h1>
+                            <div>
+                                <h1>Transaction</h1>
+                                <div className="MonospaceFont">{generateShortAddress(txHash, 12, 8)}</div>
+                            </div>
                         </PageHeading>
                         <PageError>
                             <p>{error}</p>
@@ -163,7 +167,10 @@ class ProjectTransactionPage extends Component {
                             <Button to={backUrl} outline>
                                 <Icon icon="arrow-left"/>
                             </Button>
-                            <h1>Transaction</h1>
+                            <div>
+                                <h1>Transaction</h1>
+                                <div className="MonospaceFont">{generateShortAddress(txHash, 12, 8)}</div>
+                            </div>
                             <div className="RightContent">
                                 <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
                                     <Button size="small" outline>
@@ -190,7 +197,10 @@ class ProjectTransactionPage extends Component {
                         <Button to={backUrl} outline>
                             <Icon icon="arrow-left"/>
                         </Button>
-                        <h1>Transaction</h1>
+                        <div>
+                            <h1>Transaction</h1>
+                            <div className="MonospaceFont">{generateShortAddress(txHash, 12, 8)}</div>
+                        </div>
                         <div className="RightContent">
                             {canBeViewedOnExplorer && <SharePageButton url={`${DASHBOARD_BASE_URL}/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`}
                                                                        onCopyMessage="Copied link to the public transaction page"/>}
