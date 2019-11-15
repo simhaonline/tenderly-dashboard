@@ -16,6 +16,7 @@ export const fetchWalletsForProject = (project) => asyncActionWrapper('fetchWall
     // const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/wallets`);
 
     const walletOneAddress = '0xabcdef123456789';
+    const walletTwoAddress = '0xf9043e21Def4E757D3ffca578E3E7Bf0f87AA715';
     const walletNetwork = NetworkTypes.RINKEBY;
 
     const projectWallets = [
@@ -26,6 +27,14 @@ export const fetchWalletsForProject = (project) => asyncActionWrapper('fetchWall
             walletId: `${walletNetwork}:${walletOneAddress}`,
             defaultToken: 'eth',
             enabled: true,
+        }),
+        new ProjectWallet({
+            id: `${project.id}:${walletNetwork}:${walletTwoAddress}`,
+            projectId: project.id,
+            name: walletTwoAddress,
+            walletId: `${walletNetwork}:${walletTwoAddress}`,
+            defaultToken: 'eth',
+            enabled: false,
         }),
     ];
 
@@ -40,6 +49,25 @@ export const fetchWalletsForProject = (project) => asyncActionWrapper('fetchWall
                     name: 'Ethereum',
                     shorthand: 'ETH',
                     balance: 0.234573001,
+                }),
+            ]
+        }),
+        new Wallet({
+            id: `${walletNetwork}:${walletTwoAddress}`,
+            address: walletTwoAddress,
+            network: walletNetwork,
+            walletTokens: [
+                new WalletToken({
+                    token: 'eth',
+                    name: 'Ethereum',
+                    shorthand: 'ETH',
+                    balance: 21.2144688,
+                }),
+                new WalletToken({
+                    token: 'ck',
+                    name: 'CryptoKitties',
+                    shorthand: 'CK',
+                    balance: 6,
                 }),
             ]
         }),
