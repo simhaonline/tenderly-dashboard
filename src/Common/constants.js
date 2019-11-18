@@ -560,15 +560,17 @@ export const AlertParameterConditionOperatorTypeLabelMap = {
  */
 export const NotificationDestinationTypes = {
     EMAIL: 'EMAIL',
-    EMAIL_GROUP: 'EMAIL_GROUP',
     SLACK: 'SLACK',
+    DISCORD: 'DISCORD',
+    TELEGRAM: 'TELEGRAM',
     WEBHOOK: 'WEBHOOK',
 };
 
 export const NotificationDestinationAppToApiTypes = {
     [NotificationDestinationTypes.EMAIL]: 'email',
-    [NotificationDestinationTypes.EMAIL_GROUP]: 'email',
     [NotificationDestinationTypes.SLACK]: 'slack',
+    [NotificationDestinationTypes.DISCORD]: 'discord',
+    [NotificationDestinationTypes.TELEGRAM]: 'telegram',
     [NotificationDestinationTypes.WEBHOOK]: 'webhook',
 };
 

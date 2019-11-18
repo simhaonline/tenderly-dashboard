@@ -1,4 +1,4 @@
-import {NotificationDestinationTypes} from "../../Common/constants";
+import {NotificationDestinationAppToApiTypes, NotificationDestinationTypes} from "../../Common/constants";
 
 /**
  * @typedef NotificationDestinationInformation
@@ -33,10 +33,12 @@ class NotificationDestination {
                 return 'E-mail';
             case NotificationDestinationTypes.WEBHOOK:
                 return 'Webhook';
-            case NotificationDestinationTypes.EMAIL_GROUP:
-                return 'E-mail Group';
             case NotificationDestinationTypes.SLACK:
                 return 'Slack';
+            case NotificationDestinationTypes.DISCORD:
+                return 'Discord';
+            case NotificationDestinationTypes.TELEGRAM:
+                return 'Telegram';
             default:
                 return '';
         }
@@ -51,7 +53,7 @@ class NotificationDestination {
         switch (type) {
             case NotificationDestinationTypes.EMAIL:
                 return {
-                    emails: [value],
+                    email: value,
                 };
             default:
                 return {};
@@ -65,23 +67,14 @@ class NotificationDestination {
      */
     static parseResponseInformation(type, information) {
        switch (type) {
-           case 'email':
-               if (!!information.emails && information.emails.length === 1) {
-                   return {
-                       type: NotificationDestinationTypes.EMAIL,
-                       information: {
-                           email: information.emails[0],
-                       },
-                   };
-               }
-
+           case NotificationDestinationAppToApiTypes[NotificationDestinationTypes.EMAIL]:
                return {
-                   type: NotificationDestinationTypes.EMAIL_GROUP,
+                   type: NotificationDestinationTypes.EMAIL,
                    information: {
-                       emails: information.emails,
+                       email: information.email,
                    },
                };
-           case 'slack':
+           case NotificationDestinationAppToApiTypes[NotificationDestinationTypes.SLACK]:
                return {
                    type: NotificationDestinationTypes.SLACK,
                    information: {
