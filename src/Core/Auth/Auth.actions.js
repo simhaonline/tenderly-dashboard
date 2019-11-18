@@ -7,6 +7,7 @@ import Analytics from "../../Utils/Analytics";
 import Intercom from "../../Utils/Intercom";
 import FullStory from "../../Utils/FullStory";
 import {isInternalUserByEmail} from "../../Utils/UserHelpers";
+import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 import User from "./User.model";
 import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
@@ -464,3 +465,16 @@ export const updateUser = (updates) => {
         }
     }
 };
+
+/**
+ * @param {string} code
+ */
+export const verifyUserEmail = code => asyncActionWrapper('verifyUserEmail', async dispatch => {
+    const {data} = await Api.post('/account/me/confirm-email', {
+        code
+    });
+
+    console.log(data);
+
+    return new SuccessActionResponse();
+});
