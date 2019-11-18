@@ -101,9 +101,7 @@ class ProjectAlertDestinations extends Component {
                         <h4 className="MarginLeft2">Add Destination</h4>
                         <PanelDivider/>
                         <CardsWrapper horizontal className="MarginBottom4">
-                            <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                                <DestinationOption icon="mail" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.EMAIL)} label="E-mail" active/>
-                            </FeatureFlag>
+                            <DestinationOption icon="mail" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.EMAIL)} label="E-mail" active/>
                             <DestinationOption icon="slack" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.SLACK)} label="Slack"/>
                             <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
                                 <DestinationOption icon="code" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.WEBHOOK)} label="Webhook"/>
