@@ -4,7 +4,6 @@ import {NotificationDestinationAppToApiTypes, NotificationDestinationTypes} from
  * @typedef NotificationDestinationInformation
  * @type {Object}
  * @property {string} [email]
- * @property {string[]} [emails]
  * @property {string} [channel]
  * @property {string} [team]
  */
