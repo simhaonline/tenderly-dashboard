@@ -28,7 +28,8 @@ export {default as NetworkSelectOption} from './SelectComponents/NetworkSelectOp
 export {default as GoogleLoginButton} from './GoogleLoginButton/GoogleLoginButton';
 export {default as GitHubLoginButton} from './GitHubLoginButton/GitHubLoginButton';
 export {default as SlackConnectButton} from './SlackConnectButton/SlackConnectButton';
-export {default as SlackIcon} from './SlackIcon/SlackIcon';
+export {default as SlackIcon} from './ProductIcon/SlackIcon';
+export {default as TelegramIcon} from './ProductIcon/TelegramIcon';
 
 // Explorer Components
 export {default as ExplorerHeader} from './ExplorerHeader/ExplorerHeader';
