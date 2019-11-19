@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
-import classNames from "classnames";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import OutsideClickHandler from "react-outside-click-handler";
+
+import {Project} from "../../Core/models";
 
 import * as projectActions from "../../Core/Project/Project.actions";
 
@@ -20,7 +21,6 @@ class ProjectPicker extends Component {
         super(props);
 
         this.state = {
-            currentProject: props.project,
             projectsDropdownOpen: false,
         };
     };
@@ -44,20 +44,11 @@ class ProjectPicker extends Component {
         });
     };
 
-    switchProject = (project) => {
-        this.setState({
-            currentProject: project,
-            projectsDropdownOpen: false,
-        });
-    };
-
     render() {
         const {project, projects, projectsLoaded} = this.props;
-        const {currentProject, projectsDropdownOpen} = this.state;
+        const {projectsDropdownOpen} = this.state;
 
-        if (project.id !== currentProject.id) {
-            return <Redirect to={`/${currentProject.owner}/${currentProject.slug}`}/>
-        }
+        if (!project) return null;
 
         return (
             <OutsideClickHandler onOutsideClick={this.closeProjectsDropdown}>
@@ -76,16 +67,13 @@ class ProjectPicker extends Component {
                         {!projectsLoaded && <div className="LoaderWrapper">
                             <SimpleLoader/>
                         </div>}
-                        {projectsLoaded && projects.map(project => <div key={project.id} className={classNames(
-                            "ProjectDropdownItem",
-                            {"Active": currentProject.id === project.id,},
-                        )} onClick={() => this.switchProject(project)}>
+                        {projectsLoaded && projects.map(project => <Link key={project.id} className="ProjectDropdownItem" to={project.getUrlBase()} onClick={this.closeProjectsDropdown}>
                             <Icon icon={project.getIcon()} className="ProjectIcon"/>
                             <div>
                                 <div className="ProjectName">{project.name}</div>
                                 <div className="ProjectSlug">{project.getDisplaySlug()}</div>
                             </div>
-                        </div>)}
+                        </Link>)}
                     </div>}
                 </div>
             </OutsideClickHandler>
@@ -94,7 +82,7 @@ class ProjectPicker extends Component {
 }
 
 ProjectPicker.propTypes = {
-    project: PropTypes.object.isRequired,
+    project: PropTypes.instanceOf(Project).isRequired,
 };
 
 const mapStateToProps = (state) => {
