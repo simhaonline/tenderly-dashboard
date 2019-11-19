@@ -7,7 +7,7 @@ import {Contract} from "../../Core/models";
 import {Trace} from "../../Core/Trace/Trace.model";
 
 import {Icon, Card, Tag, LinkButton} from "../../Elements";
-import {CodePreview, ContractFiles, CopyableText} from "..";
+import {ContractFiles, CopyableText} from "..";
 
 import './TransactionContracts.scss';
 
@@ -161,7 +161,7 @@ class TransactionContracts extends Component {
                             <span>Unverified Contract</span>
                         </Tag>}
                     </div>
-                    <ContractFiles contract={selectedContract}/>
+                    <ContractFiles contract={selectedContract} file={selectedFile} line={highlightedLine}/>
                 </div>}
             </div>
         );
