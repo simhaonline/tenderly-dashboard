@@ -7,7 +7,7 @@ import {Contract} from "../../Core/models";
 import {Trace} from "../../Core/Trace/Trace.model";
 
 import {Icon, Card, Tag, LinkButton} from "../../Elements";
-import {CodePreview, CopyableText} from "..";
+import {CodePreview, ContractFiles, CopyableText} from "..";
 
 import './TransactionContracts.scss';
 
@@ -117,13 +117,6 @@ class TransactionContracts extends Component {
         });
     };
 
-    /**
-     * @param {ContractFile} file
-     */
-    handleContractFileSelect = (file) => {
-        // @TODO handle selecting contract files
-    };
-
     backToContracts = () => {
         this.setState({
             selectedContract: null,
@@ -135,24 +128,6 @@ class TransactionContracts extends Component {
     render() {
         const {contracts} = this.props;
         const {selectedContract, selectedFile, highlightedLine} = this.state;
-
-        // const computedData = contracts.reduce((data, contract) => {
-        //     if (isRecognizedCompanyContract(contract)) {
-        //         const company = getContractCompany(contract);
-        //         if (!data.companyContracts[company]) {
-        //             data.companyContracts[company] = [];
-        //         }
-        //
-        //         data.companyContracts[company].push(contract);
-        //     } else {
-        //         data.otherContracts.push(contract);
-        //     }
-        //
-        //     return data;
-        // }, {
-        //     companyContracts: {},
-        //     otherContracts: [],
-        // });
 
         return (
             <div className="TransactionContracts">
@@ -186,7 +161,7 @@ class TransactionContracts extends Component {
                             <span>Unverified Contract</span>
                         </Tag>}
                     </div>
-                    <CodePreview file={selectedFile} line={highlightedLine}/>
+                    <ContractFiles contract={selectedContract}/>
                 </div>}
             </div>
         );
