@@ -62,6 +62,7 @@ class TransactionFilters extends Component {
             networkOptions,
             tagOptions,
             openModal: false,
+            settingsModalOpen: false,
             draftStatus: 'all',
             draftType: 'all',
             draftContracts: [],
@@ -96,6 +97,18 @@ class TransactionFilters extends Component {
     handleModalClose = () => {
         this.setState({
             openModal: false,
+        });
+    };
+
+    handleSettingsModalOpen = () => {
+        this.setState({
+            settingsModalOpen: true,
+        });
+    };
+
+    handleSettingsModalClose = () => {
+        this.setState({
+            settingsModalOpen: false,
         });
     };
 
@@ -206,7 +219,7 @@ class TransactionFilters extends Component {
     };
 
     render() {
-        const {openModal, draftStatus, fromTagCreation, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
+        const {openModal, settingsModalOpen, draftStatus, fromTagCreation, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
         const {activeFilters} = this.props;
 
         const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
@@ -217,10 +230,42 @@ class TransactionFilters extends Component {
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
                 </div>
                 <div className="MarginLeftAuto">
+                    <Button outline onClick={this.handleSettingsModalOpen}>
+                        <Icon icon="settings"/>
+                    </Button>
                     <Button size="small" onClick={this.handleModalOpen}>
                         <Icon icon="filter"/>
                         <span>Filter Transactions</span>
                     </Button>
+                    <Dialog open={settingsModalOpen} onClose={this.handleSettingsModalClose}>
+                        <DialogHeader>
+                            <h3>Settings</h3>
+                        </DialogHeader>
+                        <DialogBody>
+                            <SegmentedControls options={[
+                                {
+                                    value: 'comfortable',
+                                    label: 'Comfortable',
+                                },
+                                {
+                                    value: 'compact',
+                                    label: 'Compact',
+                                },
+                            ]} value={'comfortable'} onChange={this.handleDraftStatusChange}/>
+                            <div>
+                                <Checkbox value={true} field="txHash" label="Transaction Hash" onChange={() => {}}/>
+                                <Checkbox value={true} field="status" label="Status" onChange={() => {}}/>
+                                <Checkbox value={true} field="contracts" label="Contracts" onChange={() => {}}/>
+                                <Checkbox value={true} field="network" label="Network" onChange={() => {}}/>
+                                <Checkbox value={true} field="timestamp" label="Timestamp" onChange={() => {}}/>
+                                <Checkbox value={false} field="gasUsed" label="Gas Used" onChange={() => {}}/>
+                                <Checkbox value={false} field="block" label="Block No." onChange={() => {}}/>
+                                <Checkbox value={false} field="method" label="Function" onChange={() => {}}/>
+                                <Checkbox value={false} field="from" label="From" onChange={() => {}}/>
+                                <Checkbox value={false} field="to" label="To" onChange={() => {}}/>
+                            </div>
+                        </DialogBody>
+                    </Dialog>
                     <Dialog open={openModal} onClose={this.handleModalClose}>
                         <DialogHeader>
                             <h3>Filter Transactions</h3>
