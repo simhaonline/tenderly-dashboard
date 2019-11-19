@@ -86,7 +86,8 @@ class AddIntegrationModal extends Component {
                         </Button>
                     </Form>}
                     {type === NotificationDestinationTypes.DISCORD && <Form onSubmit={this.handleFormSubmit}>
-                        <p className="MarginBottom4">Insert your Discord channel webhook to receive alerts from Tenderly.</p>
+                        <p className="MarginBottom1">Insert your Discord channel webhook to receive alerts from Tenderly.</p>
+                        <p className="MarginBottom4">You can read more in the official <a href="https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks">Discord documentation</a>.</p>
                         <Input value={label} autoFocus label="Label" field="label" onChange={this.handleInputChange}/>
                         <Input value={value} label="Discord Webhook" field="value" onChange={this.handleInputChange}/>
                         <Button type="submit" disabled={!label || !value}>
