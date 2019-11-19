@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from "prop-types";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import classNames from 'classnames';
 import OutsideClickHandler from "react-outside-click-handler";
 
 import {Project} from "../../Core/models";
@@ -48,32 +49,52 @@ class ProjectPicker extends Component {
         const {project, projects, projectsLoaded} = this.props;
         const {projectsDropdownOpen} = this.state;
 
-        if (!project) return null;
-
         return (
             <OutsideClickHandler onOutsideClick={this.closeProjectsDropdown}>
                 <div className="ProjectPicker HideMobile">
-                    <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
+                    {!!project && <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
                         <div className="ProjectInfo">
                             <Icon icon={project.getIcon()} className="ProjectIcon"/>
-                            <div>
+                            <div className="ProjectInfo__General">
                                 <div className="ProjectName">{project.name}</div>
                                 <div className="ProjectSlug">{project.getDisplaySlug()}</div>
                             </div>
                         </div>
                         <Icon icon="chevron-down" className="DropdownIcon"/>
-                    </div>
+                    </div>}
+                    {!project && <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
+                        <div className="ProjectInfo">
+                            <Icon icon="project" className="ProjectIcon ProjectIcon--NoColor"/>
+                            <div className="ProjectInfo__General">
+                                <div className="ProjectName">Select Project</div>
+                            </div>
+                        </div>
+                        <Icon icon="chevron-down" className="DropdownIcon"/>
+                    </div>}
                     {projectsDropdownOpen && <div className="ProjectsDropdown">
                         {!projectsLoaded && <div className="LoaderWrapper">
                             <SimpleLoader/>
                         </div>}
-                        {projectsLoaded && projects.map(project => <Link key={project.id} className="ProjectDropdownItem" to={project.getUrlBase()} onClick={this.closeProjectsDropdown}>
-                            <Icon icon={project.getIcon()} className="ProjectIcon"/>
-                            <div>
-                                <div className="ProjectName">{project.name}</div>
-                                <div className="ProjectSlug">{project.getDisplaySlug()}</div>
-                            </div>
-                        </Link>)}
+                        {projectsLoaded && <Fragment>
+                            {projects.map(projectItem => <Link key={projectItem.id} className={classNames(
+                                "ProjectDropdownItem",
+                                {"ProjectDropdownItem--Active": project && projectItem.id === project.id},
+                            )} to={projectItem.getUrlBase()} onClick={this.closeProjectsDropdown}>
+                                <Icon icon={projectItem.getIcon()} className="ProjectIcon"/>
+                                <div className="ProjectDropdownItem__General">
+                                    <div className="ProjectName">{projectItem.name}</div>
+                                    <div className="ProjectSlug">{projectItem.getDisplaySlug()}</div>
+                                </div>
+                            </Link>)}
+                            <div className="ProjectDropdownDivider"/>
+                            <Link className="ProjectDropdownItem" to="/project/create" onClick={this.closeProjectsDropdown}>
+                                <Icon icon="plus" className="ProjectIcon"/>
+                                <div className="ProjectDropdownItem__General">
+                                    <div className="ProjectName">Create Project</div>
+                                    <div className="ProjectSlug">Monitor your contracts and wallets</div>
+                                </div>
+                            </Link>
+                        </Fragment>}
                     </div>}
                 </div>
             </OutsideClickHandler>
