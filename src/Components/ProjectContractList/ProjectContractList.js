@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Blockies from "react-blockies";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 
-import {ProjectContract} from "../../Core/models";
+import {Project, ProjectContract} from "../../Core/models";
 // import {NetworkTypes} from "../../Common/constants";
 
 import {Card, Icon, Input} from "../../Elements";
@@ -130,7 +130,7 @@ class ProjectContractList extends Component{
     };
 
     render() {
-        const {projectContracts} = this.props;
+        const {projectContracts, project} = this.props;
         const {searchQuery} = this.state;
 
         return (
@@ -142,6 +142,12 @@ class ProjectContractList extends Component{
                 </div>}
                 <div className="ProjectContractList__ItemsWrapper">
                     {projectContracts.map(projectContract => <ProjectContractListItem key={projectContract.id} projectContract={projectContract}/>)}
+                    <Link to={`/${project.owner}/${project.slug}/contracts/add`} className="ProjectContractList__Item ProjectContractList__Item--AddContract">
+                        <Card clickable>
+                            <Icon icon="plus"/>
+                            <div>Add</div>
+                        </Card>
+                    </Link>
                 </div>
             </div>
         )
@@ -151,6 +157,7 @@ class ProjectContractList extends Component{
 ProjectContractList.propTypes = {
     projectContracts: PropTypes.arrayOf(PropTypes.instanceOf(ProjectContract)),
     onListenToggle: PropTypes.func,
+    project: PropTypes.instanceOf(Project).isRequired,
 };
 
-export default withRouter(ProjectContractList);
+export default ProjectContractList;
