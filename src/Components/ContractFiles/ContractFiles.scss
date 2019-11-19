@@ -35,15 +35,11 @@
   }
 
   &:hover {
-    background-color: $Slate900
+    background-color: $Primary900;
   }
 
   &--Active {
-    background-color: $Slate900;
-
-    .FileIcon {
-      color: $Primary500;
-    }
+    background-color: $Primary600 !important;
   }
 }
 
