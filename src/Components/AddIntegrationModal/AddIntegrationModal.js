@@ -63,10 +63,18 @@ class AddIntegrationModal extends Component {
                         <p className="MarginBottom4">Add the Tenderly Slack App to your workspace and authorize a specific channel where you will receive alerts from Tenderly.</p>
                         <SlackConnectButton redirectBack/>
                     </div>}
-                    {type !== NotificationDestinationTypes.SLACK && <Form onSubmit={this.handleFormSubmit}>
+                    {type === NotificationDestinationTypes.EMAIL && <Form onSubmit={this.handleFormSubmit}>
                         <p className="MarginBottom4">Add an e-mail that can receive alert notifications from Tenderly.</p>
                         <Input value={label} autoFocus label="Label" field="label" onChange={this.handleInputChange}/>
-                        <Input value={value} label={type === NotificationDestinationTypes.EMAIL ? 'E-mail' : 'Webhook'} field="value" onChange={this.handleInputChange}/>
+                        <Input value={value} label='E-mail' field="value" onChange={this.handleInputChange}/>
+                        <Button type="submit">
+                            <span>Add destination</span>
+                        </Button>
+                    </Form>}
+                    {type === NotificationDestinationTypes.DISCORD && <Form onSubmit={this.handleFormSubmit}>
+                        <p className="MarginBottom4">Add the Discord webhook to receive alerts from Tenderly.</p>
+                        <Input value={label} autoFocus label="Label" field="label" onChange={this.handleInputChange}/>
+                        <Input value={value} label="Discord Webhook" field="value" onChange={this.handleInputChange}/>
                         <Button type="submit">
                             <span>Add destination</span>
                         </Button>
