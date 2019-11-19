@@ -122,7 +122,7 @@ class ProjectAlertDestinations extends Component {
                                         <DestinationInformation destination={destination}/>
                                     </div>
                                     <div className="ActiveIntegrationItem__Actions">
-                                        {destination.type === NotificationDestinationTypes.SLACK && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
+                                        {destination.type !== NotificationDestinationTypes.EMAIL && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
                                             <Icon icon="trash-2"/>
                                         </Button>}
                                     </div>
