@@ -62,10 +62,14 @@ class ProjectPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {tagsLoaded, project, actions} = this.props;
+        const {tagsLoaded, project, actions, searchActions} = this.props;
 
-        if (!!prevProps.project && prevProps.project !== project && !tagsLoaded) {
-            actions.fetchProjectTags(project)
+        if (!!prevProps.project && prevProps.project.id !== project.id) {
+            searchActions.setProjectContext(project.slug, project.owner);
+
+            if (!tagsLoaded) {
+                actions.fetchProjectTags(project)
+            }
         }
     }
 
