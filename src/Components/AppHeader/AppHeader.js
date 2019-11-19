@@ -13,7 +13,7 @@ import {getProject} from "../../Common/Selectors/ProjectSelectors";
 
 class AppHeader extends Component {
     render() {
-        const {wholeScreenPage, token, project} = this.props;
+        const {wholeScreenPage, token, project, loggedIn} = this.props;
 
         if (wholeScreenPage) {
             return null;
@@ -33,9 +33,9 @@ class AppHeader extends Component {
                         <TenderlyLogo className="AppLogo"/>
                         <TenderlyLogo className="AppSymbol" symbol/>
                     </Link>
-                    <div className="ProjectContextWrapper">
+                    {loggedIn && <div className="ProjectContextWrapper">
                         <ProjectPicker project={project}/>
-                    </div>
+                    </div>}
                     <div className="SearchWrapper">
                         <AppSearch/>
                     </div>
@@ -63,6 +63,7 @@ const mapStateToProps = (state) => {
         project,
         wholeScreenPage: state.app.wholeScreenPage,
         token: state.auth.token,
+        loggedIn: state.auth.loggedIn,
     }
 };
 

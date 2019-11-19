@@ -107,9 +107,13 @@ export function getSearchResults(query) {
  */
 export function setProjectContext(slug, owner) {
     return (dispatch) => {
+        const projectId = Project.generateProjectId(slug, owner);
+
+        LocalStorage.setItem(LocalStorageKeys.PROJECT_CONTEXT, projectId);
+
         dispatch({
             type: SET_PROJECT_CONTEXT_ACTION,
-            projectId: Project.generateProjectId(slug, owner),
+            projectId,
         });
     };
 }
