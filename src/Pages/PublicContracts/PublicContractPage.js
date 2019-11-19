@@ -193,7 +193,10 @@ class PublicContractPage extends Component {
 
         if (loading) {
             return (
-                <ProjectPageLoader text="Fetching Public Contract Data..."/>
+                <Fragment>
+                    <AppSidebar/>
+                    <ProjectPageLoader text="Fetching Public Contract Data..."/>
+                </Fragment>
             )
         }
         if (!contract) {

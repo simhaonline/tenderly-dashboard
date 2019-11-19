@@ -22,6 +22,7 @@ import AcceptInvitationPage from "./Project/AcceptInvitationPage";
 import VerifyEmailPage from "./Public/VerifyEmailPage";
 
 import Project from "../Core/Project/Project.model";
+import ProFeaturePage from "./Public/ProFeaturePage";
 
 const AppPages = ({loggedIn, initialContext, projectContext}) => {
     let projectOwner, projectSlug;
@@ -48,6 +49,9 @@ const AppPages = ({loggedIn, initialContext, projectContext}) => {
             <Route path="/explorer" exact component={ExplorerPage}/>
             <Route path="/contract/:network/:address" strict component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
+            <Route path="/analytics" exact render={() => <ProFeaturePage feature="analytics"/>}/>
+            <Route path="/alerts" exact render={() => <ProFeaturePage feature="alerting"/>}/>
+            <Route path="/private-networks" exact render={() => <ProFeaturePage feature="private_networks"/>}/>
             <Route path="/accept-invitation" exact component={AcceptInvitationPage}/>
             <PrivateRoute path="/project/:slug" component={RedirectToProjectPage}/>
             <PrivateRoute path="/:username/:slug" strict component={ProjectPage}/>
