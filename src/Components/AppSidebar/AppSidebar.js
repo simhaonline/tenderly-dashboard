@@ -21,13 +21,13 @@ function getContextFromUrl(url, base) {
         return 'alerting';
     }
 
-    if (_.startsWith(strippedUrl, '/transactions')) {
-        return 'transactions';
-    }
-
-    if (_.startsWith(strippedUrl, '/contracts')) {
-        return 'contracts';
-    }
+    // if (_.startsWith(strippedUrl, '/transactions')) {
+    //     return 'transactions';
+    // }
+    //
+    // if (_.startsWith(strippedUrl, '/contracts')) {
+    //     return 'contracts';
+    // }
 
     if (_.startsWith(strippedUrl, '/plan')) {
         return 'plan';
