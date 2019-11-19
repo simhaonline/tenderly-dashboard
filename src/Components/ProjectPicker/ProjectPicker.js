@@ -82,7 +82,7 @@ class ProjectPicker extends Component {
 }
 
 ProjectPicker.propTypes = {
-    project: PropTypes.instanceOf(Project).isRequired,
+    project: PropTypes.instanceOf(Project),
 };
 
 const mapStateToProps = (state) => {
