@@ -54,6 +54,10 @@ class NotificationDestination {
                 return {
                     email: value,
                 };
+            case NotificationDestinationTypes.DISCORD:
+                return {
+                    webhook: value,
+                };
             default:
                 return {};
         }
@@ -71,6 +75,13 @@ class NotificationDestination {
                    type: NotificationDestinationTypes.EMAIL,
                    information: {
                        email: information.email,
+                   },
+               };
+           case NotificationDestinationAppToApiTypes[NotificationDestinationTypes.DISCORD]:
+               return {
+                   type: NotificationDestinationTypes.DISCORD,
+                   information: {
+                       webhook: information.webhook,
                    },
                };
            case NotificationDestinationAppToApiTypes[NotificationDestinationTypes.SLACK]:

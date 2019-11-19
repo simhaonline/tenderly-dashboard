@@ -68,12 +68,7 @@ class ProjectAlertDestinations extends Component {
     handleCreateDestination = async ({type, label, value}) => {
         const {actions} = this.props;
 
-        switch (type) {
-            case NotificationDestinationTypes.EMAIL:
-                return actions.createNotificationDestination(type, label, value);
-            default:
-                return;
-        }
+        return actions.createNotificationDestination(type, label, value);
     };
 
     /**
