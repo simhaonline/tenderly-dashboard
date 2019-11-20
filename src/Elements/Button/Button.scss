@@ -101,6 +101,20 @@
       background-color: darken($Danger500, 8);
     }
   }
+
+  &.White {
+    border-color: $WhiteColor;
+    background-color: $WhiteColor;
+    color: $BlackColor;
+
+    &:hover {
+      background-color: darken($WhiteColor, 5);
+    }
+
+    &:active {
+      background-color: darken($WhiteColor, 8);
+    }
+  }
 }
 
 .Button--Outlined {

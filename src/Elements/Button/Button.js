@@ -13,6 +13,8 @@ function getButtonColorClass(color) {
             return 'Danger';
         case 'success':
             return 'Success';
+        case 'white':
+            return 'White';
         default:
             return 'Primary';
     }
@@ -84,7 +86,7 @@ const Button = ({children, width, type, color, size, readOnly, href, className, 
 Button.propTypes = {
     onClick: PropTypes.func,
     to: PropTypes.oneOfType([PropTypes.string, PropTypes.object,]),
-    color: PropTypes.oneOf(['primary', 'secondary', 'danger', 'success']),
+    color: PropTypes.oneOf(['primary', 'secondary', 'danger', 'success', 'white']),
 };
 
 export default Button;
