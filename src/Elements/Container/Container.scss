@@ -1,4 +1,8 @@
 .Container {
   width: 100%;
   margin: 0 auto;
+
+  &--Boxed {
+    max-width: 1080px;
+  }
 }

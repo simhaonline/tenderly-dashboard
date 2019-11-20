@@ -34,7 +34,7 @@ class ExplorerPage extends Component {
                     <meta name="keywords"
                           content={`smart contracts, public contracts, verified contracts`}/>
                 </Helmet>
-                <Container className="ExplorerPage__Container">
+                <Container className="ExplorerPage__Container" boxed>
                     <ExplorerHeader/>
                     <TenderlyLogo className="ExplorerPage__Logo" width={240}/>
                     <PublicNetworksSearch/>
