@@ -34,6 +34,7 @@ export {default as TelegramIcon} from './ProductIcon/TelegramIcon';
 // Billing
 export {default as SubscriptionPlan} from './SubscriptionPlan/SubscriptionPlan';
 export {default as PaidFeatureMessage} from './PaidFeatureMessage/PaidFeatureMessage';
+export {default as PaidFeatureUpsell} from './PaidFeatureUpsell/PaidFeatureUpsell';
 export {default as ProjectPlanUsage} from './ProjectPlanUsage/ProjectPlanUsage';
 
 // Explorer Components

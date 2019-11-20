@@ -1,8 +1,7 @@
 import React, {Component, Fragment} from 'react';
-import PropTypes from 'prop-types';
 
-import {Page, PageHeading} from "../../Elements";
-import {AppSidebar} from "../../Components";
+import {Page} from "../../Elements";
+import {AppSidebar, PaidFeatureUpsell} from "../../Components";
 import {connect} from "react-redux";
 
 class ProFeaturePage extends Component {
@@ -13,9 +12,7 @@ class ProFeaturePage extends Component {
             <Fragment>
                 <AppSidebar/>
                 <Page>
-                    <PageHeading>
-                        <h1>{feature} qwe</h1>
-                    </PageHeading>
+                    <PaidFeatureUpsell feature={feature}/>
                 </Page>
             </Fragment>
         );
@@ -23,7 +20,13 @@ class ProFeaturePage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {};
+    const {match: {params: {feature, network, hex}}} = ownProps;
+
+    return {
+        feature,
+        network,
+        hex,
+    };
 };
 
 export default connect(
