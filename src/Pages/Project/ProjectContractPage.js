@@ -5,7 +5,10 @@ import {bindActionCreators} from "redux";
 
 import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
 
-import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {
+    getProjectBySlugAndUsername,
+    getProjectContractForRevision
+} from "../../Common/Selectors/ProjectSelectors";
 import {
     getContractByAddressAndNetwork, getContractRevisionsForProjectContract,
     getContractStatus,
@@ -145,13 +148,14 @@ const mapStateToProps = (state, ownProps) => {
 
     const project = getProjectBySlugAndUsername(state, slug, username);
     const contract = getContractByAddressAndNetwork(state, address, networkType);
+    const projectContract = getProjectContractForRevision(state, project.id, contract);
 
     return {
         networkType,
         contractAddress: address,
         project,
         contract,
-        revisions: getContractRevisionsForProjectContract(state, project.id, contract),
+        revisions: getContractRevisionsForProjectContract(state, project.id, projectContract),
         contractTags: getContractTagsByAddressAndNetwork(state, project, address, networkType),
         contractStatus: getContractStatus(state, address, networkType),
     }
