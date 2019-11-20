@@ -11,7 +11,7 @@ import {
     getContractStatus,
     getContractTagsByAddressAndNetwork
 } from "../../Common/Selectors/ContractSelectors";
-import {EntityStatusTypes, EtherscanLinkTypes} from "../../Common/constants";
+import {EntityStatusTypes, EtherscanLinkTypes, ProjectTypes} from "../../Common/constants";
 
 import * as contractActions from "../../Core/Contract/Contract.actions";
 
@@ -34,7 +34,7 @@ class ProjectContractPage extends Component {
     componentDidMount() {
         const {contractStatus, networkType, contractAddress, actions, project} = this.props;
 
-        if (contractStatus !== EntityStatusTypes.LOADED) {
+        if (contractStatus !== EntityStatusTypes.LOADED && project.type !== ProjectTypes.DEMO) {
             actions.fetchContractForProject(project, contractAddress, networkType);
         }
     }
@@ -43,9 +43,9 @@ class ProjectContractPage extends Component {
      * @return {boolean}
      */
     isContractLoaded = () => {
-        const {contractStatus} = this.props;
+        const {contractStatus, project} = this.props;
 
-        return contractStatus === EntityStatusTypes.LOADED;
+        return contractStatus === EntityStatusTypes.LOADED || project.type === ProjectTypes.DEMO;
     };
 
     /**
