@@ -64,6 +64,33 @@ class ProjectContractPage extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {contractStatus, networkType, contractAddress, actions, project, match: {params: {address, network}}} = this.props;
+
+        if (contractAddress !== prevProps.contractAddress) {
+            this.setState({
+                tabs: [
+                    {
+                        route: `${project.getUrlBase()}/contract/${network}/${address}`,
+                        label: 'General',
+                    },
+                    {
+                        route: `${project.getUrlBase()}/contract/${network}/${address}/files`,
+                        label: 'Files',
+                    },
+                    {
+                        route: `${project.getUrlBase()}/contract/${network}/${address}/revisions`,
+                        label: 'Revisions',
+                    },
+                ],
+            });
+
+            if (contractStatus !== EntityStatusTypes.LOADED) {
+                actions.fetchContractForProject(project, contractAddress, networkType);
+            }
+        }
+    }
+
     /**
      * @return {boolean}
      */
