@@ -47,15 +47,26 @@ class ProjectContract {
         return this.getRevision(this.mainRevision);
     }
 
+    /**
+     * @returns {string}
+     */
     getUrl() {
+        return this.getUrlForRevision(this.mainRevision);
+    };
+
+    /**
+     * @param {ProjectContractRevision.id} revisionId
+     * @returns {string}
+     */
+    getUrlForRevision(revisionId) {
         const {slug, username} = Project.getSlugAndUsernameFromId(this.projectId);
 
         const networkRoute = getRouteSlugForNetwork(this.network);
 
-        const mainRevision = this.getMainRevision();
+        const revision = this.getRevision(revisionId);
 
-        return `/${username}/${slug}/contract/${networkRoute}/${mainRevision.address}`;
-    };
+        return `/${username}/${slug}/contract/${networkRoute}/${revision.address}`;
+    }
 
     /**
      * @param {Project.id} projectId

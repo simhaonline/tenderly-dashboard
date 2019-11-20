@@ -24,7 +24,7 @@ import {
     ContractInformation,
     ProjectContentLoader,
     ProjectContractActions,
-    ContractFiles, EtherscanLink,
+    ContractFiles, EtherscanLink, ContractRevisions,
 } from "../../Components";
 
 class ProjectContractPage extends Component {
@@ -102,7 +102,7 @@ class ProjectContractPage extends Component {
     };
 
     render() {
-        const {contract, contractsLoaded, projectContract, revisions, contractTags, contractStatus, project} = this.props;
+        const {contract, projectContract, revisions, contractTags, contractStatus, project} = this.props;
         const {contractRemoved, tabs} = this.state;
 
         if (contractStatus === EntityStatusTypes.NON_EXISTING || contractRemoved) {
@@ -110,8 +110,6 @@ class ProjectContractPage extends Component {
         }
 
         const isContractFetched = this.isContractLoaded();
-
-        console.log(contractsLoaded, projectContract, revisions);
 
         return (
             <Page tabs={tabs}>
@@ -139,7 +137,7 @@ class ProjectContractPage extends Component {
                                  <ProjectContractActions onAction={this.handleContractAction}/>
                             </Fragment>}/>
                             <Route path="/:username/:slug/contract/:network/:address/files" exact render={() => <ContractFiles contract={contract}/>}/>
-                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => null}/>
+                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions projectContract={projectContract} currentContract={contract} contracts={revisions}/>}/>
                         </Switch>
                     </Fragment>}
                 </Container>
