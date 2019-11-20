@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import {Page, PageHeading} from "../../Elements";
 import {AppSidebar} from "../../Components";
+import {connect} from "react-redux";
 
 class ProFeaturePage extends Component {
     render() {
@@ -13,7 +14,7 @@ class ProFeaturePage extends Component {
                 <AppSidebar/>
                 <Page>
                     <PageHeading>
-                        <h1>{feature}</h1>
+                        <h1>{feature} qwe</h1>
                     </PageHeading>
                 </Page>
             </Fragment>
@@ -21,8 +22,10 @@ class ProFeaturePage extends Component {
     }
 }
 
-ProFeaturePage.propTypes = {
-    feature: PropTypes.oneOf(['alerting', 'analytics', 'private_networks']).isRequired,
+const mapStateToProps = (state, ownProps) => {
+    return {};
 };
 
-export default ProFeaturePage;
+export default connect(
+    mapStateToProps,
+)(ProFeaturePage);

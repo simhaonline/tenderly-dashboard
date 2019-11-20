@@ -2,7 +2,13 @@ import React, {Fragment} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 
+import LocalStorage from "../Utils/LocalStorage";
+import {LocalStorageKeys} from "../Common/constants";
+
+import Project from "../Core/Project/Project.model";
+
 import {PrivateRoute} from "../Components";
+
 import ExplorerPage from "./PublicContracts/ExplorerPage";
 import PublicContractPage from "./PublicContracts/PublicContractPage";
 import LoginPage from "./Public/LoginPage";
@@ -20,15 +26,13 @@ import PublicContractTransactionPage from "./PublicContracts/PublicContractTrans
 import RedirectToProjectPage from "./Project/RedirectToProjectPage";
 import AcceptInvitationPage from "./Project/AcceptInvitationPage";
 import VerifyEmailPage from "./Public/VerifyEmailPage";
-
-import Project from "../Core/Project/Project.model";
 import ProFeaturePage from "./Public/ProFeaturePage";
 
-const AppPages = ({loggedIn, initialContext, projectContext}) => {
+const AppPages = ({loggedIn, lastProjectContext}) => {
     let projectOwner, projectSlug;
 
-    if (projectContext || initialContext) {
-        const {slug, username} = Project.getSlugAndUsernameFromId(projectContext || initialContext);
+    if (lastProjectContext) {
+        const {slug, username} = Project.getSlugAndUsernameFromId(lastProjectContext);
 
         projectOwner = username;
         projectSlug = slug;
@@ -47,17 +51,15 @@ const AppPages = ({loggedIn, initialContext, projectContext}) => {
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
             <Route path="/explorer" exact component={ExplorerPage}/>
+            <Route path="/:type(tx|contract)/:network/:hex/:feature(analytics|alerts|private-networks)" exact component={ProFeaturePage}/>
             <Route path="/contract/:network/:address" strict component={PublicContractPage}/>
             <Route path="/tx/:network/:txHash/:tab?" strict component={PublicContractTransactionPage}/>
-            <Route path="/analytics" exact render={() => <ProFeaturePage feature="analytics"/>}/>
-            <Route path="/alerts" exact render={() => <ProFeaturePage feature="alerting"/>}/>
-            <Route path="/private-networks" exact render={() => <ProFeaturePage feature="private_networks"/>}/>
             <Route path="/accept-invitation" exact component={AcceptInvitationPage}/>
             <PrivateRoute path="/project/:slug" component={RedirectToProjectPage}/>
             <PrivateRoute path="/:username/:slug" strict component={ProjectPage}/>
             {loggedIn && <Fragment>
-                {(!projectContext || !initialContext) && <Redirect exact from="/" to="/dashboard"/>}
-                {(!!projectContext || !!initialContext) && <Redirect exact from="/" to={`/${projectOwner}/${projectSlug}`}/>}
+                {!lastProjectContext && <Redirect exact from="/" to="/dashboard"/>}
+                {!!lastProjectContext && <Redirect exact from="/" to={`/${projectOwner}/${projectSlug}`}/>}
             </Fragment>}
             {!loggedIn && <Redirect exact from="/" to="/explorer"/>}
             <Redirect exact from="/public-contracts" to="/explorer"/>
@@ -67,9 +69,11 @@ const AppPages = ({loggedIn, initialContext, projectContext}) => {
 };
 
 const mapStateToProps = (state) => {
+    const lastProjectContext = LocalStorage.getItem(LocalStorageKeys.PROJECT_CONTEXT);
+
     return {
         loggedIn: state.auth.loggedIn,
-        projectContext: state.search.currentProject,
+        lastProjectContext,
     };
 };
 

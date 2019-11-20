@@ -17,6 +17,14 @@ import './AppSidebar.scss';
 function getContextFromUrl(url, base) {
     const strippedUrl  = url.replace(base, '');
 
+    if (_.startsWith(url, '/tx/')) {
+        return 'public_tx';
+    }
+
+    if (_.startsWith(url, '/contract/')) {
+        return 'public_contract';
+    }
+
     if (_.startsWith(strippedUrl, '/alerts/')) {
         return 'alerting';
     }
@@ -55,7 +63,7 @@ const AppSidebarSubLink = ({to, label}) => {
 
 class AppSidebar extends Component {
     render() {
-        const {location: {pathname}, project} = this.props;
+        const {location: {pathname}, match: {params: {address, network, txHash, hex}}, project} = this.props;
 
         let routeBase = '';
 
@@ -65,8 +73,36 @@ class AppSidebar extends Component {
 
         const context = getContextFromUrl(pathname, routeBase);
 
+        if (context === 'public_tx') {
+            routeBase = `/tx/${network}/${txHash || hex}`;
+        } else if (context === 'public_contract') {
+            routeBase = `/contract/${network}/${address || hex}`;
+        }
+
         return (
             <Sidebar id="AppSidebar">
+                {context === 'public_tx' && <div className="AppSidebar__NavGroup AppSidebar__NavGroup--Context">
+                    <div className="AppSidebar__NavGroup__Heading">
+                        <span>Transaction</span>
+                    </div>
+                    <div className="AppSidebar__NavGroup__Links">
+                        <AppSidebarLink to={`${routeBase}`} exact icon="align-right" label="Overview"/>
+                        <AppSidebarLink to={`${routeBase}/contracts`} exact icon="file-text" label="Contracts"/>
+                        <AppSidebarLink to={`${routeBase}/logs`} exact icon="bookmark" label="Events / Logs"/>
+                        <AppSidebarLink to={`${routeBase}/state-diff`} exact icon="code" label="State Changes"/>
+                        <AppSidebarLink to={`${routeBase}/debugger`} exact icon="terminal" label="Debugger"/>
+                        <AppSidebarLink to={`${routeBase}/gas-usage`} exact icon="cpu" label="Gas Profiler"/>
+                    </div>
+                </div>}
+                {context === 'public_contract' && <div className="AppSidebar__NavGroup AppSidebar__NavGroup--Context">
+                    <div className="AppSidebar__NavGroup__Heading">
+                        <span>Contract</span>
+                    </div>
+                    <div className="AppSidebar__NavGroup__Links">
+                        <AppSidebarLink to={`${routeBase}`} exact icon="file-text" label="Overview"/>
+                        <AppSidebarLink to={`${routeBase}/source`} exact icon="code" label="Source Code"/>
+                    </div>
+                </div>}
                 {!!project && <div className="AppSidebar__NavGroup">
                     <div className="AppSidebar__NavGroup__Heading">
                         <span>On-Chain Data</span>
@@ -87,7 +123,8 @@ class AppSidebar extends Component {
                         <AppSidebarLink to={`${routeBase}/wallets`} icon="inbox" label="Wallets"/>
                     </div>
                 </div>}
-                <div className="AppSidebar__NavGroup AppSidebar__NavGroup--Monitoring">
+
+                <div className="AppSidebar__NavGroup">
                     <div className="AppSidebar__NavGroup__Heading">
                         <span>Monitoring</span>
                     </div>

@@ -62,7 +62,6 @@ class App extends Component {
         await store.dispatch(authActions.retrieveToken(tokenCookie));
 
         const recentSearchesCache = LocalStorage.getItem(LocalStorageKeys.RECENT_SEARCHES);
-        const projectContext = LocalStorage.getItem(LocalStorageKeys.PROJECT_CONTEXT);
 
         if (recentSearchesCache) {
             await store.dispatch(searchActions.setRecentSearchesFromCache(recentSearchesCache));
@@ -70,7 +69,6 @@ class App extends Component {
 
         this.setState({
             loaded: true,
-            projectContext,
         });
     }
 
@@ -83,7 +81,7 @@ class App extends Component {
     }
 
     render() {
-        const {loaded, error, projectContext} = this.state;
+        const {loaded, error} = this.state;
 
         // @TODO Create loader here
         if (!loaded) return null;
@@ -98,7 +96,7 @@ class App extends Component {
                     <div className="App">
                         <AppHeader/>
                         <div id="AppContent">
-                            <AppPages initialContext={projectContext}/>
+                            <AppPages/>
                         </div>
                         {process.env.NODE_ENV === 'development' && <FeatureFlagControls/>}
                         <ToastContainer toastClassName="ToastMessage" transition={ToastAnimation} pauseOnFocusLoss={false} draggable={false}
