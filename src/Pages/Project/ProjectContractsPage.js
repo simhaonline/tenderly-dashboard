@@ -31,9 +31,7 @@ class ProjectContractsPage extends Component {
     async componentDidMount() {
         const {actions, project, contractsLoaded} = this.props;
 
-        const projectIsSetup = !!project.lastPushAt;
-
-        if (projectIsSetup && !contractsLoaded) {
+        if (!contractsLoaded) {
             await actions.fetchContractsForProject(project);
         }
     }

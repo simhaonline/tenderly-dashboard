@@ -6,6 +6,7 @@ import {bindActionCreators} from "redux";
 import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
 
 import {
+    areProjectContractsLoaded,
     getProjectBySlugAndUsername,
     getProjectContractForRevision
 } from "../../Common/Selectors/ProjectSelectors";
@@ -52,10 +53,14 @@ class ProjectContractPage extends Component {
     }
 
     componentDidMount() {
-        const {contractStatus, networkType, contractAddress, actions, project} = this.props;
+        const {contractStatus, contractsLoaded, networkType, contractAddress, actions, project} = this.props;
 
         if (contractStatus !== EntityStatusTypes.LOADED) {
             actions.fetchContractForProject(project, contractAddress, networkType);
+        }
+
+        if (!contractsLoaded) {
+            actions.fetchContractsForProject(project);
         }
     }
 
@@ -97,7 +102,7 @@ class ProjectContractPage extends Component {
     };
 
     render() {
-        const {contract, contractTags, contractStatus, project} = this.props;
+        const {contract, contractsLoaded, projectContract, revisions, contractTags, contractStatus, project} = this.props;
         const {contractRemoved, tabs} = this.state;
 
         if (contractStatus === EntityStatusTypes.NON_EXISTING || contractRemoved) {
@@ -105,6 +110,8 @@ class ProjectContractPage extends Component {
         }
 
         const isContractFetched = this.isContractLoaded();
+
+        console.log(contractsLoaded, projectContract, revisions);
 
         return (
             <Page tabs={tabs}>
@@ -155,9 +162,11 @@ const mapStateToProps = (state, ownProps) => {
         contractAddress: address,
         project,
         contract,
+        projectContract,
         revisions: getContractRevisionsForProjectContract(state, project.id, projectContract),
         contractTags: getContractTagsByAddressAndNetwork(state, project, address, networkType),
         contractStatus: getContractStatus(state, address, networkType),
+        contractsLoaded: areProjectContractsLoaded(state, project.id),
     }
 };
 

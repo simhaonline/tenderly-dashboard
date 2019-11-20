@@ -131,6 +131,7 @@ export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFla
 export {default as FlameGraph} from './FlameGraph/FlameGraph';
 export {default as PageError} from './PageError/PageError';
 export {default as ContractFiles} from './ContractFiles/ContractFiles';
+export {default as ContractRevisions} from './ContractRevisions/ContractRevisions';
 
 export {default as CopyableText} from './CopyableText/CopyableText';
 export {default as SharePageButton} from './SharePageButton/SharePageButton';

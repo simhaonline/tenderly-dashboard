@@ -79,5 +79,9 @@ export function getContractsForProject(state, projectId) {
 export function getContractRevisionsForProjectContract(state, projectId, projectContract) {
     const allContracts = getContractsForProject(state, projectId);
 
-    return allContracts.filter(contract => projectContract.mainRevision === contract.parent);
+    if (!projectContract || !allContracts.length) return [];
+
+    return projectContract.revisions
+        .map(revision => allContracts.find(contract => contract.id === revision.id))
+        .filter(contract => !!contract);
 }
