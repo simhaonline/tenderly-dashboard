@@ -10,10 +10,8 @@ import LocalStorage from "../../Utils/LocalStorage";
 
 import {authActions} from "../../Core/actions";
 
-import {Page, Button, Form, Input, Alert, Panel, PanelContent, PanelDivider} from "../../Elements";
-import {GoogleLoginButton, GitHubLoginButton, ProjectInvitationPreview} from "../../Components";
-
-import LogoImage from "./logo-vertical.svg";
+import {Page, Button, Form, Input, Alert, PanelDivider} from "../../Elements";
+import {GoogleLoginButton, GitHubLoginButton, ProjectInvitationPreview, TenderlyLogo} from "../../Components";
 
 import './LoginPage.scss';
 
@@ -158,42 +156,49 @@ class LoginPage extends Component {
         const loginButtonDisabled = this.isLoginButtonDisabled();
 
         return (
-            <Page id="LoginPage" padding={false}>
-                <div className="LoginPageContent">
-                    <div className="LoginFormWrapper">
-                        <div className="LogoWrapper">
-                            <a href="https://tenderly.dev">
-                                <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
-                            </a>
+            <Page id="LoginPage" padding={false} wholeScreenPage>
+                <div className="LoginPage__FeaturesContent">
+                    <div>
+                        <TenderlyLogo height={36}/>
+                    </div>
+                    <div className="LoginPage__FeaturesContent__Companies">
+                        <div className="LoginPage__FeaturesContent__Companies__Title"><strong>Trusted</strong> by Blockchain Industry Leaders</div>
+                        <div className="LoginPage__FeaturesContent__Companies__Logos">
+                            <img alt="OpenZeppelin" src="/Assets/Companies/openzeppelin-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
+                            <img alt="DeFi Saver" src="/Assets/Companies/defi-saver-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
+                            <img alt="SuperBlocks" src="/Assets/Companies/superblocks-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
+                            <img alt="InstaDApp" src="/Assets/Companies/instadapp-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
+                            <img alt="2Key" src="/Assets/Companies/2key-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
                         </div>
+                    </div>
+                </div>
+                <div className="LoginPage__ContentDivider"/>
+                <div className="LoginPage__Content">
+                    <div className="LoginFormWrapper">
                         {flow === "project-invitation" && <ProjectInvitationPreview inviterName={flowData.inviterName} projectName={flowData.projectName}
                                                                                     projectOwner={flowData.projectOwner} projectSlug={flowData.projectSlug}/>}
-                        <Panel className="LoginFormPanel">
-                            <PanelContent>
-                                <Form onSubmit={this.handleFormSubmit}>
-                                    {!flow && <h3 className="FormHeading">Welcome back</h3>}
-                                    {flow === "project-invitation" && <h3 className="FormHeading">Login to Accept</h3>}
-                                    <p className="FormDescription">Enter your credentials below to login.</p>
-                                    <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
-                                    <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
-                                    <div className="InputActionWrapper">
-                                        <Link to="/account-recovery" className="InputAction">Forgot password?</Link>
-                                    </div>
-                                    {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
-                                    <PanelDivider/>
-                                    <Button color="secondary" disabled={loginButtonDisabled} stretch type="submit">Login</Button>
-                                    <PanelDivider/>
-                                    <div className="ThirdPartLoginWrapper">
-                                        <div className="ButtonWrapper">
-                                            <GoogleLoginButton onAuthentication={this.handleOAuth}/>
-                                        </div>
-                                        <div className="ButtonWrapper">
-                                            <GitHubLoginButton onClick={this.handleBeforeGitHubOAuth}/>
-                                        </div>
-                                    </div>
-                                </Form>
-                            </PanelContent>
-                        </Panel>
+                        <Form onSubmit={this.handleFormSubmit}>
+                            {!flow && <h3 className="FormHeading">Sign in to Tenderly</h3>}
+                            {flow === "project-invitation" && <h3 className="FormHeading">Login to Accept</h3>}
+                            <p className="FormDescription">Enter your credentials below</p>
+                            <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
+                            <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+                            <div className="InputActionWrapper">
+                                <Link to="/account-recovery" className="InputAction">Forgot password?</Link>
+                            </div>
+                            {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
+                            <PanelDivider/>
+                            <Button color="secondary" disabled={loginButtonDisabled} stretch type="submit">Login</Button>
+                            <PanelDivider/>
+                            <div className="ThirdPartLoginWrapper">
+                                <div className="ButtonWrapper">
+                                    <GoogleLoginButton onAuthentication={this.handleOAuth}/>
+                                </div>
+                                <div className="ButtonWrapper">
+                                    <GitHubLoginButton onClick={this.handleBeforeGitHubOAuth}/>
+                                </div>
+                            </div>
+                        </Form>
                         <div className="DocumentsWrapper">
                             <a className="DocumentLink" href="https://tenderly.dev/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
                             <span className="Separator">•</span>

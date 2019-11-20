@@ -41,7 +41,7 @@ const PaidFeatureUpsell = ({feature, loggedIn}) => {
 
     return (
         <div className="PaidFeatureUpsell">
-            <img className="PaidFeatureUpsell__Image" src={info.imageLink}/>
+            <img className="PaidFeatureUpsell__Image" alt={feature} src={info.imageLink}/>
             <h1 className="PaidFeatureUpsell__Headline">{info.label}</h1>
             {info.keyFeatures.map((featureInfo, index) => <div key={index} className="PaidFeatureUpsell__FeatureItem">
                 <h2>{featureInfo.headline}</h2>

@@ -1,5 +1,4 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
+@import "../../Common/common";
 
 @keyframes SignUpShow {
   0% {
@@ -21,16 +20,53 @@
 
 #LoginPage {
   display: flex;
-  justify-content: center;
 }
 
-.LoginPageContent {
+.LoginPage__Content, .LoginPage__FeaturesContent {
+  flex: 1 1 50%;
+}
+
+.LoginPage__ContentDivider {
+  flex: 0 0 6px;
+  background: $GradientBluePurple;
+}
+
+.LoginPage__FeaturesContent {
+  background: $BlackColor;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.LoginPage__FeaturesContent__Companies {
+  margin-top: auto;
+  opacity: 0.5;
+}
+
+.LoginPage__FeaturesContent__Companies__Title {
+  text-align: center;
+  font-size: $FontSize500;
+}
+
+.LoginPage__FeaturesContent__Companies__Logos {
+  display: flex;
+  justify-content: space-around;
+  padding: $Spacing6 $Spacing6;
+  flex-wrap: wrap;
+}
+
+.LoginPage__FeaturesContent__Companies__CompanyLogo {
+  height: 24px;
+  margin: $Spacing2;
+}
+
+.LoginPage__Content {
+  background: $Slate900;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: min-content;
-  margin: auto;
 
   .LoginFormWrapper {
     position: relative;
