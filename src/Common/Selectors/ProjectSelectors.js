@@ -103,6 +103,20 @@ export function getMainProjectContracts(state, projectId) {
 /**
  * @param {Object} state
  * @param {Project.id} projectId
+ * @param {Contract} contract
+ * @returns {ProjectContract}
+ */
+export function getProjectContractForRevision(state, projectId, contract) {
+    const projectContracts = getMainProjectContracts(state, projectId);
+
+    if (!projectContracts || !contract) return null;
+
+    return projectContracts.find(projectContract => projectContract.revisions.some(revision => revision.id === contract.id));
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
  * @returns {ProjectWallet[]}
  */
 export function getProjectWallets(state, projectId) {
