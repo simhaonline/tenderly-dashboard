@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="388px" height="691px" viewBox="0 0 388 691" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Group 18</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="91.8768864%" y1="36.3188605%" x2="7.27000012%" y2="63.8788678%" id="linearGradient-1">
+            <stop stop-color="#7E50EC" offset="0%"></stop>
+            <stop stop-color="#BC31CA" offset="24.1342905%"></stop>
+            <stop stop-color="#DE00A3" offset="49.6806377%"></stop>
+            <stop stop-color="#EE007B" offset="74.7169161%"></stop>
+            <stop stop-color="#F02056" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="68.535182%" y1="8.95652463%" x2="31.0872204%" y2="91.6366612%" id="linearGradient-2">
+            <stop stop-color="#7E50EC" offset="0%"></stop>
+            <stop stop-color="#BC31CA" offset="24.1342905%"></stop>
+            <stop stop-color="#DE00A3" offset="49.6806377%"></stop>
+            <stop stop-color="#EE007B" offset="74.7169161%"></stop>
+            <stop stop-color="#F02056" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="60.4587078%" y1="8.95652463%" x2="39.328228%" y2="91.6366612%" id="linearGradient-3">
+            <stop stop-color="#7E50EC" offset="0%"></stop>
+            <stop stop-color="#BC31CA" offset="24.1342905%"></stop>
+            <stop stop-color="#DE00A3" offset="49.6806377%"></stop>
+            <stop stop-color="#EE007B" offset="74.7169161%"></stop>
+            <stop stop-color="#F02056" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="54.6629828%" y1="8.95652463%" x2="45.2420232%" y2="91.6366612%" id="linearGradient-4">
+            <stop stop-color="#7E50EC" offset="0%"></stop>
+            <stop stop-color="#BC31CA" offset="24.1342905%"></stop>
+            <stop stop-color="#DE00A3" offset="49.6806377%"></stop>
+            <stop stop-color="#EE007B" offset="74.7169161%"></stop>
+            <stop stop-color="#F02056" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50.0011313%" y1="8.95652463%" x2="49.9988456%" y2="91.6366612%" id="linearGradient-5">
+            <stop stop-color="#7E50EC" offset="0%"></stop>
+            <stop stop-color="#BC31CA" offset="24.1342905%"></stop>
+            <stop stop-color="#DE00A3" offset="49.6806377%"></stop>
+            <stop stop-color="#EE007B" offset="74.7169161%"></stop>
+            <stop stop-color="#F02056" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="91.8768864%" y1="36.3185092%" x2="7.27000012%" y2="63.8792242%" id="linearGradient-6">
+            <stop stop-color="#7E50EC" offset="0%"></stop>
+            <stop stop-color="#BC31CA" offset="24.1342905%"></stop>
+            <stop stop-color="#DE00A3" offset="49.6806377%"></stop>
+            <stop stop-color="#EE007B" offset="74.7169161%"></stop>
+            <stop stop-color="#F02056" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="91.8768864%" y1="36.3188985%" x2="7.27000012%" y2="63.8788293%" id="linearGradient-7">
+            <stop stop-color="#7E50EC" offset="0%"></stop>
+            <stop stop-color="#BC31CA" offset="24.1342905%"></stop>
+            <stop stop-color="#DE00A3" offset="49.6806377%"></stop>
+            <stop stop-color="#EE007B" offset="74.7169161%"></stop>
+            <stop stop-color="#F02056" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Finals" stroke="none" stroke-width="3" fill="none" fill-rule="evenodd" opacity="0.5" stroke-linecap="round" stroke-linejoin="round">
+        <g id="final-final" transform="translate(-1160.000000, -1884.000000)">
+            <g id="Group-18" transform="translate(1160.000000, 1884.000000)">
+                <polygon id="Stroke-1" stroke="url(#linearGradient-1)" points="290.3507 111.947 193.5327 56.049 289.7467 0.5 386.5647 56.398"></polygon>
+                <polygon id="Stroke-3" stroke="url(#linearGradient-1)" points="193.8351 359.8885 97.0171 303.9905 193.2311 248.4415 290.0491 304.3395"></polygon>
+                <g id="Group-8" transform="translate(0.000000, 399.923000)">
+                    <polygon id="Stroke-4" stroke="url(#linearGradient-1)" points="97.3195 111.7975 0.5015 55.8995 96.7155 0.3505 193.5335 56.2485"></polygon>
+                    <polygon id="Stroke-6" stroke="url(#linearGradient-2)" points="96.717 0.3502 0.5 55.8992 0.5 234.6012 97.32 290.5002 193.534 234.9512 193.534 56.2482"></polygon>
+                </g>
+                <polygon id="Stroke-9" stroke="url(#linearGradient-3)" points="193.2287 248.4412 97.0167 303.9902 97.0167 578.8012 193.8337 634.6992 290.0487 579.1502 290.0487 304.3392"></polygon>
+                <polygon id="Stroke-10" stroke="url(#linearGradient-4)" points="289.7472 0.5003 193.5322 56.0493 193.5322 523.0773 290.3502 578.9753 386.5642 523.4263 386.5642 56.3983"></polygon>
+                <path d="M290.3507,111.947 L290.0487,304.34" id="Stroke-12" stroke="url(#linearGradient-5)"></path>
+                <g id="Group-17" transform="translate(0.000000, 466.923000)">
+                    <path d="M289.7472,0.1339 L386.5642,56.0319" id="Stroke-13" stroke="url(#linearGradient-6)"></path>
+                    <path d="M97.0168,111.8781 L0.4998,167.6021" id="Stroke-15" stroke="url(#linearGradient-7)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
