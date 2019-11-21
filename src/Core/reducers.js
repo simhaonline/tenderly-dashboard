@@ -13,6 +13,7 @@ import NetworkReducer from "./Network/Network.reducer";
 import CollaborationReducer from "./Collaboration/Collaboration.reducer";
 import SearchReducer from "./Search/Search.reducer";
 import WalletReducer from "./Wallet/Wallet.reducer";
+import BillingReducer from "./Billing/Billing.reducer";
 
 const reducers = combineReducers({
     auth: AuthReducer,
@@ -28,6 +29,7 @@ const reducers = combineReducers({
     network: NetworkReducer,
     collaboration: CollaborationReducer,
     search: SearchReducer,
+    billing: BillingReducer,
 });
 
 export default reducers;
