@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
-
-import {Card} from "../../Elements";
 import {Link} from "react-router-dom";
+import Blockies from "react-blockies";
+
+import {Card, Tag} from "../../Elements";
+
+import './ProjectWalletsList.scss';
 
 class ProjectWalletsList extends Component {
     render() {
@@ -15,21 +18,31 @@ class ProjectWalletsList extends Component {
                     const tokenBalance = wallet.getWalletToken(projectWallet.defaultToken);
 
                     return <Link key={projectWallet.id} to={`${project.getUrlBase()}/wallet/${wallet.getRouteSlug()}/${wallet.address}`} className="ProjectWalletsList__Item">
-                        <Card className="DisplayFlex AlignItemsCenter ProjectWalletsList__Item__Card">
-                            <div>
-                                <div className="SemiBoldText MarginBottom1">{projectWallet.name}</div>
-                                <div className="LinkText MonospaceFont">
-                                    {wallet.walletTokens.map(wt => <span key={wt.token}>asd</span>)}
+                        <Card className="ProjectWalletsList__Item__Card">
+                            <div className="DisplayFlex AlignItemsCenter">
+                                <Blockies size={8} scale={4} className="BorderRadius1 MarginRight2" seed={wallet.id}/>
+                                <div>
+                                    <div className="SemiBoldText FontSize4 MarginBottom1">{projectWallet.name}</div>
+                                    <div className="LinkText MonospaceFont">{wallet.address}</div>
                                 </div>
                             </div>
-                            <div className="MarginLeftAuto">
-                                <h2>{tokenBalance.balance} {tokenBalance.shorthand}</h2>
+                            <div>
+                                {wallet.walletTokens.map(wt => <Tag key={wt.token} color="primary-outline" size="small">{wt.shorthand}</Tag>)}
+                            </div>
+                            <div className="DisplayFlex AlignItemsCenter">
+                                <div>
+                                    <div>{tokenBalance.name}</div>
+                                    <div>{tokenBalance.shorthand}</div>
+                                </div>
+                                <div className="MarginLeftAuto">
+                                    {tokenBalance.balance}
+                                </div>
                             </div>
                         </Card>
                     </Link>;
                 })}
                 <Link to={`${project.getUrlBase()}/wallets/add`} className="ProjectWalletsList__Item">
-                    <Card className="ProjectWalletsList__Item__Card">
+                    <Card className="ProjectWalletsList__Item__Card ProjectWalletsList__Item__Card--Active">
                         Add Wallet
                     </Card>
                 </Link>
