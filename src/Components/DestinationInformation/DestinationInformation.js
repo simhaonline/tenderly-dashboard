@@ -11,10 +11,6 @@ import {NotificationDestinationTypes} from "../../Common/constants";
 const DestinationInformation = ({destination}) => {
     switch (destination.type) {
         case NotificationDestinationTypes.EMAIL:
-            if (!destination.enabled) {
-                return <span><span className="WarningText SemiBoldText">Unverified</span> {destination.information.email}</span>
-            }
-
             return <span>{destination.information.email}</span>;
         case NotificationDestinationTypes.SLACK:
             return <span>Channel: {destination.information.channel}</span>;
