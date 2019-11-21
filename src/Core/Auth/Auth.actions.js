@@ -470,7 +470,7 @@ export const updateUser = (updates) => {
  * @param {string} code
  */
 export const verifyUserEmail = code => asyncActionWrapper('verifyUserEmail', async dispatch => {
-    const {data} = await Api.post('/account/me/confirm-email', {
+    await Api.post('/account/me/confirm-email', {
         code,
     });
 
