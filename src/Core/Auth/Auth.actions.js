@@ -58,7 +58,7 @@ export const loginUser = (username, password) => {
     return async dispatch => {
         try {
             const {data} = await PublicApi.post(`/login`, {
-                email: username,
+                login: username,
                 password,
             });
 
