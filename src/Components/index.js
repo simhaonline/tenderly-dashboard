@@ -45,6 +45,9 @@ export {default as ExplorerRecentSearches} from './ExplorerRecentSearches/Explor
 
 // Wallet Components
 export {default as ProjectWalletsList} from './ProjectWalletsList/ProjectWalletsList';
+export {default as WalletTransactionsList} from './WalletTransactionsList/WalletTransactionsList';
+export {default as WalletTokensList} from './WalletTokensList/WalletTokensList';
+export {default as WalletGeneralInfo} from './WalletGeneralInfo/WalletGeneralInfo';
 
 export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';

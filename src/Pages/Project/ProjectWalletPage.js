@@ -1,6 +1,7 @@
-import React, {Component, PureComponent} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {Route, Switch} from "react-router-dom";
 
 import {getNetworkForRouteSlug} from "../../Utils/RouterHelpers";
 
@@ -13,9 +14,9 @@ import {getWalletByAddressAndNetwork} from "../../Common/Selectors/WalletSelecto
 import {walletActions} from "../../Core/actions";
 
 import {Button, Container, Icon, Page, PageHeading} from "../../Elements";
-import {ProjectContentLoader} from "../../Components";
+import {ProjectContentLoader, WalletGeneralInfo, WalletTokensList, WalletTransactionsList} from "../../Components";
 
-class ProjectWalletPage extends PureComponent {
+class ProjectWalletPage extends Component {
     constructor(props) {
         super(props);
 
@@ -46,7 +47,7 @@ class ProjectWalletPage extends PureComponent {
     }
 
     render() {
-        const {project, walletsLoaded, projectWallet} = this.props;
+        const {project, walletsLoaded, projectWallet, wallet} = this.props;
         const {tabs} = this.state;
 
         if (!walletsLoaded) {
@@ -66,9 +67,15 @@ class ProjectWalletPage extends PureComponent {
                         </Button>
                         <h1>{projectWallet.name}</h1>
                     </PageHeading>
-                    <div>
-
-                    </div>
+                    <Switch>
+                        <Route path="/:username/:slug/wallet/:network/:address" exact render={() => <Fragment>
+                            <WalletGeneralInfo wallet={wallet}/>
+                            <WalletTransactionsList transactions={[]}/>
+                        </Fragment>}/>
+                        <Route path="/:username/:slug/wallet/:network/:address/tokens" exact render={() => <Fragment>
+                            <WalletTokensList wallet={wallet}/>
+                        </Fragment>}/>
+                    </Switch>
                 </Container>
             </Page>
         );
