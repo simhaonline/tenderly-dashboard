@@ -31,6 +31,12 @@
   flex: 1 1 0;
 }
 
+.ActiveIntegrationItem__Verification {
+  flex: 0 0 auto;
+  padding: 0 $Spacing2;
+  margin-right: $Spacing2;
+}
+
 .ActiveIntegrationItem__Actions {
   flex: 0 0 40px
 }

@@ -119,8 +119,12 @@ class ProjectAlertDestinations extends Component {
                                     <div className="ActiveIntegrationItem__ValueColumn MutedText">
                                         <DestinationInformation destination={destination}/>
                                     </div>
+                                    {destination.type === NotificationDestinationTypes.EMAIL && <div className="ActiveIntegrationItem__Verification">
+                                        {destination.enabled && <span className="SuccessText SemiBoldText">Verified</span>}
+                                        {!destination.enabled && <span className="WarningText SemiBoldText">Not verified</span>}
+                                    </div>}
                                     <div className="ActiveIntegrationItem__Actions">
-                                        {destination.type !== NotificationDestinationTypes.EMAIL && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
+                                        {(destination.type !== NotificationDestinationTypes.EMAIL || destination.label !== 'Primary Email') && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
                                             <Icon icon="trash-2"/>
                                         </Button>}
                                     </div>
