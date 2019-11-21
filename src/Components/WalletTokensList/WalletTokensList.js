@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {Wallet} from "../../Core/models";
+
 const WalletTokensList = ({wallet}) => {
-    console.log('asd', wallet);
     return (
         <div>
 
@@ -11,7 +12,7 @@ const WalletTokensList = ({wallet}) => {
 };
 
 WalletTokensList.propTypes = {
-
+    wallet: PropTypes.instanceOf(Wallet).isRequired,
 };
 
 export default WalletTokensList;
