@@ -1,3 +1,5 @@
+import {ProjectTypes} from "../constants";
+
 /**
  * @param {Object} state
  * @param {Project} project
@@ -37,5 +39,7 @@ export function getCollaboratorForProject(state, project, collaboratorId) {
  * @returns {boolean}
  */
 export function areCollaboratorsLoadedForProject(state, project) {
+    if (project.type === ProjectTypes.DEMO) return true;
+
     return state.collaboration.projectCollaboratorsLoaded[project.id];
 }
