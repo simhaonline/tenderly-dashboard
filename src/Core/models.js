@@ -30,3 +30,4 @@ export {default as SearchResults} from './Search/SearchResult.model';
 
 export {default as Widget} from './Analytics/Widget.model';
 
+export {default as Plan} from './Billing/Plan.model';
