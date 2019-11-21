@@ -1,4 +1,4 @@
-import Project from "../../Core/Project/Project.model";
+import {Project} from "../../Core/models";
 
 import {EntityStatusTypes, ProjectTypes} from "../constants";
 
@@ -109,7 +109,7 @@ export function getMainProjectContracts(state, projectId) {
 export function getProjectContractForRevision(state, projectId, contract) {
     const projectContracts = getMainProjectContracts(state, projectId);
 
-    if (!projectContracts || !contract) return null;
+    if (!projectContracts.length || !contract) return null;
 
     return projectContracts.find(projectContract => projectContract.revisions.some(revision => revision.id === contract.id));
 }
@@ -125,4 +125,18 @@ export function getProjectWallets(state, projectId) {
     if (!projectWallets) return [];
 
     return projectWallets;
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @param {Wallet} wallet
+ * @returns {ProjectWallet|null}
+ */
+export function getProjectWallet(state, projectId, wallet) {
+    const projectWallets = getProjectWallets(state, projectId);
+
+    if (!projectWallets.length || !wallet) return null;
+
+    return projectWallets.find(pw => pw.walletId === wallet.id) || null;
 }
