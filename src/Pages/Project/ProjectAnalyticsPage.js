@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
-import {Container, Page, PageHeading} from "../../Elements";
+import {Button, Container, Page, PageHeading} from "../../Elements";
 import {ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
 
 import dashboardData from './AnalyticsDashboardData';
@@ -22,10 +22,11 @@ class ProjectAnalyticsPage extends Component {
             this.setState({
                 loading: false,
             })
-        }, 1100);
+        }, 100);
     }
 
     render() {
+        const {project} = this.props;
         const {loading} = this.state;
 
         return (
@@ -33,6 +34,11 @@ class ProjectAnalyticsPage extends Component {
                 <Container>
                     <PageHeading>
                         <h1>Analytics</h1>
+                        <div className="MarginLeftAuto">
+                            <Button to={`${project.getUrlBase()}/analytics/create`}>
+                                Create Graph
+                            </Button>
+                        </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
                     {!loading && <ProjectAnalyticsDashboard dashboard={dashboardData}/>}
