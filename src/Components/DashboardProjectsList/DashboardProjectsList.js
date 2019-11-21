@@ -20,7 +20,7 @@ const DashboardProjectListItem = ({project}) => {
         projectIcon = 'code';
     }
 
-    return <Link to={`/${project.owner}/${project.slug}`} className={"DashboardProjectListItem"} key={project.id}>
+    return <Link to={`${project.getUrlBase()}`} className={"DashboardProjectListItem"} key={project.id}>
         <Card className="DashboardProjectListItem__Card" clickable>
             <div className={classNames(
                 "DashboardProjectListItem__IconWrapper",
