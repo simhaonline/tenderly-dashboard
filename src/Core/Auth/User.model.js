@@ -18,6 +18,9 @@ class User {
         /** @type boolean */
         this.showDemo = data.showDemo;
 
+        /** @type {boolean} */
+        this.eligibleForTrial = data.eligibleForTrial;
+
         /** @type boolean */
         this.passwordSet = data.passwordSet;
     }
@@ -26,7 +29,7 @@ class User {
      * @return {string}
      */
     getFullName() {
-        return `${this.firstName} ${this.lastName}`
+        return `${this.firstName} ${this.lastName}`;
     }
 
     getDisplayableIdentifier() {
