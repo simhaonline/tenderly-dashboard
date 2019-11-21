@@ -236,9 +236,7 @@ export const UsernameStatusMap = {
 export const UserPlanTypes = {
     FREE: 'free',
     PRO: 'pro',
-    PRO_TRIAL: 'pro_trial',
     ENTERPRISE: 'enterprise',
-    ENTERPRISE_TRIAL: 'enterprise_trial',
 };
 
 /**

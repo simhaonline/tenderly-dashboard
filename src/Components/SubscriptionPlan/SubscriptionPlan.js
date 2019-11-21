@@ -20,10 +20,10 @@ class SubscriptionPlan extends Component {
                     {plan === UserPlanTypes.FREE && <div className="SubscriptionPlan__PlanImageWrapper">
                         <img src={FreeImage} alt="" className="SubscriptionPlan__PlanImage"/>
                     </div>}
-                    {[UserPlanTypes.PRO, UserPlanTypes.PRO_TRIAL].includes(plan) && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Pro">
+                    {plan === UserPlanTypes.PRO && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Pro">
                         <img src={ProImage} alt="" className="SubscriptionPlan__PlanImage"/>
                     </div>}
-                    {[UserPlanTypes.ENTERPRISE, UserPlanTypes.ENTERPRISE_TRIAL].includes(plan) && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Enterprise">
+                    {plan === UserPlanTypes.ENTERPRISE && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Enterprise">
                         <img src={EnterpriseImage} alt="" className="SubscriptionPlan__PlanImage"/>
                     </div>}
                     <div>
