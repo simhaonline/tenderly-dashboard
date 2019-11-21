@@ -10,7 +10,7 @@ import {
     getProjectBySlugAndUsername
 } from "../../Common/Selectors/ProjectSelectors";
 
-import {Container, Page, PageHeading, Button} from "../../Elements";
+import {Container, Page, PageHeading, Button, Icon} from "../../Elements";
 import {
     ProjectSetupEmptyState,
     ProjectContractList,
@@ -25,6 +25,7 @@ class ProjectContractsPage extends Component {
 
         this.state = {
             createProjectModalOpen: false,
+            fetchingContracts: false,
         };
     }
 
@@ -35,6 +36,20 @@ class ProjectContractsPage extends Component {
             await actions.fetchContractsForProject(project);
         }
     }
+
+    fetchContractsForProject = async () => {
+        const {actions, project} = this.props;
+
+        this.setState({
+            fetchingContracts: true,
+        });
+
+        await actions.fetchContractsForProject(project);
+
+        this.setState({
+            fetchingContracts: false,
+        });
+    };
 
     /**
      * @param {Contract} contract
@@ -59,7 +74,7 @@ class ProjectContractsPage extends Component {
 
     render() {
         const {project, contractsLoaded, projectContracts} = this.props;
-        const {createProjectModalOpen} = this.state;
+        const {createProjectModalOpen, fetchingContracts} = this.state;
 
         const projectIsSetup = !!project.lastPushAt || projectContracts.length > 0;
 
@@ -69,6 +84,10 @@ class ProjectContractsPage extends Component {
                     <PageHeading>
                         <h1>Contracts</h1>
                         {projectIsSetup && <div className="RightContent">
+                            {contractsLoaded && <Button outline disabled={fetchingContracts} onClick={this.fetchContractsForProject}>
+                                <Icon icon="refresh-cw"/>
+                                <span>Refresh</span>
+                            </Button>}
                             {contractsLoaded && project.type !== ProjectTypes.DEMO &&
                             <PermissionControl project={project}
                                                requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT}>
