@@ -471,10 +471,8 @@ export const updateUser = (updates) => {
  */
 export const verifyUserEmail = code => asyncActionWrapper('verifyUserEmail', async dispatch => {
     const {data} = await Api.post('/account/me/confirm-email', {
-        code
+        code,
     });
-
-    console.log(data);
 
     return new SuccessActionResponse();
 });

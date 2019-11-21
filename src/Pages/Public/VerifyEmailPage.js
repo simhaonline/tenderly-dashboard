@@ -4,7 +4,7 @@ import {bindActionCreators} from "redux";
 
 import {authActions} from "../../Core/actions";
 
-import {Container, Page} from "../../Elements";
+import {Button, Container, Page} from "../../Elements";
 import {CircularLoader} from "../../Components";
 
 class VerifyEmailPage extends Component {
@@ -17,19 +17,25 @@ class VerifyEmailPage extends Component {
 
         if (!code) {
             return this.setState({
-                error: "Invalid code for verifying your e-mail. Please check your e-mail and try again."
+                error: "Invalid code for verifying your e-mail. Please check your e-mail and try again.",
             });
         }
 
         const response = await authActions.verifyUserEmail(code);
 
-        console.log(response);
+        if (!response.success) {
+            return this.setState({
+                error: "Invalid code for verifying your e-mail. Please check your e-mail and try again.",
+            });
+        }
+
+        this.setState({
+            verified: true,
+        });
     }
 
     render() {
-        const {code} = this.props;
         const {verified} = this.state;
-
 
         return (
             <Page>
@@ -39,7 +45,12 @@ class VerifyEmailPage extends Component {
                             <CircularLoader/>
                             <div>Verifying E-mail</div>
                         </Fragment>}
-                        {code}
+                        {verified && <div>
+                            <h2>Verified</h2>
+                            <Button to="/">
+                                <span>Continue</span>
+                            </Button>
+                        </div>}
                     </div>
                 </Container>
             </Page>
