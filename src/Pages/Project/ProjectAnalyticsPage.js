@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 
+import {UserPlanTypes} from "../../Common/constants";
+
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
-import {Button, Container, Page, PageHeading} from "../../Elements";
-import {ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
+import {Container, Page, PageHeading} from "../../Elements";
+import {PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
 
 import dashboardData from './AnalyticsDashboardData';
 
@@ -35,9 +37,9 @@ class ProjectAnalyticsPage extends Component {
                     <PageHeading>
                         <h1>Analytics</h1>
                         <div className="MarginLeftAuto">
-                            <Button to={`${project.getUrlBase()}/analytics/create`}>
+                            <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} planRequired={UserPlanTypes.PRO}>
                                 Create Graph
-                            </Button>
+                            </PaidFeatureButton>
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
