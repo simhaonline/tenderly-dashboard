@@ -24,6 +24,7 @@ export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
 export const SET_USERNAME_ACTION = 'SET_USERNAME';
 export const SET_PASSWORD_ACTION = 'SET_PASSWORD';
 export const UPDATE_USER_ACTION = 'UPDATE_USER';
+export const FETCH_USER_PLAN_ACTION = 'FETCH_USER_PLAN';
 
 /**
  * @param {string} token
@@ -189,6 +190,21 @@ export const getUser = (token) => {
 };
 
 /**
+ * @param {User} user
+ */
+export const fetchUserPlan = (user) => asyncActionWrapper('fetchUserPlan', async dispatch => {
+    const {data} = await Api.get(`/account/${user.username}/billing/plan`);
+
+    console.log('fetchUsePlan', data);
+
+    dispatch({
+        type: FETCH_USER_PLAN_ACTION,
+    });
+
+    return new SuccessActionResponse();
+});
+
+/**
  * @param {String} oldPassword
  * @param {String} newPassword
  * @returns {Function}
@@ -299,6 +315,8 @@ export const retrieveToken = (token) => {
 
             if (!response.success) {
                 dispatch(removeAuthHeader())
+            } else {
+                await dispatch(fetchUserPlan(response.data));
             }
         }
 

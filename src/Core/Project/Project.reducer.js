@@ -6,7 +6,7 @@ import {
     FETCH_PROJECTS_ACTION, FETCH_PROJECT_TAGS_ACTION, LEAVE_SHARED_PROJECT_ACTION, UPDATE_PROJECT_ACTION
 } from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
-import {FETCH_CONTRACTS_FOR_PROJECT_ACTION} from "../Contract/Contract.actions";
+import {FETCH_CONTRACTS_FOR_PROJECT_ACTION, TOGGLE_CONTRACT_LISTENING_ACTION} from "../Contract/Contract.actions";
 
 import {EntityStatusTypes} from "../../Common/constants";
 import {FETCH_WALLETS_FOR_PROJECT_ACTION} from "../Wallet/Wallet.actions";
@@ -189,6 +189,10 @@ const ProjectReducer = (state = initialState, action) => {
                     ...state.projects,
                     [action.project.id]: updatedProject,
                 },
+            };
+        case TOGGLE_CONTRACT_LISTENING_ACTION:
+            return {
+                ...state,
             };
         case FETCH_PROJECT_TAGS_ACTION: {
             return {
