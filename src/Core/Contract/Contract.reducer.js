@@ -33,9 +33,9 @@ const ContractReducer = (state = initialState, action) => {
                     data.contracts[contract.id] = existingContract.update(contract);
                 } else {
                     data.contracts[contract.id] = contract;
-                }
 
-                data.contractStatus[contract.id] = EntityStatusTypes.PARTIALLY_LOADED;
+                    data.contractStatus[contract.id] = EntityStatusTypes.PARTIALLY_LOADED;
+                }
 
                 data.contractTags[contract.id] = action.contractTags[contract.id] || [];
 
