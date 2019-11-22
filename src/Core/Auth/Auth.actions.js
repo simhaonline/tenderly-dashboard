@@ -193,9 +193,9 @@ export const getUser = (token) => {
  * @param {User} user
  */
 export const fetchUserPlan = (user) => asyncActionWrapper('fetchUserPlan', async dispatch => {
-    const {data} = await Api.get(`/account/${user.username}/billing/plan`);
+    // const {data} = await Api.get(`/account/${user.username}/billing/plan`);
 
-    console.log('fetchUsePlan', data);
+    // console.log('fetchUsePlan', data);
 
     dispatch({
         type: FETCH_USER_PLAN_ACTION,
