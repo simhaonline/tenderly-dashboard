@@ -4,9 +4,24 @@
   margin-bottom: $Spacing8;
 }
 
+.ProjectContractList__NetworkHeading {
+  border-bottom: 1px solid transparentize($Slate100, 0.25);
+  margin-bottom: $Spacing6;
+  padding: $Spacing4 $Spacing2;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.1s;
+
+  &:hover {
+    background: transparentize($BlackColor, 0.85);
+  }
+}
+
 .ProjectContractList__ItemsWrapper {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: $Spacing6;
 }
 
 .ProjectContractList__Item {
@@ -14,6 +29,38 @@
   width: 400px;
   margin-right: $Spacing6;
   margin-bottom: $Spacing6;
+  color: $WhiteColor;
+
+  &:hover {
+    color: $WhiteColor;
+  }
+}
+
+.ProjectContractList__Item__ContractInfo {
+  border-bottom: 1px solid $Slate900;
+  padding-bottom: $Spacing2;
+}
+
+.ProjectContractList__Item__ContractName {
+  font-size: $FontSize500;
+  font-weight: 900;
+}
+
+.ProjectContractList__Item--AddContract {
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .ProjectContractList__Item__Card {
+    height: 100%;
+    min-height: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 }
 
 .ProjectContractList__Item__AddedByWrapper {
@@ -21,4 +68,9 @@
   margin-top: $Spacing4;
   padding: $Spacing2 $Spacing5;
   background-color: transparentize($Slate900, 0.75);
+}
+
+.ProjectContractList__Item__AddedByWrapper__Image {
+  border-radius: 32px;
+  opacity: 0.75;
 }
