@@ -6,3 +6,14 @@
 
 .ContractRevisions__Revision {
 }
+
+.ContractRevisions__RevisionLink {
+  color: $WhiteColor;
+  margin-bottom: $Spacing4;
+  display: block;
+
+  &:hover, &:focus, &:active {
+    color: $WhiteColor;
+  }
+}
+

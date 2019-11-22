@@ -5,7 +5,7 @@ import Blockies from "react-blockies";
 import {Link} from "react-router-dom";
 
 import {Contract, ProjectContract} from "../../Core/models";
-import {Card, Tag, Toggle} from "../../Elements";
+import {Button, Card, Icon, Tag, Toggle} from "../../Elements";
 
 import './ContractRevisions.scss';
 
@@ -23,8 +23,8 @@ const ContractRevisions = ({projectContract, currentContract, contracts}) => {
                 const contract = contracts.find(c => c.id === revision.id);
                 const isCurrent = contract.id === currentContract.id;
 
-                return <Link key={revision.id} to={`${projectContract.getUrlForRevision(revision.id)}/revisions`}>
-                    <Card className={classNames("DisplayFlex AlignItemsCenter ContractRevisions__Revision", {
+                return <Link key={revision.id} to={`${projectContract.getUrlForRevision(revision.id)}/revisions`} className="ContractRevisions__RevisionLink">
+                    <Card clickable className={classNames("DisplayFlex AlignItemsCenter ContractRevisions__Revision", {
                         "ContractRevisions__Revision--Active": isCurrent,
                     },)}>
                         <Blockies size={8} scale={5} className="BorderRadius1" seed={contract.id}/>
@@ -35,8 +35,18 @@ const ContractRevisions = ({projectContract, currentContract, contracts}) => {
                             </div>
                             <div className="MonospaceFont LinkText">{contract.address}</div>
                         </div>
-                        <div className="MarginLeftAuto">
-                            <Toggle value={revision.enabled}/>
+                        <div className="MarginLeftAuto DisplayFlex AlignItemsCenter">
+                            <div className="DisplayFlex AlignItemsCenter">
+                                <span className="MarginRight1">Listening:</span>
+                                <Toggle value={revision.enabled}/>
+                            </div>
+                            <Button outline size="small" className="MarginLeft2">
+                                <Icon icon="box"/>
+                                <span>Transactions</span>
+                            </Button>
+                            <Button color="danger" outline size="small">
+                                <Icon icon="trash-2"/>
+                            </Button>
                         </div>
                     </Card>
                 </Link>;
