@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import Blockies from "react-blockies";
 
 import {Card, Tag} from "../../Elements";
+import {PageLink} from "../index";
 
 import './ProjectWalletsList.scss';
 
@@ -17,9 +18,9 @@ class ProjectWalletsList extends Component {
 
                     const tokenBalance = wallet.getWalletToken(projectWallet.defaultToken);
 
-                    return <Link key={projectWallet.id} to={`${project.getUrlBase()}/wallet/${wallet.getRouteSlug()}/${wallet.address}`} className="ProjectWalletsList__Item">
-                        <Card className="ProjectWalletsList__Item__Card">
-                            <div className="DisplayFlex AlignItemsCenter">
+                    return <PageLink key={projectWallet.id} to={`${project.getUrlBase()}/wallet/${wallet.getRouteSlug()}/${wallet.address}`} className="ProjectWalletsList__Item">
+                        <Card clickable className="ProjectWalletsList__Item__Card">
+                            <div className="DisplayFlex AlignItemsCenter MarginBottom2 ProjectWalletsList__Item__WalletInfo">
                                 <Blockies size={8} scale={5} className="BorderRadius1 MarginRight2" seed={wallet.id}/>
                                 <div>
                                     <div className="SemiBoldText FontSize4 MarginBottom1">{projectWallet.name}</div>
@@ -27,9 +28,9 @@ class ProjectWalletsList extends Component {
                                 </div>
                             </div>
                             <div>
-                                {wallet.walletTokens.map(wt => <Tag key={wt.token} color="primary-outline" size="small">{wt.shorthand}</Tag>)}
+                                {wallet.walletTokens.map(wt => <Tag key={wt.token} className="MarginRight2" color="primary-outline" size="small">{wt.shorthand}</Tag>)}
                             </div>
-                            <div className="DisplayFlex AlignItemsCenter">
+                            <div className="DisplayFlex AlignItemsCenter ProjectWalletsList__Item__TokenBalance">
                                 <div>
                                     <div>{tokenBalance.name}</div>
                                     <div>{tokenBalance.shorthand}</div>
@@ -39,7 +40,7 @@ class ProjectWalletsList extends Component {
                                 </div>
                             </div>
                         </Card>
-                    </Link>;
+                    </PageLink>;
                 })}
                 <Link to={`${project.getUrlBase()}/wallets/add`} className="ProjectWalletsList__Item">
                     <Card className="ProjectWalletsList__Item__Card ProjectWalletsList__Item__Card--Active">

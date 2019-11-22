@@ -14,7 +14,7 @@ import {
     // ContractListeningColumn,
     // ContractFilesColumn,
     // NetworkColumn,
-    NetworkTag
+    NetworkTag, PageLink
 } from "../index";
 
 import './ProjectContractList.scss';
@@ -77,7 +77,7 @@ import {getLabelForNetwork} from "../../Utils/NetworkHelpers";
 const ProjectContractListItem = ({projectContract}) => {
     const mainRevision = projectContract.getMainRevision();
 
-    return <Link to={projectContract.getUrl()} className="ProjectContractList__Item">
+    return <PageLink to={projectContract.getUrl()} className="ProjectContractList__Item">
         <Card clickable>
             <div className="ProjectContractList__Item__ContractInfo">
                 <div className="SemiBoldText MarginBottom1 ProjectContractList__Item__ContractName">{projectContract.name}</div>
@@ -110,7 +110,7 @@ const ProjectContractListItem = ({projectContract}) => {
                 </div>
             </div>
         </Card>
-    </Link>
+    </PageLink>
 };
 
 class ProjectContractList extends Component{
