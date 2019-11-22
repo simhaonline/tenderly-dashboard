@@ -136,6 +136,7 @@ class AppSidebar extends Component {
                             <AppSidebarSubLink to={`${routeBase}/alerts/history`} label="History"/>
                             <AppSidebarSubLink to={`${routeBase}/alerts/destinations`} label="Destinations"/>
                         </div>}
+                        <AppSidebarLink to={`${routeBase}/security`} icon="shield" label="Security"/>
                         <AppSidebarLink to={`${routeBase}/private-networks`} icon="layers" label="Private Networks"/>
                     </div>
                 </div>

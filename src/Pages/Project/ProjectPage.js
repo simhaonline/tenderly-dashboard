@@ -30,6 +30,7 @@ import ProjectEventsPage from "./ProjectEventsPage";
 import ProjectWalletPage from "./ProjectWalletPage";
 import ProjectAddWalletPage from "./ProjectAddWalletPage";
 import ProjectCreateGraphPage from "./ProjectCreateGraphPage";
+import ProjectSecurityPage from "./ProjectSecurityPage";
 
 import {AppSidebar, ProjectPageLoader} from "../../Components";
 
@@ -128,6 +129,7 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/contracts/add" exact render={this.renderComponent(ProjectAddContractPage)}/>
                     <Route path="/:username/:slug/contract/:network/:address" render={this.renderComponent(ProjectContractPage)}/>
                     <Route path="/:username/:slug/releases" render={this.renderComponent(ProjectReleasesPage)}/>
+                    <Route path="/:username/:slug/security" render={this.renderComponent(ProjectSecurityPage)}/>
                     <Route path="/:username/:slug/private-networks" render={this.renderComponent(ProjectPrivateNetworksPage)}/>
                     <Route path="/:username/:slug/collaborators" exact render={this.renderComponent(ProjectCollaboratorsPage)}/>
                     <Route path="/:username/:slug/collaborators/add" exact render={this.renderComponent(ProjectAddCollaboratorPage)}/>

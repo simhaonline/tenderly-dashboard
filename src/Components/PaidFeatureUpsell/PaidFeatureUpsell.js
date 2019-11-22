@@ -30,6 +30,10 @@ const featureInformationMap = {
         label: "Private Networks",
         keyFeatures: [],
     },
+    "security": {
+        label: "Security",
+        keyFeatures: [],
+    },
 };
 
 /**
