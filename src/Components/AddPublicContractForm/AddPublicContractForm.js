@@ -208,7 +208,7 @@ class AddPublicContractForm extends Component {
         const {project, contracts} = this.props;
 
         if (redirectBack) {
-            return <Redirect to={`${project.getUrlBase()}/contracts`}/>
+            return <Redirect to={`${project.getUrlBase()}/transactions`}/>
         }
 
         return (
