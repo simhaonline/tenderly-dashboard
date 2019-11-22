@@ -13,8 +13,10 @@ import './ContractRevisions.scss';
  * @param {ProjectContract} projectContract
  * @param {Contract} currentContract
  * @param {Contract[]} contracts
+ * @param {Function} onListenToggle
+ * @param {Function} onDelete
  */
-const ContractRevisions = ({projectContract, currentContract, contracts}) => {
+const ContractRevisions = ({projectContract, currentContract, contracts, onListenToggle, onDelete}) => {
     if (!projectContract || !contracts) return 'loading';
 
     return (
@@ -38,13 +40,17 @@ const ContractRevisions = ({projectContract, currentContract, contracts}) => {
                         <div className="MarginLeftAuto DisplayFlex AlignItemsCenter">
                             <div className="DisplayFlex AlignItemsCenter">
                                 <span className="MarginRight1">Listening:</span>
-                                <Toggle value={revision.enabled}/>
+                                <Toggle value={revision.enabled} onChange={e => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    onListenToggle(contract);
+                                }}/>
                             </div>
                             <Button outline size="small" className="MarginLeft2">
                                 <Icon icon="box"/>
                                 <span>Transactions</span>
                             </Button>
-                            <Button color="danger" outline size="small">
+                            <Button color="danger" outline size="small" onClick={() => onDelete(contract)}>
                                 <Icon icon="trash-2"/>
                             </Button>
                         </div>
@@ -60,6 +66,8 @@ ContractRevisions.propTypes = {
     projectContract: PropTypes.instanceOf(ProjectContract),
     currentContract: PropTypes.instanceOf(Contract),
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
+    onListenToggle: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
 };
 
 export default ContractRevisions;

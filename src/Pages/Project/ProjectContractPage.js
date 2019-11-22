@@ -159,12 +159,13 @@ class ProjectContractPage extends Component {
                         </PageHeading>
                         <Switch>
                             <Route path="/:username/:slug/contract/:network/:address" exact render={() => <Fragment>
-                                <ContractInformation contract={contract} tags={contractTags} project={project} onDelete={this.handleContractDelete}
-                                                     onListenToggle={this.handleContractListeningToggle}/>
+                                <ContractInformation contract={contract} tags={contractTags} project={project}/>
                                  <ProjectContractActions onAction={this.handleContractAction}/>
                             </Fragment>}/>
                             <Route path="/:username/:slug/contract/:network/:address/files" exact render={() => <ContractFiles contract={contract}/>}/>
-                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions projectContract={projectContract} currentContract={contract} contracts={revisions}/>}/>
+                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions projectContract={projectContract} currentContract={contract} contracts={revisions}
+                                                                                                                                       onDelete={this.handleContractDelete}
+                                                                                                                                       onListenToggle={this.handleContractListeningToggle}/>}/>
                         </Switch>
                     </Fragment>}
                 </Container>
