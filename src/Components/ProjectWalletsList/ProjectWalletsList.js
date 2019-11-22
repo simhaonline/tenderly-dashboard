@@ -20,7 +20,7 @@ class ProjectWalletsList extends Component {
                     return <Link key={projectWallet.id} to={`${project.getUrlBase()}/wallet/${wallet.getRouteSlug()}/${wallet.address}`} className="ProjectWalletsList__Item">
                         <Card className="ProjectWalletsList__Item__Card">
                             <div className="DisplayFlex AlignItemsCenter">
-                                <Blockies size={8} scale={4} className="BorderRadius1 MarginRight2" seed={wallet.id}/>
+                                <Blockies size={8} scale={5} className="BorderRadius1 MarginRight2" seed={wallet.id}/>
                                 <div>
                                     <div className="SemiBoldText FontSize4 MarginBottom1">{projectWallet.name}</div>
                                     <div className="LinkText MonospaceFont">{wallet.address}</div>
@@ -35,7 +35,7 @@ class ProjectWalletsList extends Component {
                                     <div>{tokenBalance.shorthand}</div>
                                 </div>
                                 <div className="MarginLeftAuto">
-                                    {tokenBalance.balance}
+                                    <span className="FontSize4">{tokenBalance.balance}</span>
                                 </div>
                             </div>
                         </Card>
