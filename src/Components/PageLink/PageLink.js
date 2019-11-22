@@ -7,7 +7,6 @@ const PageLink = ({history, onClick, to, children, staticContext, ...props}) => 
         history.push(to);
     };
 
-
     return (
         <div onClick={handleClick} {...props}>
             {children}
