@@ -87,26 +87,19 @@
     }
   }
 
-  .LoginFormPanel {
-    width: 400px;
-    z-index: 2;
-    position: relative;
+  .FormHeading {
+    font-weight: 600;
+    font-size: $FontSize600;
+    margin: 0 0 $Spacing1;
+  }
 
-    .FormHeading {
-      font-weight: 100;
-      font-size: $FontSize600 * 1.2;
-      margin: 0 0 30px;
-      text-align: center;
-    }
-
-    .FormDescription {
-      margin-bottom: 20px;
-    }
+  .FormDescription {
+    font-size: $FontSize400;
+    margin-bottom: $Spacing8;
   }
 
   .ThirdPartLoginWrapper {
     display: flex;
-    padding-top: 20px;
 
     .ButtonWrapper {
       flex: 1 0 0;
@@ -114,8 +107,6 @@
       &:not(:last-child) {
         margin-right: 10px;
       }
-
-
     }
 
     @media (max-width: 760px) {
@@ -201,6 +192,10 @@
       width: 100%;
     }
   }
+}
+
+.LoginPage__Content__Form__SubmitButton {
+  margin-bottom: $Spacing8 * 2;
 }
 
 .LoginPage__Content__Form__InputWrapper {

@@ -15,6 +15,7 @@ export {default as OnboardingWelcomeStep} from './Onboarding/OnboardingWelcomeSt
 export {default as OnboardingCreateProjectStep} from './Onboarding/OnboardingCreateProjectStep';
 export {default as OnboardingCreateOrganizationStep} from './Onboarding/OnboardingCreateOrganizationStep';
 export {default as PulsingDot} from './PulsingDot/PulsingDot';
+export {default as TenderlyFeaturesDemo} from './TenderlyFeaturesDemo/TenderlyFeaturesDemo';
 
 // Select Components
 export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';

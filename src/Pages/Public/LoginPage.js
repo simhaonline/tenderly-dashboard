@@ -15,7 +15,7 @@ import {
     GoogleLoginButton,
     GitHubLoginButton,
     ProjectInvitationPreview,
-    TenderlyLogo,
+    TenderlyLogo, TenderlyFeaturesDemo,
 } from "../../Components";
 
 import './LoginPage.scss';
@@ -172,12 +172,13 @@ class LoginPage extends Component {
         return (
             <Page id="LoginPage" padding={false} wholeScreenPage>
                 <div className="LoginPage__FeaturesContent">
-                    <div>
+                    <div className="LoginPage__FeaturesContent__Heading">
                         <Link to="/">
                             <TenderlyLogo height={36}/>
                         </Link>
                     </div>
                     <div>
+                        <TenderlyFeaturesDemo/>
                     </div>
                     <div className="LoginPage__FeaturesContent__Companies">
                         <div className="LoginPage__FeaturesContent__Companies__Title"><strong>Trusted</strong> by Blockchain Industry Leaders</div>
@@ -198,8 +199,8 @@ class LoginPage extends Component {
                         <Form onSubmit={this.handleFormSubmit}>
                             {!flow && <h3 className="FormHeading">Sign in to Tenderly</h3>}
                             {flow === "project-invitation" && <h3 className="FormHeading">Login to Accept</h3>}
-                            <p className="FormDescription">Enter your credentials below</p>
-
+                            <p className="FormDescription">Don't have an account? <Link to="/register">Create an account</Link></p>
+                            {loginFailed && <Alert color="warning" animation={true}>Incorrect login credentials. Please try again.</Alert>}
                             <div className="LoginPage__Content__Form__InputWrapper">
                                 <label htmlFor="login" className="LoginPage__Content__Form__Label">E-mail / Username</label>
                                 <input className="LoginPage__Content__Form__Input" id="login" placeholder="troybarnes" name="login" value={formData.email} onChange={e => {
@@ -208,7 +209,7 @@ class LoginPage extends Component {
                             </div>
                             <div className="LoginPage__Content__Form__InputWrapper">
                                 <label htmlFor="password" className="LoginPage__Content__Form__Label">Password</label>
-                                <input className="LoginPage__Content__Form__Input" id="password" name="password" placeholder="sixseasonsandamovie" type={showPassword ? 'text' : 'password'} value={formData.password} onChange={e => {
+                                <input className="LoginPage__Content__Form__Input" id="password" name="password" placeholder="#sixseasonsandamovie" type={showPassword ? 'text' : 'password'} value={formData.password} onChange={e => {
                                     this.handleFormUpdate("password", e.target.value);
                                 }}/>
                                 <div onClick={this.toggleShowPassword} className={`LoginPage__Content__Form__IconButton ${showPassword && 'LoginPage__Content__Form__IconButton--Active'}`}>
@@ -220,9 +221,8 @@ class LoginPage extends Component {
                             <div className="InputActionWrapper">
                                 <Link to="/account-recovery" className="InputAction">Forgot your password?</Link>
                             </div>
-                            {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
-                            <Button color="secondary" disabled={loginButtonDisabled} size="large" type="submit">Sign in</Button>
-                            <div className="TextAlignCenter">Or you can continue with one of the following services</div>
+                            <Button color="secondary" className="LoginPage__Content__Form__SubmitButton" disabled={loginButtonDisabled} size="large" type="submit">Sign in</Button>
+                            <div className="TextAlignCenter MarginBottom2 LightText">Or you can continue with one of the following services</div>
                             <div className="ThirdPartLoginWrapper">
                                 <div className="ButtonWrapper">
                                     <GoogleLoginButton label="Continue with Google" onAuthentication={this.handleOAuth}/>
@@ -236,11 +236,6 @@ class LoginPage extends Component {
                             <a className="DocumentLink" href="https://tenderly.dev/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</a>
                             <span className="Separator">•</span>
                             <a className="DocumentLink" href="https://tenderly.dev/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-                        </div>
-                        <div className="PocLinkWrapper">
-                            <Button color="secondary" to="/register">
-                                <span>Create Account</span>
-                            </Button>
                         </div>
                     </div>
                 </div>
