@@ -14,6 +14,7 @@ export {default as FeatureFlagControls} from './FeatureFlagControls/FeatureFlagC
 export {default as OnboardingWelcomeStep} from './Onboarding/OnboardingWelcomeStep';
 export {default as OnboardingCreateProjectStep} from './Onboarding/OnboardingCreateProjectStep';
 export {default as OnboardingCreateOrganizationStep} from './Onboarding/OnboardingCreateOrganizationStep';
+export {default as PulsingDot} from './PulsingDot/PulsingDot';
 
 // Select Components
 export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
