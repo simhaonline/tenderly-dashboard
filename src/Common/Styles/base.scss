@@ -89,6 +89,10 @@
   align-items: flex-start;
 }
 
+.LightText {
+  font-weight: 100;
+}
+
 .SemiBoldText {
   font-weight: 600;
 }
@@ -229,6 +233,8 @@
 .BorderRadius4 {
   border-radius: 8px;
 }
+
+
 
 .FontSize2 {
   font-size: $FontSize200;
