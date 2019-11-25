@@ -33,7 +33,8 @@
 
 .LoginPage__FeaturesContent {
   background: $BlackColor;
-  max-width: 720px;
+  max-width: 860px;
+  flex: 2 2 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -64,14 +65,15 @@
 .LoginPage__Content {
   background: $Slate900;
   display: flex;
+  flex: 3 3 0;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  padding: 32px 120px;
 
   .LoginFormWrapper {
     position: relative;
     display: flex;
-    align-items: center;
+    max-width: 560px;
     padding: 30px 0;
     flex-direction: column;
   }
@@ -174,8 +176,7 @@
 
   .InputActionWrapper {
     text-align: right;
-    margin-top: -10px;
-    margin-bottom: 15px;
+    font-size: $FontSize200;
   }
 
   .PocLinkWrapper {
@@ -198,6 +199,79 @@
 
     .LoginFormPanel {
       width: 100%;
+    }
+  }
+}
+
+.LoginPage__Content__Form__InputWrapper {
+  margin-bottom: $Spacing4;
+  position: relative;
+}
+
+.LoginPage__Content__Form__Label {
+  margin-bottom: $Spacing1;
+  display: block;
+  font-size: $FontSize400;
+  font-weight: 600;
+}
+
+.LoginPage__Content__Form__Input {
+  background: $Slate600;
+  border: 1px solid $Slate300;
+  border-radius: 6px;
+  font-size: $FontSize400;
+  letter-spacing: 1px;
+  font-family: $SansSerifFontFamily ;
+  box-shadow: 0 0 16px -3px transparentize($Primary600, 0.6);
+  color: $WhiteColor;
+  transition: 0.15s ease-in;
+  display: block;
+  width: 100%;
+  padding: $Spacing2 $Spacing5;
+
+  &:hover {
+    background-color: $Slate500;
+    border-color: $Primary900;
+    box-shadow: 0 0 20px -2px transparentize($Primary600, 0.5);
+  }
+
+  &:focus {
+    background-color: $Slate500;
+    border-color: $Primary500;
+    box-shadow: 0 0 20px -2px transparentize($Primary600, 0.4);
+  }
+
+  &:-webkit-autofill,
+  &:-internal-autofill-previewed,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active  {
+    background-color: $Slate300 !important;
+  }
+}
+
+.LoginPage__Content__Form__IconButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font-size: $FontSize400;
+  cursor: pointer;
+  position: absolute;
+  right: $Spacing6;
+  bottom: 8px;
+
+  &:hover {
+    background-color: transparentize($Slate300, 0.5);
+  }
+
+  &--Active {
+    background-color: $Primary500;
+
+    &:hover {
+      background-color: $Primary600;
     }
   }
 }

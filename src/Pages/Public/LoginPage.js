@@ -10,8 +10,13 @@ import LocalStorage from "../../Utils/LocalStorage";
 
 import {authActions} from "../../Core/actions";
 
-import {Page, Button, Form, Input, Alert, PanelDivider} from "../../Elements";
-import {GoogleLoginButton, GitHubLoginButton, ProjectInvitationPreview, TenderlyLogo} from "../../Components";
+import {Page, Button, Form, Alert, Icon} from "../../Elements";
+import {
+    GoogleLoginButton,
+    GitHubLoginButton,
+    ProjectInvitationPreview,
+    TenderlyLogo,
+} from "../../Components";
 
 import './LoginPage.scss';
 
@@ -48,6 +53,7 @@ class LoginPage extends Component {
             loginFailed: false,
             loginAttempts: 0,
             flow: loginFlow,
+            showPassword: false,
             redirectToState,
         };
 
@@ -121,8 +127,16 @@ class LoginPage extends Component {
         }
     };
 
+    toggleShowPassword = () => {
+        const {showPassword} = this.state;
+
+        this.setState({
+            showPassword: !showPassword,
+        });
+    };
+
     render() {
-        const {formData, loginFailed, flow, redirectToState} = this.state;
+        const {formData, showPassword, loginFailed, flow, redirectToState} = this.state;
         const {auth} = this.props;
 
         if (auth.loggedIn) {
@@ -159,14 +173,18 @@ class LoginPage extends Component {
             <Page id="LoginPage" padding={false} wholeScreenPage>
                 <div className="LoginPage__FeaturesContent">
                     <div>
-                        <TenderlyLogo height={36}/>
+                        <Link to="/">
+                            <TenderlyLogo height={36}/>
+                        </Link>
+                    </div>
+                    <div>
                     </div>
                     <div className="LoginPage__FeaturesContent__Companies">
                         <div className="LoginPage__FeaturesContent__Companies__Title"><strong>Trusted</strong> by Blockchain Industry Leaders</div>
                         <div className="LoginPage__FeaturesContent__Companies__Logos">
                             <img alt="OpenZeppelin" src="/Assets/Companies/openzeppelin-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
                             <img alt="DeFi Saver" src="/Assets/Companies/defi-saver-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
-                            <img alt="SuperBlocks" src="/Assets/Companies/superblocks-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
+                            <img alt="SuperBlocks" style={{height: '36px'}} src="/Assets/Companies/superblocks-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
                             <img alt="InstaDApp" src="/Assets/Companies/instadapp-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
                             <img alt="2Key" src="/Assets/Companies/2key-logo.svg" className="LoginPage__FeaturesContent__Companies__CompanyLogo"/>
                         </div>
@@ -181,21 +199,36 @@ class LoginPage extends Component {
                             {!flow && <h3 className="FormHeading">Sign in to Tenderly</h3>}
                             {flow === "project-invitation" && <h3 className="FormHeading">Login to Accept</h3>}
                             <p className="FormDescription">Enter your credentials below</p>
-                            <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
-                            <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
+
+                            <div className="LoginPage__Content__Form__InputWrapper">
+                                <label htmlFor="login" className="LoginPage__Content__Form__Label">E-mail / Username</label>
+                                <input className="LoginPage__Content__Form__Input" id="login" placeholder="troybarnes" name="login" value={formData.email} onChange={e => {
+                                    this.handleFormUpdate("email", e.target.value);
+                                }} autoFocus/>
+                            </div>
+                            <div className="LoginPage__Content__Form__InputWrapper">
+                                <label htmlFor="password" className="LoginPage__Content__Form__Label">Password</label>
+                                <input className="LoginPage__Content__Form__Input" id="password" name="password" placeholder="sixseasonsandamovie" type={showPassword ? 'text' : 'password'} value={formData.password} onChange={e => {
+                                    this.handleFormUpdate("password", e.target.value);
+                                }}/>
+                                <div onClick={this.toggleShowPassword} className={`LoginPage__Content__Form__IconButton ${showPassword && 'LoginPage__Content__Form__IconButton--Active'}`}>
+                                    {!showPassword && <Icon icon="eye" />}
+                                    {showPassword && <Icon icon="eye-off" />}
+                                </div>
+
+                            </div>
                             <div className="InputActionWrapper">
-                                <Link to="/account-recovery" className="InputAction">Forgot password?</Link>
+                                <Link to="/account-recovery" className="InputAction">Forgot your password?</Link>
                             </div>
                             {loginFailed && <Alert color="danger" animation={true}>Incorrect email / password. Please try again.</Alert>}
-                            <PanelDivider/>
-                            <Button color="secondary" disabled={loginButtonDisabled} stretch type="submit">Login</Button>
-                            <PanelDivider/>
+                            <Button color="secondary" disabled={loginButtonDisabled} size="large" type="submit">Sign in</Button>
+                            <div className="TextAlignCenter">Or you can continue with one of the following services</div>
                             <div className="ThirdPartLoginWrapper">
                                 <div className="ButtonWrapper">
-                                    <GoogleLoginButton onAuthentication={this.handleOAuth}/>
+                                    <GoogleLoginButton label="Continue with Google" onAuthentication={this.handleOAuth}/>
                                 </div>
                                 <div className="ButtonWrapper">
-                                    <GitHubLoginButton onClick={this.handleBeforeGitHubOAuth}/>
+                                    <GitHubLoginButton label="Continue with GitHub" onClick={this.handleBeforeGitHubOAuth}/>
                                 </div>
                             </div>
                         </Form>
