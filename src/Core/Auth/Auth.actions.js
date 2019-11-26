@@ -151,7 +151,7 @@ export const getUser = (token) => {
                 impersonating = !!decodedToken.impersonate;
             }
 
-            if (user.showDemo) {
+            if (user.showDemo && !!user.username) {
                 dispatchExampleProject(dispatch, user);
             }
 
