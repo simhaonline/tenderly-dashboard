@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Blockies from "react-blockies";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import _ from 'lodash';
 
 import {Project, ProjectContract} from "../../Core/models";
 // import {NetworkTypes} from "../../Common/constants";
 
-import {Card, Icon, Tag, Input} from "../../Elements";
+import {Card, Icon, Tag, Input, Table} from "../../Elements";
 import {
     // ContractAddressColumn,
     // ContractDeployedAtColumn,
@@ -21,28 +21,12 @@ import './ProjectContractList.scss';
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 import {getLabelForNetwork} from "../../Utils/NetworkHelpers";
 
-// const projectContractsTableConfiguration = [
-//     {
-//         label: "Contract",
-//         renderColumn: contract => <ContractAddressColumn address={contract.address}/>,
-//     },
-//     {
-//         label: "Added",
-//         size: 260,
-//         renderColumn: contract => <ContractDeployedAtColumn contract={contract}/>,
-//     },
-//     {
-//         label: "Listening",
-//         size: 150,
-//         renderColumn: (contract, metadata) => <ContractListeningColumn contract={contract}
-//                                                            onToggle={metadata.handleListeningToggle}/>,
-//     },
-//     {
-//         label: "Files",
-//         renderColumn: (contract, metadata) => <ContractFilesColumn contract={contract}
-//                                                                    tags={metadata.contractTags ? metadata.contractTags[contract.id] : []}/>,
-//     },
-// ];
+const projectContractsTableConfiguration = [
+    {
+        label: "Contract",
+        accessor: 'name',
+    },
+];
 //
 // const groupingConfiguration = [
 //     {
@@ -129,6 +113,15 @@ class ProjectContractList extends Component{
         }
     };
 
+    /**
+     * @param {ProjectContract} projectContract
+     */
+    handleProjectContractClick = (projectContract) => {
+        const {history} = this.props;
+
+        history.push(projectContract.getUrl());
+    };
+
     render() {
         const {projectContracts, project} = this.props;
         const {searchQuery} = this.state;
@@ -137,6 +130,7 @@ class ProjectContractList extends Component{
 
         return (
             <div className="ProjectContractList">
+                <Table configuration={projectContractsTableConfiguration} data={projectContracts} onRowClick={this.handleProjectContractClick} keyAccessor="id"/>
                 {projectContracts.length > 12 && <div className="ProjectContractList__FilterWrapper">
                     <div className="MaxWidth480">
                         <Input icon="filter" autoComplete="off" label="Filter contracts" field="searchQuery"  value={searchQuery}/>
@@ -174,4 +168,4 @@ ProjectContractList.propTypes = {
     project: PropTypes.instanceOf(Project).isRequired,
 };
 
-export default ProjectContractList;
+export default withRouter(ProjectContractList);
