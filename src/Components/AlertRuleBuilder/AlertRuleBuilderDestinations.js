@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {NotificationDestinationTypes, SimpleAlertRuleTypes} from "../../Common/constants";
 
-import {Alert, Card, Toggle, Button} from "../../Elements";
+import {Alert, Card, Toggle, Button, Icon} from "../../Elements";
 import {DestinationInformation, SlackIcon} from "..";
 
 import AlertRuleBuilderStep from "./AlertRuleBuilderStep";
@@ -43,10 +43,14 @@ class AlertRuleBuilderDestinations extends Component {
                 </Card>)}
                 <Alert color="info">
                     <div>Integrations are managed on an account level. If you wish to add another destination like a Slack channel, go to the Destinations tabs on the left.</div>
-                    <div className="MarginTop2">
+                    <div className="MarginTop2 DisplayFlex AlignItemsStart">
                         <Button size="small" to={`/${project.owner}/${project.slug}/alerts/destinations`}>
                             <SlackIcon size={14}/>
                             <span className="MarginLeft1">Integrate Slack</span>
+                        </Button>
+                        <Button size="small" to={`/${project.owner}/${project.slug}/alerts/destinations`}>
+                            <Icon icon="discord"/>
+                            <span className="MarginLeft1">Integrate Discord</span>
                         </Button>
                     </div>
                 </Alert>

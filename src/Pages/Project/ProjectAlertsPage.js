@@ -5,7 +5,8 @@ import {Route, Switch} from "react-router-dom";
 import Analytics from "../../Utils/Analytics";
 
 import {CollaboratorPermissionTypes} from "../../Common/constants";
-import {getMainProjectContracts, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page, PageHeading, Button} from "../../Elements";
 import {
@@ -18,7 +19,9 @@ import {
 
 class ProjectAlertsPage extends Component {
     render() {
-        const {project} = this.props;
+        const {project, contracts} = this.props;
+
+        const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
 
         return (
             <Page id="ProjectPage">
@@ -33,8 +36,8 @@ class ProjectAlertsPage extends Component {
                             </PermissionControl>
                         </div>
                     </PageHeading>
-                    {!project.isSetup && <ProjectSetupEmptyState project={project}/>}
-                    {project.isSetup && <Switch>
+                    {!projectIsSetup && <ProjectSetupEmptyState project={project}/>}
+                    {projectIsSetup && <Switch>
                         <Route path={`/:username/:slug/alerts/rules`} component={ProjectAlertRules}/>
                         <Route path={`/:username/:slug/alerts/history`} render={() => <ProjectAlertHistory project={project}/>}/>
                         <Route path={`/:username/:slug/alerts/destinations`} component={ProjectAlertDestinations}/>
@@ -52,6 +55,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project,
+        contracts: getContractsForProject(state, project.id),
     }
 };
 
