@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import moment from 'moment';
+import _ from 'lodash';
 
 import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
@@ -9,7 +10,7 @@ import {EtherscanLinkTypes} from "../../Common/constants";
 
 import {Project} from "../../Core/models";
 
-import {Panel, PanelContent, PanelDivider, Icon} from "../../Elements";
+import {Panel, PanelContent, PanelDivider, Icon, Tag} from "../../Elements";
 import {EtherscanLink, NetworkTag, TransactionStatusTag, CopyableText} from "../index";
 
 import './TransactionGeneralInformation.scss';
@@ -20,6 +21,7 @@ const TransactionGeneralInformation = ({transaction, contracts, project}) => {
     const isInternal = transaction.isInternalTransaction(contracts);
 
     const contract = contracts.find(c => c.address === transaction.to);
+    let toAddress = transaction.to;
 
     if (contract) {
         const networkRoute  = getRouteSlugForNetwork(contract.network);
@@ -29,6 +31,8 @@ const TransactionGeneralInformation = ({transaction, contracts, project}) => {
         } else if (!isInternal) {
             contractLink = `/${project.owner}/${project.slug}/contract/${networkRoute}/${contract.address}`;
         }
+    } else if (!transaction.to && transaction.contracts && transaction.contracts.length === 2) {
+        toAddress = _.without(transaction.contracts, transaction.from)[0];
     }
 
     return (
@@ -82,9 +86,10 @@ const TransactionGeneralInformation = ({transaction, contracts, project}) => {
                     </div>
                     <div>
                         <div className="MutedText CallerLabel">Contract Address:</div>
-                        {!!contract && <Link to={contractLink}>{contract.name} ({transaction.to})</Link>}
+                        {!!contract && <Link to={contractLink}>{contract.name} ({toAddress})</Link>}
                         {!contract && <div>
-                            <CopyableText text={transaction.to} position="right" onSuccessMessage="Copied contract address to clipboard"/>
+                            {!transaction.to && <Tag color="success" size="small" className="MarginRight1 MonospaceFont">New</Tag>}
+                            <CopyableText text={toAddress} position="right" onSuccessMessage="Copied contract address to clipboard"/>
                         </div>}
                     </div>
                 </div>
