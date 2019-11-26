@@ -71,7 +71,7 @@ class User {
             username: response.username,
             showDemo: !response.hide_demo,
             passwordSet: response.password_is_set,
-            eligibleForGrandfathering: true,
+            eligibleForGrandfathering: false,
         });
     }
 }
