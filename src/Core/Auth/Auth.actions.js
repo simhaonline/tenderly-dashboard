@@ -307,25 +307,32 @@ export const completeOnboarding = () => {
 /**
  * @param {string} token
  */
-export const retrieveToken = (token) => {
-    return async dispatch => {
-        if (token) {
-            dispatch(setAuthHeader(token));
-            const response = await dispatch(getUser(token));
+export const retrieveToken = token => asyncActionWrapper('retrieveToken', async dispatch => {
+    let user, plan;
 
-            if (!response.success) {
-                dispatch(removeAuthHeader())
-            } else {
-                await dispatch(fetchUserPlan(response.data));
-            }
+    if (token) {
+        dispatch(setAuthHeader(token));
+        const response = await dispatch(getUser(token));
+
+        if (!response.success) {
+            dispatch(removeAuthHeader())
+        } else {
+            user = response.data;
+
+            const planResponse = await dispatch(fetchUserPlan(response.data));
         }
-
-        dispatch({
-            type: RETRIEVE_TOKEN_ACTION,
-            token,
-        });
     }
-};
+
+    dispatch({
+        type: RETRIEVE_TOKEN_ACTION,
+        token,
+    });
+
+    return new SuccessActionResponse({
+        user,
+        plan,
+    });
+});
 
 /**
  * @param {string} service

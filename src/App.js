@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Provider} from "react-redux";
 import {BrowserRouter as Router} from "react-router-dom";
 import Cookies from 'js-cookie';
@@ -12,6 +12,9 @@ import './Common/Styles/reset.scss';
 import './Common/Styles/base.scss';
 
 import Intercom from "./Utils/Intercom";
+import LocalStorage from "./Utils/LocalStorage";
+
+import {LocalStorageKeys} from "./Common/constants";
 
 import {searchActions, authActions} from "./Core/actions";
 import {store} from './Core';
@@ -20,8 +23,7 @@ import {AppHeader, FeatureFlagControls} from "./Components";
 
 import {AppPages} from "./Pages";
 import GeneralErrorPage from "./Pages/General/GeneralErrorPage";
-import LocalStorage from "./Utils/LocalStorage";
-import {LocalStorageKeys} from "./Common/constants";
+import SessionResolutionPage from "./Pages/General/SessionResolutionPage";
 
 if (process.env.NODE_ENV !== 'development') {
     Sentry.init({
@@ -38,6 +40,16 @@ const ToastAnimation = cssTransition({
 class App extends Component {
     state = {
         loaded: false,
+    };
+
+    /**
+     * @param {User|null} user
+     * @param {Plan|null} plan
+     */
+    isSessionResolutionRequired = (user, plan) => {
+        if (!user) return false;
+
+        return user.eligibleForGrandfathering;
     };
 
     async componentDidMount() {
@@ -59,7 +71,7 @@ class App extends Component {
             tokenCookie = loginToken;
         }
 
-        await store.dispatch(authActions.retrieveToken(tokenCookie));
+        const sessionResponse = await store.dispatch(authActions.retrieveToken(tokenCookie));
 
         const recentSearchesCache = LocalStorage.getItem(LocalStorageKeys.RECENT_SEARCHES);
 
@@ -67,8 +79,14 @@ class App extends Component {
             await store.dispatch(searchActions.setRecentSearchesFromCache(recentSearchesCache));
         }
 
+        const user = sessionResponse.success ? sessionResponse.data.user : null;
+        const plan = sessionResponse.success ? sessionResponse.data.plan : null;
+
         this.setState({
             loaded: true,
+            user,
+            plan,
+            resolutionRequired: this.isSessionResolutionRequired(user, plan),
         });
     }
 
@@ -81,7 +99,7 @@ class App extends Component {
     }
 
     render() {
-        const {loaded, error} = this.state;
+        const {loaded, error, user, plan, resolutionRequired} = this.state;
 
         // @TODO Create loader here
         if (!loaded) return null;
@@ -94,10 +112,13 @@ class App extends Component {
             <Provider store={store}>
                 <Router>
                     <div className="App">
-                        <AppHeader/>
-                        <div id="AppContent">
-                            <AppPages/>
-                        </div>
+                        {resolutionRequired && <SessionResolutionPage user={user} plan={plan}/>}
+                        {!resolutionRequired && <Fragment>
+                            <AppHeader/>
+                            <div id="AppContent">
+                                <AppPages/>
+                            </div>
+                        </Fragment>}
                         {process.env.NODE_ENV === 'development' && <FeatureFlagControls/>}
                         <ToastContainer toastClassName="ToastMessage" transition={ToastAnimation} pauseOnFocusLoss={false} draggable={false}
                                         bodyClassName="ToastBody" closeButton={false} position="bottom-right" hideProgressBar/>

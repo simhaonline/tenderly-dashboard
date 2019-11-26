@@ -5,7 +5,7 @@ import {Route, Switch} from "react-router-dom";
 import Analytics from "../../Utils/Analytics";
 
 import {CollaboratorPermissionTypes} from "../../Common/constants";
-import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getMainProjectContracts, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 import {Container, Page, PageHeading, Button} from "../../Elements";
 import {

@@ -21,6 +21,12 @@ class User {
         /** @type {boolean} */
         this.eligibleForTrial = data.eligibleForTrial;
 
+        /**
+         * This indicates whether the user is eligible to go into the grandfather plan
+         * @type {boolean}
+         */
+        this.eligibleForGrandfathering = data.eligibleForGrandfathering;
+
         /** @type boolean */
         this.passwordSet = data.passwordSet;
     }
@@ -65,6 +71,7 @@ class User {
             username: response.username,
             showDemo: !response.hide_demo,
             passwordSet: response.password_is_set,
+            eligibleForGrandfathering: true,
         });
     }
 }
