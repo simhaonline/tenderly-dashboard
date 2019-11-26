@@ -10,7 +10,7 @@ import {
 import {walletActions} from "../../Core/actions";
 
 import {Button, Icon, Page, PageHeading} from "../../Elements";
-import {AddWalletMethodPicker, ProjectContentLoader} from "../../Components";
+import {AddWalletForm, AddWalletMethodPicker, ProjectContentLoader} from "../../Components";
 
 class ProjectAddWalletPage extends Component {
     state = {
@@ -44,7 +44,7 @@ class ProjectAddWalletPage extends Component {
                 {!walletsLoaded && <ProjectContentLoader text="Fetching required data"/>}
                 {walletsLoaded && <Fragment>
                     <AddWalletMethodPicker onSelect={this.setCurrentType} currentActive={currentMethod}/>
-                    {currentMethod === 'address' && <div>address</div>}
+                    {currentMethod === 'address' && <AddWalletForm/>}
                     {currentMethod === 'csv' && <div>csv</div>}
                 </Fragment>}
             </Page>
