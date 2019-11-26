@@ -6,6 +6,7 @@ import Analytics from "../../Utils/Analytics";
 
 import {CollaboratorPermissionTypes} from "../../Common/constants";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {Container, Page, PageHeading, Button} from "../../Elements";
 import {
@@ -64,8 +65,10 @@ class ProjectAlertsPage extends Component {
     };
 
     render() {
-        const {project} = this.props;
+        const {project, contracts} = this.props;
         const {currentSegment} = this.state;
+
+        const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
 
         return (
             <Page id="ProjectPage">
@@ -80,8 +83,8 @@ class ProjectAlertsPage extends Component {
                             </PermissionControl>
                         </div>
                     </PageHeading>
-                    {!project.isSetup && <ProjectSetupEmptyState project={project}/>}
-                    {project.isSetup && <PageSegments>
+                    {!projectIsSetup && <ProjectSetupEmptyState project={project}/>}
+                    {projectIsSetup && <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
                         <Switch>
                             <Route path={`/:username/:slug/alerts/rules`} render={() => <PageSegmentContent>
@@ -109,6 +112,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         initialTab: tab,
         project,
+        contracts: getContractsForProject(state, project.id),
     }
 };
 
