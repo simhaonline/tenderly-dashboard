@@ -10,7 +10,7 @@ import {EtherscanLinkTypes} from "../../Common/constants";
 
 import {Project} from "../../Core/models";
 
-import {Panel, PanelContent, PanelDivider, Icon} from "../../Elements";
+import {Panel, PanelContent, PanelDivider, Icon, Tag} from "../../Elements";
 import {EtherscanLink, NetworkTag, TransactionStatusTag, CopyableText} from "../index";
 
 import './TransactionGeneralInformation.scss';
@@ -32,7 +32,6 @@ const TransactionGeneralInformation = ({transaction, contracts, project}) => {
             contractLink = `/${project.owner}/${project.slug}/contract/${networkRoute}/${contract.address}`;
         }
     } else if (!transaction.to && transaction.contracts && transaction.contracts.length === 2) {
-        console.log(_.without(transaction.contracts, transaction.from));
         toAddress = _.without(transaction.contracts, transaction.from)[0];
     }
 
@@ -89,7 +88,7 @@ const TransactionGeneralInformation = ({transaction, contracts, project}) => {
                         <div className="MutedText CallerLabel">Contract Address:</div>
                         {!!contract && <Link to={contractLink}>{contract.name} ({toAddress})</Link>}
                         {!contract && <div>
-                            {!transaction.to && <span className="MarginRight1">[Contract Creation]</span>}
+                            {!transaction.to && <Tag color="success" size="small" className="MarginRight1 MonospaceFont">New</Tag>}
                             <CopyableText text={toAddress} position="right" onSuccessMessage="Copied contract address to clipboard"/>
                         </div>}
                     </div>
