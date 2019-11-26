@@ -144,7 +144,7 @@ class LoginPage extends Component {
                 return <Redirect to={{
                     pathname: "/onboarding",
                     state: {
-                        redirectTo: redirectToState ? redirectToState : "/dashboard",
+                        redirectTo: redirectToState ? redirectToState : "/",
                     },
                 }}/>;
             }
@@ -153,7 +153,7 @@ class LoginPage extends Component {
                 return <Redirect to={redirectToState}/>;
             }
 
-            return <Redirect to="/dashboard"/>;
+            return <Redirect to="/"/>;
         }
 
         let flowData = {};
