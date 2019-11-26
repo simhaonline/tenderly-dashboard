@@ -29,13 +29,13 @@ function getContextFromUrl(url, base) {
         return 'alerting';
     }
 
-    // if (_.startsWith(strippedUrl, '/transactions')) {
-    //     return 'transactions';
-    // }
-    //
-    // if (_.startsWith(strippedUrl, '/contracts')) {
-    //     return 'contracts';
-    // }
+    if (_.startsWith(strippedUrl, '/transactions') || _.startsWith(strippedUrl, '/tx/')) {
+        return 'transactions';
+    }
+
+    if (_.startsWith(strippedUrl, '/contracts') ||_.startsWith(strippedUrl, '/contract/')) {
+        return 'contracts';
+    }
 
     if (_.startsWith(strippedUrl, '/plan')) {
         return 'plan';
@@ -44,9 +44,9 @@ function getContextFromUrl(url, base) {
     return null;
 }
 
-const AppSidebarLink = ({to, icon, label, exact = false}) => {
+const AppSidebarLink = ({to, icon, label, exact = false, isActive}) => {
     return (
-        <NavLink activeClassName="AppSidebar__NavGroup__Link--Active" to={to} strict={!exact} exact={exact} className="AppSidebar__NavGroup__Link">
+        <NavLink activeClassName="AppSidebar__NavGroup__Link--Active" to={to} isActive={isActive} strict={!exact} exact={exact} className="AppSidebar__NavGroup__Link">
             <Icon icon={icon} className="AppSidebar__NavGroup__Link__Icon"/>
             <span className="AppSidebar__NavGroup__Link__Label">{label}</span>
         </NavLink>
@@ -108,15 +108,15 @@ class AppSidebar extends Component {
                         <span>On-Chain Data</span>
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
-                        <AppSidebarLink to={`${routeBase}/transactions`} icon="box" label="Transactions"/>
-                        {context === 'transactions' && <div className="MarginBottom1 MarginTop1">
+                        <AppSidebarLink to={`${routeBase}/transactions`} isActive={() => context === 'transactions'} icon="box" label="Transactions"/>
+                        {context === 'transactions-a' && <div className="MarginBottom1 MarginTop1">
                             <AppSidebarSubLink to={`${routeBase}/transactions`} exact label="All Transactions"/>
                             <AppSidebarSubLink to={`${routeBase}/transactions/filter`} exact label="History"/>
                             <AppSidebarSubLink to={`${routeBase}/transactions/create-filter`} exact label="Create filter"/>
                         </div>}
                         <AppSidebarLink to={`${routeBase}/events`} icon="bookmark" label="Event / Logs"/>
-                        <AppSidebarLink to={`${routeBase}/contracts`} icon="file-text" label="Contracts"/>
-                        {context === 'contracts' && <div className="MarginBottom1 MarginTop1">
+                        <AppSidebarLink to={`${routeBase}/contracts`} isActive={() => context === 'contracts'} icon="file-text" label="Contracts"/>
+                        {context === 'contracts-a' && <div className="MarginBottom1 MarginTop1">
                             <AppSidebarSubLink to={`${routeBase}/contracts`} exact label="All Contracts"/>
                             <AppSidebarSubLink to={`${routeBase}/contracts/create-filter`} exact label="Create filter"/>
                         </div>}
