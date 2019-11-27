@@ -1,12 +1,11 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component, Fragment, PureComponent} from 'react';
 import classNames from 'classnames';
-import moment from "moment";
 import _ from 'lodash';
 import {Area, AreaChart, Line, CartesianGrid, LineChart, Bar, BarChart, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip} from "recharts";
 
 import {
     AnalyticsWidgetDataRangeTypes,
-    AnalyticsWidgetListTypeColumnTypes,
+    AnalyticsWidgetListTypeColumnTypes, AnalyticsWidgetResolutionTypes,
     AnalyticsWidgetSizeTypes,
     AnalyticsWidgetTypes
 } from "../../Common/constants";
@@ -15,6 +14,7 @@ import {Panel, Tag, Icon, Tooltip} from "../../Elements";
 import {SimpleLoader} from "..";
 
 import './AnalyticsWidget.scss';
+import {getFormattedDateForResolution} from "../../Utils/AnalyticsHelpers";
 
 const widgetSizeClassMap = {
     [AnalyticsWidgetSizeTypes.ONE]: 'AnalyticsWidget--One',
@@ -23,17 +23,31 @@ const widgetSizeClassMap = {
     [AnalyticsWidgetSizeTypes.FOUR]: 'AnalyticsWidget--Four',
 };
 
-const AnalyticsWidgetTooltip = ({ active, payload, label, coordinate }) => {
-    if (!active) return null;
+/**
+ *
+ * @param active
+ * @param payload
+ * @param label
+ * @param coordinate
+ * @param {Widget} widget
+ * @returns {null|*}
+ * @constructor
+ */
+class AnalyticsWidgetTooltip extends PureComponent {
+    render() {
+        const {active, payload, widget} = this.props;
 
-    return <div className="AnalyticsWidgetTooltip">
-        <div className="MarginBottom1">
-            <span className="SemiBoldText">{moment(payload[0].payload.date).format('ddd, MMM DD')}</span>
+        if (!active) return null;
+
+        return <div className="AnalyticsWidgetTooltip">
+            <div className="MarginBottom1">
+                <span className="SemiBoldText">{getFormattedDateForResolution(payload[0].payload.date, widget.resolution)}</span>
+            </div>
+            {payload.map(load => <div key={load.dataKey}>
+                {load.name}: <span className="SemiBoldText">{load.value}</span>
+            </div>)}
         </div>
-        {payload.map(load => <div key={load.dataKey}>
-            {load.name}: <span className="SemiBoldText">{load.value}</span>
-        </div>)}
-    </div>
+    }
 };
 
 class AnalyticsWidget extends Component {
@@ -102,6 +116,12 @@ class AnalyticsWidget extends Component {
                                 {widget.dataRange === AnalyticsWidgetDataRangeTypes.LAST_30_DAYS && <span>Last 30 Days</span>}
                                 {widget.dataRange === AnalyticsWidgetDataRangeTypes.LAST_WEEK && <span>Last Week</span>}
                             </div>
+                            <div>
+                                {widget.resolution === AnalyticsWidgetResolutionTypes.HOUR && <span>Hour</span>}
+                                {widget.resolution === AnalyticsWidgetResolutionTypes.DAY && <span>Day</span>}
+                                {widget.resolution === AnalyticsWidgetResolutionTypes.WEEK && <span>Week</span>}
+                                {widget.resolution === AnalyticsWidgetResolutionTypes.MONTH && <span>Month</span>}
+                            </div>
                         </div>
                     </div>
                     {loading && <div className="AnalyticsWidget__Data AnalyticsWidget__Data--Loader">
@@ -132,7 +152,7 @@ class AnalyticsWidget extends Component {
                         {widget.type === AnalyticsWidgetTypes.LINE_CHART && <Fragment>
                             <ResponsiveContainer debounce={100}>
                                 <LineChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-                                    <RechartsTooltip content={<AnalyticsWidgetTooltip/>} cursor={{stroke: '#060e18'}} position={{y: 150,}}/>
+                                    <RechartsTooltip content={<AnalyticsWidgetTooltip widget={widget}/>} cursor={{stroke: '#060e18'}} position={{y: 150,}}/>
                                     {widget.dataPoints.map(point =>
                                         <Line type="monotone" dot={{fill: '#133153'}} dataKey={point.key} name={point.name || point.key}
                                               stroke={point.color} key={point.key} isAnimationActive={false}/>

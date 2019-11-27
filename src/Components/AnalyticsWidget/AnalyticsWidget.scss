@@ -27,6 +27,8 @@ $AnalyticsWidgetSizeUnit: 200px;
   border-top: 1px solid $Slate800;
   border-bottom: 1px solid $Slate800;
   padding: $Spacing1 $Spacing4;
+  display: flex;
+  justify-content: space-between;
 }
 
 .AnalyticsWidget--One {
