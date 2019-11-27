@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 import {UserPlanTypes} from "../../Common/constants";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+
+import {analyticsActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading} from "../../Elements";
 import {PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
@@ -19,7 +22,14 @@ class ProjectAnalyticsPage extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const {analyticsActions, project} = this.props;
+
+
+        const analyticsResponse = await analyticsActions.fetchAnalyticsForProject(project);
+
+        console.log(analyticsResponse);
+
         setTimeout(() => {
             this.setState({
                 loading: false,
@@ -58,7 +68,13 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        analyticsActions: bindActionCreators(analyticsActions, dispatch),
+    }
+};
+
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps,
 )(ProjectAnalyticsPage);
