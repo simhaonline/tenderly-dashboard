@@ -134,7 +134,8 @@ class AnalyticsWidget extends Component {
                                 <LineChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                                     <RechartsTooltip content={<AnalyticsWidgetTooltip/>} cursor={{stroke: '#060e18'}} position={{y: 150,}}/>
                                     {widget.dataPoints.map(point =>
-                                        <Line type="monotone" dot={{fill: '#133153'}} dataKey={point.key} name={point.name || point.key} stroke={point.color} key={point.key}/>
+                                        <Line type="monotone" dot={{fill: '#133153'}} dataKey={point.key} name={point.name || point.key}
+                                              stroke={point.color} key={point.key} isAnimationActive={false}/>
                                     )}
                                 </LineChart>
                             </ResponsiveContainer>
