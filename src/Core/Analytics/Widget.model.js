@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import {AnalyticsWidgetSizeTypes, AnalyticsWidgetTypes} from "../../Common/constants";
 
 class Widget {
@@ -42,7 +44,7 @@ class Widget {
                 color: '#0076FF',
             })),
             data: response.data.map(datum => ({
-                date: datum.timestamp,
+                date: moment(datum.timestamp * 1000),
                 ...datum.data,
             })),
         });
