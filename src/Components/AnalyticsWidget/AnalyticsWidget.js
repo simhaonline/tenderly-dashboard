@@ -151,13 +151,21 @@ class AnalyticsWidget extends Component {
                         </Fragment>}
                         {widget.type === AnalyticsWidgetTypes.LINE_CHART && <Fragment>
                             <ResponsiveContainer debounce={100}>
-                                <LineChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+                                <AreaChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+                                    <defs>
+                                        {widget.dataPoints.map(point =>
+                                            <linearGradient key={point.key} id={point.color + point.key} x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stopColor={point.color} stopOpacity={0.85}/>
+                                                <stop offset="100%" stopColor={point.color} stopOpacity={0}/>
+                                            </linearGradient>
+                                        )}
+                                    </defs>
                                     <RechartsTooltip content={<AnalyticsWidgetTooltip widget={widget}/>} cursor={{stroke: '#060e18'}} position={{y: 150,}}/>
                                     {widget.dataPoints.map(point =>
-                                        <Line type="monotone" dot={{fill: '#133153'}} dataKey={point.key} name={point.name || point.key}
-                                              stroke={point.color} key={point.key} isAnimationActive={false}/>
+                                        <Area dot={{fill: '#133153'}} dataKey={point.key} name={point.name || point.key}
+                                              stroke={point.color} key={point.key} isAnimationActive={false} fill={`url(#${point.color + point.key})`}/>
                                     )}
-                                </LineChart>
+                                </AreaChart>
                             </ResponsiveContainer>
                         </Fragment>}
                         {widget.type === AnalyticsWidgetTypes.LIST && <Fragment>
