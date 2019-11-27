@@ -43,12 +43,12 @@ class AnalyticsWidgetTooltip extends PureComponent {
             <div className="MarginBottom1">
                 <span className="SemiBoldText">{getFormattedDateForResolution(payload[0].payload.date, widget.resolution)}</span>
             </div>
-            {payload.map(load => <div key={load.dataKey}>
+            {_.orderBy(payload, 'value', 'desc').map(load => <div key={load.dataKey}>
                 {load.name}: <span className="SemiBoldText">{load.value}</span>
             </div>)}
         </div>
     }
-};
+}
 
 class AnalyticsWidget extends Component {
     constructor(props) {

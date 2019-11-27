@@ -1,4 +1,6 @@
 import moment from "moment";
+import chroma from "chroma-js";
+import _ from 'lodash';
 
 import {AnalyticsWidgetResolutionTypes, AnalyticsWidgetSizeTypes, AnalyticsWidgetTypes} from "../../Common/constants";
 
@@ -35,6 +37,10 @@ class Widget {
      * @returns {Widget}
      */
     static buildFromResponse(response, key) {
+        const legendItems = response.legend && response.legend.items ? Object.keys(response.legend.items) : [];
+
+        const colorScale = chroma.scale(['#0069E0', '#ADD3FF']).correctLightness();
+
         return new Widget({
             id: key,
             name: key,
@@ -42,15 +48,15 @@ class Widget {
             size: AnalyticsWidgetSizeTypes.TWO,
             resolution: AnalyticsWidgetResolutionTypes.HOUR,
             alerts: [],
-            dataPoints: Object.keys(response.legend.items).map(itemKey => ({
+            dataPoints: legendItems.map((itemKey, index) => ({
                 key: itemKey,
                 name: itemKey,
-                color: '#0076FF',
+                color: colorScale(1 / (Math.max(legendItems.length - 1, 1)) * index).hex(),
             })),
-            data: response.data.map(datum => ({
+            data: _.reverse(response.data.map(datum => ({
                 date: moment(datum.timestamp * 1000),
                 ...datum.data,
-            })),
+            }))),
         });
     }
 }
