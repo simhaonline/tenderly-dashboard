@@ -11,8 +11,6 @@ import {analyticsActions} from "../../Core/actions";
 import {Container, Page, PageHeading} from "../../Elements";
 import {PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
 
-import dashboardData from './AnalyticsDashboardData';
-
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
         super(props);

@@ -6,7 +6,7 @@ import './ProjectAnalyticsDashboard.scss';
 
 class ProjectAnalyticsDashboard extends Component {
     render() {
-        const {dashboard, widgets} = this.props;
+        const {widgets} = this.props;
 
         return (
             <div className="ProjectAnalyticsDashboard">
