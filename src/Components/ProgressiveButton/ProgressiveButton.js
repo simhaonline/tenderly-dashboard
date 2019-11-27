@@ -96,7 +96,7 @@ class ProgressiveButton extends Component {
 }
 
 ProgressiveButton.defaultProps = {
-    size: 'default',
+    size: null,
     color: 'secondary',
     outline: false,
     icon: '',
