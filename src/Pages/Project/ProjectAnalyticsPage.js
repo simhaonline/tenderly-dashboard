@@ -25,21 +25,23 @@ class ProjectAnalyticsPage extends Component {
     async componentDidMount() {
         const {analyticsActions, project} = this.props;
 
-
         const analyticsResponse = await analyticsActions.fetchAnalyticsForProject(project);
 
-        console.log(analyticsResponse);
+        let widgets = [];
 
-        setTimeout(() => {
-            this.setState({
-                loading: false,
-            })
-        }, 100);
+        if (analyticsResponse.success) {
+            widgets = analyticsResponse.data.widgets;
+        }
+
+        this.setState({
+            loading: false,
+            widgets,
+        });
     }
 
     render() {
         const {project} = this.props;
-        const {loading} = this.state;
+        const {loading, widgets} = this.state;
 
         return (
             <Page id="ProjectPage">
@@ -53,7 +55,8 @@ class ProjectAnalyticsPage extends Component {
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && <ProjectAnalyticsDashboard dashboard={dashboardData}/>}
+                    {!loading && <ProjectAnalyticsDashboard widgets={widgets}/>}
+                    {/*{!loading && <ProjectAnalyticsDashboard dashboard={dashboardData} widgets={dashboardData.widgets}/>}*/}
                 </Container>
             </Page>
         )

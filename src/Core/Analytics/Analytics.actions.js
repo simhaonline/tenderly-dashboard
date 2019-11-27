@@ -1,7 +1,9 @@
+import {Api} from "../../Utils/Api";
 import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
-import {SuccessActionResponse} from "../../Common";
-import {Api} from "../../Utils/Api";
+import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
+
+import {Widget} from "../models";
 
 /**
  * @param {Project} project
@@ -9,7 +11,13 @@ import {Api} from "../../Utils/Api";
 export const fetchAnalyticsForProject = (project) => asyncActionWrapper('fetchAnalyticsForProject', async dispatch => {
     const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics`);
 
-    console.log(data);
+    if (!data) {
+        return new ErrorActionResponse();
+    }
 
-    return new SuccessActionResponse({});
+    const widgets = Object.keys(data).map(widgetKey => Widget.buildFromResponse(data[widgetKey], widgetKey));
+
+    return new SuccessActionResponse({
+        widgets,
+    });
 });
