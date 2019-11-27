@@ -2,6 +2,7 @@ import * as collaborationActions from './Collaboration/Collaboration.actions';
 
 import * as projectActions from './Project/Project.actions';
 import * as networkActions from './Network/Network.actions';
+import * as analyticsActions from './Analytics/Analytics.actions';
 
 import * as contractActions from './Contract/Contract.actions';
 import * as walletActions from './Wallet/Wallet.actions';
@@ -21,4 +22,5 @@ export {
     billingActions,
     searchActions,
     transactionActions,
+    analyticsActions,
 };
