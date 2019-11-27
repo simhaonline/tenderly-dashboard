@@ -156,6 +156,14 @@ export const AnalyticsWidgetDataRangeTypes = {
     LAST_MONTH: 'LAST_MONTH',
 };
 
+export const AnalyticsWidgetResolutionTypes = {
+    MINUTE: 'MINUTE',
+    HOUR: 'HOUR',
+    DAY: 'DAY',
+    WEEK: 'WEEK',
+    MONTH: 'MONTH',
+};
+
 export const FeatureFlagTypes = {
     COMING_SOON: 'coming_soon',
     ERRORS: 'errors',
