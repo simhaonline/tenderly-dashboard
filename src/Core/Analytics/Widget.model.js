@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import {AnalyticsWidgetSizeTypes, AnalyticsWidgetTypes} from "../../Common/constants";
+import {AnalyticsWidgetResolutionTypes, AnalyticsWidgetSizeTypes, AnalyticsWidgetTypes} from "../../Common/constants";
 
 class Widget {
     constructor(data) {
@@ -18,6 +18,9 @@ class Widget {
 
         /** @type {AnalyticsWidgetSizeTypes} */
         this.size = data.size;
+
+        /** @type {AnalyticsWidgetResolutionTypes} */
+        this.resolution = data.resolution;
 
         /** @type {string} */
         this.dataPoints = data.dataPoints;
@@ -37,6 +40,7 @@ class Widget {
             name: key,
             type: AnalyticsWidgetTypes.LINE_CHART,
             size: AnalyticsWidgetSizeTypes.TWO,
+            resolution: AnalyticsWidgetResolutionTypes.HOUR,
             alerts: [],
             dataPoints: Object.keys(response.legend.items).map(itemKey => ({
                 key: itemKey,

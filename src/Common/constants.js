@@ -156,6 +156,9 @@ export const AnalyticsWidgetDataRangeTypes = {
     LAST_MONTH: 'LAST_MONTH',
 };
 
+/**
+ * @enum {string}
+ */
 export const AnalyticsWidgetResolutionTypes = {
     MINUTE: 'MINUTE',
     HOUR: 'HOUR',
