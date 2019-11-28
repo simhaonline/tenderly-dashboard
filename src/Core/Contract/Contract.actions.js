@@ -296,3 +296,28 @@ export const getContractBackFillingStatus = (project, contract) => {
         }
     }
 };
+
+/**
+ * @TODO transfer this method into Network.actions.js. After feature/donuts has been merged. This does not belong here
+ * but temporarily lives here because I got no better place to put it.
+ *
+ * @param {NetworkTypes} network
+ */
+export const fetchLatestBlockForNetwork = (network) => {
+    return async () => {
+        try {
+            const networkId = getApiIdForNetwork(network);
+
+            const {data} = await Api.get(`/${networkId}/latest-block`);
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            return new SuccessActionResponse(data);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse();
+        }
+    }
+};
