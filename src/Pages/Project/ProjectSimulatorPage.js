@@ -20,14 +20,15 @@ class ProjectSimulatorPage extends Component {
     }
 
     render() {
-        const {contractsLoaded, contracts} = this.props;
+        const {contractsLoaded, contracts, project} = this.props;
+
         return (
             <Page>
                 <PageHeading>
                     <h1>Simulator</h1>
                 </PageHeading>
                 {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
-                {contractsLoaded && <ContractSimulator contracts={contracts}/>}
+                {contractsLoaded && <ContractSimulator contracts={contracts} project={project}/>}
             </Page>
         );
     }
