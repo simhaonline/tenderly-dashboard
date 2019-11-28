@@ -28,6 +28,10 @@ class ProjectNavigation extends Component {
                     <Icon className="NavigationItem__Icon" icon="file-text"/>
                     <span className="HideMobile">Contracts</span>
                 </NavLink>
+                <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/simulator`}>
+                    <Icon className="NavigationItem__Icon" icon="airplay"/>
+                    <span className="HideMobile">Simulator</span>
+                </NavLink>
                 <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/alerts`}>
                     <Icon className="NavigationItem__Icon" icon="bell"/>
                     <span className="HideMobile">Alerts</span>
