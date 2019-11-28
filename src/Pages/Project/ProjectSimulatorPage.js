@@ -8,6 +8,7 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {contractActions} from "../../Core/actions";
 
 import {Page, PageHeading} from "../../Elements";
+import {ContractSimulator} from "../../Components";
 
 class ProjectSimulatorPage extends Component {
     async componentDidMount() {
@@ -24,6 +25,7 @@ class ProjectSimulatorPage extends Component {
                 <PageHeading>
                     <h1>Simulator</h1>
                 </PageHeading>
+                <ContractSimulator/>
             </Page>
         );
     }
