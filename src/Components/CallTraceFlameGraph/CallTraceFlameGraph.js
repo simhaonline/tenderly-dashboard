@@ -122,7 +122,7 @@ class CallTraceFlameGraph extends Component {
 
         traces.forEach(trace => {
             data.push({
-                name: `${trace.functionName || trace.contract} - ${trace.gasUsed} Gas`,
+                name: `${trace.functionName || trace.op} - ${trace.gasUsed.toLocaleString()} Gas`,
                 value: trace.gasUsed,
                 depthId: trace.depthId,
                 children: this.computeTraceToGraphChildren(trace.calls),
@@ -141,22 +141,22 @@ class CallTraceFlameGraph extends Component {
         const totalGas = callTrace.trace.gasUsed + callTrace.initialGas;
 
         return {
-            name: `Total Gas - ${totalGas} Gas`,
+            name: `Total Gas - ${totalGas.toLocaleString()} Gas`,
             value: callTrace.trace.gasUsed + callTrace.initialGas,
             children: [
                 {
-                    name: `Actual Gas Used - ${transaction.gasUsed} Gas`,
+                    name: `Actual Gas Used - ${transaction.gasUsed.toLocaleString()} Gas`,
                     value: transaction.gasUsed,
                     children: [
                         {
-                            name: `Initial Gas - ${callTrace.initialGas} Gas`,
+                            name: `Initial Gas - ${callTrace.initialGas.toLocaleString()} Gas`,
                             value: callTrace.initialGas,
                         },
                         ...this.computeTraceToGraphChildren([callTrace.trace]),
                     ],
                 },
                 {
-                    name: `Refunded Gas - ${callTrace.refundedGas} Gas`,
+                    name: `Refunded Gas - ${callTrace.refundedGas.toLocaleString()} Gas`,
                     value: callTrace.refundedGas,
                 },
             ],
