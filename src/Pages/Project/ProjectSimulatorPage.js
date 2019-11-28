@@ -8,7 +8,7 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {contractActions} from "../../Core/actions";
 
 import {Page, PageHeading} from "../../Elements";
-import {ContractSimulator} from "../../Components";
+import {ContractSimulator, ProjectContentLoader} from "../../Components";
 
 class ProjectSimulatorPage extends Component {
     async componentDidMount() {
@@ -20,12 +20,14 @@ class ProjectSimulatorPage extends Component {
     }
 
     render() {
+        const {contractsLoaded, contracts} = this.props;
         return (
             <Page>
                 <PageHeading>
                     <h1>Simulator</h1>
                 </PageHeading>
-                <ContractSimulator/>
+                {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
+                {contractsLoaded && <ContractSimulator contracts={contracts}/>}
             </Page>
         );
     }
