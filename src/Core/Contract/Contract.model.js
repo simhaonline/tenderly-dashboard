@@ -30,6 +30,9 @@ class Contract {
         /** @type boolean */
         this.isPublic = !projectData;
 
+        /** @type {Object[]} */
+        this.abi = data.abi;
+
         /** @type boolean */
         this.isVerifiedPublic = !!data.isPublic;
 
@@ -195,10 +198,15 @@ class Contract {
     static buildFromResponse(data, projectData, parentContract) {
         let files = [];
         let mainFile;
+        let abi;
 
         if (data.data && data.data.contract_info) {
             files = data.data.contract_info.map(ContractFile.buildFromResponse);
             mainFile = files.find(file => file.id === data.data.main_contract);
+        }
+
+        if (data.data && data.data.abi) {
+            abi = data.data.abi;
         }
 
         const network = NetworkApiToAppTypeMap[data.network_id] || data.network_id;
@@ -212,6 +220,7 @@ class Contract {
             name: data.contract_name,
             address: data.address,
             network,
+            abi: abi,
             creationTx: data.creation_tx,
             isPublic: data.public,
             createdAt: data.created_at,
