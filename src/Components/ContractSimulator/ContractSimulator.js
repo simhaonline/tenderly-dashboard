@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import {Contract} from "../../Core/models";
 import {contractActions} from "../../Core/actions";
 
-import {Input, Select, Button, Checkbox, LinkButton} from "../../Elements";
+import {Input, Select, Button, Checkbox, LinkButton, Card} from "../../Elements";
 import {ContractMethodOrLogSelectOption, ContractSelectOption} from "../index";
 
 import './ContractSimulator.scss';
@@ -116,52 +116,66 @@ class ContractSimulator extends Component {
 
         return (
             <div>
-                <Select value={selectedContract} disabled={loadingContract} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} components={{
-                    Option: ContractSelectOption,
-                }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts}/>
+                <div className="DisplayFlex MarginBottom4">
+                    <Card className="Flex1">
+                        <h3 className="MarginBottom2">Contract</h3>
+                        <Select value={selectedContract} disabled={loadingContract} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} components={{
+                            Option: ContractSelectOption,
+                        }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts}/>
+                    </Card>
+                    {!loadingContract && !!contract && <Card className="Flex1 MarginLeft2">
+                        <h3 className="MarginBottom2">Simulation Point</h3>
+                        <div>
+                            <div className="MarginBottom2">Select the point in time in which you wish to simulate this transaction. Select the block number and at which index you wish to execute it or simulate it in the current pending block.</div>
+                            <Checkbox field="usePendingBlock" label="Simulate in current pending block" value={usePendingBlock} onChange={this.handleInputChange}/>
+                            <div className="DisplayFlex AlignItemsStart">
+                                <Input value={block} readOnly={blockSelected || usePendingBlock} label="Block number" field="block" onChange={this.handleInputChange}/>
+                                <Button disabled={usePendingBlock || !block} className="MarginLeft2">
+                                    <span>Select Block</span>
+                                </Button>
+                            </div>
+                        </div>
+                    </Card>}
+                </div>
                 {!loadingContract && !!contract && <div>
-                    <h3>Simulation Point</h3>
-                    <div>
-                        <div>Select the point in time in which you wish to simulate this transaction. Select the block number and at which index you wish to execute it or simulate it in the current pending block.</div>
-                        <Checkbox field="usePendingBlock" label="Simulate in current pending block" value={usePendingBlock} onChange={this.handleInputChange}/>
-                        <Input value={block} readOnly={blockSelected || usePendingBlock} label="Block number" field="block" onChange={this.handleInputChange}/>
-                        <Button disabled={usePendingBlock || !block}>
-                            <span>Select Block</span>
-                        </Button>
-                    </div>
-                    <h3>Transaction Parameters</h3>
-                    <div className="DisplayFlex">
-                        <div>
-                            <div>From</div>
-                            <Input value={from} label="From address" readOnly={!customFrom} field="from" onChange={this.handleInputChange}/>
-                            <LinkButton onClick={() => this.toggleCustomTransactionParameter("customFrom")}>Use custom from address</LinkButton>
+                    <Card>
+                        <h3 className="MarginBottom2">Transaction Parameters</h3>
+                        <div className="DisplayFlex">
+                            <div className="MarginRight4">
+                                <div>From</div>
+                                <Input value={from} label="From address" readOnly={!customFrom} field="from" onChange={this.handleInputChange}/>
+                                <LinkButton onClick={() => this.toggleCustomTransactionParameter("customFrom")}>Use {customFrom ? 'default' : 'custom'} from address</LinkButton>
+                            </div>
+                            <div>
+                                <div>Gas</div>
+                                <Input value={gas} label="Gas" readOnly={!customGas} field="gas" onChange={this.handleInputChange}/>
+                                <LinkButton onClick={() => this.toggleCustomTransactionParameter("customGas")}>Use {customGas ? 'default' : 'custom'} gas value</LinkButton>
+                            </div>
                         </div>
-                        <div>
-                            <div>Gas</div>
-                            <Input value={gas} label="Gas" readOnly={!customGas} field="gas" onChange={this.handleInputChange}/>
-                            <LinkButton onClick={() => this.toggleCustomTransactionParameter("customGas")}>Use custom gas value</LinkButton>
-                        </div>
-                    </div>
-                    <h3>Method</h3>
-                    <div className="DisplayFlex">
-                        <div className="Flex1">
-                            <Select options={functionOptions} value={contractFunction} getOptionLabel={contract => contract.name} components={{
-                                Option: ContractMethodOrLogSelectOption,
-                            }} getOptionValue={contract => contract.name} onChange={this.handleFunctionSelect}/>
-                        </div>
-                        {!!contractFunction && <div className="Flex1">
-                            {contractFunction.inputs.map((functionInput, index) => {
-                                const field = `input_${index}`;
+                    </Card>
+                    <Card>
+                        <h3 className="MarginBottom2">Function</h3>
+                        <div className="DisplayFlex">
+                            <div className="Flex1">
+                                <Select options={functionOptions} value={contractFunction} getOptionLabel={contract => contract.name} components={{
+                                    Option: ContractMethodOrLogSelectOption,
+                                }} getOptionValue={contract => contract.name} onChange={this.handleFunctionSelect}/>
+                            </div>
+                            {!!contractFunction && <div className="Flex1 MarginLeft4">
+                                <h4 className="MarginBottom2">Input Parameters</h4>
+                                {contractFunction.inputs.map((functionInput, index) => {
+                                    const field = `input_${index}`;
 
-                                return <div key={field} className="DisplayFlex AlignItemsCenter">
-                                    <div className="MonospaceFont LinkText">{functionInput.type}</div>
-                                    <Input label={functionInput.name} value={functionInputs[field] || ''} onBlur={() => this.handleFunctionInputBlur(field, functionInput)} field={field} onChange={this.handleFunctionInputChange}/>
-                                </div>
-                            })}
-                        </div>}
-                    </div>
-                    <div>
-                        <Button size="large">
+                                    return <div key={field} className="DisplayFlex AlignItemsCenter MarginBottom2">
+                                        <div className="MonospaceFont LinkText MarginRight2">{functionInput.type}</div>
+                                        <Input label={functionInput.name} value={functionInputs[field] || ''} onBlur={() => this.handleFunctionInputBlur(field, functionInput)} field={field} onChange={this.handleFunctionInputChange}/>
+                                    </div>
+                                })}
+                            </div>}
+                        </div>
+                    </Card>
+                    <div className="MarginTop4">
+                        <Button>
                             <span>Simulate Transaction</span>
                         </Button>
                     </div>
