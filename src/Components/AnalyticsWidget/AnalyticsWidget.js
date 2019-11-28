@@ -155,8 +155,8 @@ class AnalyticsWidget extends Component {
                                     <defs>
                                         {widget.dataPoints.map(point =>
                                             <linearGradient key={point.key} id={point.color + point.key} x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%" stopColor={point.color} stopOpacity={0.85}/>
-                                                <stop offset="100%" stopColor={point.color} stopOpacity={0}/>
+                                                <stop offset="0%" stopColor={point.color} stopOpacity={0.3}/>
+                                                <stop offset="100%" stopColor={point.color} stopOpacity={0.2}/>
                                             </linearGradient>
                                         )}
                                     </defs>
