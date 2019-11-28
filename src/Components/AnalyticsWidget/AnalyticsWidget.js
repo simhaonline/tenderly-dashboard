@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import {Area, AreaChart, Line, CartesianGrid, LineChart, Bar, BarChart, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip} from "recharts";
 
+import {getFormattedDateForResolution} from "../../Utils/AnalyticsHelpers";
+
 import {
     AnalyticsWidgetDataRangeTypes,
     AnalyticsWidgetListTypeColumnTypes, AnalyticsWidgetResolutionTypes,
@@ -14,7 +16,6 @@ import {Panel, Tag, Icon, Tooltip} from "../../Elements";
 import {SimpleLoader} from "..";
 
 import './AnalyticsWidget.scss';
-import {getFormattedDateForResolution} from "../../Utils/AnalyticsHelpers";
 
 const widgetSizeClassMap = {
     [AnalyticsWidgetSizeTypes.ONE]: 'AnalyticsWidget--One',
@@ -43,8 +44,10 @@ class AnalyticsWidgetTooltip extends PureComponent {
             <div className="MarginBottom1">
                 <span className="SemiBoldText">{getFormattedDateForResolution(payload[0].payload.date, widget.resolution)}</span>
             </div>
-            {_.orderBy(payload, 'value', 'desc').map(load => <div key={load.dataKey}>
-                {load.name}: <span className="SemiBoldText">{load.value}</span>
+            {_.orderBy(payload, 'value', 'desc').map(load => <div key={load.dataKey} className="AnalyticsWidgetTooltip__LegendItem">
+                <div style={{backgroundColor: load.color}} className="AnalyticsWidgetTooltip__Dot"/>
+                <span className="AnalyticsWidgetTooltip__LegendItem__Label">{load.name}:</span>
+                <span className="AnalyticsWidgetTooltip__LegendItem__Value">{load.value}</span>
             </div>)}
         </div>
     }

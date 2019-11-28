@@ -52,6 +52,7 @@ class Widget {
                 key: itemKey,
                 name: itemKey,
                 color: colorScale(1 / (Math.max(legendItems.length - 1, 1)) * index).hex(),
+                meta: response.legend.items[itemKey].labels,
             })),
             data: _.reverse(response.data.map(datum => ({
                 date: moment(datum.timestamp * 1000),
