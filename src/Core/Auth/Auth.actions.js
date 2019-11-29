@@ -201,7 +201,7 @@ export const fetchUserPlan = (user) => asyncActionWrapper('fetchUserPlan', async
         type: FETCH_USER_PLAN_ACTION,
     });
 
-    return new SuccessActionResponse();
+    return new SuccessActionResponse({});
 });
 
 /**
@@ -320,6 +320,10 @@ export const retrieveToken = token => asyncActionWrapper('retrieveToken', async 
             user = response.data;
 
             const planResponse = await dispatch(fetchUserPlan(response.data));
+
+            if (planResponse.success) {
+                plan = planResponse.data;
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 import React, {Component, Fragment, PureComponent} from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import {Area, AreaChart, Line, CartesianGrid, LineChart, Bar, BarChart, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip} from "recharts";
+import {Area, AreaChart, CartesianGrid, Bar, BarChart, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip} from "recharts";
 
 import {getFormattedDateForResolution} from "../../Utils/AnalyticsHelpers";
 
@@ -58,16 +58,8 @@ class AnalyticsWidget extends Component {
         super(props);
 
         this.state = {
-            loading: true,
+            loading: false,
         };
-    }
-
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                loading: false,
-            })
-        }, _.random(1000, 2400));
     }
 
     render() {
