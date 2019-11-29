@@ -28,14 +28,26 @@ class InputElement extends Component {
         }
     };
 
-    handleInputFocus = () => {
+    handleInputFocus = (event) => {
+        const {onFocus} = this.props;
+
+        if (onFocus) {
+            onFocus(event);
+        }
+
         this.setState({
             focused: true,
         });
 
     };
 
-    handleInputBlur = () => {
+    handleInputBlur = (event) => {
+        const {onBlur} = this.props;
+
+        if (onBlur) {
+            onBlur(event);
+        }
+
         this.setState({
             focused: false,
         });
