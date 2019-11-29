@@ -1,20 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Blockies from "react-blockies";
-import {Link, withRouter} from "react-router-dom";
-import _ from 'lodash';
+import {withRouter} from "react-router-dom";
 
 import {Project, ProjectContract} from "../../Core/models";
-// import {NetworkTypes} from "../../Common/constants";
 
-import {Card, Icon, Tag, Input, Table} from "../../Elements";
+import {Table} from "../../Elements";
 import {
     // ContractAddressColumn,
     // ContractDeployedAtColumn,
     // ContractListeningColumn,
     // ContractFilesColumn,
     // NetworkColumn,
-    NetworkTag, PageLink
 } from "../index";
 
 import './ProjectContractList.scss';
@@ -37,17 +33,6 @@ const projectContractsTableConfiguration = [
 class ProjectContractList extends Component{
     state = {
         searchQuery: '',
-    };
-
-    /**
-     * @param {Contract} contract
-     */
-    handleListeningToggle = (contract) => {
-        const {onListenToggle} = this.props;
-
-        if (onListenToggle) {
-            onListenToggle(contract);
-        }
     };
 
     /**
