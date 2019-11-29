@@ -28,8 +28,6 @@ class ProjectSimulatorPage extends Component {
         if (!contractsLoaded) {
             await actions.fetchContractsForProject(project);
         }
-
-        console.log(Web3EthAbi);
     }
 
     handleTransactionSimulation = (simulationData) => {

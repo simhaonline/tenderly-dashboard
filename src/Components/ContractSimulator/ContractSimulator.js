@@ -10,6 +10,7 @@ import {Input, Select, Button, Checkbox, LinkButton, Card} from "../../Elements"
 import {ContractMethodOrLogSelectOption, ContractSelectOption} from "../index";
 
 import './ContractSimulator.scss';
+import {isValidAddress, isValidInputParameter} from "../../Utils/Ethereum";
 
 const DEFAULT_FROM_ADDRESS = '0x0000000000000000000000000000000000000000';
 const DEFAULT_GAS = '1000000';
@@ -20,8 +21,10 @@ class ContractSimulator extends Component {
         loadingContract: false,
         contract: null,
         block: '',
+        blockIndex: '0',
         blockSelected: false,
         maximumBlock: null,
+        maximumBlockIndex: 0,
         usePendingBlock: false,
         from: DEFAULT_FROM_ADDRESS,
         customFrom: false,
@@ -69,14 +72,32 @@ class ContractSimulator extends Component {
             loadingContract: false,
             contract: contractResponse.success ? contractResponse.data : null,
             maximumBlock,
+            block: maximumBlock,
+            blockSelected: false,
+            blockIndex: '0',
             functionOptions,
         });
+    };
+
+    handleBlockSelect = async () => {
+        const {contractActions} = this.props;
+        const {contract, block} = this.state;
+
+        const txIndexesResponse =  await contractActions.fetchTransactionIndexesForBlock(contract.network, block);
+
+        if (txIndexesResponse.success) {
+            this.setState({
+                blockSelected: true,
+                maximumBlockIndex: txIndexesResponse.data,
+            });
+        }
     };
 
     handleFunctionSelect = (contractFunction) => {
         this.setState({
             contractFunction,
             functionInputs: {},
+            functionInputErrors: {},
         });
     };
 
@@ -111,34 +132,67 @@ class ContractSimulator extends Component {
                     gas: currentState ? DEFAULT_GAS : '',
                 });
                 break;
+            default:
+                break;
         }
     };
 
-    handleFunctionInputBlur = () => {
-        // validate the input value on blur
+    handleFunctionInputBlur = (field, functionInput) => {
+        const {functionInputs, functionInputErrors} = this.state;
+
+        const isValid = isValidInputParameter(functionInput.type, functionInputs[field]);
+
+        this.setState({
+            functionInputErrors: {
+                ...functionInputErrors,
+                [field]: !isValid,
+            },
+        });
+    };
+
+    isBlockNumberValid = () => {
+        const {usePendingBlock, block, blockSelected} = this.state;
+
+        if (usePendingBlock || !block || blockSelected) {
+            return false;
+        }
+
+        return !isNaN(block);
+    };
+
+    isFromValid = () => {
+        return true;
+    };
+
+    submitTransactionForSimulation = () => {
+        const {onSubmit} = this.props;
+
+        console.log(onSubmit);
+
+        onSubmit();
     };
 
     render() {
         const {contracts} = this.props;
-        const {selectedContract, functionInputs, maximumBlock, contractFunction, usePendingBlock, functionOptions, block, from, gas, customFrom, customGas, loadingContract, contract, blockSelected} = this.state;
+        const {selectedContract, functionInputs, functionInputErrors, maximumBlockIndex, maximumBlock, contractFunction, usePendingBlock, functionOptions, block, blockIndex, from, gas, customFrom, customGas, loadingContract, contract, blockSelected} = this.state;
 
         return (
             <div>
-                <div className="DisplayFlex MarginBottom4">
-                    <Card className="Flex1">
-                        <h3 className="MarginBottom2">Contract</h3>
-                        <Select value={selectedContract} disabled={loadingContract} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} components={{
-                            Option: ContractSelectOption,
-                        }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts}/>
-                    </Card>
-                    {!loadingContract && !!contract && <Card className="Flex1 MarginLeft2">
+                <Card>
+                    <h3 className="MarginBottom2">Contract</h3>
+                    <Select value={selectedContract} disabled={loadingContract} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} components={{
+                        Option: ContractSelectOption,
+                    }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts}/>
+                </Card>
+                {!loadingContract && !!contract && <div>
+                    <Card>
                         <h3 className="MarginBottom2">Simulation Point</h3>
                         <div>
                             <div className="MarginBottom2">Select the point in time in which you wish to simulate this transaction. Select the block number and at which index you wish to execute it or simulate it in the current pending block.</div>
                             <Checkbox field="usePendingBlock" label="Simulate in current pending block" value={usePendingBlock} onChange={this.handleInputChange}/>
                             <div className="DisplayFlex AlignItemsStart">
                                 <Input value={block} readOnly={blockSelected || usePendingBlock} label="Block number" field="block" onChange={this.handleInputChange}/>
-                                <Button disabled={usePendingBlock || !block} className="MarginLeft2">
+                                <Button disabled={!this.isBlockNumberValid()} className="MarginLeft2" onClick={this.handleBlockSelect}>
                                     <span>Select Block</span>
                                 </Button>
                             </div>
@@ -146,9 +200,11 @@ class ContractSimulator extends Component {
                                 <span>Current Block: {maximumBlock}</span>
                             </div>
                         </div>
-                    </Card>}
-                </div>
-                {!loadingContract && !!contract && <div>
+                        {blockSelected && <div>
+                            <Input value={blockIndex} readOnly={usePendingBlock} label="Block Index" field="blockIndex" onChange={this.handleInputChange}/>
+                            <span>Maximum Block Index: {maximumBlockIndex}</span>
+                        </div>}
+                    </Card>
                     <Card>
                         <h3 className="MarginBottom2">Transaction Parameters</h3>
                         <div className="DisplayFlex">
@@ -180,13 +236,14 @@ class ContractSimulator extends Component {
                                     return <div key={field} className="DisplayFlex AlignItemsCenter MarginBottom2">
                                         <div className="MonospaceFont LinkText MarginRight2">{functionInput.type}</div>
                                         <Input label={functionInput.name} value={functionInputs[field] || ''} onBlur={() => this.handleFunctionInputBlur(field, functionInput)} field={field} onChange={this.handleFunctionInputChange}/>
+                                        {!!functionInputErrors[field] && <div className="DangerText">Invalid input</div>}
                                     </div>
                                 })}
                             </div>}
                         </div>
                     </Card>
                     <div className="MarginTop4">
-                        <Button>
+                        <Button disabled={!this.isFromValid()} onClick={this.submitTransactionForSimulation}>
                             <span>Simulate Transaction</span>
                         </Button>
                     </div>

@@ -1,4 +1,5 @@
 import {keccak256} from "js-sha3";
+import _ from "lodash";
 
 /**
  * @param {string} txHash
@@ -77,3 +78,24 @@ export function decodeBase64ToHex(base64) {
     return `0x${HEX.toLowerCase()}`;
 }
 
+export function isValidInputParameter(type, value) {
+    let parsedType = type;
+
+    if (_.endsWith(type, '[]')) {
+        return value.split(',').every(splitValue => isValidInputParameter(type.replace('[]', ''), splitValue));
+    }
+
+    if (_.startsWith(type, 'uint')) {
+        parsedType = 'uint';
+    }
+
+    switch (parsedType) {
+        case 'uint':
+            console.log('asd', _.isNumber(value), value, parsedType);
+            return !isNaN(value);
+        case 'address':
+            return isValidAddress(value);
+        default:
+            return true;
+    }
+}

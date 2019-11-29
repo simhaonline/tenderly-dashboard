@@ -334,13 +334,11 @@ export const fetchTransactionIndexesForBlock = (network, blockId) => {
 
             const {data} = await Api.get(`/network/${networkId}/block-number/${blockId}/transaction-count`);
 
-            if (!data) {
+            if (!data || data.count === undefined) {
                 return new ErrorActionResponse();
             }
 
-            console.log('block index', data);
-
-            return new SuccessActionResponse(data);
+            return new SuccessActionResponse(data.count);
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse();
