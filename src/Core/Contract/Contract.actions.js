@@ -308,11 +308,62 @@ export const fetchLatestBlockForNetwork = (network) => {
         try {
             const networkId = getApiIdForNetwork(network);
 
-            const {data} = await Api.get(`/${networkId}/latest-block`);
+            const {data} = await Api.get(`/network/${networkId}/block-number`);
+
+            if (!data || !data.block_number) {
+                return new ErrorActionResponse();
+            }
+
+            return new SuccessActionResponse(data.block_number);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse();
+        }
+    }
+};
+
+/**
+ * @param {NetworkTypes} network
+ * @param {string} blockId
+ * @returns {Function}
+ */
+export const fetchTransactionIndexesForBlock = (network, blockId) => {
+    return async () => {
+        try {
+            const networkId = getApiIdForNetwork(network);
+
+            const {data} = await Api.get(`/network/${networkId}/block-number/${blockId}/transaction-count`);
 
             if (!data) {
                 return new ErrorActionResponse();
             }
+
+            console.log('block index', data);
+
+            return new SuccessActionResponse(data);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse();
+        }
+    }
+};
+
+/**
+ * @param {NetworkTypes} network
+ * @param {Object} transactionInfo
+ */
+export const simulateTransaction = (network, transactionInfo) => {
+    return async () => {
+        try {
+            const networkId = getApiIdForNetwork(network);
+
+            const {data} = await Api.get(`/network/${networkId}/simulate`);
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            console.log('simulation', data);
 
             return new SuccessActionResponse(data);
         } catch (error) {

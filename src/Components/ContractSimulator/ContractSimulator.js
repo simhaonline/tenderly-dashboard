@@ -57,10 +57,18 @@ class ContractSimulator extends Component {
             }, [{label: "Read", options: [],}, {label: "Write", options: [],},]);
         }
 
+        const maxBlockResponse = await contractActions.fetchLatestBlockForNetwork(contract.network);
+
+        let maximumBlock = null;
+
+        if (maxBlockResponse.success) {
+            maximumBlock = maxBlockResponse.data;
+        }
+
         this.setState({
             loadingContract: false,
             contract: contractResponse.success ? contractResponse.data : null,
-            maximumBlock: 12345,
+            maximumBlock,
             functionOptions,
         });
     };
@@ -112,7 +120,7 @@ class ContractSimulator extends Component {
 
     render() {
         const {contracts} = this.props;
-        const {selectedContract, functionInputs, contractFunction, usePendingBlock, functionOptions, block, from, gas, customFrom, customGas, loadingContract, contract, blockSelected} = this.state;
+        const {selectedContract, functionInputs, maximumBlock, contractFunction, usePendingBlock, functionOptions, block, from, gas, customFrom, customGas, loadingContract, contract, blockSelected} = this.state;
 
         return (
             <div>
@@ -133,6 +141,9 @@ class ContractSimulator extends Component {
                                 <Button disabled={usePendingBlock || !block} className="MarginLeft2">
                                     <span>Select Block</span>
                                 </Button>
+                            </div>
+                            <div>
+                                <span>Current Block: {maximumBlock}</span>
                             </div>
                         </div>
                     </Card>}
@@ -187,6 +198,7 @@ class ContractSimulator extends Component {
 
 ContractSimulator.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)).isRequired,
+    onSubmit: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => {
