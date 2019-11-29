@@ -135,7 +135,7 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/collaborators/add" exact render={this.renderComponent(ProjectAddCollaboratorPage)}/>
                     <Route path="/:username/:slug/collaborators/:collaboratorId" strict render={this.renderComponent(ProjectCollaboratorPage)}/>
                     <Route path="/:username/:slug/settings" render={this.renderComponent(ProjectSettingsPage)}/>
-                    <Route path="/:username/:slug/plan" render={this.renderComponent(ProjectPlanPage)}/>
+                    <Route path="/:username/:slug/usage" render={this.renderComponent(ProjectPlanPage)}/>
                     <Redirect to={`/:username/:slug/transactions`}/>
                 </Switch>
             </Fragment>

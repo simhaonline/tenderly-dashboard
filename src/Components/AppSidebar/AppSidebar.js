@@ -37,10 +37,6 @@ function getContextFromUrl(url, base) {
         return 'contracts';
     }
 
-    if (_.startsWith(strippedUrl, '/plan')) {
-        return 'plan';
-    }
-
     return null;
 }
 
@@ -146,12 +142,7 @@ class AppSidebar extends Component {
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
                         <AppSidebarLink to={`${routeBase}/collaborators`} icon="users" label="Collaborators"/>
-                        <AppSidebarLink to={`${routeBase}/plan`} icon="credit-card" label="Plan"/>
-                        {context === 'plan' && <div className="MarginTop1">
-                            <AppSidebarSubLink to={`${routeBase}/plan`} exact label="Usage"/>
-                            <AppSidebarSubLink to={`${routeBase}/plan/billing-cards`} label="Billing & Cards"/>
-                            <AppSidebarSubLink to={`${routeBase}/plan/history`} label="Invoices"/>
-                        </div>}
+                        <AppSidebarLink to={`${routeBase}/usage`} icon="credit-card" label="Usage"/>
                         <AppSidebarLink to={`${routeBase}/settings`} icon="settings" label="Settings"/>
                     </div>
                 </div>}
