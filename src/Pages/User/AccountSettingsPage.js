@@ -41,7 +41,6 @@ const SettingsSegments = [
     {
         label: 'Billing',
         value: SettingsSegmentsTypes.BILLING,
-        featureFlag: FeatureFlagTypes.BILLING,
     },
 ];
 
