@@ -10,6 +10,7 @@ import {isInternalUserByEmail} from "../../Utils/UserHelpers";
 import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 import User from "./User.model";
+import Plan from "../Billing/Plan.model";
 import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
 import {UsernameStatusMap} from "../../Common/constants";
 
@@ -195,13 +196,18 @@ export const getUser = (token) => {
 export const fetchUserPlan = (user) => asyncActionWrapper('fetchUserPlan', async dispatch => {
     const {data} = await Api.get(`/account/${user.username}/billing/plan`);
 
-    console.log('fetchUsePlan', data);
+    if (!data || !data.plan) {
+        return new ErrorActionResponse();
+    }
+
+    const plan = Plan.buildFromResponse(data.plan);
 
     dispatch({
         type: FETCH_USER_PLAN_ACTION,
+        plan,
     });
 
-    return new SuccessActionResponse({});
+    return new SuccessActionResponse(plan);
 });
 
 /**

@@ -47,9 +47,9 @@ class App extends Component {
      * @param {Plan|null} plan
      */
     isSessionResolutionRequired = (user, plan) => {
-        if (!user) return false;
+        if (!plan) return false;
 
-        return user.eligibleForGrandfathering;
+        return plan.slug === 'grandfather' && !plan.isPlanActive;
     };
 
     async componentDidMount() {
