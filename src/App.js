@@ -98,6 +98,12 @@ class App extends Component {
         });
     }
 
+    handleSessionResolution = () => {
+        this.setState({
+            resolutionRequired: false,
+        });
+    };
+
     render() {
         const {loaded, error, user, plan, resolutionRequired} = this.state;
 
@@ -112,7 +118,7 @@ class App extends Component {
             <Provider store={store}>
                 <Router>
                     <div className="App">
-                        {resolutionRequired && <SessionResolutionPage user={user} plan={plan}/>}
+                        {resolutionRequired && <SessionResolutionPage user={user} plan={plan} onResolution={this.handleSessionResolution}/>}
                         {!resolutionRequired && <Fragment>
                             <AppHeader/>
                             <div id="AppContent">
