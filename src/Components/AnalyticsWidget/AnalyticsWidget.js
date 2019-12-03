@@ -157,7 +157,7 @@ class AnalyticsWidget extends Component {
                                     </defs>
                                     <RechartsTooltip content={<AnalyticsWidgetTooltip widget={widget}/>} cursor={{stroke: '#060e18'}} position={{y: 150,}}/>
                                     {widget.dataPoints.map(point =>
-                                        <Area dot={{fill: '#133153'}} dataKey={point.key} name={point.name || point.key}
+                                        <Area dot={false} dataKey={point.key} name={point.name || point.key}
                                               stroke={point.color} key={point.key} isAnimationActive={false} fill={`url(#${point.color + point.key})`}/>
                                     )}
                                 </AreaChart>
