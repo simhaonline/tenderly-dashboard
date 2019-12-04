@@ -57,7 +57,7 @@ class Widget {
 
         return new Widget({
             id: key,
-            name: key,
+            name: key.replace(/_/g, ' '),
             type: AnalyticsWidgetTypes.LINE_CHART,
             size: AnalyticsWidgetSizeTypes.TWO,
             resolution: AnalyticsWidgetResolutionTypes.HOUR,
