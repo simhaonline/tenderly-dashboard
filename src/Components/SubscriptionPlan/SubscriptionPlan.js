@@ -9,27 +9,32 @@ import ProImage from './pro-plan.svg';
 import EnterpriseImage from './enterprise-plan.svg';
 
 import './SubscriptionPlan.scss';
+import {formatPrice} from "../../Utils/CurrencyHelpers";
 
 class SubscriptionPlan extends Component {
     render() {
-        const {plan} = this.props;
+        const {subscription} = this.props;
+
+        if (!subscription) return null;
+
+        const plan = subscription.plan;
 
         return (
             <Panel className="SubscriptionPlan">
                 <PanelContent className="DisplayFlex AlignItemsCenter">
-                    {plan === UserPlanTypes.FREE && <div className="SubscriptionPlan__PlanImageWrapper">
+                    {plan.type === UserPlanTypes.FREE && <div className="SubscriptionPlan__PlanImageWrapper">
                         <img src={FreeImage} alt="" className="SubscriptionPlan__PlanImage"/>
                     </div>}
-                    {plan === UserPlanTypes.PRO && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Pro">
+                    {plan.type === UserPlanTypes.PRO && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Pro">
                         <img src={ProImage} alt="" className="SubscriptionPlan__PlanImage"/>
                     </div>}
-                    {plan === UserPlanTypes.ENTERPRISE && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Enterprise">
+                    {plan.type === UserPlanTypes.ENTERPRISE && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Enterprise">
                         <img src={EnterpriseImage} alt="" className="SubscriptionPlan__PlanImage"/>
                     </div>}
                     <div>
-                        {plan === UserPlanTypes.FREE && <div>
+                        {plan.type === UserPlanTypes.FREE && <div>
                             <h1>Developer Plan</h1>
-                            <p>$0/mo</p>
+                            <p>{formatPrice(plan.price)}/mo</p>
                             <p>You are currently on our free developer plan</p>
                             <div>
                                 <Button>
@@ -37,9 +42,9 @@ class SubscriptionPlan extends Component {
                                 </Button>
                             </div>
                         </div>}
-                        {plan === UserPlanTypes.PRO && <div>
+                        {plan.type === UserPlanTypes.PRO && <div>
                             <h1>Pro Plan</h1>
-                            <p>$500/mo</p>
+                            <p>{formatPrice(plan.price)}/mo</p>
                             <p>You are currently on our free developer plan</p>
                             <Button>
                                 <span>Upgrade</span>

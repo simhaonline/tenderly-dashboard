@@ -4,7 +4,7 @@ import {bindActionCreators} from "redux";
 
 import {FeatureFlagTypes} from "../../Common/constants";
 
-import {getAllPlans} from "../../Common/Selectors/BillingSelectors";
+import {getAllPlans, getUserPlan} from "../../Common/Selectors/BillingSelectors";
 
 import {formatPrice} from "../../Utils/CurrencyHelpers";
 import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
@@ -12,7 +12,14 @@ import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelper
 import {billingActions, authActions} from "../../Core/actions";
 
 import {Page, Container, Panel, PanelHeader, PanelContent, PageHeading, Input, Alert, Code} from "../../Elements";
-import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton, UserInformationForm} from "../../Components";
+import {
+    PageSegmentSwitcher,
+    PageSegments,
+    PageSegmentContent,
+    ProgressiveButton,
+    UserInformationForm,
+    SubscriptionPlan
+} from "../../Components";
 
 import './AccountSettingsPage.scss';
 
@@ -143,7 +150,7 @@ class AccountSettingsPage extends Component {
 
     render() {
         const {currentSegment, error, formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
-        const {token, user, plans} = this.props;
+        const {token, user, plans, userPlan} = this.props;
 
         let isPasswordFormValid = !!newPassword && !!repeatNewPassword;
 
@@ -212,6 +219,7 @@ class AccountSettingsPage extends Component {
                             </Panel>
                         </PageSegmentContent>}
                         {currentSegment === SettingsSegmentsTypes.BILLING && <PageSegmentContent>
+                            {!!userPlan && <SubscriptionPlan subscription={userPlan}/>}
                             <Panel>
                                 <PanelContent>
                                     <div className="DisplayFlex">
@@ -235,6 +243,7 @@ const mapStateToProps = (state) => {
         user: state.auth.user,
         token: state.auth.token,
         plans: getAllPlans(state),
+        userPlan: getUserPlan(state),
     };
 };
 

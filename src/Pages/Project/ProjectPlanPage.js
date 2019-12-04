@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {UserPlanTypes} from "../../Common/constants";
 
 import {Page, PageHeading} from "../../Elements";
-import {SubscriptionPlan, ProjectPlanUsage} from "../../Components";
+import {ProjectPlanUsage} from "../../Components";
 
 class ProjectPlanPage extends Component {
     state = {
@@ -32,7 +32,6 @@ class ProjectPlanPage extends Component {
                 <PageHeading>
                     <h1>Plan</h1>
                 </PageHeading>
-                <SubscriptionPlan plan={userPlan}/>
                 <ProjectPlanUsage usage={planUsage}/>
             </Page>
         );
