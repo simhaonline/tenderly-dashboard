@@ -208,16 +208,7 @@ class AccountSettingsPage extends Component {
                         </PageSegmentContent>}
                         {currentSegment === SettingsSegmentsTypes.BILLING && <PageSegmentContent>
                             <Panel>
-                                <PanelHeader>
-                                    <h3>Auth Tokens</h3>
-                                </PanelHeader>
-                                <PanelContent>
-                                    <p>You can use this token to login to our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a></p>
-                                    <h4>Token</h4>
-                                    <Code copy={token}>{token}</Code>
-                                    <p>Or you can paste the following command into your terminal and login.</p>
-                                    <Code copy={`tenderly login --authentication-method=token --token=${token}`}>tenderly login --authentication-method=token --token={token}</Code>
-                                </PanelContent>
+                                Plans
                             </Panel>
                         </PageSegmentContent>}
                     </PageSegments>
