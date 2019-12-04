@@ -5,13 +5,14 @@ import {connect} from 'react-redux';
 import {UserPlanTypes} from "../../Common/constants";
 
 import {Button, Dialog, DialogBody} from "../../Elements";
+import {getUserPlan} from "../../Common/Selectors/BillingSelectors";
 
 class PaidFeatureButton extends PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            hasRequiredPlan: false,
+            hasRequiredPlan: true,
             upgradeModalOpen: false,
         };
     }
@@ -66,8 +67,11 @@ PaidFeatureButton.propTypes = {
     planRequired: PropTypes.oneOf(Object.values(UserPlanTypes)).isRequired,
 };
 
-const mapStateToProps = () => {
-    return {};
+const mapStateToProps = (state) => {
+    // @TODO account for shared projects
+    return {
+        userPlan: getUserPlan(state),
+    };
 };
 
 export default connect(
