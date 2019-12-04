@@ -5,26 +5,28 @@ class Plan {
         /** @type {string} */
         this.id = data.id;
 
-        /** @type {string} */
-        this.slug = data.slug;
-
         /** @type {UserPlanTypes} */
         this.type = data.type;
 
         /** @type {number} */
         this.price = data.price;
 
-        /** @type {boolean} */
-        this.isTrialActive = data.isTrialActive;
-
-        /** @type {boolean} */
-        this.isPlanActive = data.isPlanActive;
-
-        /** @type {Object} */
+        /**
+         * This Object map contains keys that are defined on the API. This is because they will/can be changed frequently
+         * and instead of us creating a parser for everyone we will use the api keys directly.
+         *
+         * @type {Object}
+         */
         this.includes = data.includes;
 
-        /** @type {Object} */
-        this.trialInfo = data.trialInfo;
+        /** @type {boolean} */
+        this.trialEnabled = data.trialEnabled;
+
+        /** @type {boolean} */
+        this.trialRequiresCC = data.trialRequiresCC;
+
+        /** @type {number} */
+        this.trialLength = data.trialLength;
     }
 
     static getTypeFromApiType(apiType) {
@@ -43,21 +45,16 @@ class Plan {
      * @returns {Plan}
      */
     static buildFromResponse(response) {
-        const type = Plan.getTypeFromApiType(response.plan.type);
+        const type = Plan.getTypeFromApiType(response.type);
 
         return new Plan({
             id: response.id,
             type,
-            slug: response.plan_id,
-            price: response.plan.price,
-            isTrialActive: response.is_trial_active,
-            isPlanActive: response.is_plan_active,
-            includes: response.plan.includes,
-            trialInfo: {
-                enabled: response.plan.trial.enabled,
-                creditCardRequired: response.plan.trial.credit_card_required,
-                trialLength: response.plan.trial.trial_length,
-            },
+            includes: response.includes,
+            price: response.price,
+            trialEnabled: response.trial.enabled,
+            trialRequiresCC: response.trial.credit_card_required,
+            trialLength: response.trial.trial_length,
         });
     }
 }

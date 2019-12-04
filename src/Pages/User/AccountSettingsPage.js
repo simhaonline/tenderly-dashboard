@@ -4,8 +4,7 @@ import {bindActionCreators} from "redux";
 
 import {FeatureFlagTypes} from "../../Common/constants";
 import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
-
-import * as authActions from "../../Core/Auth/Auth.actions";
+import {billingActions, authActions} from "../../Core/actions";
 
 import {Page, Container, Panel, PanelHeader, PanelContent, PageHeading, Input, Alert, Code} from "../../Elements";
 import {PageSegmentSwitcher, PageSegments, PageSegmentContent, ProgressiveButton, UserInformationForm} from "../../Components";
@@ -65,6 +64,12 @@ class AccountSettingsPage extends Component {
             repeatNewPassword: '',
         });
         this.handleFormUpdate = updateFormField.bind(this);
+    }
+
+    componentDidMount() {
+        const {billingActions} = this.props;
+
+        billingActions.fetchAllPlans();
     }
 
     resetPasswordForm = () => {
@@ -201,6 +206,20 @@ class AccountSettingsPage extends Component {
                                 </PanelContent>
                             </Panel>
                         </PageSegmentContent>}
+                        {currentSegment === SettingsSegmentsTypes.BILLING && <PageSegmentContent>
+                            <Panel>
+                                <PanelHeader>
+                                    <h3>Auth Tokens</h3>
+                                </PanelHeader>
+                                <PanelContent>
+                                    <p>You can use this token to login to our <a href="https://github.com/Tenderly/tenderly-cli" rel="noopener noreferrer" target="_blank">CLI tool.</a></p>
+                                    <h4>Token</h4>
+                                    <Code copy={token}>{token}</Code>
+                                    <p>Or you can paste the following command into your terminal and login.</p>
+                                    <Code copy={`tenderly login --authentication-method=token --token=${token}`}>tenderly login --authentication-method=token --token={token}</Code>
+                                </PanelContent>
+                            </Panel>
+                        </PageSegmentContent>}
                     </PageSegments>
                 </Container>
             </Page>
@@ -218,6 +237,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(authActions, dispatch),
+        billingActions: bindActionCreators(billingActions, dispatch),
     }
 };
 

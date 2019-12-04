@@ -10,7 +10,7 @@ import {isInternalUserByEmail} from "../../Utils/UserHelpers";
 import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 import User from "./User.model";
-import Plan from "../Billing/Plan.model";
+import AccountPlan from "../Billing/AccountPlan.model";
 import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
 import {UsernameStatusMap} from "../../Common/constants";
 
@@ -200,14 +200,14 @@ export const fetchUserPlan = (user) => asyncActionWrapper('fetchUserPlan', async
         return new ErrorActionResponse();
     }
 
-    const plan = Plan.buildFromResponse(data.plan);
+    const accountPlan = AccountPlan.buildFromResponse(data.plan);
 
     dispatch({
         type: FETCH_USER_PLAN_ACTION,
-        plan,
+        accountPlan,
     });
 
-    return new SuccessActionResponse(plan);
+    return new SuccessActionResponse(accountPlan);
 });
 
 /**
