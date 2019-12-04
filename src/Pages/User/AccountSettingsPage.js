@@ -3,7 +3,12 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 import {FeatureFlagTypes} from "../../Common/constants";
+
+import {getAllPlans} from "../../Common/Selectors/BillingSelectors";
+
+import {formatPrice} from "../../Utils/CurrencyHelpers";
 import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
+
 import {billingActions, authActions} from "../../Core/actions";
 
 import {Page, Container, Panel, PanelHeader, PanelContent, PageHeading, Input, Alert, Code} from "../../Elements";
@@ -138,7 +143,7 @@ class AccountSettingsPage extends Component {
 
     render() {
         const {currentSegment, error, formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
-        const {token, user} = this.props;
+        const {token, user, plans} = this.props;
 
         let isPasswordFormValid = !!newPassword && !!repeatNewPassword;
 
@@ -208,7 +213,14 @@ class AccountSettingsPage extends Component {
                         </PageSegmentContent>}
                         {currentSegment === SettingsSegmentsTypes.BILLING && <PageSegmentContent>
                             <Panel>
-                                Plans
+                                <PanelContent>
+                                    <div className="DisplayFlex">
+                                        {plans.map(plan => <div key={plan.id} className="Flex1">
+                                            <div>{plan.id}</div>
+                                            <div>{formatPrice(plan.price)}</div>
+                                        </div>)}
+                                    </div>
+                                </PanelContent>
                             </Panel>
                         </PageSegmentContent>}
                     </PageSegments>
@@ -222,6 +234,7 @@ const mapStateToProps = (state) => {
     return {
         user: state.auth.user,
         token: state.auth.token,
+        plans: getAllPlans(state),
     };
 };
 
