@@ -26,13 +26,11 @@ export function getFormattedTimeRange(time) {
         return 'Fixed';
     }
 
-    let label = `Last ${time.window.value} ${TimeUnitLabelMap[time.window.unit].toLowerCase()}`;
-
-    if (time.window.value > 1) {
-        label += 's';
+    if (time.window.value === 1) {
+        return `Last ${TimeUnitLabelMap[time.window.unit].toLowerCase()}`;
     }
 
-    return label;
+    return `Last ${time.window.value} ${TimeUnitLabelMap[time.window.unit].toLowerCase()}s`;
 }
 
 /**
