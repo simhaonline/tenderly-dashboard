@@ -32,3 +32,4 @@ export {default as Widget} from './Analytics/Widget.model';
 export {default as AnalyticsDashboard} from './Analytics/AnalyticsDashboard.model';
 
 export {default as Plan} from './Billing/Plan.model';
+export {default as AccountPlan} from './Billing/AccountPlan.model';
