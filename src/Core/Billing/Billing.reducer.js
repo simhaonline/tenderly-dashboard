@@ -3,6 +3,7 @@ import {FETCH_ALL_PLANS_ACTION} from "./Billing.actions";
 
 const initialState = {
     plans: {},
+    allPlansLoaded: false,
     userPlan: null,
 };
 
@@ -19,6 +20,7 @@ const BillingReducer = (state = initialState, action) => {
         case FETCH_ALL_PLANS_ACTION:
             return {
                 ...state,
+                allPlansLoaded: true,
                 plans: action.plans.reduce((data, plan) => {
                     data[plan.id] = plan;
                     return data;
