@@ -25,6 +25,9 @@ class SubscriptionPlan extends Component {
                     {plan.type === UserPlanTypes.FREE && <div className="SubscriptionPlan__PlanImageWrapper">
                         <img src={FreeImage} alt="" className="SubscriptionPlan__PlanImage"/>
                     </div>}
+                    {plan.type === UserPlanTypes.GRANDFATHER && <div className="SubscriptionPlan__PlanImageWrapper">
+                        <img src={FreeImage} alt="" className="SubscriptionPlan__PlanImage"/>
+                    </div>}
                     {plan.type === UserPlanTypes.PRO && <div className="SubscriptionPlan__PlanImageWrapper SubscriptionPlan__PlanImageWrapper--Pro">
                         <img src={ProImage} alt="" className="SubscriptionPlan__PlanImage"/>
                     </div>}
@@ -36,6 +39,16 @@ class SubscriptionPlan extends Component {
                             <h1>Developer Plan</h1>
                             <p>{formatPrice(plan.price)}/mo</p>
                             <p>You are currently on our free developer plan</p>
+                            <div>
+                                <Button>
+                                    <span>Upgrade</span>
+                                </Button>
+                            </div>
+                        </div>}
+                        {plan.type === UserPlanTypes.GRANDFATHER && <div>
+                            <h1>Grandfather Plan</h1>
+                            <p>{formatPrice(plan.price)}/mo</p>
+                            <p>You are currently on our Granfather plan.</p>
                             <div>
                                 <Button>
                                     <span>Upgrade</span>

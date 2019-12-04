@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 
-import {UserPlanTypes} from "../../Common/constants";
+import {getUserPlan} from "../../Common/Selectors/BillingSelectors";
 
 import {Page, PageHeading} from "../../Elements";
 import {ProjectPlanUsage} from "../../Components";
@@ -23,8 +23,8 @@ class ProjectPlanPage extends Component {
             },
         },
     };
+
     render() {
-        const {userPlan} = this.props;
         const {planUsage} = this.state;
 
         return (
@@ -40,7 +40,7 @@ class ProjectPlanPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        userPlan: UserPlanTypes.PRO,
+        userPlan: getUserPlan(state),
     }
 };
 

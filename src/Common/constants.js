@@ -245,6 +245,7 @@ export const UsernameStatusMap = {
  */
 export const UserPlanTypes = {
     FREE: 'free',
+    GRANDFATHER: 'grandfather',
     PRO: 'pro',
     ENTERPRISE: 'enterprise',
 };

@@ -29,8 +29,19 @@ class Plan {
         this.trialLength = data.trialLength;
     }
 
-    static getTypeFromApiType(apiType) {
-        switch (apiType) {
+    /**
+     * @param {Object} response
+     * @returns {null|UserPlanTypes|string}
+     */
+    static getTypeFromApiType(response) {
+        /**
+         * This is special handling for the one-off grandfather plan that will be used during the transition.
+         */
+        if (response.id === 'grandfather') {
+            return UserPlanTypes.GRANDFATHER;
+        }
+
+        switch (response.type) {
             case "free":
                 return UserPlanTypes.FREE;
             case "pro":
@@ -45,7 +56,7 @@ class Plan {
      * @returns {Plan}
      */
     static buildFromResponse(response) {
-        const type = Plan.getTypeFromApiType(response.type);
+        const type = Plan.getTypeFromApiType(response);
 
         return new Plan({
             id: response.id,
