@@ -22,6 +22,39 @@ $AnalyticsWidgetSizeUnit: 200px;
   font-weight: 700;
 }
 
+.AnalyticsWidget__Header__DataInfo {
+  display: flex;
+  margin-top: $Spacing3;
+}
+
+.AnalyticsWidget__Header__DataInfoPill {
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  padding: $Spacing0 $Spacing1;
+  font-size: $FontSize200;
+  border: 1px solid $WhiteColor;
+
+  > .TnIcon {
+    margin-right: $Spacing1;
+    opacity: 0.5;
+  }
+
+  &--Breakdown {
+    border-color: transparentize($Slate900, 0.25);
+    background-color: transparentize($Slate900, 0.65);
+  }
+
+  &--Show {
+    border-color: transparentize($Primary500, 0.25);
+    background-color: transparentize($Primary500, 0.75);
+  }
+
+  &:not(:last-child) {
+    margin-right: $Spacing1;
+  }
+}
+
 .AnalyticsWidget__Header__SubInfo {
   background-color: $Slate400;
   border-top: 1px solid $Slate800;
