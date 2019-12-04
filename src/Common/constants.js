@@ -159,6 +159,16 @@ export const AnalyticsWidgetDataRangeTypes = {
 /**
  * @enum {string}
  */
+export const AnalyticsWidgetTimeUnitTypes = {
+    DAY: 'DAY',
+    WEEK: 'WEEK',
+    MONTH: 'MONTH',
+    YEAR: 'YEAR',
+};
+
+/**
+ * @enum {string}
+ */
 export const AnalyticsWidgetResolutionTypes = {
     MINUTE: 'MINUTE',
     HOUR: 'HOUR',

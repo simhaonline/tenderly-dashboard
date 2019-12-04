@@ -2,7 +2,12 @@ import moment from "moment";
 import chroma from "chroma-js";
 import _ from 'lodash';
 
-import {AnalyticsWidgetResolutionTypes, AnalyticsWidgetSizeTypes, AnalyticsWidgetTypes} from "../../Common/constants";
+import {
+    AnalyticsWidgetResolutionTypes,
+    AnalyticsWidgetSizeTypes,
+    AnalyticsWidgetTimeUnitTypes,
+    AnalyticsWidgetTypes
+} from "../../Common/constants";
 
 class Widget {
     constructor(data) {
@@ -20,6 +25,15 @@ class Widget {
 
         /** @type {AnalyticsWidgetSizeTypes} */
         this.size = data.size;
+
+        /** @type {Object[]} */
+        this.time = data.time;
+
+        /** @type {Object[]} */
+        this.group = data.group;
+
+        /** @type {Object[]} */
+        this.show = data.show;
 
         /** @type {AnalyticsWidgetResolutionTypes} */
         this.resolution = data.resolution;
@@ -47,7 +61,20 @@ class Widget {
             type: AnalyticsWidgetTypes.LINE_CHART,
             size: AnalyticsWidgetSizeTypes.TWO,
             resolution: AnalyticsWidgetResolutionTypes.HOUR,
+            time: {
+                window: {
+                    unit: AnalyticsWidgetTimeUnitTypes.DAY,
+                    value: 7,
+                },
+            },
             alerts: [],
+            group: [
+                {group: "contract", variable: "id"},
+                {group: "transaction", variable: "status"},
+            ],
+            show: [
+                {math: "count", event: "transaction"},
+            ],
             dataPoints: legendItems.map((itemKey, index) => ({
                 key: itemKey,
                 name: itemKey,
