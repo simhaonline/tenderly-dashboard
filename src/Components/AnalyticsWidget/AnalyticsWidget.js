@@ -3,10 +3,14 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import {Area, AreaChart, CartesianGrid, Bar, BarChart, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip} from "recharts";
 
-import {getFormattedDateForResolution, getFormattedTimeRange} from "../../Utils/AnalyticsHelpers";
+import {
+    getFormattedDateForResolution,
+    getFormattedResolution,
+    getFormattedTimeRange
+} from "../../Utils/AnalyticsHelpers";
 
 import {
-    AnalyticsWidgetListTypeColumnTypes, AnalyticsWidgetResolutionTypes,
+    AnalyticsWidgetListTypeColumnTypes,
     AnalyticsWidgetSizeTypes,
     AnalyticsWidgetTypes
 } from "../../Common/constants";
@@ -108,10 +112,7 @@ class AnalyticsWidget extends Component {
                                 {getFormattedTimeRange(widget.time)}
                             </div>
                             <div>
-                                {widget.resolution === AnalyticsWidgetResolutionTypes.HOUR && <span>Hour</span>}
-                                {widget.resolution === AnalyticsWidgetResolutionTypes.DAY && <span>Day</span>}
-                                {widget.resolution === AnalyticsWidgetResolutionTypes.WEEK && <span>Week</span>}
-                                {widget.resolution === AnalyticsWidgetResolutionTypes.MONTH && <span>Month</span>}
+                                {getFormattedResolution(widget.resolution)}
                             </div>
                         </div>
                     </div>

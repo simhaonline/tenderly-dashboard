@@ -181,13 +181,13 @@ export const AnalyticsWidgetResolutionTypes = {
  * @enum {string}
  */
 export const TimeUnitLabelMap = {
-    SECOND: "second",
-    MINUTE: "minute",
-    HOUR: "hour",
-    DAY: "day",
-    WEEK: "week",
-    MONTH: "month",
-    YEAR: "year",
+    SECOND: "Second",
+    MINUTE: "Minute",
+    HOUR: "Hour",
+    DAY: "Day",
+    WEEK: "Week",
+    MONTH: "Month",
+    YEAR: "Year",
 };
 
 export const FeatureFlagTypes = {

@@ -18,6 +18,7 @@ export function getFormattedDateForResolution(date, resolution) {
 
 /**
  * @param {Widget.time} time
+ *
  * @returns {string}
  */
 export function getFormattedTimeRange(time) {
@@ -25,11 +26,21 @@ export function getFormattedTimeRange(time) {
         return 'Fixed';
     }
 
-    let label = `Last ${time.window.value} ${TimeUnitLabelMap[time.window.unit]}`;
+    let label = `Last ${time.window.value} ${TimeUnitLabelMap[time.window.unit].toLowerCase()}`;
 
     if (time.window.value > 1) {
         label += 's';
     }
 
     return label;
+}
+
+/**
+ *
+ * @param {AnalyticsWidgetResolutionTypes} resolution
+ *
+ * @returns {string}
+ */
+export function getFormattedResolution(resolution) {
+    return TimeUnitLabelMap[resolution];
 }
