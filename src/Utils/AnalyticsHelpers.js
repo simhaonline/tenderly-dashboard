@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import {AnalyticsWidgetResolutionTypes} from "../Common/constants";
+import {AnalyticsWidgetResolutionTypes, TimeUnitLabelMap} from "../Common/constants";
 
 /**
  * @param {Date} date
@@ -14,5 +14,22 @@ export function getFormattedDateForResolution(date, resolution) {
         default:
             return moment(date).format('ddd, MMM DD');
     }
+}
 
+/**
+ * @param {Widget.time} time
+ * @returns {string}
+ */
+export function getFormattedTimeRange(time) {
+    if (!time.window) {
+        return 'Fixed';
+    }
+
+    let label = `Last ${time.window.value} ${TimeUnitLabelMap[time.window.unit]}`;
+
+    if (time.window.value > 1) {
+        label += 's';
+    }
+
+    return label;
 }
