@@ -1,5 +1,6 @@
-import {ErrorActionResponse} from "../Common";
 import * as Sentry from "@sentry/browser";
+
+import {ErrorActionResponse} from "../Common";
 
 /**
  * @param {string} actionName
