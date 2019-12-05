@@ -6,7 +6,7 @@ import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelecto
 
 import {analyticsActions} from "../../Core/actions";
 
-import {Container, Page, PageHeading} from "../../Elements";
+import {Button, Container, Icon, Panel, Page, PageHeading} from "../../Elements";
 import {ProjectContentLoader} from "../../Components";
 
 class ProjectAnalyticsWidgetPage extends Component {
@@ -19,35 +19,40 @@ class ProjectAnalyticsWidgetPage extends Component {
     }
 
     async componentDidMount() {
-        const {analyticsActions, project} = this.props;
+        const {analyticsActions, project, match: {params: {widgetId}}} = this.props;
 
-        const analyticsResponse = await analyticsActions.fetchAnalyticsForProject(project);
+        const analyticsResponse = await analyticsActions.fetchAnalyticsWidgetForProject(project, widgetId);
 
-        let widgets = [];
+        let widget = null;
 
         if (analyticsResponse.success) {
-            widgets = analyticsResponse.data.widgets;
+            widget = analyticsResponse.data.widget;
         }
 
         this.setState({
             loading: false,
-            widgets,
+            widget,
         });
     }
 
     render() {
         const {project} = this.props;
-        const {loading, widgets} = this.state;
+        const {loading, widget} = this.state;
 
         return (
             <Page id="ProjectPage">
-
                 <Container>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
                     {!loading && <Fragment>
                         <PageHeading>
-                            <h1>Analytics</h1>
+                            <Button outline to={`${project.getUrlBase()}/analytics`}>
+                                <Icon icon="arrow-left"/>
+                            </Button>
+                            <h1>{widget.name}</h1>
                         </PageHeading>
+                        <Panel>
+
+                        </Panel>
                     </Fragment>}
                 </Container>
             </Page>

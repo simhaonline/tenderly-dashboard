@@ -21,3 +21,27 @@ export const fetchAnalyticsForProject = (project) => asyncActionWrapper('fetchAn
         widgets,
     });
 });
+
+/**
+ * @param {Project} project
+ * @param {string} widgetId
+ */
+export const fetchAnalyticsWidgetForProject = (project, widgetId) => asyncActionWrapper('', async dispatch => {
+    const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics`);
+
+    if (!data) {
+        return new ErrorActionResponse();
+    }
+
+    const widgetData = data[widgetId];
+
+    if (!widgetData) {
+        return new SuccessActionResponse(null);
+    }
+
+    const widget = Widget.buildFromResponse(widgetData, widgetId);
+
+    return new SuccessActionResponse({
+        widget,
+    });
+});
