@@ -60,7 +60,7 @@ const AnalyticsWidgetChart = ({widget}) => {
     }
 
     return (
-        <div className="AnalyticsWidgetChart">
+        <div className="AnalyticsWidgetChart" style={{width: '100%', height: '100%'}}>
             {widget.type === AnalyticsWidgetTypes.STACKED_CHART && <Fragment>
                 <ResponsiveContainer debounce={100}>
                     <AreaChart data={widget.data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>

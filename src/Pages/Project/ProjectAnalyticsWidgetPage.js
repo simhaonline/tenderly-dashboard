@@ -6,8 +6,8 @@ import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelecto
 
 import {analyticsActions} from "../../Core/actions";
 
-import {Button, Container, Icon, Panel, Page, PageHeading} from "../../Elements";
-import {ProjectContentLoader} from "../../Components";
+import {Button, Container, Icon, Panel, PanelContent, Page, PageHeading} from "../../Elements";
+import {AnalyticsWidgetChart, ProjectContentLoader} from "../../Components";
 
 class ProjectAnalyticsWidgetPage extends Component {
     constructor(props) {
@@ -51,7 +51,21 @@ class ProjectAnalyticsWidgetPage extends Component {
                             <h1>{widget.name}</h1>
                         </PageHeading>
                         <Panel>
-
+                            <PanelContent>
+                                <span>asd</span>
+                            </PanelContent>
+                        </Panel>
+                        <Panel>
+                            <div className="DisplayFlex">
+                                <div style={{height: 400}} className="Flex1">
+                                    <AnalyticsWidgetChart widget={widget}/>
+                                </div>
+                                <div className="MaxWidth480" style={{height: 400}}>
+                                    {widget.dataPoints.map(dataPoint => <div key={dataPoint.key}>
+                                        {dataPoint.name}
+                                    </div>)}
+                                </div>
+                            </div>
                         </Panel>
                     </Fragment>}
                 </Container>
