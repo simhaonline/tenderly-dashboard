@@ -34,7 +34,7 @@ class PaidFeatureButton extends PureComponent {
     };
 
     render() {
-        const {children, planRequired, dispatch, ...props} = this.props;
+        const {children, planRequired, userPlan, dispatch, ...props} = this.props;
         const {upgradeModalOpen, hasRequiredPlan} = this.state;
 
         if (hasRequiredPlan) {
