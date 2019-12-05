@@ -77,6 +77,7 @@ export {default as ProjectCollaborators} from './ProjectCollaborators/ProjectCol
 export {default as ProjectAnalyticsDashboard} from './ProjectAnalyticsDashboard/ProjectAnalyticsDashboard';
 export {default as AnalyticsWidget} from './AnalyticsWidget/AnalyticsWidget';
 export {default as AnalyticsWidgetChart} from './AnalyticsWidgetChart/AnalyticsWidgetChart';
+export {default as AnalyticsDataView} from './AnalyticsDataView/AnalyticsDataView';
 
 // Project Alerts
 export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRules';
