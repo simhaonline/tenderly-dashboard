@@ -1,17 +1,15 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-
-import {UserPlanTypes} from "../../Common/constants";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 import {analyticsActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading} from "../../Elements";
-import {PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
+import {ProjectContentLoader} from "../../Components";
 
-class ProjectAnalyticsPage extends Component {
+class ProjectAnalyticsWidgetPage extends Component {
     constructor(props) {
         super(props);
 
@@ -43,18 +41,14 @@ class ProjectAnalyticsPage extends Component {
 
         return (
             <Page id="ProjectPage">
+
                 <Container>
-                    <PageHeading>
-                        <h1>Analytics</h1>
-                        <div className="MarginLeftAuto">
-                            <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} planRequired={UserPlanTypes.PRO}>
-                                Create Graph
-                            </PaidFeatureButton>
-                        </div>
-                    </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && <ProjectAnalyticsDashboard widgets={widgets} project={project}/>}
-                    {/*{!loading && <ProjectAnalyticsDashboard dashboard={dashboardData} widgets={dashboardData.widgets}/>}*/}
+                    {!loading && <Fragment>
+                        <PageHeading>
+                            <h1>Analytics</h1>
+                        </PageHeading>
+                    </Fragment>}
                 </Container>
             </Page>
         )
@@ -78,4 +72,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(ProjectAnalyticsPage);
+)(ProjectAnalyticsWidgetPage);

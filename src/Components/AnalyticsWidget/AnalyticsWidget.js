@@ -2,6 +2,7 @@ import React, {Component, Fragment, PureComponent} from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import {Area, AreaChart, CartesianGrid, Bar, BarChart, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip} from "recharts";
+import {Link} from "react-router-dom";
 
 import {
     getFormattedDateForResolution,
@@ -66,7 +67,7 @@ class AnalyticsWidget extends Component {
     }
 
     render() {
-        const {widget} = this.props;
+        const {widget, project} = this.props;
         const {loading} = this.state;
 
         let dataMetadata;
@@ -91,7 +92,7 @@ class AnalyticsWidget extends Component {
                 <Panel className="AnalyticsWidget__Panel">
                     <div className="AnalyticsWidget__Header">
                         <div className="AnalyticsWidget__Header__MainInfo">
-                            <div className="AnalyticsWidget__Header__WidgetName">{widget.name}</div>
+                            <Link to={`${project.getUrlBase()}/analytics/${widget.id}`} className="AnalyticsWidget__Header__WidgetName">{widget.name}</Link>
                             <div className="MarginLeftAuto DisplayFlex AlignItemsCenter">
                                 {(widget.alerts && widget.alerts.length > 0) && <Fragment>
                                     <Tag color="primary-outline" size="small" id={`alerts-widget-${widget.id}`}>

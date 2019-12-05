@@ -33,6 +33,7 @@ import ProjectCreateGraphPage from "./ProjectCreateGraphPage";
 import ProjectSecurityPage from "./ProjectSecurityPage";
 
 import {AppSidebar, ProjectPageLoader} from "../../Components";
+import ProjectAnalyticsWidgetPage from "./ProjectAnalyticsWidgetPage";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -120,6 +121,7 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/tx/:network/:txHash/:tab?" strict render={this.renderComponent(ProjectTransactionPage)}/>
                     <Route path="/:username/:slug/analytics" exact render={this.renderComponent(ProjectAnalyticsPage)}/>
                     <Route path="/:username/:slug/analytics/create" exact render={this.renderComponent(ProjectCreateGraphPage)}/>
+                    <Route path="/:username/:slug/analytics/:widgetId" exact render={this.renderComponent(ProjectAnalyticsWidgetPage)}/>
                     <Route path="/:username/:slug/alerts/:tab" render={this.renderComponent(ProjectAlertsPage)}/>
                     <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
                     <Route path="/:username/:slug/wallets" exact render={this.renderComponent(ProjectWalletsPage)}/>
