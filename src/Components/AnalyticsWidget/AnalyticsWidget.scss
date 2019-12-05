@@ -22,12 +22,15 @@ $AnalyticsWidgetSizeUnit: 200px;
   font-weight: 700;
 }
 
-.AnalyticsWidget__Header__DataInfo {
-  display: flex;
-  margin-top: $Spacing3;
+.AnalyticsWidget__Footer {
+  padding: $Spacing2 $Spacing4;
 }
 
-.AnalyticsWidget__Header__DataInfoPill {
+.AnalyticsWidget__Footer__DataInfo {
+  display: flex;
+}
+
+.AnalyticsWidget__Footer__DataInfoPill {
   display: flex;
   align-items: center;
   border-radius: 16px;

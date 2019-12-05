@@ -91,19 +91,7 @@ class AnalyticsWidget extends Component {
                 <Panel className="AnalyticsWidget__Panel">
                     <div className="AnalyticsWidget__Header">
                         <div className="AnalyticsWidget__Header__MainInfo">
-                            <div>
-                                <div className="AnalyticsWidget__Header__WidgetName">{widget.name}</div>
-                                <div className="AnalyticsWidget__Header__DataInfo">
-                                    {widget.show.map(show => <div key={show.event} className="AnalyticsWidget__Header__DataInfoPill AnalyticsWidget__Header__DataInfoPill--Show">
-                                        <Icon icon="target"/>
-                                        <span>{show.event}</span>
-                                    </div>)}
-                                    {!!widget.group && widget.group.length > 0 && widget.group.map(group => <div key={group.variable} className="AnalyticsWidget__Header__DataInfoPill AnalyticsWidget__Header__DataInfoPill--Breakdown">
-                                        <Icon icon="share-2"/>
-                                        <span>Breakdown by <span className="SemiBoldText">{group.variable}</span></span>
-                                    </div>)}
-                                </div>
-                            </div>
+                            <div className="AnalyticsWidget__Header__WidgetName">{widget.name}</div>
                             <div className="MarginLeftAuto DisplayFlex AlignItemsCenter">
                                 {(widget.alerts && widget.alerts.length > 0) && <Fragment>
                                     <Tag color="primary-outline" size="small" id={`alerts-widget-${widget.id}`}>
@@ -213,13 +201,13 @@ class AnalyticsWidget extends Component {
                             </ResponsiveContainer>
                         </Fragment>}
                     </div>}
-                    <div>
-                        <div className="AnalyticsWidget__Header__DataInfo">
-                            {widget.show.map(show => <div key={show.event} className="AnalyticsWidget__Header__DataInfoPill AnalyticsWidget__Header__DataInfoPill--Show">
+                    <div className="AnalyticsWidget__Footer">
+                        <div className="AnalyticsWidget__Footer__DataInfo">
+                            {widget.show.map(show => <div key={show.event} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Show">
                                 <Icon icon="target"/>
                                 <span>{show.event}</span>
                             </div>)}
-                            {!!widget.group && widget.group.length > 0 && widget.group.map(group => <div key={group.variable} className="AnalyticsWidget__Header__DataInfoPill AnalyticsWidget__Header__DataInfoPill--Breakdown">
+                            {!!widget.group && widget.group.length > 0 && widget.group.map(group => <div key={group.variable} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Breakdown">
                                 <Icon icon="share-2"/>
                                 <span>Breakdown by <span className="SemiBoldText">{group.variable}</span></span>
                             </div>)}
