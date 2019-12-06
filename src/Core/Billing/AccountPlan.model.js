@@ -18,7 +18,7 @@ class AccountPlan {
         /** @type {boolean} */
         this.isPlanActive = data.isPlanActive;
 
-        /** @type {Object.<string, AccountPlanUsage>} */
+        /** @type {Object.<PlanUsageTypes, AccountPlanUsage>} */
         this.usage = data.usage;
     }
 

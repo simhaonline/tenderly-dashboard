@@ -202,8 +202,6 @@ export const fetchUserPlan = (user) => asyncActionWrapper('fetchUserPlan', async
 
     const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
 
-    console.log(accountPlan);
-
     dispatch({
         type: FETCH_USER_PLAN_ACTION,
         accountPlan,

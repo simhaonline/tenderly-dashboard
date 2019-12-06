@@ -276,6 +276,17 @@ export const UserPlanTypes = {
 /**
  * @enum {string}
  */
+export const PlanUsageTypes = {
+    ADDRESS_USAGE: 'address_usage',
+    ALERT_USAGE: 'alert_usage',
+    DELIVERY_CHANNEL_USAGE: 'delivery_channel_usage',
+    INVITED_USERS: 'invited_users',
+    PROJECT_USAGE: 'project_usage',
+};
+
+/**
+ * @enum {string}
+ */
 export const CollaboratorPermissionTypes = {
     ADD_CONTRACT: 'ADD_CONTRACT',
     REMOVE_CONTRACT: 'REMOVE_CONTRACT',
