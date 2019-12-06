@@ -9,7 +9,7 @@ import {isTransactionOrContractUrl} from "../../Utils/UrlHelpers";
 import {ProjectTypes} from "../../Common/constants";
 import {areProjectTagsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
-import {searchActions, projectActions} from "../../Core/actions";
+import {searchActions, projectActions, billingActions} from "../../Core/actions";
 
 import ProjectTransactionsPage from "./ProjectTransactionsPage";
 import ProjectTransactionPage from "./ProjectTransactionPage";
@@ -45,7 +45,7 @@ class ProjectPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, actions, projectSlug, tagsLoaded, username, searchActions} = this.props;
+        const {project, actions, projectSlug, billingActions, tagsLoaded, username, user, searchActions} = this.props;
 
         searchActions.setProjectContext(projectSlug, username);
 
@@ -62,10 +62,14 @@ class ProjectPage extends Component {
         } else if (!tagsLoaded && project.type !== ProjectTypes.DEMO) {
             await actions.fetchProjectTags(project);
         }
+
+        if (username !== user.username) {
+            billingActions.fetchPlanForAccount(username);
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {tagsLoaded, project, actions, searchActions} = this.props;
+        const {tagsLoaded, billingActions, user, username, project, actions, searchActions} = this.props;
 
         if (!!prevProps.project && prevProps.project.id !== project.id) {
             searchActions.setProjectContext(project.slug, project.owner);
@@ -73,6 +77,10 @@ class ProjectPage extends Component {
             if (!tagsLoaded) {
                 actions.fetchProjectTags(project)
             }
+        }
+
+        if (prevProps.username !== username && username !== user.username) {
+            billingActions.fetchPlanForAccount(username);
         }
     }
 
@@ -152,6 +160,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         username,
+        user: state.auth.user,
         projectSlug: slug,
         project,
         tagsLoaded: areProjectTagsLoaded(state, project),
@@ -162,6 +171,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(projectActions, dispatch),
         searchActions: bindActionCreators(searchActions, dispatch),
+        billingActions: bindActionCreators(billingActions, dispatch),
     }
 };
 

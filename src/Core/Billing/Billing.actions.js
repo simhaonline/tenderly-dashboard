@@ -3,6 +3,7 @@ import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import Plan from "./Plan.model";
+import AccountPlan from "./AccountPlan.model";
 
 export const FETCH_PLAN_FOR_ACCOUNT_ACTION = 'FETCH_PLAN_FOR_ACCOUNT';
 export const ACTIVATE_PLAN_FOR_ACCOUNT_ACTION = 'ACTIVATE_PLAN_FOR_ACCOUNT';
@@ -10,18 +11,24 @@ export const ACTIVATE_TRIAL_FOR_ACCOUNT_ACTION = 'ACTIVATE_TRIAL_FOR_ACCOUNT';
 export const FETCH_ALL_PLANS_ACTION = 'FETCH_ALL_PLANS';
 
 /**
- * @param {User} account
+ * @param {string} username
  */
-export const fetchPlanForAccount = (account) => asyncActionWrapper('fetchPlanForUser', async dispatch => {
-    const {data} = await Api.get(`/account/${account.username}/billing/plan`);
+export const fetchPlanForAccount = (username) => asyncActionWrapper('fetchPlanForUser', async dispatch => {
+    const {data} = await Api.get(`/account/${username}/billing/plan`);
 
-    console.log(data);
+    if (!data || !data.plan) {
+        return new ErrorActionResponse();
+    }
+
+    const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
 
     dispatch({
         type: FETCH_PLAN_FOR_ACCOUNT_ACTION,
+        username,
+        accountPlan,
     });
 
-    return new SuccessActionResponse();
+    return new SuccessActionResponse(accountPlan);
 });
 
 /**
