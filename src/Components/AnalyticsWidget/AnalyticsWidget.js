@@ -76,7 +76,7 @@ class AnalyticsWidget extends Component {
                         "AnalyticsWidget__Data",
                         `AnalyticsWidget__Data--${widget.type}`,
                     )}>
-                        <AnalyticsWidgetChart widget={widget}/>
+                        <AnalyticsWidgetChart dataPoints={widget.dataPoints} widget={widget} data={widget.data} type={widget.type}/>
                     </div>}
                     <div className="AnalyticsWidget__Footer">
                         <div className="AnalyticsWidget__Footer__DataInfo">
