@@ -17,15 +17,13 @@ class AnalyticsDataView extends Component {
             disabledDataPoints: {
                 ...disabledDataPoints,
                 [dataPoint.key]: !disabledDataPoints[dataPoint.key],
-            }
-        })
+            },
+        });
     };
 
     render() {
         const {widget} = this.props;
         const {disabledDataPoints} = this.state;
-
-        console.log(disabledDataPoints);
 
         return (
             <Panel className="AnalyticsDataView">
