@@ -1,4 +1,4 @@
-import {Api, StreamingApi} from "../../Utils/Api";
+import {Api} from "../../Utils/Api";
 import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import Project from "./Project.model";
@@ -270,10 +270,9 @@ export const updateProject = (project, data) => {
  * @param {Project} project
  * @param {NetworkTypes} networkType
  * @param {string} address
- * @param {Function} progressCallback
  * @return {Function}
  */
-export const addVerifiedContractToProject = (project, networkType, address, progressCallback = () => {}) => {
+export const addVerifiedContractToProject = (project, networkType, address) => {
     return async (dispatch) => {
         try {
             const networkId = getApiIdForNetwork(networkType);
