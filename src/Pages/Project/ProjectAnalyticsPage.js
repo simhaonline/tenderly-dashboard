@@ -2,15 +2,13 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {PlanUsageTypes, UserPlanTypes} from "../../Common/constants";
-
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
 
 import {analyticsActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading} from "../../Elements";
 import {PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
-import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
 
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
