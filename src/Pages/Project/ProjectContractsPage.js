@@ -2,13 +2,14 @@ import React, {Component, Fragment} from 'react';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import {CollaboratorPermissionTypes, ProjectTypes} from "../../Common/constants";
+import {CollaboratorPermissionTypes, PlanUsageTypes, ProjectTypes} from "../../Common/constants";
 import {contractActions} from "../../Core/actions";
 
 import {
     areProjectContractsLoaded, getMainProjectContracts,
     getProjectBySlugAndUsername
 } from "../../Common/Selectors/ProjectSelectors";
+import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
 
 import {Container, Page, PageHeading, Button, Icon} from "../../Elements";
 import {
@@ -17,6 +18,7 @@ import {
     ProjectContentLoader,
     PermissionControl,
     ExampleProjectInfoModal,
+    PaidFeatureButton,
 } from "../../Components";
 
 class ProjectContractsPage extends Component {
@@ -73,8 +75,10 @@ class ProjectContractsPage extends Component {
     };
 
     render() {
-        const {project, contractsLoaded, projectContracts} = this.props;
+        const {project, contractsLoaded, projectContracts, accountPlan} = this.props;
         const {createProjectModalOpen, fetchingContracts} = this.state;
+
+        console.log(accountPlan);
 
         const projectIsSetup = !!project.lastPushAt || projectContracts.length > 0;
 
@@ -91,9 +95,9 @@ class ProjectContractsPage extends Component {
                             {contractsLoaded && project.type !== ProjectTypes.DEMO &&
                             <PermissionControl project={project}
                                                requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT}>
-                                <Button to={`${project.getUrlBase()}/contracts/add`}>
+                                <PaidFeatureButton usage={PlanUsageTypes.ADDRESS_USAGE} plan={accountPlan} to={`${project.getUrlBase()}/contracts/add`}>
                                     <span>Add Contract</span>
-                                </Button>
+                                </PaidFeatureButton>
                             </PermissionControl>}
                             {contractsLoaded && project.type === ProjectTypes.DEMO && <Fragment>
                                 <Button onClick={this.handleOpenExampleProjectInfoModal}>
@@ -121,6 +125,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project,
+        accountPlan: getAccountPlanForProject(state, project),
         projectContracts: getMainProjectContracts(state, project.id),
         contractsLoaded: areProjectContractsLoaded(state, project.id),
     }

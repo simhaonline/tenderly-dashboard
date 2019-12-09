@@ -1,22 +1,17 @@
 import React, {Fragment, PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
-import {UserPlanTypes} from "../../Common/constants";
+import {PlanUsageTypes} from "../../Common/constants";
+
+import {AccountPlan} from "../../Core/models";
 
 import {Button, Dialog, DialogBody} from "../../Elements";
-import {getUserPlan} from "../../Common/Selectors/BillingSelectors";
 
 class PaidFeatureButton extends PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            hasRequiredPlan: true,
-            upgradeModalOpen: false,
-        };
-    }
-
+    state = {
+        hasRequiredPlan: true,
+        upgradeModalOpen: false,
+    };
 
     handleOnClick = (event) => {
         event.stopPropagation();
@@ -34,10 +29,12 @@ class PaidFeatureButton extends PureComponent {
     };
 
     render() {
-        const {children, planRequired, userPlan, dispatch, ...props} = this.props;
-        const {upgradeModalOpen, hasRequiredPlan} = this.state;
+        const {children, usage, plan, dispatch, ...props} = this.props;
+        const {upgradeModalOpen} = this.state;
 
-        if (hasRequiredPlan) {
+        const hasAbility = plan.usage[usage] ? !plan.usage[usage].used : false;
+
+        if (hasAbility) {
             return <Button {...props}>
                 {children}
             </Button>;
@@ -50,6 +47,8 @@ class PaidFeatureButton extends PureComponent {
                 </Button>
                 <Dialog open={upgradeModalOpen} onClose={this.handleModalClose}>
                     <DialogBody>
+                        <p>You have exceeded the limit for your plan.</p>
+                        <p>{usage}: {plan.usage[usage].count}/{plan.usage[usage].limit}</p>
                         <h2>Pro</h2>
                         <h3>$250 / mo</h3>
                         <Button size="large" color="secondary" stretch>
@@ -64,16 +63,8 @@ class PaidFeatureButton extends PureComponent {
 }
 
 PaidFeatureButton.propTypes = {
-    planRequired: PropTypes.oneOf(Object.values(UserPlanTypes)).isRequired,
+    usage: PropTypes.oneOf(Object.values(PlanUsageTypes)).isRequired,
+    plan: PropTypes.instanceOf(AccountPlan).isRequired,
 };
 
-const mapStateToProps = (state) => {
-    // @TODO account for shared projects
-    return {
-        userPlan: getUserPlan(state),
-    };
-};
-
-export default connect(
-    mapStateToProps,
-)(PaidFeatureButton);
+export default PaidFeatureButton;
