@@ -204,6 +204,7 @@ export const fetchUserPlan = (user) => asyncActionWrapper('fetchUserPlan', async
 
     dispatch({
         type: FETCH_USER_PLAN_ACTION,
+        username: user.username,
         accountPlan,
     });
 

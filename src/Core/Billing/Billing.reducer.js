@@ -1,11 +1,13 @@
 import {FETCH_USER_PLAN_ACTION, LOG_OUT_ACTION} from "../Auth/Auth.actions";
-import {FETCH_ALL_PLANS_ACTION} from "./Billing.actions";
+import {FETCH_ALL_PLANS_ACTION, FETCH_PLAN_FOR_ACCOUNT_ACTION} from "./Billing.actions";
 
 const initialState = {
     /** @type {Object.<Plan.id, Plan>} */
     plans: {},
     /** @type {boolean} */
     allPlansLoaded: false,
+    /** @type {Object.<User.username, AccountPlan>} */
+    accountPlans: {},
     /** @type {AccountPlan|null} */
     userPlan: null,
 };
@@ -19,6 +21,18 @@ const BillingReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userPlan: action.accountPlan,
+                accountPlans: {
+                    ...state.accountPlans,
+                    [action.username]: action.accountPlan,
+                },
+            };
+        case FETCH_PLAN_FOR_ACCOUNT_ACTION:
+            return {
+                ...state,
+                accountPlans: {
+                    ...state.accountPlans,
+                    [action.username]: action.accountPlan,
+                },
             };
         case FETCH_ALL_PLANS_ACTION:
             return {

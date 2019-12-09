@@ -13,3 +13,12 @@ export function getUserPlan(state) {
 export function getAllPlans(state) {
     return Object.values(state.billing.plans);
 }
+
+/**
+ * @param {Object} state
+ * @param {string} username
+ * @returns {boolean}
+ */
+export function isPlanLoadedForUser(state, username) {
+    return !!state.billing.accountPlans[username];
+}
