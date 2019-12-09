@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {UserPlanTypes} from "../../Common/constants";
+import {PlanUsageTypes, UserPlanTypes} from "../../Common/constants";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
@@ -10,6 +10,7 @@ import {analyticsActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading} from "../../Elements";
 import {PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
+import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
 
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
@@ -38,7 +39,7 @@ class ProjectAnalyticsPage extends Component {
     }
 
     render() {
-        const {project} = this.props;
+        const {project, accountPlan} = this.props;
         const {loading, widgets} = this.state;
 
         return (
@@ -47,14 +48,13 @@ class ProjectAnalyticsPage extends Component {
                     <PageHeading>
                         <h1>Analytics</h1>
                         <div className="MarginLeftAuto">
-                            <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} planRequired={UserPlanTypes.PRO}>
+                            <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} plan={accountPlan} includes="analytics.advanced">
                                 Create Graph
                             </PaidFeatureButton>
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
                     {!loading && <ProjectAnalyticsDashboard widgets={widgets} project={project}/>}
-                    {/*{!loading && <ProjectAnalyticsDashboard dashboard={dashboardData} widgets={dashboardData.widgets}/>}*/}
                 </Container>
             </Page>
         )
@@ -64,8 +64,11 @@ class ProjectAnalyticsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {username, slug}}} = ownProps;
 
+    const project = getProjectBySlugAndUsername(state, slug, username);
+
     return {
-        project: getProjectBySlugAndUsername(state, slug, username),
+        project,
+        accountPlan: getAccountPlanForProject(state, project),
     }
 };
 

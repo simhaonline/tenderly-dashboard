@@ -29,10 +29,20 @@ class PaidFeatureButton extends PureComponent {
     };
 
     render() {
-        const {children, usage, plan, dispatch, ...props} = this.props;
+        const {children, usage, includes, plan, dispatch, ...props} = this.props;
         const {upgradeModalOpen} = this.state;
 
-        const hasAbility = plan.usage[usage] ? !plan.usage[usage].used : false;
+        let hasAbility = false;
+
+        if (usage) {
+            hasAbility = plan.usage[usage] ? plan.usage[usage].used : false;
+        } else if (includes) {
+            hasAbility = !!includes.split('.').reduce((data, key) => {
+                if (!data || !data[key]) return false;
+
+                return data[key];
+            }, plan.plan.includes);
+        }
 
         if (hasAbility) {
             return <Button {...props}>
@@ -47,8 +57,13 @@ class PaidFeatureButton extends PureComponent {
                 </Button>
                 <Dialog open={upgradeModalOpen} onClose={this.handleModalClose}>
                     <DialogBody>
-                        <p>You have exceeded the limit for your plan.</p>
-                        <p>{usage}: {plan.usage[usage].count}/{plan.usage[usage].limit}</p>
+                        {!!usage && <div>
+                            <p>You have exceeded the limit for your plan.</p>
+                            <p>{usage}: {plan.usage[usage].count}/{plan.usage[usage].limit}</p>
+                        </div>}
+                        {!!includes && <div>
+                            <p>This is not included in your current plan</p>
+                        </div>}
                         <h2>Pro</h2>
                         <h3>$250 / mo</h3>
                         <Button size="large" color="secondary" stretch>
@@ -63,7 +78,8 @@ class PaidFeatureButton extends PureComponent {
 }
 
 PaidFeatureButton.propTypes = {
-    usage: PropTypes.oneOf(Object.values(PlanUsageTypes)).isRequired,
+    usage: PropTypes.oneOf(Object.values(PlanUsageTypes)),
+    includes: PropTypes.string,
     plan: PropTypes.instanceOf(AccountPlan).isRequired,
 };
 
