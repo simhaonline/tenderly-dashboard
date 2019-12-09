@@ -45,6 +45,7 @@ const removeAuthHeader = () => {
         Cookies.remove('token');
         Cookies.remove('token', {domain: '.tenderly.dev'});
         Api.defaults.headers.common['Authorization'] = null;
+        StreamingApi.removeAuthentication();
     }
 };
 
