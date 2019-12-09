@@ -107,24 +107,19 @@ export const updateCollaboratorForProject = (project, collaborator, permissions)
 /**
  * @param {Project} project
  * @param {Collaborator} collaborator
- *
- * @return {Function<(SuccessActionResponse|ErrorActionResponse)>}
  */
-export const deleteCollaboratorForProject = (project, collaborator) => {
-    return async dispatch => {
-        try {
-            await Api.delete(`/account/${project.owner}/project/${project.slug}/collaborate/user/${collaborator.id}`);
+export const deleteCollaboratorForProject = (project, collaborator) => asyncActionWrapper({
+    name: 'deleteCollaboratorForProject',
+    payable: true,
+    account: project.owner,
+}, async dispatch => {
+    await Api.delete(`/account/${project.owner}/project/${project.slug}/collaborate/user/${collaborator.id}`);
 
-            dispatch({
-                type: DELETE_COLLABORATOR_FOR_PROJECT_ACTION,
-                projectId: project.id,
-                collaboratorId: collaborator.id,
-            });
+    dispatch({
+        type: DELETE_COLLABORATOR_FOR_PROJECT_ACTION,
+        projectId: project.id,
+        collaboratorId: collaborator.id,
+    });
 
-            return new SuccessActionResponse();
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
-    }
-};
+    return new SuccessActionResponse();
+});
