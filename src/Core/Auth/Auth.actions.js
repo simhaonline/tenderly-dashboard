@@ -193,7 +193,9 @@ export const getUser = (token) => {
 /**
  * @param {User} user
  */
-export const fetchUserPlan = (user) => asyncActionWrapper('fetchUserPlan', async dispatch => {
+export const fetchUserPlan = (user) => asyncActionWrapper({
+    name: 'fetchUserPlan',
+}, async dispatch => {
     const {data} = await Api.get(`/account/${user.username}/billing/plan`);
 
     if (!data || !data.plan) {
@@ -314,7 +316,9 @@ export const completeOnboarding = () => {
 /**
  * @param {string} token
  */
-export const retrieveToken = token => asyncActionWrapper('retrieveToken', async dispatch => {
+export const retrieveToken = token => asyncActionWrapper({
+    name: 'retrieveToken',
+}, async dispatch => {
     let user, plan;
 
     if (token) {
@@ -505,7 +509,9 @@ export const updateUser = (updates) => {
 /**
  * @param {string} code
  */
-export const verifyUserEmail = code => asyncActionWrapper('verifyUserEmail', async dispatch => {
+export const verifyUserEmail = code => asyncActionWrapper({
+    name: 'verifyUserEmail',
+}, async dispatch => {
     await Api.post('/account/me/confirm-email', {
         code,
     });

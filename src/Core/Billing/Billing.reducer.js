@@ -1,5 +1,6 @@
 import {FETCH_USER_PLAN_ACTION, LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {FETCH_ALL_PLANS_ACTION, FETCH_PLAN_FOR_ACCOUNT_ACTION} from "./Billing.actions";
+import {CommonActionTypes} from "../../Common/constants";
 
 const initialState = {
     /** @type {Object.<Plan.id, Plan>} */
@@ -27,6 +28,7 @@ const BillingReducer = (state = initialState, action) => {
                 },
             };
         case FETCH_PLAN_FOR_ACCOUNT_ACTION:
+        case CommonActionTypes.FETCH_ACCOUNT_PLAN_ACTION:
             return {
                 ...state,
                 accountPlans: {

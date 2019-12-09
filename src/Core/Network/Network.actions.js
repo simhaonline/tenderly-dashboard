@@ -6,7 +6,9 @@ export const UPDATE_PRIVATE_NETWORK_FOR_PROJECT_ACTION = 'UPDATE_PRIVATE_NETWORK
 /**
  * @param {Project} project
  */
-export const fetchNetworksForProject = (project) => asyncActionWrapper('fetchNetworksForProject', async dispatch => {
+export const fetchNetworksForProject = (project) => asyncActionWrapper({
+    name: 'fetchNetworksForProject',
+}, async dispatch => {
     dispatch({
         type: FETCH_NETWORKS_FOR_PROJECT_ACTION,
         projectId: project.id,
@@ -17,7 +19,9 @@ export const fetchNetworksForProject = (project) => asyncActionWrapper('fetchNet
  * @param {Project} project
  * @param {Private} privateNetwork
  */
-export const updatePrivateNetwork = (project, privateNetwork) => asyncActionWrapper('fetchNetworksForProject', async dispatch => {
+export const updatePrivateNetwork = (project, privateNetwork) => asyncActionWrapper({
+    name: 'updatePrivateNetwork',
+}, async dispatch => {
     dispatch({
         type: UPDATE_PRIVATE_NETWORK_FOR_PROJECT_ACTION,
         projectId: project.id,

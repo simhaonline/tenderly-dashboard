@@ -12,7 +12,9 @@ export const FETCH_WALLETS_FOR_PROJECT_ACTION = 'FETCH_WALLETS_FOR_PROJECT';
  * @param {Project} project
  * @returns {Promise<Function>}
  */
-export const fetchWalletsForProject = (project) => asyncActionWrapper('fetchWalletsForProject', async dispatch => {
+export const fetchWalletsForProject = (project) => asyncActionWrapper({
+    name: 'fetchWalletsForProject',
+}, async dispatch => {
     // const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/wallets`);
 
     const walletOneAddress = '0xabcdef123456789';

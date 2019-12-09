@@ -13,7 +13,9 @@ export const FETCH_ALL_PLANS_ACTION = 'FETCH_ALL_PLANS';
 /**
  * @param {string} username
  */
-export const fetchPlanForAccount = (username) => asyncActionWrapper('fetchPlanForUser', async dispatch => {
+export const fetchPlanForAccount = (username) => asyncActionWrapper({
+    name: 'fetchPlanForUser',
+}, async dispatch => {
     const {data} = await Api.get(`/account/${username}/billing/plan`);
 
     if (!data || !data.plan) {
@@ -35,7 +37,9 @@ export const fetchPlanForAccount = (username) => asyncActionWrapper('fetchPlanFo
  * @param {User} account
  * @param {Plan} plan
  */
-export const activatePlanForAccount = (account, plan) => asyncActionWrapper('activatePlanForAccount', async dispatch => {
+export const activatePlanForAccount = (account, plan) => asyncActionWrapper({
+    name: 'activatePlanForAccount',
+}, async dispatch => {
     const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.slug}`);
 
     console.log('plan', data);
@@ -47,7 +51,9 @@ export const activatePlanForAccount = (account, plan) => asyncActionWrapper('act
  * @param {User} account
  * @param {Plan} plan
  */
-export const activateTrialForAccount = (account, plan) => asyncActionWrapper('activateTrialForAccount', async dispatch => {
+export const activateTrialForAccount = (account, plan) => asyncActionWrapper({
+    name: 'activateTrialForAccount',
+}, async dispatch => {
     const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.slug}/trial`);
 
     console.log('trial', data);
@@ -55,7 +61,9 @@ export const activateTrialForAccount = (account, plan) => asyncActionWrapper('ac
     return new SuccessActionResponse();
 });
 
-export const fetchAllPlans = () =>  asyncActionWrapper('fetchAllPlans', async dispatch => {
+export const fetchAllPlans = () =>  asyncActionWrapper({
+    name: 'fetchAllPlans',
+}, async dispatch => {
     const {data} = await Api.get(`/billing/all-plans`);
 
     if (!data || !data.plans) {

@@ -6,6 +6,10 @@ export const OSTypes = {
     LINUX: "Linux",
 };
 
+export const CommonActionTypes = {
+    FETCH_ACCOUNT_PLAN_ACTION: 'FETCH_ACCOUNT_PLAN',
+};
+
 /**
  * @enum {string}
  */

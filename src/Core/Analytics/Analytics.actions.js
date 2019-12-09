@@ -8,7 +8,9 @@ import {Widget} from "../models";
 /**
  * @param {Project} project
  */
-export const fetchAnalyticsForProject = (project) => asyncActionWrapper('fetchAnalyticsForProject', async dispatch => {
+export const fetchAnalyticsForProject = (project) => asyncActionWrapper({
+    name: 'fetchAnalyticsForProject',
+}, async dispatch => {
     const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics`);
 
     if (!data) {
@@ -26,7 +28,9 @@ export const fetchAnalyticsForProject = (project) => asyncActionWrapper('fetchAn
  * @param {Project} project
  * @param {string} widgetId
  */
-export const fetchAnalyticsWidgetForProject = (project, widgetId) => asyncActionWrapper('', async dispatch => {
+export const fetchAnalyticsWidgetForProject = (project, widgetId) => asyncActionWrapper({
+    name: 'fetchAnalyticsWidgetForProject',
+}, async dispatch => {
     const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics`);
 
     if (!data) {
