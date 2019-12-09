@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Route, Switch} from "react-router-dom";
 
+import {UserPlanTypes} from "../../Common/constants";
+
 import {getAllPlans, getUserPlan} from "../../Common/Selectors/BillingSelectors";
 
 import {formatPrice} from "../../Utils/CurrencyHelpers";
@@ -10,7 +12,7 @@ import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelper
 
 import {billingActions, authActions} from "../../Core/actions";
 
-import {Page, Container, Panel, PanelHeader, PanelContent, PageHeading, Input, Alert, Code} from "../../Elements";
+import {Page, Container, Panel, PanelHeader, PanelContent, PageHeading, Button, Input, Alert, Code} from "../../Elements";
 import {
     ProgressiveButton,
     UserInformationForm,
@@ -184,7 +186,25 @@ class AccountSettingsPage extends Component {
                                         {plans.map(plan => <div key={plan.id} className="Flex1">
                                             <div>{plan.id}</div>
                                             <div>{formatPrice(plan.price)}</div>
+                                            {plan.type === UserPlanTypes.PRO && <Button>
+                                                <span>Try for 30 days</span>
+                                            </Button>}
                                         </div>)}
+                                        <div className="Flex1">
+                                            <div>Enterprise</div>
+                                            <div>Contract us</div>
+                                            <div>
+                                                <ul>
+                                                    <li>API Integration</li>
+                                                    <li>WebHooks</li>
+                                                    <li>Private Networks</li>
+                                                    <li>Priority Support</li>
+                                                </ul>
+                                            </div>
+                                            <Button outline>
+                                                <span>Get in touch</span>
+                                            </Button>
+                                        </div>
                                     </div>
                                 </PanelContent>
                             </Panel>

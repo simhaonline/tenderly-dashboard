@@ -5,6 +5,9 @@ class Plan {
         /** @type {string} */
         this.id = data.id;
 
+        /** @type {string} */
+        this.name = data.name;
+
         /** @type {UserPlanTypes} */
         this.type = data.type;
 
