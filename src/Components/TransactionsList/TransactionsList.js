@@ -11,7 +11,7 @@ import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 const transactionTableConf = [
     {
         label: "Tx Hash",
-        size: 320,
+        size: 280   ,
         renderColumn: (tx, metadata) => <TransactionHashColumn transaction={tx} contracts={metadata.contracts} displayType/>,
     },
     {

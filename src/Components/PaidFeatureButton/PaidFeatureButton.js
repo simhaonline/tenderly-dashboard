@@ -34,9 +34,9 @@ class PaidFeatureButton extends PureComponent {
 
         let hasAbility = false;
 
-        if (usage) {
+        if (plan && usage) {
             hasAbility = plan.usage[usage] ? plan.usage[usage].used : false;
-        } else if (includes) {
+        } else if (plan && includes) {
             hasAbility = !!includes.split('.').reduce((data, key) => {
                 if (!data || !data[key]) return false;
 
@@ -66,7 +66,7 @@ class PaidFeatureButton extends PureComponent {
                         </div>}
                         <h2>Pro</h2>
                         <h3>$250 / mo</h3>
-                        <Button size="large" color="secondary" stretch>
+                        <Button size="large" color="secondary" stretch to="/account/billing">
                             <span className="SemiBoldText">Start Free Trial</span>
                         </Button>
                         <div className="FontSize2 MarginLeft2 MarginTop2">* 14-day free Trial. No credit card required.</div>
@@ -80,7 +80,7 @@ class PaidFeatureButton extends PureComponent {
 PaidFeatureButton.propTypes = {
     usage: PropTypes.oneOf(Object.values(PlanUsageTypes)),
     includes: PropTypes.string,
-    plan: PropTypes.instanceOf(AccountPlan).isRequired,
+    plan: PropTypes.instanceOf(AccountPlan),
 };
 
 export default PaidFeatureButton;
