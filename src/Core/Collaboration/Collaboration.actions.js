@@ -1,4 +1,5 @@
 import {Api} from "../../Utils/Api";
+import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {Collaborator} from "../models";
@@ -41,36 +42,31 @@ export const fetchCollaboratorsForProject = (project) => {
  * @param {Project} project
  * @param {string} email
  * @param {Object} permissions
- *
- * @return {Function<(SuccessActionResponse|ErrorActionResponse)>}
  */
-export const createCollaboratorForProject = (project, email, permissions) => {
-    return async dispatch => {
-        try {
-            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/collaborate/user`, {
-                email,
-                permissions: Collaborator.transformPermissionsToApiPayload(permissions),
-            });
+export const createCollaboratorForProject = (project, email, permissions) => asyncActionWrapper({
+    name: 'createCollaboratorForProject',
+    payable: true,
+    account: project.owner,
+}, async dispatch => {
+    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/collaborate/user`, {
+        email,
+        permissions: Collaborator.transformPermissionsToApiPayload(permissions),
+    });
 
-            if (!data) {
-                return new ErrorActionResponse();
-            }
-
-            const collaborator = Collaborator.buildFromResponse(data, project.id);
-
-            dispatch({
-                type: CREATE_COLLABORATOR_FOR_PROJECT_ACTION,
-                projectId: project.id,
-                collaborator,
-            });
-
-            return new SuccessActionResponse(collaborator);
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
+    if (!data) {
+        return new ErrorActionResponse();
     }
-};
+
+    const collaborator = Collaborator.buildFromResponse(data, project.id);
+
+    dispatch({
+        type: CREATE_COLLABORATOR_FOR_PROJECT_ACTION,
+        projectId: project.id,
+        collaborator,
+    });
+
+    return new SuccessActionResponse(collaborator);
+});
 
 /**
  * @param {Project} project

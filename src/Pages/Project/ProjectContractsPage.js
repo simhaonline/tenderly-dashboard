@@ -78,8 +78,6 @@ class ProjectContractsPage extends Component {
         const {project, contractsLoaded, projectContracts, accountPlan} = this.props;
         const {createProjectModalOpen, fetchingContracts} = this.state;
 
-        console.log(accountPlan);
-
         const projectIsSetup = !!project.lastPushAt || projectContracts.length > 0;
 
         return (

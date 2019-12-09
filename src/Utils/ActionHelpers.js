@@ -18,8 +18,6 @@ const fetchUpdatePlanUsage = (username) => {
 
             const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
 
-            console.log('now fetched new plan', accountPlan);
-
             dispatch({
                 type: CommonActionTypes.FETCH_ACCOUNT_PLAN_ACTION,
                 username,
@@ -41,6 +39,7 @@ const fetchUpdatePlanUsage = (username) => {
  * @typedef ActionSettings
  * @property {string} name
  * @property {boolean} [payable]
+ * @property {string} [account]
  */
 
 /**
@@ -54,12 +53,9 @@ export function asyncActionWrapper(actionSettings, action, onError = () => {}) {
         try {
             const actionResponse = await action(dispatch);
 
-            if (actionResponse.payableAction) {
-                console.log('fetch plan');
-                dispatch(fetchUpdatePlanUsage);
+            if (actionSettings.payable) {
+                dispatch(fetchUpdatePlanUsage(actionSettings.account));
             }
-
-            console.log('return value');
 
             return actionResponse;
         } catch (error) {
