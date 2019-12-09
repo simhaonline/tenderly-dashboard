@@ -278,12 +278,12 @@ export const addVerifiedContractToProject = (project, networkType, address, prog
         try {
             const networkId = getApiIdForNetwork(networkType);
 
-            const {data: responseData} = await StreamingApi.post(`/account/${project.owner}/project/${project.slug}/streaming-address`, {
+            const {data: responseData} = await Api.post(`/account/${project.owner}/project/${project.slug}/streaming-address`, {
                 network_id: networkId.toString(),
                 address,
-            }, progressCallback);
+            });
 
-            if (!responseData || !responseData[responseData.length -1].status) {
+            if (!responseData) {
                 return new ErrorActionResponse();
             }
 
