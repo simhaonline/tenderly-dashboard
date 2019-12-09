@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import {NavLink, withRouter} from "react-router-dom";
 import _ from 'lodash';
 
+import {FeatureFlagTypes} from "../../Common/constants";
+
 import {Project} from "../../Core/models";
 
 import {Sidebar, Icon} from '../../Elements';
+import {FeatureFlag} from '..';
 
 import './AppSidebar.scss';
 
@@ -110,7 +113,9 @@ class AppSidebar extends Component {
                             <AppSidebarSubLink to={`${routeBase}/transactions/filter`} exact label="History"/>
                             <AppSidebarSubLink to={`${routeBase}/transactions/create-filter`} exact label="Create filter"/>
                         </div>}
-                        <AppSidebarLink to={`${routeBase}/events`} icon="bookmark" label="Event / Logs"/>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                            <AppSidebarLink to={`${routeBase}/events`} icon="bookmark" label="Event / Logs"/>
+                        </FeatureFlag>
                         <AppSidebarLink to={`${routeBase}/contracts`} isActive={() => context === 'contracts'} icon="file-text" label="Contracts"/>
                         {context === 'contracts-a' && <div className="MarginBottom1 MarginTop1">
                             <AppSidebarSubLink to={`${routeBase}/contracts`} exact label="All Contracts"/>
@@ -132,8 +137,12 @@ class AppSidebar extends Component {
                             <AppSidebarSubLink to={`${routeBase}/alerts/history`} label="History"/>
                             <AppSidebarSubLink to={`${routeBase}/alerts/destinations`} label="Destinations"/>
                         </div>}
-                        <AppSidebarLink to={`${routeBase}/security`} icon="shield" label="Security"/>
-                        <AppSidebarLink to={`${routeBase}/private-networks`} icon="layers" label="Private Networks"/>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                            <AppSidebarLink to={`${routeBase}/security`} icon="shield" label="Security"/>
+                        </FeatureFlag>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                            <AppSidebarLink to={`${routeBase}/private-networks`} icon="layers" label="Private Networks"/>
+                        </FeatureFlag>
                     </div>
                 </div>
                 {!!project && <div className="AppSidebar__NavGroup">
@@ -142,7 +151,9 @@ class AppSidebar extends Component {
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
                         <AppSidebarLink to={`${routeBase}/collaborators`} icon="users" label="Collaborators"/>
-                        <AppSidebarLink to={`${routeBase}/usage`} icon="credit-card" label="Usage"/>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                            <AppSidebarLink to={`${routeBase}/usage`} icon="credit-card" label="Usage"/>
+                        </FeatureFlag>
                         <AppSidebarLink to={`${routeBase}/settings`} icon="settings" label="Settings"/>
                     </div>
                 </div>}
