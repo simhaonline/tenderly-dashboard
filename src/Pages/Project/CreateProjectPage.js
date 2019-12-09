@@ -5,6 +5,8 @@ import {Link, Redirect} from "react-router-dom";
 
 import * as projectActions from '../../Core/Project/Project.actions';
 
+import {getUserPlan} from "../../Common/Selectors/BillingSelectors";
+
 import {Page, Container, Panel, PanelContent, PanelHeader, Icon, Alert} from "../../Elements";
 import {CreateProjectForm} from "../../Components";
 
@@ -57,6 +59,7 @@ class CreateProjectPage extends Component {
     };
 
     render() {
+        const {userPlan} = this.props;
         const {projectCreated, project, error} = this.state;
 
         if (projectCreated) {
@@ -75,7 +78,7 @@ class CreateProjectPage extends Component {
                                     {!!error && <Alert color="danger">
                                         <span>{error.message}</span>
                                     </Alert>}
-                                    <CreateProjectForm onSubmit={this.handleFormSubmit}/>
+                                    <CreateProjectForm plan={userPlan} onSubmit={this.handleFormSubmit}/>
                                 </PanelContent>
                             </Panel>
                             <Link to="/dashboard" className="GoBackLink">
@@ -89,6 +92,12 @@ class CreateProjectPage extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        userPlan: getUserPlan(state),
+    }
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(projectActions, dispatch),
@@ -96,6 +105,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(CreateProjectPage);

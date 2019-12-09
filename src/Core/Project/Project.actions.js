@@ -13,6 +13,7 @@ import {updateUser} from "../Auth/Auth.actions";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {formatProjectSlug} from "../../Utils/Formatters";
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -29,49 +30,46 @@ export const FETCH_PROJECT_TAGS_ACTION = 'FETCH_PROJECT_TAGS';
  * @param {User.username} [username]
  * @returns {Function}
  */
-export const createProject = (name, username = 'me') => {
-    return async (dispatch, getState) => {
-        const {auth: {user}, project: {projects}} = getState();
-        const {showDemo} = user;
+export const createProject = (name, username = 'me') => asyncActionWrapper({
+    name: 'createProject',
+    payable: true,
+    account: username,
+}, async (dispatch, getState) => {
+    const {auth: {user}, project: {projects}} = getState();
+    const {showDemo} = user;
 
-        const existingProjects = Object.keys(projects);
-        const projectSlug = formatProjectSlug(name);
+    const existingProjects = Object.keys(projects);
+    const projectSlug = formatProjectSlug(name);
 
-        if (existingProjects.includes(projectSlug)) {
-            return new ErrorActionResponse({
-                message: 'Project with this slug already exists.'
-            });
-        }
+    if (existingProjects.includes(projectSlug)) {
+        return new ErrorActionResponse({
+            message: 'Project with this slug already exists.'
+        });
+    }
 
-        try {
-            const {data} = await Api.post(`/account/${username}/project`, {
-                name,
-            });
+    const {data} = await Api.post(`/account/${username}/project`, {
+        name,
+    });
 
-            if (!data.project) {
-                return new ActionResponse(false);
-            }
+    if (!data.project) {
+        return new ActionResponse(false);
+    }
 
-            if (showDemo) {
-                const demoProject = getProjectBySlugAndUsername(getState(), exampleProjectPayload.slug, user.username);
+    if (showDemo) {
+        const demoProject = getProjectBySlugAndUsername(getState(), exampleProjectPayload.slug, user.username);
 
-                await dispatch(deleteProject(demoProject));
-            }
+        await dispatch(deleteProject(demoProject));
+    }
 
-            const project = Project.buildFromResponse(data.project, user);
+    const project = Project.buildFromResponse(data.project, user);
 
-            dispatch({
-                type: CREATE_PROJECT_ACTION,
-                project,
-            });
+    dispatch({
+        type: CREATE_PROJECT_ACTION,
+        project,
+    });
 
-            return new ActionResponse(true, project);
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
-    };
-};
+    return new SuccessActionResponse(project);
+});
 
 /**
  * @param {Function} dispatch
@@ -200,29 +198,26 @@ export const fetchProject = (slug, username) => {
 /**
  * @param {Project} project
  */
-export const deleteProject = (project) => {
-    return async (dispatch) => {
-        try {
-            if (project.type === ProjectTypes.DEMO) {
-                await dispatch(updateUser({
-                    showDemo: false,
-                }));
-            } else {
-                await Api.delete(`/account/${project.owner}/project/${project.slug}`);
-            }
-
-            dispatch({
-                type: DELETE_PROJECT_ACTION,
-                projectId: project.id,
-            });
-
-            return new SuccessActionResponse();
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
+export const deleteProject = (project) => asyncActionWrapper({
+    name: 'deleteProject',
+    payable: true,
+    account: project.owner,
+}, async dispatch => {
+    if (project.type === ProjectTypes.DEMO) {
+        await dispatch(updateUser({
+            showDemo: false,
+        }));
+    } else {
+        await Api.delete(`/account/${project.owner}/project/${project.slug}`);
     }
-};
+
+    dispatch({
+        type: DELETE_PROJECT_ACTION,
+        projectId: project.id,
+    });
+
+    return new SuccessActionResponse();
+});
 
 /**
  * @param {Project} project
