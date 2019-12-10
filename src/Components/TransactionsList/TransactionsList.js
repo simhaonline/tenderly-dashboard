@@ -26,8 +26,8 @@ const transactionTableConf = [
     },
     {
         label: 'Function',
-        size: 180,
-        renderColumn: tx => <span className="MonospaceFont LinkText">{tx.method ? `${tx.method}()` : '-'}</span>,
+        size: 200,
+        renderColumn: tx => <span className="MonospaceFont LinkText">{tx.method ? `${tx.method}` : '-'}</span>,
     },
     {
         label: "When",
