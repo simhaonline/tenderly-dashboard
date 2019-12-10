@@ -46,6 +46,9 @@ export {default as AppSidebar} from './AppSidebar/AppSidebar';
 export {default as ExplorerDescription} from './ExplorerDescription/ExplorerDescription';
 export {default as ExplorerRecentSearches} from './ExplorerRecentSearches/ExplorerRecentSearches';
 
+// Contract Components
+export {default as ContractRevisionAddTagModal} from './ContractRevisionAddTagModal/ContractRevisionAddTagModal';
+
 // Wallet Components
 export {default as ProjectWalletsList} from './ProjectWalletsList/ProjectWalletsList';
 export {default as WalletTransactionsList} from './WalletTransactionsList/WalletTransactionsList';
