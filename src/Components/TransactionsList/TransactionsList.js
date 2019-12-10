@@ -5,7 +5,7 @@ import {withRouter} from 'react-router-dom';
 import {Project} from "../../Core/models";
 
 import {Table} from "../../Elements";
-import {TransactionHashColumn, NetworkColumn, TransactionStatusColumn, TransactionMoreColumn, TransactionContractsColumn, TimeAgoColumn} from "../index";
+import {TransactionHashColumn, TransactionStatusColumn, TransactionMoreColumn, TransactionContractsColumn, TimeAgoColumn} from "../index";
 import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 const transactionTableConf = [
@@ -27,7 +27,7 @@ const transactionTableConf = [
     {
         label: 'Function',
         size: 180,
-        renderColumn: tx => <span className="MonospaceFont">{tx.method}</span>,
+        renderColumn: tx => <span className="MonospaceFont LinkText">{tx.method ? `${tx.method}()` : '-'}</span>,
     },
     {
         label: "When",

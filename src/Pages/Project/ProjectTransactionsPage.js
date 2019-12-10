@@ -96,6 +96,8 @@ class ProjectTransactionsPage extends Component {
 
     startPolling = () => {
         const refreshSubscriber = setInterval(() => {
+            if (this.state.fetching) return;
+
             this.fetchTransactions();
             Notifications.info({title: "Transactions list updated."}, {
                 toastId: "transactions-updated",
