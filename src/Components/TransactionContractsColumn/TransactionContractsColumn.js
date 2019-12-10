@@ -11,7 +11,7 @@ const TransactionContractsColumn = ({transaction, contracts}) => {
     const id = `TxContractsTooltip__${transaction.txHash}`;
 
     const txContracts = Array.from(new Set(transaction.contracts))
-        .map(contractAddress => contracts.find(contract => contract.address === contractAddress))
+        .map(contractAddress => contracts.find(contract => contract.address === contractAddress && contract.network === transaction.network))
         .filter(contract => !!contract);
 
     if (!txContracts || txContracts.length === 0) {

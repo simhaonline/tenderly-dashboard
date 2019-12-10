@@ -54,7 +54,6 @@ export {default as WalletGeneralInfo} from './WalletGeneralInfo/WalletGeneralInf
 export {default as AddWalletMethodPicker} from './AddWalletMethodPicker/AddWalletMethodPicker';
 export {default as AddWalletForm} from './AddWalletForm/AddWalletForm';
 
-export {default as PublicContractList} from './PublicContractList/PublicContractList';
 export {default as ContractInformation} from './ContractInformation/ContractInformation';
 export {default as DashboardSidebar} from './DashboardSidebar/DashboardSidebar';
 export {default as DashboardProjectsList} from './DashboardProjectsList/DashboardProjectsList';
@@ -167,8 +166,8 @@ export {default as TransactionContractsColumn} from './TransactionContractsColum
 export {default as TransactionStatusColumn} from './TransactionStatusColumn/TransactionStatusColumn';
 export {default as TransactionMoreColumn} from './TransactionMoreColumn/TransactionMoreColumn';
 
-export {default as ContractAddressColumn} from './ContractAddressColumn/ContractAddressColumn';
+export {default as ProjectContractMainRevisionColumn} from './ProjectContractMainRevisionColumn/ProjectContractMainRevisionColumn';
 export {default as ContractNameColumn} from './ContractNameColumn/ContractNameColumn';
 export {default as ContractListeningColumn} from './ContractListeningColumn/ContractListeningColumn';
 export {default as ContractDeployedAtColumn} from './ContractDeployedAtColumn/ContractDeployedAtColumn';
-export {default as ContractFilesColumn} from './ContractFilesColumn/ContractFilesColumn';
+export {default as ProjectContractLatestTagColumn} from './ProjectContractLatestTagColumn/ProjectContractLatestTagColumn';

@@ -6,11 +6,10 @@ import {Project, ProjectContract} from "../../Core/models";
 
 import {Table} from "../../Elements";
 import {
-    // ContractAddressColumn,
+    ProjectContractMainRevisionColumn,
     // ContractDeployedAtColumn,
-    // ContractListeningColumn,
-    // ContractFilesColumn,
-    // NetworkColumn,
+    ProjectContractLatestTagColumn,
+    NetworkColumn,
 } from "../index";
 
 import './ProjectContractList.scss';
@@ -18,7 +17,22 @@ import './ProjectContractList.scss';
 const projectContractsTableConfiguration = [
     {
         label: "Contract",
-        accessor: 'name',
+        renderColumn: contract => <div>
+            <span className="SemiBoldText FontSize4">{contract.name}</span>
+        </div>
+    },
+    {
+        label: "Latest Tag",
+        renderColumn: contract => <ProjectContractLatestTagColumn projectContract={contract} />
+    },
+    {
+        label: "Network",
+        size: 160,
+        renderColumn: contract => <NetworkColumn network={contract.network}/>,
+    },
+    {
+        label: "Main Revision",
+        renderColumn: contract => <ProjectContractMainRevisionColumn projectContract={contract}/>,
     },
 ];
 
