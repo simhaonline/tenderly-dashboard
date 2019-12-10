@@ -5,6 +5,7 @@ import * as Sentry from "@sentry/browser";
 import {Tooltip} from "../../Elements";
 
 import './TransactionContractsColumn.scss';
+import Blockies from "react-blockies";
 
 const TransactionContractsColumn = ({transaction, contracts}) => {
     const id = `TxContractsTooltip__${transaction.txHash}`;
@@ -30,11 +31,24 @@ const TransactionContractsColumn = ({transaction, contracts}) => {
     return (
         <div className="TransactionContractsColumn">
             <div className="TransactionContractsColumn__Contract" id={id}>
+                <Blockies
+                    seed={txContracts[0].id}
+                    size={8}
+                    scale={2}
+                    className="BorderRadius1 MarginRight1"
+                />
                 {txContracts[0].name} {txContracts.length > 1 && <span>(+{txContracts.length - 1})</span>}
             </div>
             {txContracts.length > 1 && <Tooltip id={id} className="TransactionContractsColumn__Tooltip">
                 {txContracts.map(contract => <div key={contract.address} className="TransactionContractsColumn__Tooltip__Contract">
-                    <span className="SemiBoldText">{contract.name}</span> <span className="MutedText">({contract.address})</span>
+                    <Blockies
+                        seed={contract.id}
+                        size={8}
+                        scale={2}
+                        className="BorderRadius1 MarginRight1"
+                    />
+                    <span className="SemiBoldText MarginRight1">{contract.name}</span>
+                    <span className="MutedText">({contract.address})</span>
                 </div>)}
             </Tooltip>}
         </div>
