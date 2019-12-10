@@ -35,7 +35,7 @@ class PaidFeatureButton extends PureComponent {
         let hasAbility = false;
 
         if (plan && usage) {
-            hasAbility = plan.usage[usage] ? plan.usage[usage].used : false;
+            hasAbility = plan.usage[usage] ? !plan.usage[usage].used : false;
         } else if (plan && includes) {
             hasAbility = !!includes.split('.').reduce((data, key) => {
                 if (!data || !data[key]) return false;
