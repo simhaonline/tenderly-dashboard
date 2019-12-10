@@ -57,11 +57,11 @@ class PaidFeatureButton extends PureComponent {
                 </Button>
                 <Dialog open={upgradeModalOpen} onClose={this.handleModalClose}>
                     <DialogBody>
-                        {!!usage && <div>
+                        {plan && !!usage && <div>
                             <p>You have exceeded the limit for your plan.</p>
                             <p>{usage}: {plan.usage[usage].count}/{plan.usage[usage].limit}</p>
                         </div>}
-                        {!!includes && <div>
+                        {plan && !!includes && <div>
                             <p>This is not included in your current plan</p>
                         </div>}
                         <h2>Pro</h2>
