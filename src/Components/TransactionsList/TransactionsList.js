@@ -11,7 +11,7 @@ import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 const transactionTableConf = [
     {
         label: "Tx Hash",
-        size: 240,
+        size: 200,
         renderColumn: (tx, metadata) => <TransactionHashColumn transaction={tx} contracts={metadata.contracts} displayType/>,
     },
     {
@@ -28,11 +28,6 @@ const transactionTableConf = [
         label: 'Function',
         size: 180,
         renderColumn: tx => <span className="MonospaceFont">{tx.method}</span>,
-    },
-    {
-        label: "Network",
-        size: 130,
-        renderColumn: tx => <NetworkColumn network={tx.network}/>,
     },
     {
         label: "When",
