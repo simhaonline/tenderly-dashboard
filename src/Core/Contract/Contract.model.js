@@ -5,7 +5,6 @@ import {AccountTypes, NetworkApiToAppTypeMap} from "../../Common/constants";
 
 import {Account, ContractFile} from "../models";
 
-import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 class Contract extends Account {
@@ -77,13 +76,6 @@ class Contract extends Account {
         const networkRoute = getRouteSlugForNetwork(this.network);
 
         return `/${networkRoute}/${this.address}`;
-    }
-
-    /**
-     * @return {string}
-     */
-    getApiId() {
-        return `eth:${getApiIdForNetwork(this.network)}:${this.id}`;
     }
 
     /**

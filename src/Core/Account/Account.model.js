@@ -33,6 +33,13 @@ class Account {
     };
 
     /**
+     * @return {string}
+     */
+    getApiId() {
+        return `eth:${getApiIdForNetwork(this.network)}:${this.id}`;
+    }
+
+    /**
      * @param {string} address
      * @param {NetworkTypes} network
      * @return {Account.id}
