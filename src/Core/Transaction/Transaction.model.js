@@ -33,6 +33,9 @@ class Transaction {
         /** @type string */
         this.to = data.to;
 
+        /** @type {string} */
+        this.method = data.method;
+
         /** @type number */
         this.gasLimit = data.gasLimit;
 
@@ -80,6 +83,7 @@ class Transaction {
             block: response.block_number,
             from: response.from,
             to: response.to,
+            method: response.method,
             gasLimit: response.gas,
             gasPrice: response.gas_price,
             gasUsed: response.gas_used,
