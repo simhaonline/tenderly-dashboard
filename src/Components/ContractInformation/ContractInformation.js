@@ -1,16 +1,36 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
-import {Contract, Project} from "../../Core/models";
+import {Contract, ProjectContract} from "../../Core/models";
 
-import {Tag, Panel, PanelContent, PanelDivider, Tooltip, Icon} from "../../Elements";
-import {CopyableText, NetworkTag} from "../index";
+import {Tag, Panel, PanelContent, PanelDivider, Tooltip, Icon, LinkButton} from "../../Elements";
+import {CopyableText, NetworkTag, ContractRevisionAddTagModal} from "../index";
 
 import './ContractInformation.scss';
 
 class ContractInformation extends Component {
+    state = {
+        addTagModalOpen: false,
+    };
+
+    /**
+     * @param {boolean} value
+     */
+    setAddTagModal = (value) => {
+        this.setState({
+            addTagModalOpen: value,
+        });
+    };
+
     render() {
-        const {contract, project, tags} = this.props;
+        const {contract, projectContract} = this.props;
+        const {addTagModalOpen} = this.state;
+
+        let revision;
+
+        if (projectContract) {
+            revision = projectContract.getRevision(contract.id);
+        }
 
         return (
             <Panel className="ContractInformation">
@@ -40,17 +60,20 @@ class ContractInformation extends Component {
                             </div>
                         </div>
                     </div>
-                    {!!project && <Fragment>
-                        {!!tags && tags.length > 0 && <Fragment>
-                            <PanelDivider/>
-                            <div>
-                                <span className="MarginRight2 SemiBoldText">Tags:</span>
-                                {tags.map(tag => <Tag color="primary-outline" key={tag.tag}>
-                                    <Icon icon="tag"/>
-                                    <span className="MonospaceFont">{tag.tag}</span>
-                                </Tag>)}
-                            </div>
-                        </Fragment>}
+                    {!!projectContract && <Fragment>
+                        <PanelDivider/>
+                        <div>
+                            <span className="MarginRight2 SemiBoldText">Tags:</span>
+                            {revision.tags.map(tag => <Tag color="primary-outline" key={tag.label}>
+                                <Icon icon="tag"/>
+                                <span className="MonospaceFont">{tag.label}</span>
+                            </Tag>)}
+                            <LinkButton onClick={() => this.setAddTagModal(true)} className="MarginLeft1">
+                                <Icon icon="plus"/>
+                                <span >Add Tag</span>
+                            </LinkButton>
+                            <ContractRevisionAddTagModal revision={revision} open={addTagModalOpen} onClose={() => this.setAddTagModal(false)}/>
+                        </div>
                     </Fragment>}
                 </PanelContent>
             </Panel>
@@ -60,10 +83,7 @@ class ContractInformation extends Component {
 
 ContractInformation.propTypes = {
     contract: PropTypes.instanceOf(Contract).isRequired,
-    tags: PropTypes.array,
-    project: PropTypes.instanceOf(Project),
-    onDelete: PropTypes.func,
-    onListenToggle: PropTypes.func,
+    projectContract: PropTypes.instanceOf(ProjectContract),
 };
 
 export default ContractInformation;

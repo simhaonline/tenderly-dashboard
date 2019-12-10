@@ -45,11 +45,17 @@ class ContractRevisionAddTagModal extends Component {
                     <h3>Add Tag to contract</h3>
                 </DialogHeader>
                 <DialogBody>
-                    <Form>
-                        <Input value={label} field="label" onChange={this.handleLabelChange}/>
-                        <Button type="submit">
-                            <span>Create Tag</span>
-                        </Button>
+                    <Form onSubmit={this.handleFormSubmit}>
+                        <p className="MarginBottom2">Add unique tags to your contracts to help you filter your transactions pinpoint key events that happened more easily.</p>
+                        <Input value={label} field="label" onChange={this.handleLabelChange} icon="tag" autoFocus label="e.g. v1.3.37"/>
+                        <div className="MarginTop4">
+                            <Button type="submit">
+                                <span>Add Tag</span>
+                            </Button>
+                            <Button onClick={this.handleModalClose} outline>
+                                <span>Cancel</span>
+                            </Button>
+                        </div>
                     </Form>
                     {adding && <DialogLoader/>}
                 </DialogBody>

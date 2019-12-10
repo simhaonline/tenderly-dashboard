@@ -13,7 +13,6 @@ import {
 import {
     getContractByAddressAndNetwork, getContractRevisionsForProjectContract,
     getContractStatus,
-    getContractTagsByAddressAndNetwork
 } from "../../Common/Selectors/ContractSelectors";
 import {EntityStatusTypes, EtherscanLinkTypes, ProjectTypes} from "../../Common/constants";
 
@@ -129,7 +128,7 @@ class ProjectContractPage extends Component {
     };
 
     render() {
-        const {contract, projectContract, revisions, contractTags, contractStatus, project} = this.props;
+        const {contract, projectContract, revisions, contractStatus, project} = this.props;
         const {contractRemoved, tabs} = this.state;
 
         if (contractStatus === EntityStatusTypes.NON_EXISTING || contractRemoved) {
@@ -159,8 +158,8 @@ class ProjectContractPage extends Component {
                         </PageHeading>
                         <Switch>
                             <Route path="/:username/:slug/contract/:network/:address" exact render={() => <Fragment>
-                                <ContractInformation contract={contract} tags={contractTags} project={project}/>
-                                 <ProjectContractActions onAction={this.handleContractAction}/>
+                                <ContractInformation contract={contract} projectContract={projectContract}/>
+                                <ProjectContractActions onAction={this.handleContractAction}/>
                             </Fragment>}/>
                             <Route path="/:username/:slug/contract/:network/:address/files" exact render={() => <ContractFiles contract={contract}/>}/>
                             <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions projectContract={projectContract} currentContract={contract} contracts={revisions}
@@ -190,7 +189,6 @@ const mapStateToProps = (state, ownProps) => {
         contract,
         projectContract,
         revisions: getContractRevisionsForProjectContract(state, project.id, projectContract),
-        contractTags: getContractTagsByAddressAndNetwork(state, project, address, networkType),
         contractStatus: getContractStatus(state, address, networkType),
         contractsLoaded: areProjectContractsLoaded(state, project.id),
     }
