@@ -158,7 +158,7 @@ class ProjectContractPage extends Component {
                         </PageHeading>
                         <Switch>
                             <Route path="/:username/:slug/contract/:network/:address" exact render={() => <Fragment>
-                                <ContractInformation contract={contract} projectContract={projectContract}/>
+                                <ContractInformation contract={contract} projectContract={projectContract} project={project}/>
                                 <ProjectContractActions onAction={this.handleContractAction}/>
                             </Fragment>}/>
                             <Route path="/:username/:slug/contract/:network/:address/files" exact render={() => <ContractFiles contract={contract}/>}/>

@@ -1,12 +1,13 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 
-import {Contract, ProjectContract} from "../../Core/models";
+import {Contract, Project, ProjectContract} from "../../Core/models";
 
 import {Tag, Panel, PanelContent, PanelDivider, Tooltip, Icon, LinkButton} from "../../Elements";
-import {CopyableText, NetworkTag, ContractRevisionAddTagModal} from "../index";
+import {CopyableText, NetworkTag, ContractRevisionAddTagModal, PermissionControl} from "../index";
 
 import './ContractInformation.scss';
+import {CollaboratorPermissionTypes} from "../../Common/constants";
 
 class ContractInformation extends Component {
     state = {
@@ -23,7 +24,7 @@ class ContractInformation extends Component {
     };
 
     render() {
-        const {contract, projectContract} = this.props;
+        const {project, contract, projectContract} = this.props;
         const {addTagModalOpen} = this.state;
 
         let revision;
@@ -68,10 +69,12 @@ class ContractInformation extends Component {
                                 <Icon icon="tag"/>
                                 <span className="MonospaceFont">{tag.label}</span>
                             </Tag>)}
-                            <LinkButton onClick={() => this.setAddTagModal(true)} className="MarginLeft1">
-                                <Icon icon="plus"/>
-                                <span >Add Tag</span>
-                            </LinkButton>
+                            <PermissionControl requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT} project={project}>
+                                <LinkButton onClick={() => this.setAddTagModal(true)} className="MarginLeft1">
+                                    <Icon icon="plus"/>
+                                    <span >Add Tag</span>
+                                </LinkButton>
+                            </PermissionControl>
                             <ContractRevisionAddTagModal revision={revision} open={addTagModalOpen} onClose={() => this.setAddTagModal(false)}/>
                         </div>
                     </Fragment>}
@@ -83,6 +86,7 @@ class ContractInformation extends Component {
 
 ContractInformation.propTypes = {
     contract: PropTypes.instanceOf(Contract).isRequired,
+    project: PropTypes.instanceOf(Project),
     projectContract: PropTypes.instanceOf(ProjectContract),
 };
 
