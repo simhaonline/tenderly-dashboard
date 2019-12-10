@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import {ProjectContractRevision} from "../../Core/models";
+import {Project, ProjectContractRevision} from "../../Core/models";
 import {contractActions} from "../../Core/actions";
 
 import {Button, Dialog, DialogBody, DialogHeader, DialogLoader, Form, Input} from "../../Elements";
@@ -29,14 +29,14 @@ class ContractRevisionAddTagModal extends Component {
     };
 
     handleFormSubmit = async () => {
-        const {revision, contractActions} = this.props;
+        const {project, revision, contractActions} = this.props;
         const {label} = this.state;
 
         this.setState({
             adding: true,
         });
 
-        const response = await contractActions.addTagToProjectContractRevision(revision, label);
+        const response = await contractActions.addTagToProjectContractRevision(project, revision, label);
 
         this.setState({
             adding: false,
@@ -80,6 +80,7 @@ class ContractRevisionAddTagModal extends Component {
 ContractRevisionAddTagModal.propTypes = {
     open: PropTypes.bool.isRequired,
     revision: PropTypes.instanceOf(ProjectContractRevision).isRequired,
+    project: PropTypes.instanceOf(Project).isRequired,
     onClose: PropTypes.func.isRequired,
 };
 

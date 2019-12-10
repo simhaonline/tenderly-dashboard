@@ -14,6 +14,7 @@ export const TOGGLE_CONTRACT_LISTENING_ACTION = 'TOGGLE_CONTRACT_LISTENING';
 export const DELETE_CONTRACT_ACTION = 'DELETE_CONTRACT';
 export const FETCH_CONTRACT_METHODS_ACTION = 'FETCH_CONTRACT_METHODS';
 export const FETCH_CONTRACT_LOGS_ACTION = 'FETCH_CONTRACT_LOGS';
+export const ADD_TAG_TO_CONTRACT_REVISION_ACTION = 'ADD_TAG_TO_CONTRACT_REVISION';
 
 /**
  * @param {Project} project
@@ -303,17 +304,26 @@ export const getContractBackFillingStatus = (project, contract) => {
     }
 };
 
-export const addTagToProjectContractRevision = (revision, tag) => asyncActionWrapper({
+/**
+ * @param {Project} project
+ * @param {ProjectContractRevision} revision
+ * @param {String} tag
+ */
+export const addTagToProjectContractRevision = (project, revision, tag) => asyncActionWrapper({
     name: 'addTagToProjectContractRevision',
 }, async dispatch => {
-    const data = {
+    await Api.post(`/account/${project.owner}/project/${project.slug}/tag`, {
         contract_ids: [
             Account.generateApiId(revision.id),
         ],
         tag,
-    };
+    });
 
-    console.log(data);
+    dispatch({
+        type: ADD_TAG_TO_CONTRACT_REVISION_ACTION,
+        projectId: project.id,
+        revisionId: revision.id,
+    });
 
     return new SuccessActionResponse();
 });

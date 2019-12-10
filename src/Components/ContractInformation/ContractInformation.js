@@ -75,7 +75,7 @@ class ContractInformation extends Component {
                                     <span >Add Tag</span>
                                 </LinkButton>
                             </PermissionControl>
-                            <ContractRevisionAddTagModal revision={revision} open={addTagModalOpen} onClose={() => this.setAddTagModal(false)}/>
+                            <ContractRevisionAddTagModal project={project} revision={revision} open={addTagModalOpen} onClose={() => this.setAddTagModal(false)}/>
                         </div>
                     </Fragment>}
                 </PanelContent>
