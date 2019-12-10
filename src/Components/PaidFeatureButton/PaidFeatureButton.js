@@ -45,7 +45,7 @@ class PaidFeatureButton extends PureComponent {
         }
 
         if (hasAbility) {
-            return <Button {...props}>
+            return <Button {...props} type="button">
                 {children}
             </Button>;
         }
