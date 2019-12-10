@@ -80,7 +80,11 @@
   }
 
   @media (max-width: 1440px) {
+    padding: 36px 40px;
 
+    .FullWidthContainer {
+      margin: 0 -40px;
+    }
   }
 
   @media (max-width: 760px) {
