@@ -6,6 +6,7 @@ import {Tooltip} from "../../Elements";
 
 import './TransactionContractsColumn.scss';
 import Blockies from "react-blockies";
+import {NetworkTag} from "../index";
 
 const TransactionContractsColumn = ({transaction, contracts}) => {
     const id = `TxContractsTooltip__${transaction.txHash}`;
@@ -39,7 +40,10 @@ const TransactionContractsColumn = ({transaction, contracts}) => {
                 />
                 {txContracts[0].name} {txContracts.length > 1 && <span>(+{txContracts.length - 1})</span>}
             </div>
-            {txContracts.length > 1 && <Tooltip id={id} className="TransactionContractsColumn__Tooltip">
+            <Tooltip id={id} className="TransactionContractsColumn__Tooltip">
+                <div className="TransactionContractsColumn__Tooltip__NetworkWrapper">
+                    <NetworkTag network={transaction.network} size="small"/>
+                </div>
                 {txContracts.map(contract => <div key={contract.address} className="TransactionContractsColumn__Tooltip__Contract">
                     <Blockies
                         seed={contract.id}
@@ -50,7 +54,7 @@ const TransactionContractsColumn = ({transaction, contracts}) => {
                     <span className="SemiBoldText MarginRight1">{contract.name}</span>
                     <span className="MutedText">({contract.address})</span>
                 </div>)}
-            </Tooltip>}
+            </Tooltip>
         </div>
     )
 };
