@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
 import {ProjectContractRevision} from "../../Core/models";
+import {contractActions} from "../../Core/actions";
+
 import {Button, Dialog, DialogBody, DialogHeader, DialogLoader, Form, Input} from "../../Elements";
 
 class ContractRevisionAddTagModal extends Component {
@@ -24,14 +28,23 @@ class ContractRevisionAddTagModal extends Component {
         });
     };
 
-    handleFormSubmit = () => {
+    handleFormSubmit = async () => {
+        const {revision, contractActions} = this.props;
         const {label} = this.state;
 
-        console.log(label);
+        this.setState({
+            adding: true,
+        });
 
-        // @TODO Perform action
+        const response = await contractActions.addTagToProjectContractRevision(revision, label);
 
-        this.handleModalClose();
+        this.setState({
+            adding: false,
+        });
+
+        if (response.success) {
+            this.handleModalClose();
+        }
     };
 
     render() {
@@ -70,4 +83,13 @@ ContractRevisionAddTagModal.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
-export default ContractRevisionAddTagModal;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        contractActions: bindActionCreators(contractActions, dispatch),
+    };
+};
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(ContractRevisionAddTagModal);

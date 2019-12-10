@@ -5,7 +5,8 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import {exampleContract1Payload, exampleContract2Payload} from "../../examples";
 
-import {Contract, ContractMethod, ContractLog, Project, ProjectContract} from "../models";
+import {Contract, Account, ContractMethod, ContractLog, Project, ProjectContract} from "../models";
+import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
@@ -301,3 +302,18 @@ export const getContractBackFillingStatus = (project, contract) => {
         }
     }
 };
+
+export const addTagToProjectContractRevision = (revision, tag) => asyncActionWrapper({
+    name: 'addTagToProjectContractRevision',
+}, async dispatch => {
+    const data = {
+        contract_ids: [
+            Account.generateApiId(revision.id),
+        ],
+        tag,
+    };
+
+    console.log(data);
+
+    return new SuccessActionResponse();
+});
