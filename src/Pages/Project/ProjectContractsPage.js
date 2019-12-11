@@ -11,16 +11,15 @@ import {
 } from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject, getTagsForProjectContracts} from "../../Common/Selectors/ContractSelectors";
 
-import {Container, Page, PageHeading, Panel, PanelContent, Button} from "../../Elements";
+import {Container, Page, PageHeading, Button} from "../../Elements";
 import {
     ProjectSetupEmptyState,
     ProjectContractList,
     ProjectContentLoader,
     PermissionControl,
+
     ExampleProjectInfoModal,
-    EmptyState
 } from "../../Components";
-import NoContractsIcon from '../../Components/ProjectSetupEmptyState/no-contracts-watched.svg';
 
 class ProjectContractsPage extends Component {
     constructor(props) {
@@ -34,9 +33,7 @@ class ProjectContractsPage extends Component {
     async componentDidMount() {
         const {actions, project, contractsLoaded} = this.props;
 
-        const projectIsSetup = !!project.lastPushAt;
-
-        if (projectIsSetup && !contractsLoaded) {
+        if (!contractsLoaded) {
             await actions.fetchContractsForProject(project);
         }
     }
@@ -66,7 +63,7 @@ class ProjectContractsPage extends Component {
         const {project, contracts, contractsLoaded, contractTags} = this.props;
         const {createProjectModalOpen} = this.state;
 
-        const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
+        const projectIsSetup = contracts.length > 0;
 
         return (
             <Page id="ProjectContractsPage">
@@ -89,17 +86,11 @@ class ProjectContractsPage extends Component {
                             </Fragment>}
                         </div>}
                     </PageHeading>
-                    {projectIsSetup && <Fragment>
-                        {contractsLoaded && !!contracts.length && <ProjectContractList contracts={contracts} contractTags={contractTags} onListenToggle={this.handleContractListeningToggle}/>}
-                        {contractsLoaded && !contracts.length && <Panel>
-                            <PanelContent>
-                                <EmptyState image={NoContractsIcon} title="No contracts watched"
-                                            description="There are no contracts added to this project. Add contracts to start monitoring them."/>
-                            </PanelContent>
-                        </Panel>}
-                        {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
+                    {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
+                    {contractsLoaded && projectIsSetup && <Fragment>
+                        <ProjectContractList contracts={contracts} contractTags={contractTags} onListenToggle={this.handleContractListeningToggle}/>
                     </Fragment>}
-                    {!projectIsSetup && <ProjectSetupEmptyState project={project}/>}
+                    {contractsLoaded && !projectIsSetup && <ProjectSetupEmptyState project={project}/>}
                 </Container>
             </Page>
         )

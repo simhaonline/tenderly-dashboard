@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
+import {bindActionCreators} from "redux";
 
 import Analytics from "../../Utils/Analytics";
 
 import {CollaboratorPermissionTypes} from "../../Common/constants";
-import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+
+import {contractActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading, Button} from "../../Elements";
 import {
@@ -48,7 +51,20 @@ class ProjectAlertsPage extends Component {
 
         this.state = {
             currentSegment: props.initialTab || RULES_TAB,
+            loaded: false,
         }
+    }
+
+    async componentDidMount() {
+        const {contractActions, project, contractsLoaded} = this.props;
+
+        if (!contractsLoaded) {
+            await contractActions.fetchContractsForProject(project);
+        }
+
+        this.setState({
+            loaded: true,
+        });
     }
 
     /**
@@ -66,9 +82,9 @@ class ProjectAlertsPage extends Component {
 
     render() {
         const {project, contracts} = this.props;
-        const {currentSegment} = this.state;
+        const {currentSegment, loaded} = this.state;
 
-        const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
+        const projectIsSetup = contracts.length > 0;
 
         return (
             <Page id="ProjectPage">
@@ -83,8 +99,8 @@ class ProjectAlertsPage extends Component {
                             </PermissionControl>
                         </div>
                     </PageHeading>
-                    {!projectIsSetup && <ProjectSetupEmptyState project={project}/>}
-                    {projectIsSetup && <PageSegments>
+                    {!projectIsSetup && loaded && <ProjectSetupEmptyState project={project}/>}
+                    {projectIsSetup && loaded && <PageSegments>
                         <PageSegmentSwitcher current={currentSegment} options={PageSegmentsOptions} onSelect={this.handleSegmentSwitch}/>
                         <Switch>
                             <Route path={`/:username/:slug/alerts/rules`} render={() => <PageSegmentContent>
@@ -113,10 +129,17 @@ const mapStateToProps = (state, ownProps) => {
         initialTab: tab,
         project,
         contracts: getContractsForProject(state, project.id),
+        contractsLoaded: areProjectContractsLoaded(state, project.id),
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        contractActions: bindActionCreators(contractActions, dispatch),
     }
 };
 
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps,
 )(ProjectAlertsPage);
