@@ -68,7 +68,7 @@ class ProjectAlertsPage extends Component {
         const {project, contracts} = this.props;
         const {currentSegment} = this.state;
 
-        const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
+        const projectIsSetup = contracts.length > 0;
 
         return (
             <Page id="ProjectPage">

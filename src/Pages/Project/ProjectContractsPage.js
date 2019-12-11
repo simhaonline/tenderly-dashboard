@@ -34,9 +34,7 @@ class ProjectContractsPage extends Component {
     async componentDidMount() {
         const {actions, project, contractsLoaded} = this.props;
 
-        const projectIsSetup = !!project.lastPushAt;
-
-        if (projectIsSetup && !contractsLoaded) {
+        if (!contractsLoaded) {
             await actions.fetchContractsForProject(project);
         }
     }
@@ -66,7 +64,7 @@ class ProjectContractsPage extends Component {
         const {project, contracts, contractsLoaded, contractTags} = this.props;
         const {createProjectModalOpen} = this.state;
 
-        const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
+        const projectIsSetup = contracts.length > 0;
 
         return (
             <Page id="ProjectContractsPage">
