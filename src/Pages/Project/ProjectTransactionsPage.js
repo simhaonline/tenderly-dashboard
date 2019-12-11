@@ -64,9 +64,7 @@ class ProjectTransactionsPage extends Component {
 
             transactions = actionResponse.data;
 
-            if (project.isSetup) {
-                this.startPolling();
-            }
+            this.startPolling();
         } else {
             const exampleResponse = await txActions.fetchExampleTransactions();
 

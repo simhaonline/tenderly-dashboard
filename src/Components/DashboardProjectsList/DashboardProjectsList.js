@@ -16,10 +16,6 @@ import './DashboardProjectsList.scss';
 const DashboardProjectListItem = ({project}) => {
     let projectIcon = project.getIcon();
 
-    if (!project.isSetup && project.type !== ProjectTypes.SHARED) {
-        projectIcon = 'code';
-    }
-
     return <Link to={`/${project.owner}/${project.slug}`} className={"DashboardProjectListItem"} key={project.id}>
         <Card className="DashboardProjectListItem__Card" clickable>
             <div className={classNames(
@@ -28,7 +24,6 @@ const DashboardProjectListItem = ({project}) => {
                     "DashboardProjectListItem__IconWrapper--Personal": project.type === ProjectTypes.PRIVATE,
                     "DashboardProjectListItem__IconWrapper--Demo": project.type === ProjectTypes.DEMO,
                     "DashboardProjectListItem__IconWrapper--Shared": project.type === ProjectTypes.SHARED,
-                    "DashboardProjectListItem__IconWrapper--NotSetup": !project.isSetup,
                 },
             )}>
                 <Icon icon={projectIcon} className="DashboardProjectListItem__Icon"/>
