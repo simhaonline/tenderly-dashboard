@@ -71,7 +71,7 @@ const logActionError = (error, dispatch, actionSettings, onErrorCallback) => {
  * @param {Function} [onError]
  * @returns {Promise<Function>}
  */
-export function asyncActionWrapper(actionSettings, action, onError = () => {}) {
+export function asyncActionWrapper(actionSettings, action, onError) {
     return async dispatch => {
         try {
             const actionResponse = await action(dispatch);
@@ -93,7 +93,7 @@ export function asyncActionWrapper(actionSettings, action, onError = () => {}) {
  * @param {Function} [onError]
  * @returns {Function}
  */
-export function actionWrapper(actionSettings, action, onError = () => {}) {
+export function actionWrapper(actionSettings, action, onError) {
     return dispatch => {
         try {
             return action(dispatch);
