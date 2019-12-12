@@ -68,17 +68,18 @@ const TransactionGeneralInformation = ({transaction, contracts, project}) => {
                         <span className="MarginRight2 SemiBoldText">Gas Used:</span>
                         <span>{transaction.gasUsed}</span>
                     </div>
-                </div>
-                <div className="DisplayFlex FlexWrap MarginTop3">
-                    <div className="DisplayFlex AlignItemsStart MarginRight4">
-                        <span className="MarginRight2 SemiBoldText">Value:</span>
-                        <span>{parseInt(transaction.value) / Math.pow(10, 18)} ETH</span>
-                    </div>
                     <div className="DisplayFlex AlignItemsStart MarginRight4">
                         <span className="MarginRight2 SemiBoldText">Nonce:</span>
                         <span>{transaction.nonce}</span>
                     </div>
                 </div>
+                {!!transaction.value && <div className="DisplayFlex FlexWrap MarginTop3">
+                    <div className="DisplayFlex AlignItemsStart MarginRight4">
+                        <span className="MarginRight2 SemiBoldText">Value:</span>
+                        {transaction.value.length > 2 && <span>{parseFloat(parseInt(transaction.value) / Math.pow(10, 18)).toFixed(2)} ETH</span>}
+                        {transaction.value.length === 2 && <span>0 ETH</span>}
+                    </div>
+                </div>}
                 <PanelDivider/>
                 <div className="CallerInfo">
                     <div>
