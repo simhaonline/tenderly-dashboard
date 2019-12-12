@@ -51,7 +51,7 @@ const logActionError = (error, actionSettings, onErrorCallback) => {
     });
 
     if (onErrorCallback) {
-        onErrorCallback(error);
+        return onErrorCallback(error);
     }
 
     return new ErrorActionResponse(error);
