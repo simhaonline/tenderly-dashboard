@@ -36,6 +36,26 @@ const fetchUpdatePlanUsage = (username) => {
 };
 
 /**
+ * @param {Error} error
+ * @returns {ErrorActionResponse}
+ */
+const logActionError = (error) => {
+    console.error(error);
+
+    Sentry.withScope(scope => {
+        scope.setTag("action", actionSettings.name);
+        scope.setLevel(Sentry.Severity.Warning);
+        Sentry.captureException(error);
+    });
+
+    if (onError) {
+        onError(error);
+    }
+
+    return new ErrorActionResponse(error);
+};
+
+/**
  * @typedef ActionSettings
  * @property {string} name
  * @property {boolean} [payable]
@@ -59,19 +79,23 @@ export function asyncActionWrapper(actionSettings, action, onError = () => {}) {
 
             return actionResponse;
         } catch (error) {
-            console.error(error);
-
-            Sentry.withScope(scope => {
-                scope.setTag("action", actionSettings.name);
-                scope.setLevel(Sentry.Severity.Warning);
-                Sentry.captureException(error);
-            });
-
-            if (onError) {
-                onError(error);
-            }
-
-            return new ErrorActionResponse(error);
+            return logActionError(error);
         }
     }
+}
+
+/**
+ * @param {ActionSettings} actionSettings
+ * @param {Function} action
+ * @param {Function} [onError]
+ * @returns {Function}
+ */
+export function actionWrapper(actionSettings, action, onError = () => {}) {
+    return dispatch => {
+        try {
+            return action(dispatch);
+        } catch (error) {
+            return logActionError(error);
+        }
+    };
 }
