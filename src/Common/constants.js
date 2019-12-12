@@ -47,6 +47,17 @@ export const TransactionsListColumnTypes = {
 };
 
 /**
+ * @type {TransactionsListColumnTypes[]}
+ */
+export const DEFAULT_TRANSACTIONS_LIST_COLUMNS = [
+    TransactionsListColumnTypes.TX_HASH,
+    TransactionsListColumnTypes.STATUS,
+    TransactionsListColumnTypes.CONTRACTS,
+    TransactionsListColumnTypes.METHOD,
+    TransactionsListColumnTypes.TIMESTAMP,
+];
+
+/**
  * @enum {string}
  */
 export const NetworkTypes = {
