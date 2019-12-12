@@ -36,7 +36,7 @@ class ProjectTransactionsPage extends Component {
             projectSetup: false,
             transactions: [],
             filters: queryFilters,
-            activeColumns: {},
+            activeColumns: [],
         };
     }
 
@@ -72,9 +72,12 @@ class ProjectTransactionsPage extends Component {
             transactions = exampleResponse.data;
         }
 
+        const activeColumnsResponse = txActions.getTransactionsListColumns();
+
         this.setState({
             loading: false,
             transactions,
+            activeColumns: activeColumnsResponse.data,
             lastFetch: moment.now(),
         });
 
@@ -288,7 +291,7 @@ class ProjectTransactionsPage extends Component {
     };
 
     render() {
-        const {loading, transactions, backfillingStatus, filters, page, perPage, refreshSubscriber, fetching, error} = this.state;
+        const {loading, transactions, backfillingStatus, filters, page, perPage, activeColumns, refreshSubscriber, fetching, error} = this.state;
         const {contracts, project, projectTags} = this.props;
 
         const projectIsSetup = contracts.length > 0;
@@ -311,9 +314,9 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
-                        {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange}/>}
+                        {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} activeColumns={activeColumns} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
-                                          loading={fetching} project={project}
+                                          loading={fetching} project={project} activeColumns={activeColumns}
                                           currentPage={page} onPageChange={this.handlePageChange}
                                           perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
                         {!shouldDisplayListAndFilters && <NoTransactionsEmptyState error={error}/>}

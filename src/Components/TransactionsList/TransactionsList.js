@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 
 import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
-import {TransactionsListColumnTypes} from "../../Common/constants";
+import {DEFAULT_TRANSACTIONS_LIST_COLUMNS, TransactionsListColumnTypes} from "../../Common/constants";
 
 import {Project} from "../../Core/models";
 
@@ -108,7 +108,9 @@ class TransactionsList extends Component {
     };
 
     render() {
-        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading, project} = this.props;
+        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading, activeColumns, project} = this.props;
+
+        console.log(activeColumns);
 
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
@@ -133,6 +135,7 @@ TransactionsList.propTypes = {
 
 TransactionsList.defaultProps = {
     publicContracts: false,
+    activeColumns: DEFAULT_TRANSACTIONS_LIST_COLUMNS,
     onPageChange: () => {},
     onPerPageChange: () => {},
 };
