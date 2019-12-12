@@ -36,6 +36,7 @@ class ProjectTransactionsPage extends Component {
             projectSetup: false,
             transactions: [],
             filters: queryFilters,
+            activeColumns: {},
         };
     }
 

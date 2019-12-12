@@ -9,13 +9,21 @@ import {TransactionsListColumnTypes} from "../../Common/constants";
 import {Project} from "../../Core/models";
 
 import {Table} from "../../Elements";
-import {TransactionHashColumn, TransactionStatusColumn, TransactionMoreColumn, TransactionContractsColumn, TimeAgoColumn} from "../index";
+import {
+    TransactionHashColumn,
+    TransactionStatusColumn,
+    TransactionMoreColumn,
+    TransactionContractsColumn,
+    TimeAgoColumn,
+    NetworkColumn
+} from "../index";
+import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 const transactionTableConf = [
     {
         label: "Tx Hash",
         inclusionKey: TransactionsListColumnTypes.TX_HASH,
-        size: 200,
+        size: 220,
         renderColumn: (tx, metadata) => <TransactionHashColumn transaction={tx} contracts={metadata.contracts} displayType/>,
     },
     {
@@ -25,16 +33,41 @@ const transactionTableConf = [
         renderColumn: tx => <TransactionStatusColumn status={tx.status}/>,
     },
     {
+        label: 'From',
+        inclusionKey: TransactionsListColumnTypes.FROM,
+        size: 200,
+        renderColumn: tx => <span className="LinkText MonospaceFont">{generateShortAddress(tx.from, 10)}</span>,
+    },
+    {
+        label: 'To',
+        inclusionKey: TransactionsListColumnTypes.TO,
+        size: 200,
+        renderColumn: tx => <span className="LinkText MonospaceFont">{generateShortAddress(tx.to, 10)}</span>,
+    },
+    {
         label: 'Contracts',
         inclusionKey: TransactionsListColumnTypes.CONTRACTS,
         className: "HideMobile",
+        size: 400,
         renderColumn: (tx, metadata) => <TransactionContractsColumn transaction={tx} contracts={metadata.contracts}/>,
     },
     {
         label: 'Function',
         inclusionKey: TransactionsListColumnTypes.METHOD,
-        size: 200,
-        renderColumn: tx => <span className="MonospaceFont LinkText">{tx.method ? `${tx.method}` : '-'}</span>,
+        size: 220,
+        renderColumn: tx => <span className="MonospaceFont">{tx.method ? `${tx.method}` : '-'}</span>,
+    },
+    {
+        label: 'Network',
+        inclusionKey: TransactionsListColumnTypes.NETWORK,
+        size: 160,
+        renderColumn: tx => <NetworkColumn network={tx.network}/>,
+    },
+    {
+        label: 'Gas Used',
+        inclusionKey: TransactionsListColumnTypes.GAS_USED,
+        size: 120,
+        renderColumn: tx => <div className="TextAlignRight">{tx.gasUsed.toLocaleString()}</div>,
     },
     {
         label: "When",
@@ -44,7 +77,7 @@ const transactionTableConf = [
         renderColumn: tx => <TimeAgoColumn timestamp={tx.timestamp}/>,
     },
     {
-        className: "TransactionMoreColumn HideMobile",
+        className: "TransactionMoreColumn HideMobile MarginLeftAuto",
         renderColumn: (tx, metadata) => <TransactionMoreColumn transaction={tx} project={metadata.project}/>,
     },
 ];

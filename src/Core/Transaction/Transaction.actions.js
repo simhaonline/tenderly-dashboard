@@ -11,6 +11,7 @@ import {
 } from "../../examples";
 import Contract from "../Contract/Contract.model";
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+import {actionWrapper} from "../../Utils/ActionHelpers";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
@@ -274,3 +275,19 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
         }
     }
 };
+
+export const getTransactionsListColumns = () => actionWrapper({
+    name: 'getTransactionsListColumns',
+}, () => {
+    return new SuccessActionResponse();
+});
+
+/**
+ * @param {TransactionsListColumnTypes} column
+ */
+export const toggleTransactionsListColumn = (column) => actionWrapper({
+    name: 'toggleTransactionsListColumn',
+}, dispatch => {
+    console.log('tog col', column);
+    return new SuccessActionResponse();
+});
