@@ -218,9 +218,15 @@ class TransactionFilters extends Component {
         this.handleModalClose();
     };
 
+    handleColumnToggle = (column) => {
+        const {onColumnToggle} = this.props;
+
+        onColumnToggle(column);
+    };
+
     render() {
         const {openModal, settingsModalOpen, draftStatus, fromTagCreation, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
-        const {activeFilters} = this.props;
+        const {activeFilters, activeColumns} = this.props;
 
         const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
 
@@ -253,16 +259,16 @@ class TransactionFilters extends Component {
                                 },
                             ]} value={'comfortable'} onChange={this.handleDraftStatusChange}/>
                             <div>
-                                <Checkbox value={true} field={TransactionsListColumnTypes.TX_HASH} label="Transaction Hash" onChange={() => {}}/>
-                                <Checkbox value={true} field={TransactionsListColumnTypes.STATUS} label="Status" onChange={() => {}}/>
-                                <Checkbox value={true} field={TransactionsListColumnTypes.CONTRACTS} label="Contracts" onChange={() => {}}/>
-                                <Checkbox value={true} field={TransactionsListColumnTypes.NETWORK} label="Network" onChange={() => {}}/>
-                                <Checkbox value={true} field={TransactionsListColumnTypes.TIMESTAMP} label="Timestamp" onChange={() => {}}/>
-                                <Checkbox value={false} field={TransactionsListColumnTypes.GAS_USED} label="Gas Used" onChange={() => {}}/>
-                                <Checkbox value={false} field={TransactionsListColumnTypes.BLOCK} label="Block No." onChange={() => {}}/>
-                                <Checkbox value={false} field={TransactionsListColumnTypes.METHOD} label="Function" onChange={() => {}}/>
-                                <Checkbox value={false} field={TransactionsListColumnTypes.FROM} label="From" onChange={() => {}}/>
-                                <Checkbox value={false} field={TransactionsListColumnTypes.TO} label="To" onChange={() => {}}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.TX_HASH)} field={TransactionsListColumnTypes.TX_HASH} label="Transaction Hash" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.TX_HASH)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.STATUS)} field={TransactionsListColumnTypes.STATUS} label="Status" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.STATUS)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.CONTRACTS)} field={TransactionsListColumnTypes.CONTRACTS} label="Contracts" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.CONTRACTS)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.NETWORK)} field={TransactionsListColumnTypes.NETWORK} label="Network" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.NETWORK)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.TIMESTAMP)} field={TransactionsListColumnTypes.TIMESTAMP} label="Timestamp" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.TIMESTAMP)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.GAS_USED)} field={TransactionsListColumnTypes.GAS_USED} label="Gas Used" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.GAS_USED)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.BLOCK)} field={TransactionsListColumnTypes.BLOCK} label="Block No." onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.BLOCK)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.METHOD)} field={TransactionsListColumnTypes.METHOD} label="Function" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.METHOD)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.FROM)} field={TransactionsListColumnTypes.FROM} label="From" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.FROM)}/>
+                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.TO)} field={TransactionsListColumnTypes.TO} label="To" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.TO)}/>
                             </div>
                         </DialogBody>
                     </Dialog>
@@ -337,6 +343,7 @@ class TransactionFilters extends Component {
 
 TransactionFilters.propTypes = {
     activeFilters: PropTypes.object,
+    activeColumns: PropTypes.array.isRequired,
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
     tags: PropTypes.array.isRequired,
     onFiltersChange: PropTypes.func.isRequired,

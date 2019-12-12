@@ -109,8 +109,6 @@ class TransactionsList extends Component {
     render() {
         const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading, activeColumns, project} = this.props;
 
-        console.log(activeColumns);
-
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf.filter(conf => activeColumns.includes(conf.inclusionKey) || !conf.inclusionKey)} metadata={{
                 contracts,

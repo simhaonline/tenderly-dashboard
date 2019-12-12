@@ -290,6 +290,16 @@ class ProjectTransactionsPage extends Component {
         }
     };
 
+    handleColumnToggle = (column) => {
+        const {txActions} = this.props;
+
+        const toggleColumnsResponse = txActions.toggleTransactionsListColumn(column);
+
+        this.setState({
+            activeColumns: toggleColumnsResponse.data,
+        });
+    };
+
     render() {
         const {loading, transactions, backfillingStatus, filters, page, perPage, activeColumns, refreshSubscriber, fetching, error} = this.state;
         const {contracts, project, projectTags} = this.props;
@@ -314,7 +324,7 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
-                        {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} activeColumns={activeColumns} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange}/>}
+                        {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} activeColumns={activeColumns} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange} onColumnToggle={this.handleColumnToggle}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
                                           loading={fetching} project={project} activeColumns={activeColumns}
                                           currentPage={page} onPageChange={this.handlePageChange}
