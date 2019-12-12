@@ -69,6 +69,12 @@ const transactionTableConf = [
         renderColumn: tx => <div className="TextAlignRight">{tx.gasUsed.toLocaleString()}</div>,
     },
     {
+        label: 'Block',
+        inclusionKey: TransactionsListColumnTypes.BLOCK,
+        size: 120,
+        renderColumn: tx => <div className="MonospaceFont LinkText">{tx.block}</div>,
+    },
+    {
         label: "When",
         inclusionKey: TransactionsListColumnTypes.TIMESTAMP,
         className: "HideMobile",
