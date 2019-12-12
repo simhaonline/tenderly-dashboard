@@ -48,7 +48,6 @@ const transactionTableConf = [
         label: 'Contracts',
         inclusionKey: TransactionsListColumnTypes.CONTRACTS,
         className: "HideMobile",
-        size: 400,
         renderColumn: (tx, metadata) => <TransactionContractsColumn transaction={tx} contracts={metadata.contracts}/>,
     },
     {
@@ -113,7 +112,7 @@ class TransactionsList extends Component {
         console.log(activeColumns);
 
         return (
-            <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf} metadata={{
+            <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf.filter(conf => activeColumns.includes(conf.inclusionKey) || !conf.inclusionKey)} metadata={{
                 contracts,
                 project,
             }} onRowClick={this.handleRowClick} minWidth={970} loading={loading} emptyStateLabel="No transactions scanned yet"
