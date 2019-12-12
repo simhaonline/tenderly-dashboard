@@ -21,7 +21,7 @@ class ProjectAlertsPage extends Component {
     render() {
         const {project, contracts} = this.props;
 
-        const projectIsSetup = !!project.lastPushAt || contracts.length > 0;
+        const projectIsSetup = contracts.length > 0;
 
         return (
             <Page id="ProjectPage">
