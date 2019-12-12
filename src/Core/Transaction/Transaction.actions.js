@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/browser";
+import _ from 'lodash';
 
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {
@@ -302,6 +303,13 @@ export const getTransactionsListColumns = () => actionWrapper({
 export const toggleTransactionsListColumn = (column) => actionWrapper({
     name: 'toggleTransactionsListColumn',
 }, dispatch => {
-    console.log('tog col', column);
-    return new SuccessActionResponse();
+    const currentColumns = dispatch(getTransactionsListColumns()).data;
+
+    const updatedColumns = _.xor(currentColumns, [column]);
+
+    LocalStorage.setItem(LocalStorageKeys.TRANSACTIONS_LIST_COLUMNS, updatedColumns);
+
+    return new SuccessActionResponse(updatedColumns);
+}, (error, dispatch) => {
+    return dispatch(getTransactionsListColumns());
 });
