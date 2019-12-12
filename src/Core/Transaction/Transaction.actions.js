@@ -1,7 +1,12 @@
 import * as Sentry from "@sentry/browser";
 
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
-import {TransactionFilterTypes} from "../../Common/constants";
+import {
+    DEFAULT_TRANSACTIONS_LIST_COLUMNS,
+    LocalStorageKeys,
+    TransactionFilterTypes,
+    TransactionsListColumnTypes
+} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
 import {EventLog, StackTrace, CallTrace, Transaction, StateDiff, Project} from "../models";
@@ -12,6 +17,7 @@ import {
 import Contract from "../Contract/Contract.model";
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 import {actionWrapper} from "../../Utils/ActionHelpers";
+import LocalStorage from "../../Utils/LocalStorage";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
@@ -279,7 +285,15 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
 export const getTransactionsListColumns = () => actionWrapper({
     name: 'getTransactionsListColumns',
 }, () => {
-    return new SuccessActionResponse();
+    let columns = LocalStorage.getItem(LocalStorageKeys.TRANSACTIONS_LIST_COLUMNS);
+
+    if (!columns) {
+        columns = DEFAULT_TRANSACTIONS_LIST_COLUMNS;
+    }
+
+    return new SuccessActionResponse(columns);
+}, () => {
+    return new SuccessActionResponse(DEFAULT_TRANSACTIONS_LIST_COLUMNS);
 });
 
 /**
