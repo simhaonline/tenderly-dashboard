@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {Contract} from "../../Core/models";
 
-import {TransactionFilterTypes} from "../../Common/constants";
+import {TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, Checkbox, LinkButton, Select} from "../../Elements";
 import {ContractSelectMultiValueLabel, ContractSelectOption, NetworkSelectOption} from "../index";
@@ -253,16 +253,16 @@ class TransactionFilters extends Component {
                                 },
                             ]} value={'comfortable'} onChange={this.handleDraftStatusChange}/>
                             <div>
-                                <Checkbox value={true} field="txHash" label="Transaction Hash" onChange={() => {}}/>
-                                <Checkbox value={true} field="status" label="Status" onChange={() => {}}/>
-                                <Checkbox value={true} field="contracts" label="Contracts" onChange={() => {}}/>
-                                <Checkbox value={true} field="network" label="Network" onChange={() => {}}/>
-                                <Checkbox value={true} field="timestamp" label="Timestamp" onChange={() => {}}/>
-                                <Checkbox value={false} field="gasUsed" label="Gas Used" onChange={() => {}}/>
-                                <Checkbox value={false} field="block" label="Block No." onChange={() => {}}/>
-                                <Checkbox value={false} field="method" label="Function" onChange={() => {}}/>
-                                <Checkbox value={false} field="from" label="From" onChange={() => {}}/>
-                                <Checkbox value={false} field="to" label="To" onChange={() => {}}/>
+                                <Checkbox value={true} field={TransactionsListColumnTypes.TX_HASH} label="Transaction Hash" onChange={() => {}}/>
+                                <Checkbox value={true} field={TransactionsListColumnTypes.STATUS} label="Status" onChange={() => {}}/>
+                                <Checkbox value={true} field={TransactionsListColumnTypes.CONTRACTS} label="Contracts" onChange={() => {}}/>
+                                <Checkbox value={true} field={TransactionsListColumnTypes.NETWORK} label="Network" onChange={() => {}}/>
+                                <Checkbox value={true} field={TransactionsListColumnTypes.TIMESTAMP} label="Timestamp" onChange={() => {}}/>
+                                <Checkbox value={false} field={TransactionsListColumnTypes.GAS_USED} label="Gas Used" onChange={() => {}}/>
+                                <Checkbox value={false} field={TransactionsListColumnTypes.BLOCK} label="Block No." onChange={() => {}}/>
+                                <Checkbox value={false} field={TransactionsListColumnTypes.METHOD} label="Function" onChange={() => {}}/>
+                                <Checkbox value={false} field={TransactionsListColumnTypes.FROM} label="From" onChange={() => {}}/>
+                                <Checkbox value={false} field={TransactionsListColumnTypes.TO} label="To" onChange={() => {}}/>
                             </div>
                         </DialogBody>
                     </Dialog>
