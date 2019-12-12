@@ -27,6 +27,23 @@ export const LocalStorageKeys = {
     LOGIN_FLOW: 'LOGIN_FLOW',
     RECENT_SEARCHES: 'RECENT_SEARCHES',
     PROJECT_CONTEXT: 'PROJECT_CONTEXT',
+    TRANSACTIONS_LIST_COLUMNS: 'TRANSACTIONS_LIST_COLUMNS',
+};
+
+/**
+ * @enum {string}
+ */
+export const TransactionsListColumnTypes = {
+    TX_HASH: 'txHash',
+    STATUS: 'status',
+    CONTRACTS: 'contracts',
+    NETWORK: 'network',
+    METHOD: 'method',
+    TIMESTAMP: 'timestamp',
+    FROM: 'from',
+    TO: 'to',
+    BLOCK: 'block',
+    GAS_USED: 'GAS_USED',
 };
 
 /**
