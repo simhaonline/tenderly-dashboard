@@ -37,11 +37,12 @@ const fetchUpdatePlanUsage = (username) => {
 
 /**
  * @param {Error} error
+ * @param dispatch
  * @param {ActionSettings} actionSettings
  * @param {Function} [onErrorCallback]
  * @returns {ErrorActionResponse}
  */
-const logActionError = (error, actionSettings, onErrorCallback) => {
+const logActionError = (error, dispatch, actionSettings, onErrorCallback) => {
     console.error(error);
 
     Sentry.withScope(scope => {
@@ -51,7 +52,7 @@ const logActionError = (error, actionSettings, onErrorCallback) => {
     });
 
     if (onErrorCallback) {
-        return onErrorCallback(error);
+        return onErrorCallback(error, dispatch);
     }
 
     return new ErrorActionResponse(error);
@@ -81,7 +82,7 @@ export function asyncActionWrapper(actionSettings, action, onError = () => {}) {
 
             return actionResponse;
         } catch (error) {
-            return logActionError(error, actionSettings, onError);
+            return logActionError(error, dispatch, actionSettings, onError);
         }
     }
 }
@@ -97,7 +98,7 @@ export function actionWrapper(actionSettings, action, onError = () => {}) {
         try {
             return action(dispatch);
         } catch (error) {
-            return logActionError(error, actionSettings, onError);
+            return logActionError(error, dispatch, actionSettings, onError);
         }
     };
 }
