@@ -41,5 +41,10 @@
         background-color: transparentize($BlackColor, 0.9);
       }
     }
+
+    &[name="[HIDE]"] {
+      pointer-events: none !important;
+      opacity: 0;
+    }
   }
 }

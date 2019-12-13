@@ -18,6 +18,9 @@ export class Trace {
         this.fileName = data.fileName;
 
         /** @type number */
+        this.gasLeft = data.gasLeft;
+
+        /** @type number */
         this.gasUsed = data.gasUsed;
 
         /** @type string */
@@ -201,6 +204,7 @@ export class Trace {
             fileId: traceData.fileId,
             lineNumber: traceData.lineNumber,
             hasErrored: traceData.hasErrored,
+            gasLeft: rawCallTrace.gas,
             gasUsed: rawCallTrace.gas_used,
             errorMessage: rawCallTrace.error,
             inputVariables,

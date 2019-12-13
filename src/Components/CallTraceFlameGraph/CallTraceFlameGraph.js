@@ -113,19 +113,35 @@ class CallTraceFlameGraph extends Component {
      * @param {Trace[]} traces
      * @return {Object[]}
      */
-    computeTraceToGraphChildren = (traces) => {
+    computeTraceToGraphChildren = (traces, parentGasLeft) => {
         if (!traces || !traces.length) {
             return null;
         }
 
         const data = [];
 
+        let currentGasUsed = 0;
+
         traces.forEach(trace => {
+            const gasDiff = parentGasLeft - trace.gasLeft - currentGasUsed;
+
+            if (parentGasLeft && gasDiff > 0) {
+                data.push({
+                    name: `[HIDE]`,
+                    value: gasDiff,
+                    children: null,
+                });
+
+                currentGasUsed += gasDiff;
+            }
+
+            currentGasUsed += trace.gasUsed;
+
             data.push({
                 name: `${trace.functionName || trace.op} - ${trace.gasUsed.toLocaleString()} Gas`,
                 value: trace.gasUsed,
                 depthId: trace.depthId,
-                children: this.computeTraceToGraphChildren(trace.calls),
+                children: this.computeTraceToGraphChildren(trace.calls, trace.gasLeft),
             });
         });
 
