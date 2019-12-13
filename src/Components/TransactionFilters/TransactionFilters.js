@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Contract} from "../../Core/models";
+import {AccountPlan, Contract} from "../../Core/models";
 
 import {TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, Checkbox, LinkButton, Select} from "../../Elements";
-import {ContractSelectMultiValueLabel, ContractSelectOption, NetworkSelectOption} from "../index";
+import {ContractSelectMultiValueLabel, ContractSelectOption, NetworkSelectOption, PaidFeatureButton} from "../index";
 
 import './TransactionFilters.scss';
 import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
@@ -226,7 +226,7 @@ class TransactionFilters extends Component {
 
     render() {
         const {openModal, settingsModalOpen, draftStatus, fromTagCreation, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
-        const {activeFilters, activeColumns} = this.props;
+        const {activeFilters, activeColumns, plan} = this.props;
 
         const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
 
@@ -239,10 +239,10 @@ class TransactionFilters extends Component {
                     <Button outline onClick={this.handleSettingsModalOpen}>
                         <Icon icon="settings"/>
                     </Button>
-                    <Button size="small" onClick={this.handleModalOpen}>
+                    <PaidFeatureButton includes="transaction_search.filtering" plan={plan} size="small" onClick={this.handleModalOpen}>
                         <Icon icon="filter"/>
                         <span>Filter Transactions</span>
-                    </Button>
+                    </PaidFeatureButton>
                     <Dialog open={settingsModalOpen} onClose={this.handleSettingsModalClose}>
                         <DialogHeader>
                             <h3>Settings</h3>
@@ -347,6 +347,7 @@ TransactionFilters.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
     tags: PropTypes.array.isRequired,
     onFiltersChange: PropTypes.func.isRequired,
+    plan: PropTypes.instanceOf(AccountPlan).isRequired,
 };
 
 export default TransactionFilters;
