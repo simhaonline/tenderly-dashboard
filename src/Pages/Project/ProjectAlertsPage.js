@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
+import {bindActionCreators} from "redux";
 
 import Analytics from "../../Utils/Analytics";
 
 import {CollaboratorPermissionTypes} from "../../Common/constants";
-import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+
+import {contractActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading, Button} from "../../Elements";
 import {
@@ -18,8 +21,25 @@ import {
 } from "../../Components";
 
 class ProjectAlertsPage extends Component {
+    state = {
+        loaded: false,
+    };
+
+    async componentDidMount() {
+        const {contractActions, project, contractsLoaded} = this.props;
+
+        if (!contractsLoaded) {
+            await contractActions.fetchContractsForProject(project);
+        }
+
+        this.setState({
+            loaded: true,
+        });
+    }
+
     render() {
         const {project, contracts} = this.props;
+        const {loaded} = this.state;
 
         const projectIsSetup = contracts.length > 0;
 
@@ -36,8 +56,8 @@ class ProjectAlertsPage extends Component {
                             </PermissionControl>
                         </div>
                     </PageHeading>
-                    {!projectIsSetup && <ProjectSetupEmptyState project={project}/>}
-                    {projectIsSetup && <Switch>
+                    {!projectIsSetup && loaded && <ProjectSetupEmptyState project={project}/>}
+                    {projectIsSetup && loaded && <Switch>
                         <Route path={`/:username/:slug/alerts/rules`} component={ProjectAlertRules}/>
                         <Route path={`/:username/:slug/alerts/history`} render={() => <ProjectAlertHistory project={project}/>}/>
                         <Route path={`/:username/:slug/alerts/destinations`} component={ProjectAlertDestinations}/>
@@ -56,10 +76,17 @@ const mapStateToProps = (state, ownProps) => {
     return {
         project,
         contracts: getContractsForProject(state, project.id),
+        contractsLoaded: areProjectContractsLoaded(state, project.id),
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        contractActions: bindActionCreators(contractActions, dispatch),
     }
 };
 
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps,
 )(ProjectAlertsPage);
