@@ -3,21 +3,16 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {Route, Switch} from "react-router-dom";
 
-import {UserPlanTypes} from "../../Common/constants";
-
-import {getAllPlans, getUserPlan} from "../../Common/Selectors/BillingSelectors";
-
-import {formatPrice} from "../../Utils/CurrencyHelpers";
 import {initializeForm, resetForm, updateFormField} from "../../Utils/FormHelpers";
 
-import {billingActions, authActions} from "../../Core/actions";
+import {authActions} from "../../Core/actions";
 
-import {Page, Container, Panel, PanelHeader, PanelContent, PageHeading, Button, Input, Alert, Code} from "../../Elements";
+import {Page, Container, Panel, PanelHeader, PanelContent, PageHeading, Input, Alert, Code} from "../../Elements";
 import {
     ProgressiveButton,
     UserInformationForm,
-    SubscriptionPlan
 } from "../../Components";
+import AccountSettingsBillingPage from "./AccountSettingsBillingPage";
 
 import './AccountSettingsPage.scss';
 
@@ -55,12 +50,6 @@ class AccountSettingsPage extends Component {
             repeatNewPassword: '',
         });
         this.handleFormUpdate = updateFormField.bind(this);
-    }
-
-    componentDidMount() {
-        const {billingActions} = this.props;
-
-        billingActions.fetchAllPlans();
     }
 
     resetPasswordForm = () => {
@@ -118,7 +107,7 @@ class AccountSettingsPage extends Component {
 
     render() {
         const {error, formData: {currentPassword, newPassword, repeatNewPassword}} = this.state;
-        const {token, user, plans, userPlan} = this.props;
+        const {token, user} = this.props;
 
         let isPasswordFormValid = !!newPassword && !!repeatNewPassword;
 
@@ -178,37 +167,7 @@ class AccountSettingsPage extends Component {
                                 <Code copy={`tenderly login --authentication-method=token --token=${token}`}>tenderly login --authentication-method=token --token={token}</Code>
                             </PanelContent>
                         </Panel>}/>
-                        <Route path="/account/billing" exact render={() => <Fragment>
-                            {!!userPlan && <SubscriptionPlan subscription={userPlan}/>}
-                            <Panel>
-                                <PanelContent>
-                                    <div className="DisplayFlex">
-                                        {plans.map(plan => <div key={plan.id} className="Flex1">
-                                            <div>{plan.id}</div>
-                                            <div>{formatPrice(plan.price)}</div>
-                                            {plan.type === UserPlanTypes.PRO && <Button>
-                                                <span>Try for 30 days</span>
-                                            </Button>}
-                                        </div>)}
-                                        <div className="Flex1">
-                                            <div>Enterprise</div>
-                                            <div>Contract us</div>
-                                            <div>
-                                                <ul>
-                                                    <li>API Integration</li>
-                                                    <li>WebHooks</li>
-                                                    <li>Private Networks</li>
-                                                    <li>Priority Support</li>
-                                                </ul>
-                                            </div>
-                                            <Button outline>
-                                                <span>Get in touch</span>
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </PanelContent>
-                            </Panel>
-                        </Fragment>}/>
+                        <Route path="/account/billing" exact component={AccountSettingsBillingPage}/>
                     </Switch>
                 </Container>
             </Page>
@@ -220,16 +179,13 @@ const mapStateToProps = (state) => {
     return {
         user: state.auth.user,
         token: state.auth.token,
-        plans: getAllPlans(state),
-        userPlan: getUserPlan(state),
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(authActions, dispatch),
-        billingActions: bindActionCreators(billingActions, dispatch),
-    }
+    };
 };
 
 export default connect(
