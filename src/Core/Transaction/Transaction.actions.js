@@ -6,7 +6,6 @@ import {
     DEFAULT_TRANSACTIONS_LIST_COLUMNS,
     LocalStorageKeys,
     TransactionFilterTypes,
-    TransactionsListColumnTypes
 } from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
