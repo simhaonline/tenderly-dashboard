@@ -27,6 +27,14 @@ export const LocalStorageKeys = {
 /**
  * @enum {string}
  */
+export const LoginFlowTypes = {
+    ACCEPT_INVITATION: "project-invitation",
+    CUSTOM_INTEGRATION: "custom-integration",
+};
+
+/**
+ * @enum {string}
+ */
 export const NetworkTypes = {
     MAIN: 'main_network',
     KOVAN: 'kovan_testnet',

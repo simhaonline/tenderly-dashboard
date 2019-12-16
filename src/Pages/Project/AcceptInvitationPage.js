@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
 
+import {LoginFlowTypes} from "../../Common/constants";
+
 import {projectActions, authActions} from "../../Core/actions";
 
 import {Container, Page, Alert, Icon, Button} from "../../Elements";
@@ -135,7 +137,7 @@ class AcceptInvitationPage extends Component {
                 pathname: "/login",
                 state: {
                     from: this.props.location,
-                    flow: "project-invitation",
+                    flow: LoginFlowTypes.ACCEPT_INVITATION,
                 },
             }}/>;
         }

@@ -3,7 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 
-import {LocalStorageKeys} from "../../Common/constants";
+import {LocalStorageKeys, LoginFlowTypes} from "../../Common/constants";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import LocalStorage from "../../Utils/LocalStorage";
@@ -146,7 +146,7 @@ class LoginPage extends Component {
 
         let flowData = {};
 
-        if (flow === "project-invitation") {
+        if (flow === LoginFlowTypes.ACCEPT_INVITATION) {
             const searchParams = new URLSearchParams(redirectToState.search);
 
             flowData.projectSlug = searchParams.get('projectSlug') || null;
@@ -166,13 +166,13 @@ class LoginPage extends Component {
                                 <img className="AppLogo" src={LogoImage} alt="Tenderly Logo"/>
                             </a>
                         </div>
-                        {flow === "project-invitation" && <ProjectInvitationPreview inviterName={flowData.inviterName} projectName={flowData.projectName}
+                        {flow === LoginFlowTypes.ACCEPT_INVITATION && <ProjectInvitationPreview inviterName={flowData.inviterName} projectName={flowData.projectName}
                                                                                     projectOwner={flowData.projectOwner} projectSlug={flowData.projectSlug}/>}
                         <Panel className="LoginFormPanel">
                             <PanelContent>
                                 <Form onSubmit={this.handleFormSubmit}>
                                     {!flow && <h3 className="FormHeading">Welcome back</h3>}
-                                    {flow === "project-invitation" && <h3 className="FormHeading">Login to Accept</h3>}
+                                    {flow === LoginFlowTypes.ACCEPT_INVITATION && <h3 className="FormHeading">Login to Accept</h3>}
                                     <p className="FormDescription">Enter your credentials below to login.</p>
                                     <Input icon="mail" label="E-mail" field="email" value={formData.email} onChange={this.handleFormUpdate} autoFocus/>
                                     <Input icon="lock" type="password" label="Password" field="password" value={formData.password} onChange={this.handleFormUpdate}/>
