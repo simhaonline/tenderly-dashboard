@@ -47,6 +47,8 @@ const mapStateToProps = (state, ownProps) => {
             network: searchParams.get('network') || null,
             contracts,
         };
+    } else {
+        invalidParameters = true;
     }
 
     return {
