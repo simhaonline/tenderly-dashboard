@@ -1,14 +1,25 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 
-import {CustomIntegrationTypes} from "../../Common/constants";
+import {CustomIntegrationTypes, LoginFlowTypes} from "../../Common/constants";
 
 import {Page} from "../../Elements";
 import {AragonIntegration} from "../../Components";
 
 class IntegrationsPage extends Component {
     render() {
-        const {integration, data, invalidParameters} = this.props;
+        const {integration, loggedIn, data, invalidParameters} = this.props;
+
+        if (!loggedIn) {
+            return <Redirect to={{
+                pathname: "/login",
+                state: {
+                    from: this.props.location,
+                    flow: LoginFlowTypes.CUSTOM_INTEGRATION,
+                },
+            }}/>;
+        }
 
         return (
             <Page wholeScreenPage id="IntegrationsPage">
@@ -52,6 +63,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 
     return {
+        loggedIn: state.auth.loggedIn,
         integration,
         data: integrationData,
         invalidParameters,
