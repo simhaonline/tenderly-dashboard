@@ -19,6 +19,7 @@ import ResetPasswordPage from "./Public/ResetPasswordPage";
 import PublicContractTransactionPage from "./PublicContracts/PublicContractTransactionPage";
 import RedirectToProjectPage from "./Project/RedirectToProjectPage";
 import AcceptInvitationPage from "./Project/AcceptInvitationPage";
+import IntegrationsPage from "./Public/IntegrationsPage";
 
 const AppPages = ({loggedIn}) => {
     return (
@@ -30,6 +31,7 @@ const AppPages = ({loggedIn}) => {
             <Route path="/login" exact component={LoginPage}/>
             <Route path="/oauth/:service" exact component={OAuthPage}/>
             <Route path="/register" exact component={RegisterPage}/>
+            <Route path="/integration" exact component={IntegrationsPage}/>
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
             <Route path="/explorer" exact component={ExplorerPage}/>
