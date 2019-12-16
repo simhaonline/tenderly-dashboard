@@ -150,3 +150,8 @@ export {default as ContractNameColumn} from './ContractNameColumn/ContractNameCo
 export {default as ContractListeningColumn} from './ContractListeningColumn/ContractListeningColumn';
 export {default as ContractDeployedAtColumn} from './ContractDeployedAtColumn/ContractDeployedAtColumn';
 export {default as ContractFilesColumn} from './ContractFilesColumn/ContractFilesColumn';
+
+/**
+ * Custom Integration Components
+ */
+export {default as AragonIntegration} from './Integrations/AragonIntegration';

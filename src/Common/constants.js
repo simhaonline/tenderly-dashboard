@@ -35,6 +35,13 @@ export const LoginFlowTypes = {
 /**
  * @enum {string}
  */
+export const CustomIntegrationTypes = {
+    ARAGON: "aragon",
+};
+
+/**
+ * @enum {string}
+ */
 export const NetworkTypes = {
     MAIN: 'main_network',
     KOVAN: 'kovan_testnet',
