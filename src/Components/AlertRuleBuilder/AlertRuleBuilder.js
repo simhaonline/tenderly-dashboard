@@ -13,7 +13,12 @@ import {
     simpleAlertTypeRequiresParameters
 } from "../../Utils/AlertHelpers";
 
-import {SimpleAlertRuleTypes, AlertRuleBuilderSteps, SimpleAlertRuleTargetTypes} from "../../Common/constants";
+import {
+    SimpleAlertRuleTypes,
+    AlertRuleBuilderSteps,
+    SimpleAlertRuleTargetTypes,
+    AlertRuleSeverityTypes
+} from "../../Common/constants";
 
 import {AlertRule, Contract, NotificationDestination, Project} from "../../Core/models";
 import * as contractActions from '../../Core/Contract/Contract.actions';
@@ -308,6 +313,23 @@ class AlertRuleBuilder extends Component {
     };
 
     /**
+     * @returns {AlertRuleSeverityTypes}
+     */
+    getSimpleAlertRuleSeverity = () => {
+        const {selectedType} = this.state;
+
+        switch (selectedType) {
+            case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+                return AlertRuleSeverityTypes.WARNING;
+            case SimpleAlertRuleTypes.FAILED_TX:
+            case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+                return AlertRuleSeverityTypes.DANGER;
+            default:
+                return AlertRuleSeverityTypes.DEFAULT;
+        }
+    };
+
+    /**
      *
      * @returns {boolean}
      */
@@ -353,7 +375,7 @@ class AlertRuleBuilder extends Component {
 
         onSubmit({
             name: skipGeneral ? this.getSimpleAlertRuleName() : alertName,
-            severity: alertSeverity,
+            severity: skipGeneral ? this.getSimpleAlertRuleSeverity() : alertSeverity,
             description: alertDescription,
             simpleType: selectedType,
         }, expressions, selectedDestinations);

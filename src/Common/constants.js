@@ -420,7 +420,7 @@ export const AlertRuleSeverityTypeLabelMap = {
     [AlertRuleSeverityTypes.INFO]: 'Info',
     [AlertRuleSeverityTypes.WARNING]: 'Warning',
     [AlertRuleSeverityTypes.DANGER]: 'Danger',
-    [AlertRuleSeverityTypes.GOOD]: 'Good',
+    [AlertRuleSeverityTypes.GOOD]: 'Success',
 };
 
 /**
