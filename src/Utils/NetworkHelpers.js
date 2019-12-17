@@ -1,4 +1,9 @@
-import {NetworkAppToApiTypeMap, NetworkLabelMap, NetworkLabelShorthandMap} from "../Common/constants";
+import {
+    NetworkApiToAppTypeMap,
+    NetworkAppToApiTypeMap,
+    NetworkLabelMap,
+    NetworkLabelShorthandMap
+} from "../Common/constants";
 
 /**
  * @param {(NetworkTypes|string)} network
@@ -10,6 +15,14 @@ export function getApiIdForNetwork(network) {
     }
 
     return network;
+}
+
+/**
+ * @param {String} apiId
+ * @returns {(NetworkTypes|string)}
+ */
+export function getNetworkForApiId(apiId) {
+    return NetworkApiToAppTypeMap[apiId] || apiId;
 }
 
 /**
