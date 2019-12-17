@@ -357,6 +357,7 @@ export const SimpleAlertRuleTypes = {
  * @typedef {Object} SimpleAlertRuleGeneralInformation
  * @property {string} name
  * @property {string} description
+ * @property {AlertRuleSeverityTypes} severity
  * @property {SimpleAlertRuleTypes} [simpleType]
  */
 
@@ -413,6 +414,38 @@ export const SimpleAlertRuleTypeLabelMap = {
     [SimpleAlertRuleTypes.FUNCTION_CALLED]: 'Function Call',
     [SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]: 'Function Argument',
     [SimpleAlertRuleTypes.ADVANCED]: 'Advanced Alert',
+};
+
+/**
+ * @enum {string}
+ */
+export const AlertRuleSeverityTypes = {
+    DEFAULT: 'default',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger',
+    GOOD: 'good',
+};
+
+/**
+ * @enum {string}
+ */
+export const AlertRuleSeverityTypeLabelMap = {
+    [AlertRuleSeverityTypes.DEFAULT]: 'Default',
+    [AlertRuleSeverityTypes.INFO]: 'Info',
+    [AlertRuleSeverityTypes.WARNING]: 'Warning',
+    [AlertRuleSeverityTypes.DANGER]: 'Danger',
+    [AlertRuleSeverityTypes.GOOD]: 'Success',
+};
+
+/**
+ * @enum {string}
+ */
+export const AlertRuleSeverityTypeColorMap = {
+    [AlertRuleSeverityTypes.INFO]: '#34ace0',
+    [AlertRuleSeverityTypes.WARNING]: '#ffda79',
+    [AlertRuleSeverityTypes.DANGER]: '#ff5252',
+    [AlertRuleSeverityTypes.GOOD]: '#33d9b2',
 };
 
 /**

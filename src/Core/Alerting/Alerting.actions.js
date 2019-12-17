@@ -175,6 +175,7 @@ export const createAlertRuleForProject = (project, general, expressions, destina
         try {
             const payload = {
                 name: general.name,
+                color: AlertRule.getHexColorFromSeverity(general.severity),
                 description: general.description || '',
                 simple_type: general.simpleType,
                 enabled: true,
