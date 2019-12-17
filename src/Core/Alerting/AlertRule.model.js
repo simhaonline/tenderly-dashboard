@@ -135,7 +135,7 @@ class AlertRule {
      */
     static getHexColorFromSeverity(severity) {
         if (!severity || !AlertRuleSeverityTypeColorMap[severity]) {
-            return AlertRuleSeverityTypeColorMap[AlertRuleSeverityTypes.DEFAULT];
+            return '';
         }
 
         return AlertRuleSeverityTypeColorMap[severity];
