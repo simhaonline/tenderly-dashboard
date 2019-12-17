@@ -403,6 +403,28 @@ export const SimpleAlertRuleTypeLabelMap = {
 /**
  * @enum {string}
  */
+export const AlertRuleSeverityTypes = {
+    DEFAULT: 'default',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger',
+    GOOD: 'good',
+};
+
+/**
+ * @enum {string}
+ */
+export const AlertRuleSeverityTypeColorMap = {
+    [AlertRuleSeverityTypes.DEFAULT]: '#d1ccc0',
+    [AlertRuleSeverityTypes.INFO]: '#34ace0',
+    [AlertRuleSeverityTypes.WARNING]: '#ffda79',
+    [AlertRuleSeverityTypes.DANGER]: '#ff5252',
+    [AlertRuleSeverityTypes.GOOD]: '#33d9b2',
+};
+
+/**
+ * @enum {string}
+ */
 export const AlertRuleBuilderSteps = {
     GENERAL: 'general',
     TYPE: 'type',
