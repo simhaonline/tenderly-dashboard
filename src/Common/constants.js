@@ -342,6 +342,7 @@ export const SimpleAlertRuleTypes = {
  * @typedef {Object} SimpleAlertRuleGeneralInformation
  * @property {string} name
  * @property {string} description
+ * @property {AlertRuleSeverityTypes} severity
  * @property {SimpleAlertRuleTypes} [simpleType]
  */
 

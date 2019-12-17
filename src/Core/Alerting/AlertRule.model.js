@@ -119,6 +119,7 @@ class AlertRule {
     toPayload() {
         return {
             name: this.name,
+            color: AlertRule.getHexColorFromSeverity(this.severity),
             description: this.description,
             enabled: this.enabled,
             expressions: this.expressions.map(AlertRuleExpression.transformToApiPayload),
