@@ -56,6 +56,7 @@ class AlertRuleBuilder extends Component {
             selectedDestinations: initialRule ? initialRule.deliveryChannels : [],
             alertName: initialRule ? initialRule.name : '',
             alertDescription: initialRule ? initialRule.description : '',
+            alertSeverity: initialRule ? initialRule.severity : null,
             expressions: initialRule ? initialRule.expressions : [],
             stepsEnabled,
         };
@@ -346,12 +347,13 @@ class AlertRuleBuilder extends Component {
 
     handleFormSubmit = () => {
         const {onSubmit, skipGeneral} = this.props;
-        const {alertName, alertDescription, selectedType, selectedTarget, selectedParameters, selectedDestinations} = this.state;
+        const {alertName, alertDescription, alertSeverity, selectedType, selectedTarget, selectedParameters, selectedDestinations} = this.state;
 
         const expressions = generateAlertRuleExpressions(selectedType, selectedTarget, selectedParameters);
 
         onSubmit({
             name: skipGeneral ? this.getSimpleAlertRuleName() : alertName,
+            severity: alertSeverity,
             description: alertDescription,
             simpleType: selectedType,
         }, expressions, selectedDestinations);
@@ -359,7 +361,7 @@ class AlertRuleBuilder extends Component {
 
     render() {
         const {submitButtonLabel, contracts, networks, project, destinations, onCancel} = this.props;
-        const {step: activeStep, selectedType, selectedTarget, alertName, alertDescription, selectedDestinations, stepsEnabled, expressions, fetchingParameterOptions, parameterOptions, selectedParameters} = this.state;
+        const {step: activeStep, selectedType, selectedTarget, alertName, alertSeverity, alertDescription, selectedDestinations, stepsEnabled, expressions, fetchingParameterOptions, parameterOptions, selectedParameters} = this.state;
 
         return (
             <div className="AlertRuleBuilder">
@@ -373,7 +375,7 @@ class AlertRuleBuilder extends Component {
 
                     switch (step) {
                         case AlertRuleBuilderSteps.GENERAL:
-                            return <AlertRuleBuilderGeneralInformation {...commonProps} data={{alertName, alertDescription}} onChange={this.handleGeneralInfoUpdate}/>;
+                            return <AlertRuleBuilderGeneralInformation {...commonProps} data={{alertName, alertDescription, alertSeverity}} onChange={this.handleGeneralInfoUpdate}/>;
                         case AlertRuleBuilderSteps.TYPE:
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
