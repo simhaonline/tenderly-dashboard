@@ -414,8 +414,18 @@ export const AlertRuleSeverityTypes = {
 /**
  * @enum {string}
  */
+export const AlertRuleSeverityTypeLabelMap = {
+    [AlertRuleSeverityTypes.DEFAULT]: 'Default',
+    [AlertRuleSeverityTypes.INFO]: 'Info',
+    [AlertRuleSeverityTypes.WARNING]: 'Warning',
+    [AlertRuleSeverityTypes.DANGER]: 'Danger',
+    [AlertRuleSeverityTypes.GOOD]: 'Good',
+};
+
+/**
+ * @enum {string}
+ */
 export const AlertRuleSeverityTypeColorMap = {
-    [AlertRuleSeverityTypes.DEFAULT]: '#d1ccc0',
     [AlertRuleSeverityTypes.INFO]: '#34ace0',
     [AlertRuleSeverityTypes.WARNING]: '#ffda79',
     [AlertRuleSeverityTypes.DANGER]: '#ff5252',
