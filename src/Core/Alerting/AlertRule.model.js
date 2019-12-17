@@ -5,7 +5,7 @@ import {getSimpleRuleType, transformApiValueToValueForParameterType} from "../..
 import {
     AlertParameterConditionOperatorTypeLabelMap,
     AlertRuleExpressionParameterTypes,
-    AlertRuleExpressionTypes,
+    AlertRuleExpressionTypes, AlertRuleSeverityTypeColorMap, AlertRuleSeverityTypes,
     SimpleAlertRuleTypes
 } from "../../Common/constants";
 import * as _ from "lodash";
@@ -29,6 +29,9 @@ class AlertRule {
 
         /** @type boolean */
         this.enabled = data.enabled;
+
+        /** @type {AlertRuleSeverityTypes} */
+        this.severity = data.severity;
 
         /** @type AlertRuleExpression[] */
         this.expressions = data.expressions;
@@ -126,6 +129,30 @@ class AlertRule {
         }
     }
 
+    /**
+     * @param {AlertRuleSeverityTypes} severity
+     * @returns {string}
+     */
+    static getHexColorFromSeverity(severity) {
+        if (!severity || !AlertRuleSeverityTypeColorMap[severity]) {
+            return AlertRuleSeverityTypeColorMap[AlertRuleSeverityTypes.DEFAULT];
+        }
+
+        return AlertRuleSeverityTypeColorMap[severity];
+    }
+
+    /**
+     * @param {string} [color]
+     * @returns {AlertRuleSeverityTypes}
+     */
+    static getSeverityFromHexColor(color) {
+        if (!color) {
+            return AlertRuleSeverityTypes.DEFAULT;
+        }
+
+        return _.invert(AlertRuleSeverityTypeColorMap)[color.toLowerCase()] || AlertRuleSeverityTypes.DEFAULT;
+    }
+
     static buildFromResponse(response) {
         const expressions = response.expressions.map(expression => AlertRuleExpression.buildFromResponse(expression));
 
@@ -137,6 +164,7 @@ class AlertRule {
             description: response.description,
             enabled: response.enabled,
             projectId: response.project_id,
+            severity: AlertRule.getSeverityFromHexColor(response.color),
             createdAt: moment(response.created_at),
             expressions,
             simpleType,
