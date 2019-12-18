@@ -15,6 +15,9 @@ export {default as OnboardingWelcomeStep} from './Onboarding/OnboardingWelcomeSt
 export {default as OnboardingCreateProjectStep} from './Onboarding/OnboardingCreateProjectStep';
 export {default as OnboardingCreateOrganizationStep} from './Onboarding/OnboardingCreateOrganizationStep';
 
+// Stateful Select Components
+export {default as ProjectSelect} from './Select/ProjectSelect';
+
 // Select Components
 export {default as ProjectSelectOption} from './SelectComponents/ProjectSelectOption';
 export {default as ProjectSelectValue} from './SelectComponents/ProjectSelectValue';

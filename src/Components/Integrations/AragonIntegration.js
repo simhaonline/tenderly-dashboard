@@ -10,10 +10,12 @@ import {getNetworkForApiId} from "../../Utils/NetworkHelpers";
 import {Contract} from "../../Core/models";
 import {projectActions} from "../../Core/actions";
 
-import {Button, Container, Icon, Select} from "../../Elements";
-import {ProjectSelectOption, TenderlyLogo} from "../index";
+import {Button, Container, Icon, Card} from "../../Elements";
+import {ProjectSelect, TenderlyLogo} from "../index";
 
 import AragonLogo from './Logos/aragon_icon.svg';
+
+import './AragonIntegration.scss';
 
 class AragonIntegration extends Component {
     constructor(props) {
@@ -49,43 +51,40 @@ class AragonIntegration extends Component {
     };
 
     render() {
-        const {data, areProjectsLoaded, projects} = this.props;
+        const {data, areProjectsLoaded} = this.props;
         const {project} = this.state;
 
         return (
             <Container>
-                <div className="MaxWidth480 MarginLeftAuto MarginRightAuto">
-                    <div className="DisplayFlex AlignItemsCenter JustifyContentSpaceAround">
+                <div className="AragonIntegration">
+                    <div className="AragonIntegration__Companies">
                         <div>
-                            <img src={AragonLogo} width={160} alt=""/>
+                            <img src={AragonLogo} width={120} alt=""/>
                         </div>
-                        <Icon icon="refresh-cw"/>
+                        <Icon icon="refresh-cw" className="AragonIntegration__Companies__SyncIcon"/>
                         <div>
-                            <TenderlyLogo width={110} symbol/>
+                            <TenderlyLogo width={80} symbol/>
                         </div>
                     </div>
                     <h2>Sync contracts from Aragon</h2>
-                    {areProjectsLoaded && <div>
-                        <h3>Select Project</h3>
-                        <Select options={projects} getOptionValue={project => project.id} getOptionLabel={project => project.name} value={project} onChange={this.handleProjectChange} components={{
-                            Option: ProjectSelectOption,
-                            IndicatorSeparator: () => null,
-                        }}/>
-                    </div>}
-                    <hr/>
-                    <div>
-                        <h3>Contracts to Sync</h3>
-                        {data.contracts.map(contract => <div key={contract.address} className="DisplayFlex AlignItemsCenter">
+                    {areProjectsLoaded && <Card className="AragonIntegration__ProjectPicker">
+                        <h3 className="AragonIntegration__ProjectPicker__Headline">Select Project</h3>
+                        <ProjectSelect value={project} onChange={this.handleProjectChange}/>
+                    </Card>}
+                    <hr className="AragonIntegration__Divider"/>
+                    <Card className="AragonIntegration__Contracts">
+                        <h3 className="AragonIntegration__Contracts__Headline">Contracts to Sync</h3>
+                        {data.contracts.map(contract => <div key={contract.address} className="AragonIntegration__Contracts__Item">
                             <Blockies size={8} scale={5} className="BorderRadius2" seed={Contract.generateUniqueContractId(contract.address, getNetworkForApiId(data.network))}/>
-                            <div className="MarginLeft1">
-                                <div className="SemiBoldText MarginBottom1">{contract.label}</div>
-                                <div className="MonospaceFont LinkText">{contract.address}</div>
+                            <div className="AragonIntegration__Contracts__Item__Info">
+                                <div className="AragonIntegration__Contracts__Item__Name">{contract.label}</div>
+                                <div className="AragonIntegration__Contracts__Item__Address">{contract.address}</div>
                             </div>
                         </div>)}
-                    </div>
-                    <hr/>
+                    </Card>
+                    <hr className="AragonIntegration__Divider"/>
                     <div>
-                        <Button color="secondary">
+                        <Button color="secondary" disabled={!project }>
                             <span>Sync Project</span>
                         </Button>
                         <Button color="secondary" outline to="/">

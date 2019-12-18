@@ -1,0 +1,44 @@
+@import "../../Common/common";
+
+.AragonIntegration {
+  max-width: 500px;
+  margin: $Spacing8 auto;
+}
+
+.AragonIntegration__Companies {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AragonIntegration__Companies__SyncIcon {
+  margin: 0 $Spacing4;
+  font-size: $FontSize700;
+  opacity: 0.5;
+}
+
+.AragonIntegration__Divider {
+  border: none;
+  border-top: 1px solid $Slate300;
+  margin: $Spacing4 0;
+}
+
+.AragonIntegration__Contracts__Item {
+  display: flex;
+  align-items: center;
+}
+
+.AragonIntegration__Contracts__Item__Info {
+  margin-left: $Spacing3;
+}
+
+.AragonIntegration__Contracts__Item__Name {
+  font-size: $FontSize400;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.AragonIntegration__Contracts__Item__Address {
+  color: $LinkColor;
+  font-family: $MonospaceFontFamily;
+}
