@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import Blockies from "react-blockies";
+import {Redirect} from "react-router-dom";
 
 import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
 
@@ -125,14 +126,18 @@ class AragonIntegration extends Component {
         await contractActions.fetchContractsForProject(project);
 
         this.setState({
-            redirectBack: allSuccessful,
+            redirectToProject: allSuccessful,
             importInProgress: false,
         });
     };
 
     render() {
         const {data, areProjectsLoaded} = this.props;
-        const {project, createProjectMode, projectName} = this.state;
+        const {project, createProjectMode, redirectToProject, projectName} = this.state;
+
+        if (redirectToProject) {
+            return <Redirect to={project.getUrlBase()}/>
+        }
 
         return (
             <Container>
