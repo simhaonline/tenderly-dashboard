@@ -13,6 +13,7 @@ export const TOGGLE_CONTRACT_LISTENING_ACTION = 'TOGGLE_CONTRACT_LISTENING';
 export const DELETE_CONTRACT_ACTION = 'DELETE_CONTRACT';
 export const FETCH_CONTRACT_METHODS_ACTION = 'FETCH_CONTRACT_METHODS';
 export const FETCH_CONTRACT_LOGS_ACTION = 'FETCH_CONTRACT_LOGS';
+export const RENAME_CONTRACT_ACTION = 'RENAME_CONTRACT';
 
 /**
  * @param {Project} project
@@ -306,7 +307,20 @@ export const getContractBackFillingStatus = (project, contract) => {
 export const changeContractNameByAddressAndNetwork = (project, address, network, name) => {
     return async dispatch => {
         try {
+            const apiNetworkId = getApiIdForNetwork(network);
 
+            await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${address}/rename`, {
+                display_name: name,
+            });
+
+            dispatch({
+                type: RENAME_CONTRACT_ACTION,
+                address,
+                network,
+                name,
+            });
+
+            return new SuccessActionResponse();
         } catch (error) {
             return new ErrorActionResponse();
         }
