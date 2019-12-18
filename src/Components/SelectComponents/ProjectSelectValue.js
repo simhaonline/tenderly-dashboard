@@ -11,7 +11,7 @@ function ProjectSelectValue(props) {
         <div className="DisplayFlex AlignItemsCenter">
             <Icon icon={project.getIcon()}/>
             <div className="MarginLeft2">
-                <div>{project.name}</div>
+                <div className="SemiBoldText">{project.name}</div>
                 <div className="MutedText">{project.getDisplaySlug()}</div>
             </div>
         </div>

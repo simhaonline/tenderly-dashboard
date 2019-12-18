@@ -2,14 +2,17 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import classNames from 'classnames';
 
 import {getDashboardProjects} from "../../Common/Selectors/ProjectSelectors";
 
 import {projectActions} from "../../Core/actions";
+import {Project} from "../../Core/models";
 
 import {Select} from "../../Elements";
 import {ProjectSelectOption, ProjectSelectValue} from "../index";
-import {Project} from "../../Core/models";
+
+import './ProjectSelect.scss';
 
 class ProjectSelect extends Component {
     componentDidMount() {
@@ -21,12 +24,17 @@ class ProjectSelect extends Component {
     }
 
     render() {
-        const {projects, areProjectsLoaded, projectActions, ...props} = this.props;
+        const {projects, className, areProjectsLoaded, projectActions, ...props} = this.props;
 
-        console.log(projects);
         return (
-            <div>
-                <Select options={projects} getOptionValue={project => project.id} getOptionLabel={project => project.name} components={{
+            <div className={classNames(
+                "ProjectSelect",
+                {
+                    "ProjectSelect--Loading": !areProjectsLoaded,
+                },
+                className,
+            )}>
+                <Select className="ProjectSelect__Select" options={projects} getOptionValue={project => project.id} getOptionLabel={project => project.name} components={{
                     Option: ProjectSelectOption,
                     SingleValue: ProjectSelectValue,
                     IndicatorSeparator: () => null,
