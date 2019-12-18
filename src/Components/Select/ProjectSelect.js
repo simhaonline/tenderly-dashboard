@@ -18,7 +18,7 @@ class ProjectSelect extends Component {
     componentDidMount() {
         const {projectActions, areProjectsLoaded} = this.props;
 
-        if (areProjectsLoaded) {
+        if (!areProjectsLoaded) {
             projectActions.fetchProjects('me');
         }
     }
