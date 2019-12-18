@@ -296,3 +296,29 @@ export const getContractBackFillingStatus = (project, contract) => {
         }
     }
 };
+
+/**
+ * @param {Project} project
+ * @param {string} address
+ * @param {NetworkTypes} network
+ * @param {string} name
+ */
+export const changeContractNameByAddressAndNetwork = (project, address, network, name) => {
+    return async dispatch => {
+        try {
+
+        } catch (error) {
+            return new ErrorActionResponse();
+        }
+    }
+};
+
+/**
+ * @param {Project} project
+ * @param {Contract} contract
+ * @param {string} name
+ * @returns {Function}
+ */
+export const changeContractName = (project, contract, name) => {
+    return changeContractNameByAddressAndNetwork(project, contract.address, contract.network, name);
+};
