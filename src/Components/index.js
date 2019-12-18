@@ -17,6 +17,7 @@ export {default as OnboardingCreateOrganizationStep} from './Onboarding/Onboardi
 
 // Select Components
 export {default as ProjectSelectOption} from './SelectComponents/ProjectSelectOption';
+export {default as ProjectSelectValue} from './SelectComponents/ProjectSelectValue';
 export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
 export {default as ContractMethodOrLogSelectOption} from './SelectComponents/ContractMethodOrLogSelectOption';
 export {default as ContractInputSelectOption} from './SelectComponents/ContractInputSelectOption';
