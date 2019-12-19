@@ -200,7 +200,12 @@ class LoginPage extends Component {
                             <a className="DocumentLink" href="https://tenderly.dev/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </div>
                         <div className="PocLinkWrapper">
-                            <Button color="secondary" to="/register">
+                            <Button color="secondary" to={{
+                                pathname: "/register",
+                                state: {
+                                    from: redirectToState,
+                                },
+                            }}>
                                 <span>Create Account</span>
                             </Button>
                         </div>
