@@ -12,7 +12,7 @@ import {Contract} from "../../Core/models";
 import {projectActions, contractActions} from "../../Core/actions";
 
 import {Button, Container, Icon, Card, LinkButton, Input} from "../../Elements";
-import {ProjectSelect, TenderlyLogo} from "../index";
+import {ProjectSelect, SimpleLoader} from "../index";
 
 import AragonLogo from './Logos/aragon_icon.svg';
 
@@ -26,6 +26,8 @@ class AragonIntegration extends Component {
             project: null,
             projectName: '',
             createProjectMode: false,
+            contractsStatus: {},
+            syncFinished: false,
         };
     }
 
@@ -67,25 +69,21 @@ class AragonIntegration extends Component {
     };
 
     syncContractToProject = async (project, contractDetails) => {
-        const {selectedContractsStatus} = this.state;
+        const {contractsStatus} = this.state;
         const {projectActions, contractActions, data} = this.props;
 
         this.setState({
-            selectedContractsStatus: {
-                ...selectedContractsStatus,
+            contractsStatus: {
+                ...contractsStatus,
                 [contractDetails.address]: 'importing',
             },
         });
 
         const response = await projectActions.addVerifiedContractToProject(project, data.network, contractDetails.address);
 
-        let renameResponse;
-
         if (response.success) {
-            renameResponse = await contractActions.changeContractNameByAddressAndNetwork(project, contractDetails.address, data.network, contractDetails.name);
+            await contractActions.changeContractNameByAddressAndNetwork(project, contractDetails.address, data.network, contractDetails.name);
         }
-
-        console.log(renameResponse);
 
         let finalStatus = 'success';
 
@@ -94,8 +92,8 @@ class AragonIntegration extends Component {
         }
 
         this.setState({
-            selectedContractsStatus: {
-                ...selectedContractsStatus,
+            contractsStatus: {
+                ...contractsStatus,
                 [contractDetails.address]: finalStatus,
             },
         });
@@ -104,36 +102,54 @@ class AragonIntegration extends Component {
     };
 
     handleProjectSync = async () => {
-        const {data, contractActions} = this.props;
-        const {project} = this.state;
+        const {data, projectActions, contractActions} = this.props;
+        const {project, createProjectMode, projectName, contractsStatus} = this.state;
 
-        let allSuccessful = true;
+        let projectToSync = project;
 
         this.setState({
             importInProgress: true,
         });
 
+        if (createProjectMode) {
+            const projectResponse = await projectActions.createProject(projectName);
+
+            if (!projectResponse.success) {
+                return;
+            }
+
+            projectToSync = projectResponse.data;
+
+            this.setState({
+                createProjectMode: false,
+                project: projectToSync,
+            });
+        }
+
+        let allSuccessful = true;
+
         // For some reason eslint says that searchResult is not used
         // eslint-disable-next-line
-        for (const contractDetails of data.contracts) {
-            const addedSuccessfully = await this.syncContractToProject(project, contractDetails);
+        for (const contractDetails of data.contracts.filter(c => !contractsStatus[c.address] || contractsStatus[c.address] !== 'success')) {
+            const addedSuccessfully = await this.syncContractToProject(projectToSync, contractDetails);
 
             if (!addedSuccessfully) {
                 allSuccessful = false;
             }
         }
 
-        await contractActions.fetchContractsForProject(project);
+        await contractActions.fetchContractsForProject(projectToSync);
 
         this.setState({
             redirectToProject: allSuccessful,
+            syncFinished: true,
             importInProgress: false,
         });
     };
 
     render() {
         const {data, areProjectsLoaded} = this.props;
-        const {project, createProjectMode, redirectToProject, projectName} = this.state;
+        const {project, createProjectMode, redirectToProject, importInProgress, syncFinished, contractsStatus, projectName} = this.state;
 
         if (redirectToProject) {
             return <Redirect to={project.getUrlBase()}/>
@@ -146,20 +162,16 @@ class AragonIntegration extends Component {
                         <div>
                             <img src={AragonLogo} width={120} alt=""/>
                         </div>
-                        <Icon icon="refresh-cw" className="AragonIntegration__Companies__SyncIcon"/>
-                        <div>
-                            <TenderlyLogo width={80} symbol/>
-                        </div>
                     </div>
                     <h1 className="TextAlignCenter MarginBottom4">Sync contracts from Aragon</h1>
                     {areProjectsLoaded && <Card className="AragonIntegration__ProjectPicker">
                         <h3 className="AragonIntegration__ProjectPicker__Headline MarginBottom2">Select Project</h3>
                         {!createProjectMode && <Fragment>
-                            <ProjectSelect value={project} onChange={this.handleProjectChange} className="MarginBottom2"/>
+                            <ProjectSelect value={project} disabled={importInProgress} onChange={this.handleProjectChange} className="MarginBottom2"/>
                             <LinkButton onClick={this.toggleCreateProjectMode}><Icon icon="plus"/> Create new project</LinkButton>
                         </Fragment>}
                         {createProjectMode && <Fragment>
-                            <Input icon="project" label="Project Name" field="projectName" value={projectName} onChange={this.handleProjectNameChange} autoComplete="off" autoFocus/>
+                            <Input disabled={importInProgress} icon="project" label="Project Name" field="projectName" value={projectName} onChange={this.handleProjectNameChange} autoComplete="off" autoFocus/>
                             <LinkButton onClick={this.toggleCreateProjectMode}>Select existing project</LinkButton>
                         </Fragment>}
                     </Card>}
@@ -167,7 +179,14 @@ class AragonIntegration extends Component {
                     <Card className="AragonIntegration__Contracts">
                         <h3 className="AragonIntegration__Contracts__Headline MarginBottom2">Contracts to Sync</h3>
                         {data.contracts.map(contract => <div key={contract.address} className="AragonIntegration__Contracts__Item">
-                            <Blockies size={8} scale={5} className="BorderRadius2" seed={Contract.generateUniqueContractId(contract.address, getNetworkForApiId(data.network))}/>
+                            <div className="AragonIntegration__Contracts__Item__Icon">
+                                <Blockies size={8} scale={5} className="BorderRadius2" seed={Contract.generateUniqueContractId(contract.address, getNetworkForApiId(data.network))}/>
+                                {contractsStatus[contract.address] && <div className={`AragonIntegration__Contracts__Item__Icon__InProgress AragonIntegration__Contracts__Item__Icon__InProgress--${contractsStatus[contract.address]}`}>
+                                    {contractsStatus[contract.address] === 'importing' && <SimpleLoader inverse/>}
+                                    {contractsStatus[contract.address] === 'success' && <Icon icon="check"/>}
+                                    {contractsStatus[contract.address] === 'failed' && <Icon icon="x-circle"/>}
+                                </div>}
+                            </div>
                             <div className="AragonIntegration__Contracts__Item__Info">
                                 <div className="AragonIntegration__Contracts__Item__Name">{contract.name}</div>
                                 <div className="AragonIntegration__Contracts__Item__Address">{contract.address}</div>
@@ -175,14 +194,22 @@ class AragonIntegration extends Component {
                         </div>)}
                     </Card>
                     <hr className="AragonIntegration__Divider"/>
-                    <div>
-                        <Button color="secondary" disabled={!project } onClick={this.handleProjectSync}>
+                    {!syncFinished && <div>
+                        <Button color="secondary" disabled={!project || importInProgress} onClick={this.handleProjectSync}>
                             <span>Sync Project</span>
                         </Button>
                         <Button color="secondary" outline to="/">
                             <span>Cancel</span>
                         </Button>
-                    </div>
+                    </div>}
+                    {syncFinished && <div>
+                        {!!project && <Button color="secondary" disabled={!project} to={project.getUrlBase()}>
+                            <span>Go to Project</span>
+                        </Button>}
+                        <Button color="secondary" outline onClick={this.handleProjectSync}>
+                            <span>Retry Sync</span>
+                        </Button>
+                    </div>}
                 </div>
             </Container>
         );

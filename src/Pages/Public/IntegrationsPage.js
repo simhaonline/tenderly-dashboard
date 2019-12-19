@@ -22,7 +22,7 @@ class IntegrationsPage extends Component {
         }
 
         return (
-            <Page wholeScreenPage id="IntegrationsPage">
+            <Page id="IntegrationsPage">
                 {invalidParameters && <div>
                     Invalid parameter amigo
                 </div>}
