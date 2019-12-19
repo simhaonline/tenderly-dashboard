@@ -23,6 +23,9 @@ export class Trace {
         /** @type number */
         this.gasUsed = data.gasUsed;
 
+        /** @type number */
+        this.gasRefunded = data.gasRefunded;
+
         /** @type string */
         this.from = data.from;
 
@@ -206,6 +209,7 @@ export class Trace {
             hasErrored: traceData.hasErrored,
             gasLeft: rawCallTrace.gas,
             gasUsed: rawCallTrace.gas_used,
+            gasRefunded: rawCallTrace.refund_gas || 0,
             errorMessage: rawCallTrace.error,
             inputVariables,
             outputVariables,
