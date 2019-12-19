@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 
 import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 
-import {Tag, Icon} from "../../Elements";
+import {Icon} from "../../Elements";
 import {FeatureFlag} from "../index";
 
 import './ProjectNavigation.scss';
