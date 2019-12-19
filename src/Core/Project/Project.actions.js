@@ -146,7 +146,7 @@ export const fetchProjects = (username) => {
                 }
             });
 
-            if (!data || !data.projects || !data.projects.length) {
+            if (!data || !data.projects) {
                 dispatch({
                     type: FETCH_PROJECTS_ACTION,
                     projects: [],

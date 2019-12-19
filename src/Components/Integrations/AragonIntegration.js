@@ -37,15 +37,17 @@ class AragonIntegration extends Component {
 
         if (!areProjectsLoaded && usernameSet) {
             const projectsResponse = await projectActions.fetchProjects('me');
-
             if (projectsResponse.success) {
+
                 this.setState({
                     project: projectsResponse.data.find(p => p.slug === data.project),
+                    createProjectMode: projectsResponse.data.length === 0,
                 });
             }
         } else if (areProjectsLoaded) {
             this.setState({
                 project: projects.find(p => p.slug === data.project),
+                createProjectMode: projects.length === 0,
             });
         }
     }
@@ -206,7 +208,7 @@ class AragonIntegration extends Component {
                     </Card>
                     <hr className="AragonIntegration__Divider"/>
                     {!syncFinished && <div>
-                        <Button color="secondary" disabled={!project || importInProgress} onClick={this.handleProjectSync}>
+                        <Button color="secondary" disabled={(createProjectMode ? !projectName : !project) || importInProgress} onClick={this.handleProjectSync}>
                             <span>Sync Project</span>
                         </Button>
                         <Button color="secondary" outline to="/">
