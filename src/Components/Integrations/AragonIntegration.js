@@ -27,6 +27,7 @@ class AragonIntegration extends Component {
             projectName: '',
             createProjectMode: false,
             contractsStatus: {},
+            contractsErrors: {},
             syncFinished: false,
         };
     }
@@ -69,7 +70,7 @@ class AragonIntegration extends Component {
     };
 
     syncContractToProject = async (project, contractDetails) => {
-        const {contractsStatus} = this.state;
+        const {contractsStatus, contractsErrors} = this.state;
         const {projectActions, contractActions, data} = this.props;
 
         this.setState({
@@ -81,6 +82,8 @@ class AragonIntegration extends Component {
 
         const response = await projectActions.addVerifiedContractToProject(project, data.network, contractDetails.address);
 
+        const errors = {};
+
         if (response.success) {
             await contractActions.changeContractNameByAddressAndNetwork(project, contractDetails.address, data.network, contractDetails.name);
         }
@@ -89,12 +92,17 @@ class AragonIntegration extends Component {
 
         if (!response.success) {
             finalStatus = 'failed';
+            errors[contractDetails.address] = response.data.error ? response.data.error.message : 'Failed syncing contract to Tenderly';
         }
 
         this.setState({
             contractsStatus: {
                 ...contractsStatus,
                 [contractDetails.address]: finalStatus,
+            },
+            contractsErrors: {
+                ...contractsErrors,
+                ...errors,
             },
         });
 
@@ -149,7 +157,7 @@ class AragonIntegration extends Component {
 
     render() {
         const {data, areProjectsLoaded} = this.props;
-        const {project, createProjectMode, redirectToProject, importInProgress, syncFinished, contractsStatus, projectName} = this.state;
+        const {project, createProjectMode, redirectToProject, importInProgress, syncFinished, contractsStatus, contractsErrors, projectName} = this.state;
 
         if (redirectToProject) {
             return <Redirect to={project.getUrlBase()}/>
@@ -190,6 +198,9 @@ class AragonIntegration extends Component {
                             <div className="AragonIntegration__Contracts__Item__Info">
                                 <div className="AragonIntegration__Contracts__Item__Name">{contract.name}</div>
                                 <div className="AragonIntegration__Contracts__Item__Address">{contract.address}</div>
+                                {contractsStatus[contract.address] === 'failed' && <div className="DangerText">
+                                    {contractsErrors[contract.address]}
+                                </div>}
                             </div>
                         </div>)}
                     </Card>
