@@ -126,11 +126,11 @@ class CallTraceFlameGraph extends Component {
             const gasDiff = parentGasLeft - trace.gasLeft - currentGasUsed;
 
             if (parentGasLeft && gasDiff > 0) {
-                data.push({
-                    name: `[HIDE]`,
-                    value: gasDiff,
-                    children: null,
-                });
+                // data.push({
+                //     name: `[HIDE]`,
+                //     value: gasDiff,
+                //     children: null,
+                // });
 
                 currentGasUsed += gasDiff;
             }
