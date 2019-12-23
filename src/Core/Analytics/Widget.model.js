@@ -1,7 +1,3 @@
-import moment from "moment";
-import chroma from "chroma-js";
-import _ from 'lodash';
-
 import {
     AnalyticsWidgetResolutionTypes,
     AnalyticsWidgetSizeTypes,
