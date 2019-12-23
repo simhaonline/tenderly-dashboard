@@ -26,7 +26,7 @@ class AnalyticsWidget extends Component {
         super(props);
 
         this.state = {
-            loading: false,
+            loading: true,
         };
     }
 

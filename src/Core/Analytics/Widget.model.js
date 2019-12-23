@@ -37,12 +37,6 @@ class Widget {
 
         /** @type {AnalyticsWidgetResolutionTypes} */
         this.resolution = data.resolution;
-
-        /** @type {string} */
-        this.dataPoints = data.dataPoints;
-
-        /** @type {string} */
-        this.data = data.data;
     }
 
     /**
@@ -51,10 +45,6 @@ class Widget {
      * @returns {Widget}
      */
     static buildFromResponse(response, key) {
-        const legendItems = response.legend && response.legend.items ? Object.keys(response.legend.items) : [];
-
-        const colorScale = chroma.scale(['#0069E0', '#ADD3FF']).correctLightness();
-
         return new Widget({
             id: key,
             name: key.replace(/_/g, ' '),
@@ -75,16 +65,6 @@ class Widget {
             show: [
                 {math: "count", event: "transaction"},
             ],
-            dataPoints: legendItems.map((itemKey, index) => ({
-                key: itemKey,
-                name: itemKey,
-                color: colorScale(1 / (Math.max(legendItems.length - 1, 1)) * index).hex(),
-                meta: response.legend.items[itemKey].labels,
-            })),
-            data: _.reverse(response.data.map(datum => ({
-                date: moment(datum.timestamp * 1000),
-                ...datum.data,
-            }))),
         });
     }
 }

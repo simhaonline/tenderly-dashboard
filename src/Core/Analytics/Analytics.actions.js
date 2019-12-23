@@ -13,11 +13,11 @@ export const fetchAnalyticsForProject = (project) => asyncActionWrapper({
 }, async dispatch => {
     const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics`);
 
-    if (!data) {
+    if (!data || !data.analytics) {
         return new ErrorActionResponse();
     }
 
-    const widgets = Object.keys(data).map(widgetKey => Widget.buildFromResponse(data[widgetKey], widgetKey));
+    const widgets = Object.keys(data.analytics).map(widgetKey => Widget.buildFromResponse(data[widgetKey], widgetKey));
 
     return new SuccessActionResponse({
         widgets,
