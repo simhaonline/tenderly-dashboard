@@ -19,6 +19,14 @@ class AnalyticsDashboard {
         this.widgets = data.widgets;
     }
 
+    static buildFromResponse(response, projectId) {
+        return new AnalyticsDashboard({
+            id: response.id,
+            name: response.name,
+            index: response.index,
+            widgets: response.widgets,
+        });
+    }
 }
 
 export default AnalyticsDashboard;

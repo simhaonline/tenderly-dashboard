@@ -4,6 +4,7 @@ import {
     AnalyticsWidgetTimeUnitTypes,
     AnalyticsWidgetTypes
 } from "../../Common/constants";
+import {repository} from "d3/dist/package";
 
 class Widget {
     constructor(data) {
@@ -35,24 +36,34 @@ class Widget {
         this.resolution = data.resolution;
     }
 
+    static parseTimeRange(apiTimeRange) {
+        if (apiTimeRange.window) {
+            return {
+                window: {
+                    unit: apiTimeRange.window.resolution,
+                    value: apiTimeRange.window.amount,
+                },
+            }
+        }
+
+        return {};
+    }
+
     /**
      * @param {Object} response
      * @param {string} key
      * @returns {Widget}
      */
     static buildFromResponse(response, key) {
+        const time = Widget.parseTimeRange(response.time_range);
+
         return new Widget({
             id: key,
-            name: key.replace(/_/g, ' '),
-            type: AnalyticsWidgetTypes.LINE_CHART,
+            name: response.name,
+            type: response.display_settings.chart_type,
             size: AnalyticsWidgetSizeTypes.TWO,
-            resolution: AnalyticsWidgetResolutionTypes.HOUR,
-            time: {
-                window: {
-                    unit: AnalyticsWidgetTimeUnitTypes.DAY,
-                    value: 7,
-                },
-            },
+            resolution: response.resolution,
+            time,
             alerts: [],
             group: [
                 {group: "contract", variable: "id"},

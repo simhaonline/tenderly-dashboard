@@ -3,7 +3,9 @@ import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
-import {Widget} from "../models";
+import {AnalyticsDashboard, Widget} from "../models";
+
+export const FETCH_ANALYTICS_FOR_PROJECT_ACTION = 'FETCH_ANALYTICS_FOR_PROJECT';
 
 /**
  * @param {Project} project
@@ -11,16 +13,37 @@ import {Widget} from "../models";
 export const fetchAnalyticsForProject = (project) => asyncActionWrapper({
     name: 'fetchAnalyticsForProject',
 }, async dispatch => {
-    const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics`);
+    const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics/dashboards`);
 
-    if (!data || !data.analytics) {
+    if (!data || !data.dashboards) {
         return new ErrorActionResponse();
     }
 
-    const widgets = Object.keys(data.analytics).map(widgetKey => Widget.buildFromResponse(data[widgetKey], widgetKey));
+    const widgets = [];
+    const dashboards = [];
+
+    data.dashboards.forEach(dashboard => {
+        console.log(dashboard);
+    });
+
+    // const widgets = Object.keys(data.analytics).map(widgetKey => Widget.buildFromResponse(data.analytics[widgetKey], widgetKey));
+    //
+    // const dashboards = [AnalyticsDashboard.buildFromResponse({
+    //     id: 'default',
+    //     name: "Default Dashboard",
+    //     index: 0,
+    //     widgets: widgets.map(w => w.id),
+    // })];
+
+    dispatch({
+        type: FETCH_ANALYTICS_FOR_PROJECT_ACTION,
+        widgets,
+        dashboards,
+    });
 
     return new SuccessActionResponse({
         widgets,
+        dashboards,
     });
 });
 
@@ -33,11 +56,11 @@ export const fetchAnalyticsWidgetForProject = (project, widgetId) => asyncAction
 }, async dispatch => {
     const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics`);
 
-    if (!data) {
+    if (!data || !data.analytics) {
         return new ErrorActionResponse();
     }
 
-    const widgetData = data[widgetId];
+    const widgetData = data.analytics[widgetId];
 
     if (!widgetData) {
         return new SuccessActionResponse(null);
