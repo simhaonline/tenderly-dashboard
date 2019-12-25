@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {AccountPlan, Contract} from "../../Core/models";
 
 import {FeatureFlagTypes, TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
+import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, Checkbox, LinkButton, Select} from "../../Elements";
 import {
@@ -15,7 +16,6 @@ import {
 } from "../index";
 
 import './TransactionFilters.scss';
-import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
 const transactionStatusOptions = [
     {
