@@ -158,8 +158,8 @@ export const ProjectTypes = {
 };
 
 export const AnalyticsWidgetTypes = {
-    LINE_CHART: 'LINE_CHART',
-    STACKED_CHART: 'STACKED_CHART',
+    LINE_CHART: 'line_chart',
+    STACKED_CHART: 'stacked_chart',
     BAR_CHART: 'BAR_CHART',
     PIE_CHART: 'LINE_CHART',
     METRIC: 'METRIC',
@@ -191,35 +191,48 @@ export const AnalyticsWidgetDataRangeTypes = {
 /**
  * @enum {string}
  */
-export const AnalyticsWidgetTimeUnitTypes = {
-    DAY: 'DAY',
-    WEEK: 'WEEK',
-    MONTH: 'MONTH',
-    YEAR: 'YEAR',
-};
-
-/**
- * @enum {string}
- */
-export const AnalyticsWidgetResolutionTypes = {
-    MINUTE: 'MINUTE',
-    HOUR: 'HOUR',
-    DAY: 'DAY',
-    WEEK: 'WEEK',
-    MONTH: 'MONTH',
+export const TimeUnitTypes = {
+    SECOND: "second",
+    MINUTE: "minute",
+    HOUR: "hour",
+    DAY: "day",
+    WEEK: "week",
+    MONTH: "month",
+    YEAR: "year",
 };
 
 /**
  * @enum {string}
  */
 export const TimeUnitLabelMap = {
-    SECOND: "Second",
-    MINUTE: "Minute",
-    HOUR: "Hour",
-    DAY: "Day",
-    WEEK: "Week",
-    MONTH: "Month",
-    YEAR: "Year",
+    [TimeUnitTypes.SECOND]: "Second",
+    [TimeUnitTypes.MINUTE]: "Minute",
+    [TimeUnitTypes.HOUR]: "Hour",
+    [TimeUnitTypes.DAY]: "Day",
+    [TimeUnitTypes.WEEK]: "Week",
+    [TimeUnitTypes.MONTH]: "Month",
+    [TimeUnitTypes.YEAR]: "Year",
+};
+
+/**
+ * @enum {TimeUnitTypes}
+ */
+export const AnalyticsWidgetTimeUnitTypes = {
+    DAY: TimeUnitTypes.DAY,
+    WEEK: TimeUnitTypes.WEEK,
+    MONTH: TimeUnitTypes.MONTH,
+    YEAR: TimeUnitTypes.YEAR,
+};
+
+/**
+ * @enum {TimeUnitTypes}
+ */
+export const AnalyticsWidgetResolutionTypes = {
+    MINUTE: TimeUnitTypes.MINUTE,
+    HOUR: TimeUnitTypes.HOUR,
+    DAY: TimeUnitTypes.DAY,
+    WEEK: TimeUnitTypes.WEEK,
+    MONTH: TimeUnitTypes.MONTH,
 };
 
 export const FeatureFlagTypes = {
