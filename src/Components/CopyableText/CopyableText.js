@@ -21,7 +21,9 @@ const CopyableText = ({text, render, onSuccessMessage, position}) => {
                     <Icon icon="copy"/>
                 </div>}
                 {!hasCustomRendering && <span className="CopyableText_Value">{text}</span>}
-                {hasCustomRendering && render()}
+                {hasCustomRendering && render({
+                    className: "CopyableText_Value",
+                })}
                 {position === "right" && <div className="CopyableText_Icon">
                     <Icon icon="copy"/>
                 </div>}
