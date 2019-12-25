@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 
 import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
 
-import {Tag, Icon} from "../../Elements";
+import {Icon} from "../../Elements";
 import {FeatureFlag} from "../index";
 
 import './ProjectNavigation.scss';
@@ -44,9 +44,6 @@ class ProjectNavigation extends Component {
                 <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/collaborators`}>
                     <Icon className="NavigationItem__Icon" icon="users"/>
                     <span className="HideMobile">Collaborators</span>
-                    <Tag size="small" className="MarginLeft1 HideMobile">
-                        New
-                    </Tag>
                 </NavLink>
                 {project.type !== ProjectTypes.DEMO && <NavLink className="NavigationItem" strict to={`/${project.owner}/${project.slug}/settings`}>
                     <Icon className="NavigationItem__Icon" icon="settings"/>

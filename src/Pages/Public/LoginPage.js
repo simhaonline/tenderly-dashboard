@@ -3,7 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Link, Redirect} from "react-router-dom";
 
-import {LocalStorageKeys} from "../../Common/constants";
+import {LocalStorageKeys, LoginFlowTypes} from "../../Common/constants";
 
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import LocalStorage from "../../Utils/LocalStorage";
@@ -158,7 +158,7 @@ class LoginPage extends Component {
 
         let flowData = {};
 
-        if (flow === "project-invitation") {
+        if (flow === LoginFlowTypes.ACCEPT_INVITATION) {
             const searchParams = new URLSearchParams(redirectToState.search);
 
             flowData.projectSlug = searchParams.get('projectSlug') || null;
@@ -194,12 +194,17 @@ class LoginPage extends Component {
                 <div className="LoginPage__ContentDivider"/>
                 <div className="LoginPage__Content">
                     <div className="LoginFormWrapper">
-                        {flow === "project-invitation" && <ProjectInvitationPreview inviterName={flowData.inviterName} projectName={flowData.projectName}
+                        {flow === LoginFlowTypes.ACCEPT_INVITATION && <ProjectInvitationPreview inviterName={flowData.inviterName} projectName={flowData.projectName}
                                                                                     projectOwner={flowData.projectOwner} projectSlug={flowData.projectSlug}/>}
                         <Form onSubmit={this.handleFormSubmit}>
                             {!flow && <h3 className="FormHeading">Sign in to Tenderly</h3>}
-                            {flow === "project-invitation" && <h3 className="FormHeading">Login to Accept</h3>}
-                            <p className="FormDescription">Don't have an account? <Link to="/register">Create an account</Link></p>
+                            {flow === LoginFlowTypes.ACCEPT_INVITATION && <h3 className="FormHeading">Login to Accept</h3>}
+                            <p className="FormDescription">Don't have an account? <Link to={{
+                                pathname: "/register",
+                                state: {
+                                    from: redirectToState,
+                                },
+                            }}>Create an account</Link></p>
                             {loginFailed && <Alert color="warning" animation={true}>Incorrect login credentials. Please try again.</Alert>}
                             <div className="LoginPage__Content__Form__InputWrapper">
                                 <label htmlFor="login" className="LoginPage__Content__Form__Label">E-mail / Username</label>

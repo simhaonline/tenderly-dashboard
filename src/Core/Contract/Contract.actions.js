@@ -15,6 +15,7 @@ export const DELETE_CONTRACT_ACTION = 'DELETE_CONTRACT';
 export const FETCH_CONTRACT_METHODS_ACTION = 'FETCH_CONTRACT_METHODS';
 export const FETCH_CONTRACT_LOGS_ACTION = 'FETCH_CONTRACT_LOGS';
 export const ADD_TAG_TO_CONTRACT_REVISION_ACTION = 'ADD_TAG_TO_CONTRACT_REVISION';
+export const RENAME_CONTRACT_ACTION = 'RENAME_CONTRACT';
 
 /**
  * @param {Project} project
@@ -35,6 +36,7 @@ export const fetchContractsForProject = (project) => {
                 data.forEach(contractResponse => {
                     const contract = Contract.buildFromResponse(contractResponse.contract, {
                         id: projectId,
+                        displayName: contractResponse.display_name,
                         listening: contractResponse.include_in_transaction_listing,
                     });
 
@@ -51,6 +53,7 @@ export const fetchContractsForProject = (project) => {
                         contractResponse.previous_versions.forEach(childContractResponse => {
                             const childContract = Contract.buildFromResponse(childContractResponse.contract, {
                                 id: projectId,
+                                displayName: childContractResponse.display_name,
                                 listening: childContractResponse.include_in_transaction_listing,
                             }, contract.address);
 
@@ -99,6 +102,7 @@ export const fetchContractForProject = (project, contractAddress, network) => {
 
             const contract = Contract.buildFromResponse(data.contract, {
                 id: project.id,
+                displayName: data.display_name,
                 listening: data.include_in_transaction_listing,
             });
 
@@ -327,3 +331,42 @@ export const addTagToProjectContractRevision = (project, revision, tag) => async
 
     return new SuccessActionResponse();
 });
+
+/**
+ * @param {Project} project
+ * @param {string} address
+ * @param {NetworkTypes} network
+ * @param {string} name
+ */
+export const changeContractNameByAddressAndNetwork = (project, address, network, name) => {
+    return async dispatch => {
+        try {
+            const apiNetworkId = getApiIdForNetwork(network);
+
+            await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${address}/rename`, {
+                display_name: name,
+            });
+
+            dispatch({
+                type: RENAME_CONTRACT_ACTION,
+                address,
+                network,
+                name,
+            });
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            return new ErrorActionResponse();
+        }
+    }
+};
+
+/**
+ * @param {Project} project
+ * @param {Contract} contract
+ * @param {string} name
+ * @returns {Function}
+ */
+export const changeContractName = (project, contract, name) => {
+    return changeContractNameByAddressAndNetwork(project, contract.address, contract.network, name);
+};

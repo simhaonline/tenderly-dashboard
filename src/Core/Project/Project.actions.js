@@ -144,13 +144,13 @@ export const fetchProjects = (username) => {
                 }
             });
 
-            if (!data || !data.projects || !data.projects.length) {
+            if (!data || !data.projects) {
                 dispatch({
                     type: FETCH_PROJECTS_ACTION,
                     projects: [],
                 });
 
-                return;
+                return new ErrorActionResponse();
             }
 
             const projects = data.projects.map(project => Project.buildFromResponse(project, user));
@@ -159,8 +159,11 @@ export const fetchProjects = (username) => {
                 type: FETCH_PROJECTS_ACTION,
                 projects,
             });
+
+            return new SuccessActionResponse(projects);
         } catch (error) {
             console.error(error);
+            return new ErrorActionResponse(error);
         }
     }
 };

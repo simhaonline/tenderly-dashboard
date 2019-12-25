@@ -7,14 +7,43 @@ import * as authActions from "../../Core/Auth/Auth.actions";
 
 import {Container, Page} from "../../Elements";
 import {RegisterForm} from "../../Components";
+import LocalStorage from "../../Utils/LocalStorage";
+import {LocalStorageKeys} from "../../Common/constants";
 
 class RegisterPage extends Component {
     constructor(props) {
         super(props);
 
+        const {location} = props;
+
+        let redirectToState;
+        let loginFlow;
+
+        if (LocalStorage.getItem(LocalStorageKeys.LOGIN_REDIRECT)) {
+            redirectToState = LocalStorage.getItem(LocalStorageKeys.LOGIN_REDIRECT);
+
+            LocalStorage.removeItem(LocalStorageKeys.LOGIN_REDIRECT);
+        }
+
+        if (LocalStorage.getItem(LocalStorageKeys.LOGIN_FLOW)) {
+            loginFlow = LocalStorage.getItem(LocalStorageKeys.LOGIN_FLOW);
+
+            LocalStorage.removeItem(LocalStorageKeys.LOGIN_FLOW);
+        }
+
+        if (location.state && location.state.from) {
+            redirectToState = location.state.from;
+        }
+
+        if (location.state && location.state.flow) {
+            loginFlow = location.state.flow;
+        }
+
         this.state = {
             registered: false,
             source: null,
+            flow: loginFlow,
+            redirectToState,
         }
     }
 
@@ -53,8 +82,13 @@ class RegisterPage extends Component {
 
     render() {
         const {auth} = this.props;
+        const {redirectToState} = this.state;
 
         if (auth.loggedIn) {
+            if (redirectToState) {
+                return <Redirect to={redirectToState}/>;
+            }
+
             return <Redirect to="/dashboard"/>;
         }
 

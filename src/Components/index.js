@@ -17,7 +17,12 @@ export {default as OnboardingCreateOrganizationStep} from './Onboarding/Onboardi
 export {default as PulsingDot} from './PulsingDot/PulsingDot';
 export {default as TenderlyFeaturesDemo} from './TenderlyFeaturesDemo/TenderlyFeaturesDemo';
 
+// Stateful Select Components
+export {default as ProjectSelect} from './Select/ProjectSelect';
+
 // Select Components
+export {default as ProjectSelectOption} from './SelectComponents/ProjectSelectOption';
+export {default as ProjectSelectValue} from './SelectComponents/ProjectSelectValue';
 export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
 export {default as ContractMethodOrLogSelectOption} from './SelectComponents/ContractMethodOrLogSelectOption';
 export {default as ContractInputSelectOption} from './SelectComponents/ContractInputSelectOption';
@@ -174,3 +179,8 @@ export {default as ContractNameColumn} from './ContractNameColumn/ContractNameCo
 export {default as ContractListeningColumn} from './ContractListeningColumn/ContractListeningColumn';
 export {default as ContractDeployedAtColumn} from './ContractDeployedAtColumn/ContractDeployedAtColumn';
 export {default as ProjectContractLatestTagColumn} from './ProjectContractLatestTagColumn/ProjectContractLatestTagColumn';
+
+/**
+ * Custom Integration Components
+ */
+export {default as AragonIntegration} from './Integrations/AragonIntegration';

@@ -27,6 +27,7 @@ import RedirectToProjectPage from "./Project/RedirectToProjectPage";
 import AcceptInvitationPage from "./Project/AcceptInvitationPage";
 import VerifyEmailPage from "./Public/VerifyEmailPage";
 import ProFeaturePage from "./Public/ProFeaturePage";
+import IntegrationsPage from "./Public/IntegrationsPage";
 
 const AppPages = ({loggedIn, lastProjectContext}) => {
     let projectOwner, projectSlug;
@@ -48,6 +49,7 @@ const AppPages = ({loggedIn, lastProjectContext}) => {
             <Route path="/login" exact component={LoginPage}/>
             <Route path="/oauth/:service" exact component={OAuthPage}/>
             <Route path="/register" exact component={RegisterPage}/>
+            <Route path="/integration" exact component={IntegrationsPage}/>
             <Route path="/account-recovery" exact component={AccountRecoveryPage}/>
             <Route path="/reset-password" exact component={ResetPasswordPage}/>
             <Route path="/explorer" exact component={ExplorerPage}/>

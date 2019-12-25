@@ -181,7 +181,7 @@ class Contract extends Account {
          */
         return new Contract({
             id: Contract.generateUniqueId(data.address, network),
-            name: data.contract_name,
+            name: (projectData && !!projectData.displayName) ? projectData.displayName : data.contract_name,
             address: data.address,
             network,
             creationTx: data.creation_tx,
