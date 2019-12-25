@@ -3,10 +3,16 @@ import PropTypes from 'prop-types';
 
 import {AccountPlan, Contract} from "../../Core/models";
 
-import {TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
+import {FeatureFlagTypes, TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, Checkbox, LinkButton, Select} from "../../Elements";
-import {ContractSelectMultiValueLabel, ContractSelectOption, NetworkSelectOption, PaidFeatureButton} from "../index";
+import {
+    ContractSelectMultiValueLabel,
+    ContractSelectOption,
+    FeatureFlag,
+    NetworkSelectOption,
+    PaidFeatureButton
+} from "../index";
 
 import './TransactionFilters.scss';
 import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
@@ -40,6 +46,14 @@ const transactionTypeOptions = [
         label: 'Direct',
     },
 ];
+
+const TransactionColumnOption = ({activeColumns, icon = "layout", label, onChange, type}) => {
+    return <div onClick={() => onChange(type)} className="TransactionsListSettings__ColumnOption">
+        <Icon icon={icon} className="TransactionsListSettings__ColumnOption__Icon"/>
+        <span className="TransactionsListSettings__ColumnOption__Label">{label}</span>
+        <Checkbox value={activeColumns.includes(type)} field={type} onChange={() => {}}/>
+    </div>;
+};
 
 class TransactionFilters extends Component {
     constructor(props) {
@@ -243,32 +257,36 @@ class TransactionFilters extends Component {
                         <Icon icon="filter"/>
                         <span>Filter Transactions</span>
                     </PaidFeatureButton>
-                    <Dialog open={settingsModalOpen} onClose={this.handleSettingsModalClose}>
+                    <Dialog open={settingsModalOpen} onClose={this.handleSettingsModalClose} className="TransactionsListSettings">
                         <DialogHeader>
                             <h3>Settings</h3>
                         </DialogHeader>
                         <DialogBody>
-                            <SegmentedControls options={[
-                                {
-                                    value: 'comfortable',
-                                    label: 'Comfortable',
-                                },
-                                {
-                                    value: 'compact',
-                                    label: 'Compact',
-                                },
-                            ]} value={'comfortable'} onChange={this.handleDraftStatusChange}/>
-                            <div>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.TX_HASH)} field={TransactionsListColumnTypes.TX_HASH} label="Transaction Hash" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.TX_HASH)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.STATUS)} field={TransactionsListColumnTypes.STATUS} label="Status" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.STATUS)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.CONTRACTS)} field={TransactionsListColumnTypes.CONTRACTS} label="Contracts" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.CONTRACTS)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.NETWORK)} field={TransactionsListColumnTypes.NETWORK} label="Network" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.NETWORK)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.TIMESTAMP)} field={TransactionsListColumnTypes.TIMESTAMP} label="Timestamp" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.TIMESTAMP)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.GAS_USED)} field={TransactionsListColumnTypes.GAS_USED} label="Gas Used" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.GAS_USED)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.BLOCK)} field={TransactionsListColumnTypes.BLOCK} label="Block No." onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.BLOCK)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.METHOD)} field={TransactionsListColumnTypes.METHOD} label="Function" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.METHOD)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.FROM)} field={TransactionsListColumnTypes.FROM} label="From" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.FROM)}/>
-                                <Checkbox value={activeColumns.includes(TransactionsListColumnTypes.TO)} field={TransactionsListColumnTypes.TO} label="To" onChange={() => this.handleColumnToggle(TransactionsListColumnTypes.TO)}/>
+                            <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                                <SegmentedControls options={[
+                                    {
+                                        value: 'comfortable',
+                                        label: 'Comfortable',
+                                    },
+                                    {
+                                        value: 'compact',
+                                        label: 'Compact',
+                                    },
+                                ]} value={'comfortable'} onChange={this.handleDraftStatusChange}/>
+                            </FeatureFlag>
+                            <h3 className="MarginBottom1">Configure Columns</h3>
+                            <p className="MutedText MarginBottom3">Change the layout of the transactions list and display only the columns and information that is most important to you.</p>
+                            <div className="TransactionsListSettings__ColumnsList">
+                                <TransactionColumnOption activeColumns={activeColumns} type={TransactionsListColumnTypes.TX_HASH} label="Transaction Hash" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="check-circle" activeColumns={activeColumns} type={TransactionsListColumnTypes.STATUS} label="Status" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="arrow-up-circle" activeColumns={activeColumns} type={TransactionsListColumnTypes.FROM} label="From" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="arrow-down-circle" activeColumns={activeColumns} type={TransactionsListColumnTypes.TO} label="To" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="file-text" activeColumns={activeColumns} type={TransactionsListColumnTypes.CONTRACTS} label="Contracts" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="code" activeColumns={activeColumns} type={TransactionsListColumnTypes.METHOD} label="Function" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="layers" activeColumns={activeColumns} type={TransactionsListColumnTypes.NETWORK} label="Network" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="box" activeColumns={activeColumns} type={TransactionsListColumnTypes.BLOCK} label="Block No." onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="dollar-sign" activeColumns={activeColumns} type={TransactionsListColumnTypes.GAS_USED} label="Gas Used" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="calendar" activeColumns={activeColumns} type={TransactionsListColumnTypes.TIMESTAMP} label="Timestamp" onChange={this.handleColumnToggle}/>
                             </div>
                         </DialogBody>
                     </Dialog>
