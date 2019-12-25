@@ -121,7 +121,9 @@ class AppSidebar extends Component {
                             <AppSidebarSubLink to={`${routeBase}/contracts`} exact label="All Contracts"/>
                             <AppSidebarSubLink to={`${routeBase}/contracts/create-filter`} exact label="Create filter"/>
                         </div>}
-                        <AppSidebarLink to={`${routeBase}/wallets`} icon="inbox" label="Wallets"/>
+                        <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                            <AppSidebarLink to={`${routeBase}/wallets`} icon="inbox" label="Wallets"/>
+                        </FeatureFlag>
                     </div>
                 </div>}
 
