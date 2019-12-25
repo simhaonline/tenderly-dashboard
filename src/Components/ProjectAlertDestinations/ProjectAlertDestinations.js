@@ -100,8 +100,9 @@ class ProjectAlertDestinations extends Component {
                             <DestinationOption icon="mail" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.EMAIL)} label="E-mail"/>
                             <DestinationOption icon="slack" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.SLACK)} label="Slack"/>
                             <DestinationOption icon="discord" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.DISCORD)} label="Discord"/>
-                            <DestinationOption icon="telegram" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.TELEGRAM)} label="Telegram"/>
+
                             <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
+                                <DestinationOption icon="telegram" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.TELEGRAM)} label="Telegram"/>
                                 <DestinationOption icon="code" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.WEBHOOK)} label="Webhook"/>
                             </FeatureFlag>
                         </CardsWrapper>
