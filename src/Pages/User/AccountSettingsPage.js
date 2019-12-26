@@ -29,10 +29,6 @@ const SettingsPageTabs = [
         route: '/account/authorization',
         label: 'Authorization',
     },
-    {
-        route: '/account/billing',
-        label: 'Billing',
-    },
 ];
 
 

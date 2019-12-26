@@ -69,7 +69,8 @@ class CreateProjectForm extends Component {
 }
 
 CreateProjectForm.propTypes  ={
-    plan: PropTypes.instanceOf(AccountPlan).isRequired,
+    // @TODO @BILLING Remove when implement billing
+    // plan: PropTypes.instanceOf(AccountPlan).isRequired,
 };
 
 CreateProjectForm.defaultProps = {

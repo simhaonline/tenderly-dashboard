@@ -365,7 +365,8 @@ TransactionFilters.propTypes = {
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
     tags: PropTypes.array.isRequired,
     onFiltersChange: PropTypes.func.isRequired,
-    plan: PropTypes.instanceOf(AccountPlan).isRequired,
+    // @TODO @BILLING Remove when implement billing
+    // plan: PropTypes.instanceOf(AccountPlan).isRequired,
 };
 
 export default TransactionFilters;
