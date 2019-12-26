@@ -21,7 +21,7 @@
   }
 
   &:hover, &.CallTracePreview__TracePoint__Heading--Open {
-    background-color: transparentize($Slate700, 0.25);
+    background-color: transparentize($Slate500, 0.5);
 
     .CallTracePreview__TracePoint__Actions {
       opacity: 1;
