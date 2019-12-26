@@ -64,7 +64,8 @@ class ProjectPage extends Component {
         }
 
         if (username !== user.username) {
-            billingActions.fetchPlanForAccount(username);
+            // @TODO @BILLING Remove when implement billing
+            // billingActions.fetchPlanForAccount(username);
         }
     }
 
@@ -80,7 +81,8 @@ class ProjectPage extends Component {
         }
 
         if (prevProps.username !== username && username !== user.username) {
-            billingActions.fetchPlanForAccount(username);
+            // @TODO @BILLING Remove when implement billing
+            // billingActions.fetchPlanForAccount(username);
         }
     }
 

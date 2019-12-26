@@ -77,7 +77,8 @@ export function asyncActionWrapper(actionSettings, action, onError) {
             const actionResponse = await action(dispatch, getState);
 
             if (actionSettings.payable) {
-                dispatch(fetchUpdatePlanUsage(actionSettings.account));
+                // @TODO @BILLING Remove when implement billing
+                // dispatch(fetchUpdatePlanUsage(actionSettings.account));
             }
 
             return actionResponse;
