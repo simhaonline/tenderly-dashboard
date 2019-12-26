@@ -15,9 +15,8 @@ import {
     TransactionMoreColumn,
     TransactionContractsColumn,
     TimeAgoColumn,
-    NetworkColumn
+    NetworkColumn, PrettyAddressColumn
 } from "../index";
-import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 const transactionTableConf = [
     {
@@ -36,13 +35,13 @@ const transactionTableConf = [
         label: 'From',
         inclusionKey: TransactionsListColumnTypes.FROM,
         size: 200,
-        renderColumn: tx => <span className="LinkText MonospaceFont">{generateShortAddress(tx.from, 10)}</span>,
+        renderColumn: (tx, metadata) => <PrettyAddressColumn address={tx.from} network={tx.network} contracts={metadata.contracts} leftOffset={10}/>,
     },
     {
         label: 'To',
         inclusionKey: TransactionsListColumnTypes.TO,
         size: 200,
-        renderColumn: tx => <span className="LinkText MonospaceFont">{generateShortAddress(tx.to, 10)}</span>,
+        renderColumn: (tx, metadata) => <PrettyAddressColumn address={tx.to} network={tx.network} contracts={metadata.contracts} leftOffset={10}/>,
     },
     {
         label: 'Contracts',

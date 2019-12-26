@@ -174,6 +174,8 @@ export {default as TransactionContractsColumn} from './TransactionContractsColum
 export {default as TransactionStatusColumn} from './TransactionStatusColumn/TransactionStatusColumn';
 export {default as TransactionMoreColumn} from './TransactionMoreColumn/TransactionMoreColumn';
 
+export {default as PrettyAddressColumn} from './PrettyAddressColumn/PrettyAddressColumn';
+
 export {default as ProjectContractMainRevisionColumn} from './ProjectContractMainRevisionColumn/ProjectContractMainRevisionColumn';
 export {default as ContractNameColumn} from './ContractNameColumn/ContractNameColumn';
 export {default as ContractListeningColumn} from './ContractListeningColumn/ContractListeningColumn';
