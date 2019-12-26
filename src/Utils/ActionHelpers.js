@@ -72,9 +72,9 @@ const logActionError = (error, dispatch, actionSettings, onErrorCallback) => {
  * @returns {Promise<Function>}
  */
 export function asyncActionWrapper(actionSettings, action, onError) {
-    return async dispatch => {
+    return async (dispatch, getState) => {
         try {
-            const actionResponse = await action(dispatch);
+            const actionResponse = await action(dispatch, getState);
 
             if (actionSettings.payable) {
                 dispatch(fetchUpdatePlanUsage(actionSettings.account));
@@ -94,9 +94,9 @@ export function asyncActionWrapper(actionSettings, action, onError) {
  * @returns {Function}
  */
 export function actionWrapper(actionSettings, action, onError) {
-    return dispatch => {
+    return (dispatch, getState) => {
         try {
-            return action(dispatch);
+            return action(dispatch, getState);
         } catch (error) {
             return logActionError(error, dispatch, actionSettings, onError);
         }
