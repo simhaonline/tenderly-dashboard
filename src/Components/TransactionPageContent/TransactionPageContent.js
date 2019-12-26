@@ -98,10 +98,10 @@ class TransactionPageContent extends PureComponent {
                         <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger} onSourceView={this.handleTraceViewSource}/>
                     </Fragment>}/>
                     <Route path={`${baseUrl}/logs`} exact render={() => <TransactionEventLogs contracts={contracts} eventLogs={eventLogs}/>}/>
-                    <Route path={`${baseUrl}/contracts`} exact render={() => <TransactionContracts contracts={contracts} initialTrace={selectedTrace}/>}/>
-                    <Route path={`${baseUrl}/debugger`} exact render={() => <TraceDebugger callTrace={callTrace} contracts={contracts} initialTrace={selectedTrace}/>}/>
+                    <Route path={`${baseUrl}/contracts`} exact render={routeProps => <TransactionContracts {...routeProps} contracts={contracts} initialTrace={selectedTrace}/>}/>
+                    <Route path={`${baseUrl}/debugger`} exact render={routeProps => <TraceDebugger {...routeProps} callTrace={callTrace} contracts={contracts} initialTrace={selectedTrace}/>}/>
                     <Route path={`${baseUrl}/state-diff`} exact render={() => <TransactionStateDiff contracts={contracts} stateDiffs={stateDiffs}/>}/>
-                    <Route path={`${baseUrl}/gas-usage`} exact render={() => <TransactionGasBreakdown transaction={transaction} callTrace={callTrace}/>}/>
+                    <Route path={`${baseUrl}/gas-usage`} exact render={routeProps => <TransactionGasBreakdown {...routeProps} transaction={transaction} callTrace={callTrace}/>}/>
                 </Switch>
             </div>
         )
