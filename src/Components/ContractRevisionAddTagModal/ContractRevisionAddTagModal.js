@@ -32,6 +32,10 @@ class ContractRevisionAddTagModal extends Component {
         const {project, revision, contractActions} = this.props;
         const {label} = this.state;
 
+        if (!revision) {
+            return;
+        }
+
         this.setState({
             adding: true,
         });
@@ -79,7 +83,7 @@ class ContractRevisionAddTagModal extends Component {
 
 ContractRevisionAddTagModal.propTypes = {
     open: PropTypes.bool.isRequired,
-    revision: PropTypes.instanceOf(ProjectContractRevision).isRequired,
+    revision: PropTypes.instanceOf(ProjectContractRevision),
     project: PropTypes.instanceOf(Project).isRequired,
     onClose: PropTypes.func.isRequired,
 };
