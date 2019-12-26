@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 
@@ -10,6 +10,7 @@ import {
     // ContractDeployedAtColumn,
     ProjectContractLatestTagColumn,
     NetworkColumn,
+    ContractRevisionAddTagModal,
 } from "../index";
 
 import './ProjectContractList.scss';
@@ -23,7 +24,7 @@ const projectContractsTableConfiguration = [
     },
     {
         label: "Latest Tag",
-        renderColumn: contract => <ProjectContractLatestTagColumn projectContract={contract} />
+        renderColumn: (contract, metadata) => <ProjectContractLatestTagColumn projectContract={contract} onAddTagClick={metadata.handleAddTagClick}/>
     },
     {
         label: "Network",
@@ -47,6 +48,8 @@ const projectContractsTableConfiguration = [
 class ProjectContractList extends Component{
     state = {
         searchQuery: '',
+        addTagModalOpen: false,
+        currentRevision: null,
     };
 
     /**
@@ -58,12 +61,27 @@ class ProjectContractList extends Component{
         history.push(projectContract.getUrl());
     };
 
+    /**
+     * @param {boolean} value
+     * @param {ProjectContractRevision} revision
+     */
+    setAddTagModal = (value, revision) => {
+        this.setState({
+            addTagModalOpen: value,
+            currentRevision: revision,
+        });
+    };
+
     render() {
-        const {projectContracts} = this.props;
+        const {projectContracts, project} = this.props;
+        const {addTagModalOpen, currentRevision} = this.state;
 
         return (
             <div className="ProjectContractList">
-                <Table configuration={projectContractsTableConfiguration} data={projectContracts} onRowClick={this.handleProjectContractClick} keyAccessor="id"/>
+                <Table configuration={projectContractsTableConfiguration} metadata={{
+                    handleAddTagClick: (revision) => this.setAddTagModal(true, revision),
+                }} data={projectContracts} onRowClick={this.handleProjectContractClick} keyAccessor="id"/>
+                <ContractRevisionAddTagModal project={project} revision={currentRevision} open={addTagModalOpen} onClose={e => this.setAddTagModal(false, null)}/>
             </div>
         )
     }

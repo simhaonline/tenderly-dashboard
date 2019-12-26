@@ -7,13 +7,18 @@ import {Icon, Tag, LinkButton} from "../../Elements";
 
 /**
  * @param {ProjectContract} projectContract
+ * @param {Function} onAddTagClick
  */
-const ProjectContractLatestTagColumn = ({projectContract}) => {
+const ProjectContractLatestTagColumn = ({projectContract, onAddTagClick}) => {
     const mainRevision = projectContract.getMainRevision();
 
     return (
         <div className="ProjectContractLatestTagColumn DisplayFlex AlignItemsCenter">
-            {mainRevision.tags.length === 0 && <LinkButton>
+            {mainRevision.tags.length === 0 && <LinkButton onClick={e => {
+                e.stopPropagation();
+                e.preventDefault();
+                onAddTagClick(mainRevision);
+            }}>
                 <Icon icon="plus"/>
                 <span>Add tag</span>
             </LinkButton>}
@@ -29,6 +34,7 @@ const ProjectContractLatestTagColumn = ({projectContract}) => {
 
 ProjectContractLatestTagColumn.propTypes = {
     projectContract: PropTypes.instanceOf(ProjectContract).isRequired,
+    onAddTagClick: PropTypes.func.isRequired,
 };
 
 export default ProjectContractLatestTagColumn;
