@@ -36,7 +36,6 @@ export const fetchContractsForProject = (project) => {
                 data.forEach(contractResponse => {
                     const contract = Contract.buildFromResponse(contractResponse.contract, {
                         id: projectId,
-                        displayName: contractResponse.display_name,
                         listening: contractResponse.include_in_transaction_listing,
                     });
 
@@ -53,7 +52,6 @@ export const fetchContractsForProject = (project) => {
                         contractResponse.previous_versions.forEach(childContractResponse => {
                             const childContract = Contract.buildFromResponse(childContractResponse.contract, {
                                 id: projectId,
-                                displayName: childContractResponse.display_name,
                                 listening: childContractResponse.include_in_transaction_listing,
                             }, contract.address);
 
@@ -102,7 +100,6 @@ export const fetchContractForProject = (project, contractAddress, network) => {
 
             const contract = Contract.buildFromResponse(data.contract, {
                 id: project.id,
-                displayName: data.display_name,
                 listening: data.include_in_transaction_listing,
             });
 
