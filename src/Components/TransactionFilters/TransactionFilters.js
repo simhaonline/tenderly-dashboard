@@ -285,7 +285,7 @@ class TransactionFilters extends Component {
                                 <TransactionColumnOption icon="code" activeColumns={activeColumns} type={TransactionsListColumnTypes.METHOD} label="Function" onChange={this.handleColumnToggle}/>
                                 <TransactionColumnOption icon="layers" activeColumns={activeColumns} type={TransactionsListColumnTypes.NETWORK} label="Network" onChange={this.handleColumnToggle}/>
                                 <TransactionColumnOption icon="box" activeColumns={activeColumns} type={TransactionsListColumnTypes.BLOCK} label="Block No." onChange={this.handleColumnToggle}/>
-                                <TransactionColumnOption icon="dollar-sign" activeColumns={activeColumns} type={TransactionsListColumnTypes.GAS_USED} label="Gas Used" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="droplet" activeColumns={activeColumns} type={TransactionsListColumnTypes.GAS_USED} label="Gas Used" onChange={this.handleColumnToggle}/>
                                 <TransactionColumnOption icon="calendar" activeColumns={activeColumns} type={TransactionsListColumnTypes.TIMESTAMP} label="Timestamp" onChange={this.handleColumnToggle}/>
                             </div>
                         </DialogBody>
