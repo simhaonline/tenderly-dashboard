@@ -72,7 +72,7 @@ class ContractInformation extends Component {
                             <PermissionControl requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT} project={project}>
                                 <LinkButton onClick={() => this.setAddTagModal(true)} className="MarginLeft1">
                                     <Icon icon="plus"/>
-                                    <span >Add Tag</span>
+                                    <span>Add Tag</span>
                                 </LinkButton>
                             </PermissionControl>
                             <ContractRevisionAddTagModal project={project} revision={revision} open={addTagModalOpen} onClose={() => this.setAddTagModal(false)}/>
