@@ -324,6 +324,7 @@ export const addTagToProjectContractRevision = (project, revision, tag) => async
         type: ADD_TAG_TO_CONTRACT_REVISION_ACTION,
         projectId: project.id,
         revisionId: revision.id,
+        tag,
     });
 
     return new SuccessActionResponse();
