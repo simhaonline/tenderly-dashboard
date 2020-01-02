@@ -1,6 +1,6 @@
 import React, {Fragment, PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 
 import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
@@ -89,6 +89,8 @@ class TransactionPageContent extends PureComponent {
             return null;
         }
 
+        console.log(selectedTrace);
+
         return (
             <div className="TransactionPageContent">
                 <Switch>
@@ -118,4 +120,4 @@ TransactionPageContent.propTypes = {
     project: PropTypes.instanceOf(Project),
 };
 
-export default TransactionPageContent;
+export default withRouter(TransactionPageContent);

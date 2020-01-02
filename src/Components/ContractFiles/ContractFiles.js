@@ -27,7 +27,7 @@ class ContractFiles extends Component {
     };
 
     render() {
-        const {contract} = this.props;
+        const {contract, line} = this.props;
         const {selectedFile} = this.state;
 
         return (
@@ -45,7 +45,7 @@ class ContractFiles extends Component {
                         </div>)}
                     </div>
                     {!!selectedFile && <div className="ContractFiles__CodeWrapper">
-                        <CodePreview file={selectedFile}/>
+                        <CodePreview line={line} file={selectedFile}/>
                     </div>}
                 </div>
             </FullWidthContainer>
