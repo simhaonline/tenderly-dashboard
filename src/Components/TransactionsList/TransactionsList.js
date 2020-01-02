@@ -44,16 +44,16 @@ const transactionTableConf = [
         renderColumn: (tx, metadata) => <PrettyAddressColumn address={tx.to} network={tx.network} contracts={metadata.contracts} leftOffset={10}/>,
     },
     {
-        label: 'Contracts',
-        inclusionKey: TransactionsListColumnTypes.CONTRACTS,
-        className: "HideMobile",
-        renderColumn: (tx, metadata) => <TransactionContractsColumn transaction={tx} contracts={metadata.contracts}/>,
-    },
-    {
         label: 'Function',
         inclusionKey: TransactionsListColumnTypes.METHOD,
         size: 220,
         renderColumn: tx => <span className="MonospaceFont">{tx.method ? `${tx.method}` : '-'}</span>,
+    },
+    {
+        label: 'Contracts',
+        inclusionKey: TransactionsListColumnTypes.CONTRACTS,
+        className: "HideMobile",
+        renderColumn: (tx, metadata) => <TransactionContractsColumn transaction={tx} contracts={metadata.contracts}/>,
     },
     {
         label: 'Network',
