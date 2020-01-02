@@ -1,6 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import classNames from 'classnames';
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 import {
     getFormattedResolution,
@@ -9,10 +11,13 @@ import {
 
 import {AnalyticsWidgetSizeTypes} from "../../Common/constants";
 
+import {analyticsActions} from "../../Core/actions";
+
 import {Panel, Tag, Icon, Tooltip} from "../../Elements";
 import {AnalyticsWidgetChart, SimpleLoader} from "..";
 
 import './AnalyticsWidget.scss';
+
 
 const widgetSizeClassMap = {
     [AnalyticsWidgetSizeTypes.ONE]: 'AnalyticsWidget--One',
@@ -27,11 +32,22 @@ class AnalyticsWidget extends Component {
 
         this.state = {
             loading: true,
+            data: [],
         };
     }
 
+    async componentDidMount() {
+        const {isCustom, analyticsActions, widget, project} = this.props;
+
+        let dataResponse;
+
+        if (isCustom) {
+            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget.id);
+        }
+    }
+
     render() {
-        const {widget, project} = this.props;
+        const {widget, project, isCustom} = this.props;
         const {loading} = this.state;
 
         return (
@@ -58,7 +74,7 @@ class AnalyticsWidget extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="AnalyticsWidget__Header__SubInfo">
+                        {!isCustom && <div className="AnalyticsWidget__Header__SubInfo">
                             <div>
                                 <Icon className="MarginRight1 MutedText" icon="calendar"/>
                                 <span>{getFormattedTimeRange(widget.time)}</span>
@@ -67,7 +83,7 @@ class AnalyticsWidget extends Component {
                                 <Icon className="MarginRight1 MutedText" icon="clock"/>
                                 {getFormattedResolution(widget.resolution)}
                             </div>
-                        </div>
+                        </div>}
                     </div>
                     {loading && <div className="AnalyticsWidget__Data AnalyticsWidget__Data--Loader">
                         <SimpleLoader/>
@@ -78,7 +94,7 @@ class AnalyticsWidget extends Component {
                     )}>
                         <AnalyticsWidgetChart dataPoints={widget.dataPoints} widget={widget} data={widget.data} type={widget.type}/>
                     </div>}
-                    <div className="AnalyticsWidget__Footer">
+                    {!isCustom && <div className="AnalyticsWidget__Footer">
                         <div className="AnalyticsWidget__Footer__DataInfo">
                             {widget.show.map(show => <div key={show.event} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Show">
                                 <Icon icon="target"/>
@@ -89,11 +105,20 @@ class AnalyticsWidget extends Component {
                                 <span>Breakdown by <span className="SemiBoldText">{group.variable}</span></span>
                             </div>)}
                         </div>
-                    </div>
+                    </div>}
                 </Panel>
             </div>
         );
     }
 }
 
-export default AnalyticsWidget;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        analyticsActions: bindActionCreators(analyticsActions, dispatch),
+    };
+};
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(AnalyticsWidget);

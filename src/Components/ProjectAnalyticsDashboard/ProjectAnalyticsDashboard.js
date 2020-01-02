@@ -15,9 +15,9 @@ class ProjectAnalyticsDashboard extends Component {
 
         return (
             <div className="ProjectAnalyticsDashboard">
-                {/*{(widgets && widgets.length > 0) && <div className="ProjectAnalyticsDashboard__WidgetsWrapper">*/}
-                {/*    {widgets.map(widget => <AnalyticsWidget key={widget.id} widget={widget} project={project}/>)}*/}
-                {/*</div>}*/}
+                {(dashboard && dashboard.widgets.length > 0) && <div className="ProjectAnalyticsDashboard__WidgetsWrapper">
+                    {dashboard.widgets.map(widget => <AnalyticsWidget key={widget.id} isCustom={dashboard.isCustom} widget={widget} project={project}/>)}
+                </div>}
             </div>
         );
     }
