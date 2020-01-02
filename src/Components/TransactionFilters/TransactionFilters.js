@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {AccountPlan, Contract} from "../../Core/models";
+import {Contract} from "../../Core/models";
 
 import {FeatureFlagTypes, TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
 import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";

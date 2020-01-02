@@ -1,10 +1,4 @@
-import {
-    AnalyticsWidgetResolutionTypes,
-    AnalyticsWidgetSizeTypes,
-    AnalyticsWidgetTimeUnitTypes,
-    AnalyticsWidgetTypes
-} from "../../Common/constants";
-import {repository} from "d3/dist/package";
+import {AnalyticsWidgetSizeTypes} from "../../Common/constants";
 
 class Widget {
     constructor(data) {

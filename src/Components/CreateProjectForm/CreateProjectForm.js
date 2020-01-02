@@ -6,8 +6,6 @@ import {formatProjectSlug} from "../../Utils/Formatters";
 
 import {PlanUsageTypes} from "../../Common/constants";
 
-import {AccountPlan} from "../../Core/models";
-
 import {Form, Input} from "../../Elements";
 import {PaidFeatureButton} from "../index";
 
@@ -71,6 +69,7 @@ class CreateProjectForm extends Component {
 CreateProjectForm.propTypes  ={
     // @TODO @BILLING Remove when implement billing
     // plan: PropTypes.instanceOf(AccountPlan).isRequired,
+    onSubmit: PropTypes.func,
 };
 
 CreateProjectForm.defaultProps = {
