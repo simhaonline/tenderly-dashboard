@@ -16,29 +16,38 @@ class ProjectAnalyticsPage extends Component {
 
         this.state = {
             loading: true,
+            hasCustom: false,
         }
     }
 
     async componentDidMount() {
         const {analyticsActions, project} = this.props;
 
-        const analyticsResponse = await analyticsActions.fetchAnalyticsForProject(project);
+        const analyticsResponse = await analyticsActions.fetchCustomAnalyticsForProject(project);
 
-        let widgets = [];
+        if (!analyticsResponse.success) {
+            return this.setState({
+                loading: false,
+            });
+        }
+
+        let dashboards = [];
 
         if (analyticsResponse.success) {
-            widgets = analyticsResponse.data.widgets;
+            dashboards = analyticsResponse.data;
         }
 
         this.setState({
             loading: false,
-            widgets,
+            hasCustom: true,
+            currentDashboard: dashboards[0],
+            dashboards,
         });
     }
 
     render() {
         const {project, accountPlan} = this.props;
-        const {loading, widgets} = this.state;
+        const {loading, currentDashboard, hasCustom} = this.state;
 
         return (
             <Page id="ProjectPage">
@@ -52,7 +61,8 @@ class ProjectAnalyticsPage extends Component {
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && <ProjectAnalyticsDashboard widgets={widgets} project={project}/>}
+                    {!loading && hasCustom && <ProjectAnalyticsDashboard dashboard={currentDashboard} project={project}/>}
+                    {!loading && !hasCustom && <div>nista cekaj</div>}
                 </Container>
             </Page>
         )

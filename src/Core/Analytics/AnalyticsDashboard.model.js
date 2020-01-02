@@ -1,3 +1,5 @@
+import Widget from "./Widget.model";
+
 class AnalyticsDashboard {
     constructor(data) {
         /** @type {string} */
@@ -9,6 +11,9 @@ class AnalyticsDashboard {
         /** @type {Number} */
         this.index = data.index;
 
+        /** @type {boolean} */
+        this.isCustom = data.isCustom;
+
         /** @type {Project.id} */
         this.projectId = data.projectId;
 
@@ -19,12 +24,21 @@ class AnalyticsDashboard {
         this.widgets = data.widgets;
     }
 
-    static buildFromResponse(response, projectId) {
+    /**
+     * @param {Object} response
+     * @param {Project.id} projectId
+     * @param {boolean} isCustom
+     * @returns {AnalyticsDashboard}
+     */
+    static buildFromResponse(response, projectId, isCustom = false) {
+        console.log(response);
         return new AnalyticsDashboard({
             id: response.id,
+            projectId,
+            isCustom: isCustom,
             name: response.name,
             index: response.index,
-            widgets: response.widgets,
+            widgets: response.analytics_widgets.map(widgetResponse => Widget.buildFromResponse(widgetResponse, isCustom)),
         });
     }
 }

@@ -6,6 +6,7 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 import {AnalyticsDashboard, Widget} from "../models";
 
 export const FETCH_ANALYTICS_FOR_PROJECT_ACTION = 'FETCH_ANALYTICS_FOR_PROJECT';
+export const FETCH_CUSTOM_ANALYTICS_FOR_PROJECT_ACTION = 'FETCH_CUSTOM_ANALYTICS_FOR_PROJECT';
 
 /**
  * @param {Project} project
@@ -71,4 +72,33 @@ export const fetchAnalyticsWidgetForProject = (project, widgetId) => asyncAction
     return new SuccessActionResponse({
         widget,
     });
+});
+
+/**
+ * @param {Project} project
+ */
+export const fetchCustomAnalyticsForProject = (project) => asyncActionWrapper({
+    name: 'fetchCustomAnalyticsForProject',
+}, async dispatch => {
+    const {data} = await Api.get(`/account/${project.owner}/project/${project.slug}/analytics/custom-dashboards`);
+
+    if (!data || !data.dashboards) {
+        return new ErrorActionResponse();
+    }
+
+    const dashboards = [];
+
+    data.dashboards.forEach(dashboardResponse => {
+        console.log(dashboardResponse);
+        dashboards.push(AnalyticsDashboard.buildFromResponse(dashboardResponse, project.id, true));
+    });
+
+    console.log(dashboards);
+
+    dispatch({
+        type: FETCH_CUSTOM_ANALYTICS_FOR_PROJECT_ACTION,
+        dashboards,
+    });
+
+    return new SuccessActionResponse(dashboards);
 });

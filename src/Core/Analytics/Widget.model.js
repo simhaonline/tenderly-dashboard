@@ -45,27 +45,35 @@ class Widget {
 
     /**
      * @param {Object} response
-     * @param {string} key
+     * @param {boolean} isCustom
      * @returns {Widget}
      */
-    static buildFromResponse(response, key) {
-        const time = Widget.parseTimeRange(response.time_range);
+    static buildFromResponse(response, isCustom = false) {
+        let widgetData = {};
+
+        if (!isCustom) {
+            const time = Widget.parseTimeRange(response.time_range);
+
+            widgetData = {
+                type: response.display_settings.chart_type,
+                size: AnalyticsWidgetSizeTypes.TWO,
+                resolution: response.resolution,
+                time,
+                alerts: [],
+                group: [
+                    {group: "contract", variable: "id"},
+                    {group: "transaction", variable: "status"},
+                ],
+                show: [
+                    {math: "count", event: "transaction"},
+                ],
+            };
+        }
 
         return new Widget({
-            id: key,
+            id: response.id,
             name: response.name,
-            type: response.display_settings.chart_type,
-            size: AnalyticsWidgetSizeTypes.TWO,
-            resolution: response.resolution,
-            time,
-            alerts: [],
-            group: [
-                {group: "contract", variable: "id"},
-                {group: "transaction", variable: "status"},
-            ],
-            show: [
-                {math: "count", event: "transaction"},
-            ],
+            ...widgetData,
         });
     }
 }
