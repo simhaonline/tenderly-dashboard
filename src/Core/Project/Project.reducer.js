@@ -196,13 +196,25 @@ const ProjectReducer = (state = initialState, action) => {
                 },
             };
         case TOGGLE_CONTRACT_LISTENING_ACTION:
-            // @TODO Handle contract revision fix
-            const existingContract = getProjectContractForRevision(state, action.projectId, action.revisionId);
+            const existingContract = getProjectContractForRevision({project: state}, action.projectId, action.revisionId);
 
-            console.log(action, existingContract);
+            const updatedContract = existingContract.update({
+                revisions: {
+                    [action.revisionId]: {
+                        enabled: !existingContract.getRevision(action.revisionId).enabled,
+                    },
+                },
+            });
 
             return {
                 ...state,
+                projectContracts: {
+                    ...state.projectContracts,
+                    [action.projectId]: [
+                        ...state.projectContracts[action.projectId].filter(pc => pc.id !== action.projectContractId),
+                        updatedContract,
+                    ],
+                },
             };
         case ADD_TAG_TO_CONTRACT_REVISION_ACTION:
             // @TODO Handle tag creating to add to project

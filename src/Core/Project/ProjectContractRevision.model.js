@@ -33,6 +33,12 @@ class ProjectContractRevision {
         return this.tags[this.tags.length - 1];
     }
 
+    update(data) {
+        const updatedData = Object.assign({}, this, data);
+
+        return new ProjectContractRevision(updatedData);
+    }
+
     static buildFromResponse(response) {
         const {contract} = response;
 

@@ -74,7 +74,15 @@ class ProjectContract {
         const updatedData = Object.assign({}, this, _.omit(data, 'revisions'));
 
         if (data.revisions) {
-            console.log(updatedData);
+            Object.keys(data.revisions).forEach(revisionId => {
+                const revisionData = data.revisions[revisionId];
+
+                const updatedRevision = this.getRevision(revisionId).update(revisionData);
+
+                updatedData.revisions = _.xorBy(updatedData.revisions, [updatedRevision], 'id');
+
+                updatedData.revisions.push(updatedRevision);
+            });
         }
 
         return new ProjectContract(updatedData);
