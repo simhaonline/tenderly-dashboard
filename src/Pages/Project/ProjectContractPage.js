@@ -146,7 +146,7 @@ class ProjectContractPage extends Component {
                             <Button outline to={`/${project.owner}/${project.slug}/contracts`}>
                                 <Icon icon="arrow-left"/>
                             </Button>
-                            <h1>{contract.name}</h1>
+                            <h1>{projectContract.name}</h1>
                             <div className="RightContent">
                                 <EtherscanLink type={EtherscanLinkTypes.ADDRESS} network={contract.network} value={contract.address}>
                                     <Button size="small" outline>
