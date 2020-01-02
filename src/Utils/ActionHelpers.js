@@ -43,13 +43,15 @@ const fetchUpdatePlanUsage = (username) => {
  * @returns {ErrorActionResponse}
  */
 const logActionError = (error, dispatch, actionSettings, onErrorCallback) => {
-    console.error(error);
+    if (!error.response || error.response.status !== 404) {
+        console.error(error);
 
-    Sentry.withScope(scope => {
-        scope.setTag("action", actionSettings.name);
-        scope.setLevel(Sentry.Severity.Warning);
-        Sentry.captureException(error);
-    });
+        Sentry.withScope(scope => {
+            scope.setTag("action", actionSettings.name);
+            scope.setLevel(Sentry.Severity.Warning);
+            Sentry.captureException(error);
+        });
+    }
 
     if (onErrorCallback) {
         return onErrorCallback(error, dispatch);
