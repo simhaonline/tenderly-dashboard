@@ -185,8 +185,8 @@ export const toggleContractListening = (project, projectContract, revision) => a
     dispatch({
         type: TOGGLE_CONTRACT_LISTENING_ACTION,
         projectId: project.id,
-        projectContract,
-        revision,
+        projectContractId: projectContract.id,
+        revisionId: revision.id,
     });
 
     return new SuccessActionResponse();

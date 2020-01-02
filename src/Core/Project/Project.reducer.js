@@ -14,6 +14,7 @@ import {
 
 import {EntityStatusTypes} from "../../Common/constants";
 import {FETCH_WALLETS_FOR_PROJECT_ACTION} from "../Wallet/Wallet.actions";
+import {getProjectContractForRevision} from "../../Common/Selectors/ProjectSelectors";
 
 const initialState = {
     /** @type {Object.<Project.id, Project>} */
@@ -196,7 +197,10 @@ const ProjectReducer = (state = initialState, action) => {
             };
         case TOGGLE_CONTRACT_LISTENING_ACTION:
             // @TODO Handle contract revision fix
-            console.log(action);
+            const existingContract = getProjectContractForRevision(state, action.projectId, action.revisionId);
+
+            console.log(action, existingContract);
+
             return {
                 ...state,
             };

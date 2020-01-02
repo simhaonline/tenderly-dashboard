@@ -180,7 +180,7 @@ const mapStateToProps = (state, ownProps) => {
 
     const project = getProjectBySlugAndUsername(state, slug, username);
     const contract = getContractByAddressAndNetwork(state, address, networkType);
-    const projectContract = getProjectContractForRevision(state, project.id, contract);
+    const projectContract = getProjectContractForRevision(state, project.id, contract ? contract.id: null);
 
     return {
         networkType,
