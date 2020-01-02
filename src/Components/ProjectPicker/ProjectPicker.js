@@ -16,6 +16,7 @@ import {Icon} from "../../Elements";
 import {SimpleLoader} from "../index";
 
 import './ProjectPicker.scss';
+import {ProjectTypes} from "../../Common/constants";
 
 class ProjectPicker extends Component {
     constructor(props) {
@@ -49,6 +50,9 @@ class ProjectPicker extends Component {
         const {project, projects, projectsLoaded} = this.props;
         const {projectsDropdownOpen} = this.state;
 
+        const sharedProjects = projects.filter(p => p.type === ProjectTypes.SHARED);
+        const privateProjects = projects.filter(p => p.type !== ProjectTypes.SHARED);
+
         return (
             <OutsideClickHandler onOutsideClick={this.closeProjectsDropdown}>
                 <div className="ProjectPicker HideMobile">
@@ -76,16 +80,32 @@ class ProjectPicker extends Component {
                             <SimpleLoader/>
                         </div>}
                         {projectsLoaded && <Fragment>
-                            {projects.map(projectItem => <Link key={projectItem.id} className={classNames(
-                                "ProjectDropdownItem",
-                                {"ProjectDropdownItem--Active": project && projectItem.id === project.id},
-                            )} to={projectItem.getUrlBase()} onClick={this.closeProjectsDropdown}>
-                                <Icon icon={projectItem.getIcon()} className="ProjectIcon"/>
-                                <div className="ProjectDropdownItem__General">
-                                    <div className="ProjectName">{projectItem.name}</div>
-                                    <div className="ProjectSlug">{projectItem.getDisplaySlug()}</div>
-                                </div>
-                            </Link>)}
+                            {sharedProjects.length > 0 && <Fragment>
+                                <h4 className="ProjectDropdownList__Heading">Shared Projects</h4>
+                                {sharedProjects.map(projectItem => <Link key={projectItem.id} className={classNames(
+                                    "ProjectDropdownItem",
+                                    {"ProjectDropdownItem--Active": project && projectItem.id === project.id},
+                                )} to={projectItem.getUrlBase()} onClick={this.closeProjectsDropdown}>
+                                    <Icon icon={projectItem.getIcon()} className="ProjectIcon"/>
+                                    <div className="ProjectDropdownItem__General">
+                                        <div className="ProjectName">{projectItem.name}</div>
+                                        <div className="ProjectSlug">{projectItem.getDisplaySlug()}</div>
+                                    </div>
+                                </Link>)}
+                            </Fragment>}
+                            {privateProjects.length > 0 && <Fragment>
+                                <h4 className="ProjectDropdownList__Heading">Personal Projects</h4>
+                                {privateProjects.map(projectItem => <Link key={projectItem.id} className={classNames(
+                                    "ProjectDropdownItem",
+                                    {"ProjectDropdownItem--Active": project && projectItem.id === project.id},
+                                )} to={projectItem.getUrlBase()} onClick={this.closeProjectsDropdown}>
+                                    <Icon icon={projectItem.getIcon()} className="ProjectIcon"/>
+                                    <div className="ProjectDropdownItem__General">
+                                        <div className="ProjectName">{projectItem.name}</div>
+                                        <div className="ProjectSlug">{projectItem.getDisplaySlug()}</div>
+                                    </div>
+                                </Link>)}
+                            </Fragment>}
                             <div className="ProjectDropdownDivider"/>
                             <Link className="ProjectDropdownItem" to="/project/create" onClick={this.closeProjectsDropdown}>
                                 <Icon icon="plus" className="ProjectIcon"/>
