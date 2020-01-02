@@ -94,10 +94,16 @@ class ProjectContract {
             revisions.push(...response.previous_versions.map(revisionResponse => ProjectContractRevision.buildFromResponse(revisionResponse)));
         }
 
+        let name = response.contract.contract_name;
+
+        if (response.display_name) {
+            name = response.display_name;
+        }
+
         return new ProjectContract({
             id: ProjectContract.generateId(projectId, contractId),
             projectId,
-            name: response.contract.contract_name,
+            name,
             network,
             mainRevision: contractId,
             revisions,
