@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
 
 import {NetworkApiToAppTypeMap} from "../../Common/constants";
@@ -66,6 +68,16 @@ class ProjectContract {
         const revision = this.getRevision(revisionId);
 
         return `/${username}/${slug}/contract/${networkRoute}/${revision.address}`;
+    }
+
+    update(data) {
+        const updatedData = Object.assign({}, this, _.omit(data, 'revisions'));
+
+        if (data.revisions) {
+            console.log(updatedData);
+        }
+
+        return new ProjectContract(updatedData);
     }
 
     /**

@@ -196,6 +196,7 @@ const ProjectReducer = (state = initialState, action) => {
             };
         case TOGGLE_CONTRACT_LISTENING_ACTION:
             // @TODO Handle contract revision fix
+            console.log(action);
             return {
                 ...state,
             };

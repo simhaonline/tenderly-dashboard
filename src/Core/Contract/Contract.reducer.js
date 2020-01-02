@@ -75,20 +75,6 @@ const ContractReducer = (state = initialState, action) => {
                     [contract.id]: EntityStatusTypes.LOADED,
                 },
             };
-        case TOGGLE_CONTRACT_LISTENING_ACTION:
-            const toggledContract = state.contracts[action.contract.id];
-
-            const toggleUpdatedContract = toggledContract.update({
-                listening: !toggledContract.listening,
-            });
-
-            return {
-                ...state,
-                contracts: {
-                    ...state.contracts,
-                    [toggledContract.id]: toggleUpdatedContract,
-                },
-            };
         case DELETE_CONTRACT_ACTION:
             const projectContractsMap = {
                 ...state.projectContractsMap,

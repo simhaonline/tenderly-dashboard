@@ -43,7 +43,7 @@ const ContractRevisions = ({projectContract, currentContract, contracts, onListe
                                 <Toggle value={revision.enabled} onChange={e => {
                                     e.stopPropagation();
                                     e.preventDefault();
-                                    onListenToggle(contract);
+                                    onListenToggle(revision);
                                 }}/>
                             </div>
                             <Button outline size="small" className="MarginLeft2">

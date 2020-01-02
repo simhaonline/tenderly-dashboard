@@ -85,7 +85,7 @@ class Contract extends Account {
     update(properties) {
         const updatedContract = new Contract({});
 
-        const updateableProperties = _.pick(properties, ['listening', 'parent']);
+        const updateableProperties = _.pick(properties, ['parent']);
 
         Object.assign(updatedContract, this, updateableProperties);
 

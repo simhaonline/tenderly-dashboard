@@ -59,6 +59,8 @@ class ProjectContractsPage extends Component {
     handleContractListeningToggle = (contract) => {
         const {actions, project} = this.props;
 
+        // @TODO see what to do here
+
         actions.toggleContractListening(project, contract);
     };
 

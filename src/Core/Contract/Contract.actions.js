@@ -168,33 +168,29 @@ export const fetchExampleContractsForTransaction = (projectId) => {
 /**
  *
  * @param {Project} project
- * @param {Contract} contract
+ * @param {ProjectContract} projectContract
+ * @param {ProjectContractRevision} revision
  */
-export const toggleContractListening = (project, contract) => {
-    return async dispatch => {
-        try {
-            const apiNetworkId = getApiIdForNetwork(contract.network);
+export const toggleContractListening = (project, projectContract, revision) => asyncActionWrapper( {
+    name: 'toggleContractListening',
+}, async dispatch => {
+    const apiNetworkId = getApiIdForNetwork(projectContract.network);
 
-            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contract.address}/toggle`);
+    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${revision.address}/toggle`);
 
-            if (!data || !data.success) {
-                return new ErrorActionResponse();
-            }
-
-            dispatch({
-                type: TOGGLE_CONTRACT_LISTENING_ACTION,
-                projectId: project.id,
-                contract: contract,
-                network: contract.network,
-            });
-
-            return new SuccessActionResponse();
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
+    if (!data || !data.success) {
+        return new ErrorActionResponse();
     }
-};
+
+    dispatch({
+        type: TOGGLE_CONTRACT_LISTENING_ACTION,
+        projectId: project.id,
+        projectContract,
+        revision,
+    });
+
+    return new SuccessActionResponse();
+});
 
 /**
  *

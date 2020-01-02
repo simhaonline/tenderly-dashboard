@@ -100,12 +100,12 @@ class ProjectContractPage extends Component {
     };
 
     /**
-     * @param {Contract} contract
+     * @param {ProjectContractRevision} revision
      */
-    handleContractListeningToggle = (contract) => {
-        const {actions, project} = this.props;
+    handleContractListeningToggle = (revision) => {
+        const {actions, project, projectContract} = this.props;
 
-        actions.toggleContractListening(project, contract);
+        actions.toggleContractListening(project, projectContract, revision);
     };
 
     /**
