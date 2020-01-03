@@ -29,12 +29,17 @@ button {
 
   &::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
     background-color: transparent;
   }
 
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: transparentize($Slate900, 0.6);
+
+    &:hover {
+      background-color: transparentize($Slate900, 0.2);
+    }
   }
 }
 

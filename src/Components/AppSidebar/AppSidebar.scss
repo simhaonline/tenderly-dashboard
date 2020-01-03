@@ -2,6 +2,15 @@
 
 #AppSidebar {
   padding: $Spacing6 0;
+
+  @media (max-width: 760px) {
+    padding: 0;
+
+    .SidebarContent {
+      display: flex;
+      padding: 0 $Spacing4;
+    }
+  }
 }
 
 .AppSidebar__NavGroup {
@@ -18,6 +27,10 @@
       color: $WhiteColor;
     }
   }
+
+  @media (max-width: 760px) {
+    padding: 0;
+  }
 }
 
 .AppSidebar__NavGroup__Heading {
@@ -25,9 +38,17 @@
   margin-bottom: $Spacing2;
   font-size: $FontSize200;
   text-transform: uppercase;
+
+  @media (max-width: 760px) {
+    display: none;
+  }
 }
 
-.AppSidebar__NavGroup__Links {}
+.AppSidebar__NavGroup__Links {
+  @media (max-width: 760px) {
+    display: flex;
+  }
+}
 
 .AppSidebar__NavGroup__Link {
   color: $WhiteColor;
@@ -36,6 +57,11 @@
   height: 40px;
   font-size: $FontSize400;
   padding: 0 $Spacing3;
+
+  @media (max-width: 760px) {
+    height: 59px;
+    padding: 0 $Spacing6;
+  }
 }
 
 .AppSidebar__NavGroup__Link--Active {
@@ -52,11 +78,19 @@
 
 .AppSidebar__NavGroup__Link__Icon {
   color: $Primary500;
+
+  @media (max-width: 760px) {
+    color: transparentize($WhiteColor, 0.2);
+  }
 }
 
 .AppSidebar__NavGroup__Link__Label {
   margin-left: $Spacing3;
   color: $WhiteColor;
+
+  @media (max-width: 760px) {
+    display: none;
+  }
 }
 
 .AppSidebar__NavGroup__SubLink {

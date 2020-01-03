@@ -53,4 +53,11 @@
     border-bottom: 1px solid $Slate700;
     margin: $Spacing4 $Spacing2 * -1;
   }
+
+  @media (max-width: 760px) {
+    margin-left: -1 * $Spacing4;
+    margin-right: -1 * $Spacing4;
+    width: initial;
+    border-radius: 0;
+  }
 }

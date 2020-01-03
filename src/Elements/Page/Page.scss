@@ -18,6 +18,11 @@
   @media (max-width: 1440px) {
     padding: 0 40px;
   }
+
+  @media (max-width: 760px) {
+    padding: 0 $Spacing4;
+    overflow-y: auto;
+  }
 }
 
 .Page__Tab {
@@ -40,6 +45,7 @@
 
 .Page__Tab__Label {
   color: $WhiteColor;
+  white-space: nowrap;
 }
 
 .Page__Tab__Icon {
