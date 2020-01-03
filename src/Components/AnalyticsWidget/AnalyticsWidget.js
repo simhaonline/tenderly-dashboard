@@ -42,7 +42,7 @@ class AnalyticsWidget extends Component {
         let dataResponse;
 
         if (isCustom) {
-            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, dashboard.id, widget.id);
+            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, dashboard.id, widget);
         }
 
         console.log(dataResponse);
@@ -76,16 +76,16 @@ class AnalyticsWidget extends Component {
                                 </div>
                             </div>
                         </div>
-                        {!isCustom && <div className="AnalyticsWidget__Header__SubInfo">
-                            <div>
+                        <div className="AnalyticsWidget__Header__SubInfo">
+                            {!!widget.time && <div>
                                 <Icon className="MarginRight1 MutedText" icon="calendar"/>
                                 <span>{getFormattedTimeRange(widget.time)}</span>
-                            </div>
-                            <div>
+                            </div>}
+                            {!!widget.resolution && <div>
                                 <Icon className="MarginRight1 MutedText" icon="clock"/>
                                 {getFormattedResolution(widget.resolution)}
-                            </div>
-                        </div>}
+                            </div>}
+                        </div>
                     </div>
                     {loading && <div className="AnalyticsWidget__Data AnalyticsWidget__Data--Loader">
                         <SimpleLoader/>

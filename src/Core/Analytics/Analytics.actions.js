@@ -100,12 +100,17 @@ export const fetchCustomAnalyticsForProject = (project) => asyncActionWrapper({
     return new SuccessActionResponse(dashboards);
 });
 
-export const fetchCustomAnalyticsWidgetDataForProject = (project, dashboardId, widgetId) => asyncActionWrapper({
+/**
+ * @param {Project} project
+ * @param {AnalyticsDashboard.id} dashboardId
+ * @param {Widget} widget
+ */
+export const fetchCustomAnalyticsWidgetDataForProject = (project, dashboardId, widget) => asyncActionWrapper({
     name: 'fetchCustomAnalyticsWidgetDataForProject',
 }, async () => {
-    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/custom-dashboard/${dashboardId}/${widgetId}/data`);
+    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/custom-dashboard/${dashboardId}/${widget.id}/data`, Widget.transformToApiPayloadForData(widget));
 
-    console.log(widgetId, data);
+    console.log(widget, data);
 
     return new SuccessActionResponse();
 });
