@@ -11,8 +11,6 @@ class ProjectAnalyticsDashboard extends Component {
     render() {
         const {dashboard, project} = this.props;
 
-        console.log(dashboard);
-
         return (
             <div className="ProjectAnalyticsDashboard">
                 {(dashboard && dashboard.widgets.length > 0) && <div className="ProjectAnalyticsDashboard__WidgetsWrapper">

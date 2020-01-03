@@ -32,7 +32,7 @@ class AnalyticsWidget extends Component {
 
         this.state = {
             loading: true,
-            data: [],
+            widgetData: null,
         };
     }
 
@@ -45,12 +45,20 @@ class AnalyticsWidget extends Component {
             dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, dashboard.id, widget);
         }
 
-        console.log(dataResponse);
+        if (!dataResponse.success) {
+            // @TODO Set error state
+            return ;
+        }
+
+        this.setState({
+            loading: false,
+            widgetData: dataResponse.data,
+        })
     }
 
     render() {
         const {widget, project, isCustom} = this.props;
-        const {loading} = this.state;
+        const {loading, widgetData} = this.state;
 
         return (
             <div className={classNames(
@@ -94,7 +102,10 @@ class AnalyticsWidget extends Component {
                         "AnalyticsWidget__Data",
                         `AnalyticsWidget__Data--${widget.type}`,
                     )}>
-                        <AnalyticsWidgetChart dataPoints={widget.dataPoints} widget={widget} data={widget.data} type={widget.type}/>
+                        {!!widgetData && <AnalyticsWidgetChart dataPoints={widgetData.dataPoints} widget={widget} data={widgetData.data}/>}
+                        {!widgetData && <div>
+                            No data
+                        </div>}
                     </div>}
                     {!isCustom && <div className="AnalyticsWidget__Footer">
                         <div className="AnalyticsWidget__Footer__DataInfo">

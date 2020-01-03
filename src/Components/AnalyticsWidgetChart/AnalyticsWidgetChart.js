@@ -44,10 +44,10 @@ class AnalyticsWidgetTooltip extends PureComponent {
     }
 }
 
-const AnalyticsWidgetChart = ({widget, type: widgetType, data: widgetData, dataPoints: widgetDataPoints}) => {
+const AnalyticsWidgetChart = ({widget, data: widgetData, dataPoints: widgetDataPoints}) => {
     let dataMetadata;
 
-    if ([AnalyticsWidgetTypes.LIST].includes(widgetType)) {
+    if ([AnalyticsWidgetTypes.LIST].includes(widget.type)) {
         dataMetadata = widgetDataPoints.reduce((data, dataPoint) => {
             if (dataPoint.type === AnalyticsWidgetListTypeColumnTypes.BAR) {
                 data[dataPoint.key] = {
@@ -61,7 +61,7 @@ const AnalyticsWidgetChart = ({widget, type: widgetType, data: widgetData, dataP
 
     return (
         <div className="AnalyticsWidgetChart" style={{width: '100%', height: '100%'}}>
-            {widgetType === AnalyticsWidgetTypes.STACKED_CHART && <Fragment>
+            {widget.type === AnalyticsWidgetTypes.STACKED_CHART && <Fragment>
                 <ResponsiveContainer debounce={100}>
                     <AreaChart data={widgetData} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                         <defs>
@@ -79,7 +79,7 @@ const AnalyticsWidgetChart = ({widget, type: widgetType, data: widgetData, dataP
                     </AreaChart>
                 </ResponsiveContainer>
             </Fragment>}
-            {widgetType === AnalyticsWidgetTypes.LINE_CHART && <Fragment>
+            {widget.type === AnalyticsWidgetTypes.LINE_CHART && <Fragment>
                 <ResponsiveContainer debounce={100}>
                     <AreaChart data={widgetData} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                         <defs>
@@ -98,7 +98,7 @@ const AnalyticsWidgetChart = ({widget, type: widgetType, data: widgetData, dataP
                     </AreaChart>
                 </ResponsiveContainer>
             </Fragment>}
-            {widgetType === AnalyticsWidgetTypes.LIST && <Fragment>
+            {widget.type === AnalyticsWidgetTypes.LIST && <Fragment>
                 <div className="AnalyticsWidget__Data__ListHeader">
                     {widgetDataPoints.map(point => <div key={point.key} style={{flex: `${point.size} ${point.size} 0px`}} className="AnalyticsWidget__Data__ListColumn">
                         {point.name}
@@ -124,7 +124,7 @@ const AnalyticsWidgetChart = ({widget, type: widgetType, data: widgetData, dataP
                     </div>)}
                 </div>
             </Fragment>}
-            {widgetType === AnalyticsWidgetTypes.BAR_CHART && <Fragment>
+            {widget.type === AnalyticsWidgetTypes.BAR_CHART && <Fragment>
                 <ResponsiveContainer debounce={100}>
                     <BarChart data={widgetData} margin={{ top: 24, right: 0, bottom: 0, left: 0 }}>
                         <RechartsTooltip cursor={{fill: 'rgba(15, 39, 67, 0.75)'}} content={<AnalyticsWidgetTooltip/>}/>

@@ -17,6 +17,7 @@ class ProjectAnalyticsPage extends Component {
         this.state = {
             loading: true,
             hasCustom: false,
+            dashboards: [],
         }
     }
 
@@ -47,10 +48,13 @@ class ProjectAnalyticsPage extends Component {
 
     render() {
         const {project, accountPlan} = this.props;
-        const {loading, currentDashboard, hasCustom} = this.state;
+        const {loading, currentDashboard, dashboards, hasCustom} = this.state;
 
         return (
-            <Page id="ProjectPage">
+            <Page id="ProjectPage" tabs={dashboards.map(d => ({
+                route: `${project.getUrlBase()}/analytics?dashboard=${d.id}`,
+                label: d.name,
+            }))}>
                 <Container>
                     <PageHeading>
                         <h1>Analytics</h1>

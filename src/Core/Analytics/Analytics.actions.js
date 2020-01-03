@@ -110,7 +110,7 @@ export const fetchCustomAnalyticsWidgetDataForProject = (project, dashboardId, w
 }, async () => {
     const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/custom-dashboard/${dashboardId}/${widget.id}/data`, Widget.transformToApiPayloadForData(widget));
 
-    console.log(widget, data);
+    const widgetData = data.widget;
 
-    return new SuccessActionResponse();
+    return new SuccessActionResponse(widgetData);
 });
