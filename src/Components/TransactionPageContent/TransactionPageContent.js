@@ -89,8 +89,6 @@ class TransactionPageContent extends PureComponent {
             return null;
         }
 
-        console.log(selectedTrace);
-
         return (
             <div className="TransactionPageContent">
                 <Switch>

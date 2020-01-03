@@ -89,11 +89,8 @@ export const fetchCustomAnalyticsForProject = (project) => asyncActionWrapper({
     const dashboards = [];
 
     data.dashboards.forEach(dashboardResponse => {
-        console.log(dashboardResponse);
         dashboards.push(AnalyticsDashboard.buildFromResponse(dashboardResponse, project.id, true));
     });
-
-    console.log(dashboards);
 
     dispatch({
         type: FETCH_CUSTOM_ANALYTICS_FOR_PROJECT_ACTION,

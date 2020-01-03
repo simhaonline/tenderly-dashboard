@@ -31,7 +31,6 @@ class AnalyticsDashboard {
      * @returns {AnalyticsDashboard}
      */
     static buildFromResponse(response, projectId, isCustom = false) {
-        console.log(response);
         return new AnalyticsDashboard({
             id: response.id,
             projectId,
