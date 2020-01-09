@@ -33,7 +33,7 @@ class ContractFiles extends Component {
         return (
             <FullWidthContainer>
                 <div className="ContractFiles">
-                    <div className="ContractFiles__FilesList">
+                    {contract.files.length>1 && <div className="ContractFiles__FilesList">
                         {contract.files.map(file => <div key={file.id}
                                                          onClick={() => this.setSelectedFile(file)}
                                                          className={classNames(
@@ -43,7 +43,7 @@ class ContractFiles extends Component {
                             <Icon icon="file-text" className="FileIcon"/>
                             <span className="FileName">{file.getFileName()}</span>
                         </div>)}
-                    </div>
+                    </div>}
                     {!!selectedFile && <div className="ContractFiles__CodeWrapper">
                         <CodePreview line={line} file={selectedFile}/>
                     </div>}
