@@ -29,6 +29,7 @@ export {default as NotificationDestination} from './Notification/NotificationDes
 export {default as SearchResults} from './Search/SearchResult.model';
 
 export {default as Widget} from './Analytics/Widget.model';
+export {default as WidgetData} from './Analytics/WidgetData.model';
 export {default as AnalyticsDashboard} from './Analytics/AnalyticsDashboard.model';
 
 export {default as Plan} from './Billing/Plan.model';

@@ -3,7 +3,7 @@ import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
-import {AnalyticsDashboard, Widget} from "../models";
+import {AnalyticsDashboard, Widget, WidgetData} from "../models";
 
 export const FETCH_ANALYTICS_FOR_PROJECT_ACTION = 'FETCH_ANALYTICS_FOR_PROJECT';
 export const FETCH_CUSTOM_ANALYTICS_FOR_PROJECT_ACTION = 'FETCH_CUSTOM_ANALYTICS_FOR_PROJECT';
@@ -110,7 +110,12 @@ export const fetchCustomAnalyticsWidgetDataForProject = (project, dashboardId, w
 }, async () => {
     const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/custom-dashboard/${dashboardId}/${widget.id}/data`, Widget.transformToApiPayloadForData(widget));
 
-    const widgetData = data.widget;
+    if (!data || !data.widget) {
+        return new SuccessActionResponse(null);
+    }
+
+    const widgetData = WidgetData.buildFromResponse(data.widget);
+
 
     return new SuccessActionResponse(widgetData);
 });
