@@ -11,7 +11,6 @@ class WidgetData {
         const data = [];
         const dataPoints = [];
 
-
         Object.values(response).forEach(widgetResponse => {
             const legendItems = widgetResponse.legend && widgetResponse.legend.items ? Object.keys(widgetResponse.legend.items) : [];
             const colorScale = chroma.scale(['#0069E0', '#ADD3FF']).correctLightness();

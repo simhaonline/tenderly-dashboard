@@ -7,8 +7,9 @@ import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors"
 
 import {analyticsActions} from "../../Core/actions";
 
-import {Container, Page, PageHeading} from "../../Elements";
-import {PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
+import {Container, Page, PageHeading, Panel} from "../../Elements";
+
+import {EmptyState, PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
 
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
@@ -66,7 +67,11 @@ class ProjectAnalyticsPage extends Component {
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
                     {!loading && hasCustom && <ProjectAnalyticsDashboard dashboard={currentDashboard} project={project}/>}
-                    {!loading && !hasCustom && <div>nista cekaj</div>}
+                    {!loading && !hasCustom && <div>
+                        <Panel>
+                            <EmptyState title="Coming soon" description="Analytics is currently under development" icon="bar-chart-2" />
+                        </Panel>
+                    </div>}
                 </Container>
             </Page>
         )
