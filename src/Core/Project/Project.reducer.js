@@ -7,7 +7,7 @@ import {
 } from "./Project.actions";
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {
-    ADD_TAG_TO_CONTRACT_REVISION_ACTION,
+    ADD_TAG_TO_CONTRACT_REVISION_ACTION, DELETE_CONTRACT_ACTION,
     FETCH_CONTRACTS_FOR_PROJECT_ACTION,
     TOGGLE_CONTRACT_LISTENING_ACTION
 } from "../Contract/Contract.actions";
@@ -230,6 +230,29 @@ const ProjectReducer = (state = initialState, action) => {
                 },
             };
         }
+        case DELETE_CONTRACT_ACTION:
+            const existingDeletedContract = getProjectContractForRevision({project: state}, action.projectId, action.revisionId);
+
+            const updatedDeletedContract = existingDeletedContract.update({
+                revisions: {
+                    [action.revisionId]: null
+                },
+            });
+
+            const newProjectContracts = state.projectContracts[action.projectId].filter(pc => pc.id !== updatedDeletedContract.id);
+
+            if(updatedDeletedContract.revisions.length>0){
+                newProjectContracts.push(updatedDeletedContract);
+            }
+
+            return {
+                ...state,
+                projectContracts: {
+                    ...state.projectContracts,
+                    [action.projectId]: newProjectContracts
+                },
+            };
+
         default:
             return state;
     }

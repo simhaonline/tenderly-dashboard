@@ -109,18 +109,16 @@ class ProjectContractPage extends Component {
     };
 
     /**
-     * @param {Contract} contract
+     * @param {ProjectContractRevision} revision
      */
-    handleContractDelete = async (contract) => {
+    handleContractDelete = async (revision) => {
         const {actions, project} = this.props;
 
-        const response = await actions.deleteContract(project, contract.address, contract.network);
+        actions.deleteContract(project, revision);
 
-        if (response.success) {
             this.setState({
                 contractRemoved: true,
             });
-        }
     };
 
     handleContractAction = async (action) => {

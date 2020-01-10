@@ -195,21 +195,20 @@ export const toggleContractListening = (project, projectContract, revision) => a
 /**
  *
  * @param {Project} project
- * @param {string} contractAddress
- * @param {NetworkTypes} network
+ * @param {ProjectContractRevision} projectContractRevision
  */
-export const deleteContract = (project, contractAddress, network) => {
+export const deleteContract = (project, projectContractRevision) => {
     return async dispatch => {
         try {
-            const apiNetworkId = getApiIdForNetwork(network);
+            const apiNetworkId = getApiIdForNetwork(projectContractRevision.network);
 
-            await Api.delete(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}`);
+            await Api.delete(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${projectContractRevision.address}`);
 
             dispatch({
                 type: DELETE_CONTRACT_ACTION,
                 projectId: project.id,
-                contractId: Contract.generateUniqueId(contractAddress, network),
-                network,
+                revisionId: projectContractRevision.id,
+                network: projectContractRevision.network,
             });
 
             return new SuccessActionResponse();

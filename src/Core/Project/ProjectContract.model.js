@@ -77,6 +77,11 @@ class ProjectContract {
             Object.keys(data.revisions).forEach(revisionId => {
                 const revisionData = data.revisions[revisionId];
 
+                if(revisionData===null){
+                    updatedData.revisions = updatedData.revisions.filter(ur=> ur.id !== revisionId);
+                    return
+                }
+
                 const updatedRevision = this.getRevision(revisionId).update(revisionData);
 
                 updatedData.revisions = _.xorBy(updatedData.revisions, [updatedRevision], 'id');
