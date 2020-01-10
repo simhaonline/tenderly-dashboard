@@ -27,7 +27,7 @@
 }
 
 .LoginPage__ContentDivider {
-  flex: 0 0 6px;
+  flex: 0 0 3px;
   background: $GradientBluePurple;
 }
 
@@ -40,8 +40,11 @@
   justify-content: space-between;
 }
 
+.LoginPage__FeaturesContent__Heading{
+  padding: $Spacing4 $Spacing7;
+}
+
 .LoginPage__FeaturesContent__Companies {
-  margin-top: auto;
   opacity: 0.5;
 }
 
