@@ -25,12 +25,20 @@ class ProjectContractActions extends Component {
         })
     };
 
-    handleAction = (actionName) => {
+    closeAllModal = () => {
+        this.setState({
+            toggleModalOpen: false,
+            deleteModalOpen: false
+        })
+    };
+
+    handleAction = async (actionName) => {
         const {onAction, contract} = this.props;
-        onAction({
+        await onAction({
             type: actionName,
             contract,
         });
+        this.closeAllModal();
     };
 
     viewTransactionsForContract = () => {

@@ -102,10 +102,10 @@ class ProjectContractPage extends Component {
     /**
      * @param {ProjectContractRevision} revision
      */
-    handleContractListeningToggle = (revision) => {
+    handleContractListeningToggle = async (revision) => {
         const {actions, project, projectContract} = this.props;
 
-        actions.toggleContractListening(project, projectContract, revision);
+        await actions.toggleContractListening(project, projectContract, revision);
     };
 
     /**
@@ -123,8 +123,19 @@ class ProjectContractPage extends Component {
         }
     };
 
-    handleContractAction = (actionType) => {
-    console.log(actionType)
+    handleContractAction = async (action) => {
+        const {projectContract} = this.props;
+
+        switch (action.type) {
+            case 'toggle_contract':
+                const revision = projectContract.getRevision(action.contract.id);
+                await this.handleContractListeningToggle(revision);
+                break;
+            case 'delete_contract':
+                await this.handleContractDelete(action.contract);
+                break;
+        }
+
     };
 
     render() {
@@ -162,8 +173,7 @@ class ProjectContractPage extends Component {
                                 <ProjectContractActions onAction={this.handleContractAction} project={project} contract={contract} projectContract={projectContract} />
                             </Fragment>}/>
                             <Route path="/:username/:slug/contract/:network/:address/files" exact render={() => <ContractFiles contract={contract}/>}/>
-                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions projectContract={projectContract} currentContract={contract} contracts={revisions}
-                                                                                                                                       onDelete={this.handleContractDelete}
+                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions projectContract={projectContract} currentContract={contract} contracts={revisions} onDelete={this.handleContractDelete}
                                                                                                                                        onListenToggle={this.handleContractListeningToggle}/>}/>
                         </Switch>
                     </Fragment>}
