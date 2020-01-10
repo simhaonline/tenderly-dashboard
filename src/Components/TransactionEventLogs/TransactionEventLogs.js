@@ -56,7 +56,7 @@ class TransactionEventLog extends PureComponent {
         const {inputData, contract, showData, rawData} = this.state;
 
         return (
-            <Card color="dark" className="TransactionEventLog">
+            <Card className="TransactionEventLog">
                 <div className="DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
                     <div>
                         {!!eventLog.name && <h3>{eventLog.name}</h3>}

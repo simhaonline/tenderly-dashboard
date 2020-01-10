@@ -203,7 +203,7 @@ class TraceDebugger extends Component {
                         </div>}
                     </div>
                     <div className="MarginBottom2 DisplayFlex">
-                        <div id="DebuggerButton__GoBack" className="MarginRight1">
+                        <div id="DebuggerButton__GoBack" className="MarginRight1 MarginLeft4" >
                             <Button size="small" outline={!this.canGoBack()} disabled={!this.canGoBack()} onClick={this.goBack}>
                                 <Icon icon={GO_BACK_ICON}/>
                                 <span>Jump Up</span>
