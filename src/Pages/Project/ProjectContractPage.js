@@ -124,7 +124,7 @@ class ProjectContractPage extends Component {
     };
 
     handleContractAction = (actionType) => {
-
+    console.log(actionType)
     };
 
     render() {
@@ -159,7 +159,7 @@ class ProjectContractPage extends Component {
                         <Switch>
                             <Route path="/:username/:slug/contract/:network/:address" exact render={() => <Fragment>
                                 <ContractInformation contract={contract} projectContract={projectContract} project={project}/>
-                                <ProjectContractActions onAction={this.handleContractAction}/>
+                                <ProjectContractActions onAction={this.handleContractAction} project={project} contract={contract} projectContract={projectContract} />
                             </Fragment>}/>
                             <Route path="/:username/:slug/contract/:network/:address/files" exact render={() => <ContractFiles contract={contract}/>}/>
                             <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions projectContract={projectContract} currentContract={contract} contracts={revisions}
