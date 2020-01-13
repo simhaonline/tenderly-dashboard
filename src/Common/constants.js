@@ -181,6 +181,49 @@ export const AnalyticsWidgetTypes = {
     LIST: 'LIST',
 };
 
+export const AnalyticsDataAggregationTypes = {
+    COUNT : 'count',
+    SUM: 'sum',
+    AVG: 'avg',
+    MEDIAN: 'median',
+    MIN: 'min',
+    MAX: 'max',
+    UNIQUE: 'unique'
+};
+
+export const AnalyticsDataSourceTypes = {
+    TRANSACTIONS: 'ethereum_transactions',
+    TRANSACTION_LOGS: 'ethereum_transaction_logs'
+};
+
+export const AnalyticsTransactionDataTypes = {
+    ADDRESS: 'address',
+    BLOCK_HASH: 'block_hash',
+    BLOCK_NUMBER: 'block_number',
+    TRANSACTION_INDEX: 'transaction_index',
+    TRANSACTION_HASH: 'transaction_hash',
+    TRANSACTION_STATUS: 'transaction_status',
+    FROM: 'from',
+    TO: 'to',
+    GAS: 'gas',
+    GAS_PRICE: 'gas_price',
+    GAS_USED: 'gas_used',
+    GAS_USED_TOTAL: 'gas_used_total',
+    CUMULATIVE_GAS_USED: 'cumulative_gas_used',
+    FUNCTION_SIGNATURE: 'function_signature',
+    VALUE: 'value',
+    CONTRACT_ADDRESS: 'contract_address'
+};
+
+export const AnalyticsTransactionLogDataTypes = {
+    ADDRESS: 'address',
+    BLOCK_HASH: 'block_hash',
+    BLOCK_NUMBER: 'block_number',
+    TRANSACTION_INDEX: 'transaction_index',
+    TRANSACTION_HASH: 'transaction_hash',
+    LOG_SIGNATURE: 'log_signature'
+};
+
 export const AnalyticsWidgetListTypeColumnTypes = {
     VALUE: 'VALUE',
     COUNT: 'COUNT',
