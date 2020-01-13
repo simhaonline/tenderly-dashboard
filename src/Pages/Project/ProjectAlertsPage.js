@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Route, Switch} from "react-router-dom";
 import {bindActionCreators} from "redux";
@@ -17,12 +17,13 @@ import {
     ProjectAlertDestinations,
     ProjectAlertRules,
     ProjectSetupEmptyState,
-    PermissionControl,
+    PermissionControl, ExampleProjectInfoModal,
 } from "../../Components";
 
 class ProjectAlertsPage extends Component {
     state = {
         loaded: false,
+        exampleProjectModalOpen: false,
     };
 
     async componentDidMount() {
@@ -37,10 +38,16 @@ class ProjectAlertsPage extends Component {
         });
     }
 
+    setExampleProjectModalOpen = (value) => {
+        this.setState({
+            exampleProjectModalOpen: value,
+        })
+    };
+
     render() {
         const {project, contracts} = this.props;
-        const {loaded} = this.state;
-
+        const {loaded, exampleProjectModalOpen} = this.state;
+        const isDemoProject = project.isDemoProject();
         const projectIsSetup = contracts.length > 0;
 
         return (
@@ -49,11 +56,20 @@ class ProjectAlertsPage extends Component {
                     <PageHeading>
                         <h1>Alerting</h1>
                         <div className="MarginLeftAuto">
-                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.CREATE_ALERT}>
+                            {!isDemoProject && <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.CREATE_ALERT}>
                                 <Button onClick={() => Analytics.trackEvent('create_alert_button_clicked')} to={`/${project.owner}/${project.slug}/alerts/rules/create`}>
                                     <span>New Alert</span>
                                 </Button>
-                            </PermissionControl>
+                            </PermissionControl>}
+                            {isDemoProject && <Fragment>
+                                <Button onClick={()=>this.setExampleProjectModalOpen(true)}>
+                                    <span>New Alert</span>
+                                </Button>
+                                <ExampleProjectInfoModal header="Example Project"
+                                                         description="This is just an example project to illustrate what the platform can do. If you wish to setup alerting for your contracts first create a project and your contracts to that project."
+                                                         onClose={()=>this.setExampleProjectModalOpen(false)}
+                                                         open={exampleProjectModalOpen}/>
+                            </Fragment>}
                         </div>
                     </PageHeading>
                     {!projectIsSetup && loaded && <ProjectSetupEmptyState project={project}/>}
