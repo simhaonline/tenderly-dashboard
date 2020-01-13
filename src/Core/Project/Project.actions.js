@@ -14,6 +14,7 @@ import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelecto
 import {formatProjectSlug} from "../../Utils/Formatters";
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 import {asyncActionWrapper} from "../../Utils/ActionHelpers";
+import ProjectContract from "./ProjectContract.model";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -83,15 +84,21 @@ export const dispatchExampleProject = (dispatch, user) => {
     }, user, ProjectTypes.DEMO);
 
     const exampleContracts = [
-        Contract.buildFromResponse(exampleContract1Payload, {
+        Contract.buildFromResponse(exampleContract1Payload.contract, {
             id: exampleProject.id,
             listening: true,
         }),
-        Contract.buildFromResponse(exampleContract2Payload, {
+        Contract.buildFromResponse(exampleContract2Payload.contract, {
             id: exampleProject.id,
             listening: true,
         })
     ];
+
+    const exampleProjectContracts = [
+        ProjectContract.buildFromResponse(exampleContract1Payload, exampleProject.id, exampleContracts[0].id),
+        ProjectContract.buildFromResponse(exampleContract2Payload, exampleProject.id, exampleContracts[1].id)
+    ];
+
 
     dispatch({
         type: CREATE_EXAMPLE_PROJECT_ACTION,
@@ -99,6 +106,7 @@ export const dispatchExampleProject = (dispatch, user) => {
         projectId: exampleProject.id,
         contractTags: {},
         contracts: exampleContracts,
+        projectContracts: exampleProjectContracts,
         page: 1,
     });
 

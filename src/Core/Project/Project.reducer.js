@@ -60,6 +60,10 @@ const ProjectReducer = (state = initialState, action) => {
                     ...state.projects,
                     [action.project.id]: action.project,
                 },
+                projectContracts: {
+                    ...state.projectContracts,
+                    [action.projectId]: action.projectContracts,
+                },
                 contractsStatus: {
                     ...state.contractsStatus,
                     [action.project.id]: EntityStatusTypes.LOADED,

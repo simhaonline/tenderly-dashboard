@@ -62,46 +62,52 @@ export const exampleProjectPayload = {
 };
 
 export const exampleContract1Payload = {
-    address: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
-    contract_name: 'ExampleContract',
-    network_id: NetworkAppToApiTypeMap[NetworkTypes.MAIN],
-    created_at: Date.now(),
-    public: false,
-    number_of_exceptions: 1,
-    data: {
-        source: exampleContractSource,
-        contract_info: [
-            {
-                id: 0,
-                name: 'MainContract.sol',
-                path: 'MainContract.sol',
-                source: exampleContractSource,
-            }
-        ],
-        main_contract: 0,
+    contract: {
+        address: '0x06012c8cf97bead5deae237070f9587f8e7a266a',
+        contract_name: 'ExampleContract',
+        network_id: NetworkAppToApiTypeMap[NetworkTypes.MAIN],
+        created_at: Date.now(),
+        public: false,
+        number_of_exceptions: 1,
+        data: {
+            source: exampleContractSource,
+            contract_info: [
+                {
+                    id: 0,
+                    name: 'MainContract.sol',
+                    path: 'MainContract.sol',
+                    source: exampleContractSource,
+                }
+            ],
+            main_contract: 0,
+        },
     },
+    include_in_transaction_listing: true,
 };
 
 export const exampleContract2Payload = {
-    address: '0x4B17B0750920ABA4ECf5aFCD4C7d4985F8180f7B',
-    contract_name: 'ExampleContract',
-    network_id: NetworkAppToApiTypeMap[NetworkTypes.KOVAN],
-    created_at: Date.now(),
-    public: false,
-    last_event_occurred_at: Date.now(),
-    number_of_exceptions: 0,
-    data: {
-        source: exampleContractSource,
-        contract_info: [
-            {
-                id: 0,
-                name: 'MainContract.sol',
-                path: 'MainContract.sol',
-                source: exampleContractSource,
-            }
-        ],
-        main_contract: 0,
+    contract: {
+        address: '0x4B17B0750920ABA4ECf5aFCD4C7d4985F8180f7B',
+        contract_name: 'ExampleContract',
+        network_id: NetworkAppToApiTypeMap[NetworkTypes.KOVAN],
+        created_at: Date.now(),
+        public: false,
+        last_event_occurred_at: Date.now(),
+        number_of_exceptions: 0,
+        data: {
+            source: exampleContractSource,
+            contract_info: [
+                {
+                    id: 0,
+                    name: 'MainContract.sol',
+                    path: 'MainContract.sol',
+                    source: exampleContractSource,
+                }
+            ],
+            main_contract: 0,
+        },
     },
+    include_in_transaction_listing: true,
 };
 
 export const exampleTransaction1Paylod = {
