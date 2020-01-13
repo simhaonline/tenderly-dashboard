@@ -103,7 +103,7 @@ class ProjectContractsPage extends Component {
                                 <Button onClick={this.handleOpenExampleProjectInfoModal}>
                                     <span>Add Contract</span>
                                 </Button>
-                                <ExampleProjectInfoModal header="Example Project" description="This is just an example project to illustrate what the platform can do. If you wish to add a contract first create a project." onClose={this.handleCloseExampleProjectInfoModal} open={createProjectModalOpen}/>
+                                    <ExampleProjectInfoModal header="Example Project" description="This is just an example project to illustrate what the platform can do. If you wish to add a contract first create a project." onClose={this.handleCloseExampleProjectInfoModal} open={createProjectModalOpen}/>
                             </Fragment>}
                         </div>}
                     </PageHeading>
