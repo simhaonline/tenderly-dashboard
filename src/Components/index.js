@@ -85,6 +85,7 @@ export {default as ProjectAnalyticsDashboard} from './ProjectAnalyticsDashboard/
 export {default as AnalyticsWidget} from './AnalyticsWidget/AnalyticsWidget';
 export {default as AnalyticsWidgetChart} from './AnalyticsWidgetChart/AnalyticsWidgetChart';
 export {default as AnalyticsDataView} from './AnalyticsDataView/AnalyticsDataView';
+export {default as GraphPropertiesForm} from './GraphPropertiesForm/GraphPropertiesForm'
 
 // Project Alerts
 export {default as ProjectAlertRules} from './ProjectAlertRules/ProjectAlertRules';

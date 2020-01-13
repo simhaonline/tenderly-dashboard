@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 
 import {Button, Icon, Page, PageHeading, Panel, PanelContent} from "../../Elements";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {GraphPropertiesForm} from "../../Components";
 
 class ProjectCreateGraphPage extends Component {
     render() {
@@ -17,14 +18,7 @@ class ProjectCreateGraphPage extends Component {
                     <h1>Create Graph</h1>
                 </PageHeading>
                 <div className="DisplayFlex">
-                    <Panel className="MarginRight4 MaxWidth480">
-                        <PanelContent>
-                            <h4>Property</h4>
-                            <h4>Breakdown</h4>
-                            <h4>Aggregation</h4>
-                            <h4>Time Range</h4>
-                        </PanelContent>
-                    </Panel>
+                    <GraphPropertiesForm/>
                     <Panel>
                         <PanelContent>
                             <Icon icon="pie-chart"/>
