@@ -64,7 +64,7 @@ class ProjectAnalyticsPage extends Component {
                     {!loading && hasCustom && <ProjectAnalyticsDashboard dashboard={currentDashboard} project={project}/>}
                     {!loading && !hasCustom && <div>
                         <Panel>
-                            <EmptyState title="Coming soon" description="Analytics is currently under development" icon="bar-chart-2" />
+                            <EmptyState title="Coming soon" description="The analytics feature is currently under development" icon="bar-chart-2" />
                         </Panel>
                     </div>}
                 </Container>
