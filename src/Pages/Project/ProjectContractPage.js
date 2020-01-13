@@ -171,7 +171,7 @@ class ProjectContractPage extends Component {
                                 <ProjectContractActions onAction={this.handleContractAction} project={project} contract={contract} projectContract={projectContract} />
                             </Fragment>}/>
                             <Route path="/:username/:slug/contract/:network/:address/files" exact render={() => <ContractFiles contract={contract}/>}/>
-                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions projectContract={projectContract} currentContract={contract} contracts={revisions} onDelete={this.handleContractDelete}
+                            <Route path="/:username/:slug/contract/:network/:address/revisions" exact render={() => <ContractRevisions project={project} projectContract={projectContract} currentContract={contract} contracts={revisions} onDelete={this.handleContractDelete}
                                                                                                                                        onListenToggle={this.handleContractListeningToggle}/>}/>
                         </Switch>
                     </Fragment>}
