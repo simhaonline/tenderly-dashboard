@@ -58,7 +58,7 @@ class ProjectTransactionPage extends Component {
                 },
                 {
                     route: `${routeBase}/logs`,
-                    label: 'Events / Logs',
+                    label: 'Events',
                     icon: 'bookmark',
                 },
                 {
@@ -200,8 +200,6 @@ class ProjectTransactionPage extends Component {
                 </Page>
             );
         }
-
-
 
         const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
 
