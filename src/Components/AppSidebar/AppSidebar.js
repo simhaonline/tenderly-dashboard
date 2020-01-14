@@ -127,7 +127,7 @@ class AppSidebar extends Component {
                     </div>
                 </div>}
 
-                <div className="AppSidebar__NavGroup">
+                {!!project && <div className="AppSidebar__NavGroup">
                     <div className="AppSidebar__NavGroup__Heading">
                         <span>Monitoring</span>
                     </div>
@@ -146,7 +146,7 @@ class AppSidebar extends Component {
                             <AppSidebarLink to={`${routeBase}/private-networks`} icon="layers" label="Private Networks"/>
                         </FeatureFlag>
                     </div>
-                </div>
+                </div>}
                 {!!project && <div className="AppSidebar__NavGroup">
                     <div className="AppSidebar__NavGroup__Heading">
                         <span>Project</span>
