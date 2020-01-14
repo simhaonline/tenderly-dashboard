@@ -174,6 +174,7 @@ export const ProjectTypes = {
 
 export const AnalyticsWidgetTypes = {
     LINE_CHART: 'line_chart',
+    TABLE: 'table',
     STACKED_CHART: 'stacked_chart',
     BAR_CHART: 'BAR_CHART',
     PIE_CHART: 'LINE_CHART',

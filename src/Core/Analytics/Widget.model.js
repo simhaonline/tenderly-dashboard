@@ -101,7 +101,7 @@ class Widget {
 
         if (isCustom) {
             widgetData = {
-                type: AnalyticsWidgetTypes.LINE_CHART,
+                type: response.display_settings.chart_type,
                 size: AnalyticsWidgetSizeTypes.TWO,
                 resolution: AnalyticsWidgetResolutionTypes.HOUR,
                 time: {

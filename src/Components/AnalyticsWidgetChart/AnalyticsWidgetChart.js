@@ -124,6 +124,17 @@ const AnalyticsWidgetChart = ({widget, data: widgetData, dataPoints: widgetDataP
                     </div>)}
                 </div>
             </Fragment>}
+            {widget.type === AnalyticsWidgetTypes.TABLE && <Fragment>
+                <div className="AnalyticsWidget__Data__ListItems">
+                    {widgetData.map((datum,index) => {
+                        const dataKey = Object.keys(datum)[0];
+                        return <div key={index} className="AnalyticsWidget__Data__ListItem">
+                            <div className="AnalyticsWidget__Data__ListColumn">{dataKey}</div>
+                            <div className="AnalyticsWidget__Data__ListColumn">{datum[dataKey]}</div>
+                        </div>
+                    })}
+                </div>
+            </Fragment>}
             {widget.type === AnalyticsWidgetTypes.BAR_CHART && <Fragment>
                 <ResponsiveContainer debounce={100}>
                     <BarChart data={widgetData} margin={{ top: 24, right: 0, bottom: 0, left: 0 }}>
