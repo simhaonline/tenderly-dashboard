@@ -123,8 +123,6 @@ class TransactionEventLogs extends PureComponent {
         eventLogs.forEach(eventLog => {
             const eventLogName = eventLog.name || "Unknown";
 
-            console.log(eventLog)
-
             if (!eventNameOptions[eventLogName]) {
                 eventNameOptions[eventLogName] = {
                     value: eventLog.name,
