@@ -81,6 +81,19 @@ class ProjectTransactionPage extends Component {
     }
 
     async componentDidMount() {
+        this.fetchTransaction()
+    }
+
+    async componentDidUpdate(prevProps,prevState) {
+        const {txHash, networkType} = this.props;
+        if (txHash !== prevProps.txHash || networkType !== prevProps.networkType){
+            this.setState({
+                loading: true,
+            }, this.fetchTransaction)
+        }
+    }
+
+    fetchTransaction = async () => {
         const {project, transaction, callTrace, contractActions, txActions, txHash, networkType} = this.props;
 
         let txContracts = [];
@@ -123,7 +136,7 @@ class ProjectTransactionPage extends Component {
             loading: false,
             txContracts,
         });
-    }
+    };
 
     render() {
         const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project, txHash, networkType} = this.props;
@@ -188,6 +201,8 @@ class ProjectTransactionPage extends Component {
             );
         }
 
+
+
         const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
 
         return (
@@ -201,7 +216,7 @@ class ProjectTransactionPage extends Component {
                             <h1>Transaction</h1>
                             <div className="MonospaceFont">{generateShortAddress(txHash, 12, 8)}</div>
                         </div>
-                        <div className="RightContent">
+                        {!!transaction && <div className="RightContent">
                             {canBeViewedOnExplorer && <SharePageButton url={`${DASHBOARD_BASE_URL}/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`}
                                                                        onCopyMessage="Copied link to the public transaction page"/>}
                             <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={transaction.network} value={transaction.txHash}>
@@ -210,11 +225,11 @@ class ProjectTransactionPage extends Component {
                                     <span>View in Explorer</span>
                                 </Button>
                             </EtherscanLink>
-                        </div>
+                        </div>}
                     </PageHeading>
-                    <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace}
+                    {!!transaction && <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace}
                                             callTrace={callTrace} project={project} eventLogs={eventLogs}
-                                            stateDiffs={stateDiffs}/>
+                                            stateDiffs={stateDiffs}/>}
                 </Container>
             </Page>
         );
