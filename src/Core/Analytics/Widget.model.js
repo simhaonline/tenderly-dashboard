@@ -31,6 +31,9 @@ class Widget {
         /** @type {Object[]} */
         this.show = data.show;
 
+        /** @type {AnalyticsDataSourceTypes} */
+        this.dataSource = data.dataSource;
+
         /** @type {AnalyticsWidgetResolutionTypes} */
         this.resolution = data.resolution;
     }

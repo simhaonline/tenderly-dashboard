@@ -6,6 +6,9 @@ import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelecto
 import {GraphPropertiesForm} from "../../Components";
 
 class ProjectCreateGraphPage extends Component {
+    handleGraphUpdate = (widget) => {
+        console.log(widget)
+    };
     render() {
         const {project} = this.props;
 
@@ -18,7 +21,7 @@ class ProjectCreateGraphPage extends Component {
                     <h1>Create Graph</h1>
                 </PageHeading>
                 <div className="DisplayFlex">
-                    <GraphPropertiesForm/>
+                    <GraphPropertiesForm onUpdate={this.handleGraphUpdate}/>
                     <Panel>
                         <PanelContent>
                             <Icon icon="pie-chart"/>
