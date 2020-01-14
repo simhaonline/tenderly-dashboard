@@ -1,10 +1,19 @@
 import chroma from "chroma-js";
+import _ from "lodash";
+
 
 class WidgetData {
 
     constructor(data) {
         this.data = data.data;
         this.dataPoints = data.dataPoints;
+    }
+
+    static generateLabelForDataPoint(widgetResponse, key){
+        if (!key){
+            return 'default'
+        }
+        return key;
     }
 
     static buildFromResponse(response) {
@@ -16,12 +25,12 @@ class WidgetData {
             const colorScale = chroma.scale(['#0069E0', '#ADD3FF']).correctLightness();
 
             if (widgetResponse.data) {
-                data.push(...widgetResponse.data)
+                data.push(..._.reverse(widgetResponse.data))
             }
 
             dataPoints.push(...legendItems.map((itemKey, index) => ({
                 key: itemKey,
-                name: itemKey,
+                name: WidgetData.generateLabelForDataPoint(widgetResponse, itemKey),
                 color: colorScale(1 / (Math.max(legendItems.length - 1, 1)) * index).hex(),
                 meta: widgetResponse.legend.items[itemKey].labels,
             })))

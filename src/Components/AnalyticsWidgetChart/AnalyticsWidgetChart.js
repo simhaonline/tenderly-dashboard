@@ -33,7 +33,7 @@ class AnalyticsWidgetTooltip extends PureComponent {
 
         return <div className="AnalyticsWidgetTooltip">
             <div className="MarginBottom1">
-                <span className="SemiBoldText">{getFormattedDateForResolution(payload[0].payload.date, widget.resolution)}</span>
+                <span className="SemiBoldText">{getFormattedDateForResolution(payload[0].payload.timestamp *1000, widget.resolution)}</span>
             </div>
             {_.orderBy(payload, 'value', 'desc').map(load => <div key={load.dataKey} className="AnalyticsWidgetTooltip__LegendItem">
                 <div style={{backgroundColor: load.color}} className="AnalyticsWidgetTooltip__Dot"/>

@@ -3,20 +3,29 @@ import {connect} from "react-redux";
 
 import {Button, Icon, Page, PageHeading, Panel, PanelContent} from "../../Elements";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
-import {GraphPropertiesForm} from "../../Components";
+import {AnalyticsWidgetChart, GraphPropertiesForm} from "../../Components";
 import {bindActionCreators} from "redux";
 import {analyticsActions} from "../../Core/actions";
 
 class ProjectCreateGraphPage extends Component {
+    state = {
+        widgetData: null
+    };
     handleGraphUpdate = async (widget) => {
         const {analyticsActions, project} = this.props;
 
         const response = await analyticsActions.fetchWidgetDataForProject(project,widget)
-        console.log(response)
 
+        if(response.success){
+            this.setState({
+                widgetData: response.data,
+                widget,
+            })
+        }
     };
     render() {
         const {project} = this.props;
+        const {widgetData,widget} = this.state;
 
         return (
             <Page>
@@ -29,10 +38,7 @@ class ProjectCreateGraphPage extends Component {
                 <div className="DisplayFlex">
                     <GraphPropertiesForm onUpdate={this.handleGraphUpdate}/>
                     <Panel>
-                        <PanelContent>
-                            <Icon icon="pie-chart"/>
-                            <span>Select an property to display in the chart</span>
-                        </PanelContent>
+                        {!!widgetData && <AnalyticsWidgetChart dataPoints={widgetData.dataPoints} widget={widget} data={widgetData.data}/>}
                     </Panel>
                 </div>
             </Page>
