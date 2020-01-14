@@ -11,7 +11,10 @@ class WidgetData {
 
     static generateLabelForDataPoint(widgetResponse, key){
         if (!key){
-            return 'default'
+            const selector = widgetResponse.selectors[0].selector;
+            if (!!selector){
+                return `${selector.field} - ${selector.aggregate}`
+            }
         }
         return key;
     }

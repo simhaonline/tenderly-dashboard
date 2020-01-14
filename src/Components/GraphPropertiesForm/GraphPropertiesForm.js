@@ -31,6 +31,11 @@ const dataSourceOptions = [{
     }
 ];
 
+const dataAggregationOptions = Object.values(AnalyticsDataAggregationTypes).map(aggregation => ({
+    value: aggregation,
+    label: aggregation,
+}));
+
 const resolutionOptions = Object.values(AnalyticsWidgetResolutionTypes).map(resolution=> ({
     value: resolution,
     label: TimeUnitLabelMap[resolution],
@@ -56,21 +61,25 @@ class GraphPropertiesForm extends PureComponent {
         dataType: null,
         time: null,
         resolution: null,
-        sourceType: null
+        sourceType: null,
+        aggregation: null
     };
 
     handleDataTypeChange = (value) => {
-        const {time, resolution} = this.state;
+        const {time, resolution, aggregation} = this.state;
 
         const newTime = time || timeWindowOptions.find(option => option.value === 'last_7_days');
 
-        const newResolution = resolution || resolutionOptions.find(option=> option.value===AnalyticsWidgetResolutionTypes.DAY)
+        const newResolution = resolution || resolutionOptions.find(option=> option.value===AnalyticsWidgetResolutionTypes.DAY);
+        const newAggregation = aggregation || dataAggregationOptions.find(option => option.value === AnalyticsDataAggregationTypes.COUNT);
 
         this.setState({
             dataType: value,
             time: newTime,
-            resolution: newResolution
+            resolution: newResolution,
+            aggregation: newAggregation,
         },this.propagateGraphChanges)
+
 
 
     };
@@ -80,6 +89,11 @@ class GraphPropertiesForm extends PureComponent {
             resolution: value
         },this.propagateGraphChanges)
     };
+    handleAggregationChange = (value) => {
+        this.setState({
+            aggregation: value
+        },this.propagateGraphChanges)
+    };
     handleTimeWindowChange = (value) => {
         this.setState({
             time: value
@@ -87,7 +101,7 @@ class GraphPropertiesForm extends PureComponent {
     };
 
     propagateGraphChanges = () => {
-        const {dataType, time, resolution} = this.state;
+        const {dataType, time, resolution, aggregation} = this.state;
         const {onUpdate} = this.props;
         const widgetData = {};
         switch (time.value) {
@@ -120,7 +134,7 @@ class GraphPropertiesForm extends PureComponent {
         widgetData.type = AnalyticsWidgetTypes.LINE_CHART;
         widgetData.dataSource = dataType.dataSource;
         widgetData.show = [{
-            aggregation: AnalyticsDataAggregationTypes.UNIQUE,
+            aggregation: aggregation.value,
             property: dataType.type,
         }];
         const widget = new Widget(widgetData);
@@ -128,13 +142,15 @@ class GraphPropertiesForm extends PureComponent {
     };
 
     render() {
-        const {dataType, time, resolution} = this.state;
+        const {dataType, time, resolution,aggregation} = this.state;
         return (
             <Panel className="MarginRight4 MaxWidth480">
                 <PanelContent>
                     <h4>Property</h4>
                     <div>
                         <Select options={dataSourceOptions} value={dataType} onChange={this.handleDataTypeChange}/>
+                        {!!dataType && <Select options={dataAggregationOptions} value={aggregation} onChange={this.handleAggregationChange}/>}
+
                     </div>
                     <h4>Breakdown</h4>
                     <h4>Aggregation</h4>

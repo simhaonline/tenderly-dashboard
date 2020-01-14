@@ -24,7 +24,7 @@ class ProjectCreateGraphPage extends Component {
         }
     };
     render() {
-        const {project} = this.props;
+         const {project} = this.props;
         const {widgetData,widget} = this.state;
 
         return (
