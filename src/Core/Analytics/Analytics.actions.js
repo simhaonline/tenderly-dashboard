@@ -76,6 +76,26 @@ export const fetchAnalyticsWidgetForProject = (project, widgetId) => asyncAction
 
 /**
  * @param {Project} project
+ * @param {Widget} widget
+ */
+export const fetchWidgetDataForProject = (project, widget) => asyncActionWrapper({
+    name: 'fetchWidgetDataForProject',
+}, async () => {
+    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/data`, Widget.transformToApiPayloadForData(widget));
+
+    if (!data || !data.widget) {
+        return new SuccessActionResponse(null);
+    }
+
+    const widgetData = WidgetData.buildFromResponse(data.widget);
+
+
+    return new SuccessActionResponse(widgetData);
+});
+
+
+/**
+ * @param {Project} project
  */
 export const fetchCustomAnalyticsForProject = (project) => asyncActionWrapper({
     name: 'fetchCustomAnalyticsForProject',

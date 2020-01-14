@@ -54,6 +54,19 @@ class Widget {
             };
         }
 
+        if (widget.dataSource){
+            data.table = widget.dataSource;
+        }
+
+        if (widget.show && widget.show.length>0){
+            data.selectors = widget.show.map(showProperty => ({
+                selector: {
+                    aggregate: showProperty.aggregation,
+                    field: showProperty.property
+                }
+            }))
+        }
+
         if (widget.resolution) {
             data.resolution = widget.resolution;
         }

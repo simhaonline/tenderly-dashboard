@@ -4,10 +4,16 @@ import {connect} from "react-redux";
 import {Button, Icon, Page, PageHeading, Panel, PanelContent} from "../../Elements";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {GraphPropertiesForm} from "../../Components";
+import {bindActionCreators} from "redux";
+import {analyticsActions} from "../../Core/actions";
 
 class ProjectCreateGraphPage extends Component {
-    handleGraphUpdate = (widget) => {
-        console.log(widget)
+    handleGraphUpdate = async (widget) => {
+        const {analyticsActions, project} = this.props;
+
+        const response = await analyticsActions.fetchWidgetDataForProject(project,widget)
+        console.log(response)
+
     };
     render() {
         const {project} = this.props;
@@ -44,6 +50,13 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        analyticsActions: bindActionCreators(analyticsActions, dispatch)
+    }
+}
+
 export default connect(
     mapStateToProps,
+    mapDispatchToProps
 )(ProjectCreateGraphPage);
