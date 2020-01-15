@@ -206,11 +206,11 @@ class GraphPropertiesForm extends PureComponent {
                     <h4>Property</h4>
                     <div>
                         <Select options={dataSourceOptions} value={dataType} onChange={this.handleDataTypeChange}/>
-                        {!!dataType && <Select options={dataAggregationOptions} value={aggregation} onChange={this.handleAggregationChange}/>}
+                        {!!dataType && !dataType.custom && <Select options={dataAggregationOptions} value={aggregation} onChange={this.handleAggregationChange}/>}
 
                     </div>
                     <h4>Breakdown</h4>
-                    {!!dataType && <Select options={dataBreakdownOptions} value={breakdown} onChange={this.handleBreakdownChange}/>}
+                    {!!dataType && <Select isClearable options={dataBreakdownOptions} value={breakdown} onChange={this.handleBreakdownChange}/>}
                     <h4>Aggregation</h4>
                     <h4>Time Range</h4>
                     <div>
