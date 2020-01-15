@@ -244,6 +244,11 @@ export const AnalyticsWidgetSizeTypes = {
     FOUR: 4,
 };
 
+export const AnalyticsDataBreakdownTypes = {
+    CONTRACT_TO: 'contract_to',
+    TX_STATUS: 'transaction_status',
+};
+
 export const AnalyticsWidgetDataRangeTypes = {
     LAST_7_DAYS: 'LAST_7_DAYS',
     LAST_14_DAYS: 'LAST_14_DAYS',

@@ -78,10 +78,13 @@ class Widget {
             data.resolution = widget.resolution;
         }
 
+        if(widget.group && widget.group.length > 0){
+            data.group_by = widget.group;
+        }
+
         data.display_settings = {
             chart_type: widget.type,
         };
-
         return data;
     }
 
@@ -94,7 +97,6 @@ class Widget {
                 },
             }
         }
-
         return {};
     }
 

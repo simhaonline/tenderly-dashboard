@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {Panel, PanelContent, Select} from "../../Elements";
 import {
-    AnalyticsDataAggregationTypes,
+    AnalyticsDataAggregationTypes, AnalyticsDataBreakdownTypes,
     AnalyticsDataSourceTypes, AnalyticsTransactionCustomDataTypes,
     AnalyticsTransactionDataTypes,
     AnalyticsTransactionLogDataTypes,
@@ -39,6 +39,11 @@ const dataSourceOptions = [{
         }))
     }
 ];
+
+const dataBreakdownOptions = Object.values(AnalyticsDataBreakdownTypes).map(breakdownType => ({
+    value: breakdownType,
+    label: breakdownType
+}));
 
 const dataAggregationOptions = Object.values(AnalyticsDataAggregationTypes).map(aggregation => ({
     value: aggregation,
@@ -83,7 +88,8 @@ class GraphPropertiesForm extends PureComponent {
         time: null,
         resolution: null,
         sourceType: null,
-        aggregation: null
+        aggregation: null,
+        breakdown: null,
     };
 
     handleDataTypeChange = (value) => {
@@ -99,30 +105,32 @@ class GraphPropertiesForm extends PureComponent {
             time: newTime,
             resolution: newResolution,
             aggregation: newAggregation,
-        },this.propagateGraphChanges)
-
-
-
+        },this.propagateGraphChanges);
     };
 
     handleResolutionChange = (value) => {
         this.setState({
             resolution: value
-        },this.propagateGraphChanges)
+        },this.propagateGraphChanges);
     };
     handleAggregationChange = (value) => {
         this.setState({
             aggregation: value
-        },this.propagateGraphChanges)
+        },this.propagateGraphChanges);
+    };
+    handleBreakdownChange = (value) => {
+        this.setState({
+            breakdown: value
+        },this.propagateGraphChanges);
     };
     handleTimeWindowChange = (value) => {
         this.setState({
             time: value
-        },this.propagateGraphChanges)
+        },this.propagateGraphChanges);
     };
 
     propagateGraphChanges = () => {
-        const {dataType, time, resolution, aggregation} = this.state;
+        const {dataType, time, resolution, aggregation, breakdown} = this.state;
         const {onUpdate} = this.props;
         const widgetData = {};
         switch (time.value) {
@@ -183,12 +191,15 @@ class GraphPropertiesForm extends PureComponent {
             property: dataType.type,
             custom: !!dataType.custom,
         }];
+        if(breakdown){
+            widgetData.group = [breakdown.value];
+        }
         const widget = new Widget(widgetData);
         onUpdate(widget);
     };
 
     render() {
-        const {dataType, time, resolution,aggregation} = this.state;
+        const {dataType, time, resolution,aggregation,breakdown} = this.state;
         return (
             <Panel className="MarginRight4 MaxWidth480">
                 <PanelContent>
@@ -199,6 +210,7 @@ class GraphPropertiesForm extends PureComponent {
 
                     </div>
                     <h4>Breakdown</h4>
+                    {!!dataType && <Select options={dataBreakdownOptions} value={breakdown} onChange={this.handleBreakdownChange}/>}
                     <h4>Aggregation</h4>
                     <h4>Time Range</h4>
                     <div>
