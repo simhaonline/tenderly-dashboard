@@ -28,7 +28,7 @@ class WidgetData {
             const colorScale = chroma.scale(['#0069E0', '#ADD3FF']).correctLightness();
 
             if (widgetResponse.data) {
-                data.push(..._.reverse(widgetResponse.data))
+                data.push(...widgetResponse.data)
             }
 
             dataPoints.push(...legendItems.map((itemKey, index) => ({
