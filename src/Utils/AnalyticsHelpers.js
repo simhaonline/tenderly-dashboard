@@ -8,6 +8,8 @@ import {AnalyticsWidgetResolutionTypes, TimeUnitLabelMap} from "../Common/consta
  */
 export function getFormattedDateForResolution(date, resolution) {
     switch (resolution) {
+        case AnalyticsWidgetResolutionTypes.MINUTE:
+            return moment(date).format('HH:mm, MMM DD');
         case AnalyticsWidgetResolutionTypes.HOUR:
             return moment(date).format('HH[h], MMM DD');
         case AnalyticsWidgetResolutionTypes.DAY:

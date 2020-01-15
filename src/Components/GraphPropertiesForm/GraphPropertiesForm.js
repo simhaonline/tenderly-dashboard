@@ -43,6 +43,10 @@ const resolutionOptions = Object.values(AnalyticsWidgetResolutionTypes).map(reso
 
 const timeWindowOptions = [
     {
+        label: 'Last day',
+        value: 'last_1_day',
+    },
+    {
         label: 'Last 7 days',
         value: 'last_7_days'
     },
@@ -105,6 +109,14 @@ class GraphPropertiesForm extends PureComponent {
         const {onUpdate} = this.props;
         const widgetData = {};
         switch (time.value) {
+            case 'last_1_day':
+                widgetData.time = {
+                    window: {
+                        unit: TimeUnitTypes.DAY,
+                        value: 1,
+                    },
+                };
+                break;
             case 'last_7_days':
                 widgetData.time = {
                     window: {
