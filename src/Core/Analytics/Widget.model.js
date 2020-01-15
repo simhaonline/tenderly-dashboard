@@ -59,12 +59,19 @@ class Widget {
         }
 
         if (widget.show && widget.show.length>0){
-            data.selectors = widget.show.map(showProperty => ({
-                selector: {
-                    aggregate: showProperty.aggregation,
-                    field: showProperty.property
+            data.selectors = widget.show.map(showProperty => {
+                if (showProperty.custom){
+                    return {
+                        predefined_selector: showProperty.property,
+                    }
                 }
-            }))
+                return {
+                    selector: {
+                        aggregate: showProperty.aggregation,
+                        field: showProperty.property
+                    }
+                }
+            })
         }
 
         if (widget.resolution) {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Panel, PanelContent, Select} from "../../Elements";
 import {
     AnalyticsDataAggregationTypes,
-    AnalyticsDataSourceTypes,
+    AnalyticsDataSourceTypes, AnalyticsTransactionCustomDataTypes,
     AnalyticsTransactionDataTypes,
     AnalyticsTransactionLogDataTypes,
     AnalyticsWidgetResolutionTypes, AnalyticsWidgetTypes, TimeUnitLabelMap,
@@ -13,12 +13,21 @@ import {Widget} from "../../Core/models";
 
 const dataSourceOptions = [{
    label: 'Transaction',
-   options: Object.values(AnalyticsTransactionDataTypes).map(dataType=> ({
-       value: dataType + AnalyticsDataSourceTypes.TRANSACTIONS,
-       label: dataType,
-       type: dataType,
-       dataSource: AnalyticsDataSourceTypes.TRANSACTIONS
-   }))
+   options: [
+       ...Object.values(AnalyticsTransactionCustomDataTypes).map(dataType=> ({
+           value: dataType + AnalyticsDataSourceTypes.TRANSACTIONS,
+           label: dataType,
+           type: dataType,
+           custom: true,
+           dataSource: AnalyticsDataSourceTypes.TRANSACTIONS
+       })),
+       ...Object.values(AnalyticsTransactionDataTypes).map(dataType=> ({
+           value: dataType + AnalyticsDataSourceTypes.TRANSACTIONS,
+           label: dataType,
+           type: dataType,
+           dataSource: AnalyticsDataSourceTypes.TRANSACTIONS
+       }))
+   ]
 },
     {
         label: 'Event',
@@ -172,6 +181,7 @@ class GraphPropertiesForm extends PureComponent {
         widgetData.show = [{
             aggregation: aggregation.value,
             property: dataType.type,
+            custom: !!dataType.custom,
         }];
         const widget = new Widget(widgetData);
         onUpdate(widget);

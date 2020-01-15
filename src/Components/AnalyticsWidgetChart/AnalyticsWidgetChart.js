@@ -80,7 +80,7 @@ const AnalyticsWidgetChart = ({widget, data: widgetData, dataPoints: widgetDataP
                 </ResponsiveContainer>
             </Fragment>}
             {widget.type === AnalyticsWidgetTypes.LINE_CHART && <div>
-                <ResponsiveContainer debounce={100} height={300}>
+                <ResponsiveContainer debounce={100} height={264}>
                     <AreaChart data={widgetData} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                         <defs>
                             {widgetDataPoints.map(point =>

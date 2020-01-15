@@ -197,6 +197,11 @@ export const AnalyticsDataSourceTypes = {
     TRANSACTION_LOGS: 'ethereum_transaction_logs'
 };
 
+export const AnalyticsTransactionCustomDataTypes = {
+    CALL_COUNT: 'call_count',
+    TX_COUNT: 'tx_count'
+};
+
 export const AnalyticsTransactionDataTypes = {
     ADDRESS: 'address',
     BLOCK_HASH: 'block_hash',

@@ -1,6 +1,4 @@
 import chroma from "chroma-js";
-import _ from "lodash";
-
 
 class WidgetData {
 
@@ -14,6 +12,11 @@ class WidgetData {
             const selector = widgetResponse.selectors[0].selector;
             if (!!selector){
                 return `${selector.field} - ${selector.aggregate}`
+            }
+
+            const customSelector = widgetResponse.selectors[0].predefined_selector;
+            if (!!customSelector) {
+                return customSelector;
             }
         }
         return key;
