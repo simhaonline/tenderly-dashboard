@@ -129,7 +129,9 @@ const AnalyticsWidgetChart = ({widget, data: widgetData, dataPoints: widgetDataP
                     {widgetData.map((datum,index) => {
                         const dataKey = Object.keys(datum)[0];
                         return <div key={index} className="AnalyticsWidget__Data__ListItem">
-                            <div className="AnalyticsWidget__Data__ListColumn" style={{flex: `2 2 0px`}}>{dataKey}</div>
+                            <div className="AnalyticsWidget__Data__ListColumn" style={{flex: `2 2 0px`}}>
+                                <span className='MonospaceFont'>{dataKey.toLowerCase()}</span>
+                            </div>
                             <div className="AnalyticsWidget__Data__ListColumn TextAlignRight" style={{flex: `2 2 0px`}}>
                                 <span className='MonospaceFont LinkText'>{datum[dataKey].toLocaleString()}</span>
                             </div>
