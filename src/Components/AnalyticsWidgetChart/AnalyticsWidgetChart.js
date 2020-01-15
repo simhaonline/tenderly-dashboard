@@ -79,8 +79,8 @@ const AnalyticsWidgetChart = ({widget, data: widgetData, dataPoints: widgetDataP
                     </AreaChart>
                 </ResponsiveContainer>
             </Fragment>}
-            {widget.type === AnalyticsWidgetTypes.LINE_CHART && <Fragment>
-                <ResponsiveContainer debounce={100}>
+            {widget.type === AnalyticsWidgetTypes.LINE_CHART && <div>
+                <ResponsiveContainer debounce={100} height={300}>
                     <AreaChart data={widgetData} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                         <defs>
                             {widgetDataPoints.map(point =>
@@ -97,7 +97,15 @@ const AnalyticsWidgetChart = ({widget, data: widgetData, dataPoints: widgetDataP
                         )}
                     </AreaChart>
                 </ResponsiveContainer>
-            </Fragment>}
+                <div className='DisplayFlex JustifyContentSpaceBetween AlignItemsCenter Padding1'>
+                    <div>
+                        {getFormattedDateForResolution(widgetData[0].timestamp *1000, widget.resolution)}
+                    </div>
+                    <div>
+                        {getFormattedDateForResolution(widgetData[widgetData.length-1].timestamp *1000, widget.resolution)}
+                    </div>
+                </div>
+            </div>}
             {widget.type === AnalyticsWidgetTypes.LIST && <Fragment>
                 <div className="AnalyticsWidget__Data__ListHeader">
                     {widgetDataPoints.map(point => <div key={point.key} style={{flex: `${point.size} ${point.size} 0px`}} className="AnalyticsWidget__Data__ListColumn">
