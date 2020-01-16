@@ -20,7 +20,7 @@ class AnalyticsDashboard {
         /** @type {Widget.id[]} */
         this.widgetOrder = data.widgetOrder;
 
-        /** @type {Object.<Widget.id, Widget>} */
+        /** @type {Widget[]} */
         this.widgets = data.widgets;
     }
 

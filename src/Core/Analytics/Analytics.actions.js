@@ -115,6 +115,7 @@ export const fetchCustomAnalyticsForProject = (project) => asyncActionWrapper({
     dispatch({
         type: FETCH_CUSTOM_ANALYTICS_FOR_PROJECT_ACTION,
         dashboards,
+        projectId: project.id,
     });
 
     return new SuccessActionResponse(dashboards);
