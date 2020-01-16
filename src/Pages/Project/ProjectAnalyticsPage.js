@@ -10,6 +10,10 @@ import {analyticsActions} from "../../Core/actions";
 import {Container, Page, PageHeading, Panel} from "../../Elements";
 
 import {EmptyState, PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
+import {
+    areCustomDashboardsLoadedForProject,
+    getCustomDashboardsForProject
+} from "../../Common/Selectors/AnalyticsSelectors";
 
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
@@ -23,36 +27,42 @@ class ProjectAnalyticsPage extends Component {
     }
 
     async componentDidMount() {
-        const {analyticsActions, project} = this.props;
+        const {analyticsActions, project, loadedDashboards, customDashboards} = this.props;
+        if(loadedDashboards){
+            return this.setState({
+                currentDashboard: customDashboards[0]
 
+            })
+        }
         const analyticsResponse = await analyticsActions.fetchCustomAnalyticsForProject(project);
 
         if (!analyticsResponse.success) {
-            return this.setState({
-                loading: false,
-            });
-        }
-
-        let dashboards = [];
-
-        if (analyticsResponse.success) {
-            dashboards = analyticsResponse.data;
+            return;
         }
 
         this.setState({
-            loading: false,
-            hasCustom: true,
-            currentDashboard: dashboards[0],
-            dashboards,
+            currentDashboard:  analyticsResponse.data[0],
         });
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {loadedDashboards, customDashboards} = this.props;
+        if(prevProps.loadedDashboards!== loadedDashboards){
+            this.setState({
+                currentDashboard: customDashboards[0]
+            })
+        }
+    }
+
     render() {
-        const {project, accountPlan} = this.props;
-        const {loading, currentDashboard, dashboards, hasCustom} = this.state;
+        const {project, accountPlan, loadedDashboards, customDashboards} = this.props;
+        const {currentDashboard} = this.state;
+
+        const loading = !loadedDashboards || !currentDashboard;
+
 
         return (
-            <Page id="ProjectPage" tabs={dashboards.map(d => ({
+            <Page id="ProjectPage" tabs={customDashboards.map(d => ({
                 route: `${project.getUrlBase()}/analytics?dashboard=${d.id}`,
                 label: d.name,
             }))}>
@@ -66,8 +76,8 @@ class ProjectAnalyticsPage extends Component {
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && dashboards.length>0 && <ProjectAnalyticsDashboard dashboard={currentDashboard} project={project}/>}
-                    {!loading && dashboards.length===0 && <div>
+                    {!loading && customDashboards.length>0 && <ProjectAnalyticsDashboard dashboard={currentDashboard} project={project}/>}
+                    {!loading && customDashboards.length===0 && <div>
                         <Panel>
                             <EmptyState title="Coming soon" description="The analytics feature is currently under development" icon="bar-chart-2" />
                         </Panel>
@@ -86,6 +96,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         project,
         accountPlan: getAccountPlanForProject(state, project),
+        loadedDashboards: areCustomDashboardsLoadedForProject(state, project.id),
+        customDashboards: getCustomDashboardsForProject(state,project.id)
     }
 };
 
