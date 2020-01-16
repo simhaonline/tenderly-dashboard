@@ -37,7 +37,7 @@ class AnalyticsDashboard {
             isCustom: isCustom,
             name: response.name,
             index: response.index,
-            widgets: response.analytics_widgets.map(widgetResponse => Widget.buildFromResponse(widgetResponse, isCustom)),
+            widgets: response.analytics_widgets.map(widgetResponse => Widget.buildFromResponse(widgetResponse, response.id, isCustom)),
         });
     }
 }

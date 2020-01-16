@@ -16,6 +16,8 @@ class Widget {
         /** @type {AlertRule.id[]} */
         this.alerts = data.alerts;
 
+        this.dashboardId = data.dashboardId;
+
         /** @type {AnalyticsWidgetTypes} */
         this.type = data.type;
 
@@ -105,7 +107,7 @@ class Widget {
      * @param {boolean} isCustom
      * @returns {Widget}
      */
-    static buildFromResponse(response, isCustom = false) {
+    static buildFromResponse(response, dashboardId, isCustom = false) {
         let widgetData = {};
 
         if (isCustom) {
@@ -142,6 +144,7 @@ class Widget {
         return new Widget({
             id: response.id,
             name: response.name,
+            dashboardId: dashboardId,
             ...widgetData,
         });
     }

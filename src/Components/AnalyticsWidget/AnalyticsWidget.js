@@ -37,12 +37,12 @@ class AnalyticsWidget extends Component {
     }
 
     async componentDidMount() {
-        const {isCustom, analyticsActions, widget, dashboard, project} = this.props;
+        const {isCustom, analyticsActions, widget, project} = this.props;
 
         let dataResponse;
 
         if (isCustom) {
-            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, dashboard.id, widget);
+            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
         }
 
         if (!dataResponse.success) {

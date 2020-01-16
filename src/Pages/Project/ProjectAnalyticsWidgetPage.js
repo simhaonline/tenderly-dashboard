@@ -8,54 +8,40 @@ import {analyticsActions} from "../../Core/actions";
 
 import {Button, Container, Icon, Panel, PanelContent, Page, PageHeading} from "../../Elements";
 import {AnalyticsDataView, ProjectContentLoader} from "../../Components";
+import {
+    areCustomDashboardsLoadedForProject,
+    getCustomDashboardWidgetForProject
+} from "../../Common/Selectors/AnalyticsSelectors";
 
 class ProjectAnalyticsWidgetPage extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            loading: true,
-        }
-    }
 
     async componentDidMount() {
-        const {analyticsActions, project, match: {params: {widgetId}}} = this.props;
-
-        const analyticsResponse = await analyticsActions.fetchAnalyticsWidgetForProject(project, widgetId);
-
-        let widget = null;
-
-        if (analyticsResponse.success) {
-            widget = analyticsResponse.data.widget;
+        const {analyticsActions, project, loadedDashboards} = this.props;
+        if(!loadedDashboards){
+            analyticsActions.fetchCustomAnalyticsForProject(project);
         }
-
-        this.setState({
-            loading: false,
-            widget,
-        });
     }
 
     render() {
-        const {project} = this.props;
-        const {loading, widget} = this.state;
+        const {project, loadedDashboards, analyticsWidget } = this.props;
 
         return (
             <Page id="ProjectPage">
                 <Container>
-                    {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && <Fragment>
+                    {!loadedDashboards && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
+                    {loadedDashboards && <Fragment>
                         <PageHeading>
                             <Button outline to={`${project.getUrlBase()}/analytics`}>
                                 <Icon icon="arrow-left"/>
                             </Button>
-                            <h1>{widget.name}</h1>
+                            <h1>{analyticsWidget.name}</h1>
                         </PageHeading>
                         <Panel>
                             <PanelContent>
                                 <span>asd</span>
                             </PanelContent>
                         </Panel>
-                        <AnalyticsDataView widget={widget}/>
+                        <AnalyticsDataView widget={analyticsWidget} project={project}/>
                     </Fragment>}
                 </Container>
             </Page>
@@ -64,10 +50,13 @@ class ProjectAnalyticsWidgetPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {username, slug}}} = ownProps;
+    const {match: {params: {username, slug, widgetId}}} = ownProps;
+    const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
-        project: getProjectBySlugAndUsername(state, slug, username),
+        project,
+        loadedDashboards: areCustomDashboardsLoadedForProject(state, project.id),
+        analyticsWidget: getCustomDashboardWidgetForProject(state, project.id, widgetId)
     }
 };
 
