@@ -174,5 +174,7 @@ $AnalyticsWidgetSizeUnit: 200px;
 }
 
 .AnalyticsWidgetTooltip__LegendItem__Value {
+  padding-left: $Spacing2;
   font-weight: 600;
+  margin-left: auto;
 }

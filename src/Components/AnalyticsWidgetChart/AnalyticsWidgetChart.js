@@ -27,7 +27,7 @@ import {AnalyticsWidgetListTypeColumnTypes, AnalyticsWidgetTypes} from "../../Co
  */
 class AnalyticsWidgetTooltip extends PureComponent {
     render() {
-        const {active, payload, widget} = this.props;
+        const {active, payload, widget, dataPoints} = this.props;
 
         if (!active || !payload) return null;
 
@@ -35,11 +35,21 @@ class AnalyticsWidgetTooltip extends PureComponent {
             <div className="MarginBottom1">
                 <span className="SemiBoldText">{getFormattedDateForResolution(payload[0].payload.timestamp *1000, widget.resolution)}</span>
             </div>
-            {_.orderBy(payload, 'value', 'desc').map(load => <div key={load.dataKey} className="AnalyticsWidgetTooltip__LegendItem">
-                <div style={{backgroundColor: load.color}} className="AnalyticsWidgetTooltip__Dot"/>
-                <span className="AnalyticsWidgetTooltip__LegendItem__Label">{load.name}:</span>
-                <span className="AnalyticsWidgetTooltip__LegendItem__Value">{load.value}</span>
-            </div>)}
+            {_.orderBy(payload, 'value', 'desc').map(load => {
+                const loadData = dataPoints.find(point => point.key === load.dataKey);
+
+                return <div key={load.dataKey} className="AnalyticsWidgetTooltip__LegendItem">
+                    <div style={{backgroundColor: load.color}} className="AnalyticsWidgetTooltip__Dot"/>
+                    <span className="AnalyticsWidgetTooltip__LegendItem__Label">
+                        {!!loadData.meta && Object.keys(loadData.meta).map(metaKey => <div key={metaKey}>
+                            <span className='SemiBoldText'>{metaKey}: </span>
+                            <span className='MonospaceFont MutedText'>{loadData.meta[metaKey]}</span>
+                        </div>)}
+                        {!loadData.meta && <span>{load.name}</span>}
+                    </span>
+                    <span className="AnalyticsWidgetTooltip__LegendItem__Value">{load.value}</span>
+                </div>
+            })}
         </div>
     }
 }
@@ -90,7 +100,7 @@ const AnalyticsWidgetChart = ({widget, data: widgetData, dataPoints: widgetDataP
                                 </linearGradient>
                             )}
                         </defs>
-                        <RechartsTooltip content={<AnalyticsWidgetTooltip widget={widget}/>} cursor={{stroke: '#060e18'}} position={{y: 150,}}/>
+                        <RechartsTooltip content={<AnalyticsWidgetTooltip widget={widget} dataPoints={widgetDataPoints}/>} cursor={{stroke: '#060e18'}} position={{y: 150,}}/>
                         {widgetDataPoints.map(point =>
                             <Area dot={false} dataKey={point.key} name={point.name || point.key}
                                   stroke={point.color} key={point.key} isAnimationActive={false} fill={`url(#${point.color + point.key})`}/>
