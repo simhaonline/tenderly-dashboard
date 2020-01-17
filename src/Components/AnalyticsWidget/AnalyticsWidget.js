@@ -9,14 +9,16 @@ import {
     getFormattedTimeRange
 } from "../../Utils/AnalyticsHelpers";
 
-import {AnalyticsWidgetSizeTypes} from "../../Common/constants";
+import {AnalyticsWidgetResolutionTypes, AnalyticsWidgetSizeTypes, TimeUnitLabelMap} from "../../Common/constants";
 
 import {analyticsActions} from "../../Core/actions";
 
-import {Panel, Tag, Icon, Tooltip} from "../../Elements";
+import {Panel, Tag, Icon, Tooltip, DropdownToggle, DropdownMenu, DropdownItem} from "../../Elements";
 import {AnalyticsWidgetChart, SimpleLoader} from "..";
 
 import './AnalyticsWidget.scss';
+import {action} from "@storybook/addon-actions";
+import Dropdown from "../../Elements/Dropdown/Dropdown";
 
 
 const widgetSizeClassMap = {
@@ -56,6 +58,12 @@ class AnalyticsWidget extends Component {
         })
     }
 
+    handleWidgetResolutionChange = (resolution) => {
+      const {widget, project, analyticsActions} = this.props;
+
+        analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {resolution})
+    };
+
     render() {
         const {widget, project, isCustom} = this.props;
         const {loading, widgetData} = this.state;
@@ -90,8 +98,19 @@ class AnalyticsWidget extends Component {
                                 <span>{getFormattedTimeRange(widget.time)}</span>
                             </div>}
                             {!!widget.resolution && <div>
-                                <Icon className="MarginRight1 MutedText" icon="clock"/>
-                                {getFormattedResolution(widget.resolution)}
+                                <Dropdown>
+                                    <DropdownToggle>
+                                        <Icon className="MarginRight1 MutedText" icon="clock"/>
+                                        {getFormattedResolution(widget.resolution)}
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        {Object.values(AnalyticsWidgetResolutionTypes).map(resolution =>
+                                            <DropdownItem key={resolution} onClick={() => this.handleWidgetResolutionChange(resolution)}>
+                                            <Icon className="MarginRight1 MutedText" icon="clock"/>
+                                            <span>{TimeUnitLabelMap[resolution]}</span>
+                                        </DropdownItem>)}
+                                    </DropdownMenu>
+                                </Dropdown>
                             </div>}
                         </div>
                     </div>

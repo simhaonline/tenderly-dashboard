@@ -24,6 +24,12 @@ class AnalyticsDashboard {
         this.widgets = data.widgets;
     }
 
+    update(data) {
+        const updatedData = Object.assign({}, this, data);
+
+        return new AnalyticsDashboard(updatedData);
+    }
+
     /**
      * @param {Object} response
      * @param {Project.id} projectId

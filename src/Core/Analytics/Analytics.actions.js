@@ -7,6 +7,7 @@ import {AnalyticsDashboard, Widget, WidgetData} from "../models";
 
 export const FETCH_ANALYTICS_FOR_PROJECT_ACTION = 'FETCH_ANALYTICS_FOR_PROJECT';
 export const FETCH_CUSTOM_ANALYTICS_FOR_PROJECT_ACTION = 'FETCH_CUSTOM_ANALYTICS_FOR_PROJECT';
+export const UPDATED_CUSTOM_ANALYTICS_WIDGET_FOR_PROJECT_ACTION = 'UPDATED_CUSTOM_ANALYTICS_WIDGET_FOR_PROJECT';
 
 /**
  * @param {Project} project
@@ -139,4 +140,19 @@ export const fetchCustomAnalyticsWidgetDataForProject = (project, widget) => asy
 
 
     return new SuccessActionResponse(widgetData);
+});
+
+export const updateCustomAnalyticsWidgetForProject = (project, widget, data) => asyncActionWrapper({
+    name: 'updateCustomAnalyticsWidgetForProject',
+}, async (dispatch) => {
+
+    const updatedWidget = widget.update(data);
+
+    dispatch({
+        type: UPDATED_CUSTOM_ANALYTICS_WIDGET_FOR_PROJECT_ACTION,
+        projectId: project.id,
+        widget: updatedWidget,
+    });
+
+    return new SuccessActionResponse(updatedWidget);
 });
