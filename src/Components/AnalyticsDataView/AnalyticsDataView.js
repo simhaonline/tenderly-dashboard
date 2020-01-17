@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Checkbox, Panel, PanelContent} from "../../Elements";
+import {Checkbox, Panel, PanelContent, Toggle} from "../../Elements";
 import {AnalyticsWidgetChart, CircularLoader} from "../index";
 
 import './AnalyticsDataView.scss';
@@ -77,13 +77,24 @@ class AnalyticsDataView extends Component {
                             dataPoints={widgetData.dataPoints.filter(dp => !disabledDataPoints[dp.key])}
                             widget={widget} data={widgetData.data}/>
                     </div>
+                    <div className='AnalyticsDataView__Item'>
+                        <div className="AnalyticsDataView__Item__Labels">
+                            <span>Labels</span>
+                        </div>
+                        <div className='AnalyticsDataView__Item__Value'>
+                            <span>Min</span>
+                        </div>
+                        <div className='AnalyticsDataView__Item__Value'>
+                            <span>Max</span>
+                        </div>
+                        <div className='AnalyticsDataView__Item__Value'/>
+
+                    </div>
                     <div className="AnalyticsDataView__Items">
                         {_.orderBy(widgetData.dataPoints, dataPoint=> metadata[dataPoint.key].max, 'desc').map(dataPoint => <div key={dataPoint.key}
-                                                                     className="AnalyticsDataView__Item">
-                            <Checkbox onChange={() => this.toggleDisableDataPoint(dataPoint)}
-                                      value={!disabledDataPoints[dataPoint.key]} field={dataPoint.key}/>
+                                                                     className="AnalyticsDataView__Item" onClick={() => this.toggleDisableDataPoint(dataPoint)}>
                             <div style={{backgroundColor: dataPoint.color}} className="AnalyticsDataView__Item__Dot"/>
-                            <div>
+                            <div className="AnalyticsDataView__Item__Labels">
                                 {!!dataPoint.meta && Object.keys(dataPoint.meta).map(metaKey => <div key={metaKey}>
                                     <span className='SemiBoldText'>{metaKey}: </span>
                                     <span className='MonospaceFont MutedText'>{dataPoint.meta[metaKey]}</span>
@@ -91,11 +102,16 @@ class AnalyticsDataView extends Component {
                                 {!dataPoint.meta && <span>{dataPoint.name}</span>}
 
                             </div>
-                            <div className='Padding1'>
+
+                            <div className='AnalyticsDataView__Item__Value'>
                                 <span className='MonospaceFont LinkText'>{metadata[dataPoint.key].min.toLocaleString()}</span>
                             </div>
-                            <div className='Padding1'>
+
+                            <div className='AnalyticsDataView__Item__Value'>
                                 <span className='MonospaceFont LinkText'>{metadata[dataPoint.key].max.toLocaleString()}</span>
+                            </div>
+                            <div className='AnalyticsDataView__Item__Value'>
+                                <Toggle value={!disabledDataPoints[dataPoint.key]} className='MarginLeftAuto'/>
                             </div>
 
                         </div>)}

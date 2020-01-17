@@ -3,10 +3,11 @@ import classNames from 'classnames';
 
 import './Toggle.scss';
 
-const Toggle = ({value, onChange}) => {
+const Toggle = ({value, onChange, className}) => {
     return (
         <div className={classNames(
             "Toggle",
+            className,
             {
                 "Active": value,
             },
