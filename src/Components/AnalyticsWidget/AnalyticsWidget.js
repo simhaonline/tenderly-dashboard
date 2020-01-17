@@ -58,6 +58,21 @@ class AnalyticsWidget extends Component {
         })
     }
 
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const {widget, project, analyticsActions} = this.props;
+        if (prevProps.widget !== widget){
+            this.setState({
+                loading: true,
+            });
+            const dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
+            this.setState({
+                loading: false,
+                widgetData: dataResponse.data,
+            })
+        }
+    }
+
     handleWidgetResolutionChange = (resolution) => {
       const {widget, project, analyticsActions} = this.props;
 

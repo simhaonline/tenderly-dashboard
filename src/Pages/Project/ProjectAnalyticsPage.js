@@ -30,7 +30,7 @@ class ProjectAnalyticsPage extends Component {
         const {analyticsActions, project, loadedDashboards, customDashboards} = this.props;
         if(loadedDashboards){
             return this.setState({
-                currentDashboard: customDashboards[0]
+                currentDashboard: customDashboards[0].id
 
             })
         }
@@ -41,7 +41,7 @@ class ProjectAnalyticsPage extends Component {
         }
 
         this.setState({
-            currentDashboard:  analyticsResponse.data[0],
+            currentDashboard:  analyticsResponse.data[0].id,
         });
     }
 
@@ -49,7 +49,7 @@ class ProjectAnalyticsPage extends Component {
         const {loadedDashboards, customDashboards} = this.props;
         if(prevProps.loadedDashboards!== loadedDashboards){
             this.setState({
-                currentDashboard: customDashboards[0]
+                currentDashboard: customDashboards[0].id
             })
         }
     }
@@ -76,7 +76,7 @@ class ProjectAnalyticsPage extends Component {
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && customDashboards.length>0 && <ProjectAnalyticsDashboard dashboard={currentDashboard} project={project}/>}
+                    {!loading && customDashboards.length>0 && <ProjectAnalyticsDashboard dashboard={customDashboards.find(dashboard => dashboard.id===currentDashboard)} project={project}/>}
                     {!loading && customDashboards.length===0 && <div>
                         <Panel>
                             <EmptyState title="Coming soon" description="The analytics feature is currently under development" icon="bar-chart-2" />
