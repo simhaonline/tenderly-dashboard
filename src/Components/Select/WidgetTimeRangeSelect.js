@@ -69,7 +69,7 @@ const timeWindowOptions = [
 const WidgetTimeRangeSelect = ({value, onChange}) => {
     return (
         <div className='WidgetTimeRangeSelect'>
-            <Select options={timeWindowOptions} value={value} onChange={onChange}/>
+            <Select selectLabel='Select time range' options={timeWindowOptions} value={value} onChange={onChange}/>
         </div>
     );
 };

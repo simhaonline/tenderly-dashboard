@@ -10,7 +10,7 @@ const resolutionOptions = Object.values(AnalyticsWidgetResolutionTypes).map(reso
 const WidgetResolutionSelect = ({value, onChange}) => {
     return (
         <div className='WidgetResolutionSelect'>
-            <Select options={resolutionOptions} value={value} onChange={onChange}/>
+            <Select selectLabel='Select chart resolution' options={resolutionOptions} value={value} onChange={onChange}/>
         </div>
     );
 };

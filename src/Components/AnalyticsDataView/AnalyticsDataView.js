@@ -94,13 +94,15 @@ class AnalyticsDataView extends Component {
             <div>
                 <Panel>
                     <PanelContent>
-                        <div>
-                            <h3>Time range</h3>
-                            <WidgetTimeRangeSelect value={timeRange} onChange={this.handleTimeRangeChange}/>
-                        </div>
-                        <div>
-                            <h3>Resolution</h3>
-                            <WidgetResolutionSelect value={resolution} onChange={this.handleResolutionChange}/>
+                        <div className="DisplayFlex">
+                            <div className='AnalyticsDataView__PropertyWrapper'>
+                                <h3 className='MarginBottom1'>Time range</h3>
+                                <WidgetTimeRangeSelect value={timeRange} onChange={this.handleTimeRangeChange}/>
+                            </div>
+                            <div className='AnalyticsDataView__PropertyWrapper'>
+                                <h3 className='MarginBottom1'>Resolution</h3>
+                                <WidgetResolutionSelect value={resolution} onChange={this.handleResolutionChange}/>
+                            </div>
                         </div>
                     </PanelContent>
                 </Panel>
