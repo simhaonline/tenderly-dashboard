@@ -3,8 +3,7 @@
 $AnalyticsWidgetSizeUnit: 200px;
 
 .AnalyticsWidget {
-  padding: 0 $Spacing2;
-  max-width: 100%;
+  width: 100%;
 }
 
 .AnalyticsWidget__Header {
@@ -65,26 +64,6 @@ $AnalyticsWidgetSizeUnit: 200px;
   padding: $Spacing1 $Spacing4;
   display: flex;
   justify-content: space-between;
-}
-
-.AnalyticsWidget--One {
-  flex: 1 0 $AnalyticsWidgetSizeUnit;
-  //width: $AnalyticsWidgetSizeUnit;
-}
-
-.AnalyticsWidget--Two {
-  flex: 1 0 2*$AnalyticsWidgetSizeUnit;
-  //width: 2*$AnalyticsWidgetSizeUnit;
-}
-
-.AnalyticsWidget--Three {
-  flex: 1 0 3*$AnalyticsWidgetSizeUnit;
-  //width: 3*$AnalyticsWidgetSizeUnit;
-}
-
-.AnalyticsWidget--Four {
-  flex: 1 0 4*$AnalyticsWidgetSizeUnit;
-  //width: 4*$AnalyticsWidgetSizeUnit;
 }
 
 .AnalyticsWidget__Data {

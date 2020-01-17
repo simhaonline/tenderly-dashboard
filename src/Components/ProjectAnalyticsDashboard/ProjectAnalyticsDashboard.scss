@@ -1,8 +1,7 @@
 @import "../../Common/common";
 
 .ProjectAnalyticsDashboard__WidgetsWrapper {
-  display: flex;
-  margin: 0 -1*$Spacing2;
-  flex-wrap: wrap;
-  overflow: hidden;
+  grid-template-columns: repeat( auto-fit, minmax(500px, 1fr) );
+  grid-column-gap: $Spacing5;
+  display: grid;
 }
