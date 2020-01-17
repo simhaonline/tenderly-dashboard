@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 import {authActions} from "../../Core/actions";
 
 import {Button, Container, Page} from "../../Elements";
-import {CircularLoader} from "../../Components";
+import {CircularLoader, EmptyState} from "../../Components";
 
 class VerifyEmailPage extends Component {
     state = {
@@ -46,10 +46,15 @@ class VerifyEmailPage extends Component {
                             <div>Verifying E-mail</div>
                         </Fragment>}
                         {verified && <div>
-                            <h2>Verified</h2>
-                            <Button to="/">
-                                <span>Continue</span>
-                            </Button>
+                            <EmptyState title='E-mail Verified'
+                                        description='Your e-mail has been successfully verified, you can now receive alerts on this e-mail'
+                                        icon='mail'
+                                        renderActions= {() => <div>
+                                            <Button color='secondary' to="/">
+                                                <span>Continue</span>
+                                            </Button>
+                                        </div>}
+                            />
                         </div>}
                     </div>
                 </Container>
