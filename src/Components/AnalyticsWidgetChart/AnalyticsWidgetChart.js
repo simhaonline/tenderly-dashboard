@@ -47,7 +47,7 @@ class AnalyticsWidgetTooltip extends PureComponent {
                         </div>)}
                         {!loadData.meta && <span>{load.name}</span>}
                     </span>
-                    <span className="AnalyticsWidgetTooltip__LegendItem__Value">{load.value}</span>
+                    <span className="AnalyticsWidgetTooltip__LegendItem__Value">{Number(load.value).toLocaleString()}</span>
                 </div>
             })}
         </div>

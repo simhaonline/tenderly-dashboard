@@ -41,6 +41,15 @@ class Widget {
     }
 
     /**
+     * @param {Object} data
+     */
+    update(data) {
+        const updatedData = Object.assign({}, this, data);
+
+        return new Widget(updatedData);
+    }
+
+    /**
      * @param {Widget} widget
      * @returns {Object}
      */
@@ -114,7 +123,7 @@ class Widget {
             widgetData = {
                 type: response.display_settings.chart_type,
                 size: AnalyticsWidgetSizeTypes.TWO,
-                resolution: AnalyticsWidgetResolutionTypes.HOUR,
+                resolution: AnalyticsWidgetResolutionTypes.DAY,
                 time: {
                     window: {
                         unit: TimeUnitTypes.DAY,
