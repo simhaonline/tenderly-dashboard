@@ -19,6 +19,8 @@ export {default as TenderlyFeaturesDemo} from './TenderlyFeaturesDemo/TenderlyFe
 
 // Stateful Select Components
 export {default as ProjectSelect} from './Select/ProjectSelect';
+export {default as WidgetResolutionSelect} from './Select/WidgetResolutionSelect';
+export {default as WidgetTimeRangeSelect} from './Select/WidgetTimeRangeSelect';
 
 // Select Components
 export {default as ProjectSelectOption} from './SelectComponents/ProjectSelectOption';

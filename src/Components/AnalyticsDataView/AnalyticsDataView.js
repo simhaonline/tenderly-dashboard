@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {Checkbox, Panel, PanelContent, Toggle} from "../../Elements";
-import {AnalyticsWidgetChart, CircularLoader} from "../index";
+import {AnalyticsWidgetChart, CircularLoader, WidgetResolutionSelect, WidgetTimeRangeSelect} from "../index";
 
 import './AnalyticsDataView.scss';
 import {bindActionCreators} from "redux";
@@ -15,11 +15,18 @@ class AnalyticsDataView extends Component {
     state = {
         disabledDataPoints: {},
         widgetData: null,
+        timeRange: null,
+        resolution: null,
         loaded: false,
-
     };
+
     async componentDidMount(){
+        this.fetchWidgetData()
+    }
+
+    fetchWidgetData = async () => {
         const {widget,project,analyticsActions} = this.props;
+        const {timeRange, resolution} = this.state;
 
         const dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
 
@@ -41,7 +48,7 @@ class AnalyticsDataView extends Component {
             loaded: true,
             widgetData: dataResponse.data,
         })
-    }
+    };
 
     toggleDisableDataPoint = (dataPoint) => {
         const {disabledDataPoints} = this.state;
@@ -54,9 +61,28 @@ class AnalyticsDataView extends Component {
         });
     };
 
+    handleResolutionChange = (value) => {
+        const {widget, project, analyticsActions} = this.props;
+        analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {resolution: value.value});
+
+        this.setState({
+                resolution: value,
+        }, this.fetchWidgetData)
+    };
+
+    handleTimeRangeChange = (value) => {
+        const {widget, project, analyticsActions} = this.props;
+        analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {time: value.time});
+
+        console.log(value);
+        this.setState({
+                timeRange: value,
+        }, this.fetchWidgetData)
+    };
+
     render() {
         const {widget} = this.props;
-        const {disabledDataPoints, loaded, widgetData, metadata} = this.state;
+        const {disabledDataPoints, loaded, widgetData, metadata, resolution, timeRange} = this.state;
 
         if(!loaded){
             return <div className='DisplayFlex AlignItemsCenter JustifyContentCenter'>
@@ -68,7 +94,14 @@ class AnalyticsDataView extends Component {
             <div>
                 <Panel>
                     <PanelContent>
-
+                        <div>
+                            <h3>Time range</h3>
+                            <WidgetTimeRangeSelect value={timeRange} onChange={this.handleTimeRangeChange}/>
+                        </div>
+                        <div>
+                            <h3>Resolution</h3>
+                            <WidgetResolutionSelect value={resolution} onChange={this.handleResolutionChange}/>
+                        </div>
                     </PanelContent>
                 </Panel>
                 <Panel className="AnalyticsDataView">
@@ -88,7 +121,6 @@ class AnalyticsDataView extends Component {
                             <span>Max</span>
                         </div>
                         <div className='AnalyticsDataView__Item__Value'/>
-
                     </div>
                     <div className="AnalyticsDataView__Items">
                         {_.orderBy(widgetData.dataPoints, dataPoint=> metadata[dataPoint.key].max, 'desc').map(dataPoint => <div key={dataPoint.key}

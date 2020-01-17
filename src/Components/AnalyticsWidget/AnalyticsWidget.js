@@ -76,7 +76,7 @@ class AnalyticsWidget extends Component {
     handleWidgetResolutionChange = (resolution) => {
       const {widget, project, analyticsActions} = this.props;
 
-        analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {resolution})
+      analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {resolution})
     };
 
     render() {
