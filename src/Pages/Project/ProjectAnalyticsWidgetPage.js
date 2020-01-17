@@ -6,7 +6,7 @@ import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelecto
 
 import {analyticsActions} from "../../Core/actions";
 
-import {Button, Container, Icon, Panel, PanelContent, Page, PageHeading} from "../../Elements";
+import {Button, Container, Icon, Page, PageHeading} from "../../Elements";
 import {AnalyticsDataView, ProjectContentLoader} from "../../Components";
 import {
     areCustomDashboardsLoadedForProject,
@@ -36,11 +36,6 @@ class ProjectAnalyticsWidgetPage extends Component {
                             </Button>
                             <h1>{analyticsWidget.name}</h1>
                         </PageHeading>
-                        <Panel>
-                            <PanelContent>
-                                <span>asd</span>
-                            </PanelContent>
-                        </Panel>
                         <AnalyticsDataView widget={analyticsWidget} project={project}/>
                     </Fragment>}
                 </Container>

@@ -31,6 +31,7 @@ class AnalyticsWidgetTooltip extends PureComponent {
 
         if (!active || !payload) return null;
 
+
         return <div className="AnalyticsWidgetTooltip">
             <div className="MarginBottom1">
                 <span className="SemiBoldText">{getFormattedDateForResolution(payload[0].payload.timestamp *1000, widget.resolution)}</span>

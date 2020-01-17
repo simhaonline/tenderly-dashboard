@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 
-import {Checkbox, Panel} from "../../Elements";
-import {AnalyticsWidgetChart} from "../index";
+import {Checkbox, Panel, PanelContent} from "../../Elements";
+import {AnalyticsWidgetChart, CircularLoader} from "../index";
 
 import './AnalyticsDataView.scss';
 import {bindActionCreators} from "redux";
 import {analyticsActions} from "../../Core/actions";
 import {connect} from "react-redux";
+import data from "../../Pages/Project/AnalyticsDashboardData";
+import {AnalyticsWidgetListTypeColumnTypes} from "../../Common/constants";
+import _ from "lodash";
 
 class AnalyticsDataView extends Component {
     state = {
@@ -25,7 +28,16 @@ class AnalyticsDataView extends Component {
             return ;
         }
 
+        const metadata = dataResponse.data.dataPoints.reduce((data, dataPoint) => {
+            data[dataPoint.key] = {
+                max: _.maxBy(dataResponse.data.data, dataPoint.key)[dataPoint.key],
+                min: _.minBy(dataResponse.data.data, dataPoint.key)[dataPoint.key],
+            };
+            return data;
+        }, {});
+
         this.setState({
+            metadata,
             loaded: true,
             widgetData: dataResponse.data,
         })
@@ -44,26 +56,52 @@ class AnalyticsDataView extends Component {
 
     render() {
         const {widget} = this.props;
-        const {disabledDataPoints, loaded, widgetData} = this.state;
+        const {disabledDataPoints, loaded, widgetData, metadata} = this.state;
 
         if(!loaded){
-            return null
+            return <div className='DisplayFlex AlignItemsCenter JustifyContentCenter'>
+                <CircularLoader/>
+            </div>
         }
 
         return (
-            <Panel className="AnalyticsDataView">
-                <div className="AnalyticsDataView__Content">
+            <div>
+                <Panel>
+                    <PanelContent>
+
+                    </PanelContent>
+                </Panel>
+                <Panel className="AnalyticsDataView">
                     <div style={{height: 300}} className="AnalyticsDataView__Graph">
-                        <AnalyticsWidgetChart dataPoints={widgetData.dataPoints.filter(dp => !disabledDataPoints[dp.key])} widget={widget} data={widgetData.data} />
+                        <AnalyticsWidgetChart
+                            dataPoints={widgetData.dataPoints.filter(dp => !disabledDataPoints[dp.key])}
+                            widget={widget} data={widgetData.data}/>
                     </div>
                     <div className="AnalyticsDataView__Items">
-                        {widgetData.dataPoints.map(dataPoint => <div key={dataPoint.key} className="AnalyticsDataView__Item">
-                            <Checkbox onChange={() => this.toggleDisableDataPoint(dataPoint)} value={!disabledDataPoints[dataPoint.key]} field={dataPoint.key}/>
-                            <span>{dataPoint.name}</span>
+                        {_.orderBy(widgetData.dataPoints, dataPoint=> metadata[dataPoint.key].max, 'desc').map(dataPoint => <div key={dataPoint.key}
+                                                                     className="AnalyticsDataView__Item">
+                            <Checkbox onChange={() => this.toggleDisableDataPoint(dataPoint)}
+                                      value={!disabledDataPoints[dataPoint.key]} field={dataPoint.key}/>
+                            <div style={{backgroundColor: dataPoint.color}} className="AnalyticsDataView__Item__Dot"/>
+                            <div>
+                                {!!dataPoint.meta && Object.keys(dataPoint.meta).map(metaKey => <div key={metaKey}>
+                                    <span className='SemiBoldText'>{metaKey}: </span>
+                                    <span className='MonospaceFont MutedText'>{dataPoint.meta[metaKey]}</span>
+                                </div>)}
+                                {!dataPoint.meta && <span>{dataPoint.name}</span>}
+
+                            </div>
+                            <div className='Padding1'>
+                                <span className='MonospaceFont LinkText'>{metadata[dataPoint.key].min.toLocaleString()}</span>
+                            </div>
+                            <div className='Padding1'>
+                                <span className='MonospaceFont LinkText'>{metadata[dataPoint.key].max.toLocaleString()}</span>
+                            </div>
+
                         </div>)}
                     </div>
-                </div>
-            </Panel>
+                </Panel>
+            </div>
         );
     }
 }

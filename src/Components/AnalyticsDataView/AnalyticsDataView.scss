@@ -2,24 +2,15 @@
 
 .AnalyticsDataView {}
 
-.AnalyticsDataView__Content {
-  display: flex;
-}
-
 .AnalyticsDataView__Graph {
   flex: 1 1 0;
 }
 
-.AnalyticsDataView__Graph, .AnalyticsDataView__Items {
-  height: 400px;
-}
-
 .AnalyticsDataView__Items {
-  flex: 0 0 240px;
-  width: 240px;
   background-color: $Slate600;
-  padding: $Spacing2 $Spacing3;
+  padding: $Spacing4 $Spacing5;
   overflow-x: auto;
+  max-height: 300px;
 }
 
 .AnalyticsDataView__Item {
