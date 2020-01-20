@@ -35,12 +35,12 @@ export const fetchPlanForAccount = (username) => asyncActionWrapper({
 
 /**
  * @param {User} account
- * @param {Plan} plan
+ * @param {AccountPlan} plan
  */
 export const activatePlanForAccount = (account, plan) => asyncActionWrapper({
     name: 'activatePlanForAccount',
 }, async dispatch => {
-    const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.slug}`);
+    const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.plan.id}`);
 
     console.log('plan', data);
 

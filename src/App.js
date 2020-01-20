@@ -14,7 +14,7 @@ import './Common/Styles/base.scss';
 import Intercom from "./Utils/Intercom";
 import LocalStorage from "./Utils/LocalStorage";
 
-import {LocalStorageKeys} from "./Common/constants";
+import {LocalStorageKeys, UserPlanTypes} from "./Common/constants";
 
 import {searchActions, authActions} from "./Core/actions";
 import {store} from './Core';
@@ -44,12 +44,12 @@ class App extends Component {
 
     /**
      * @param {User|null} user
-     * @param {Plan|null} plan
+     * @param {AccountPlan|null} plan
      */
     isSessionResolutionRequired = (user, plan) => {
         if (!plan) return false;
 
-        return plan.slug === 'grandfather' && !plan.isPlanActive;
+        return plan.plan.type === UserPlanTypes.GRANDFATHER && !plan.isPlanActive;
     };
 
     async componentDidMount() {
