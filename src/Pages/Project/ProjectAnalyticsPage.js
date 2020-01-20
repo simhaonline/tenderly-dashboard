@@ -9,11 +9,18 @@ import {analyticsActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading, Panel} from "../../Elements";
 
-import {EmptyState, PaidFeatureButton, ProjectAnalyticsDashboard, ProjectContentLoader} from "../../Components";
+import {
+    EmptyState,
+    FeatureFlag,
+    PaidFeatureButton,
+    ProjectAnalyticsDashboard,
+    ProjectContentLoader
+} from "../../Components";
 import {
     areCustomDashboardsLoadedForProject,
     getCustomDashboardsForProject
 } from "../../Common/Selectors/AnalyticsSelectors";
+import {FeatureFlagTypes} from "../../Common/constants";
 
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
@@ -37,7 +44,10 @@ class ProjectAnalyticsPage extends Component {
         const analyticsResponse = await analyticsActions.fetchCustomAnalyticsForProject(project);
 
         if (!analyticsResponse.success) {
-            return;
+
+            return this.setState({
+                forceLoaded: true,
+            })
         }
 
         this.setState({
@@ -56,9 +66,9 @@ class ProjectAnalyticsPage extends Component {
 
     render() {
         const {project, accountPlan, loadedDashboards, customDashboards} = this.props;
-        const {currentDashboard} = this.state;
+        const {currentDashboard, forceLoaded} = this.state;
 
-        const loading = !loadedDashboards || !currentDashboard;
+        const loading = !forceLoaded && (!loadedDashboards || !currentDashboard);
 
 
         return (
@@ -70,9 +80,11 @@ class ProjectAnalyticsPage extends Component {
                     <PageHeading>
                         <h1>Analytics</h1>
                         <div className="MarginLeftAuto">
-                            <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} plan={accountPlan} includes="analytics.advanced">
-                                Create Graph
-                            </PaidFeatureButton>
+                            <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
+                                <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} plan={accountPlan} includes="analytics.advanced">
+                                    Create Graph
+                                </PaidFeatureButton>
+                            </FeatureFlag>
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
