@@ -5,7 +5,7 @@ import {PlanUsageTypes} from "../../Common/constants";
 
 import {AccountPlan} from "../../Core/models";
 
-import {Button, Dialog, DialogBody} from "../../Elements";
+import {Button, Dialog, DialogBody, Icon} from "../../Elements";
 
 import "./PaidFeatureButton.scss";
 import Intercom from "../../Utils/Intercom";
@@ -62,24 +62,32 @@ class PaidFeatureButton extends PureComponent {
                 </Button>
                 <Dialog open={upgradeModalOpen} onClose={this.handleModalClose} className='PaidFeatureButton__ModalContent'>
                     <DialogBody>
-                        <h2>Tenderly Pro</h2>
-                        {plan && !!usage && <div>
-                            <p>You have exceeded the limit for your plan.</p>
-                            <p>{getLabelForPlanUsage(usage)}: {plan.usage[usage].count}/{plan.usage[usage].limit}</p>
+                        <h2 className='PaidFeatureButton__Headline'>Tenderly Pro</h2>
+                        {plan && !!usage && <div className='PaidFeatureButton__UsageInfo'>
+                            <p className='PaidFeatureButton__UsageDescription'>You have exceeded the limit for your plan.</p>
+                            <p className='PaidFeatureButton__UsageLabel'>{getLabelForPlanUsage(usage)}:</p>
+                            <p className='PaidFeatureButton__UsageLimit'>{plan.usage[usage].count} / {plan.usage[usage].limit}</p>
                         </div>}
                         {plan && !!includes && <div>
                             <p>This is not included in your current plan</p>
                         </div>}
                         <div>
-                            <h3>Unlock Tenderly Pro</h3>
-                            <ul>
-                                <li>Multiple Projects</li>
-                                <li>Collaborators</li>
-                                <li>Analytics</li>
-                                <li>Real-time Alerting</li>
-                                <li>Transaction Filtering</li>
-                                <li>Private Network Support</li>
-                            </ul>
+                            <h3 className='PaidFeatureButton__ProFeaturesHeadline'>Unlock with Tenderly Pro</h3>
+                            <div className='PaidFeatureButton__ProFeaturesWrapper'>
+                                <div className='PaidFeatureButton__ProFeaturesListItem'>
+                                    <Icon className='PaidFeatureButton__ProFeaturesListIcon' icon='organization'/>Multiple Projects</div>
+                                <div className='PaidFeatureButton__ProFeaturesListItem'>
+                                    <Icon className='PaidFeatureButton__ProFeaturesListIcon' icon='users'/>Collaborators</div>
+                                <div className='PaidFeatureButton__ProFeaturesListItem'>
+                                    <Icon className='PaidFeatureButton__ProFeaturesListIcon' icon='bar-chart-2'/>Analytics</div>
+                                <div className='PaidFeatureButton__ProFeaturesListItem'>
+                                    <Icon className='PaidFeatureButton__ProFeaturesListIcon' icon='bell'/> Real-time Alerting</div>
+                                <div className='PaidFeatureButton__ProFeaturesListItem'>
+                                    <Icon className='PaidFeatureButton__ProFeaturesListIcon' icon='filter'/>Transaction Filtering</div>
+                                <div className='PaidFeatureButton__ProFeaturesListItem'>
+                                    <Icon className='PaidFeatureButton__ProFeaturesListIcon' icon='layers'/>Private Network Support</div>
+                            </div>
+
                         </div>
                         <Button size="large" color="secondary" stretch onClick={() => Intercom.openNewConversation('Tenderly Pro upgrade info:\n')}>
                             <span className="SemiBoldText">Upgrade</span>

@@ -4,3 +4,62 @@
   max-width: 400px;
 
 }
+
+.PaidFeatureButton__UsageInfo{
+  text-align: center;
+}
+
+.PaidFeatureButton__Headline{
+  text-align: center;
+  font-size: $FontSize600;
+  margin-bottom: $Spacing4;
+}
+
+.PaidFeatureButton__UsageLabel {
+  font-size: $FontSize400;
+  margin-bottom: $Spacing0;
+}
+
+.PaidFeatureButton__UsageDescription{
+  font-size: $FontSize400;
+  opacity: 0.75;
+}
+
+.PaidFeatureButton__UsageLimit{
+  font-size: $FontSize600;
+  margin-top: $Spacing0;
+  font-weight: 900;
+}
+
+.PaidFeatureButton__ProFeaturesList{
+}
+
+.PaidFeatureButton__ProFeaturesWrapper{
+  margin-bottom: $Spacing4;
+}
+
+.PaidFeatureButton__ProFeaturesHeadline{
+  margin-bottom: $Spacing2;
+
+}
+
+.PaidFeatureButton__ProFeaturesListItem{
+  font-size: $FontSize400;
+  padding: $Spacing0 $Spacing4;
+  display: flex;
+  align-items: center;
+
+}
+
+.PaidFeatureButton__ProFeaturesListIcon{
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: transparentize($Secondary500, 0.5);
+  border: 1px solid $Secondary500;
+  margin-right: $Spacing2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $FontSize300;
+}

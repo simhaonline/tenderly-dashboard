@@ -80,11 +80,9 @@ class ProjectAnalyticsPage extends Component {
                     <PageHeading>
                         <h1>Analytics</h1>
                         <div className="MarginLeftAuto">
-                            <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
                                 <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} plan={accountPlan} includes="analytics.advanced">
                                     Create Graph
                                 </PaidFeatureButton>
-                            </FeatureFlag>
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
