@@ -16,6 +16,7 @@ import {
 } from "../index";
 
 import './TransactionFilters.scss';
+import AccountPlan from "../../Core/Billing/AccountPlan.model";
 
 const transactionStatusOptions = [
     {
@@ -366,7 +367,7 @@ TransactionFilters.propTypes = {
     tags: PropTypes.array.isRequired,
     onFiltersChange: PropTypes.func.isRequired,
     // @TODO @BILLING Remove when implement billing
-    // plan: PropTypes.instanceOf(AccountPlan).isRequired,
+    plan: PropTypes.instanceOf(AccountPlan).isRequired,
 };
 
 export default TransactionFilters;

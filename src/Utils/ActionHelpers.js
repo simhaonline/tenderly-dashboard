@@ -80,7 +80,7 @@ export function asyncActionWrapper(actionSettings, action, onError) {
 
             if (actionSettings.payable) {
                 // @TODO @BILLING Remove when implement billing
-                // dispatch(fetchUpdatePlanUsage(actionSettings.account));
+                dispatch(fetchUpdatePlanUsage(actionSettings.account));
             }
 
             return actionResponse;

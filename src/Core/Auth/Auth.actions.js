@@ -332,11 +332,11 @@ export const retrieveToken = token => asyncActionWrapper({
             user = response.data;
 
             // @TODO @BILLING Remove when implement billing
-            // const planResponse = await dispatch(fetchUserPlan(response.data));
-            //
-            // if (planResponse.success) {
-            //     plan = planResponse.data;
-            // }
+            const planResponse = await dispatch(fetchUserPlan(response.data));
+
+            if (planResponse.success) {
+                plan = planResponse.data;
+            }
         }
     }
 

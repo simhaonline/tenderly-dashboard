@@ -45,7 +45,7 @@ class PaidFeatureButton extends PureComponent {
         }
 
         // @TODO @BILLING Remove when implement billing
-        if (true) {
+        if (hasAbility) {
             return <Button type="button" {...props}>
                 {children}
             </Button>;

@@ -10,6 +10,7 @@ import {Form, Input} from "../../Elements";
 import {PaidFeatureButton} from "../index";
 
 import './CreateProjectForm.scss';
+import AccountPlan from "../../Core/Billing/AccountPlan.model";
 
 class CreateProjectForm extends Component {
     constructor(props) {
@@ -68,7 +69,7 @@ class CreateProjectForm extends Component {
 
 CreateProjectForm.propTypes  ={
     // @TODO @BILLING Remove when implement billing
-    // plan: PropTypes.instanceOf(AccountPlan).isRequired,
+    plan: PropTypes.instanceOf(AccountPlan).isRequired,
     onSubmit: PropTypes.func,
 };
 
