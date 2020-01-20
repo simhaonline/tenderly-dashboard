@@ -21,32 +21,27 @@ export const fetchAnalyticsForProject = (project) => asyncActionWrapper({
         return new ErrorActionResponse();
     }
 
-    const widgets = [];
     const dashboards = [];
 
-    data.dashboards.forEach(dashboard => {
-        console.log(dashboard);
-    });
+    if(data.custom_dashboards && data.custom_dashboards.length > 0){
+        data.custom_dashboards.forEach(dashboardResponse => {
+            dashboards.push(AnalyticsDashboard.buildFromResponse(dashboardResponse, project.id, true));
+        });
+    }
 
-    // const widgets = Object.keys(data.analytics).map(widgetKey => Widget.buildFromResponse(data.analytics[widgetKey], widgetKey));
-    //
-    // const dashboards = [AnalyticsDashboard.buildFromResponse({
-    //     id: 'default',
-    //     name: "Default Dashboard",
-    //     index: 0,
-    //     widgets: widgets.map(w => w.id),
-    // })];
+    if(data.dashboards && data.dashboards.length > 0){
+        data.dashboards.forEach(dashboardResponse => {
+            dashboards.push(AnalyticsDashboard.buildFromResponse(dashboardResponse, project.id, true));
+        });
+    }
 
     dispatch({
         type: FETCH_ANALYTICS_FOR_PROJECT_ACTION,
-        widgets,
+        projectId: project.id,
         dashboards,
     });
 
-    return new SuccessActionResponse({
-        widgets,
-        dashboards,
-    });
+    return new SuccessActionResponse(dashboards);
 });
 
 /**

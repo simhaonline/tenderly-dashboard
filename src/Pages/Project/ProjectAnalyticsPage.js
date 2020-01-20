@@ -41,7 +41,7 @@ class ProjectAnalyticsPage extends Component {
 
             })
         }
-        const analyticsResponse = await analyticsActions.fetchCustomAnalyticsForProject(project);
+        const analyticsResponse = await analyticsActions.fetchAnalyticsForProject(project);
 
         if (!analyticsResponse.success) {
 

@@ -11,8 +11,10 @@ export function getCustomDashboardsForProject(state, projectId) {
 }
 
 export function getAnalyticsDashboardsForProject(state, projectId) {
-    let dashboards = getCustomDashboardsForProject(state, projectId);
-    return dashboards;
+    if (!state.analytics.projectDashboards[projectId]){
+        return []
+    }
+    return state.analytics.projectDashboards[projectId];
 }
 
 export function getCustomDashboardWidgetForProject(state, projectId, widgetId) {
