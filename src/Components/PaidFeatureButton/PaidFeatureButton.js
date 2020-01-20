@@ -7,6 +7,10 @@ import {AccountPlan} from "../../Core/models";
 
 import {Button, Dialog, DialogBody} from "../../Elements";
 
+import "./PaidFeatureButton.scss";
+import Intercom from "../../Utils/Intercom";
+import {getLabelForPlanUsage} from "../../Utils/BillingHelpers";
+
 class PaidFeatureButton extends PureComponent {
     state = {
         hasRequiredPlan: true,
@@ -50,27 +54,36 @@ class PaidFeatureButton extends PureComponent {
                 {children}
             </Button>;
         }
-
+        console.log(plan)
         return (
             <Fragment>
                 <Button {...props} onClick={this.handleOnClick}>
                     {children}
                 </Button>
-                <Dialog open={upgradeModalOpen} onClose={this.handleModalClose}>
+                <Dialog open={upgradeModalOpen} onClose={this.handleModalClose} className='PaidFeatureButton__ModalContent'>
                     <DialogBody>
+                        <h2>Tenderly Pro</h2>
                         {plan && !!usage && <div>
                             <p>You have exceeded the limit for your plan.</p>
-                            <p>{usage}: {plan.usage[usage].count}/{plan.usage[usage].limit}</p>
+                            <p>{getLabelForPlanUsage(usage)}: {plan.usage[usage].count}/{plan.usage[usage].limit}</p>
                         </div>}
                         {plan && !!includes && <div>
                             <p>This is not included in your current plan</p>
                         </div>}
-                        <h2>Pro</h2>
-                        <h3>$250 / mo</h3>
-                        <Button size="large" color="secondary" stretch to="/account/billing">
-                            <span className="SemiBoldText">Start Free Trial</span>
+                        <div>
+                            <h3>Unlock Tenderly Pro</h3>
+                            <ul>
+                                <li>Multiple Projects</li>
+                                <li>Collaborators</li>
+                                <li>Analytics</li>
+                                <li>Real-time Alerting</li>
+                                <li>Transaction Filtering</li>
+                                <li>Private Network Support</li>
+                            </ul>
+                        </div>
+                        <Button size="large" color="secondary" stretch onClick={() => Intercom.openNewConversation('Tenderly Pro upgrade info:\n')}>
+                            <span className="SemiBoldText">Upgrade</span>
                         </Button>
-                        <div className="FontSize2 MarginLeft2 MarginTop2">* 14-day free Trial. No credit card required.</div>
                     </DialogBody>
                 </Dialog>
             </Fragment>
