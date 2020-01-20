@@ -31,7 +31,7 @@ export const fetchAnalyticsForProject = (project) => asyncActionWrapper({
 
     if(data.dashboards && data.dashboards.length > 0){
         data.dashboards.forEach(dashboardResponse => {
-            dashboards.push(AnalyticsDashboard.buildFromResponse(dashboardResponse, project.id, true));
+            dashboards.push(AnalyticsDashboard.buildFromResponse(dashboardResponse, project.id));
         });
     }
 

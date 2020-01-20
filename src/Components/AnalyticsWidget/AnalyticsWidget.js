@@ -17,7 +17,7 @@ import {Panel, Tag, Icon, Tooltip, DropdownToggle, DropdownMenu, DropdownItem} f
 import {AnalyticsWidgetChart, SimpleLoader} from "..";
 
 import './AnalyticsWidget.scss';
-import {action} from "@storybook/addon-actions";
+
 import Dropdown from "../../Elements/Dropdown/Dropdown";
 
 
@@ -45,6 +45,8 @@ class AnalyticsWidget extends Component {
 
         if (isCustom) {
             dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
+        } else {
+            dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget);
         }
 
         if (!dataResponse.success) {

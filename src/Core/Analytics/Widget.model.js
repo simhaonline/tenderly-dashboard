@@ -133,20 +133,27 @@ class Widget {
             };
         } else {
             const time = Widget.parseTimeRange(response.time_range);
-
             widgetData = {
                 type: response.display_settings.chart_type,
                 size: AnalyticsWidgetSizeTypes.TWO,
                 resolution: response.resolution,
                 time,
                 alerts: [],
-                group: [
-                    {group: "contract", variable: "id"},
-                    {group: "transaction", variable: "status"},
-                ],
-                show: [
-                    {math: "count", event: "transaction"},
-                ],
+                dataSource: response.analytics_table,
+                dashboardId: response.analytics_dashboard_id,
+                group: response.group_by,
+                show: response.selectors.map(selector=> {
+                    if(selector.predefined_selector){
+                        return {
+                            custom: true,
+                            property: selector.predefined_selector,
+                        }
+                    }
+                    return {
+                        property: selector.selector.field,
+                        aggregation: selector.selector.aggregate,
+                    }
+                })
             };
         }
 
