@@ -54,7 +54,6 @@ class PaidFeatureButton extends PureComponent {
                 {children}
             </Button>;
         }
-        console.log(plan)
         return (
             <Fragment>
                 <Button {...props} onClick={this.handleOnClick}>
@@ -91,6 +90,9 @@ class PaidFeatureButton extends PureComponent {
                         </div>
                         <Button size="large" color="secondary" stretch onClick={() => Intercom.openNewConversation('Tenderly Pro upgrade info:\n')}>
                             <span className="SemiBoldText">Upgrade</span>
+                        </Button>
+                        <Button onClick={this.handleModalClose} color='secondary' outline stretch className='MarginTop2'>
+                            <span>Cancel</span>
                         </Button>
                     </DialogBody>
                 </Dialog>
