@@ -145,13 +145,13 @@ class AnalyticsWidget extends Component {
                     </div>}
                     {!isCustom && <div className="AnalyticsWidget__Footer">
                         <div className="AnalyticsWidget__Footer__DataInfo">
-                            {widget.show.map(show => <div key={show.event} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Show">
+                            {widget.show.map(show => <div key={show.property} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Show">
                                 <Icon icon="target"/>
-                                <span>{show.event}</span>
+                                <span>{show.property}</span>
                             </div>)}
-                            {!!widget.group && widget.group.length > 0 && widget.group.map(group => <div key={group.variable} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Breakdown">
+                            {!!widget.group && widget.group.length > 0 && widget.group.map(group => <div key={group} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Breakdown">
                                 <Icon icon="share-2"/>
-                                <span>Breakdown by <span className="SemiBoldText">{group.variable}</span></span>
+                                <span>Breakdown by <span className="SemiBoldText">{group}</span></span>
                             </div>)}
                         </div>
                     </div>}
