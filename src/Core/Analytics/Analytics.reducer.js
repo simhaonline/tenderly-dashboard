@@ -7,7 +7,7 @@ import {
 const initialState = {
     projectDashboards: {},
     projectCustomDashboards: {},
-    projectCustomDashboardsLoaded: {}
+    projectDashboardsLoaded: {}
 };
 
 const AnalyticsReducer =(state = initialState, action) => {
@@ -21,8 +21,8 @@ const AnalyticsReducer =(state = initialState, action) => {
                     ...state.projectCustomDashboards,
                     [action.projectId]: action.dashboards,
                 },
-                projectCustomDashboardsLoaded: {
-                 ...state.projectCustomDashboardsLoaded,
+                projectDashboardsLoaded: {
+                 ...state.projectDashboardsLoaded,
                     [action.projectId]: true,
                 }
             };

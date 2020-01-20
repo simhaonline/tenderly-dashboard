@@ -1,14 +1,18 @@
 export function areCustomDashboardsLoadedForProject(state, projectId) {
-    return !!state.analytics.projectCustomDashboardsLoaded[projectId];
+    return !!state.analytics.projectDashboardsLoaded[projectId];
 
 }
-
 
 export function getCustomDashboardsForProject(state, projectId) {
     if (!state.analytics.projectCustomDashboards[projectId]){
         return []
     }
     return state.analytics.projectCustomDashboards[projectId];
+}
+
+export function getAnalyticsDashboardsForProject(state, projectId) {
+    let dashboards = getCustomDashboardsForProject(state, projectId);
+    return dashboards;
 }
 
 export function getCustomDashboardWidgetForProject(state, projectId, widgetId) {
