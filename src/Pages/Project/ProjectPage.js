@@ -34,6 +34,7 @@ import ProjectSecurityPage from "./ProjectSecurityPage";
 
 import {AppSidebar, ProjectPageLoader} from "../../Components";
 import ProjectAnalyticsWidgetPage from "./ProjectAnalyticsWidgetPage";
+import {isAccountPlanLoadedForUser} from "../../Common/Selectors/BillingSelectors";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -102,7 +103,7 @@ class ProjectPage extends Component {
     };
 
     render(){
-        const {project, tagsLoaded, location, match} = this.props;
+        const {project, tagsLoaded, location, match, planLoaded} = this.props;
         const {nonExistingProject} = this.state;
 
         if (nonExistingProject) {
@@ -116,7 +117,7 @@ class ProjectPage extends Component {
             return <Redirect to="/dashboard"/>;
         }
 
-        if (!project || !tagsLoaded) {
+        if (!project || !tagsLoaded || !planLoaded) {
             return <ProjectPageLoader text="Fetching Project..."/>;
         }
 
@@ -166,6 +167,7 @@ const mapStateToProps = (state, ownProps) => {
         projectSlug: slug,
         project,
         tagsLoaded: areProjectTagsLoaded(state, project),
+        planLoaded: isAccountPlanLoadedForUser(state, username),
     }
 };
 
