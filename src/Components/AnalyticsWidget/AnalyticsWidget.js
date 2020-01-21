@@ -9,7 +9,12 @@ import {
     getFormattedTimeRange
 } from "../../Utils/AnalyticsHelpers";
 
-import {AnalyticsWidgetResolutionTypes, AnalyticsWidgetSizeTypes, TimeUnitLabelMap} from "../../Common/constants";
+import {
+    AnalyticsWidgetResolutionTypes,
+    AnalyticsWidgetSizeTypes,
+    AnalyticsWidgetTypes,
+    TimeUnitLabelMap
+} from "../../Common/constants";
 
 import {analyticsActions} from "../../Core/actions";
 
@@ -114,7 +119,7 @@ class AnalyticsWidget extends Component {
                                 <Icon className="MarginRight1 MutedText" icon="calendar"/>
                                 <span>{getFormattedTimeRange(widget.time)}</span>
                             </div>}
-                            {!!widget.resolution && <div>
+                            {!!widget.resolution && widget.type!== AnalyticsWidgetTypes.TABLE && <div>
                                 <Dropdown>
                                     <DropdownToggle>
                                         <Icon className="MarginRight1 MutedText" icon="clock"/>

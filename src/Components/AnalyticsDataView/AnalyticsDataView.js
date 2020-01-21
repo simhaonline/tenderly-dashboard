@@ -102,10 +102,10 @@ class AnalyticsDataView extends Component {
                                 <h3 className='MarginBottom1'>Time range</h3>
                                 <WidgetTimeRangeSelect value={timeRange} onChange={this.handleTimeRangeChange}/>
                             </div>
-                            <div className='AnalyticsDataView__PropertyWrapper'>
+                            {widget.type !== AnalyticsWidgetTypes.TABLE && <div className='AnalyticsDataView__PropertyWrapper'>
                                 <h3 className='MarginBottom1'>Resolution</h3>
                                 <WidgetResolutionSelect value={resolution} onChange={this.handleResolutionChange}/>
-                            </div>
+                            </div>}
                         </div>
                     </PanelContent>
                 </Panel>
