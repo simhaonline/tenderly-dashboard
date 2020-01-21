@@ -245,8 +245,12 @@ export const AnalyticsWidgetSizeTypes = {
 };
 
 export const AnalyticsDataBreakdownTypes = {
-    CONTRACT_TO: 'contract_to',
     TX_STATUS: 'transaction_status',
+    NETWORK: 'network_id',
+    CONTRACT_FROM: 'contract_from',
+    CONTRACT_TO: 'contract_to',
+    FUNCTION: 'function_signature',
+    LOG: 'log_signature',
 };
 
 export const AnalyticsWidgetDataRangeTypes = {

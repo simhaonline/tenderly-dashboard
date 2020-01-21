@@ -62,7 +62,6 @@ class ProjectAnalyticsPage extends Component {
 
         const loading = !forceLoaded && (!loadedDashboards || !dashboardId);
 
-
         return (
             <Page id="ProjectPage" tabs={dashboards.map(d => ({
                 route: `${project.getUrlBase()}/analytics?dashboard=${d.id}`,
