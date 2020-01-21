@@ -10,6 +10,8 @@ import {
 } from "../../Utils/AnalyticsHelpers";
 
 import {
+    AnalyticsWidgetDataRangeLabelMap,
+    AnalyticsWidgetDataRangeTypes, AnalyticsWidgetDataRangeValueMap,
     AnalyticsWidgetResolutionTypes,
     AnalyticsWidgetSizeTypes,
     AnalyticsWidgetTypes,
@@ -24,6 +26,7 @@ import {AnalyticsWidgetChart, SimpleLoader} from "..";
 import './AnalyticsWidget.scss';
 
 import Dropdown from "../../Elements/Dropdown/Dropdown";
+import data from "../../Pages/Project/AnalyticsDashboardData";
 
 
 const widgetSizeClassMap = {
@@ -65,14 +68,21 @@ class AnalyticsWidget extends Component {
         })
     }
 
-
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const {widget, project, analyticsActions} = this.props;
+        const {widget, project, analyticsActions, isCustom} = this.props;
         if (prevProps.widget !== widget){
             this.setState({
                 loading: true,
             });
-            const dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
+
+            let dataResponse;
+
+            if (isCustom) {
+                dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
+            } else {
+                dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget);
+            }
+
             this.setState({
                 loading: false,
                 widgetData: dataResponse.data,
@@ -84,6 +94,14 @@ class AnalyticsWidget extends Component {
       const {widget, project, analyticsActions} = this.props;
 
       analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {resolution})
+    };
+
+    handleWidgetDateRangeChange = (dateRange) => {
+        const {widget, project, analyticsActions} = this.props;
+
+        analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {
+            time: AnalyticsWidgetDataRangeValueMap[dateRange],
+        })
     };
 
     render() {
@@ -116,8 +134,19 @@ class AnalyticsWidget extends Component {
                         </div>
                         <div className="AnalyticsWidget__Header__SubInfo">
                             {!!widget.time && <div>
-                                <Icon className="MarginRight1 MutedText" icon="calendar"/>
-                                <span>{getFormattedTimeRange(widget.time)}</span>
+                                <Dropdown>
+                                    <DropdownToggle>
+                                        <Icon className="MarginRight1 MutedText" icon="calendar"/>
+                                        <span>{getFormattedTimeRange(widget.time)}</span>
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        {Object.values(AnalyticsWidgetDataRangeTypes).map(dateRange =>
+                                            <DropdownItem key={dateRange} onClick={() => this.handleWidgetDateRangeChange(dateRange)}>
+                                                <Icon className="MarginRight1 MutedText" icon="calendar"/>
+                                                <span>{AnalyticsWidgetDataRangeLabelMap[dateRange]}</span>
+                                            </DropdownItem>)}
+                                    </DropdownMenu>
+                                </Dropdown>
                             </div>}
                             {!!widget.resolution && widget.type!== AnalyticsWidgetTypes.TABLE && <div>
                                 <Dropdown>
