@@ -6,7 +6,13 @@ import _ from 'lodash';
 
 import Notifications from "../../Utils/Notifications";
 
-import {FIVE_SECOND_INTERVAL, ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
+import {
+    FIVE_SECOND_INTERVAL,
+    ONE_MIN_INTERVAL,
+    ProjectTypes,
+    TransactionFilterTypes,
+    UserPlanTypes
+} from "../../Common/constants";
 
 import {
     areProjectContractsLoaded,
@@ -42,17 +48,34 @@ class ProjectTransactionsPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, projectActions, txActions, contractActions, contractsLoaded} = this.props;
+        const {project, projectActions, txActions, contractActions, contractsLoaded, accountPlan, contracts} = this.props;
         const {filters, page, perPage} = this.state;
 
         let transactions = [];
 
         if (project.type !== ProjectTypes.DEMO) {
-            if (!contractsLoaded) {
-                await contractActions.fetchContractsForProject(project);
-            }
 
-            const actionResponse = await txActions.fetchTransactionsForProject(project.slug, project.owner, filters, page, perPage);
+            let projectContracts = contracts;
+            let queryFilters = filters;
+
+
+
+            if (!contractsLoaded) {
+
+                const contractsResponse = await contractActions.fetchContractsForProject(project);
+                projectContracts = contractsResponse.data;
+            }
+            if(accountPlan.plan.type === UserPlanTypes.FREE && !queryFilters[TransactionFilterTypes.CONTRACTS]){
+                queryFilters[TransactionFilterTypes.CONTRACTS] = {
+                    type: TransactionFilterTypes.CONTRACTS,
+                    value: [projectContracts[0].id],
+                };
+
+                this.setState({
+                    filters: queryFilters,
+                }, this.updateUrlQuery)
+            }
+            const actionResponse = await txActions.fetchTransactionsForProject(project.slug, project.owner, queryFilters, page, perPage);
 
             if (!actionResponse.success) {
                 this.setState({
