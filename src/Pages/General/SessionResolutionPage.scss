@@ -1,0 +1,62 @@
+@import "../../Common/common";
+
+.GrandFatherInfo{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.GrandFatherInfo__ProFeaturesWrapper{
+  margin-bottom: $Spacing8;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 600px;
+}
+
+.GrandFatherInfo__Description {
+  font-size: $FontSize500;
+  font-weight: 100;
+  max-width: 420px;
+  text-align: center;
+  margin-bottom: $Spacing7;
+}
+
+.GrandFatherInfo__ProFeaturesListItem{
+  font-size: $FontSize400;
+  padding: $Spacing1 $Spacing4;
+  flex: 0 0 50%;
+  display: flex;
+  align-items: center;
+}
+
+.GrandFatherInfo__ProFeaturesHeadline{
+  margin-bottom: $Spacing1;
+
+}
+
+.GrandFatherInfo__ProFeaturesListIcon{
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: transparentize($Secondary500, 0.5);
+  border: 1px solid $Secondary500;
+  margin-right: $Spacing2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $FontSize300;
+}
+
+.GrandFatherInfo__Headline{
+  margin-bottom: $Spacing3;
+
+}
+
+.GrandFatherInfo__Image{
+  height: 80px;
+  margin-bottom: $Spacing4;
+
+}
