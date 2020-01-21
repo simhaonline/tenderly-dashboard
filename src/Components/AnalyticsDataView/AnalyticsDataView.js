@@ -35,8 +35,6 @@ class AnalyticsDataView extends Component {
             dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget);
         }
 
-
-
         if (!dataResponse.success) {
             // @TODO Set error state
             return ;

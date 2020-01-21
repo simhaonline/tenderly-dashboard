@@ -34,12 +34,9 @@ class ProjectAnalyticsPage extends Component {
     }
 
     async componentDidMount() {
-        const {analyticsActions, project, loadedDashboards, dashboards} = this.props;
+        const {analyticsActions, project, loadedDashboards, dashboards, history} = this.props;
         if(loadedDashboards){
-            return this.setState({
-                currentDashboard: dashboards[0].id
-
-            })
+            return history.push(`?dashboard=${dashboards[0].id}`);
         }
         const analyticsResponse = await analyticsActions.fetchAnalyticsForProject(project);
 
@@ -49,26 +46,21 @@ class ProjectAnalyticsPage extends Component {
                 forceLoaded: true,
             })
         }
-
-        this.setState({
-            currentDashboard:  analyticsResponse.data[0].id,
-        });
+        history.push(`?dashboard=${analyticsResponse.data[0].id}`);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {loadedDashboards, dashboards} = this.props;
+        const {loadedDashboards, dashboards, history} = this.props;
         if(prevProps.loadedDashboards!== loadedDashboards){
-            this.setState({
-                currentDashboard: dashboards[0].id
-            })
+            history.push(`?dashboard=${dashboards[0].id}`);
         }
     }
 
     render() {
-        const {project, accountPlan, loadedDashboards, dashboards} = this.props;
-        const {currentDashboard, forceLoaded} = this.state;
+        const {project, accountPlan, loadedDashboards, dashboards, dashboardId} = this.props;
+        const {forceLoaded} = this.state;
 
-        const loading = !forceLoaded && (!loadedDashboards || !currentDashboard);
+        const loading = !forceLoaded && (!loadedDashboards || !dashboardId);
 
 
         return (
@@ -86,7 +78,7 @@ class ProjectAnalyticsPage extends Component {
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && dashboards.length>0 && <ProjectAnalyticsDashboard dashboard={dashboards.find(dashboard => dashboard.id===currentDashboard)} project={project}/>}
+                    {!loading && dashboards.length>0 && <ProjectAnalyticsDashboard dashboard={dashboards.find(dashboard => dashboard.id===dashboardId)} project={project}/>}
                     {!loading && dashboards.length===0 && <div>
                         <Panel>
                             <EmptyState title="Coming soon" description="The analytics feature is currently under development" icon="bar-chart-2" />
@@ -99,7 +91,9 @@ class ProjectAnalyticsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {username, slug}}} = ownProps;
+    const {match: {params: {username, slug}}, location: {search}} = ownProps;
+    const searchParams = new URLSearchParams(search);
+    const dashboardId = searchParams.get('dashboard')
 
     const project = getProjectBySlugAndUsername(state, slug, username);
 
@@ -107,7 +101,8 @@ const mapStateToProps = (state, ownProps) => {
         project,
         accountPlan: getAccountPlanForProject(state, project),
         loadedDashboards: areCustomDashboardsLoadedForProject(state, project.id),
-        dashboards: getAnalyticsDashboardsForProject(state,project.id)
+        dashboards: getAnalyticsDashboardsForProject(state,project.id),
+        dashboardId,
     }
 };
 
