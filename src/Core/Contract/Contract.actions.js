@@ -7,6 +7,7 @@ import {exampleContract1Payload, exampleContract2Payload} from "../../examples";
 
 import {Contract, Account, ContractMethod, ContractLog, Project, ProjectContract} from "../models";
 import {asyncActionWrapper} from "../../Utils/ActionHelpers";
+import ProjectTag from "../Project/ProjectTag.model";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
@@ -308,21 +309,27 @@ export const getContractBackFillingStatus = (project, contract) => {
 export const addTagToProjectContractRevision = (project, revision, tag) => asyncActionWrapper({
     name: 'addTagToProjectContractRevision',
 }, async dispatch => {
-    await Api.post(`/account/${project.owner}/project/${project.slug}/tag`, {
+    const {data}=await Api.post(`/account/${project.owner}/project/${project.slug}/tag`, {
         contract_ids: [
             Account.generateApiId(revision.id),
         ],
         tag,
     });
+    if(!data || !data.tag){
+        return new ErrorActionResponse();
+    }
+
+    const addedTag = ProjectTag.buildFromResponse(data.tag);
 
     dispatch({
         type: ADD_TAG_TO_CONTRACT_REVISION_ACTION,
         projectId: project.id,
         revisionId: revision.id,
-        tag,
+        projectContractId: ProjectContract.generateId(project.id, revision.id),
+        tag: addedTag,
     });
 
-    return new SuccessActionResponse();
+    return new SuccessActionResponse(addedTag);
 });
 
 /**
