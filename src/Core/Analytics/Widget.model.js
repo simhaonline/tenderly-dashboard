@@ -38,6 +38,9 @@ class Widget {
 
         /** @type {AnalyticsWidgetResolutionTypes} */
         this.resolution = data.resolution;
+
+        /** @type {Object[]} */
+        this.orderBy = data.orderBy;
     }
 
     /**
@@ -91,6 +94,13 @@ class Widget {
 
         if(widget.group && widget.group.length > 0){
             data.group_by = widget.group;
+        }
+
+        if(widget.orderBy && widget.orderBy.length > 0){
+            data.order_by = widget.orderBy.map(order=> ({
+                field: order.property,
+                direction: order.direction,
+            }))
         }
 
         data.display_settings = {
@@ -153,7 +163,11 @@ class Widget {
                         property: selector.selector.field,
                         aggregation: selector.selector.aggregate,
                     }
-                })
+                }),
+                orderBy: response.order_by.map(order=> ({
+                    property: order.field,
+                    direction: order.direction
+                }))
             };
         }
 
