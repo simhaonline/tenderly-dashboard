@@ -17,19 +17,30 @@ export function getAnalyticsDashboardsForProject(state, projectId) {
     return state.analytics.projectDashboards[projectId];
 }
 
-export function getCustomDashboardWidgetForProject(state, projectId, widgetId) {
 
-    const dashboards = getCustomDashboardsForProject(state, projectId);
+export function getAnalyticsDashboardForWidget(state, projectId, widgetId) {
+    const dashboards = getAnalyticsDashboardsForProject(state, projectId);
     if(dashboards.length===0){
         return null
     }
 
-    let widget = null;
+    let analyticsDashboard = null;
 
     dashboards.forEach(dashboard => {
         if(dashboard.widgets.find(dashboardWidget=> dashboardWidget.id===widgetId)){
-            widget= dashboard.widgets.find(dashboardWidget=> dashboardWidget.id===widgetId);
+            analyticsDashboard = dashboard
         }
     });
-    return widget;
+    return analyticsDashboard;
+}
+
+export function getCustomDashboardWidgetForProject(state, projectId, widgetId) {
+
+    const dashboard = getAnalyticsDashboardForWidget(state, projectId, widgetId);
+
+    if(!dashboard){
+        return null
+    }
+
+    return dashboard.widgets.find(dashboardWidget=> dashboardWidget.id===widgetId);
 }

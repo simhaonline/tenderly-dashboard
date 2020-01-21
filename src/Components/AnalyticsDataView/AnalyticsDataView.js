@@ -25,10 +25,17 @@ class AnalyticsDataView extends Component {
     }
 
     fetchWidgetData = async () => {
-        const {widget,project,analyticsActions} = this.props;
-        const {timeRange, resolution} = this.state;
+        const {widget,project,analyticsActions, dashboard} = this.props;
 
-        const dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
+        let dataResponse;
+
+        if(dashboard.isCustom){
+            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
+        } else {
+            dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget);
+        }
+
+
 
         if (!dataResponse.success) {
             // @TODO Set error state

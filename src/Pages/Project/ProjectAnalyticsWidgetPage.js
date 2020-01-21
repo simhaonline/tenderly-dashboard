@@ -9,7 +9,7 @@ import {analyticsActions} from "../../Core/actions";
 import {Button, Container, Icon, Page, PageHeading} from "../../Elements";
 import {AnalyticsDataView, ProjectContentLoader} from "../../Components";
 import {
-    areCustomDashboardsLoadedForProject,
+    areCustomDashboardsLoadedForProject, getAnalyticsDashboardForWidget,
     getCustomDashboardWidgetForProject
 } from "../../Common/Selectors/AnalyticsSelectors";
 
@@ -18,12 +18,12 @@ class ProjectAnalyticsWidgetPage extends Component {
     async componentDidMount() {
         const {analyticsActions, project, loadedDashboards} = this.props;
         if(!loadedDashboards){
-            analyticsActions.fetchCustomAnalyticsForProject(project);
+            analyticsActions.fetchAnalyticsForProject(project);
         }
     }
 
     render() {
-        const {project, loadedDashboards, analyticsWidget } = this.props;
+        const {project, loadedDashboards, analyticsWidget, dashboard} = this.props;
 
         return (
             <Page id="ProjectPage">
@@ -36,7 +36,7 @@ class ProjectAnalyticsWidgetPage extends Component {
                             </Button>
                             <h1>{analyticsWidget.name}</h1>
                         </PageHeading>
-                        <AnalyticsDataView widget={analyticsWidget} project={project}/>
+                        <AnalyticsDataView widget={analyticsWidget} project={project} dashboard={dashboard}/>
                     </Fragment>}
                 </Container>
             </Page>
@@ -51,7 +51,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
         project,
         loadedDashboards: areCustomDashboardsLoadedForProject(state, project.id),
-        analyticsWidget: getCustomDashboardWidgetForProject(state, project.id, widgetId)
+        analyticsWidget: getCustomDashboardWidgetForProject(state, project.id, widgetId),
+        dashboard: getAnalyticsDashboardForWidget(state, project.id, widgetId),
     }
 };
 
