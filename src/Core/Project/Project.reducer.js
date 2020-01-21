@@ -221,9 +221,28 @@ const ProjectReducer = (state = initialState, action) => {
                 },
             };
         case ADD_TAG_TO_CONTRACT_REVISION_ACTION:
-            // @TODO Handle tag creating to add to project
+            const existingTagContract = getProjectContractForRevision({project: state}, action.projectId, action.revisionId);
+
+            const updatedTagContract = existingTagContract.update({
+                revisions: {
+                    [action.revisionId]: {
+                        tags: [
+                            ...existingTagContract.getRevision(action.revisionId).tags,
+                            action.tag,
+                        ],
+                    },
+                },
+            });
+
             return {
                 ...state,
+                projectContracts: {
+                    ...state.projectContracts,
+                    [action.projectId]: [
+                        ...state.projectContracts[action.projectId].filter(pc => pc.id !== action.projectContractId),
+                        updatedTagContract,
+                    ],
+                }
             };
         case FETCH_PROJECT_TAGS_ACTION: {
             return {
