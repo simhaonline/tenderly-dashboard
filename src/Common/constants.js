@@ -253,6 +253,10 @@ export const AnalyticsDataBreakdownTypes = {
     LOG: 'log_signature',
 };
 
+export const AnalyticsDataFiltersTypes = {
+    CONTRACT: 'contract',
+};
+
 /**
  * @enum {string}
  */

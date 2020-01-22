@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
 
-import {analyticsActions} from "../../Core/actions";
+import {analyticsActions, contractActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading, Panel} from "../../Elements";
 
@@ -20,7 +20,8 @@ import {
     areCustomDashboardsLoadedForProject, getAnalyticsDashboardsForProject,
     getCustomDashboardsForProject
 } from "../../Common/Selectors/AnalyticsSelectors";
-import {FeatureFlagTypes} from "../../Common/constants";
+import {AnalyticsDataFiltersTypes, FeatureFlagTypes, UserPlanTypes} from "../../Common/constants";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
@@ -30,11 +31,30 @@ class ProjectAnalyticsPage extends Component {
             loading: true,
             hasCustom: false,
             dashboards: [],
+            filters: [],
         }
     }
 
     async componentDidMount() {
-        const {analyticsActions, project, loadedDashboards, dashboards, history} = this.props;
+        const {analyticsActions, project, loadedDashboards, dashboards, history, contractsLoaded, contractActions, contracts, accountPlan} = this.props;
+
+        let projectContracts = contracts;
+
+        if (!contractsLoaded) {
+
+            const contractsResponse = await contractActions.fetchContractsForProject(project);
+            projectContracts = contractsResponse.data;
+        }
+
+        if(accountPlan.plan.type === UserPlanTypes.FREE){
+            this.setState({
+                filters: [{
+                    type: AnalyticsDataFiltersTypes.CONTRACT,
+                    value: projectContracts[0].id,
+                }]
+            })
+        }
+
         if(loadedDashboards){
             return history.push(`?dashboard=${dashboards[0].id}`);
         }
@@ -58,7 +78,7 @@ class ProjectAnalyticsPage extends Component {
 
     render() {
         const {project, accountPlan, loadedDashboards, dashboards, dashboardId} = this.props;
-        const {forceLoaded} = this.state;
+        const {forceLoaded, filters} = this.state;
 
         const loading = !forceLoaded && (!loadedDashboards || !dashboardId);
 
@@ -77,7 +97,8 @@ class ProjectAnalyticsPage extends Component {
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && dashboards.length>0 && <ProjectAnalyticsDashboard dashboard={dashboards.find(dashboard => dashboard.id===dashboardId)} project={project}/>}
+                    {!loading && dashboards.length>0 && <ProjectAnalyticsDashboard dashboard={dashboards.find(dashboard => dashboard.id===dashboardId)}
+                                                                                   project={project} filters={filters}/>}
                     {!loading && dashboards.length===0 && <div>
                         <Panel>
                             <EmptyState title="Coming soon" description="The analytics feature is currently under development" icon="bar-chart-2" />
@@ -99,7 +120,9 @@ const mapStateToProps = (state, ownProps) => {
     return {
         project,
         accountPlan: getAccountPlanForProject(state, project),
+        contracts: getContractsForProject(state, project.id),
         loadedDashboards: areCustomDashboardsLoadedForProject(state, project.id),
+        contractsLoaded: areProjectContractsLoaded(state, project.id),
         dashboards: getAnalyticsDashboardsForProject(state,project.id),
         dashboardId,
     }
@@ -108,6 +131,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         analyticsActions: bindActionCreators(analyticsActions, dispatch),
+        contractActions: bindActionCreators(contractActions, dispatch),
     }
 };
 

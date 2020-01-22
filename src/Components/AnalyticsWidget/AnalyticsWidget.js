@@ -47,25 +47,7 @@ class AnalyticsWidget extends Component {
     }
 
     async componentDidMount() {
-        const {isCustom, analyticsActions, widget, project} = this.props;
-
-        let dataResponse;
-
-        if (isCustom) {
-            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
-        } else {
-            dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget);
-        }
-
-        if (!dataResponse.success) {
-            // @TODO Set error state
-            return ;
-        }
-
-        this.setState({
-            loading: false,
-            widgetData: dataResponse.data,
-        })
+        this.fetchWidgetData();
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
@@ -75,20 +57,27 @@ class AnalyticsWidget extends Component {
                 loading: true,
             });
 
-            let dataResponse;
-
-            if (isCustom) {
-                dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
-            } else {
-                dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget);
-            }
-
-            this.setState({
-                loading: false,
-                widgetData: dataResponse.data,
-            })
+            this.fetchWidgetData();
         }
     }
+
+    fetchWidgetData = async () => {
+        const {project, widget, analyticsActions, isCustom, filters} = this.props;
+
+        let dataResponse;
+
+        if (isCustom) {
+            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget, {filters});
+        } else {
+            dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget, {filters});
+        }
+
+        this.setState({
+            loading: false,
+            widgetData: dataResponse.data,
+        })
+
+    };
 
     handleWidgetResolutionChange = (resolution) => {
       const {widget, project, analyticsActions} = this.props;
@@ -172,8 +161,8 @@ class AnalyticsWidget extends Component {
                         "AnalyticsWidget__Data",
                         `AnalyticsWidget__Data--${widget.type}`,
                     )}>
-                        {!!widgetData && <AnalyticsWidgetChart dataPoints={widgetData.dataPoints} widget={widget} data={widgetData.data}/>}
-                        {!widgetData && <div>
+                        {!!widgetData && !!widgetData.data && widgetData.data.length>0 && <AnalyticsWidgetChart dataPoints={widgetData.dataPoints} widget={widget} data={widgetData.data}/>}
+                        {(!widgetData || !widgetData.data || widgetData.data.length===0) && <div>
                             No data
                         </div>}
                     </div>}

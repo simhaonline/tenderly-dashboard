@@ -1,9 +1,11 @@
 import {
+    AnalyticsDataFiltersTypes,
     AnalyticsWidgetResolutionTypes,
     AnalyticsWidgetSizeTypes,
     AnalyticsWidgetTypes,
     TimeUnitTypes
 } from "../../Common/constants";
+import Account from "../Account/Account.model";
 
 class Widget {
     constructor(data) {
@@ -56,7 +58,7 @@ class Widget {
      * @param {Widget} widget
      * @returns {Object}
      */
-    static transformToApiPayloadForData(widget) {
+    static transformToApiPayloadForData(widget, overrides) {
         const data = {};
 
         if (widget.time && widget.time.window) {
@@ -101,6 +103,22 @@ class Widget {
                 field: order.property,
                 direction: order.direction,
             }))
+        }
+
+        if(!!overrides){
+            if(overrides.filters){
+                overrides.filters.forEach(filter => {
+                    switch (filter.type) {
+                        case AnalyticsDataFiltersTypes.CONTRACT:
+                            if(!data.contract_ids){
+                                data.contract_ids = []
+                            }
+                            data.contract_ids.push(Account.generateApiId(filter.value));
+                            break;
+                    }
+                })
+            }
+
         }
 
         data.display_settings = {

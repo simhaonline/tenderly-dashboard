@@ -66,8 +66,6 @@ class ProjectTransactionsPage extends Component {
             let projectContracts = contracts;
             let queryFilters = filters;
 
-
-
             if (!contractsLoaded) {
 
                 const contractsResponse = await contractActions.fetchContractsForProject(project);
