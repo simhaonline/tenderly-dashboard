@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 
 import {Contract} from "../../Core/models";
 
-import {FeatureFlagTypes, TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
+import {
+    FeatureFlagTypes,
+    TransactionFilterTypes,
+    TransactionsListColumnTypes,
+    UserPlanTypes
+} from "../../Common/constants";
 import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, Checkbox, LinkButton, Select} from "../../Elements";
@@ -247,9 +252,9 @@ class TransactionFilters extends Component {
 
         return (
             <div className="TransactionFilters">
-                <div>
+                {plan.plan.type !== UserPlanTypes.FREE && <div>
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
-                </div>
+                </div>}
                 <div className="MarginLeftAuto">
                     <Button outline onClick={this.handleSettingsModalOpen}>
                         <Icon icon="settings"/>
