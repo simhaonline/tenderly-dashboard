@@ -17,8 +17,10 @@ export {default as OnboardingCreateOrganizationStep} from './Onboarding/Onboardi
 export {default as PulsingDot} from './PulsingDot/PulsingDot';
 export {default as TenderlyFeaturesDemo} from './TenderlyFeaturesDemo/TenderlyFeaturesDemo';
 
-// Stateful Select Components
+
+// Stateful Select Component
 export {default as ProjectSelect} from './Select/ProjectSelect';
+export {default as ContractSelect} from './Select/ContractSelect';
 export {default as WidgetResolutionSelect} from './Select/WidgetResolutionSelect';
 export {default as WidgetTimeRangeSelect} from './Select/WidgetTimeRangeSelect';
 
@@ -26,6 +28,7 @@ export {default as WidgetTimeRangeSelect} from './Select/WidgetTimeRangeSelect';
 export {default as ProjectSelectOption} from './SelectComponents/ProjectSelectOption';
 export {default as ProjectSelectValue} from './SelectComponents/ProjectSelectValue';
 export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
+export {default as ContractSelectValue} from './SelectComponents/ContractSelectValue';
 export {default as ContractMethodOrLogSelectOption} from './SelectComponents/ContractMethodOrLogSelectOption';
 export {default as ContractInputSelectOption} from './SelectComponents/ContractInputSelectOption';
 export {default as ConditionOperatorSelectOption} from './SelectComponents/ConditionOperatorSelectOption';

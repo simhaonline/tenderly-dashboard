@@ -24,8 +24,16 @@ import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors"
 
 import {contractActions, projectActions, transactionActions} from "../../Core/actions";
 
-import {Container, Page, PageHeading, Toggle} from "../../Elements";
-import {ProjectContentLoader, TransactionsList, BackfillingProgress, TransactionFilters, ProjectSetupEmptyState, NoTransactionsEmptyState} from "../../Components";
+import {Card, Container, Icon, Page, PageHeading, Toggle} from "../../Elements";
+import {
+    ProjectContentLoader,
+    TransactionsList,
+    BackfillingProgress,
+    TransactionFilters,
+    ProjectSetupEmptyState,
+    NoTransactionsEmptyState,
+    PaidFeatureButton, ContractSelect
+} from "../../Components";
 
 const DEFAULT_TX_PER_PAGE = 20;
 
@@ -348,6 +356,12 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
+                        {shouldDisplayListAndFilters && accountPlan.plan.type === UserPlanTypes.FREE && <Card>
+                            <ContractSelect project={project}/>
+                            <PaidFeatureButton includes="transaction_search.filtering" plan={accountPlan} size="small" outline>
+                                <span>Upgrade</span>
+                            </PaidFeatureButton>
+                        </Card>}
                         {shouldDisplayListAndFilters && <TransactionFilters plan={accountPlan} activeFilters={filters} activeColumns={activeColumns} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange} onColumnToggle={this.handleColumnToggle}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
                                           loading={fetching} project={project} activeColumns={activeColumns}
