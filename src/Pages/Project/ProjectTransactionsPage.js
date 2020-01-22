@@ -332,6 +332,13 @@ class ProjectTransactionsPage extends Component {
         });
     };
 
+    handleSingleContractChange = (contract) => {
+      this.handleFilterChange([{
+          type: TransactionFilterTypes.CONTRACTS,
+          value: [contract.id],
+      }])
+    };
+
     render() {
         const {loading, transactions, backfillingStatus, filters, page, perPage, activeColumns, refreshSubscriber, fetching, error} = this.state;
         const {contracts, project, projectTags, accountPlan} = this.props;
@@ -357,7 +364,8 @@ class ProjectTransactionsPage extends Component {
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
                         {shouldDisplayListAndFilters && accountPlan.plan.type === UserPlanTypes.FREE && <Card>
-                            <ContractSelect project={project}/>
+                            <ContractSelect project={project} value={contracts.find(contract => contract.id === filters[TransactionFilterTypes.CONTRACTS].value[0])}
+                            onChange={this.handleSingleContractChange}/>
                             <PaidFeatureButton includes="transaction_search.filtering" plan={accountPlan} size="small" outline>
                                 <span>Upgrade</span>
                             </PaidFeatureButton>
