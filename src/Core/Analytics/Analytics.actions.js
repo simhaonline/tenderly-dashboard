@@ -132,8 +132,7 @@ export const fetchCustomAnalyticsWidgetDataForProject = (project, widget, overri
     }
 
     const widgetData = WidgetData.buildFromResponse(data.widget);
-
-
+    
     return new SuccessActionResponse(widgetData);
 });
 

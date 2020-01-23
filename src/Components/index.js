@@ -49,6 +49,7 @@ export {default as PaidFeatureMessage} from './PaidFeatureMessage/PaidFeatureMes
 export {default as PaidFeatureButton} from './PaidFeatureButton/PaidFeatureButton';
 export {default as PaidFeatureUpsell} from './PaidFeatureUpsell/PaidFeatureUpsell';
 export {default as ProjectPlanUsage} from './ProjectPlanUsage/ProjectPlanUsage';
+export {default as FreePlanContractPicker} from './FreePlanContractPicker/FreePlanContractPicker';
 
 // Explorer Components
 export {default as ExplorerHeader} from './ExplorerHeader/ExplorerHeader';
