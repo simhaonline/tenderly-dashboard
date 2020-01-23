@@ -17,9 +17,14 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import {AnalyticsDataFiltersTypes, UserPlanTypes} from "../../Common/constants";
 
 class ProjectAnalyticsWidgetPage extends Component {
-    state = {
-        filters: []
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            filters: [],
+            selectedContract: null
+        };
+    }
 
     async componentDidMount() {
         const {analyticsActions, project, loadedDashboards, contractsLoaded, contracts, accountPlan, contractActions} = this.props;
@@ -36,34 +41,43 @@ class ProjectAnalyticsWidgetPage extends Component {
                 filters: [{
                     type: AnalyticsDataFiltersTypes.CONTRACT,
                     value: projectContracts[0].id,
-                }]
+                }],
+                selectedContract: projectContracts[0],
+
             })
         }
+
         if(!loadedDashboards){
             analyticsActions.fetchAnalyticsForProject(project);
         }
+
+        this.setState({
+            initialized: true,
+            }
+        )
     }
-
-
 
     handleSingleContractFilterChange= (contract) => {
         this.setState({
             filters: [{
                 type: AnalyticsDataFiltersTypes.CONTRACT,
                 value: contract.id,
-            }]
+            }],
+            selectedContract: contract,
         })
     };
 
     render() {
-        const {project, loadedDashboards, analyticsWidget, dashboard, accountPlan, contracts} = this.props;
-        const {filters} = this.state;
+        const {project, loadedDashboards, analyticsWidget, dashboard, accountPlan} = this.props;
+        const {filters, selectedContract, initialized} = this.state;
+
+        const loaded = initialized && loadedDashboards;
 
         return (
             <Page id="ProjectPage">
                 <Container>
-                    {!loadedDashboards && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {loadedDashboards && <Fragment>
+                    {!loaded && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
+                    {loaded && <Fragment>
                         <PageHeading>
                             <Button outline to={`${project.getUrlBase()}/analytics`}>
                                 <Icon icon="arrow-left"/>
@@ -71,7 +85,7 @@ class ProjectAnalyticsWidgetPage extends Component {
                             <h1>{analyticsWidget.name}</h1>
                         </PageHeading>
                         {accountPlan.plan.type === UserPlanTypes.FREE && <FreePlanContractPicker accountPlan={accountPlan} project={project}
-                                                                                                 contract={contracts.find(contract=> filters.find(filter=> filter.type===AnalyticsDataFiltersTypes.CONTRACT).value===contract.id)}
+                                                                                                 contract={selectedContract}
                                                                                                  onChange={this.handleSingleContractFilterChange}/>}
                         <AnalyticsDataView widget={analyticsWidget} project={project} filters={filters} dashboard={dashboard}/>
                     </Fragment>}
