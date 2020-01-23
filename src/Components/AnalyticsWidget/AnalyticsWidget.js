@@ -51,8 +51,8 @@ class AnalyticsWidget extends Component {
     }
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
-        const {widget, project, analyticsActions, isCustom} = this.props;
-        if (prevProps.widget !== widget){
+        const {widget, filters} = this.props;
+        if (prevProps.widget !== widget || prevProps.filters!== filters){
             this.setState({
                 loading: true,
             });

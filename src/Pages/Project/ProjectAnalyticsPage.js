@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -11,7 +11,7 @@ import {Container, Page, PageHeading, Panel} from "../../Elements";
 
 import {
     EmptyState,
-    FeatureFlag,
+    FeatureFlag, FreePlanContractPicker,
     PaidFeatureButton,
     ProjectAnalyticsDashboard,
     ProjectContentLoader
@@ -76,8 +76,17 @@ class ProjectAnalyticsPage extends Component {
         }
     }
 
+    handleSingleContractFilterChange= (contract) => {
+        this.setState({
+            filters: [{
+                type: AnalyticsDataFiltersTypes.CONTRACT,
+                value: contract.id,
+            }]
+        })
+    };
+
     render() {
-        const {project, accountPlan, loadedDashboards, dashboards, dashboardId} = this.props;
+        const {project, accountPlan, loadedDashboards, dashboards, dashboardId, contracts} = this.props;
         const {forceLoaded, filters} = this.state;
 
         const loading = !forceLoaded && (!loadedDashboards || !dashboardId);
@@ -97,8 +106,12 @@ class ProjectAnalyticsPage extends Component {
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && dashboards.length>0 && <ProjectAnalyticsDashboard dashboard={dashboards.find(dashboard => dashboard.id===dashboardId)}
-                                                                                   project={project} filters={filters}/>}
+                    {!loading && dashboards.length>0 && <Fragment>
+                        {accountPlan.plan.type === UserPlanTypes.FREE && <FreePlanContractPicker accountPlan={accountPlan} project={project}
+                                                                                                 contract={contracts.find(contract=> filters.find(filter=> filter.type===AnalyticsDataFiltersTypes.CONTRACT).value===contract.id)}
+                                                                                                 onChange={this.handleSingleContractFilterChange}/>}
+                        <ProjectAnalyticsDashboard dashboard={dashboards.find(dashboard => dashboard.id===dashboardId)}
+                                                   project={project} filters={filters}/> </Fragment>}
                     {!loading && dashboards.length===0 && <div>
                         <Panel>
                             <EmptyState title="Coming soon" description="The analytics feature is currently under development" icon="bar-chart-2" />
