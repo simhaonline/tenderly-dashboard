@@ -80,7 +80,7 @@ export const fetchWidgetDataForProject = (project, widget, overrides) => asyncAc
     const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/data`, Widget.transformToApiPayloadForData(widget, overrides));
 
     if (!data || !data.widget) {
-        return new SuccessActionResponse(null);
+        return new ErrorActionResponse(null);
     }
 
     const widgetData = WidgetData.buildFromResponse(data.widget);

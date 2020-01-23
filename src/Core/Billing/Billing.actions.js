@@ -51,10 +51,10 @@ export const activatePlanForAccount = (account, plan) => asyncActionWrapper({
  * @param {User} account
  * @param {Plan} plan
  */
-export const activateTrialForAccount = (account, plan) => asyncActionWrapper({
+export const activateTrialForAccount = (plan) => asyncActionWrapper({
     name: 'activateTrialForAccount',
 }, async dispatch => {
-    const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.slug}/trial`);
+    const {data} = await Api.post(`/account/me/billing/plan/${plan.id}/trial`);
 
     console.log('trial', data);
 

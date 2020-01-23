@@ -71,7 +71,7 @@ class ProjectTransactionsPage extends Component {
                 const contractsResponse = await contractActions.fetchContractsForProject(project);
                 projectContracts = contractsResponse.data;
             }
-            if(accountPlan.plan.type === UserPlanTypes.FREE && !queryFilters[TransactionFilterTypes.CONTRACTS]){
+            if(accountPlan.plan.type === UserPlanTypes.FREE && !queryFilters[TransactionFilterTypes.CONTRACTS] && projectContracts.length>0){
                 queryFilters[TransactionFilterTypes.CONTRACTS] = {
                     type: TransactionFilterTypes.CONTRACTS,
                     value: [projectContracts[0].id],
