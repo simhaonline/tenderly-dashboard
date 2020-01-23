@@ -16,7 +16,7 @@ import LocalStorage from "./Utils/LocalStorage";
 
 import {LocalStorageKeys, UserPlanTypes} from "./Common/constants";
 
-import {searchActions, authActions} from "./Core/actions";
+import {searchActions, authActions, billingActions} from "./Core/actions";
 import {store} from './Core';
 
 import {AppHeader, FeatureFlagControls} from "./Components";
@@ -72,6 +72,8 @@ class App extends Component {
         }
 
         const sessionResponse = await store.dispatch(authActions.retrieveToken(tokenCookie));
+
+        store.dispatch(billingActions.fetchAllPlans());
 
         const recentSearchesCache = LocalStorage.getItem(LocalStorageKeys.RECENT_SEARCHES);
 
