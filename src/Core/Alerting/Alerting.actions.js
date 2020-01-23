@@ -4,6 +4,7 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import AlertRule from "./AlertRule.model";
 import {AlertRuleExpression, AlertLog, NotificationDestination} from "../models";
+import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 export const FETCH_ALERT_RULES_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULES_FOR_PROJECT';
 export const FETCH_ALERT_RULE_FOR_PROJECT_ACTION = 'FETCH_ALERT_RULE_FOR_PROJECT';
@@ -145,24 +146,21 @@ export const updateAlertRuleForProject = (project, updateRule) => {
  * @param {Project} project
  * @param {string} ruleId
  */
-export const deleteAlertRuleForProject = (project, ruleId) => {
-    return async dispatch => {
-        try {
-            await Api.delete(`/account/${project.owner}/project/${project.slug}/alert/${ruleId}`);
+export const deleteAlertRuleForProject = (project, ruleId) => asyncActionWrapper({
+    name: 'deleteAlertRuleForProject',
+    payable: true,
+    account: project.owner,
+}, async dispatch => {
+    await Api.delete(`/account/${project.owner}/project/${project.slug}/alert/${ruleId}`);
 
-            dispatch({
-                type: DELETE_ALERT_RULE_FOR_PROJECT_ACTION,
-                ruleId,
-                projectId: project.id,
-            });
+    dispatch({
+        type: DELETE_ALERT_RULE_FOR_PROJECT_ACTION,
+        ruleId,
+        projectId: project.id,
+    });
 
-            return new SuccessActionResponse();
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
-    };
-};
+    return new SuccessActionResponse();
+});
 
 /**
  * @param {Project} project
@@ -170,43 +168,40 @@ export const deleteAlertRuleForProject = (project, ruleId) => {
  * @param {AlertRuleExpression[]} expressions
  * @param {string[]} destinations - Array of destination IDs
  */
-export const createAlertRuleForProject = (project, general, expressions, destinations) => {
-    return async dispatch => {
-        try {
-            const payload = {
-                name: general.name,
-                color: AlertRule.getHexColorFromSeverity(general.severity),
-                description: general.description || '',
-                simple_type: general.simpleType,
-                enabled: true,
-                expressions: expressions.map(AlertRuleExpression.transformToApiPayload),
-                delivery_channels: destinations.map(destination => ({
-                    enabled: true,
-                    id: destination,
-                })),
-            };
-
-            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/alert`, payload);
-
-            if (!data || !data.alert) {
-                return new ErrorActionResponse();
-            }
-
-            const rule = AlertRule.buildFromResponse(data.alert);
-
-            dispatch({
-                type: CREATE_ALERT_RULE_FOR_PROJECT_ACTION,
-                projectId: project.id,
-                rule,
-            });
-
-            return new SuccessActionResponse(rule);
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error)
-        }
+export const createAlertRuleForProject = (project, general, expressions, destinations) => asyncActionWrapper({
+    name: 'createAlertRuleForProject',
+    payable: true,
+    account: project.owner,
+    }, async dispatch => {
+    const payload = {
+        name: general.name,
+        color: AlertRule.getHexColorFromSeverity(general.severity),
+        description: general.description || '',
+        simple_type: general.simpleType,
+        enabled: true,
+        expressions: expressions.map(AlertRuleExpression.transformToApiPayload),
+        delivery_channels: destinations.map(destination => ({
+            enabled: true,
+            id: destination,
+        })),
     };
-};
+
+    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/alert`, payload);
+
+    if (!data || !data.alert) {
+        return new ErrorActionResponse();
+    }
+
+    const rule = AlertRule.buildFromResponse(data.alert);
+
+    dispatch({
+        type: CREATE_ALERT_RULE_FOR_PROJECT_ACTION,
+        projectId: project.id,
+        rule,
+    });
+
+    return new SuccessActionResponse(rule);
+});
 
 /**
  * @param {Project} project
