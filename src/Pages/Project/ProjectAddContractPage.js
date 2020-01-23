@@ -10,8 +10,12 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {contractActions} from "../../Core/actions";
 
-import {Page, Container, PageHeading, Icon, Button} from "../../Elements";
+import {Page, Container, PageHeading, Icon, Button, Panel} from "../../Elements";
 import {CliUsageInstructions, AddPublicContractForm, ProjectContentLoader, AddContractMethodPicker} from "../../Components";
+import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
+import {UserPlanTypes} from "../../Common/constants";
+import PaidFeatureButton from "../../Components/PaidFeatureButton/PaidFeatureButton";
+import PanelContent from "../../Elements/Panel/PanelContent";
 
 class ProjectAddContractPage extends Component {
     state = {
@@ -31,7 +35,7 @@ class ProjectAddContractPage extends Component {
     };
 
     render() {
-        const {contractsLoaded, contracts, project} = this.props;
+        const {contractsLoaded, contracts, project, accountPlan} = this.props;
         const {currentMethod} = this.state;
 
         return (
@@ -47,7 +51,16 @@ class ProjectAddContractPage extends Component {
                     {contractsLoaded && <Fragment>
                         <AddContractMethodPicker onSelect={this.setCurrentType} currentActive={currentMethod}/>
                         {currentMethod === 'verified' && <AddPublicContractForm project={project} contracts={contracts}/>}
-                        {currentMethod === 'cli' && <CliUsageInstructions project={project}/>}
+                        {currentMethod === 'cli' && <Fragment>
+                            {accountPlan.plan.type!== UserPlanTypes.FREE && <CliUsageInstructions project={project}/>}
+                            {accountPlan.plan.type === UserPlanTypes.FREE && <Panel>
+                                <PanelContent>
+                                    <PaidFeatureButton includes='private_contracts' plan={accountPlan}>
+                                        Learn More
+                                    </PaidFeatureButton>
+                                </PanelContent>
+                            </Panel>}
+                        </Fragment>}
                     </Fragment>}
                 </Container>
             </Page>
@@ -64,6 +77,7 @@ const mapStateToProps = (state, ownProps) => {
         project,
         contracts: getContractsForProject(state, project.id),
         contractsLoaded: areProjectContractsLoaded(state, project.id),
+        accountPlan: getAccountPlanForProject(state, project),
     }
 };
 

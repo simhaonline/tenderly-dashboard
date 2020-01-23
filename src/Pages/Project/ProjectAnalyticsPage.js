@@ -46,7 +46,7 @@ class ProjectAnalyticsPage extends Component {
             projectContracts = contractsResponse.data;
         }
 
-        if(accountPlan.plan.type === UserPlanTypes.FREE){
+        if(accountPlan.plan.type === UserPlanTypes.FREE && projectContracts.length>0){
             this.setState({
                 filters: [{
                     type: AnalyticsDataFiltersTypes.CONTRACT,
