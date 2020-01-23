@@ -45,7 +45,7 @@ class PaidFeatureButton extends PureComponent {
     };
 
     render() {
-        const {children, usage, includes, plan, dispatch, billingActions, allPlans, ...props} = this.props;
+        const {children, usage, includes, plan, dispatch, billingActions, allPlans,canActivateTrial, ...props} = this.props;
         const {upgradeModalOpen} = this.state;
 
         let hasAbility = false;
@@ -66,7 +66,6 @@ class PaidFeatureButton extends PureComponent {
                 {children}
             </Button>;
         }
-        const canActivateTrial = true;
 
         return (
             <Fragment>
@@ -125,7 +124,8 @@ PaidFeatureButton.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        allPlans: getAllPlans(state)
+        allPlans: getAllPlans(state),
+        canActivateTrial: state.billing.canActivateTrial,
     }
 };
 

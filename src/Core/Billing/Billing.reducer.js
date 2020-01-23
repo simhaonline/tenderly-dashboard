@@ -11,6 +11,8 @@ const initialState = {
     accountPlans: {},
     /** @type {AccountPlan|null} */
     userPlan: null,
+    /** @type {boolean} */
+    canActivateTrial: null,
 };
 
 
@@ -26,6 +28,7 @@ const BillingReducer = (state = initialState, action) => {
                     ...state.accountPlans,
                     [action.username]: action.accountPlan,
                 },
+                canActivateTrial: !action.trialUsed,
             };
         case FETCH_PLAN_FOR_ACCOUNT_ACTION:
         case CommonActionTypes.FETCH_ACCOUNT_PLAN_ACTION:

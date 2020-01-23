@@ -209,6 +209,7 @@ export const fetchUserPlan = (user) => asyncActionWrapper({
         type: FETCH_USER_PLAN_ACTION,
         username: user.username,
         accountPlan,
+        trialUsed: data.trial_used,
     });
 
     return new SuccessActionResponse(accountPlan);
