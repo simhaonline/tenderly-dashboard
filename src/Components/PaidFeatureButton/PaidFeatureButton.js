@@ -44,7 +44,7 @@ class PaidFeatureButton extends PureComponent {
     };
 
     render() {
-        const {children, usage, includes, plan, dispatch, billingActions, allPlans,canActivateTrial, ...props} = this.props;
+        const {children, usage, includes, plan, dispatch, billingActions, allPlans,canActivateTrial, user, ...props} = this.props;
         const {upgradeModalOpen} = this.state;
 
         let hasAbility = false;
@@ -65,6 +65,8 @@ class PaidFeatureButton extends PureComponent {
                 {children}
             </Button>;
         }
+
+        const canUpdate = user.id === plan.ownerId;
 
         return (
             <Fragment>
@@ -99,15 +101,17 @@ class PaidFeatureButton extends PureComponent {
                                     <Icon className='PaidFeatureButton__ProFeaturesListIcon' icon='layers'/>Private Network Support</div>
                             </div>
                         </div>
-                        {!canActivateTrial && <Button size="large" color="secondary" stretch onClick={() => Intercom.openNewConversation('Tenderly Pro upgrade info:\n')}>
+                        {canUpdate && <Fragment>
+                            {!canActivateTrial && <Button size="large" color="secondary" stretch onClick={() => Intercom.openNewConversation('Tenderly Pro upgrade info:\n')}>
                                 <span className="SemiBoldText">Upgrade</span>
                             </Button>}
-                        {canActivateTrial && <Button size="large" color="secondary" stretch onClick={this.handleTrialActivate}>
-                            <span className="SemiBoldText">Start Free Trial</span>
-                        </Button>}
-                        <Button onClick={this.handleModalClose} color='secondary' outline stretch className='MarginTop2'>
-                            <span>Cancel</span>
-                        </Button>
+                            {canActivateTrial && <Button size="large" color="secondary" stretch onClick={this.handleTrialActivate}>
+                                <span className="SemiBoldText">Start Free Trial</span>
+                            </Button>}
+                            <Button onClick={this.handleModalClose} color='secondary' outline stretch className='MarginTop2'>
+                                <span>Cancel</span>
+                            </Button>
+                        </Fragment>}
                     </DialogBody>
                 </Dialog>
             </Fragment>
