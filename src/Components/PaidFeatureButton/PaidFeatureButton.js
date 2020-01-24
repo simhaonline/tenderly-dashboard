@@ -37,11 +37,10 @@ class PaidFeatureButton extends PureComponent {
     };
 
     handleTrialActivate = async () => {
-        const {allPlans, billingActions} = this.props;
+        const {allPlans, billingActions, user} = this.props;
         const proPlan = allPlans.find(plan=> plan.type===UserPlanTypes.PRO);
 
-        const response = await billingActions.activateTrialForAccount(proPlan);
-        console.log(response)
+        const response = await billingActions.activateTrialForAccount(user, proPlan);
     };
 
     render() {
@@ -124,6 +123,7 @@ PaidFeatureButton.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.auth.user,
         allPlans: getAllPlans(state),
         canActivateTrial: state.billing.canActivateTrial,
     }

@@ -51,12 +51,21 @@ export const activatePlanForAccount = (account, plan) => asyncActionWrapper({
  * @param {User} account
  * @param {Plan} plan
  */
-export const activateTrialForAccount = (plan) => asyncActionWrapper({
+export const activateTrialForAccount = (account, plan) => asyncActionWrapper({
     name: 'activateTrialForAccount',
 }, async dispatch => {
-    const {data} = await Api.post(`/account/me/billing/plan/${plan.id}/trial`);
+    const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.id}/trial`);
 
-    console.log('trial', data);
+    if(!data || !data.plan) {
+        return new ErrorActionResponse();
+    }
+    const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
+    dispatch({
+        type: ACTIVATE_TRIAL_FOR_ACCOUNT_ACTION,
+        accountPlan,
+        username: account.username,
+        trialUsed: true,
+    });
 
     return new SuccessActionResponse();
 });
