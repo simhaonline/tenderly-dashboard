@@ -1,5 +1,5 @@
 import {
-    COMPLETE_ONBOARDING,
+    COMPLETE_ONBOARDING, FETCH_USER_PLAN_ACTION,
     GET_USER_ACTION,
     LOG_IN_ACTION,
     LOG_OUT_ACTION,
@@ -8,6 +8,8 @@ import {
     SET_USERNAME_ACTION,
     UPDATE_USER_ACTION
 } from "./Auth.actions";
+import {UserPlanTypes} from "../../Common/constants";
+import {ACTIVATE_PLAN_FOR_ACCOUNT_ACTION} from "../Billing/Billing.actions";
 
 const initialState = {
     retrievedToken: false,
@@ -16,6 +18,7 @@ const initialState = {
     usernameSet: false,
     passwordSet: false,
     onboardingFinished: true,
+    accountResolutionRequired: false,
     user: {}
 };
 
@@ -26,6 +29,15 @@ const AuthReducer = (state = initialState, action) => {
                 ...state,
                 retrievedToken: true,
                 token: action.token,
+            };
+        case ACTIVATE_PLAN_FOR_ACCOUNT_ACTION:
+        case FETCH_USER_PLAN_ACTION:
+            const plan = action.accountPlan;
+            const resolutionRequired = plan.plan.type === UserPlanTypes.GRANDFATHER && !plan.isPlanActive;
+
+            return {
+                ...state,
+                accountResolutionRequired: resolutionRequired,
             };
         case LOG_IN_ACTION:
         case REGISTER_ACTION:

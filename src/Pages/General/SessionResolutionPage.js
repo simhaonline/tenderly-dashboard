@@ -3,29 +3,31 @@ import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {Plan, User} from "../../Core/models";
+import {AccountPlan, User} from "../../Core/models";
 import {billingActions} from "../../Core/actions";
 
-import {Button, Icon, LinkButton, Page} from "../../Elements";
+import {Button, Icon, Page} from "../../Elements";
 import GiftIcon from "./giftbox.svg";
 import './SessionResolutionPage.scss';
 
 class SessionResolutionPage extends Component {
+    state = {
+        activating: false,
+    };
     acceptGrandfatherPlan = async () => {
-        const {billingActions, user, plan, onResolution} = this.props;
-
-        const response = await billingActions.activatePlanForAccount(user, plan);
-
-        console.log('asdasd');
-        if (response.success) {
-            onResolution();
-        }
+        const {billingActions, user, plan} = this.props;
+        this.setState({
+            activating: true,
+        });
+        await billingActions.activatePlanForAccount(user, plan);
+        this.setState({
+            activating: false,
+        })
     };
 
     render() {
-        const {user, plan} = this.props;
+        const {activating} = this.state;
 
-        console.log(user, plan);
 
         return (
             <Page wholeScreenPage>
@@ -59,7 +61,7 @@ class SessionResolutionPage extends Component {
                              </div>
                          </div>
                      </div>
-                    <Button className="MarginBottom2" size='large' onClick={this.acceptGrandfatherPlan} color="secondary">
+                    <Button className="MarginBottom2" size='large' disabled={activating} onClick={this.acceptGrandfatherPlan} color="secondary">
                         <span>Continue</span>
                         <Icon icon='arrow-right'/>
                     </Button>
@@ -71,7 +73,7 @@ class SessionResolutionPage extends Component {
 
 SessionResolutionPage.propTypes = {
     user: PropTypes.instanceOf(User),
-    plan: PropTypes.instanceOf(Plan),
+    plan: PropTypes.instanceOf(AccountPlan),
 };
 
 const mapDispatchToProps = (dispatch) => {

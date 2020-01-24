@@ -155,6 +155,8 @@ export const getUser = (token) => {
                 impersonating = !!decodedToken.impersonate;
             }
 
+            await dispatch(fetchUserPlan(user));
+
             if (user.showDemo && !!user.username) {
                 dispatchExampleProject(dispatch, user);
             }
@@ -321,7 +323,6 @@ export const completeOnboarding = () => {
 export const retrieveToken = token => asyncActionWrapper({
     name: 'retrieveToken',
 }, async dispatch => {
-    let user, plan;
 
     if (token) {
         dispatch(setAuthHeader(token));
@@ -329,27 +330,15 @@ export const retrieveToken = token => asyncActionWrapper({
 
         if (!response.success) {
             dispatch(removeAuthHeader())
-        } else {
-            user = response.data;
-
-            // @TODO @BILLING Remove when implement billing
-            const planResponse = await dispatch(fetchUserPlan(response.data));
-
-            if (planResponse.success) {
-                plan = planResponse.data;
-            }
         }
-    }
+    };
 
     dispatch({
         type: RETRIEVE_TOKEN_ACTION,
         token,
     });
 
-    return new SuccessActionResponse({
-        user,
-        plan,
-    });
+    return new SuccessActionResponse();
 });
 
 /**

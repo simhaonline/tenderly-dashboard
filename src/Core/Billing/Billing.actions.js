@@ -42,7 +42,18 @@ export const activatePlanForAccount = (account, plan) => asyncActionWrapper({
 }, async dispatch => {
     const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.plan.id}`);
 
-    console.log('plan', data);
+    if(!data || !data.plan) {
+        return new ErrorActionResponse();
+    }
+
+    const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
+
+    dispatch({
+        type: ACTIVATE_PLAN_FOR_ACCOUNT_ACTION,
+        accountPlan,
+        username: account.username,
+        trialUsed: data.trial_used,
+    });
 
     return new SuccessActionResponse();
 });
@@ -59,7 +70,9 @@ export const activateTrialForAccount = (account, plan) => asyncActionWrapper({
     if(!data || !data.plan) {
         return new ErrorActionResponse();
     }
+
     const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
+
     dispatch({
         type: ACTIVATE_TRIAL_FOR_ACCOUNT_ACTION,
         accountPlan,

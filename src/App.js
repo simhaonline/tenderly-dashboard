@@ -42,16 +42,6 @@ class App extends Component {
         loaded: false,
     };
 
-    /**
-     * @param {User|null} user
-     * @param {AccountPlan|null} plan
-     */
-    isSessionResolutionRequired = (user, plan) => {
-        if (!plan) return false;
-
-        return plan.plan.type === UserPlanTypes.GRANDFATHER && !plan.isPlanActive;
-    };
-
     async componentDidMount() {
         let tokenCookie = Cookies.get('token');
 
@@ -71,7 +61,7 @@ class App extends Component {
             tokenCookie = loginToken;
         }
 
-        const sessionResponse = await store.dispatch(authActions.retrieveToken(tokenCookie));
+        await store.dispatch(authActions.retrieveToken(tokenCookie));
 
         store.dispatch(billingActions.fetchAllPlans());
 
@@ -81,14 +71,8 @@ class App extends Component {
             await store.dispatch(searchActions.setRecentSearchesFromCache(recentSearchesCache));
         }
 
-        const user = sessionResponse.success ? sessionResponse.data.user : null;
-        const plan = sessionResponse.success ? sessionResponse.data.plan : null;
-
         this.setState({
             loaded: true,
-            user,
-            plan,
-            resolutionRequired: this.isSessionResolutionRequired(user, plan),
         });
     }
 
@@ -100,14 +84,8 @@ class App extends Component {
         });
     }
 
-    handleSessionResolution = () => {
-        this.setState({
-            resolutionRequired: false,
-        });
-    };
-
     render() {
-        const {loaded, error, user, plan, resolutionRequired} = this.state;
+        const {loaded, error} = this.state;
 
         // @TODO Create loader here
         if (!loaded) return null;
@@ -120,13 +98,10 @@ class App extends Component {
             <Provider store={store}>
                 <Router>
                     <div className="App">
-                        {resolutionRequired && <SessionResolutionPage user={user} plan={plan} onResolution={this.handleSessionResolution}/>}
-                        {!resolutionRequired && <Fragment>
-                            <AppHeader/>
-                            <div id="AppContent">
-                                <AppPages/>
-                            </div>
-                        </Fragment>}
+                        <AppHeader/>
+                        <div id="AppContent">
+                            <AppPages/>
+                        </div>
                         {process.env.NODE_ENV === 'development' && <FeatureFlagControls/>}
                         <ToastContainer toastClassName="ToastMessage" transition={ToastAnimation} pauseOnFocusLoss={false} draggable={false}
                                         bodyClassName="ToastBody" closeButton={false} position="bottom-right" hideProgressBar/>
