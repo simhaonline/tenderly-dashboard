@@ -1,9 +1,5 @@
 # Tenderly Dashboard
 
-![](https://github.com/Tenderly/tenderly-dashboard/workflows/.github/workflows/ci-production/badge.svg)
-
-![](https://github.com/Tenderly/tenderly-dashboard/workflows/.github/workflows/cd-production/badge.svg)
-
 ## Development
 
 This project is made using Create React App so most things you will be able to read inside their documentation.
