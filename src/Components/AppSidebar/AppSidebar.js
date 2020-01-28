@@ -133,7 +133,7 @@ class AppSidebar extends Component {
                         <span>Monitoring</span>
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
-                        <AppSidebarLink to={`${routeBase}/analytics`} badge="Beta" badgeColor='secondary-outline' icon="bar-chart-2" label="Analytics"/>
+                        <AppSidebarLink to={`${routeBase}/analytics`} badge="New" icon="bar-chart-2" label="Analytics"/>
                         <AppSidebarLink to={`${routeBase}/alerts`} icon="bell" label="Alerting"/>
                         {context === 'alerting' && <div className="MarginBottom1 MarginTop1">
                             <AppSidebarSubLink to={`${routeBase}/alerts/rules`} label="Alerts"/>
