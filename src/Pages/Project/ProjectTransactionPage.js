@@ -26,7 +26,7 @@ import {
     PageError,
     TransactionPageContent,
     EtherscanLink,
-    SharePageButton, TransactionGeneralInformation
+    SharePageButton, TransactionGeneralInformation, CopyableText
 } from "../../Components";
 import {generateShortAddress} from "../../Utils/AddressFormatter";
 
@@ -182,7 +182,7 @@ class ProjectTransactionPage extends Component {
                             </Button>
                             <div>
                                 <h1>Transaction</h1>
-                                <div className="MonospaceFont">{generateShortAddress(txHash, 12, 8)}</div>
+                                <CopyableText text={txHash} render={(props)=> <span className={`MonospaceFont LinkText ${props.className}`}>{generateShortAddress(txHash, 12, 8)}</span>} position="right" onSuccessMessage="Copied contract address to clipboard"/>
                             </div>
                             <div className="RightContent">
                                 <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
@@ -212,7 +212,7 @@ class ProjectTransactionPage extends Component {
                         </Button>
                         <div>
                             <h1>Transaction</h1>
-                            <div className="MonospaceFont">{generateShortAddress(txHash, 12, 8)}</div>
+                            <CopyableText text={txHash} render={(props)=> <span className={`MonospaceFont LinkText ${props.className}`}>{generateShortAddress(txHash, 12, 8)}</span>} position="right" onSuccessMessage="Copied contract address to clipboard"/>
                         </div>
                         {!!transaction && <div className="RightContent">
                             {canBeViewedOnExplorer && <SharePageButton url={`${DASHBOARD_BASE_URL}/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`}

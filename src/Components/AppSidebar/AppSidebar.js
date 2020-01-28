@@ -7,7 +7,7 @@ import {FeatureFlagTypes} from "../../Common/constants";
 
 import {Project} from "../../Core/models";
 
-import {Sidebar, Icon} from '../../Elements';
+import {Sidebar, Icon, Tag} from '../../Elements';
 import {FeatureFlag} from '..';
 
 import './AppSidebar.scss';
@@ -43,11 +43,12 @@ function getContextFromUrl(url, base) {
     return null;
 }
 
-const AppSidebarLink = ({to, icon, label, exact = false, isActive}) => {
+const AppSidebarLink = ({to, icon, label, exact = false, badge, badgeColor='primary-outline', isActive}) => {
     return (
         <NavLink activeClassName="AppSidebar__NavGroup__Link--Active" to={to} isActive={isActive} strict={!exact} exact={exact} className="AppSidebar__NavGroup__Link">
             <Icon icon={icon} className="AppSidebar__NavGroup__Link__Icon"/>
             <span className="AppSidebar__NavGroup__Link__Label">{label}</span>
+            {!!badge && <Tag className="MarginLeftAuto" size="small" color={badgeColor}>{badge}</Tag>}
         </NavLink>
     );
 };
@@ -132,7 +133,7 @@ class AppSidebar extends Component {
                         <span>Monitoring</span>
                     </div>
                     <div className="AppSidebar__NavGroup__Links">
-                        <AppSidebarLink to={`${routeBase}/analytics`} icon="bar-chart-2" label="Analytics"/>
+                        <AppSidebarLink to={`${routeBase}/analytics`} badge="Beta" badgeColor='secondary-outline' icon="bar-chart-2" label="Analytics"/>
                         <AppSidebarLink to={`${routeBase}/alerts`} icon="bell" label="Alerting"/>
                         {context === 'alerting' && <div className="MarginBottom1 MarginTop1">
                             <AppSidebarSubLink to={`${routeBase}/alerts/rules`} label="Alerts"/>

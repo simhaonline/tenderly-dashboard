@@ -7,7 +7,7 @@ import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors"
 
 import {analyticsActions, contractActions} from "../../Core/actions";
 
-import {Container, Page, PageHeading, Panel} from "../../Elements";
+import {Container, Page, PageHeading, Panel, Button} from "../../Elements";
 
 import {
     EmptyState,
@@ -22,6 +22,7 @@ import {
 } from "../../Common/Selectors/AnalyticsSelectors";
 import {AnalyticsDataFiltersTypes, FeatureFlagTypes, UserPlanTypes} from "../../Common/constants";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+import Intercom from "../../Utils/Intercom";
 
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
@@ -114,7 +115,12 @@ class ProjectAnalyticsPage extends Component {
                                                    project={project} filters={filters}/> </Fragment>}
                     {!loading && dashboards.length===0 && <div>
                         <Panel>
-                            <EmptyState title="Coming soon" description="The analytics feature is currently under development" icon="bar-chart-2" />
+                            <EmptyState title="This feature is currently in Beta" description="We are rolling out the beta version of Analytics to a small percentage of users. If you would like to participate in the Beta testing, contact us to enable Analytics for your account."
+                                        renderActions={()=> <div>
+                                            <Button color="secondary" onClick={() => Intercom.openNewConversation('Analytics Beta Request: \n')}>
+                                                <span>Request Access</span>
+                                            </Button>
+                                        </div>} icon="bar-chart-2" />
                         </Panel>
                     </div>}
                 </Container>

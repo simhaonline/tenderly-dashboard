@@ -445,6 +445,10 @@ export const setUsername = (username) => {
                user: newUser,
             });
 
+            if (newUser.showDemo && !!newUser.username) {
+                dispatchExampleProject(dispatch, newUser);
+            }
+
             return new SuccessActionResponse(newUser);
         } catch (error) {
             return new ErrorActionResponse(error);

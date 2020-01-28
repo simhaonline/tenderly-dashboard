@@ -59,7 +59,9 @@ export const createProject = (name, username = 'me') => asyncActionWrapper({
     if (showDemo) {
         const demoProject = getProjectBySlugAndUsername(getState(), exampleProjectPayload.slug, user.username);
 
-        await dispatch(deleteProject(demoProject));
+        if (demoProject) {
+            await dispatch(deleteProject(demoProject));
+        }
     }
 
     const project = Project.buildFromResponse(data.project, user);
