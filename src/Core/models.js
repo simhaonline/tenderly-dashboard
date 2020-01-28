@@ -20,6 +20,7 @@ export {default as CallTrace} from './Trace/CallTrace.model';
 export {default as EventLog} from './Trace/EventLog.model';
 export {default as StateDiff} from './Trace/StateDiff.model';
 export {default as StackTrace} from './Trace/StackTrace.model';
+export {default as ConsoleLog} from './Trace/ConsoleLog.model';
 export {default as Transaction} from './Transaction/Transaction.model';
 export {default as AlertLog} from './Alerting/AlertLog.model';
 export {default as AlertRule} from './Alerting/AlertRule.model';
