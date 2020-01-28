@@ -4,7 +4,7 @@ import {bindActionCreators} from "redux";
 
 import {
     getTransaction,
-    getTransactionCallTrace, getTransactionEventLogs,
+    getTransactionCallTrace, getTransactionEventLogs, getTransactionsConsoleLogs,
     getTransactionStackTrace, getTransactionStateDiffs
 } from "../../Common/Selectors/TransactionSelectors";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
@@ -139,7 +139,7 @@ class ProjectTransactionPage extends Component {
     };
 
     render() {
-        const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project, txHash, networkType} = this.props;
+        const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project, txHash, networkType, consoleLogs} = this.props;
         const {error, tabs, loading, txContracts, loadedTx, previousPageQuery} = this.state;
 
         const backUrl = {
@@ -227,7 +227,7 @@ class ProjectTransactionPage extends Component {
                     </PageHeading>
                     {!!transaction && <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace}
                                             callTrace={callTrace} project={project} eventLogs={eventLogs}
-                                            stateDiffs={stateDiffs}/>}
+                                            stateDiffs={stateDiffs} consoleLogs={consoleLogs}/>}
                 </Container>
             </Page>
         );
@@ -252,6 +252,7 @@ const mapStateToProps = (state, ownProps) => {
         stackTrace: getTransactionStackTrace(state, txHash),
         eventLogs: getTransactionEventLogs(state, txHash),
         stateDiffs: getTransactionStateDiffs(state, txHash),
+        consoleLogs: getTransactionsConsoleLogs(state,txHash),
     }
 };
 
