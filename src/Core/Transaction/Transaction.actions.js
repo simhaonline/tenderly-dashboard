@@ -9,7 +9,7 @@ import {
 } from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
-import {EventLog, StackTrace, CallTrace, Transaction, StateDiff, Project} from "../models";
+import {EventLog, StackTrace, CallTrace, Transaction, StateDiff, Project, ConsoleLog} from "../models";
 
 import {
     exampleTransaction1Paylod
@@ -137,6 +137,19 @@ export const fetchTransactionForProject = (project, txHash, network) => {
                 stateDiffs = data.transaction_info.state_diff.map(state_diff => StateDiff.buildFromResponse(state_diff, txHash));
             }
 
+            let consoleLogs = [
+                ConsoleLog.buildFromResponse({
+                    output: [
+                        "transfer",
+                        "0xa7be",
+                    ],
+                    tx_hash: transaction.txHash,
+                    contract: transaction.to,
+                    line: 74,
+                    method: "log",
+                })
+            ];
+
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
                 projectId: project.id,
@@ -145,6 +158,7 @@ export const fetchTransactionForProject = (project, txHash, network) => {
                 stackTrace,
                 eventLogs,
                 stateDiffs,
+                consoleLogs,
             });
 
             return new SuccessActionResponse({
