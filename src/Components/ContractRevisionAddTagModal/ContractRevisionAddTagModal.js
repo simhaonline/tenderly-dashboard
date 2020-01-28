@@ -32,7 +32,7 @@ class ContractRevisionAddTagModal extends Component {
         const {project, revision, contractActions} = this.props;
         const {label} = this.state;
 
-        if (!revision) {
+        if (!revision || !label) {
             return;
         }
 
@@ -66,7 +66,7 @@ class ContractRevisionAddTagModal extends Component {
                         <p className="MarginBottom2">Add unique tags to your contracts to help you filter your transactions pinpoint key events that happened more easily.</p>
                         <Input value={label} field="label" onChange={this.handleLabelChange} icon="tag" autoFocus label="e.g. v1.3.37"/>
                         <div className="MarginTop4">
-                            <Button type="submit">
+                            <Button type="submit" disabled={!label}>
                                 <span>Add Tag</span>
                             </Button>
                             <Button onClick={this.handleModalClose} outline>
