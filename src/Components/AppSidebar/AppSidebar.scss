@@ -58,6 +58,10 @@
   font-size: $FontSize400;
   padding: 0 $Spacing3;
 
+  &:hover, &:focus, &:active {
+    color: $WhiteColor;
+  }
+
   @media (max-width: 760px) {
     height: 59px;
     padding: 0 $Spacing6;
