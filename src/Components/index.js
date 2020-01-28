@@ -146,6 +146,7 @@ export {default as TransactionEventLogs} from './TransactionEventLogs/Transactio
 export {default as TransactionContracts} from './TransactionContracts/TransactionContracts';
 export {default as TransactionStackTrace} from './TransactionStackTrace/TransactionStackTrace';
 export {default as TransactionStateDiff} from './TransactionStateDiff/TransactionStateDiff';
+export {default as TransactionConsoleLogs} from './TransactionConsoleLogs/TransactionConsoleLogs';
 
 export {default as CallTraceFlameGraph} from './CallTraceFlameGraph/CallTraceFlameGraph';
 export {default as FlameGraph} from './FlameGraph/FlameGraph';

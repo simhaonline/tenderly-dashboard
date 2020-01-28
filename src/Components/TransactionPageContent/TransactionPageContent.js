@@ -11,7 +11,7 @@ import {
     TransactionEventLogs,
     TransactionGasBreakdown,
     TransactionGeneralInformation,
-    TransactionStackTrace, TransactionStateDiff
+    TransactionStackTrace, TransactionStateDiff, TransactionConsoleLogs,
 } from "../index";
 
 const tabToUrlMap = {
@@ -82,7 +82,7 @@ class TransactionPageContent extends PureComponent {
     }
 
     render() {
-        const {transaction, stateDiffs, contracts, callTrace, eventLogs, stackTrace, project} = this.props;
+        const {transaction, stateDiffs, contracts, callTrace, eventLogs, stackTrace, project, consoleLogs} = this.props;
         const {baseUrl, selectedTrace} = this.state;
 
         if (!transaction) {
@@ -95,6 +95,7 @@ class TransactionPageContent extends PureComponent {
                     <Route path={baseUrl} exact render={() => <Fragment>
                         <TransactionGeneralInformation contracts={contracts} transaction={transaction} project={project}/>
                         {!transaction.status && !!stackTrace && <TransactionStackTrace onNavigate={this.handleNavigationAction} stackTrace={stackTrace} contracts={contracts}/>}
+                        {!!consoleLogs && consoleLogs.length>0 && <TransactionConsoleLogs consoleLogs={consoleLogs} contracts={contracts} />}
                         <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger} onSourceView={this.handleTraceViewSource}/>
                     </Fragment>}/>
                     <Route path={`${baseUrl}/logs`} exact render={() => <TransactionEventLogs contracts={contracts} eventLogs={eventLogs}/>}/>
