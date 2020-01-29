@@ -25,9 +25,9 @@ const TransactionConsoleLogs = ({consoleLogs, contracts, onViewSource}) => {
                                <div className="MarginLeft2">
                                    {consoleLog.outputs.map((output,index)=> <span className="MutedText MarginRight1" key={index}>{output.value.toString()}</span>)}
                                </div>
-                           {!!contract && !!consoleLog.line && !!consoleLog.fileId && <div className="MarginLeftAuto">
+                           {!!contract && !!consoleLog.lineNumber && consoleLog.fileId !== null && <div className="MarginLeftAuto">
                               <LinkButton onClick={()=> onViewSource(consoleLog)}>
-                                  {contract.name}:{consoleLog.line}
+                                  {contract.name}:{consoleLog.lineNumber}
                               </LinkButton>
                            </div>}
                        </div>
