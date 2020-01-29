@@ -10,7 +10,7 @@ const TransactionConsoleLogs = ({consoleLogs, contracts, onViewSource}) => {
     return (
         <Panel>
            <PanelContent>
-                <p><Icon icon='terminal'/> <span className="SemiBoldText">{consoleLogs.length} console logs</span> were emitted in this transaction.</p>
+                <p><Icon icon='terminal'/> <span className="SemiBoldText">{consoleLogs.length} console {consoleLogs.length===1?"log":"logs"}</span> {consoleLogs.length===1?"was":"ware"} emitted in this transaction.</p>
                <Card color="dark">
                    {consoleLogs.map((consoleLog, index)=> {
                        const contract = contracts.find(c=> c.address===consoleLog.contract);
