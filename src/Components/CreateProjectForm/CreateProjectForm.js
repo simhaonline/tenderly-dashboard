@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
-import {Form, Input, Button} from "../../Elements";
 import {initializeForm, updateFormField} from "../../Utils/FormHelpers";
 import {formatProjectSlug} from "../../Utils/Formatters";
+
+import {PlanUsageTypes} from "../../Common/constants";
+
+import {Form, Input} from "../../Elements";
+import {PaidFeatureButton} from "../index";
 
 import './CreateProjectForm.scss';
 
@@ -40,6 +45,7 @@ class CreateProjectForm extends Component {
     };
 
     render() {
+        const {plan} = this.props;
         const {formData: {projectName}, creating} = this.state;
 
         return (
@@ -51,14 +57,20 @@ class CreateProjectForm extends Component {
                     <div className="UrlNote">* Slugs can not be changed later</div>
                 </div>
                 <div className="SubmitButtonWrapper">
-                    <Button type="submit" disabled={!projectName || creating}>
+                    <PaidFeatureButton plan={plan} usage={PlanUsageTypes.PROJECT_USAGE} type="submit" disabled={!projectName || creating}>
                         <span>Create Project</span>
-                    </Button>
+                    </PaidFeatureButton>
                 </div>
             </Form>
         );
     }
 }
+
+CreateProjectForm.propTypes  ={
+    // @TODO @BILLING Remove when implement billing
+    // plan: PropTypes.instanceOf(AccountPlan).isRequired,
+    onSubmit: PropTypes.func,
+};
 
 CreateProjectForm.defaultProps = {
     onSubmit: () => {},

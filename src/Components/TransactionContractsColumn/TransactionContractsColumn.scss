@@ -1,18 +1,26 @@
-@import "../../Common/Styles/colors";
-@import "../../Common/Styles/typography";
-@import "../../Common/Styles/global";
+@import "../../Common/common";
 
 .TransactionContractsColumn__Contract {
   font-family: $MonospaceFontFamily;
   color: $LinkColor;
+  display: inline-flex;
+  align-items: center;
 }
 
 .TransactionContractsColumn__Tooltip {
   padding: $Spacing2 $Spacing3;
 }
 
+.TransactionContractsColumn__Tooltip__NetworkWrapper {
+  margin-bottom: $Spacing2;
+  padding-bottom: $Spacing2;
+  border-bottom: 1px solid $Slate200;
+}
+
 .TransactionContractsColumn__Tooltip__Contract {
   margin-bottom: $Spacing1;
+  display: flex;
+  align-items: center;
 
   &:last-child {
     margin-bottom: 0;

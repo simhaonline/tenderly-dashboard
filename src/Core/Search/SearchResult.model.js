@@ -86,7 +86,7 @@ class SearchResult {
             case SearchResultTypes.PUBLIC_CONTRACT:
             case SearchResultTypes.PUBLIC_TRANSACTION:
             case SearchResultTypes.PROJECT_TRANSACTION:
-                return NetworkApiToAppTypeMap[response.network_id] || response.contract.network_id;
+                return NetworkApiToAppTypeMap[response.network_id] || response.network_id;
             default:
                 return null;
         }

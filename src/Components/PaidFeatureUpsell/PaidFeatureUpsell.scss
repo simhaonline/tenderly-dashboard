@@ -1,0 +1,27 @@
+@import "../../Common/common";
+
+.PaidFeatureUpsell {
+  padding: $Spacing7;
+  border-radius: 1rem;
+  max-width: 560px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.PaidFeatureUpsell__ActionsWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.PaidFeatureUpsell__Image {
+  height: 200px;
+}
+
+.PaidFeatureUpsell__Headline {}
+
+.PaidFeatureUpsell__FeatureItem {}
+
+.PaidFeatureUpsell__FeatureItem__Title {}
+
+.PaidFeatureUpsell__FeatureItem__Description {}

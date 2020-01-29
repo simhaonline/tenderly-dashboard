@@ -2,11 +2,15 @@ import React, {Fragment, PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {CollaboratorPermissionTypeDescriptionMap, CollaboratorPermissionTypeIconMap} from "../../Common/constants";
+import {
+    CollaboratorPermissionTypeDescriptionMap,
+    CollaboratorPermissionTypeIconMap,
+    ProjectTypes
+} from "../../Common/constants";
 
 import {Collaborator, Project} from "../../Core/models";
 
-import {Panel, PanelHeader, PanelContent, List, Icon, ListItem, Tooltip} from "../../Elements";
+import {Panel, PanelHeader, PanelContent, List, Icon, ListItem, Tooltip, Button} from "../../Elements";
 import {EmptyState} from "../index";
 
 import './ProjectCollaborators.scss';
@@ -22,7 +26,11 @@ class ProjectCollaborators extends PureComponent {
                         <h3>Collaborators in {project.name}</h3>
                     </PanelHeader>
                     <PanelContent>
-                        {collaborators.length === 0 && <EmptyState icon="users" title="Add Collaborators" description="Add collaborators to this project to share with your team mates."/>}
+                        {collaborators.length === 0 && <EmptyState icon="users" title="No Collaborators" description="Add collaborators to this project to share with your team mates." renderActions={() => <div>
+                            {project.type === ProjectTypes.PRIVATE && <Button color="secondary" to={`${project.getUrlBase()}/collaborators/add`}>
+                                <span>Add Collaborator</span>
+                            </Button>}
+                        </div>}/>}
                         {collaborators.length > 0 && <List clickable={!readOnly}>
                             {collaborators.map(collaborator => <ListItem key={collaborator.id} to={!readOnly ? `/${project.owner}/${project.slug}/collaborators/${collaborator.id}` : null} className="ProjectCollaborators__Collaborator">
                                 <div className="ProjectCollaborators__Collaborator__NameColumn">

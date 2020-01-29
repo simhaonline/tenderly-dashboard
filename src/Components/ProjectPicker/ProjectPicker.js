@@ -1,10 +1,12 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
 import {bindActionCreators} from "redux";
-import classNames from "classnames";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
+import classNames from 'classnames';
 import OutsideClickHandler from "react-outside-click-handler";
+
+import {Project} from "../../Core/models";
 
 import * as projectActions from "../../Core/Project/Project.actions";
 
@@ -14,13 +16,13 @@ import {Icon} from "../../Elements";
 import {SimpleLoader} from "../index";
 
 import './ProjectPicker.scss';
+import {ProjectTypes} from "../../Common/constants";
 
 class ProjectPicker extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentProject: props.project,
             projectsDropdownOpen: false,
         };
     };
@@ -44,48 +46,75 @@ class ProjectPicker extends Component {
         });
     };
 
-    switchProject = (project) => {
-        this.setState({
-            currentProject: project,
-            projectsDropdownOpen: false,
-        });
-    };
-
     render() {
         const {project, projects, projectsLoaded} = this.props;
-        const {currentProject, projectsDropdownOpen} = this.state;
+        const {projectsDropdownOpen} = this.state;
 
-        if (project.id !== currentProject.id) {
-            return <Redirect to={`/${currentProject.owner}/${currentProject.slug}`}/>
-        }
+        const sharedProjects = projects.filter(p => p.type === ProjectTypes.SHARED);
+        const privateProjects = projects.filter(p => p.type !== ProjectTypes.SHARED);
 
         return (
             <OutsideClickHandler onOutsideClick={this.closeProjectsDropdown}>
                 <div className="ProjectPicker HideMobile">
-                    <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
+                    {!!project && <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
                         <div className="ProjectInfo">
                             <Icon icon={project.getIcon()} className="ProjectIcon"/>
-                            <div>
+                            <div className="ProjectInfo__General">
                                 <div className="ProjectName">{project.name}</div>
                                 <div className="ProjectSlug">{project.getDisplaySlug()}</div>
                             </div>
                         </div>
                         <Icon icon="chevron-down" className="DropdownIcon"/>
-                    </div>
+                    </div>}
+                    {!project && <div className="CurrentProject" onClick={this.toggleProjectsDropdown}>
+                        <div className="ProjectInfo">
+                            <Icon icon="project" className="ProjectIcon ProjectIcon--NoColor"/>
+                            <div className="ProjectInfo__General">
+                                <div className="ProjectName">Select Project</div>
+                            </div>
+                        </div>
+                        <Icon icon="chevron-down" className="DropdownIcon"/>
+                    </div>}
                     {projectsDropdownOpen && <div className="ProjectsDropdown">
                         {!projectsLoaded && <div className="LoaderWrapper">
                             <SimpleLoader/>
                         </div>}
-                        {projectsLoaded && projects.map(project => <div key={project.id} className={classNames(
-                            "ProjectDropdownItem",
-                            {"Active": currentProject.id === project.id,},
-                        )} onClick={() => this.switchProject(project)}>
-                            <Icon icon={project.getIcon()} className="ProjectIcon"/>
-                            <div>
-                                <div className="ProjectName">{project.name}</div>
-                                <div className="ProjectSlug">{project.getDisplaySlug()}</div>
-                            </div>
-                        </div>)}
+                        {projectsLoaded && <Fragment>
+                            {sharedProjects.length > 0 && <Fragment>
+                                <h4 className="ProjectDropdownList__Heading">Shared Projects</h4>
+                                {sharedProjects.map(projectItem => <Link key={projectItem.id} className={classNames(
+                                    "ProjectDropdownItem",
+                                    {"ProjectDropdownItem--Active": project && projectItem.id === project.id},
+                                )} to={projectItem.getUrlBase()} onClick={this.closeProjectsDropdown}>
+                                    <Icon icon={projectItem.getIcon()} className="ProjectIcon"/>
+                                    <div className="ProjectDropdownItem__General">
+                                        <div className="ProjectName">{projectItem.name}</div>
+                                        <div className="ProjectSlug">{projectItem.getDisplaySlug()}</div>
+                                    </div>
+                                </Link>)}
+                            </Fragment>}
+                            {privateProjects.length > 0 && <Fragment>
+                                <h4 className="ProjectDropdownList__Heading">Personal Projects</h4>
+                                {privateProjects.map(projectItem => <Link key={projectItem.id} className={classNames(
+                                    "ProjectDropdownItem",
+                                    {"ProjectDropdownItem--Active": project && projectItem.id === project.id},
+                                )} to={projectItem.getUrlBase()} onClick={this.closeProjectsDropdown}>
+                                    <Icon icon={projectItem.getIcon()} className="ProjectIcon"/>
+                                    <div className="ProjectDropdownItem__General">
+                                        <div className="ProjectName">{projectItem.name}</div>
+                                        <div className="ProjectSlug">{projectItem.getDisplaySlug()}</div>
+                                    </div>
+                                </Link>)}
+                            </Fragment>}
+                            <div className="ProjectDropdownDivider"/>
+                            <Link className="ProjectDropdownItem" to="/project/create" onClick={this.closeProjectsDropdown}>
+                                <Icon icon="plus" className="ProjectIcon"/>
+                                <div className="ProjectDropdownItem__General">
+                                    <div className="ProjectName">Create Project</div>
+                                    <div className="ProjectSlug">Monitor your contracts and wallets</div>
+                                </div>
+                            </Link>
+                        </Fragment>}
                     </div>}
                 </div>
             </OutsideClickHandler>
@@ -94,7 +123,7 @@ class ProjectPicker extends Component {
 }
 
 ProjectPicker.propTypes = {
-    project: PropTypes.object.isRequired,
+    project: PropTypes.instanceOf(Project),
 };
 
 const mapStateToProps = (state) => {

@@ -19,6 +19,14 @@ class NotificationDestination {
         /** @type string */
         this.label = data.label;
 
+        /**
+         * Indicates whether the notification destination can be set as a destination in alerts. In the case of the
+         * e-mails, if the e-mail has not been verified.
+         *
+         * @type {boolean}
+         */
+        this.enabled = data.enabled;
+
         /** @type {NotificationDestinationInformation} */
         this.information = data.information;
     }
@@ -111,6 +119,7 @@ class NotificationDestination {
             label: response.label,
             information: info.information,
             type: info.type,
+            enabled: response.enabled,
         });
     }
 }

@@ -7,6 +7,9 @@ import {Cell, Pie, PieChart, Tooltip} from "recharts";
 import {CallTrace, Transaction} from "../../Core/models";
 
 import {FlameGraph} from "../index";
+import {FullWidthContainer, Panel, PanelContent} from "../../Elements";
+
+import './CallTraceFlameGraph.scss';
 
 /**
  * @param {Trace} parentTrace
@@ -50,23 +53,25 @@ const SelectedTraceBreakdown = ({parentTrace, trace}) => {
 
     const colorScale = chroma.scale(['#0069E0', '#ADD3FF']).correctLightness();
 
-    return <div className="DisplayFlex">
-        <div>
-            <PieChart width={150} height={150}>
-                <Pie dataKey="gas" data={graphData} cx={75} cy={75} innerRadius={30} startAngle={450} endAngle={90} isAnimationActive={false} outerRadius={60}>
-                    {graphData.map((entry, index) => <Cell key={`cell-${index}`} fill={colorScale(1 / (Math.max(graphData.length - 1, 1)) * index).hex()} stroke="#ADD3FF"/>)}
-                </Pie>
-                <Tooltip/>
-            </PieChart>
-        </div>
-        <div className="MarginLeft4">
-            {graphData.map((datum, index) => <div key={index}>
-                <span className="MutedText">{_.round(datum.percentage * 100, 2).toFixed(2)}%</span>
-                <span> - {datum.name}</span>
-                {!!datum.count && datum.count > 1 && <span> [{datum.count}]</span>}
-            </div>)}
-        </div>
-    </div>;
+    return <Panel>
+        <PanelContent className="DisplayFlex">
+            <div>
+                <PieChart width={150} height={150}>
+                    <Pie dataKey="gas" data={graphData} cx={75} cy={75} innerRadius={30} startAngle={450} endAngle={90} isAnimationActive={false} outerRadius={60}>
+                        {graphData.map((entry, index) => <Cell key={`cell-${index}`} fill={colorScale(1 / (Math.max(graphData.length - 1, 1)) * index).hex()} stroke="#ADD3FF"/>)}
+                    </Pie>
+                    <Tooltip/>
+                </PieChart>
+            </div>
+            <div className="MarginLeft4">
+                {graphData.map((datum, index) => <div key={index}>
+                    <span className="MutedText">{_.round(datum.percentage * 100, 2).toFixed(2)}%</span>
+                    <span> - {datum.name}</span>
+                    {!!datum.count && datum.count > 1 && <span> [{datum.count}]</span>}
+                </div>)}
+            </div>
+        </PanelContent>
+    </Panel>;
 };
 
 class CallTraceFlameGraph extends Component {
@@ -108,19 +113,35 @@ class CallTraceFlameGraph extends Component {
      * @param {Trace[]} traces
      * @return {Object[]}
      */
-    computeTraceToGraphChildren = (traces) => {
+    computeTraceToGraphChildren = (traces, parentGasLeft) => {
         if (!traces || !traces.length) {
             return null;
         }
 
         const data = [];
 
+        let currentGasUsed = 0;
+
         traces.forEach(trace => {
+            const gasDiff = parentGasLeft - trace.gasLeft - currentGasUsed;
+
+            if (parentGasLeft && gasDiff > 0) {
+                // data.push({
+                //     name: `[HIDE]`,
+                //     value: gasDiff,
+                //     children: null,
+                // });
+
+                currentGasUsed += gasDiff;
+            }
+
+            currentGasUsed += trace.gasUsed;
+
             data.push({
-                name: `${trace.functionName || trace.contract} - ${trace.gasUsed} Gas`,
+                name: `${trace.functionName || trace.op} - ${trace.gasUsed.toLocaleString()} Gas`,
                 value: trace.gasUsed,
                 depthId: trace.depthId,
-                children: this.computeTraceToGraphChildren(trace.calls),
+                children: this.computeTraceToGraphChildren(trace.calls, trace.gasLeft),
             });
         });
 
@@ -136,22 +157,22 @@ class CallTraceFlameGraph extends Component {
         const totalGas = callTrace.trace.gasUsed + callTrace.initialGas;
 
         return {
-            name: `Total Gas - ${totalGas} Gas`,
+            name: `Total Gas - ${totalGas.toLocaleString()} Gas`,
             value: callTrace.trace.gasUsed + callTrace.initialGas,
             children: [
                 {
-                    name: `Actual Gas Used - ${transaction.gasUsed} Gas`,
+                    name: `Actual Gas Used - ${transaction.gasUsed.toLocaleString()} Gas`,
                     value: transaction.gasUsed,
                     children: [
                         {
-                            name: `Initial Gas - ${callTrace.initialGas} Gas`,
+                            name: `Initial Gas - ${callTrace.initialGas.toLocaleString()} Gas`,
                             value: callTrace.initialGas,
                         },
                         ...this.computeTraceToGraphChildren([callTrace.trace]),
                     ],
                 },
                 {
-                    name: `Refunded Gas - ${callTrace.refundedGas} Gas`,
+                    name: `Refunded Gas - ${callTrace.refundedGas.toLocaleString()} Gas`,
                     value: callTrace.refundedGas,
                 },
             ],
@@ -175,7 +196,11 @@ class CallTraceFlameGraph extends Component {
 
         return (
             <div className="CallTraceFlameGraph">
-                <FlameGraph onClick={this.handleTraceClick} data={graphData} stretch/>
+                <FullWidthContainer>
+                    <div className="CallTraceFlameGraph__GraphWrapper">
+                        <FlameGraph onClick={this.handleTraceClick} data={graphData} stretch/>
+                    </div>
+                </FullWidthContainer>
                 {!!node && <SelectedTraceBreakdown parentTrace={flatCallTrace[node.parent.data.depthId]}
                                                    trace={flatCallTrace[node.data.depthId]}/>}
             </div>

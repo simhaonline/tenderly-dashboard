@@ -1,0 +1,55 @@
+@import "../../Common/common";
+
+.AnalyticsDataView {}
+
+.AnalyticsDataView__Graph {
+  flex: 1 1 0;
+}
+
+.AnalyticsDataView__Items {
+  background-color: $Slate600;
+  overflow-x: auto;
+  max-height: 300px;
+}
+
+.AnalyticsDataView__Item__Dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  margin-right: $Spacing2;
+}
+
+.AnalyticsDataView__Item {
+  display: flex;
+  align-items: center;
+  padding: $Spacing1 $Spacing5;
+  cursor: pointer;
+
+  .Checkbox {
+    margin-bottom: 0;
+    margin-right: $Spacing2;
+  }
+
+  &:nth-child(even){
+    background-color: $Slate500;
+  }
+  &:hover{
+    background-color: $Slate400;
+  }
+}
+
+.AnalyticsDataView__Item__Labels{
+  flex: 1 1 0;
+
+}
+
+.AnalyticsDataView__Item__Value{
+  margin-right: $Spacing4;
+  flex: 0 0 100px;
+  text-align: right;
+}
+
+.AnalyticsDataView__PropertyWrapper{
+  flex: 0 0 240px;
+  margin-right: $Spacing6;
+}

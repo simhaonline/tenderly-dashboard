@@ -22,7 +22,18 @@ const gasUsageData = [
                         value: 41254,
                         label: 'checkAvailableFunds()',
                         nodes: [
-
+                            {
+                                offset: 5300,
+                                value: 2300,
+                                label: 'sub()',
+                                nodes: [],
+                            },
+                            {
+                                offset: 100,
+                                value: 2300,
+                                label: 'sub()',
+                                nodes: [],
+                            },
                         ],
                     },
                     {

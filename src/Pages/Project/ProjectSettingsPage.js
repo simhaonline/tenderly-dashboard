@@ -3,30 +3,13 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 
-import {FeatureFlagTypes, ProjectTypes} from "../../Common/constants";
+import {ProjectTypes} from "../../Common/constants";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
 import * as projectActions from "../../Core/Project/Project.actions";
 
 import {Container, Page, PageHeading} from "../../Elements";
-import {ProjectSettingsForm, ProjectSettingsActions, ProjectSettingsBilling, FeatureFlag, PageSegmentSwitcher, PageSegments, PageSegmentContent, ProjectPermissions} from "../../Components";
-
-const SettingsSegments = [
-    {
-        label: 'General',
-        value: 'general',
-    },
-    {
-        label: 'Members & Ownership',
-        value: 'members',
-        featureFlag: FeatureFlagTypes.ORGANIZATIONS,
-    },
-    {
-        label: 'Plan',
-        value: 'billing',
-        featureFlag: FeatureFlagTypes.BILLING,
-    },
-];
+import {ProjectSettingsForm, ProjectSettingsActions, ProjectPermissions} from "../../Components";
 
 class ProjectSettingsPage extends Component {
     constructor(props) {
@@ -34,7 +17,6 @@ class ProjectSettingsPage extends Component {
 
         this.state = {
             projectDeleted: false,
-            currentSegment: 'general',
         };
     }
 
@@ -61,18 +43,9 @@ class ProjectSettingsPage extends Component {
         }
     };
 
-    /**
-     * @param {String} segment
-     */
-    handleSegmentSwitch = (segment) => {
-        this.setState({
-            currentSegment: segment,
-        });
-    };
-
     render() {
         const {project} = this.props;
-        const {projectDeleted, currentSegment} = this.state;
+        const {projectDeleted} = this.state;
 
         if (projectDeleted) {
             return <Redirect to="/dashboard"/>
@@ -84,24 +57,9 @@ class ProjectSettingsPage extends Component {
                     <PageHeading>
                         <h1>Settings</h1>
                     </PageHeading>
-                    <PageSegments>
-                        <PageSegmentSwitcher current={currentSegment} options={SettingsSegments} onSelect={this.handleSegmentSwitch}/>
-                        {currentSegment === 'general' && <PageSegmentContent>
-                            <ProjectSettingsForm project={project}/>
-                            {project.type === ProjectTypes.SHARED && <ProjectPermissions project={project}/>}
-                            <ProjectSettingsActions project={project} onAction={this.handleProjectAction}/>
-                        </PageSegmentContent>}
-                        <FeatureFlag flag={FeatureFlagTypes.ORGANIZATIONS}>
-                            {currentSegment === 'members' && <PageSegmentContent>
-                                <h2>memembero</h2>
-                            </PageSegmentContent>}
-                        </FeatureFlag>
-                        <FeatureFlag flag={FeatureFlagTypes.BILLING}>
-                            {currentSegment === 'billing' && <PageSegmentContent>
-                                <ProjectSettingsBilling/>
-                            </PageSegmentContent>}
-                        </FeatureFlag>
-                    </PageSegments>
+                    <ProjectSettingsForm project={project}/>
+                    {project.type === ProjectTypes.SHARED && <ProjectPermissions project={project}/>}
+                    <ProjectSettingsActions project={project} onAction={this.handleProjectAction}/>
                 </Container>
             </Page>
         )

@@ -53,7 +53,7 @@ class ExpressionTargetPreview extends PureComponent {
         let contract = null;
 
         if (hasAddress) {
-            contract = contracts.find(contract => contract.getUniqueId() === Contract.generateUniqueContractId(
+            contract = contracts.find(contract => contract.getUniqueId() === Contract.generateUniqueId(
                 hasAddress.parameters[AlertRuleExpressionParameterTypes.ADDRESS],
                 hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]
             ));
@@ -77,7 +77,7 @@ class ExpressionTargetPreview extends PureComponent {
                         <div className="ExpressionTargetPreview__IconWrapper">
                             {!hasAddress && <Icon icon="layers"/>}
                             {!!hasAddress && <Blockies size={8} scale={5} className="ExpressionTargetPreview__Blockie"
-                                                       seed={Contract.generateUniqueContractId(
+                                                       seed={Contract.generateUniqueId(
                                                            hasAddress.parameters[AlertRuleExpressionParameterTypes.ADDRESS],
                                                            hasNetwork.parameters[AlertRuleExpressionParameterTypes.NETWORK_ID]
                                                        )}/>}

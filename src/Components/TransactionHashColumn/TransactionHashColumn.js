@@ -12,7 +12,7 @@ const TransactionHashColumn = ({transaction, displayType, contracts}) => {
 
     return (
         <div className="TransactionHashColumn DisplayFlex AlignItemsCenter">
-            <span className="TransactionHashColumn__Address">{generateShortAddress(transaction.txHash, 12, 6)}</span>
+            <span className="TransactionHashColumn__Address">{generateShortAddress(transaction.txHash, 10)}</span>
             {displayType && transaction.isInternalTransaction(contracts) && <Fragment>
                 <div className="TransactionHashColumn__TypeWrapper MarginLeft2" id={id}>
                     <Icon icon="minimize-2"/>

@@ -14,6 +14,7 @@ import {
     getProjectTags
 } from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
+import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
 
 import {contractActions, projectActions, transactionActions} from "../../Core/actions";
 
@@ -36,6 +37,7 @@ class ProjectTransactionsPage extends Component {
             projectSetup: false,
             transactions: [],
             filters: queryFilters,
+            activeColumns: [],
         };
     }
 
@@ -64,18 +66,19 @@ class ProjectTransactionsPage extends Component {
 
             transactions = actionResponse.data;
 
-            if (project.isSetup) {
-                this.startPolling();
-            }
+            this.startPolling();
         } else {
             const exampleResponse = await txActions.fetchExampleTransactions();
 
             transactions = exampleResponse.data;
         }
 
+        const activeColumnsResponse = txActions.getTransactionsListColumns();
+
         this.setState({
             loading: false,
             transactions,
+            activeColumns: activeColumnsResponse.data,
             lastFetch: moment.now(),
         });
 
@@ -96,6 +99,8 @@ class ProjectTransactionsPage extends Component {
 
     startPolling = () => {
         const refreshSubscriber = setInterval(() => {
+            if (this.state.fetching) return;
+
             this.fetchTransactions();
             Notifications.info({title: "Transactions list updated."}, {
                 toastId: "transactions-updated",
@@ -286,9 +291,19 @@ class ProjectTransactionsPage extends Component {
         }
     };
 
+    handleColumnToggle = (column) => {
+        const {txActions} = this.props;
+
+        const toggleColumnsResponse = txActions.toggleTransactionsListColumn(column);
+
+        this.setState({
+            activeColumns: toggleColumnsResponse.data,
+        });
+    };
+
     render() {
-        const {loading, transactions, backfillingStatus, filters, page, perPage, refreshSubscriber, fetching, error} = this.state;
-        const {contracts, project, projectTags} = this.props;
+        const {loading, transactions, backfillingStatus, filters, page, perPage, activeColumns, refreshSubscriber, fetching, error} = this.state;
+        const {contracts, project, projectTags, accountPlan} = this.props;
 
         const projectIsSetup = contracts.length > 0;
         const isPolling = !!refreshSubscriber || loading;
@@ -310,9 +325,9 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
-                        {shouldDisplayListAndFilters && <TransactionFilters activeFilters={filters} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange}/>}
+                        {shouldDisplayListAndFilters && <TransactionFilters plan={accountPlan} activeFilters={filters} activeColumns={activeColumns} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange} onColumnToggle={this.handleColumnToggle}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
-                                          loading={fetching} project={project}
+                                          loading={fetching} project={project} activeColumns={activeColumns}
                                           currentPage={page} onPageChange={this.handlePageChange}
                                           perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
                         {!shouldDisplayListAndFilters && <NoTransactionsEmptyState error={error}/>}
@@ -368,6 +383,7 @@ const mapStateToProps = (state, ownProps) => {
         queryPerPage,
         queryFilters,
         project,
+        accountPlan: getAccountPlanForProject(state, project),
         contracts: getContractsForProject(state, project.id),
         projectTags: getProjectTags(state, project),
         contractsLoaded: areProjectContractsLoaded(state, project.id),

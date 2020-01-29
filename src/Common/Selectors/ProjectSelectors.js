@@ -1,4 +1,4 @@
-import Project from "../../Core/Project/Project.model";
+import {Project} from "../../Core/models";
 
 import {EntityStatusTypes, ProjectTypes} from "../constants";
 
@@ -50,6 +50,17 @@ export function areProjectContractsLoaded(state, projectId) {
 
 /**
  * @param {Object} state
+ * @param {Project.id} projectId
+ * @returns {boolean}
+ */
+export function areProjectWalletsLoaded(state, projectId) {
+    const projectWalletsStatus = state.project.walletsStatus[projectId];
+
+    return projectWalletsStatus && projectWalletsStatus === EntityStatusTypes.LOADED;
+}
+
+/**
+ * @param {Object} state
  * @param {Project} project
  * @returns {Array}
  */
@@ -74,4 +85,58 @@ export function areProjectTagsLoaded(state, project) {
     }
 
     return true;
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @returns {ProjectContract[]}
+ */
+export function getMainProjectContracts(state, projectId) {
+    const projectContracts = state.project.projectContracts[projectId];
+
+    if (!projectContracts) return [];
+
+    return projectContracts;
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @param {ProjectContractRevision.id} revisionId
+ * @returns {ProjectContract}
+ */
+export function getProjectContractForRevision(state, projectId, revisionId) {
+    const projectContracts = getMainProjectContracts(state, projectId);
+
+    if (!projectContracts.length || !revisionId) return null;
+
+    return projectContracts.find(projectContract => projectContract.revisions.some(revision => revision.id === revisionId));
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @returns {ProjectWallet[]}
+ */
+export function getProjectWallets(state, projectId) {
+    const projectWallets = state.project.projectWallets[projectId];
+
+    if (!projectWallets) return [];
+
+    return projectWallets;
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @param {Wallet} wallet
+ * @returns {ProjectWallet|null}
+ */
+export function getProjectWallet(state, projectId, wallet) {
+    const projectWallets = getProjectWallets(state, projectId);
+
+    if (!projectWallets.length || !wallet) return null;
+
+    return projectWallets.find(pw => pw.walletId === wallet.id) || null;
 }

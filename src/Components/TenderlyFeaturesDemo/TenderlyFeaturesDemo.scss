@@ -1,0 +1,16 @@
+@import "../../Common/common";
+
+.DebuggingFeatureDemo__DemoWrapper__TraceVariable {
+  //background-color: $Primary500;
+  padding: 1px 4px
+}
+
+.DebuggingFeatureDemo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.DebuggingFeatureDemo__Image {
+  width: 50%;
+}

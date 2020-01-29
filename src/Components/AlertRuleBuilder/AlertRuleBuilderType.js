@@ -52,7 +52,7 @@ class AlertRuleBuilderType extends Component {
         const {onSelect, value, onToggle, number, isActiveStep} = this.props;
 
         return (
-            <AlertRuleBuilderStep label="Rule Type" description={this.getAlertTypeDescription(value)} number={number}
+            <AlertRuleBuilderStep label="Alert Type" description={this.getAlertTypeDescription(value)} number={number}
                                   completed={this.isStepCompleted()} onToggle={onToggle} open={isActiveStep}>
                 <div className="AlertRuleBuilderType AlertRuleBuilderOptionsWrapper">
                     <AlertRuleBuilderOption onClick={() => onSelect(SimpleAlertRuleTypes.SUCCESSFUL_TX)}

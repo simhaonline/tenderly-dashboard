@@ -94,3 +94,17 @@ export function getTransactionStateDiffs(state, txHash) {
 
     return stateDiffs;
 }
+
+export function getTransactionsConsoleLogs(state, txHash) {
+    if (!txHash) {
+        return null;
+    }
+
+    const consoleLogs = state.transaction.consoleLogs[txHash];
+
+    if (!consoleLogs) {
+        return [];
+    }
+
+    return consoleLogs;
+}

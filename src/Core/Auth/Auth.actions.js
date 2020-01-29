@@ -7,8 +7,10 @@ import Analytics from "../../Utils/Analytics";
 import Intercom from "../../Utils/Intercom";
 import FullStory from "../../Utils/FullStory";
 import {isInternalUserByEmail} from "../../Utils/UserHelpers";
+import {asyncActionWrapper} from "../../Utils/ActionHelpers";
 
 import User from "./User.model";
+import AccountPlan from "../Billing/AccountPlan.model";
 import {ErrorActionResponse, SuccessActionResponse, ActionResponse} from "../../Common";
 import {UsernameStatusMap} from "../../Common/constants";
 
@@ -23,6 +25,7 @@ export const RETRIEVE_TOKEN_ACTION = 'RETRIEVE_TOKEN';
 export const SET_USERNAME_ACTION = 'SET_USERNAME';
 export const SET_PASSWORD_ACTION = 'SET_PASSWORD';
 export const UPDATE_USER_ACTION = 'UPDATE_USER';
+export const FETCH_USER_PLAN_ACTION = 'FETCH_USER_PLAN';
 
 /**
  * @param {string} token
@@ -45,6 +48,7 @@ const removeAuthHeader = () => {
         Cookies.remove('token');
         Cookies.remove('token', {domain: '.tenderly.dev'});
         Api.defaults.headers.common['Authorization'] = null;
+        StreamingApi.removeAuthentication();
     }
 };
 
@@ -57,7 +61,7 @@ export const loginUser = (username, password) => {
     return async dispatch => {
         try {
             const {data} = await PublicApi.post(`/login`, {
-                email: username,
+                login: username,
                 password,
             });
 
@@ -188,6 +192,29 @@ export const getUser = (token) => {
 };
 
 /**
+ * @param {User} user
+ */
+export const fetchUserPlan = (user) => asyncActionWrapper({
+    name: 'fetchUserPlan',
+}, async dispatch => {
+    const {data} = await Api.get(`/account/${user.username}/billing/plan`);
+
+    if (!data || !data.plan) {
+        return new ErrorActionResponse();
+    }
+
+    const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
+
+    dispatch({
+        type: FETCH_USER_PLAN_ACTION,
+        username: user.username,
+        accountPlan,
+    });
+
+    return new SuccessActionResponse(accountPlan);
+});
+
+/**
  * @param {String} oldPassword
  * @param {String} newPassword
  * @returns {Function}
@@ -290,23 +317,39 @@ export const completeOnboarding = () => {
 /**
  * @param {string} token
  */
-export const retrieveToken = (token) => {
-    return async dispatch => {
-        if (token) {
-            dispatch(setAuthHeader(token));
-            const response = await dispatch(getUser(token));
+export const retrieveToken = token => asyncActionWrapper({
+    name: 'retrieveToken',
+}, async dispatch => {
+    let user, plan;
 
-            if (!response.success) {
-                dispatch(removeAuthHeader())
-            }
+    if (token) {
+        dispatch(setAuthHeader(token));
+        const response = await dispatch(getUser(token));
+
+        if (!response.success) {
+            dispatch(removeAuthHeader())
+        } else {
+            user = response.data;
+
+            // @TODO @BILLING Remove when implement billing
+            // const planResponse = await dispatch(fetchUserPlan(response.data));
+            //
+            // if (planResponse.success) {
+            //     plan = planResponse.data;
+            // }
         }
-
-        dispatch({
-            type: RETRIEVE_TOKEN_ACTION,
-            token,
-        });
     }
-};
+
+    dispatch({
+        type: RETRIEVE_TOKEN_ACTION,
+        token,
+    });
+
+    return new SuccessActionResponse({
+        user,
+        plan,
+    });
+});
 
 /**
  * @param {string} service
@@ -412,6 +455,10 @@ export const setUsername = (username) => {
                user: newUser,
             });
 
+            if (newUser.showDemo && !!newUser.username) {
+                dispatchExampleProject(dispatch, newUser);
+            }
+
             return new SuccessActionResponse(newUser);
         } catch (error) {
             return new ErrorActionResponse(error);
@@ -464,3 +511,16 @@ export const updateUser = (updates) => {
         }
     }
 };
+
+/**
+ * @param {string} code
+ */
+export const verifyUserEmail = code => asyncActionWrapper({
+    name: 'verifyUserEmail',
+}, async dispatch => {
+    await Api.post('/account/me/confirm-email', {
+        code,
+    });
+
+    return new SuccessActionResponse();
+});

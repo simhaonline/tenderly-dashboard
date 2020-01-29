@@ -68,6 +68,11 @@ class StreamingApiProvider {
         this.token = token;
     }
 
+    removeAuthentication() {
+        this.authenticationSet = false;
+        this.token = null;
+    }
+
     getAuthHeaders() {
         if (!this.authenticationSet) {
             return {};

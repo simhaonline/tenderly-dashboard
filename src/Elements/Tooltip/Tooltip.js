@@ -24,8 +24,8 @@ Tooltip.propTypes = {
 
 Tooltip.defaultProps = {
     placement: "right",
-    showDelay: 0,
-    hideDelay: 250,
+    showDelay: 250,
+    hideDelay: 0,
 };
 
 export default Tooltip;

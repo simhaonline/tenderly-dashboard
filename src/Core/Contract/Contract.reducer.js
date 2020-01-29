@@ -16,8 +16,6 @@ const initialState = {
     contractStatus: {},
     /** @type {Object.<Project.id, Contract.id[]>} */
     projectContractsMap: {},
-    /** @type {Object.<Project.id, Object.<Contract.id, Object[]>>} */
-    projectContractTagsMap: {},
 };
 
 const ContractReducer = (state = initialState, action) => {
@@ -33,9 +31,9 @@ const ContractReducer = (state = initialState, action) => {
                     data.contracts[contract.id] = existingContract.update(contract);
                 } else {
                     data.contracts[contract.id] = contract;
-                }
 
-                data.contractStatus[contract.id] = EntityStatusTypes.PARTIALLY_LOADED;
+                    data.contractStatus[contract.id] = EntityStatusTypes.PARTIALLY_LOADED;
+                }
 
                 data.contractTags[contract.id] = action.contractTags[contract.id] || [];
 
@@ -58,10 +56,6 @@ const ContractReducer = (state = initialState, action) => {
                     ...state.contractStatus,
                     ...computedData.contractStatus,
                 },
-                projectContractTagsMap: {
-                    ...state.projectContractTagsMap,
-                    [action.projectId]: computedData.contractTags,
-                },
                 projectContractsMap: {
                     ...state.projectContractsMap,
                     [action.projectId]: projectContractIds,
@@ -76,30 +70,9 @@ const ContractReducer = (state = initialState, action) => {
                     ...state.contracts,
                     [contract.id]: contract,
                 },
-                projectContractTagsMap: {
-                    ...state.projectContractTagsMap,
-                    [action.projectId]: {
-                        ...state.projectContractTagsMap[action.projectId],
-                        [action.contract.id]: action.tags,
-                    },
-                },
                 contractStatus: {
                     ...state.contractStatus,
                     [contract.id]: EntityStatusTypes.LOADED,
-                },
-            };
-        case TOGGLE_CONTRACT_LISTENING_ACTION:
-            const toggledContract = state.contracts[action.contract.id];
-
-            const toggleUpdatedContract = toggledContract.update({
-                listening: !toggledContract.listening,
-            });
-
-            return {
-                ...state,
-                contracts: {
-                    ...state.contracts,
-                    [toggledContract.id]: toggleUpdatedContract,
                 },
             };
         case DELETE_CONTRACT_ACTION:

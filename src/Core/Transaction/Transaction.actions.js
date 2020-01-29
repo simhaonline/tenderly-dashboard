@@ -1,16 +1,23 @@
 import * as Sentry from "@sentry/browser";
+import _ from 'lodash';
 
 import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
-import {TransactionFilterTypes} from "../../Common/constants";
+import {
+    DEFAULT_TRANSACTIONS_LIST_COLUMNS,
+    LocalStorageKeys,
+    TransactionFilterTypes,
+} from "../../Common/constants";
 import {Api} from "../../Utils/Api";
 
-import {EventLog, StackTrace, CallTrace, Transaction, StateDiff, Project} from "../models";
+import {EventLog, StackTrace, CallTrace, Transaction, StateDiff, Project, ConsoleLog} from "../models";
 
 import {
     exampleTransaction1Paylod
 } from "../../examples";
 import Contract from "../Contract/Contract.model";
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+import {actionWrapper} from "../../Utils/ActionHelpers";
+import LocalStorage from "../../Utils/LocalStorage";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
@@ -58,7 +65,7 @@ export const fetchTransactionsForProject = (projectSlug, username, filters, page
                     perPage: limit,
                     txType: typeFilter ? TypeValueToApiValue[typeFilter.value] : null,
                     status: statusFilter ? StatusValueToApiValue[statusFilter.value] : null,
-                    contractId: contractsFilter ? contractsFilter.value.map(contractId => Contract.generateApiIdFromUniqueId(contractId)) : null,
+                    contractId: contractsFilter ? contractsFilter.value.map(contractId => Contract.generateApiId(contractId)) : null,
                     network: networksFilter ? getApiIdForNetwork(networksFilter.value) : null,
                     tag: tagFilter ? tagFilter.value : null,
                     after: afterFilter ? afterFilter.value : null,
@@ -130,6 +137,12 @@ export const fetchTransactionForProject = (project, txHash, network) => {
                 stateDiffs = data.transaction_info.state_diff.map(state_diff => StateDiff.buildFromResponse(state_diff, txHash));
             }
 
+            let consoleLogs = [];
+
+            if(data.transaction_info && data.transaction_info.console_logs){
+                consoleLogs = data.transaction_info.console_logs.map(consoleLog=> ConsoleLog.buildFromResponse(consoleLog, txHash))
+            }
+
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
                 projectId: project.id,
@@ -138,6 +151,7 @@ export const fetchTransactionForProject = (project, txHash, network) => {
                 stackTrace,
                 eventLogs,
                 stateDiffs,
+                consoleLogs,
             });
 
             return new SuccessActionResponse({
@@ -274,3 +288,34 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
         }
     }
 };
+
+export const getTransactionsListColumns = () => actionWrapper({
+    name: 'getTransactionsListColumns',
+}, () => {
+    let columns = LocalStorage.getItem(LocalStorageKeys.TRANSACTIONS_LIST_COLUMNS);
+
+    if (!columns) {
+        columns = DEFAULT_TRANSACTIONS_LIST_COLUMNS;
+    }
+
+    return new SuccessActionResponse(columns);
+}, () => {
+    return new SuccessActionResponse(DEFAULT_TRANSACTIONS_LIST_COLUMNS);
+});
+
+/**
+ * @param {TransactionsListColumnTypes} column
+ */
+export const toggleTransactionsListColumn = (column) => actionWrapper({
+    name: 'toggleTransactionsListColumn',
+}, dispatch => {
+    const currentColumns = dispatch(getTransactionsListColumns()).data;
+
+    const updatedColumns = _.xor(currentColumns, [column]);
+
+    LocalStorage.setItem(LocalStorageKeys.TRANSACTIONS_LIST_COLUMNS, updatedColumns);
+
+    return new SuccessActionResponse(updatedColumns);
+}, (error, dispatch) => {
+    return dispatch(getTransactionsListColumns());
+});

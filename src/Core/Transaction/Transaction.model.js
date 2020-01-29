@@ -33,6 +33,9 @@ class Transaction {
         /** @type string */
         this.to = data.to;
 
+        /** @type {string} */
+        this.method = data.method;
+
         /** @type number */
         this.gasLimit = data.gasLimit;
 
@@ -47,6 +50,9 @@ class Transaction {
 
         /** @type NetworkTypes */
         this.network = data.network;
+
+        /** @type {string} */
+        this.value = data.value;
 
         /** @type string */
         this.projectId = projectId;
@@ -80,10 +86,12 @@ class Transaction {
             block: response.block_number,
             from: response.from,
             to: response.to,
+            method: response.method,
             gasLimit: response.gas,
             gasPrice: response.gas_price,
             gasUsed: response.gas_used,
             nonce: response.nonce,
+            value: response.value,
             timestamp: response.timestamp,
             network: NetworkApiToAppTypeMap[parseInt(response.network_id)] || response.network_id,
         }, projectId);

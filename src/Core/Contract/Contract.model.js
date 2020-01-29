@@ -1,21 +1,22 @@
 import moment from "moment";
 import _ from "lodash";
 
-import {NetworkApiToAppTypeMap} from "../../Common/constants";
+import {AccountTypes, NetworkApiToAppTypeMap} from "../../Common/constants";
 
-import ContractFile from "./ContractFile.model";
-import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+import {Account, ContractFile} from "../models";
 
-class Contract {
+import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+
+class Contract extends Account {
     /**
      * @param {Object} data
      * @param {object} [projectData]
      * @param {string} [parentContract]
      */
     constructor(data, projectData, parentContract) {
-        /** @type string */
-        this.id = data.id;
+        super(data, AccountTypes.CONTRACT);
 
+        // @TODO Deprecate this in favor of new ProjectContract model
         if (projectData) {
             /** @type Project.id */
             this.projectId = projectData.id;
@@ -24,9 +25,11 @@ class Contract {
             this.listening = projectData.listening;
         }
 
+        // @TODO Deprecate this in favor of the ProjectContract model. Parent contracts are tracked by the new model.
         /** @type string */
         this.parent = parentContract || data.address;
 
+        // @TODO Deprecate this in favor of the ProjectContract model. If it exists then it is public.
         /** @type boolean */
         this.isPublic = !projectData;
 
@@ -40,20 +43,12 @@ class Contract {
         this.name = data.name;
 
         /** @type string */
-        this.address = data.address;
-
-        /** @type string */
         this.creationTx = data.creationTx;
-
-        /** @type NetworkTypes */
-        this.network = data.network;
-
-        /** @type number */
-        this.errorCount = data.errorCount;
 
         /** @type number */
         this.watchCount = data.watchCount;
 
+        // @TODO why is this needed? create a helper function or something
         /** @type number */
         this.filesCount = data.filesCount;
 
@@ -62,9 +57,6 @@ class Contract {
 
         /** @type ContractFile */
         this.mainFile = data.mainFile;
-
-        /** @type Date */
-        this.lastEventAt = data.lastEventAt ? moment(data.lastEventAt) : null;
 
         /** @type Date */
         this.createdAt = data.createdAt ? moment(data.createdAt) : null;
@@ -83,11 +75,10 @@ class Contract {
         return `${this.name}.sol`;
     }
 
-    /**
-     * @return {string}
-     */
-    getApiId() {
-        return `eth:${getApiIdForNetwork(this.network)}:${this.id}`;
+    getUrlBase() {
+        const networkRoute = getRouteSlugForNetwork(this.network);
+
+        return `/${networkRoute}/${this.address}`;
     }
 
     /**
@@ -97,7 +88,7 @@ class Contract {
     update(properties) {
         const updatedContract = new Contract({});
 
-        const updateableProperties = _.pick(properties, ['listening', 'parent']);
+        const updateableProperties = _.pick(properties, ['parent']);
 
         Object.assign(updatedContract, this, updateableProperties);
 
@@ -164,29 +155,10 @@ class Contract {
     }
 
     /**
-     * @return {string}
+     * @return {Contract.id}
      */
     getUniqueId() {
-        return Contract.generateUniqueContractId(this.address, this.network);
-    }
-
-    /**
-     * @param {string} address
-     * @param {NetworkTypes} network
-     * @return {string}
-     */
-    static generateUniqueContractId(address, network) {
-        return `${network}:${address}`;
-    }
-
-    /**
-     * @param {string} uniqueContractId
-     * @return {string}
-     */
-    static generateApiIdFromUniqueId(uniqueContractId) {
-        const [network, address] = uniqueContractId.split(':');
-
-        return `eth:${getApiIdForNetwork(network)}:${address}`;
+        return Contract.generateUniqueId(this.address, this.network);
     }
 
     /**
@@ -216,7 +188,7 @@ class Contract {
          * accordingly as those mocked responses are used for the Example Project and might break it.
          */
         return new Contract({
-            id: Contract.generateUniqueContractId(data.address, network),
+            id: Contract.generateUniqueId(data.address, network),
             name: data.contract_name,
             address: data.address,
             network,
@@ -224,10 +196,8 @@ class Contract {
             creationTx: data.creation_tx,
             isPublic: data.public,
             createdAt: data.created_at,
-            errorCount: data.number_of_exceptions,
             watchCount: data.number_of_watches,
             filesCount: data.number_of_files,
-            lastEventAt: data.last_event_occurred_at,
             verifiedAt: data.verification_date,
             verifiedBy: data.verified_by,
             files,

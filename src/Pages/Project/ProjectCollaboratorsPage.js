@@ -2,17 +2,19 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
+import {PlanUsageTypes, ProjectTypes} from "../../Common/constants";
+
 import {collaborationActions} from '../../Core/actions';
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
-
-import {Icon, Button, Container, Page, PageHeading} from "../../Elements";
-import {ProjectCollaborators, ProjectContentLoader} from "../../Components";
 import {
     areCollaboratorsLoadedForProject,
     getCollaboratorsForProject
 } from "../../Common/Selectors/CollaborationSelectors";
-import {ProjectTypes} from "../../Common/constants";
+
+import {Icon, Container, Page, PageHeading} from "../../Elements";
+import {ProjectCollaborators, ProjectContentLoader, PaidFeatureButton} from "../../Components";
+import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
 
 class ProjectCollaboratorsPage extends Component {
     componentDidMount() {
@@ -24,7 +26,7 @@ class ProjectCollaboratorsPage extends Component {
     }
 
     render() {
-        const {project, collaborators, collaboratorsLoaded} = this.props;
+        const {project, accountPlan, collaborators, collaboratorsLoaded} = this.props;
 
         return (
             <Page id="ProjectPage">
@@ -32,10 +34,10 @@ class ProjectCollaboratorsPage extends Component {
                     <PageHeading>
                         <h1>Collaborators</h1>
                         {project.type === ProjectTypes.PRIVATE && <div className="MarginLeftAuto">
-                            <Button to={`/${project.owner}/${project.slug}/collaborators/add`}>
+                            <PaidFeatureButton plan={accountPlan} usage={PlanUsageTypes.INVITED_USERS} to={`/${project.owner}/${project.slug}/collaborators/add`}>
                                 <Icon icon="user-plus"/>
                                 <span>Add Collaborator</span>
-                            </Button>
+                            </PaidFeatureButton>
                         </div>}
                     </PageHeading>
                     {!collaboratorsLoaded && <ProjectContentLoader text="Fetching project collaborators..."/>}
@@ -53,6 +55,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         project,
+        accountPlan: getAccountPlanForProject(state, project),
         collaborators: getCollaboratorsForProject(state, project),
         collaboratorsLoaded: areCollaboratorsLoadedForProject(state, project),
     }

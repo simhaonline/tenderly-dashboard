@@ -1,4 +1,4 @@
-import {Api, StreamingApi} from "../../Utils/Api";
+import {Api} from "../../Utils/Api";
 import {ActionResponse, ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import Project from "./Project.model";
@@ -13,6 +13,8 @@ import {updateUser} from "../Auth/Auth.actions";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {formatProjectSlug} from "../../Utils/Formatters";
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
+import {asyncActionWrapper} from "../../Utils/ActionHelpers";
+import ProjectContract from "./ProjectContract.model";
 
 export const CREATE_PROJECT_ACTION = 'CREATE_PROJECT';
 export const CREATE_EXAMPLE_PROJECT_ACTION = 'CREATE_EXAMPLE_PROJECT';
@@ -29,49 +31,48 @@ export const FETCH_PROJECT_TAGS_ACTION = 'FETCH_PROJECT_TAGS';
  * @param {User.username} [username]
  * @returns {Function}
  */
-export const createProject = (name, username = 'me') => {
-    return async (dispatch, getState) => {
-        const {auth: {user}, project: {projects}} = getState();
-        const {showDemo} = user;
+export const createProject = (name, username = 'me') => asyncActionWrapper({
+    name: 'createProject',
+    payable: true,
+    account: username,
+}, async (dispatch, getState) => {
+    const {auth: {user}, project: {projects}} = getState();
+    const {showDemo} = user;
 
-        const existingProjects = Object.keys(projects);
-        const projectSlug = formatProjectSlug(name);
+    const existingProjects = Object.keys(projects);
+    const projectSlug = formatProjectSlug(name);
 
-        if (existingProjects.includes(projectSlug)) {
-            return new ErrorActionResponse({
-                message: 'Project with this slug already exists.'
-            });
+    if (existingProjects.includes(projectSlug)) {
+        return new ErrorActionResponse({
+            message: 'Project with this slug already exists.'
+        });
+    }
+
+    const {data} = await Api.post(`/account/${username}/project`, {
+        name,
+    });
+
+    if (!data.project) {
+        return new ActionResponse(false);
+    }
+
+    if (showDemo) {
+        const demoProject = getProjectBySlugAndUsername(getState(), exampleProjectPayload.slug, user.username);
+
+        if (demoProject) {
+            await dispatch(deleteProject(demoProject));
         }
+    }
 
-        try {
-            const {data} = await Api.post(`/account/${username}/project`, {
-                name,
-            });
+    const project = Project.buildFromResponse(data.project, user);
 
-            if (!data.project) {
-                return new ActionResponse(false);
-            }
+    dispatch({
+        type: CREATE_PROJECT_ACTION,
+        project,
+    });
 
-            if (showDemo) {
-                const demoProject = getProjectBySlugAndUsername(getState(), exampleProjectPayload.slug, user.username);
-
-                await dispatch(deleteProject(demoProject));
-            }
-
-            const project = Project.buildFromResponse(data.project, user);
-
-            dispatch({
-                type: CREATE_PROJECT_ACTION,
-                project,
-            });
-
-            return new ActionResponse(true, project);
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
-    };
-};
+    return new SuccessActionResponse(project);
+});
 
 /**
  * @param {Function} dispatch
@@ -85,15 +86,21 @@ export const dispatchExampleProject = (dispatch, user) => {
     }, user, ProjectTypes.DEMO);
 
     const exampleContracts = [
-        Contract.buildFromResponse(exampleContract1Payload, {
+        Contract.buildFromResponse(exampleContract1Payload.contract, {
             id: exampleProject.id,
             listening: true,
         }),
-        Contract.buildFromResponse(exampleContract2Payload, {
+        Contract.buildFromResponse(exampleContract2Payload.contract, {
             id: exampleProject.id,
             listening: true,
         })
     ];
+
+    const exampleProjectContracts = [
+        ProjectContract.buildFromResponse(exampleContract1Payload, exampleProject.id, exampleContracts[0].id),
+        ProjectContract.buildFromResponse(exampleContract2Payload, exampleProject.id, exampleContracts[1].id)
+    ];
+
 
     dispatch({
         type: CREATE_EXAMPLE_PROJECT_ACTION,
@@ -101,6 +108,7 @@ export const dispatchExampleProject = (dispatch, user) => {
         projectId: exampleProject.id,
         contractTags: {},
         contracts: exampleContracts,
+        projectContracts: exampleProjectContracts,
         page: 1,
     });
 
@@ -146,13 +154,13 @@ export const fetchProjects = (username) => {
                 }
             });
 
-            if (!data || !data.projects || !data.projects.length) {
+            if (!data || !data.projects) {
                 dispatch({
                     type: FETCH_PROJECTS_ACTION,
                     projects: [],
                 });
 
-                return;
+                return new ErrorActionResponse();
             }
 
             const projects = data.projects.map(project => Project.buildFromResponse(project, user));
@@ -161,8 +169,11 @@ export const fetchProjects = (username) => {
                 type: FETCH_PROJECTS_ACTION,
                 projects,
             });
+
+            return new SuccessActionResponse(projects);
         } catch (error) {
             console.error(error);
+            return new ErrorActionResponse(error);
         }
     }
 };
@@ -200,29 +211,26 @@ export const fetchProject = (slug, username) => {
 /**
  * @param {Project} project
  */
-export const deleteProject = (project) => {
-    return async (dispatch) => {
-        try {
-            if (project.type === ProjectTypes.DEMO) {
-                await dispatch(updateUser({
-                    showDemo: false,
-                }));
-            } else {
-                await Api.delete(`/account/${project.owner}/project/${project.slug}`);
-            }
-
-            dispatch({
-                type: DELETE_PROJECT_ACTION,
-                projectId: project.id,
-            });
-
-            return new SuccessActionResponse();
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
+export const deleteProject = (project) => asyncActionWrapper({
+    name: 'deleteProject',
+    payable: true,
+    account: project.owner,
+}, async dispatch => {
+    if (project.type === ProjectTypes.DEMO) {
+        await dispatch(updateUser({
+            showDemo: false,
+        }));
+    } else {
+        await Api.delete(`/account/${project.owner}/project/${project.slug}`);
     }
-};
+
+    dispatch({
+        type: DELETE_PROJECT_ACTION,
+        projectId: project.id,
+    });
+
+    return new SuccessActionResponse();
+});
 
 /**
  * @param {Project} project
@@ -270,20 +278,19 @@ export const updateProject = (project, data) => {
  * @param {Project} project
  * @param {NetworkTypes} networkType
  * @param {string} address
- * @param {Function} progressCallback
  * @return {Function}
  */
-export const addVerifiedContractToProject = (project, networkType, address, progressCallback = () => {}) => {
+export const addVerifiedContractToProject = (project, networkType, address) => {
     return async (dispatch) => {
         try {
             const networkId = getApiIdForNetwork(networkType);
 
-            const {data: responseData} = await StreamingApi.post(`/account/${project.owner}/project/${project.slug}/streaming-address`, {
+            const {data: responseData} = await Api.post(`/account/${project.owner}/project/${project.slug}/streaming-address`, {
                 network_id: networkId.toString(),
                 address,
-            }, progressCallback);
+            });
 
-            if (!responseData || !responseData[responseData.length -1].status) {
+            if (!responseData) {
                 return new ErrorActionResponse();
             }
 

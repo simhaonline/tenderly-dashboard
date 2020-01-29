@@ -6,9 +6,10 @@ import {Helmet} from "react-helmet";
 
 import {isTransactionOrContractUrl} from "../../Utils/UrlHelpers";
 
+import {ProjectTypes} from "../../Common/constants";
 import {areProjectTagsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 
-import {searchActions, projectActions} from "../../Core/actions";
+import {searchActions, projectActions, billingActions} from "../../Core/actions";
 
 import ProjectTransactionsPage from "./ProjectTransactionsPage";
 import ProjectTransactionPage from "./ProjectTransactionPage";
@@ -22,10 +23,18 @@ import ProjectCollaboratorsPage from "./ProjectCollaboratorsPage";
 import ProjectAddCollaboratorPage from "./ProjectAddCollaboratorPage";
 import ProjectCollaboratorPage from "./ProjectCollaboratorPage";
 import ProjectAddContractPage from "./ProjectAddContractPage";
+import ProjectWalletsPage from "./ProjectWalletsPage";
+import ProjectPlanPage from "./ProjectPlanPage";
+import ProjectPrivateNetworksPage from "./ProjectPrivateNetworksPage";
+import ProjectEventsPage from "./ProjectEventsPage";
+import ProjectWalletPage from "./ProjectWalletPage";
+import ProjectAddWalletPage from "./ProjectAddWalletPage";
+import ProjectCreateGraphPage from "./ProjectCreateGraphPage";
+import ProjectSecurityPage from "./ProjectSecurityPage";
 import ProjectSimulatorPage from "./ProjectSimulatorPage";
 
-import {ProjectSidebar, ProjectPageLoader} from "../../Components";
-import {ProjectTypes} from "../../Common/constants";
+import {AppSidebar, ProjectPageLoader} from "../../Components";
+import ProjectAnalyticsWidgetPage from "./ProjectAnalyticsWidgetPage";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -37,7 +46,7 @@ class ProjectPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, actions, projectSlug, tagsLoaded, username, searchActions} = this.props;
+        const {project, actions, projectSlug, billingActions, tagsLoaded, username, user, searchActions} = this.props;
 
         searchActions.setProjectContext(projectSlug, username);
 
@@ -54,13 +63,27 @@ class ProjectPage extends Component {
         } else if (!tagsLoaded && project.type !== ProjectTypes.DEMO) {
             await actions.fetchProjectTags(project);
         }
+
+        if (username !== user.username) {
+            // @TODO @BILLING Remove when implement billing
+            // billingActions.fetchPlanForAccount(username);
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {tagsLoaded, project, actions} = this.props;
+        const {tagsLoaded, billingActions, user, username, project, actions, searchActions} = this.props;
 
-        if (!!prevProps.project && prevProps.project !== project && !tagsLoaded) {
-            actions.fetchProjectTags(project)
+        if (!!prevProps.project && prevProps.project.id !== project.id) {
+            searchActions.setProjectContext(project.slug, project.owner);
+
+            if (!tagsLoaded) {
+                actions.fetchProjectTags(project)
+            }
+        }
+
+        if (prevProps.username !== username && username !== user.username) {
+            // @TODO @BILLING Remove when implement billing
+            // billingActions.fetchPlanForAccount(username);
         }
     }
 
@@ -69,6 +92,15 @@ class ProjectPage extends Component {
 
         searchActions.removeProjectContext();
     }
+
+    renderComponent = (Component) => {
+        const {project} = this.props;
+
+        return (routeProps) => <Fragment>
+            <AppSidebar project={project} {...routeProps}/>
+            <Component {...routeProps}/>
+        </Fragment>;
+    };
 
     render(){
         const {project, tagsLoaded, location, match} = this.props;
@@ -94,22 +126,30 @@ class ProjectPage extends Component {
                 <Helmet>
                     <title>{project.name} | Tenderly</title>
                 </Helmet>
-                <ProjectSidebar project={project}/>
                 <Switch>
-                    <Route path="/:username/:slug/transactions" component={ProjectTransactionsPage}/>
-                    <Route path="/:username/:slug/tx/:network/:txHash/:tab?" strict component={ProjectTransactionPage}/>
-                    <Route path="/:username/:slug/analytics" component={ProjectAnalyticsPage}/>
+                    <Route path="/:username/:slug/transactions" render={this.renderComponent(ProjectTransactionsPage)}/>
+                    <Route path="/:username/:slug/events" render={this.renderComponent(ProjectEventsPage)}/>
+                    <Route path="/:username/:slug/tx/:network/:txHash/:tab?" strict render={this.renderComponent(ProjectTransactionPage)}/>
                     <Route path="/:username/:slug/simulator" component={ProjectSimulatorPage}/>
-                    <Route path="/:username/:slug/alerts/:tab" component={ProjectAlertsPage}/>
+                    <Route path="/:username/:slug/analytics" exact render={this.renderComponent(ProjectAnalyticsPage)}/>
+                    <Route path="/:username/:slug/analytics/create" exact render={this.renderComponent(ProjectCreateGraphPage)}/>
+                    <Route path="/:username/:slug/analytics/:widgetId" exact render={this.renderComponent(ProjectAnalyticsWidgetPage)}/>
+                    <Route path="/:username/:slug/alerts/:tab" render={this.renderComponent(ProjectAlertsPage)}/>
                     <Redirect from="/:username/:slug/alerts" to="/:username/:slug/alerts/rules"/>
-                    <Route path="/:username/:slug/contracts" exact component={ProjectContractsPage}/>
-                    <Route path="/:username/:slug/contracts/add" exact component={ProjectAddContractPage}/>
-                    <Route path="/:username/:slug/contract/:network/:address" component={ProjectContractPage}/>
-                    <Route path="/:username/:slug/releases" component={ProjectReleasesPage}/>
-                    <Route path="/:username/:slug/collaborators" exact component={ProjectCollaboratorsPage}/>
-                    <Route path="/:username/:slug/collaborators/add" exact component={ProjectAddCollaboratorPage}/>
-                    <Route path="/:username/:slug/collaborators/:collaboratorId" strict component={ProjectCollaboratorPage}/>
-                    <Route path="/:username/:slug/settings" component={ProjectSettingsPage}/>
+                    <Route path="/:username/:slug/wallets" exact render={this.renderComponent(ProjectWalletsPage)}/>
+                    <Route path="/:username/:slug/wallets/add" exact render={this.renderComponent(ProjectAddWalletPage)}/>
+                    <Route path="/:username/:slug/wallet/:network/:address" render={this.renderComponent(ProjectWalletPage)}/>
+                    <Route path="/:username/:slug/contracts" exact render={this.renderComponent(ProjectContractsPage)}/>
+                    <Route path="/:username/:slug/contracts/add" exact render={this.renderComponent(ProjectAddContractPage)}/>
+                    <Route path="/:username/:slug/contract/:network/:address" render={this.renderComponent(ProjectContractPage)}/>
+                    <Route path="/:username/:slug/releases" render={this.renderComponent(ProjectReleasesPage)}/>
+                    <Route path="/:username/:slug/security" render={this.renderComponent(ProjectSecurityPage)}/>
+                    <Route path="/:username/:slug/private-networks" render={this.renderComponent(ProjectPrivateNetworksPage)}/>
+                    <Route path="/:username/:slug/collaborators" exact render={this.renderComponent(ProjectCollaboratorsPage)}/>
+                    <Route path="/:username/:slug/collaborators/add" exact render={this.renderComponent(ProjectAddCollaboratorPage)}/>
+                    <Route path="/:username/:slug/collaborators/:collaboratorId" strict render={this.renderComponent(ProjectCollaboratorPage)}/>
+                    <Route path="/:username/:slug/settings" render={this.renderComponent(ProjectSettingsPage)}/>
+                    <Route path="/:username/:slug/usage" render={this.renderComponent(ProjectPlanPage)}/>
                     <Redirect to={`/:username/:slug/transactions`}/>
                 </Switch>
             </Fragment>
@@ -124,6 +164,7 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         username,
+        user: state.auth.user,
         projectSlug: slug,
         project,
         tagsLoaded: areProjectTagsLoaded(state, project),
@@ -134,6 +175,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(projectActions, dispatch),
         searchActions: bindActionCreators(searchActions, dispatch),
+        billingActions: bindActionCreators(billingActions, dispatch),
     }
 };
 

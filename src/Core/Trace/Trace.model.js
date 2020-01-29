@@ -18,7 +18,13 @@ export class Trace {
         this.fileName = data.fileName;
 
         /** @type number */
+        this.gasLeft = data.gasLeft;
+
+        /** @type number */
         this.gasUsed = data.gasUsed;
+
+        /** @type number */
+        this.gasRefunded = data.gasRefunded;
 
         /** @type string */
         this.from = data.from;
@@ -201,7 +207,9 @@ export class Trace {
             fileId: traceData.fileId,
             lineNumber: traceData.lineNumber,
             hasErrored: traceData.hasErrored,
+            gasLeft: rawCallTrace.gas,
             gasUsed: rawCallTrace.gas_used,
+            gasRefunded: rawCallTrace.refund_gas || 0,
             errorMessage: rawCallTrace.error,
             inputVariables,
             outputVariables,

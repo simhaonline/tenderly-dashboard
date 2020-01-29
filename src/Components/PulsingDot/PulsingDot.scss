@@ -1,0 +1,84 @@
+@import "../../Common/common";
+
+.PulsingDot {
+  width: 54px;
+  height: 54px;
+  position: relative;
+}
+
+.PulsingDot__Dot {
+  border-radius: 50%;
+}
+
+.PulsingDot__Dot--Outer {
+  width: 54px;
+  height: 54px;
+}
+
+.PulsingDot__Dot--Middle, .PulsingDot__Dot--Inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@keyframes PulsingDotOuter {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+.PulsingDot__Dot--Outer {
+  animation: 3s PulsingDotOuter ease-in-out infinite alternate;
+}
+
+@keyframes PulsingDotMiddle {
+  0% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.33);
+    opacity: 0.1;
+  }
+}
+
+.PulsingDot__Dot--Middle {
+  width: 36px;
+  height: 36px;
+  margin: 9px;
+  animation: 3s 1s PulsingDotMiddle ease-in-out infinite alternate;
+}
+
+@keyframes PulsingDotInner {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.9);
+    opacity: 0.1;
+  }
+}
+
+.PulsingDot__Dot--Inner {
+  width: 20px;
+  height: 20px;
+  margin: 17px;
+  animation: 3s 0.5s PulsingDotInner ease-in-out infinite alternate;
+}
+
+.PulsingDot--BluePurple .PulsingDot__Dot {
+  background: linear-gradient(225.1deg, #0076FF 0%, #3B6EFC 25.04%, #5665F8 50.38%, #6C5BF3 76.53%, #7E50EC 100%);
+}
+
+.PulsingDot--RedPurple .PulsingDot__Dot {
+  background: linear-gradient(225.66deg, #7E50EC 0%, #BC31CA 24.13%, #DE00A3 49.68%, #EE007B 74.72%, #F02056 100%);
+
+}
+
+.PulsingDot--BlueGreen .PulsingDot__Dot {
+  background: linear-gradient(44.95deg, #0076FF 0%, #0096FF 24.13%, #00AAE8 49.95%, #00B8BE 73.81%, #23C197 100%);
+}

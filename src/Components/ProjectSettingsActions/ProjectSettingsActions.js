@@ -1,9 +1,10 @@
 import React, {Component, Fragment} from 'react';
 
+import {ProjectTypes} from "../../Common/constants";
+
 import {Button, Panel, PanelHeader, PanelContent, Dialog, DialogHeader, DialogBody} from "../../Elements";
 
 import './ProjectSettingsActions.scss';
-import {ProjectTypes} from "../../Common/constants";
 
 class ProjectSettingsActions extends Component {
     constructor(props) {

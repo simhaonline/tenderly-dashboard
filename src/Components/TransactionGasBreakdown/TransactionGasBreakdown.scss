@@ -36,10 +36,16 @@
     .d3-flame-graph-label {
       line-height: 24px;
       transition: 0.1s;
+      padding: 0 $Spacing2;
 
       &:hover {
         background-color: transparentize($BlackColor, 0.9);
       }
+    }
+
+    &[name="[HIDE]"] {
+      pointer-events: none !important;
+      opacity: 0;
     }
   }
 }

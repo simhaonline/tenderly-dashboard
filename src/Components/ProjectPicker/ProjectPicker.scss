@@ -4,11 +4,15 @@
 @import "../../Common/Styles/mixins";
 
 .ProjectPicker {
-  margin-bottom: $Spacing6;
-  border-bottom: 1px solid $Slate300;
   display: flex;
   align-items: center;
   position: relative;
+
+  .ProjectName, .ProjectSlug {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 
   .CurrentProject {
     cursor: pointer;
@@ -16,12 +20,21 @@
     display: flex;
     align-items: center;
     width: 100%;
-    padding: $Spacing4 $Spacing5;
+    max-width: 260px;
+    padding: $Spacing2 $Spacing5;
+    border-radius: 3px;
+    overflow: hidden;
 
     .ProjectInfo {
       flex: 1 1 0;
       display: flex;
       align-items: center;
+      overflow: hidden;
+      height: 36px;
+    }
+    .ProjectInfo__General {
+      flex: 1 1 0;
+      overflow: hidden;
     }
     .ProjectIcon {
       @include Gradient('red-purple');
@@ -29,6 +42,14 @@
       color: transparent;
       margin-right: $Spacing3;
       font-size: $FontSize600;
+
+      &--NoColor {
+        background: none;
+        background-clip: initial;
+        color: $WhiteColor;
+        font-size: $FontSize400;
+        margin-right: $Spacing1;
+      }
     }
     .ProjectName {
       font-size: $FontSize300;
@@ -51,11 +72,12 @@
 
   .ProjectsDropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: 100%;
     background-color: $Slate300;
-    border-radius: 4px;
-    width: 100%;
-    padding: 10px 0;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    width: 260px;
+    padding: $Spacing2 0;
     box-shadow: 1px 1px 6px 0 transparentize($BlackColor, 0.5);
     z-index: 99999;
 
@@ -66,11 +88,22 @@
       min-height: 100px;
     }
 
+    .ProjectDropdownDivider {
+      border-top: 1px solid transparentize($WhiteColor, 0.75);
+      margin: $Spacing2 0;
+    }
+
+    .ProjectDropdownList__Heading {
+      font-weight: 100;
+      padding: $Spacing1 $Spacing2;
+    }
+
     .ProjectDropdownItem {
       cursor: pointer;
       padding: 6px 12px;
       display: flex;
       align-items: center;
+      color: $WhiteColor;
 
       &:not(:last-child) {
         margin-bottom: 5px;
@@ -92,14 +125,15 @@
         background-color: transparentize($BlackColor, 0.8);
       }
 
-      &.Active {
-        background-color: transparentize($BlackColor, 0.6);
+      &--Active {
+        background-color: transparentize($Primary500, 0.7) !important;
         cursor: default;
-
-        .ProjectIcon, .ProjectName {
-          color: $Secondary500;
-        }
       }
+    }
+
+    .ProjectDropdownItem__General {
+      flex: 1 1 0;
+      overflow: hidden;
     }
   }
 }

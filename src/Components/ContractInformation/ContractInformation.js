@@ -1,56 +1,37 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {NavLink} from "react-router-dom";
 
-import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+import {Contract, Project, ProjectContract} from "../../Core/models";
 
-import {CollaboratorPermissionTypes} from "../../Common/constants";
-
-import {Contract, Project} from "../../Core/models";
-
-import {Tag, Panel, PanelContent, PanelDivider, Tooltip, Icon, Toggle, Button, Dialog, DialogBody, DialogHeader} from "../../Elements";
-import {CopyableText, NetworkTag, PermissionControl} from "../index";
+import {Tag, Panel, PanelContent, PanelDivider, Tooltip, Icon, LinkButton} from "../../Elements";
+import {CopyableText, NetworkTag, ContractRevisionAddTagModal, PermissionControl} from "../index";
 
 import './ContractInformation.scss';
+import {CollaboratorPermissionTypes} from "../../Common/constants";
 
 class ContractInformation extends Component {
-    constructor(props) {
-        super(props);
+    state = {
+        addTagModalOpen: false,
+    };
 
-        this.state = {
-            deleteModalOpen: false,
-        };
-    }
-
-    openDeleteModal = () => {
+    /**
+     * @param {boolean} value
+     */
+    setAddTagModal = (value) => {
         this.setState({
-            deleteModalOpen: true,
-        })
-    };
-
-    closeDeleteModal = () => {
-        this.setState({
-            deleteModalOpen: false,
-        })
-    };
-
-    handleListeningToggle = () => {
-        const {contract, onListenToggle} = this.props;
-
-        onListenToggle(contract);
-    };
-
-    handleContractDelete = () => {
-        const {contract, onDelete} = this.props;
-
-        this.closeDeleteModal();
-
-        onDelete(contract);
+            addTagModalOpen: value,
+        });
     };
 
     render() {
-        const {contract, project, tags} = this.props;
-        const {deleteModalOpen} = this.state;
+        const {project, contract, projectContract} = this.props;
+        const {addTagModalOpen} = this.state;
+
+        let revision;
+
+        if (projectContract) {
+            revision = projectContract.getRevision(contract.id);
+        }
 
         return (
             <Panel className="ContractInformation">
@@ -80,66 +61,21 @@ class ContractInformation extends Component {
                             </div>
                         </div>
                     </div>
-                    {!!project && <Fragment>
-                        {!!tags && tags.length > 0 && <Fragment>
-                            <PanelDivider/>
-                            <div>
-                                <span className="MarginRight2 SemiBoldText">Tags:</span>
-                                {tags.map(tag => <Tag color="primary-outline" key={tag.tag}>
-                                    <Icon icon="tag"/>
-                                    <span className="MonospaceFont">{tag.tag}</span>
-                                </Tag>)}
-                            </div>
-                        </Fragment>}
+                    {!!projectContract && <Fragment>
                         <PanelDivider/>
-                        <div className="DisplayFlex AlignItemsCenter JustifyContentEnd">
-                            <div className="MarginRightAuto">
-                                <Button size="small" disabled={!contract.listening} to={{
-                                    pathname: `${project.getUrlBase()}/transactions`,
-                                    search: `?contracts=${contract.id}`,
-                                }}>
-                                    <span>View Transactions</span>
-                                </Button>
-                            </div>
-                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT}>
-                                <div className="DisplayFlex AlignItemsStart MarginRight4">
-                                    <span className="MarginRight2 SemiBoldText">Listening: <Icon icon="info" className="MutedText"/></span>
-                                    <div>
-                                        <Toggle value={contract.listening} onChange={this.handleListeningToggle}/>
-                                    </div>
-                                </div>
+                        <div>
+                            <span className="MarginRight2 SemiBoldText">Tags:</span>
+                            {revision.tags.map(tag => <Tag color="primary-outline" key={tag.label}>
+                                <Icon icon="tag"/>
+                                <span className="MonospaceFont">{tag.label}</span>
+                            </Tag>)}
+                            <PermissionControl requiredPermission={CollaboratorPermissionTypes.ADD_CONTRACT} project={project}>
+                                <LinkButton onClick={() => this.setAddTagModal(true)} className="MarginLeft1">
+                                    <Icon icon="plus"/>
+                                    <span>Add Tag</span>
+                                </LinkButton>
                             </PermissionControl>
-                            <PermissionControl project={project} requiredPermission={CollaboratorPermissionTypes.REMOVE_CONTRACT}>
-                                <div>
-                                    <Button color="danger" outline size="small" onClick={this.openDeleteModal}>
-                                        <span>Remove Contract</span>
-                                    </Button>
-                                </div>
-                            </PermissionControl>
-                        </div>
-                        <Dialog onClose={this.closeDeleteModal} open={deleteModalOpen}>
-                            <DialogHeader>
-                                <h3>Are you sure you want to remove this contract?</h3>
-                            </DialogHeader>
-                            <DialogBody>
-                                <div className="DisplayFlex JustifyContentEnd">
-                                    <Button color="secondary" onClick={this.closeDeleteModal}>Cancel</Button>
-                                    <Button color="secondary" outline onClick={this.handleContractDelete}>
-                                        <span>Yes, remove</span>
-                                    </Button>
-                                </div>
-                            </DialogBody>
-                        </Dialog>
-                    </Fragment>}
-                    {contract.isPublic && <Fragment>
-                        <PanelDivider/>
-                        <div className="ContractInformation__PublicNavigation">
-                            <NavLink exact to={`/contract/${getRouteSlugForNetwork(contract.network)}/${contract.address}`} className="ContractInformation__PublicNavigation__NavItem">
-                                <span>Transactions</span>
-                            </NavLink>
-                            <NavLink exact to={`/contract/${getRouteSlugForNetwork(contract.network)}/${contract.address}/source`} className="ContractInformation__PublicNavigation__NavItem">
-                                <span>Source Code</span>
-                            </NavLink>
+                            <ContractRevisionAddTagModal project={project} revision={revision} open={addTagModalOpen} onClose={() => this.setAddTagModal(false)}/>
                         </div>
                     </Fragment>}
                 </PanelContent>
@@ -150,10 +86,8 @@ class ContractInformation extends Component {
 
 ContractInformation.propTypes = {
     contract: PropTypes.instanceOf(Contract).isRequired,
-    tags: PropTypes.array,
     project: PropTypes.instanceOf(Project),
-    onDelete: PropTypes.func,
-    onListenToggle: PropTypes.func,
+    projectContract: PropTypes.instanceOf(ProjectContract),
 };
 
 export default ContractInformation;

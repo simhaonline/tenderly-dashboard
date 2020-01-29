@@ -3,12 +3,67 @@
 @import "../../Common/Styles/global";
 
 .Page {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.Page__TabsHeader {
+  padding: 0 80px;
+  display: flex;
+  border-bottom: 1px solid $Slate900;
+  box-shadow: 2px 0 16px -2px transparentize($BlackColor, 0.6);
+
+  @media (max-width: 1440px) {
+    padding: 0 40px;
+  }
+
+  @media (max-width: 760px) {
+    padding: 0 $Spacing4;
+    overflow-y: auto;
+  }
+}
+
+.Page__Tab {
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  padding: $Spacing2 $Spacing4;
+  display: block;
+  font-size: $FontSize400;
+  transition: 0.1s ease-in;
+
+  &:hover {
+    background-color: $Slate600;
+  }
+
+  &--Active {
+    background-color: $Slate600;
+    border-bottom-color: $Primary500;
+  }
+}
+
+.Page__Tab__Label {
+  color: $WhiteColor;
+  white-space: nowrap;
+}
+
+.Page__Tab__Icon {
+  margin-right: $Spacing2;
+}
+
+.Page__Content {
   padding: 48px 80px;
   overflow-y: auto;
   flex: 1 1 0;
 
-  &.NoPadding {
-    padding: 0;
+  // @TODO probably doesn't belong here
+  .FullWidthContainer {
+    margin: 0 -80px;
+  }
+
+  &--NoPadding {
+    padding: 0 !important;
   }
 
   .PageHeading {
@@ -34,6 +89,14 @@
     }
   }
 
+  @media (max-width: 1440px) {
+    padding: 36px 40px;
+
+    .FullWidthContainer {
+      margin: 0 -40px;
+    }
+  }
+
   @media (max-width: 760px) {
     padding: 24px 16px 80px;
 
@@ -43,6 +106,11 @@
       h1 {
         font-size: 1.6rem;
       }
+    }
+
+    // @TODO probably doesn't belong here
+    .FullWidthContainer {
+      margin: 0 -16px;
     }
   }
 }

@@ -2,14 +2,56 @@
 
 .Profiler {
   width: 100%;
-  overflow: hidden;
   background-color: $Slate700;
+  display: flex;
+  flex-direction: column;
+}
+
+.Profiler__OverviewWrapper {
+  flex: 0 0 auto;
+  border-bottom: 2px solid $Slate900;
+}
+
+.Profiler__OverviewWrapper__Bar {
+  background-color: transparentize($Primary100, 0.5);
+  border-left: 2px solid $Primary100;
+  border-right: 2px solid $Primary100;
+  height: 30px;
+  cursor: grab;
+  position: relative;
+}
+
+.Profiler__View {
+  flex: 1 1 0;
+  overflow: hidden;
+  position: relative;
+  height: 300px;
+}
+
+.Profiler__ResolutionWrapper {
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+
+.Profiler__ResolutionWrapper__Bar {
+  border-right: 1px dashed transparentize($WhiteColor, 0.75);
+}
+
+.Profiler__NodesWrapper {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .Profiler__Nodes {
   display: flex;
-  height: 300px;
   cursor: grab;
+  position: absolute;
+  top: 0;
+  min-height: 100%;
 }
 
 .ProfilerNode {

@@ -13,7 +13,12 @@ import {
     simpleAlertTypeRequiresParameters
 } from "../../Utils/AlertHelpers";
 
-import {SimpleAlertRuleTypes, AlertRuleBuilderSteps, SimpleAlertRuleTargetTypes} from "../../Common/constants";
+import {
+    SimpleAlertRuleTypes,
+    AlertRuleBuilderSteps,
+    SimpleAlertRuleTargetTypes,
+    AlertRuleSeverityTypes
+} from "../../Common/constants";
 
 import {AlertRule, Contract, NotificationDestination, Project} from "../../Core/models";
 import * as contractActions from '../../Core/Contract/Contract.actions';
@@ -56,6 +61,7 @@ class AlertRuleBuilder extends Component {
             selectedDestinations: initialRule ? initialRule.deliveryChannels : [],
             alertName: initialRule ? initialRule.name : '',
             alertDescription: initialRule ? initialRule.description : '',
+            alertSeverity: initialRule ? initialRule.severity : null,
             expressions: initialRule ? initialRule.expressions : [],
             stepsEnabled,
         };
@@ -307,6 +313,23 @@ class AlertRuleBuilder extends Component {
     };
 
     /**
+     * @returns {AlertRuleSeverityTypes}
+     */
+    getSimpleAlertRuleSeverity = () => {
+        const {selectedType} = this.state;
+
+        switch (selectedType) {
+            case SimpleAlertRuleTypes.WHITELISTED_CALLERS:
+                return AlertRuleSeverityTypes.WARNING;
+            case SimpleAlertRuleTypes.FAILED_TX:
+            case SimpleAlertRuleTypes.BLACKLISTED_CALLERS:
+                return AlertRuleSeverityTypes.DANGER;
+            default:
+                return AlertRuleSeverityTypes.DEFAULT;
+        }
+    };
+
+    /**
      *
      * @returns {boolean}
      */
@@ -346,12 +369,13 @@ class AlertRuleBuilder extends Component {
 
     handleFormSubmit = () => {
         const {onSubmit, skipGeneral} = this.props;
-        const {alertName, alertDescription, selectedType, selectedTarget, selectedParameters, selectedDestinations} = this.state;
+        const {alertName, alertDescription, alertSeverity, selectedType, selectedTarget, selectedParameters, selectedDestinations} = this.state;
 
         const expressions = generateAlertRuleExpressions(selectedType, selectedTarget, selectedParameters);
 
         onSubmit({
             name: skipGeneral ? this.getSimpleAlertRuleName() : alertName,
+            severity: skipGeneral ? this.getSimpleAlertRuleSeverity() : alertSeverity,
             description: alertDescription,
             simpleType: selectedType,
         }, expressions, selectedDestinations);
@@ -359,7 +383,7 @@ class AlertRuleBuilder extends Component {
 
     render() {
         const {submitButtonLabel, contracts, networks, project, destinations, onCancel} = this.props;
-        const {step: activeStep, selectedType, selectedTarget, alertName, alertDescription, selectedDestinations, stepsEnabled, expressions, fetchingParameterOptions, parameterOptions, selectedParameters} = this.state;
+        const {step: activeStep, selectedType, selectedTarget, alertName, alertSeverity, alertDescription, selectedDestinations, stepsEnabled, expressions, fetchingParameterOptions, parameterOptions, selectedParameters} = this.state;
 
         return (
             <div className="AlertRuleBuilder">
@@ -373,7 +397,7 @@ class AlertRuleBuilder extends Component {
 
                     switch (step) {
                         case AlertRuleBuilderSteps.GENERAL:
-                            return <AlertRuleBuilderGeneralInformation {...commonProps} data={{alertName, alertDescription}} onChange={this.handleGeneralInfoUpdate}/>;
+                            return <AlertRuleBuilderGeneralInformation {...commonProps} data={{alertName, alertDescription, alertSeverity}} onChange={this.handleGeneralInfoUpdate}/>;
                         case AlertRuleBuilderSteps.TYPE:
                             return <AlertRuleBuilderType {...commonProps} onSelect={this.handleAlertTypeSelect} value={selectedType}/>;
                         case AlertRuleBuilderSteps.TARGET:
@@ -387,7 +411,7 @@ class AlertRuleBuilder extends Component {
                         case AlertRuleBuilderSteps.ADVANCED:
                             return <AlertRuleBuilderAdvanced {...commonProps} contracts={contracts} expressions={expressions}/>;
                         case AlertRuleBuilderSteps.DESTINATIONS:
-                            return <AlertRuleBuilderDestinations {...commonProps} destinations={destinations} selected={selectedDestinations}
+                            return <AlertRuleBuilderDestinations {...commonProps} destinations={destinations.filter(dest => dest.enabled)} selected={selectedDestinations}
                                                                  alertType={selectedType} project={project} onSelect={this.handleAlertDestinationsSelect}/>;
                         default:
                             return null;

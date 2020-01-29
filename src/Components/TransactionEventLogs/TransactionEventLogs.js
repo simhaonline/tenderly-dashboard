@@ -8,7 +8,7 @@ import {generateShortAddress} from "../../Utils/AddressFormatter";
 import {Contract, EventLog} from "../../Core/models";
 
 import {Card, LinkButton, Icon, Select} from "../../Elements";
-import {EmptyState} from '..';
+import {CopyableText, EmptyState} from '..';
 
 import './TransactionEventLogs.scss';
 
@@ -37,6 +37,7 @@ class TransactionEventLog extends PureComponent {
 
         this.state = {
             inputData,
+            network: contracts[0].network,
             rawData,
             contract,
             showData: false,
@@ -53,10 +54,10 @@ class TransactionEventLog extends PureComponent {
 
     render() {
         const {eventLog} = this.props;
-        const {inputData, contract, showData, rawData} = this.state;
+        const {inputData, contract, showData, rawData, network} = this.state;
 
         return (
-            <Card color="dark" className="TransactionEventLog">
+            <Card className="TransactionEventLog">
                 <div className="DisplayFlex AlignItemsCenter JustifyContentSpaceBetween">
                     <div>
                         {!!eventLog.name && <h3>{eventLog.name}</h3>}
@@ -71,7 +72,21 @@ class TransactionEventLog extends PureComponent {
                         />
                         <div>
                             <div className="SemiBoldText MarginBottom1">{contract.name}</div>
-                            <div className="LinkText MonospaceFont">{generateShortAddress(contract.address, 12, 6)}</div>
+                            <CopyableText position='right' text={contract.address}
+                                          render={(props)=> <div {...props} className={`LinkText MonospaceFont ${props.className}`}>{generateShortAddress(contract.address, 12, 6)}</div>}/>
+                        </div>
+                    </div>}
+                    {!contract && <div className="DisplayFlex AlignItemsCenter">
+                        <Blockies
+                            seed={Contract.generateUniqueId(eventLog.contract,network)}
+                            size={8}
+                            scale={4.5}
+                            className="ContractPickerList__Item__Blockie"
+                        />
+                        <div>
+                            <div className="SemiBoldText MarginBottom1">Unknown</div>
+                            <CopyableText position='right' text={eventLog.contract}
+                                          render={(props)=> <div {...props} className={`LinkText MonospaceFont ${props.className}`}>{generateShortAddress(eventLog.contract, 12, 6)}</div>}/>
                         </div>
                     </div>}
                 </div>

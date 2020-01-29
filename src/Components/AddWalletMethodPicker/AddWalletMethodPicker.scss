@@ -1,0 +1,17 @@
+@import "../../Common/common";
+
+.AddWalletMethodPicker {}
+
+.AddWalletMethodPicker__Method {
+  width: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AddWalletMethodPicker__Method__Icon {
+  font-size: $FontSize500;
+  margin-right: $Spacing1;
+}
+
+.AddWalletMethodPicker__Method__Title {}

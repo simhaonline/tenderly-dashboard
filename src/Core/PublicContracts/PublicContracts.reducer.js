@@ -29,6 +29,7 @@ const PublicContractsReducer = (state = initialState, action) => {
                 watchedContracts: {
                     ...action.contracts.reduce((data, contract) => {
                         data[contract.getUniqueId()] = {
+                            id: contract.getUniqueId(),
                             name: contract.name,
                             address: contract.address,
                             network: contract.network,

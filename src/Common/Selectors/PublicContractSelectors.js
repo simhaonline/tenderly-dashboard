@@ -23,7 +23,7 @@ export function getNetworkPublicContractsForPage(state, network, page) {
  * @returns {Object} contract
  */
 export function getPublicContractById(state, address, network) {
-    const contractId = Contract.generateUniqueContractId(address, network);
+    const contractId = Contract.generateUniqueId(address, network);
 
     if (!state.publicContracts.contracts[contractId]) {
         return null;
@@ -66,7 +66,7 @@ export function arePublicContractsLoadedForTransaction(state, transaction) {
  * @returns {boolean}
  */
 export function isPublicContractLoaded(state, address, network) {
-    const contractId = Contract.generateUniqueContractId(address, network);
+    const contractId = Contract.generateUniqueId(address, network);
 
     if (!state.publicContracts.contracts[contractId] || !state.publicContracts.contractsLoaded[contractId]) {
         return false;

@@ -57,6 +57,10 @@
   display: flex;
 }
 
+.FlexDirectionColumn {
+  flex-direction: column;
+}
+
 .Flex1 {
   flex: 1 1 0;
 }
@@ -89,6 +93,10 @@
   align-items: flex-start;
 }
 
+.LightText {
+  font-weight: 100;
+}
+
 .SemiBoldText {
   font-weight: 600;
 }
@@ -103,6 +111,10 @@
 
 .JustifyContentSpaceBetween {
   justify-content: space-between;
+}
+
+.JustifyContentSpaceAround {
+  justify-content: space-around;
 }
 
 .MarginCentered {
@@ -228,6 +240,20 @@
 
 .BorderRadius4 {
   border-radius: 8px;
+}
+
+
+
+.FontSize2 {
+  font-size: $FontSize200;
+}
+
+.FontSize3 {
+  font-size: $FontSize300;
+}
+
+.FontSize4 {
+  font-size: $FontSize400;
 }
 
 @media (max-width: 760px) {

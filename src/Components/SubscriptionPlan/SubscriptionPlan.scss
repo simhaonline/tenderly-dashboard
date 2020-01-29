@@ -1,0 +1,26 @@
+@import "../../Common/common";
+
+.SubscriptionPlan__PlanImageWrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  background-color: $Primary500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $Spacing8;
+
+  &--Pro {
+    background: $GradientBluePurple;
+  }
+
+  &--Enterprise {
+    background: $GradientRedPurple;
+  }
+
+}
+
+.SubscriptionPlan__PlanImage {
+  width: 36px;
+  height: 36px;
+}

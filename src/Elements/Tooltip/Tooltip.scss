@@ -4,6 +4,7 @@
 
 .Tooltip .tooltip{
   z-index: 9999;
+  pointer-events: none;
 }
 
 .Tooltip__Content {

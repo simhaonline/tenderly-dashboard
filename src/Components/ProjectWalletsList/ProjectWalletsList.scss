@@ -1,0 +1,29 @@
+@import "../../Common/common";
+
+.ProjectWalletsList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ProjectWalletsList__Item {
+  flex: 0 0 400px;
+  width: 400px;
+  margin-right: $Spacing6;
+  margin-bottom: $Spacing6;
+}
+
+.ProjectWalletsList__Item__Card {
+  min-height: 175px;
+  height: 100%;
+}
+
+.ProjectWalletsList__Item__WalletInfo {
+
+}
+
+.ProjectWalletsList__Item__TokenBalance {
+  margin: 0 -1*$Spacing5 -1*$Spacing3;
+  margin-top: $Spacing4;
+  padding: $Spacing2 $Spacing5;
+  background-color: transparentize($Slate900, 0.75);
+}

@@ -6,6 +6,10 @@ export const OSTypes = {
     LINUX: "Linux",
 };
 
+export const CommonActionTypes = {
+    FETCH_ACCOUNT_PLAN_ACTION: 'FETCH_ACCOUNT_PLAN',
+};
+
 /**
  * @enum {string}
  */
@@ -22,6 +26,50 @@ export const LocalStorageKeys = {
     LOGIN_REDIRECT: 'LOGIN_REDIRECT',
     LOGIN_FLOW: 'LOGIN_FLOW',
     RECENT_SEARCHES: 'RECENT_SEARCHES',
+    PROJECT_CONTEXT: 'PROJECT_CONTEXT',
+    TRANSACTIONS_LIST_COLUMNS: 'TRANSACTIONS_LIST_COLUMNS',
+};
+
+/**
+ * @enum {string}
+ */
+export const TransactionsListColumnTypes = {
+    TX_HASH: 'txHash',
+    STATUS: 'status',
+    CONTRACTS: 'contracts',
+    NETWORK: 'network',
+    METHOD: 'method',
+    TIMESTAMP: 'timestamp',
+    FROM: 'from',
+    TO: 'to',
+    BLOCK: 'block',
+    GAS_USED: 'GAS_USED',
+};
+
+/**
+ * @type {TransactionsListColumnTypes[]}
+ */
+export const DEFAULT_TRANSACTIONS_LIST_COLUMNS = [
+    TransactionsListColumnTypes.TX_HASH,
+    TransactionsListColumnTypes.STATUS,
+    TransactionsListColumnTypes.CONTRACTS,
+    TransactionsListColumnTypes.METHOD,
+    TransactionsListColumnTypes.TIMESTAMP,
+];
+
+/**
+ * @enum {string}
+ */
+export const LoginFlowTypes = {
+    ACCEPT_INVITATION: "project-invitation",
+    CUSTOM_INTEGRATION: "custom-integration",
+};
+
+/**
+ * @enum {string}
+ */
+export const CustomIntegrationTypes = {
+    ARAGON: "aragon",
 };
 
 /**
@@ -125,12 +173,61 @@ export const ProjectTypes = {
 };
 
 export const AnalyticsWidgetTypes = {
-    LINE_CHART: 'LINE_CHART',
-    STACKED_CHART: 'STACKED_CHART',
+    LINE_CHART: 'line_chart',
+    TABLE: 'table',
+    STACKED_CHART: 'stacked_chart',
     BAR_CHART: 'BAR_CHART',
     PIE_CHART: 'LINE_CHART',
     METRIC: 'METRIC',
     LIST: 'LIST',
+};
+
+export const AnalyticsDataAggregationTypes = {
+    COUNT : 'count',
+    SUM: 'sum',
+    AVG: 'avg',
+    MEDIAN: 'median',
+    MIN: 'min',
+    MAX: 'max',
+    UNIQUE: 'unique'
+};
+
+export const AnalyticsDataSourceTypes = {
+    TRANSACTIONS: 'ethereum_transactions',
+    TRANSACTION_LOGS: 'ethereum_transaction_logs'
+};
+
+export const AnalyticsTransactionCustomDataTypes = {
+    CALL_COUNT: 'call_count',
+    TX_COUNT: 'tx_count'
+};
+
+export const AnalyticsTransactionDataTypes = {
+    ADDRESS: 'address',
+    BLOCK_HASH: 'block_hash',
+    BLOCK_NUMBER: 'block_number',
+    TRANSACTION_INDEX: 'transaction_index',
+    TRANSACTION_HASH: 'transaction_hash',
+    TRANSACTION_STATUS: 'transaction_status',
+    FROM: 'from',
+    TO: 'to',
+    GAS: 'gas',
+    GAS_PRICE: 'gas_price',
+    GAS_USED: 'gas_used',
+    GAS_USED_TOTAL: 'gas_used_total',
+    CUMULATIVE_GAS_USED: 'cumulative_gas_used',
+    FUNCTION_SIGNATURE: 'function_signature',
+    VALUE: 'value',
+    CONTRACT_ADDRESS: 'contract_address'
+};
+
+export const AnalyticsTransactionLogDataTypes = {
+    ADDRESS: 'address',
+    BLOCK_HASH: 'block_hash',
+    BLOCK_NUMBER: 'block_number',
+    TRANSACTION_INDEX: 'transaction_index',
+    TRANSACTION_HASH: 'transaction_hash',
+    LOG_SIGNATURE: 'log_signature'
 };
 
 export const AnalyticsWidgetListTypeColumnTypes = {
@@ -147,6 +244,11 @@ export const AnalyticsWidgetSizeTypes = {
     FOUR: 4,
 };
 
+export const AnalyticsDataBreakdownTypes = {
+    CONTRACT_TO: 'contract_to',
+    TX_STATUS: 'transaction_status',
+};
+
 export const AnalyticsWidgetDataRangeTypes = {
     LAST_7_DAYS: 'LAST_7_DAYS',
     LAST_14_DAYS: 'LAST_14_DAYS',
@@ -155,11 +257,57 @@ export const AnalyticsWidgetDataRangeTypes = {
     LAST_MONTH: 'LAST_MONTH',
 };
 
+/**
+ * @enum {string}
+ */
+export const TimeUnitTypes = {
+    SECOND: "second",
+    MINUTE: "minute",
+    HOUR: "hour",
+    DAY: "day",
+    WEEK: "week",
+    MONTH: "month",
+    YEAR: "year",
+};
+
+/**
+ * @enum {string}
+ */
+export const TimeUnitLabelMap = {
+    [TimeUnitTypes.SECOND]: "Second",
+    [TimeUnitTypes.MINUTE]: "Minute",
+    [TimeUnitTypes.HOUR]: "Hour",
+    [TimeUnitTypes.DAY]: "Day",
+    [TimeUnitTypes.WEEK]: "Week",
+    [TimeUnitTypes.MONTH]: "Month",
+    [TimeUnitTypes.YEAR]: "Year",
+};
+
+/**
+ * @enum {TimeUnitTypes}
+ */
+export const AnalyticsWidgetTimeUnitTypes = {
+    DAY: TimeUnitTypes.DAY,
+    WEEK: TimeUnitTypes.WEEK,
+    MONTH: TimeUnitTypes.MONTH,
+    YEAR: TimeUnitTypes.YEAR,
+};
+
+/**
+ * @enum {TimeUnitTypes}
+ */
+export const AnalyticsWidgetResolutionTypes = {
+    MINUTE: TimeUnitTypes.MINUTE,
+    HOUR: TimeUnitTypes.HOUR,
+    DAY: TimeUnitTypes.DAY,
+    WEEK: TimeUnitTypes.WEEK,
+    MONTH: TimeUnitTypes.MONTH,
+};
+
 export const FeatureFlagTypes = {
     COMING_SOON: 'coming_soon',
     ERRORS: 'errors',
     ORGANIZATIONS: 'organizations',
-    BILLING: 'billing',
     ALERTS: 'alerts',
     ANALYTICS: 'analytics',
 };
@@ -232,8 +380,30 @@ export const UsernameStatusMap = {
 /**
  * @enum {string}
  */
+export const UserPlanTypes = {
+    FREE: 'free',
+    GRANDFATHER: 'grandfather',
+    PRO: 'pro',
+    ENTERPRISE: 'enterprise',
+};
+
+/**
+ * @enum {string}
+ */
+export const PlanUsageTypes = {
+    ADDRESS_USAGE: 'address_usage',
+    ALERT_USAGE: 'alert_usage',
+    DELIVERY_CHANNEL_USAGE: 'delivery_channel_usage',
+    INVITED_USERS: 'invited_users',
+    PROJECT_USAGE: 'project_usage',
+};
+
+/**
+ * @enum {string}
+ */
 export const CollaboratorPermissionTypes = {
     ADD_CONTRACT: 'ADD_CONTRACT',
+    UPDATE_CONTRACT: 'UPDATE_CONTRACT',
     REMOVE_CONTRACT: 'REMOVE_CONTRACT',
     CREATE_ALERT: 'CREATE_ALERT',
     UPDATE_ALERT: 'UPDATE_ALERT',
@@ -257,6 +427,7 @@ export const CollaboratorPermissionGroupLabelMap = {
 
 export const CollaboratorPermissionTypeGroupMap = {
     ADD_CONTRACT: CollaboratorPermissionGroupTypes.CONTRACT,
+    UPDATE_CONTRACT: CollaboratorPermissionGroupTypes.CONTRACT,
     REMOVE_CONTRACT: CollaboratorPermissionGroupTypes.CONTRACT,
     CREATE_ALERT: CollaboratorPermissionGroupTypes.ALERT,
     UPDATE_ALERT: CollaboratorPermissionGroupTypes.ALERT,
@@ -268,6 +439,7 @@ export const CollaboratorPermissionTypeGroupMap = {
  */
 export const CollaboratorPermissionTypeIconMap = {
     [CollaboratorPermissionTypes.ADD_CONTRACT]: 'file-plus',
+    [CollaboratorPermissionTypes.UPDATE_CONTRACT]: 'edit',
     [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'file-minus',
     [CollaboratorPermissionTypes.CREATE_ALERT]: 'bell',
     [CollaboratorPermissionTypes.UPDATE_ALERT]: 'edit',
@@ -279,6 +451,7 @@ export const CollaboratorPermissionTypeIconMap = {
  */
 export const CollaboratorPermissionTypeDescriptionMap = {
     [CollaboratorPermissionTypes.ADD_CONTRACT]: 'Add contracts to project',
+    [CollaboratorPermissionTypes.UPDATE_CONTRACT]: 'Update contracts in project',
     [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'Remove contracts from project',
     [CollaboratorPermissionTypes.CREATE_ALERT]: 'Create alerts in project',
     [CollaboratorPermissionTypes.UPDATE_ALERT]: 'Make changes to existing alerts',
@@ -290,6 +463,7 @@ export const CollaboratorPermissionTypeDescriptionMap = {
  */
 export const CollaboratorPermissionAppToApiTypeMap = {
     [CollaboratorPermissionTypes.ADD_CONTRACT]: 'add_contract',
+    [CollaboratorPermissionTypes.UPDATE_CONTRACT]: 'update_contract',
     [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'remove_contract',
     [CollaboratorPermissionTypes.CREATE_ALERT]: 'create_alert',
     [CollaboratorPermissionTypes.UPDATE_ALERT]: 'update_alert',
@@ -301,6 +475,7 @@ export const CollaboratorPermissionAppToApiTypeMap = {
  */
 export const CollaboratorPermissionApiToAppTypeMap = {
     'add_contract': CollaboratorPermissionTypes.ADD_CONTRACT,
+    'update_contract': CollaboratorPermissionTypes.UPDATE_CONTRACT,
     'remove_contract': CollaboratorPermissionTypes.REMOVE_CONTRACT,
     'create_alert': CollaboratorPermissionTypes.CREATE_ALERT,
     'update_alert': CollaboratorPermissionTypes.UPDATE_ALERT,
@@ -342,6 +517,7 @@ export const SimpleAlertRuleTypes = {
  * @typedef {Object} SimpleAlertRuleGeneralInformation
  * @property {string} name
  * @property {string} description
+ * @property {AlertRuleSeverityTypes} severity
  * @property {SimpleAlertRuleTypes} [simpleType]
  */
 
@@ -398,6 +574,38 @@ export const SimpleAlertRuleTypeLabelMap = {
     [SimpleAlertRuleTypes.FUNCTION_CALLED]: 'Function Call',
     [SimpleAlertRuleTypes.CALLED_FUNCTION_PARAMETER]: 'Function Argument',
     [SimpleAlertRuleTypes.ADVANCED]: 'Advanced Alert',
+};
+
+/**
+ * @enum {string}
+ */
+export const AlertRuleSeverityTypes = {
+    DEFAULT: 'default',
+    INFO: 'info',
+    WARNING: 'warning',
+    DANGER: 'danger',
+    GOOD: 'good',
+};
+
+/**
+ * @enum {string}
+ */
+export const AlertRuleSeverityTypeLabelMap = {
+    [AlertRuleSeverityTypes.DEFAULT]: 'Default',
+    [AlertRuleSeverityTypes.INFO]: 'Info',
+    [AlertRuleSeverityTypes.WARNING]: 'Warning',
+    [AlertRuleSeverityTypes.DANGER]: 'Danger',
+    [AlertRuleSeverityTypes.GOOD]: 'Success',
+};
+
+/**
+ * @enum {string}
+ */
+export const AlertRuleSeverityTypeColorMap = {
+    [AlertRuleSeverityTypes.INFO]: '#34ace0',
+    [AlertRuleSeverityTypes.WARNING]: '#ffda79',
+    [AlertRuleSeverityTypes.DANGER]: '#ff5252',
+    [AlertRuleSeverityTypes.GOOD]: '#33d9b2',
 };
 
 /**
@@ -571,6 +779,14 @@ export const SearchResultTypes = {
     PROJECT_CONTRACT: 'PROJECT_CONTRACT',
     PROJECT_TRANSACTION: 'PROJECT_TRANSACTION',
     PUBLIC_TRANSACTION: 'PUBLIC_TRANSACTION',
+};
+
+/**
+ * @enum {string}
+ */
+export const AccountTypes = {
+    CONTRACT: 'contract',
+    WALLET: 'wallet',
 };
 
 export const FIVE_SECOND_INTERVAL = 5 * 1000;

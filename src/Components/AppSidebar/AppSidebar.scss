@@ -1,0 +1,114 @@
+@import "../../Common/common";
+
+#AppSidebar {
+  padding: $Spacing6 0;
+
+  @media (max-width: 760px) {
+    padding: 0;
+
+    .SidebarContent {
+      display: flex;
+      padding: 0 $Spacing4;
+    }
+  }
+}
+
+.AppSidebar__NavGroup {
+  padding: $Spacing4 0;
+
+  &--Context {
+    background-color: $Slate400;
+
+    .AppSidebar__NavGroup__Link__Icon {
+      color: $WhiteColor;
+    }
+
+    .AppSidebar__NavGroup__Link--Active {
+      color: $WhiteColor;
+    }
+  }
+
+  @media (max-width: 760px) {
+    padding: 0;
+  }
+}
+
+.AppSidebar__NavGroup__Heading {
+  padding: 0 $Spacing3;
+  margin-bottom: $Spacing2;
+  font-size: $FontSize200;
+  text-transform: uppercase;
+
+  @media (max-width: 760px) {
+    display: none;
+  }
+}
+
+.AppSidebar__NavGroup__Links {
+  @media (max-width: 760px) {
+    display: flex;
+  }
+}
+
+.AppSidebar__NavGroup__Link {
+  color: $WhiteColor;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  font-size: $FontSize400;
+  padding: 0 $Spacing3;
+
+  &:hover, &:focus, &:active {
+    color: $WhiteColor;
+  }
+
+  @media (max-width: 760px) {
+    height: 59px;
+    padding: 0 $Spacing6;
+  }
+}
+
+.AppSidebar__NavGroup__Link--Active {
+  background-color: $Primary500;
+
+  .AppSidebar__NavGroup__Link__Icon {
+    color: $WhiteColor;
+  }
+
+  .AppSidebar__NavGroup__Link__Label {
+    font-weight: 600;
+  }
+}
+
+.AppSidebar__NavGroup__Link__Icon {
+  color: $Primary500;
+
+  @media (max-width: 760px) {
+    color: transparentize($WhiteColor, 0.2);
+  }
+}
+
+.AppSidebar__NavGroup__Link__Label {
+  margin-left: $Spacing3;
+  color: $WhiteColor;
+
+  @media (max-width: 760px) {
+    display: none;
+  }
+}
+
+.AppSidebar__NavGroup__SubLink {
+  color: $WhiteColor;
+  display: block;
+  padding: $Spacing1 $Spacing2 $Spacing1 ($Spacing8 + $Spacing4);
+
+  &:focus, &:hover {
+    color: $WhiteColor;
+    background-color: transparentize($BlackColor, 0.8);
+  }
+
+  &--Active {
+    color: $WhiteColor !important;
+    background-color: $Primary900 !important;
+  }
+}

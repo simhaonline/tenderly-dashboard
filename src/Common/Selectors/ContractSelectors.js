@@ -8,7 +8,7 @@ import Contract from "../../Core/Contract/Contract.model";
  * @return {Contract|null}
  */
 export function getContractByAddressAndNetwork(state, address, network) {
-    const contractId = Contract.generateUniqueContractId(address, network);
+    const contractId = Contract.generateUniqueId(address, network);
     const contract = state.contract.contracts[contractId];
 
     if (!contract) {
@@ -19,44 +19,13 @@ export function getContractByAddressAndNetwork(state, address, network) {
 }
 
 /**
- * @param {Object} state
- * @param {Project} project
- * @param {string} address
- * @param {NetworkTypes} network
- * @return {Object[]}
- */
-export function getContractTagsByAddressAndNetwork(state, project, address, network) {
-    const contractId = Contract.generateUniqueContractId(address, network);
-
-    if (!state.contract.projectContractTagsMap[project.id] || !state.contract.projectContractTagsMap[project.id][contractId]) {
-        return [];
-    }
-
-    return state.contract.projectContractTagsMap[project.id][contractId];
-}
-
-/**
- *
- * @param {Object} state
- * @param {Project} project
- * @returns {Object<Contract.id, Object[]>|null}
- */
-export function getTagsForProjectContracts(state, project) {
-    if (!state.contract.projectContractTagsMap[project.id]) {
-        return null;
-    }
-
-    return state.contract.projectContractTagsMap[project.id];
-}
-
-/**
  * @param {object} state
  * @param {string} address
  * @param {NetworkTypes} network
  * @return {string}
  */
 export function getContractStatus(state, address, network) {
-    const contractId = Contract.generateUniqueContractId(address, network);
+    const contractId = Contract.generateUniqueId(address, network);
 
     let contractStatus = state.contract.contractStatus[contractId];
 
@@ -82,4 +51,20 @@ export function getContractsForProject(state, projectId) {
     });
 
     return contracts;
+}
+
+/**
+ * @param {Object} state
+ * @param {Project.id} projectId
+ * @param {ProjectContract} projectContract
+ * @returns {Contract[]}
+ */
+export function getContractRevisionsForProjectContract(state, projectId, projectContract) {
+    const allContracts = getContractsForProject(state, projectId);
+
+    if (!projectContract || !allContracts.length) return [];
+
+    return projectContract.revisions
+        .map(revision => allContracts.find(contract => contract.id === revision.id))
+        .filter(contract => !!contract);
 }

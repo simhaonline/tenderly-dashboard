@@ -77,6 +77,10 @@ class Project {
         return newProject;
     }
 
+    isDemoProject() {
+        return this.type === ProjectTypes.DEMO;
+    }
+
     /**
      * @return {string}
      */

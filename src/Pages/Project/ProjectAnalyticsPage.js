@@ -1,13 +1,27 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
+
+import {analyticsActions} from "../../Core/actions";
+
+import {Container, Page, PageHeading, Panel, Button} from "../../Elements";
+
+import {
+    EmptyState,
+    FeatureFlag,
+    PaidFeatureButton,
+    ProjectAnalyticsDashboard,
+    ProjectContentLoader
+} from "../../Components";
+import {
+    areCustomDashboardsLoadedForProject,
+    getCustomDashboardsForProject
+} from "../../Common/Selectors/AnalyticsSelectors";
 import {FeatureFlagTypes} from "../../Common/constants";
-
-import {Container, Page, PageHeading} from "../../Elements";
-import {ProjectAnalyticsDashboard, FeatureFlag, FeatureComingSoon, ProjectContentLoader} from "../../Components";
-
-import dashboardData from './AnalyticsDashboardData';
+import Intercom from "../../Utils/Intercom";
 
 class ProjectAnalyticsPage extends Component {
     constructor(props) {
@@ -15,37 +29,78 @@ class ProjectAnalyticsPage extends Component {
 
         this.state = {
             loading: true,
+            hasCustom: false,
+            dashboards: [],
         }
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                loading: false,
+    async componentDidMount() {
+        const {analyticsActions, project, loadedDashboards, customDashboards} = this.props;
+        if(loadedDashboards){
+            return this.setState({
+                currentDashboard: customDashboards[0].id
+
             })
-        }, 1100);
+        }
+        const analyticsResponse = await analyticsActions.fetchCustomAnalyticsForProject(project);
+
+        if (!analyticsResponse.success) {
+
+            return this.setState({
+                forceLoaded: true,
+            })
+        }
+
+        this.setState({
+            currentDashboard:  analyticsResponse.data[0].id,
+        });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {loadedDashboards, customDashboards} = this.props;
+        if(prevProps.loadedDashboards!== loadedDashboards){
+            this.setState({
+                currentDashboard: customDashboards[0].id
+            })
+        }
     }
 
     render() {
-        const {loading} = this.state;
+        const {project, accountPlan, loadedDashboards, customDashboards} = this.props;
+        const {currentDashboard, forceLoaded} = this.state;
+
+        const loading = !forceLoaded && (!loadedDashboards || !currentDashboard);
+
 
         return (
-            <Page id="ProjectPage">
-                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS} reverse>
-                    <Container>
-                        <PageHeading>
-                            <h1>Analytics</h1>
-                        </PageHeading>
-                        <FeatureComingSoon feature="analytics"/>
-                    </Container>
-                </FeatureFlag>
-                <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
+            <Page id="ProjectPage" tabs={customDashboards.map(d => ({
+                route: `${project.getUrlBase()}/analytics?dashboard=${d.id}`,
+                label: d.name,
+            }))}>
+                <Container>
                     <PageHeading>
                         <h1>Analytics</h1>
+                        <div className="MarginLeftAuto">
+                            <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
+                                <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} plan={accountPlan} includes="analytics.advanced">
+                                    Create Graph
+                                </PaidFeatureButton>
+                            </FeatureFlag>
+                        </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && <ProjectAnalyticsDashboard dashboard={dashboardData}/>}
-                </FeatureFlag>
+                    {!loading && customDashboards.length>0 && <ProjectAnalyticsDashboard dashboard={customDashboards.find(dashboard => dashboard.id===currentDashboard)} project={project}/>}
+                    {!loading && customDashboards.length===0 && <div>
+                        <Panel>
+                            <EmptyState title="This feature is currently in Beta" description="We are rolling out the beta version of Analytics to a small percentage of users. If you would like to participate in the Beta testing, contact us to enable Analytics for your account."
+                                        renderActions={()=> <div>
+                                            <Button color="secondary" onClick={() => Intercom.openNewConversation('Analytics Beta Request: \n')}>
+                                                <span>Request Access</span>
+                                            </Button>
+                                        </div>} icon="bar-chart-2" />
+                        </Panel>
+                    </div>}
+                </Container>
             </Page>
         )
     }
@@ -54,12 +109,23 @@ class ProjectAnalyticsPage extends Component {
 const mapStateToProps = (state, ownProps) => {
     const {match: {params: {username, slug}}} = ownProps;
 
+    const project = getProjectBySlugAndUsername(state, slug, username);
+
     return {
-        project: getProjectBySlugAndUsername(state, slug, username),
+        project,
+        accountPlan: getAccountPlanForProject(state, project),
+        loadedDashboards: areCustomDashboardsLoadedForProject(state, project.id),
+        customDashboards: getCustomDashboardsForProject(state,project.id)
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        analyticsActions: bindActionCreators(analyticsActions, dispatch),
     }
 };
 
 export default connect(
     mapStateToProps,
-    null
+    mapDispatchToProps,
 )(ProjectAnalyticsPage);

@@ -9,7 +9,11 @@ import * as alertingActions from "../../Core/Alerting/Alerting.actions";
 import * as contractActions from "../../Core/Contract/Contract.actions";
 import * as notificationActions from "../../Core/Notification/Notification.actions";
 
-import {AlertRuleBuilderSteps, CollaboratorPermissionTypes} from "../../Common/constants";
+import {
+    AlertRuleBuilderSteps,
+    AlertRuleSeverityTypeLabelMap,
+    CollaboratorPermissionTypes
+} from "../../Common/constants";
 
 import {getAlertRule, isAlertRuleLoaded} from "../../Common/Selectors/AlertingSelectors";
 import {
@@ -167,6 +171,10 @@ class AlertRuleView extends Component {
                             <h4>Description</h4>
                             <div>{rule.description || '-'}</div>
                         </div>}
+                        <div className="MarginBottom3">
+                            <h4>Level</h4>
+                            <div>{AlertRuleSeverityTypeLabelMap[rule.severity]}</div>
+                        </div>
                         <AlertExpressionsInfo project={project} rule={rule} contracts={contracts}/>
                         <PanelDivider/>
                         {!!allDestinations.length && <div className="MarginBottom4">

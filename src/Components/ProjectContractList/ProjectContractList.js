@@ -1,19 +1,16 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from "react-router-dom";
 
-import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+import {Project, ProjectContract} from "../../Core/models";
 
-import {Contract} from "../../Core/models";
-import {NetworkTypes} from "../../Common/constants";
-
-import Table from "../../Elements/Table/Table";
+import {Table} from "../../Elements";
 import {
-    ContractAddressColumn,
-    ContractDeployedAtColumn,
-    ContractListeningColumn,
-    ContractFilesColumn,
-    NetworkColumn
+    ProjectContractMainRevisionColumn,
+    // ContractDeployedAtColumn,
+    ProjectContractLatestTagColumn,
+    NetworkColumn,
+    ContractRevisionAddTagModal, ExampleProjectInfoModal,
 } from "../index";
 
 import './ProjectContractList.scss';
@@ -21,93 +18,100 @@ import './ProjectContractList.scss';
 const projectContractsTableConfiguration = [
     {
         label: "Contract",
-        renderColumn: contract => <ContractAddressColumn address={contract.address}/>,
+        renderColumn: contract => <div>
+            <span className="SemiBoldText FontSize4">{contract.name}</span>
+        </div>
     },
     {
-        label: "Added",
-        size: 260,
-        renderColumn: contract => <ContractDeployedAtColumn contract={contract}/>,
+        label: "Latest Tag",
+        renderColumn: (contract, metadata) => <ProjectContractLatestTagColumn projectContract={contract} onAddTagClick={metadata.handleAddTagClick}/>
     },
     {
-        label: "Listening",
-        size: 150,
-        renderColumn: (contract, metadata) => <ContractListeningColumn contract={contract}
-                                                           onToggle={metadata.handleListeningToggle}/>,
+        label: "Network",
+        size: 160,
+        renderColumn: contract => <NetworkColumn network={contract.network}/>,
     },
     {
-        label: "Files",
-        renderColumn: (contract, metadata) => <ContractFilesColumn contract={contract}
-                                                                   tags={metadata.contractTags ? metadata.contractTags[contract.id] : []}/>,
+        label: "Main Revision",
+        renderColumn: contract => <ProjectContractMainRevisionColumn projectContract={contract}/>,
     },
 ];
 
-const groupingConfiguration = [
-    {
-        renderColumn: groupData => <div>
-            <span className="SemiBoldText">{groupData[0].name}</span>
-        </div>,
-    },
-    {
-        size: 260,
-        renderColumn: groupData => <NetworkColumn network={groupData[0].network}/>,
-    },
-    {
-        size: 150,
-        renderColumn: () => <div/>,
-    },
-    {
-        renderColumn: groupData => <div>{groupData.length} Revisions</div>,
-    },
-];
-
-const groupSorting = [
-    NetworkTypes.MAIN,
-    NetworkTypes.KOVAN,
-    NetworkTypes.ROPSTEN,
-    NetworkTypes.RINKEBY,
-    NetworkTypes.GOERLI,
-];
+// const groupSorting = [
+//     NetworkTypes.MAIN,
+//     NetworkTypes.KOVAN,
+//     NetworkTypes.ROPSTEN,
+//     NetworkTypes.RINKEBY,
+//     NetworkTypes.GOERLI,
+// ];
 
 class ProjectContractList extends Component{
+    state = {
+        searchQuery: '',
+        addTagModalOpen: false,
+        currentRevision: null,
+        exampleProjectModalOpen: false,
+    };
+
     /**
-     * @param {Contract} contract
+     * @param {ProjectContract} projectContract
      */
-    handleListeningToggle = (contract) => {
-        const {onListenToggle} = this.props;
+    handleProjectContractClick = (projectContract) => {
+        const {history} = this.props;
 
-        if (onListenToggle) {
-            onListenToggle(contract);
+        history.push(projectContract.getUrl());
+    };
+
+    /**
+     * @param {boolean} value
+     * @param {ProjectContractRevision} revision
+     */
+    setAddTagModal = (value, revision) => {
+        this.setState({
+            addTagModalOpen: value,
+            currentRevision: revision,
+        });
+    };
+
+    setExampleProjectModal = (value) => {
+      this.setState({
+          exampleProjectModalOpen: value,
+      })
+    };
+
+
+    handleAddTagClick = (revision) => {
+        const {project} = this.props;
+        if(project.isDemoProject()){
+            this.setExampleProjectModal(true);
+            return;
         }
+        this.setAddTagModal(true, revision);
     };
 
-    handleContractClick = (contract) => {
-        const {history, match: {params: {username, slug}}} = this.props;
 
-        const networkRoute = getRouteSlugForNetwork(contract.network);
-
-        history.push(`/${username}/${slug}/contract/${networkRoute}/${contract.address}`);
-    };
 
     render() {
-        const {contracts, contractTags} = this.props;
+        const {projectContracts, project} = this.props;
+        const {addTagModalOpen, currentRevision, exampleProjectModalOpen} = this.state;
+
 
         return (
             <div className="ProjectContractList">
-                <Table configuration={projectContractsTableConfiguration} data={contracts} keyAccessor="address"
-                       groupBy={(contract) => `${contract.network}:${contract.parent}`} sortGroupBy={group => groupSorting.indexOf(group[0].network)}
-                       groupingConfiguration={groupingConfiguration} metadata={{
-                    contractTags,
-                    handleListeningToggle: this.handleListeningToggle,
-                }} onRowClick={this.handleContractClick}/>
+                <Table configuration={projectContractsTableConfiguration} metadata={{
+                    handleAddTagClick: this.handleAddTagClick
+                }} data={projectContracts} onRowClick={this.handleProjectContractClick} keyAccessor="id"/>
+                <ContractRevisionAddTagModal project={project} revision={currentRevision} open={addTagModalOpen} onClose={e => this.setAddTagModal(false, null)}/>
+                <ExampleProjectInfoModal header="Example Project" description="This is just an example project to illustrate what the platform can do. If you wish to add a tag to a contract first create a project." onClose={()=> this.setExampleProjectModal(false)} open={exampleProjectModalOpen} />
             </div>
         )
     }
 }
 
 ProjectContractList.propTypes = {
-    contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
-    contractTags: PropTypes.object,
+    projectContracts: PropTypes.arrayOf(PropTypes.instanceOf(ProjectContract)),
     onListenToggle: PropTypes.func,
+    project: PropTypes.instanceOf(Project).isRequired,
 };
 
 export default withRouter(ProjectContractList);

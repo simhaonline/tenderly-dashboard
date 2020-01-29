@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 
 import {Contract} from "../../Core/models";
 
-import {TransactionFilterTypes} from "../../Common/constants";
+import {FeatureFlagTypes, TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
+import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, Checkbox, LinkButton, Select} from "../../Elements";
-import {ContractSelectMultiValueLabel, ContractSelectOption, NetworkSelectOption} from "../index";
+import {
+    ContractSelectMultiValueLabel,
+    ContractSelectOption,
+    FeatureFlag,
+    NetworkSelectOption,
+    PaidFeatureButton
+} from "../index";
 
 import './TransactionFilters.scss';
-import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
 const transactionStatusOptions = [
     {
@@ -41,6 +47,14 @@ const transactionTypeOptions = [
     },
 ];
 
+const TransactionColumnOption = ({activeColumns, icon = "layout", label, onChange, type}) => {
+    return <div onClick={() => onChange(type)} className="TransactionsListSettings__ColumnOption">
+        <Icon icon={icon} className="TransactionsListSettings__ColumnOption__Icon"/>
+        <span className="TransactionsListSettings__ColumnOption__Label">{label}</span>
+        <Checkbox value={activeColumns.includes(type)} field={type} onChange={() => {}}/>
+    </div>;
+};
+
 class TransactionFilters extends Component {
     constructor(props) {
         super(props);
@@ -62,6 +76,7 @@ class TransactionFilters extends Component {
             networkOptions,
             tagOptions,
             openModal: false,
+            settingsModalOpen: false,
             draftStatus: 'all',
             draftType: 'all',
             draftContracts: [],
@@ -96,6 +111,18 @@ class TransactionFilters extends Component {
     handleModalClose = () => {
         this.setState({
             openModal: false,
+        });
+    };
+
+    handleSettingsModalOpen = () => {
+        this.setState({
+            settingsModalOpen: true,
+        });
+    };
+
+    handleSettingsModalClose = () => {
+        this.setState({
+            settingsModalOpen: false,
         });
     };
 
@@ -205,9 +232,15 @@ class TransactionFilters extends Component {
         this.handleModalClose();
     };
 
+    handleColumnToggle = (column) => {
+        const {onColumnToggle} = this.props;
+
+        onColumnToggle(column);
+    };
+
     render() {
-        const {openModal, draftStatus, fromTagCreation, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
-        const {activeFilters} = this.props;
+        const {openModal, settingsModalOpen, draftStatus, fromTagCreation, draftType, draftContracts, draftNetworks, draftTag, contractOptions, tagOptions, networkOptions} = this.state;
+        const {activeFilters, activeColumns, plan} = this.props;
 
         const status = activeFilters[TransactionFilterTypes.STATUS] ? activeFilters[TransactionFilterTypes.STATUS].value : 'all';
 
@@ -217,10 +250,46 @@ class TransactionFilters extends Component {
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
                 </div>
                 <div className="MarginLeftAuto">
-                    <Button size="small" onClick={this.handleModalOpen}>
+                    <Button outline onClick={this.handleSettingsModalOpen}>
+                        <Icon icon="settings"/>
+                    </Button>
+                    <PaidFeatureButton includes="transaction_search.filtering" plan={plan} size="small" onClick={this.handleModalOpen}>
                         <Icon icon="filter"/>
                         <span>Filter Transactions</span>
-                    </Button>
+                    </PaidFeatureButton>
+                    <Dialog open={settingsModalOpen} onClose={this.handleSettingsModalClose} className="TransactionsListSettings">
+                        <DialogHeader>
+                            <h3>Settings</h3>
+                        </DialogHeader>
+                        <DialogBody>
+                            <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
+                                <SegmentedControls options={[
+                                    {
+                                        value: 'comfortable',
+                                        label: 'Comfortable',
+                                    },
+                                    {
+                                        value: 'compact',
+                                        label: 'Compact',
+                                    },
+                                ]} value={'comfortable'} onChange={this.handleDraftStatusChange}/>
+                            </FeatureFlag>
+                            <h3 className="MarginBottom1">Configure Columns</h3>
+                            <p className="MutedText MarginBottom3">Change the layout of the transactions list and display only the columns and information that is most important to you.</p>
+                            <div className="TransactionsListSettings__ColumnsList">
+                                <TransactionColumnOption activeColumns={activeColumns} type={TransactionsListColumnTypes.TX_HASH} label="Transaction Hash" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="check-circle" activeColumns={activeColumns} type={TransactionsListColumnTypes.STATUS} label="Status" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="arrow-up-circle" activeColumns={activeColumns} type={TransactionsListColumnTypes.FROM} label="From" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="arrow-down-circle" activeColumns={activeColumns} type={TransactionsListColumnTypes.TO} label="To" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="file-text" activeColumns={activeColumns} type={TransactionsListColumnTypes.CONTRACTS} label="Contracts" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="code" activeColumns={activeColumns} type={TransactionsListColumnTypes.METHOD} label="Function" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="layers" activeColumns={activeColumns} type={TransactionsListColumnTypes.NETWORK} label="Network" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="box" activeColumns={activeColumns} type={TransactionsListColumnTypes.BLOCK} label="Block No." onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="droplet" activeColumns={activeColumns} type={TransactionsListColumnTypes.GAS_USED} label="Gas Used" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="calendar" activeColumns={activeColumns} type={TransactionsListColumnTypes.TIMESTAMP} label="Timestamp" onChange={this.handleColumnToggle}/>
+                            </div>
+                        </DialogBody>
+                    </Dialog>
                     <Dialog open={openModal} onClose={this.handleModalClose}>
                         <DialogHeader>
                             <h3>Filter Transactions</h3>
@@ -292,9 +361,12 @@ class TransactionFilters extends Component {
 
 TransactionFilters.propTypes = {
     activeFilters: PropTypes.object,
+    activeColumns: PropTypes.array.isRequired,
     contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)),
     tags: PropTypes.array.isRequired,
     onFiltersChange: PropTypes.func.isRequired,
+    // @TODO @BILLING Remove when implement billing
+    // plan: PropTypes.instanceOf(AccountPlan).isRequired,
 };
 
 export default TransactionFilters;

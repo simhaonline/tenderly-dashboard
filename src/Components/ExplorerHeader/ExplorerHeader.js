@@ -6,6 +6,7 @@ import SessionHeaderMenu from "../SessionHeaderMenu/SessionHeaderMenu";
 
 import './ExplorerHeader.scss';
 import {connect} from "react-redux";
+import {ProjectPicker} from "../index";
 
 class ExplorerHeader extends Component {
     render() {
@@ -14,7 +15,7 @@ class ExplorerHeader extends Component {
         return (
             <div className="ExplorerHeader">
                 {loggedIn && <div className="ExplorerHeader__AppNavigation">
-                    <Link to="/dashboard" className="ExplorerHeader__Navigation__Link">Dashboard</Link>
+                    <ProjectPicker/>
                 </div>}
                 {!loggedIn && <div className="ExplorerHeader__Navigation">
                     <Link to="login" className="ExplorerHeader__Navigation__Link">Login</Link>

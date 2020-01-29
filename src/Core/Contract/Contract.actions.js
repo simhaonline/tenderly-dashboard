@@ -5,7 +5,9 @@ import {ErrorActionResponse, SuccessActionResponse} from "../../Common";
 
 import {exampleContract1Payload, exampleContract2Payload} from "../../examples";
 
-import {Contract, ContractMethod, ContractLog, Project} from "../models";
+import {Contract, Account, ContractMethod, ContractLog, Project, ProjectContract} from "../models";
+import {asyncActionWrapper} from "../../Utils/ActionHelpers";
+import ProjectTag from "../Project/ProjectTag.model";
 
 export const FETCH_CONTRACTS_FOR_PROJECT_ACTION = 'FETCH_CONTRACTS_FOR_PROJECT';
 export const FETCH_CONTRACT_FOR_PROJECT_ACTION = 'FETCH_CONTRACT_FOR_PROJECT';
@@ -13,6 +15,8 @@ export const TOGGLE_CONTRACT_LISTENING_ACTION = 'TOGGLE_CONTRACT_LISTENING';
 export const DELETE_CONTRACT_ACTION = 'DELETE_CONTRACT';
 export const FETCH_CONTRACT_METHODS_ACTION = 'FETCH_CONTRACT_METHODS';
 export const FETCH_CONTRACT_LOGS_ACTION = 'FETCH_CONTRACT_LOGS';
+export const ADD_TAG_TO_CONTRACT_REVISION_ACTION = 'ADD_TAG_TO_CONTRACT_REVISION';
+export const RENAME_CONTRACT_ACTION = 'RENAME_CONTRACT';
 
 /**
  * @param {Project} project
@@ -25,6 +29,7 @@ export const fetchContractsForProject = (project) => {
             const projectId = Project.generateProjectId(project.slug, project.owner);
 
             let contracts = [];
+            let projectContracts = [];
 
             const contractTags = {};
 
@@ -35,11 +40,14 @@ export const fetchContractsForProject = (project) => {
                         listening: contractResponse.include_in_transaction_listing,
                     });
 
+                    const projectContract = ProjectContract.buildFromResponse(contractResponse, projectId, contract.id);
+
                     if (contractResponse.tags) {
                         contractTags[contract.id] = contractResponse.tags;
                     }
 
                     contracts.push(contract);
+                    projectContracts.push(projectContract);
 
                     if (contractResponse.previous_versions) {
                         contractResponse.previous_versions.forEach(childContractResponse => {
@@ -61,6 +69,7 @@ export const fetchContractsForProject = (project) => {
             await dispatch({
                 type: FETCH_CONTRACTS_FOR_PROJECT_ACTION,
                 contracts,
+                projectContracts,
                 projectId,
                 contractTags,
             });
@@ -160,52 +169,47 @@ export const fetchExampleContractsForTransaction = (projectId) => {
 /**
  *
  * @param {Project} project
- * @param {Contract} contract
+ * @param {ProjectContract} projectContract
+ * @param {ProjectContractRevision} revision
  */
-export const toggleContractListening = (project, contract) => {
-    return async dispatch => {
-        try {
-            const apiNetworkId = getApiIdForNetwork(contract.network);
+export const toggleContractListening = (project, projectContract, revision) => asyncActionWrapper( {
+    name: 'toggleContractListening',
+}, async dispatch => {
+    const apiNetworkId = getApiIdForNetwork(projectContract.network);
 
-            const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contract.address}/toggle`);
+    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${revision.address}/toggle`);
 
-            if (!data || !data.success) {
-                return new ErrorActionResponse();
-            }
-
-            dispatch({
-                type: TOGGLE_CONTRACT_LISTENING_ACTION,
-                projectId: project.id,
-                contract: contract,
-                network: contract.network,
-            });
-
-            return new SuccessActionResponse();
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse(error);
-        }
+    if (!data || !data.success) {
+        return new ErrorActionResponse();
     }
-};
+
+    dispatch({
+        type: TOGGLE_CONTRACT_LISTENING_ACTION,
+        projectId: project.id,
+        projectContractId: projectContract.id,
+        revisionId: revision.id,
+    });
+
+    return new SuccessActionResponse();
+});
 
 /**
  *
  * @param {Project} project
- * @param {string} contractAddress
- * @param {NetworkTypes} network
+ * @param {ProjectContractRevision} projectContractRevision
  */
-export const deleteContract = (project, contractAddress, network) => {
+export const deleteContract = (project, projectContractRevision) => {
     return async dispatch => {
         try {
-            const apiNetworkId = getApiIdForNetwork(network);
+            const apiNetworkId = getApiIdForNetwork(projectContractRevision.network);
 
-            await Api.delete(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${contractAddress}`);
+            await Api.delete(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${projectContractRevision.address}`);
 
             dispatch({
                 type: DELETE_CONTRACT_ACTION,
                 projectId: project.id,
-                contractId: Contract.generateUniqueContractId(contractAddress, network),
-                network,
+                revisionId: projectContractRevision.id,
+                network: projectContractRevision.network,
             });
 
             return new SuccessActionResponse();
@@ -236,7 +240,7 @@ export const fetchMethodsForContract = (project, contractAddress, network) => {
 
             dispatch({
                 type: FETCH_CONTRACT_METHODS_ACTION,
-                contractId: Contract.generateUniqueContractId(contractAddress, network),
+                contractId: Contract.generateUniqueId(contractAddress, network),
                 methods,
             });
 
@@ -268,7 +272,7 @@ export const fetchLogsForContract = (project, contractAddress, network) => {
 
             dispatch({
                 type: FETCH_CONTRACT_LOGS_ACTION,
-                contractId: Contract.generateUniqueContractId(contractAddress, network),
+                contractId: Contract.generateUniqueId(contractAddress, network),
                 logs,
             });
 
@@ -295,6 +299,76 @@ export const getContractBackFillingStatus = (project, contract) => {
             return new ErrorActionResponse(error);
         }
     }
+};
+
+/**
+ * @param {Project} project
+ * @param {ProjectContractRevision} revision
+ * @param {String} tag
+ */
+export const addTagToProjectContractRevision = (project, revision, tag) => asyncActionWrapper({
+    name: 'addTagToProjectContractRevision',
+}, async dispatch => {
+    const {data}=await Api.post(`/account/${project.owner}/project/${project.slug}/tag`, {
+        contract_ids: [
+            Account.generateApiId(revision.id),
+        ],
+        tag,
+    });
+    if(!data || !data.tag){
+        return new ErrorActionResponse();
+    }
+
+    const addedTag = ProjectTag.buildFromResponse(data.tag);
+
+    dispatch({
+        type: ADD_TAG_TO_CONTRACT_REVISION_ACTION,
+        projectId: project.id,
+        revisionId: revision.id,
+        projectContractId: ProjectContract.generateId(project.id, revision.id),
+        tag: addedTag,
+    });
+
+    return new SuccessActionResponse(addedTag);
+});
+
+/**
+ * @param {Project} project
+ * @param {string} address
+ * @param {NetworkTypes} network
+ * @param {string} name
+ */
+export const changeContractNameByAddressAndNetwork = (project, address, network, name) => {
+    return async dispatch => {
+        try {
+            const apiNetworkId = getApiIdForNetwork(network);
+
+            await Api.post(`/account/${project.owner}/project/${project.slug}/contract/${apiNetworkId}/${address}/rename`, {
+                display_name: name,
+            });
+
+            dispatch({
+                type: RENAME_CONTRACT_ACTION,
+                address,
+                network,
+                name,
+            });
+
+            return new SuccessActionResponse();
+        } catch (error) {
+            return new ErrorActionResponse();
+        }
+    }
+};
+
+/**
+ * @param {Project} project
+ * @param {Contract} contract
+ * @param {string} name
+ * @returns {Function}
+ */
+export const changeContractName = (project, contract, name) => {
+    return changeContractNameByAddressAndNetwork(project, contract.address, contract.network, name);
 };
 
 /**

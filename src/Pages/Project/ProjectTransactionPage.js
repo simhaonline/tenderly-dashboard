@@ -4,7 +4,7 @@ import {bindActionCreators} from "redux";
 
 import {
     getTransaction,
-    getTransactionCallTrace, getTransactionEventLogs,
+    getTransactionCallTrace, getTransactionEventLogs, getTransactionsConsoleLogs,
     getTransactionStackTrace, getTransactionStateDiffs
 } from "../../Common/Selectors/TransactionSelectors";
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
@@ -26,14 +26,17 @@ import {
     PageError,
     TransactionPageContent,
     EtherscanLink,
-    SharePageButton, TransactionGeneralInformation
+    SharePageButton, TransactionGeneralInformation, CopyableText
 } from "../../Components";
+import {generateShortAddress} from "../../Utils/AddressFormatter";
 
 class ProjectTransactionPage extends Component {
     constructor(props) {
         super(props);
 
-        const {location: {state: locationState}} = props;
+        const {location: {state: locationState}, match: {params: {slug, username, txHash, network}}} = props;
+
+        const routeBase = `/${username}/${slug}/tx/${network}/${txHash}`;
 
         const previousPageQuery = locationState && locationState.previousPageQuery;
 
@@ -42,10 +45,55 @@ class ProjectTransactionPage extends Component {
             loadedTx: false,
             loading: true,
             previousPageQuery,
+            tabs: [
+                {
+                    route: `${routeBase}`,
+                    label: 'Overview',
+                    icon: 'align-right',
+                },
+                {
+                    route: `${routeBase}/contracts`,
+                    label: 'Contracts',
+                    icon: 'file-text',
+                },
+                {
+                    route: `${routeBase}/logs`,
+                    label: 'Events',
+                    icon: 'bookmark',
+                },
+                {
+                    route: `${routeBase}/state-diff`,
+                    label: 'State Changes',
+                    icon: 'code',
+                },
+                {
+                    route: `${routeBase}/debugger`,
+                    label: 'Debugger',
+                    icon: 'terminal',
+                },
+                {
+                    route: `${routeBase}/gas-usage`,
+                    label: 'Gas Profiler',
+                    icon: 'cpu',
+                },
+            ],
         };
     }
 
     async componentDidMount() {
+        this.fetchTransaction()
+    }
+
+    async componentDidUpdate(prevProps,prevState) {
+        const {txHash, networkType} = this.props;
+        if (txHash !== prevProps.txHash || networkType !== prevProps.networkType){
+            this.setState({
+                loading: true,
+            }, this.fetchTransaction)
+        }
+    }
+
+    fetchTransaction = async () => {
         const {project, transaction, callTrace, contractActions, txActions, txHash, networkType} = this.props;
 
         let txContracts = [];
@@ -88,11 +136,11 @@ class ProjectTransactionPage extends Component {
             loading: false,
             txContracts,
         });
-    }
+    };
 
     render() {
-        const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project, txHash, networkType} = this.props;
-        const {error, loading, txContracts, loadedTx, previousPageQuery} = this.state;
+        const {transaction, callTrace, stackTrace, eventLogs, stateDiffs, project, txHash, networkType, consoleLogs} = this.props;
+        const {error, tabs, loading, txContracts, loadedTx, previousPageQuery} = this.state;
 
         const backUrl = {
             pathname: `/${project.owner}/${project.slug}/transactions`,
@@ -101,13 +149,16 @@ class ProjectTransactionPage extends Component {
 
         if (error) {
             return (
-                <Page>
+                <Page tabs={tabs}>
                     <Container>
                         <PageHeading>
                             <Button to={backUrl} outline>
                                 <Icon icon="arrow-left"/>
                             </Button>
-                            <h1>Transaction</h1>
+                            <div>
+                                <h1>Transaction</h1>
+                                <div className="MonospaceFont">{generateShortAddress(txHash, 12, 8)}</div>
+                            </div>
                         </PageHeading>
                         <PageError>
                             <p>{error}</p>
@@ -123,13 +174,16 @@ class ProjectTransactionPage extends Component {
 
         if (loading) {
             return (
-                <Page>
+                <Page tabs={tabs}>
                     <Container>
                         <PageHeading>
                             <Button to={backUrl} outline>
                                 <Icon icon="arrow-left"/>
                             </Button>
-                            <h1>Transaction</h1>
+                            <div>
+                                <h1>Transaction</h1>
+                                <CopyableText text={txHash} render={(props)=> <span className={`MonospaceFont LinkText ${props.className}`}>{generateShortAddress(txHash, 12, 8)}</span>} position="right" onSuccessMessage="Copied contract address to clipboard"/>
+                            </div>
                             <div className="RightContent">
                                 <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={networkType} value={txHash}>
                                     <Button size="small" outline>
@@ -150,14 +204,17 @@ class ProjectTransactionPage extends Component {
         const canBeViewedOnExplorer = txContracts.some(contract => contract.isVerifiedPublic);
 
         return (
-            <Page id="ProjectTransactionsPage">
+            <Page id="ProjectTransactionsPage" tabs={tabs}>
                 <Container>
                     <PageHeading>
                         <Button to={backUrl} outline>
                             <Icon icon="arrow-left"/>
                         </Button>
-                        <h1>Transaction</h1>
-                        <div className="RightContent">
+                        <div>
+                            <h1>Transaction</h1>
+                            <CopyableText text={txHash} render={(props)=> <span className={`MonospaceFont LinkText ${props.className}`}>{generateShortAddress(txHash, 12, 8)}</span>} position="right" onSuccessMessage="Copied contract address to clipboard"/>
+                        </div>
+                        {!!transaction && <div className="RightContent">
                             {canBeViewedOnExplorer && <SharePageButton url={`${DASHBOARD_BASE_URL}/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`}
                                                                        onCopyMessage="Copied link to the public transaction page"/>}
                             <EtherscanLink type={EtherscanLinkTypes.TRANSACTION} network={transaction.network} value={transaction.txHash}>
@@ -166,11 +223,11 @@ class ProjectTransactionPage extends Component {
                                     <span>View in Explorer</span>
                                 </Button>
                             </EtherscanLink>
-                        </div>
+                        </div>}
                     </PageHeading>
-                    <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace}
+                    {!!transaction && <TransactionPageContent transaction={transaction} contracts={txContracts} stackTrace={stackTrace}
                                             callTrace={callTrace} project={project} eventLogs={eventLogs}
-                                            stateDiffs={stateDiffs}/>
+                                            stateDiffs={stateDiffs} consoleLogs={consoleLogs}/>}
                 </Container>
             </Page>
         );
@@ -195,6 +252,7 @@ const mapStateToProps = (state, ownProps) => {
         stackTrace: getTransactionStackTrace(state, txHash),
         eventLogs: getTransactionEventLogs(state, txHash),
         stateDiffs: getTransactionStateDiffs(state, txHash),
+        consoleLogs: getTransactionsConsoleLogs(state,txHash),
     }
 };
 

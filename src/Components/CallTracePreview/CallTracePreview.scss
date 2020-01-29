@@ -1,7 +1,7 @@
 @import "../../Common/common";
 
 .CallTracePreview {
-  background-color: $Slate500;
+  background-color: $Slate300;
   border-radius: 5px;
   box-shadow: 1px 1px 4px 0 transparentize($BlackColor, 0.75);
   padding: $Spacing4 $Spacing5;
@@ -21,7 +21,7 @@
   }
 
   &:hover, &.CallTracePreview__TracePoint__Heading--Open {
-    background-color: transparentize($Slate700, 0.25);
+    background-color: transparentize($Slate500, 0.5);
 
     .CallTracePreview__TracePoint__Actions {
       opacity: 1;

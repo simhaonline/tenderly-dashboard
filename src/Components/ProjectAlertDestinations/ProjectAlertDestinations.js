@@ -97,15 +97,11 @@ class ProjectAlertDestinations extends Component {
                         <h4 className="MarginLeft2">Add Destination</h4>
                         <PanelDivider/>
                         <CardsWrapper horizontal className="MarginBottom4">
-                            <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
-                                <DestinationOption icon="mail" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.EMAIL)} label="E-mail"/>
-                            </FeatureFlag>
+                            <DestinationOption icon="mail" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.EMAIL)} label="E-mail"/>
                             <DestinationOption icon="slack" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.SLACK)} label="Slack"/>
                             <DestinationOption icon="discord" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.DISCORD)} label="Discord"/>
                             <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
                                 <DestinationOption icon="telegram" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.TELEGRAM)} label="Telegram"/>
-                            </FeatureFlag>
-                            <FeatureFlag flag={FeatureFlagTypes.ALERTS}>
                                 <DestinationOption icon="code" onClick={() => this.openIntegrationModal(NotificationDestinationTypes.WEBHOOK)} label="Webhook"/>
                             </FeatureFlag>
                         </CardsWrapper>
@@ -123,8 +119,12 @@ class ProjectAlertDestinations extends Component {
                                     <div className="ActiveIntegrationItem__ValueColumn MutedText">
                                         <DestinationInformation destination={destination}/>
                                     </div>
+                                    {destination.type === NotificationDestinationTypes.EMAIL && <div className="ActiveIntegrationItem__Verification">
+                                        {destination.enabled && <span className="SuccessText SemiBoldText">Verified</span>}
+                                        {!destination.enabled && <span className="WarningText SemiBoldText">Not verified</span>}
+                                    </div>}
                                     <div className="ActiveIntegrationItem__Actions">
-                                        {destination.type !== NotificationDestinationTypes.EMAIL && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
+                                        {(destination.type !== NotificationDestinationTypes.EMAIL || destination.label !== 'Primary Email') && <Button color="danger" outline size="small" onClick={() => this.removeDestination(destination)}>
                                             <Icon icon="trash-2"/>
                                         </Button>}
                                     </div>

@@ -12,6 +12,7 @@ const initialState = {
     stackTraces: {},
     eventLogs: {},
     stateDiffs: {},
+    consoleLogs: {},
 };
 
 const TransactionReducer = (state = initialState, action) => {
@@ -41,6 +42,7 @@ const TransactionReducer = (state = initialState, action) => {
             let stackTraces = state.stackTraces;
             let eventLogs = state.eventLogs;
             let stateDiffs = state.stateDiffs;
+            let consoleLogs = state.consoleLogs;
 
             if (stackTrace) {
                 stackTraces = {
@@ -63,6 +65,13 @@ const TransactionReducer = (state = initialState, action) => {
                 };
             }
 
+            if (action.consoleLogs && action.consoleLogs.length > 0) {
+                consoleLogs = {
+                    ...consoleLogs,
+                    [transaction.id]: action.consoleLogs,
+                }
+            }
+
             return {
                 ...state,
                 callTraces: {
@@ -72,6 +81,7 @@ const TransactionReducer = (state = initialState, action) => {
                 stackTraces,
                 eventLogs,
                 stateDiffs,
+                consoleLogs,
                 transactions: {
                     ...state.transactions,
                     [transaction.id]: transaction,

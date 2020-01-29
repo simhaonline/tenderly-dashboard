@@ -79,19 +79,19 @@ class AddIntegrationModal extends Component {
                     </div>}
                     {type === NotificationDestinationTypes.EMAIL && <Form onSubmit={this.handleFormSubmit}>
                         <p className="MarginBottom4">Add an e-mail that can receive alert notifications from Tenderly.</p>
-                        <Input value={label} autoFocus label="Label" field="label" onChange={this.handleInputChange}/>
-                        <Input value={value} label='E-mail' field="value" onChange={this.handleInputChange}/>
-                        <Button type="submit">
-                            <span>Add destination</span>
+                        <Input icon="tag" value={label} autoFocus label="Label" field="label" onChange={this.handleInputChange}/>
+                        <Input icon="mail" value={value} label='E-mail' field="value" onChange={this.handleInputChange}/>
+                        <Button type="submit" disabled={!label || !value}>
+                            <span>Add e-mail</span>
                         </Button>
                     </Form>}
                     {type === NotificationDestinationTypes.DISCORD && <Form onSubmit={this.handleFormSubmit}>
                         <p className="MarginBottom1">Insert your Discord channel webhook to receive alerts from Tenderly.</p>
-                        <p className="MarginBottom4">You can read more in the official <a href="https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks">Discord documentation</a>.</p>
-                        <Input value={label} autoFocus label="Label" field="label" onChange={this.handleInputChange}/>
-                        <Input value={value} label="Discord Webhook" field="value" onChange={this.handleInputChange}/>
+                        <p className="MarginBottom4">You can read more in the official <a target="_blank" rel="noopener noreferrer" href="https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks">Discord documentation</a>.</p>
+                        <Input icon="tag" value={label} autoFocus label="Label" field="label" onChange={this.handleInputChange}/>
+                        <Input icon="code" value={value} label="Discord Webhook" field="value" onChange={this.handleInputChange}/>
                         <Button type="submit" disabled={!label || !value}>
-                            <span>Add destination</span>
+                            <span>Add webhook</span>
                         </Button>
                     </Form>}
                     {inProgress && <DialogLoader/>}
