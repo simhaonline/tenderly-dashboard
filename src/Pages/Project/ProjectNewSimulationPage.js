@@ -8,7 +8,7 @@ import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
 import {contractActions} from "../../Core/actions";
 
-import {Page, PageHeading} from "../../Elements";
+import {Button, Icon, Page, PageHeading} from "../../Elements";
 import {ContractSimulator, ProjectContentLoader} from "../../Components";
 
 const SimulationStatusMap = {
@@ -43,7 +43,10 @@ class ProjectNewSimulationPage extends Component {
         return (
             <Page>
                 <PageHeading>
-                    <h1>Simulator</h1>
+                    <Button outline to={`${project.getUrlBase()}/simulator`}>
+                        <Icon icon="arrow-left"/>
+                    </Button>
+                    <h1>New Simulation</h1>
                 </PageHeading>
                 {!contractsLoaded && <ProjectContentLoader text="Fetching project contracts..."/>}
                 {contractsLoaded && <Fragment>
