@@ -1,4 +1,4 @@
-class TraceInputModel {
+class TraceInput {
     constructor(data) {
         /** @type {string} */
         this.name = data.name;
@@ -8,11 +8,11 @@ class TraceInputModel {
     }
 
     static buildFromResponse(rawInput) {
-        return new TraceInputModel({
+        return new TraceInput({
             name: rawInput.soltype ? rawInput.soltype.name : null,
             value: rawInput.value !== null ? rawInput.value : null,
         });
     }
 }
 
-export default TraceInputModel;
+export default TraceInput;

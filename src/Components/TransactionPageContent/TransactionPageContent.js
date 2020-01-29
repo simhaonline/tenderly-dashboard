@@ -71,7 +71,9 @@ class TransactionPageContent extends PureComponent {
     handleTraceViewSource = (trace) => {
         this.handleTabChange('contracts', trace);
     };
-
+    handleConsoleLogViewSource = (consoleLog) => {
+        this.handleTabChange('contracts', consoleLog);
+    };
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {action} = this.state;
         const {action: prevAction} = prevState;
@@ -95,7 +97,7 @@ class TransactionPageContent extends PureComponent {
                     <Route path={baseUrl} exact render={() => <Fragment>
                         <TransactionGeneralInformation contracts={contracts} transaction={transaction} project={project}/>
                         {!transaction.status && !!stackTrace && <TransactionStackTrace onNavigate={this.handleNavigationAction} stackTrace={stackTrace} contracts={contracts}/>}
-                        {!!consoleLogs && consoleLogs.length>0 && <TransactionConsoleLogs consoleLogs={consoleLogs} contracts={contracts} />}
+                        {!!consoleLogs && consoleLogs.length>0 && <TransactionConsoleLogs onViewSource={this.handleConsoleLogViewSource} consoleLogs={consoleLogs} contracts={contracts} />}
                         <CallTracePreview callTrace={callTrace} contracts={contracts} onDebuggerView={this.handleTraceViewInDebugger} onSourceView={this.handleTraceViewSource}/>
                     </Fragment>}/>
                     <Route path={`${baseUrl}/logs`} exact render={() => <TransactionEventLogs contracts={contracts} eventLogs={eventLogs}/>}/>

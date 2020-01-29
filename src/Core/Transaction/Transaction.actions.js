@@ -137,18 +137,11 @@ export const fetchTransactionForProject = (project, txHash, network) => {
                 stateDiffs = data.transaction_info.state_diff.map(state_diff => StateDiff.buildFromResponse(state_diff, txHash));
             }
 
-            let consoleLogs = [
-                ConsoleLog.buildFromResponse({
-                    output: [
-                        "transfer",
-                        "0xa7be",
-                    ],
-                    tx_hash: transaction.txHash,
-                    contract: transaction.to,
-                    line: 74,
-                    method: "log",
-                })
-            ];
+            let consoleLogs = [];
+
+            if(data.transaction_info && data.transaction_info.console_logs){
+                consoleLogs = data.transaction_info.console_logs.map(consoleLog=> ConsoleLog.buildFromResponse(consoleLog, txHash))
+            }
 
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PROJECT_ACTION,
