@@ -403,6 +403,7 @@ export const PlanUsageTypes = {
  */
 export const CollaboratorPermissionTypes = {
     ADD_CONTRACT: 'ADD_CONTRACT',
+    UPDATE_CONTRACT: 'UPDATE_CONTRACT',
     REMOVE_CONTRACT: 'REMOVE_CONTRACT',
     CREATE_ALERT: 'CREATE_ALERT',
     UPDATE_ALERT: 'UPDATE_ALERT',
@@ -426,6 +427,7 @@ export const CollaboratorPermissionGroupLabelMap = {
 
 export const CollaboratorPermissionTypeGroupMap = {
     ADD_CONTRACT: CollaboratorPermissionGroupTypes.CONTRACT,
+    UPDATE_CONTRACT: CollaboratorPermissionGroupTypes.CONTRACT,
     REMOVE_CONTRACT: CollaboratorPermissionGroupTypes.CONTRACT,
     CREATE_ALERT: CollaboratorPermissionGroupTypes.ALERT,
     UPDATE_ALERT: CollaboratorPermissionGroupTypes.ALERT,
@@ -437,6 +439,7 @@ export const CollaboratorPermissionTypeGroupMap = {
  */
 export const CollaboratorPermissionTypeIconMap = {
     [CollaboratorPermissionTypes.ADD_CONTRACT]: 'file-plus',
+    [CollaboratorPermissionTypes.UPDATE_CONTRACT]: 'edit',
     [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'file-minus',
     [CollaboratorPermissionTypes.CREATE_ALERT]: 'bell',
     [CollaboratorPermissionTypes.UPDATE_ALERT]: 'edit',
@@ -448,6 +451,7 @@ export const CollaboratorPermissionTypeIconMap = {
  */
 export const CollaboratorPermissionTypeDescriptionMap = {
     [CollaboratorPermissionTypes.ADD_CONTRACT]: 'Add contracts to project',
+    [CollaboratorPermissionTypes.UPDATE_CONTRACT]: 'Update contracts in project',
     [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'Remove contracts from project',
     [CollaboratorPermissionTypes.CREATE_ALERT]: 'Create alerts in project',
     [CollaboratorPermissionTypes.UPDATE_ALERT]: 'Make changes to existing alerts',
@@ -459,6 +463,7 @@ export const CollaboratorPermissionTypeDescriptionMap = {
  */
 export const CollaboratorPermissionAppToApiTypeMap = {
     [CollaboratorPermissionTypes.ADD_CONTRACT]: 'add_contract',
+    [CollaboratorPermissionTypes.UPDATE_CONTRACT]: 'update_contract',
     [CollaboratorPermissionTypes.REMOVE_CONTRACT]: 'remove_contract',
     [CollaboratorPermissionTypes.CREATE_ALERT]: 'create_alert',
     [CollaboratorPermissionTypes.UPDATE_ALERT]: 'update_alert',
@@ -470,6 +475,7 @@ export const CollaboratorPermissionAppToApiTypeMap = {
  */
 export const CollaboratorPermissionApiToAppTypeMap = {
     'add_contract': CollaboratorPermissionTypes.ADD_CONTRACT,
+    'update_contract': CollaboratorPermissionTypes.UPDATE_CONTRACT,
     'remove_contract': CollaboratorPermissionTypes.REMOVE_CONTRACT,
     'create_alert': CollaboratorPermissionTypes.CREATE_ALERT,
     'update_alert': CollaboratorPermissionTypes.UPDATE_ALERT,
