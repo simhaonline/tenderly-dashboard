@@ -35,6 +35,8 @@ import ProjectSimulatorPage from "./ProjectSimulatorPage";
 
 import {AppSidebar, ProjectPageLoader} from "../../Components";
 import ProjectAnalyticsWidgetPage from "./ProjectAnalyticsWidgetPage";
+import ProjectNewSimulationPage from "./ProjectNewSimulationPage";
+import ProjectSimulatedTransactionPage from "./ProjectSimulatedTransactionPage";
 
 class ProjectPage extends Component {
     constructor(props) {
@@ -130,7 +132,9 @@ class ProjectPage extends Component {
                     <Route path="/:username/:slug/transactions" render={this.renderComponent(ProjectTransactionsPage)}/>
                     <Route path="/:username/:slug/events" render={this.renderComponent(ProjectEventsPage)}/>
                     <Route path="/:username/:slug/tx/:network/:txHash/:tab?" strict render={this.renderComponent(ProjectTransactionPage)}/>
-                    <Route path="/:username/:slug/simulator" component={ProjectSimulatorPage}/>
+                    <Route path="/:username/:slug/simulator" exact render={this.renderComponent(ProjectSimulatorPage)}/>
+                    <Route path="/:username/:slug/simulator/new" exact render={this.renderComponent(ProjectNewSimulationPage)}/>
+                    <Route path="/:username/:slug/simulator/:id" strict render={this.renderComponent(ProjectSimulatedTransactionPage)}/>
                     <Route path="/:username/:slug/analytics" exact render={this.renderComponent(ProjectAnalyticsPage)}/>
                     <Route path="/:username/:slug/analytics/create" exact render={this.renderComponent(ProjectCreateGraphPage)}/>
                     <Route path="/:username/:slug/analytics/:widgetId" exact render={this.renderComponent(ProjectAnalyticsWidgetPage)}/>

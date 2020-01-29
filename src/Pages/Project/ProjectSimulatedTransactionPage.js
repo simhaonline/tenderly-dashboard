@@ -5,11 +5,11 @@ function mapStateToProps(state) {
     return {};
 }
 
-class ProjectSimulatorPage extends Component {
+class ProjectSimulatedTransactionPage extends Component {
     render() {
         return (
             <div>
-
+                
             </div>
         );
     }
@@ -17,4 +17,4 @@ class ProjectSimulatorPage extends Component {
 
 export default connect(
     mapStateToProps,
-)(ProjectSimulatorPage);
+)(ProjectSimulatedTransactionPage);

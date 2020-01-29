@@ -125,6 +125,8 @@ class AppSidebar extends Component {
                         <FeatureFlag flag={FeatureFlagTypes.COMING_SOON}>
                             <AppSidebarLink to={`${routeBase}/wallets`} icon="inbox" label="Wallets"/>
                         </FeatureFlag>
+
+                        <AppSidebarLink to={`${routeBase}/simulator`} icon="airplay" label="Simulator"/>
                     </div>
                 </div>}
 
