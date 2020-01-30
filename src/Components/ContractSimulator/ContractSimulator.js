@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 import {Contract} from "../../Core/models";
-import {contractActions} from "../../Core/actions";
+import {contractActions, transactionActions} from "../../Core/actions";
 
 import {Input, Select, Button, Checkbox, LinkButton, Card} from "../../Elements";
 import {ContractMethodOrLogSelectOption, ContractSelectOption} from "../index";
@@ -165,11 +165,17 @@ class ContractSimulator extends Component {
     };
 
     submitTransactionForSimulation = () => {
-        const {onSubmit} = this.props;
-
-        console.log(onSubmit);
-
-        onSubmit();
+        const {onSubmit, transactionActions} = this.props;
+        const {selectedContract, block, blockIndex, from, gas} = this.state;
+        const response = transactionActions.createSimulation({
+            block,
+            blockIndex,
+            from,
+            to: selectedContract.address,
+            gas, gasPrice:0,
+            value:0,
+        });
+        onSubmit(response.data);
     };
 
     render() {
@@ -261,6 +267,7 @@ ContractSimulator.propTypes = {
 const mapDispatchToProps = (dispatch) => {
     return {
         contractActions: bindActionCreators(contractActions, dispatch),
+        transactionActions: bindActionCreators(transactionActions, dispatch),
     };
 };
 

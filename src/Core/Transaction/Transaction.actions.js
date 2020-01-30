@@ -338,20 +338,21 @@ export const createSimulation = (data)=> actionWrapper({
  * @param {NetworkTypes} network
  * @param {Object} transactionInfo
  */
-export const simulateTransaction = (network, transactionInfo) => {
+export const simulateTransaction = (network, simulation) => {
     return async () => {
         try {
             const networkId = getApiIdForNetwork(network);
 
-            const {data} = await Api.get(`/network/${networkId}/simulate`);
+            // const {data} = await Api.get(`/network/${networkId}/simulate`);
 
-            if (!data) {
-                return new ErrorActionResponse();
-            }
+            // if (!data) {
+            //     return new ErrorActionResponse();
+            // }
 
-            console.log('simulation', data);
+            console.log('simulation', Simulation.transformToApiPayload(simulation));
 
-            return new SuccessActionResponse(data);
+            return new SuccessActionResponse();
+
         } catch (error) {
             console.error(error);
             return new ErrorActionResponse();

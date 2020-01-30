@@ -1,15 +1,15 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import Web3EthAbi from 'web3-eth-abi';
 
 import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 
-import {contractActions} from "../../Core/actions";
+import {contractActions, transactionActions} from "../../Core/actions";
 
 import {Button, Icon, Page, PageHeading} from "../../Elements";
 import {ContractSimulator, ProjectContentLoader} from "../../Components";
+import {NetworkTypes} from "../../Common/constants";
 
 const SimulationStatusMap = {
     SETUP: 'setup',
@@ -30,7 +30,9 @@ class ProjectNewSimulationPage extends Component {
         }
     }
 
-    handleTransactionSimulation = (simulationData) => {
+    handleTransactionSimulation = async (simulation) => {
+        const {transactionActions} = this.props;
+        const response = await transactionActions.simulateTransaction(NetworkTypes.KOVAN,simulation);
         this.setState({
             status: SimulationStatusMap.SIMULATING,
         });
@@ -74,6 +76,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators(contractActions, dispatch),
+        transactionActions: bindActionCreators(transactionActions, dispatch)
     }
 };
 
