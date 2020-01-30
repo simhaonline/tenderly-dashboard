@@ -5,7 +5,7 @@ class ConsoleLog {
         this.outputs = data.outputs;
         this.contract = data.contract;
         this.txHash = data.txHash;
-        this.line = data.line;
+        this.lineNumber = data.lineNumber;
         this.fileId = data.fileId;
         this.method = data.method;
     }
@@ -16,7 +16,7 @@ class ConsoleLog {
             outputs,
             contract: response.contract,
             txHash,
-            line: response.line_number,
+            lineNumber: response.line_number,
             fileId: response.file_index,
             method: response.name,
         })

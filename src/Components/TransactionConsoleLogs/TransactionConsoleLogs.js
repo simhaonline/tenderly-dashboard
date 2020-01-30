@@ -10,7 +10,7 @@ const TransactionConsoleLogs = ({consoleLogs, contracts, onViewSource}) => {
     return (
         <Panel>
            <PanelContent>
-                <p><Icon icon='terminal'/> <span className="SemiBoldText">{consoleLogs.length} console logs</span> were emitted in this transaction.</p>
+                <p><Icon icon='terminal'/> <span className="SemiBoldText">{consoleLogs.length} console {consoleLogs.length===1?"log":"logs"}</span> {consoleLogs.length===1?"was":"were"} emitted in this transaction.</p>
                <Card color="dark">
                    {consoleLogs.map((consoleLog, index)=> {
                        const contract = contracts.find(c=> c.address===consoleLog.contract);
@@ -25,9 +25,9 @@ const TransactionConsoleLogs = ({consoleLogs, contracts, onViewSource}) => {
                                <div className="MarginLeft2">
                                    {consoleLog.outputs.map((output,index)=> <span className="MutedText MarginRight1" key={index}>{output.value.toString()}</span>)}
                                </div>
-                           {!!contract && !!consoleLog.line && !!consoleLog.fileId && <div className="MarginLeftAuto">
+                           {!!contract && !!consoleLog.lineNumber && consoleLog.fileId !== null && <div className="MarginLeftAuto">
                               <LinkButton onClick={()=> onViewSource(consoleLog)}>
-                                  {contract.name}:{consoleLog.line}
+                                  {contract.name}:{consoleLog.lineNumber}
                               </LinkButton>
                            </div>}
                        </div>

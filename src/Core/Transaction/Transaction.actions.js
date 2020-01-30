@@ -255,6 +255,11 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
             if (data.transaction_info && data.transaction_info.state_diff) {
                 stateDiffs = data.transaction_info.state_diff.map(state_diff => StateDiff.buildFromResponse(state_diff, txHash));
             }
+            let consoleLogs = [];
+
+            if(data.transaction_info && data.transaction_info.console_logs){
+                consoleLogs = data.transaction_info.console_logs.map(consoleLog=> ConsoleLog.buildFromResponse(consoleLog, txHash))
+            }
 
             dispatch({
                 type: FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION,
@@ -263,6 +268,7 @@ export const fetchTransactionForPublicContract = (txHash, network, silentError =
                 stackTrace,
                 eventLogs,
                 stateDiffs,
+                consoleLogs,
             });
 
             return new SuccessActionResponse({
