@@ -48,7 +48,7 @@ const AppSidebarLink = ({to, icon, label, exact = false, badge, badgeColor='prim
         <NavLink activeClassName="AppSidebar__NavGroup__Link--Active" to={to} isActive={isActive} strict={!exact} exact={exact} className="AppSidebar__NavGroup__Link">
             <Icon icon={icon} className="AppSidebar__NavGroup__Link__Icon"/>
             <span className="AppSidebar__NavGroup__Link__Label">{label}</span>
-            {!!badge && <Tag className="MarginLeftAuto" size="small" color={badgeColor}>{badge}</Tag>}
+            {!!badge && <Tag className="MarginLeftAuto AppSidebar__NavGroup__Link__Badge" size="small" color={badgeColor}>{badge}</Tag>}
         </NavLink>
     );
 };
@@ -126,7 +126,7 @@ class AppSidebar extends Component {
                             <AppSidebarLink to={`${routeBase}/wallets`} icon="inbox" label="Wallets"/>
                         </FeatureFlag>
 
-                        <AppSidebarLink to={`${routeBase}/simulator`} icon="airplay" label="Simulator"/>
+                        <AppSidebarLink to={`${routeBase}/simulator`} icon="airplay" label="Simulator" badge="New"/>
                     </div>
                 </div>}
 
