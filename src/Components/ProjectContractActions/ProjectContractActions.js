@@ -64,7 +64,7 @@ class ProjectContractActions extends Component {
                     </Card>
                     <Card selectable onClick={()=> this.openModal('toggleModalOpen')} className='DisplayFlex FlexDirectionColumn AlignItemsCenter'>
                         <Icon icon={currentRevision.enabled ? 'eye-off' : 'eye'} className='FontSize4 MarginBottom1'/>
-                        <div>{currentRevision.enabled ? 'Disable': 'Enabled'} Contract</div>
+                        <div>{currentRevision.enabled ? 'Hide': 'Show'} Contract</div>
                     </Card>
                     <Card selectable highlightColor="danger" onClick={()=> this.openModal('deleteModalOpen')} className='DisplayFlex FlexDirectionColumn AlignItemsCenter'>
                         <Icon icon="trash-2" className='FontSize4 MarginBottom1'/>
@@ -73,13 +73,13 @@ class ProjectContractActions extends Component {
                 </CardsWrapper>
                 <Dialog open={toggleModalOpen} onClose={()=> this.closeModal('toggleModalOpen')}>
                     <DialogHeader>
-                        <h3>{currentRevision.enabled ? 'Disable': 'Enabled'} Contract</h3>
+                        <h3>{currentRevision.enabled ? 'Hide contract from': 'Show contract in'} the transaction listing</h3>
                     </DialogHeader>
                     <DialogBody>
-                        <p>Are you sure you wish to {currentRevision.enabled ? 'disable' : 'enable'} this contract?</p>
+                        <p>Are you sure you wish to {currentRevision.enabled ? 'hide' : 'show'} this contract {currentRevision.enabled ? 'from' : 'in'} the transaction listing?</p>
                         <div className='MarginTop2'>
                             <Button color='secondary' onClick={()=> this.handleAction('toggle_contract')}>
-                                <span>Yes, {currentRevision.enabled ? 'disable' : 'enable'}</span>
+                                <span>Yes, {currentRevision.enabled ? 'hide' : 'show'}</span>
                             </Button>
                             <Button color='secondary' outline onClick={()=> this.closeModal('toggleModalOpen')}>
                                 <span>Cancel</span>
