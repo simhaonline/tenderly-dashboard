@@ -30,7 +30,7 @@ class ProjectContractRevision {
     getLatestTag() {
         if (!this.tags || this.tags.length === 0) return null;
 
-        return this.tags[this.tags.length - 1];
+        return this.tags[0];
     }
 
     update(data) {

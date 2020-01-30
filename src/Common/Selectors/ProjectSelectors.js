@@ -100,6 +100,16 @@ export function getMainProjectContracts(state, projectId) {
     return projectContracts;
 }
 
+export function getProjectContractRevisions(state, projectId) {
+    const projectContracts = getMainProjectContracts(state, projectId);
+
+    const contractRevisions = [];
+    projectContracts.forEach(projectContract=> {
+        contractRevisions.push(...projectContract.revisions);
+    });
+   return contractRevisions;
+}
+
 /**
  * @param {Object} state
  * @param {Project.id} projectId

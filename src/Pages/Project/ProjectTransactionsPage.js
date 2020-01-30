@@ -10,7 +10,7 @@ import {FIVE_SECOND_INTERVAL, ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterT
 
 import {
     areProjectContractsLoaded,
-    getProjectBySlugAndUsername,
+    getProjectBySlugAndUsername, getProjectContractRevisions,
     getProjectTags
 } from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
@@ -303,7 +303,7 @@ class ProjectTransactionsPage extends Component {
 
     render() {
         const {loading, transactions, backfillingStatus, filters, page, perPage, activeColumns, refreshSubscriber, fetching, error} = this.state;
-        const {contracts, project, projectTags, accountPlan} = this.props;
+        const {contracts, contractRevisions, project, projectTags, accountPlan} = this.props;
 
         const projectIsSetup = contracts.length > 0;
         const isPolling = !!refreshSubscriber || loading;
@@ -327,7 +327,7 @@ class ProjectTransactionsPage extends Component {
                     {!loading && projectIsSetup && <Fragment>
                         {shouldDisplayListAndFilters && <TransactionFilters plan={accountPlan} activeFilters={filters} activeColumns={activeColumns} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange} onColumnToggle={this.handleColumnToggle}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
-                                          loading={fetching} project={project} activeColumns={activeColumns}
+                                          loading={fetching} project={project} activeColumns={activeColumns} contractRevisions={contractRevisions}
                                           currentPage={page} onPageChange={this.handlePageChange}
                                           perPage={perPage} onPerPageChange={this.handlePerPageChange}/>}
                         {!shouldDisplayListAndFilters && <NoTransactionsEmptyState error={error}/>}
@@ -385,6 +385,7 @@ const mapStateToProps = (state, ownProps) => {
         project,
         accountPlan: getAccountPlanForProject(state, project),
         contracts: getContractsForProject(state, project.id),
+        contractRevisions: getProjectContractRevisions(state, project.id),
         projectTags: getProjectTags(state, project),
         contractsLoaded: areProjectContractsLoaded(state, project.id),
     }

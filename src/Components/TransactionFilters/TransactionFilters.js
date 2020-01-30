@@ -282,6 +282,7 @@ class TransactionFilters extends Component {
                                 <TransactionColumnOption icon="arrow-up-circle" activeColumns={activeColumns} type={TransactionsListColumnTypes.FROM} label="From" onChange={this.handleColumnToggle}/>
                                 <TransactionColumnOption icon="arrow-down-circle" activeColumns={activeColumns} type={TransactionsListColumnTypes.TO} label="To" onChange={this.handleColumnToggle}/>
                                 <TransactionColumnOption icon="file-text" activeColumns={activeColumns} type={TransactionsListColumnTypes.CONTRACTS} label="Contracts" onChange={this.handleColumnToggle}/>
+                                <TransactionColumnOption icon="tag" activeColumns={activeColumns} type={TransactionsListColumnTypes.TAGS} label="Tags" onChange={this.handleColumnToggle}/>
                                 <TransactionColumnOption icon="code" activeColumns={activeColumns} type={TransactionsListColumnTypes.METHOD} label="Function" onChange={this.handleColumnToggle}/>
                                 <TransactionColumnOption icon="layers" activeColumns={activeColumns} type={TransactionsListColumnTypes.NETWORK} label="Network" onChange={this.handleColumnToggle}/>
                                 <TransactionColumnOption icon="box" activeColumns={activeColumns} type={TransactionsListColumnTypes.BLOCK} label="Block No." onChange={this.handleColumnToggle}/>

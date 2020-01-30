@@ -17,6 +17,7 @@ import {
     TimeAgoColumn,
     NetworkColumn, PrettyAddressColumn
 } from "../index";
+import TransactionLatestTagColumn from "../TransactionLatestTagColumn/TransactionLatestTagColumn";
 
 const transactionTableConf = [
     {
@@ -54,6 +55,13 @@ const transactionTableConf = [
         inclusionKey: TransactionsListColumnTypes.CONTRACTS,
         className: "HideMobile",
         renderColumn: (tx, metadata) => <TransactionContractsColumn transaction={tx} contracts={metadata.contracts}/>,
+    },
+    {
+        label: "Tags",
+        inclusionKey: TransactionsListColumnTypes.TAGS,
+        size: 120,
+        renderColumn: (tx, metadata) => <TransactionLatestTagColumn transaction={tx} revisions={metadata.contractRevisions}/>,
+
     },
     {
         label: 'Network',
@@ -112,11 +120,12 @@ class TransactionsList extends Component {
     };
 
     render() {
-        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading, activeColumns, project} = this.props;
+        const {transactions, contracts, currentPage, perPage, onPageChange, onPerPageChange, loading, activeColumns, project, contractRevisions} = this.props;
 
         return (
             <Table data={transactions} keyAccessor="txHash" configuration={transactionTableConf.filter(conf => activeColumns.includes(conf.inclusionKey) || !conf.inclusionKey)} metadata={{
                 contracts,
+                contractRevisions,
                 project,
             }} onRowClick={this.handleRowClick} minWidth={970} loading={loading} emptyStateLabel="No transactions scanned yet"
                    currentPage={currentPage} onPageChange={onPageChange}

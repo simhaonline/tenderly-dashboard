@@ -37,6 +37,7 @@ export const TransactionsListColumnTypes = {
     TX_HASH: 'txHash',
     STATUS: 'status',
     CONTRACTS: 'contracts',
+    TAGS: 'tags',
     NETWORK: 'network',
     METHOD: 'method',
     TIMESTAMP: 'timestamp',
