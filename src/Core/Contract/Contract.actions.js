@@ -420,27 +420,3 @@ export const fetchTransactionIndexesForBlock = (network, blockId) => {
     }
 };
 
-/**
- * @param {NetworkTypes} network
- * @param {Object} transactionInfo
- */
-export const simulateTransaction = (network, transactionInfo) => {
-    return async () => {
-        try {
-            const networkId = getApiIdForNetwork(network);
-
-            const {data} = await Api.get(`/network/${networkId}/simulate`);
-
-            if (!data) {
-                return new ErrorActionResponse();
-            }
-
-            console.log('simulation', data);
-
-            return new SuccessActionResponse(data);
-        } catch (error) {
-            console.error(error);
-            return new ErrorActionResponse();
-        }
-    }
-};

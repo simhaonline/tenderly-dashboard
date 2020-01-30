@@ -18,6 +18,7 @@ import Contract from "../Contract/Contract.model";
 import {getApiIdForNetwork} from "../../Utils/NetworkHelpers";
 import {actionWrapper} from "../../Utils/ActionHelpers";
 import LocalStorage from "../../Utils/LocalStorage";
+import Simulation from "./Simulation.model";
 
 export const FETCH_TRANSACTIONS_FOR_PROJECT_ACTION = 'FETCH_TRANSACTIONS_FOR_PROJECT';
 export const FETCH_TRANSACTION_FOR_PROJECT_ACTION = 'FETCH_TRANSACTION_FOR_PROJECT';
@@ -325,3 +326,35 @@ export const toggleTransactionsListColumn = (column) => actionWrapper({
 }, (error, dispatch) => {
     return dispatch(getTransactionsListColumns());
 });
+
+export const createSimulation = (data)=> actionWrapper({
+    name: "createSimulation",
+}, dispatch => {
+    const simulation = new Simulation(data);
+    return new SuccessActionResponse(simulation);
+});
+
+/**
+ * @param {NetworkTypes} network
+ * @param {Object} transactionInfo
+ */
+export const simulateTransaction = (network, transactionInfo) => {
+    return async () => {
+        try {
+            const networkId = getApiIdForNetwork(network);
+
+            const {data} = await Api.get(`/network/${networkId}/simulate`);
+
+            if (!data) {
+                return new ErrorActionResponse();
+            }
+
+            console.log('simulation', data);
+
+            return new SuccessActionResponse(data);
+        } catch (error) {
+            console.error(error);
+            return new ErrorActionResponse();
+        }
+    }
+};
