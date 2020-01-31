@@ -17,7 +17,7 @@ function ContractMethodOrLogSelectOption(props) {
                         {data.name}
                     </div>
                     <div>
-                        {!!data.inputs && data.inputs.length > 0 && data.inputs.map(input => <span key={input.name}>
+                        {!!data.inputs && data.inputs.length > 0 && data.inputs.map((input, index) => <span key={index}>
                             <span className="LinkText MarginRight1">{input.type}</span>
                             <span>{input.name}, </span>
                         </span>)}
