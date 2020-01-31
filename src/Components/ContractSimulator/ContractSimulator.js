@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import _ from "lodash";
 
 import {Contract} from "../../Core/models";
 import {contractActions, transactionActions} from "../../Core/actions";
@@ -166,15 +167,20 @@ class ContractSimulator extends Component {
 
     submitTransactionForSimulation = () => {
         const {onSubmit, transactionActions} = this.props;
-        const {selectedContract, block, blockIndex, from, gas} = this.state;
+        const {selectedContract, block, blockIndex, from, gas, contractFunction, functionInputs} = this.state;
+
         const response = transactionActions.createSimulation({
+            network: selectedContract.network,
             block,
             blockIndex,
             from,
             to: selectedContract.address,
             gas, gasPrice:0,
             value:0,
+            method: contractFunction,
+            parameters: _.sortBy(Object.keys(functionInputs), [key=> parseInt(key.replace("input_",""))]).map(key=> functionInputs[key])
         });
+
         onSubmit(response.data);
     };
 

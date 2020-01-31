@@ -9,6 +9,22 @@ class ContractABIDescriptor {
         this.outputs = data.outputs;
     }
 
+    static transformToWeb3(descriptor) {
+        const web3Data = {
+            type: descriptor.type,
+            name: descriptor.name,
+        };
+
+        if (descriptor.inputs){
+            web3Data.inputs = descriptor.inputs.map(input=> ({
+                type: input.type,
+                name: input.name,
+            }))
+        }
+
+        return web3Data;
+    }
+
     static buildFromResponse(response) {
         let inputs, outputs;
         if (response.inputs && response.inputs.length > 0) {

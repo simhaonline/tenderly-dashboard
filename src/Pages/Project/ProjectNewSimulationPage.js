@@ -32,7 +32,7 @@ class ProjectNewSimulationPage extends Component {
 
     handleTransactionSimulation = async (simulation) => {
         const {transactionActions} = this.props;
-        const response = await transactionActions.simulateTransaction(NetworkTypes.KOVAN,simulation);
+        const response = await transactionActions.simulateTransaction(simulation);
         this.setState({
             status: SimulationStatusMap.SIMULATING,
         });
