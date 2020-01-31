@@ -177,7 +177,7 @@ class LoginPage extends Component {
                             <TenderlyLogo height={36}/>
                         </Link>
                     </div>
-                    <div>
+                    <div className="LoginPage__FeaturesContent__FeatureDemo">
                         <TenderlyFeaturesDemo/>
                     </div>
                     <div className="LoginPage__FeaturesContent__Companies">
