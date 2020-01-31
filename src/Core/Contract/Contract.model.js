@@ -6,6 +6,7 @@ import {AccountTypes, NetworkApiToAppTypeMap} from "../../Common/constants";
 import {Account, ContractFile} from "../models";
 
 import {getRouteSlugForNetwork} from "../../Utils/RouterHelpers";
+import ContractABIDescriptor from "./ContractABIDescriptor.model";
 
 class Contract extends Account {
     /**
@@ -178,7 +179,7 @@ class Contract extends Account {
         }
 
         if (data.data && data.data.abi) {
-            abi = data.data.abi;
+            abi = data.data.abi.map((descriptor, index)=> ContractABIDescriptor.buildFromResponse(descriptor));
         }
 
         const network = NetworkApiToAppTypeMap[data.network_id] || data.network_id;
