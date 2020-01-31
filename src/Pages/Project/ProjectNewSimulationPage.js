@@ -9,8 +9,6 @@ import {contractActions, transactionActions} from "../../Core/actions";
 
 import {Button, Icon, Page, PageHeading} from "../../Elements";
 import {ContractSimulator, ProjectContentLoader} from "../../Components";
-import {NetworkTypes} from "../../Common/constants";
-import RedirectToProjectPage from "./RedirectToProjectPage";
 import {Redirect} from "react-router-dom";
 
 const SimulationStatusMap = {
