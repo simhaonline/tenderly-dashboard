@@ -31,8 +31,8 @@ class ProjectNewSimulationPage extends Component {
     }
 
     handleTransactionSimulation = async (simulation) => {
-        const {transactionActions} = this.props;
-        const response = await transactionActions.simulateTransaction(simulation);
+        const {transactionActions, project} = this.props;
+        const response = await transactionActions.simulateTransaction(project, simulation);
         this.setState({
             status: SimulationStatusMap.SIMULATING,
         });

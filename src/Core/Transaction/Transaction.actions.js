@@ -27,6 +27,7 @@ export const FETCH_TRANSACTIONS_FOR_PUBLIC_CONTRACT_ACTION = 'FETCH_TRANSACTIONS
 export const FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT_ACTION = 'FETCH_TRANSACTION_FOR_PUBLIC_CONTRACT';
 
 export const FETCH_EXAMPLE_TRANSACTION_ACTION = 'FETCH_EXAMPLE_TRANSACTION';
+export const SIMULATE_TRANSACTION_ACTION = 'SIMULATE_TRANSACTION';
 
 const StatusValueToApiValue = {
     'all': null,
@@ -338,8 +339,8 @@ export const createSimulation = (data)=> actionWrapper({
  * @param {NetworkTypes} network
  * @param {Object} transactionInfo
  */
-export const simulateTransaction = (simulation) => {
-    return async () => {
+export const simulateTransaction = (project, simulation) => {
+    return async (dispatch) => {
         try {
             const networkId = getApiIdForNetwork(simulation.network);
 
@@ -349,10 +350,51 @@ export const simulateTransaction = (simulation) => {
                 return new ErrorActionResponse();
             }
 
-            console.log('simulation', Simulation.transformToApiPayload(simulation), data);
+            const transaction = Transaction.buildFromResponse({
+                ...data.transaction,
+                hash: _.uniqueId("simulate-"),
+            }, project.id);
+            const callTrace = CallTrace.buildFromResponse({
+                ...data.transaction,
+                hash: transaction.txHash,
+            });
+
+            const stackTrace = StackTrace.buildFromResponse(data.transaction);
+
+            let eventLogs = [];
+
+            if (data.transaction.transaction_info && data.transaction.transaction_info.logs) {
+                eventLogs = data.transaction.transaction_info.logs.map(eventLog => EventLog.buildFromResponse(eventLog))
+            }
+
+            let stateDiffs = [];
+
+            if (data.transaction.transaction_info && data.transaction.transaction_info.state_diff) {
+                stateDiffs = data.transaction.transaction_info.state_diff.map(state_diff => StateDiff.buildFromResponse(state_diff, transaction.txHash));
+            }
+
+            let consoleLogs = [];
+
+            if(data.transaction.transaction_info && data.transaction.transaction_info.console_logs){
+                consoleLogs = data.transaction.transaction_info.console_logs.map(consoleLog=> ConsoleLog.buildFromResponse(consoleLog, transaction.txHash))
+            }
+            const contracts = data.contracts.map((contract,index)=> Contract.buildFromResponse(contract));
+            dispatch({
+                type: SIMULATE_TRANSACTION_ACTION,
+                transaction,
+                callTrace,
+                stackTrace,
+                eventLogs,
+                stateDiffs,
+                consoleLogs,
+                contracts,
+                projectId: project.id,
+            });
 
 
-            return new SuccessActionResponse();
+            return new SuccessActionResponse({
+                transaction, contracts,
+            });
 
         } catch (error) {
             console.error(error);

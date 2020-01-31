@@ -15,6 +15,7 @@ import SearchReducer from "./Search/Search.reducer";
 import WalletReducer from "./Wallet/Wallet.reducer";
 import BillingReducer from "./Billing/Billing.reducer";
 import AnalyticsReducer from "./Analytics/Analytics.reducer";
+import SimulatorReducer from "./Simulator/Simulator.reducer";
 
 const reducers = combineReducers({
     auth: AuthReducer,
@@ -32,6 +33,7 @@ const reducers = combineReducers({
     search: SearchReducer,
     billing: BillingReducer,
     analytics: AnalyticsReducer,
+    simulator: SimulatorReducer,
 });
 
 export default reducers;
