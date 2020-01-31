@@ -10,6 +10,8 @@ import {contractActions, transactionActions} from "../../Core/actions";
 import {Button, Icon, Page, PageHeading} from "../../Elements";
 import {ContractSimulator, ProjectContentLoader} from "../../Components";
 import {NetworkTypes} from "../../Common/constants";
+import RedirectToProjectPage from "./RedirectToProjectPage";
+import {Redirect} from "react-router-dom";
 
 const SimulationStatusMap = {
     SETUP: 'setup',
@@ -32,16 +34,24 @@ class ProjectNewSimulationPage extends Component {
 
     handleTransactionSimulation = async (simulation) => {
         const {transactionActions, project} = this.props;
-        const response = await transactionActions.simulateTransaction(project, simulation);
         this.setState({
             status: SimulationStatusMap.SIMULATING,
         });
+        const response = await transactionActions.simulateTransaction(project, simulation);
+        if(response.success){
+            this.setState({
+                simulatedTransaction: response.data.transaction,
+            })
+        }
     };
 
     render() {
         const {contractsLoaded, contracts, project} = this.props;
-        const {status} = this.state;
+        const {status,simulatedTransaction} = this.state;
 
+        if(simulatedTransaction){
+            return <Redirect to={`${project.getUrlBase()}/simulator/${simulatedTransaction.id}`}/>
+        }
         return (
             <Page>
                 <PageHeading>
