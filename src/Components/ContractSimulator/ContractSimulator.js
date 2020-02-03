@@ -242,7 +242,7 @@ class ContractSimulator extends Component {
                             </div>
                             {!!contractFunction && <div className="Flex1 MarginLeft4">
                                 <h4 className="MarginBottom2">Input Parameters</h4>
-                                {contractFunction.inputs.map((functionInput, index) => {
+                                {!!contractFunction.inputs && contractFunction.inputs.map((functionInput, index) => {
                                     const field = `input_${index}`;
 
                                     return <div key={field} className="DisplayFlex AlignItemsCenter MarginBottom2">

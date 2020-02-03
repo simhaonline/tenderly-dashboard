@@ -13,6 +13,7 @@ class ContractABIDescriptor {
         const web3Data = {
             type: descriptor.type,
             name: descriptor.name,
+            inputs: [],
         };
 
         if (descriptor.inputs){
