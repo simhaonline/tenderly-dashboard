@@ -28,7 +28,7 @@ class TransactionPageContent extends PureComponent {
     constructor(props) {
         super(props);
 
-        const {transaction, project} = props;
+        const {transaction, project, simulated} = props;
 
         let baseUrl = '';
 
@@ -36,7 +36,12 @@ class TransactionPageContent extends PureComponent {
             baseUrl = `/${project.owner}/${project.slug}`
         }
 
-        baseUrl += `/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`;
+        if (simulated){
+            baseUrl += `/simulator/${transaction.txHash}`;
+        }
+        else {
+            baseUrl += `/tx/${getRouteSlugForNetwork(transaction.network)}/${transaction.txHash}`;
+        }
 
         this.state = {
             baseUrl,
