@@ -51,7 +51,10 @@ const SimulatorReducer = (state = initialState, action) => {
                     [transaction.id]: action.consoleLogs,
                 }
             }
-
+            let projectSimulations = [];
+            if (state.projectSimulations[action.projectId]){
+                projectSimulations = state.projectSimulations[action.projectId]
+            }
             return {
                 ...state,
                 callTraces: {
@@ -68,7 +71,7 @@ const SimulatorReducer = (state = initialState, action) => {
                 },
                 projectSimulations: {
                   ...state.projectSimulations,
-                  [action.projectId]: [transaction.id],
+                  [action.projectId]: [transaction.id, ...projectSimulations],
                 },
                 simulationContracts: {
                     ...state.simulationContracts,

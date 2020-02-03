@@ -28,7 +28,6 @@ class ProjectSimulatorPage extends Component {
     render() {
         const {project, transactions, contracts} = this.props;
         const {loaded, } = this.state;
-        console.log(transactions);
 
         return (
             <Page>
