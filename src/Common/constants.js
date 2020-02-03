@@ -57,6 +57,17 @@ export const DEFAULT_TRANSACTIONS_LIST_COLUMNS = [
     TransactionsListColumnTypes.TIMESTAMP,
 ];
 
+
+/**
+ * @type {TransactionsListColumnTypes[]}
+ */
+export const DEFAULT_SIMULATED_TRANSACTIONS_LIST_COLUMNS = [
+    TransactionsListColumnTypes.GAS_USED,
+    TransactionsListColumnTypes.STATUS,
+    TransactionsListColumnTypes.CONTRACTS,
+    TransactionsListColumnTypes.METHOD,
+];
+
 /**
  * @enum {string}
  */

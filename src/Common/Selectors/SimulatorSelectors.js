@@ -12,6 +12,7 @@ export function getSimulatedTransactionData(state, id) {
         stateDiffs: [],
         consoleLogs: [],
     };
+
     if (state.simulator.stackTraces[id]) {
         data.stackTrace = state.simulator.stackTraces[id];
     }
@@ -25,4 +26,11 @@ export function getSimulatedTransactionData(state, id) {
         data.consoleLogs = state.simulator.consoleLogs[id];
     }
     return data
+}
+
+export function getSimulatedTransactionsForProject(state, projectId) {
+    if (!state.simulator.projectSimulations[projectId]){
+        return []
+    }
+    return state.simulator.projectSimulations[projectId].map(simulationId=> state.simulator.transactions[simulationId]);
 }

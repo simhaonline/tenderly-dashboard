@@ -5,8 +5,13 @@ import PageHeading from "../../Elements/Page/PageHeading";
 import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import Button from "../../Elements/Button/Button";
-import {EmptyState, ProjectContentLoader} from "../../Components";
+import {EmptyState, ProjectContentLoader, TransactionsList} from "../../Components";
 import Panel from "../../Elements/Panel/Panel";
+import {
+    getSimulatedTransactionData,
+    getSimulatedTransactionsForProject
+} from "../../Common/Selectors/SimulatorSelectors";
+import {DEFAULT_SIMULATED_TRANSACTIONS_LIST_COLUMNS} from "../../Common/constants";
 
 class ProjectSimulatorPage extends Component {
     state = {
@@ -21,8 +26,9 @@ class ProjectSimulatorPage extends Component {
     };
 
     render() {
-        const {project} = this.props;
-        const {loaded, transactions} = this.state;
+        const {project, transactions, contracts} = this.props;
+        const {loaded, } = this.state;
+        console.log(transactions);
 
         return (
             <Page>
@@ -42,6 +48,8 @@ class ProjectSimulatorPage extends Component {
                                         <span>Run Simulation</span>
                                     </Button>}/>
                     </PanelContent></Panel>}
+                    {transactions.length > 0 && <TransactionsList transactions={transactions} contracts={contracts}
+                                        project={project} activeColumns={DEFAULT_SIMULATED_TRANSACTIONS_LIST_COLUMNS}/>}
                 </Fragment>}
             </Page>
         );
@@ -57,6 +65,7 @@ const mapStateToProps = (state, ownProps) => {
         project,
         contracts: getContractsForProject(state, project.id),
         contractsLoaded: areProjectContractsLoaded(state, project.id),
+        transactions: getSimulatedTransactionsForProject(state, project.id),
     }
 };
 
