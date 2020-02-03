@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getSimulatedTransactionData} from "../../Common/Selectors/SimulatorSelectors";
-import {Button, Container, Icon, Page, PageHeading} from "../../Elements";
-import {TransactionPageContent} from "../../Components";
+import {Button, Container, Icon, Page, PageHeading, PanelContent} from "../../Elements";
+import {EmptyState, TransactionPageContent} from "../../Components";
+import Panel from "../../Elements/Panel/Panel";
 
 class ProjectSimulatedTransactionPage extends Component {
     constructor(props) {
         super(props);
-        const {match: {params:{id}}, project} = props;
+        const {match: {params: {id}}, project} = props;
         const routeBase = `${project.getUrlBase()}/simulator/${id}`;
         this.state = {
             tabs: [
@@ -51,7 +52,29 @@ class ProjectSimulatedTransactionPage extends Component {
         const {tabs} = this.state;
 
         if (!transaction) {
-            return null
+            return <Page>
+                <Container>
+                    <PageHeading>
+                        <Button to={`${project.getUrlBase()}/simulator`} outline>
+                            <Icon icon="arrow-left"/>
+                        </Button>
+                        <h1>
+                            Simulated Transaction
+                        </h1>
+
+                    </PageHeading>
+                    <Panel>
+                        <PanelContent>
+                            <EmptyState icon="airplay" title="Simulation does not exist"
+                                        description="We were not able to find a simulated transaction with this ID"
+                                        renderActions={() => <Button to={`${project.getUrlBase()}/simulator/new`}
+                                                                     color="secondary">
+                                            <span>Run Simulation</span>
+                                        </Button>}/>
+                        </PanelContent>
+                    </Panel>
+                </Container>
+            </Page>
         }
 
         return (
