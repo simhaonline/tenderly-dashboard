@@ -7,7 +7,7 @@ import _ from "lodash";
 import {Contract} from "../../Core/models";
 import {contractActions, transactionActions} from "../../Core/actions";
 
-import {Input, Select, Button, Checkbox, LinkButton, Card} from "../../Elements";
+import {Input, Select, Button, Checkbox, LinkButton, Card, PanelContent} from "../../Elements";
 import {ContractMethodOrLogSelectOption, ContractSelectOption} from "../index";
 
 import './ContractSimulator.scss';
@@ -189,8 +189,9 @@ class ContractSimulator extends Component {
         const {selectedContract, functionInputs, functionInputErrors, maximumBlockIndex, maximumBlock, contractFunction, usePendingBlock, functionOptions, block, blockIndex, from, gas, customFrom, customGas, loadingContract, contract, blockSelected} = this.state;
 
         return (
-            <div>
-                <Card>
+            <div className="ContractSimulator">
+                <Panel>
+                    <PanelContent>
                     <h3 className="MarginBottom2">Contract</h3>
                     <Select value={selectedContract} disabled={loadingContract} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} components={{
                         Option: ContractSelectOption,
@@ -216,8 +217,8 @@ class ContractSimulator extends Component {
                             <Input value={blockIndex} readOnly={usePendingBlock} label="Block Index" field="blockIndex" onChange={this.handleInputChange}/>
                             <span>Maximum Block Index: {maximumBlockIndex}</span>
                         </div>}
-                    </Card>
-                    <Card>
+                    </Panel>
+                    <Panel>
                         <h3 className="MarginBottom2">Transaction Parameters</h3>
                         <div className="DisplayFlex">
                             <div className="MarginRight4">
@@ -231,8 +232,8 @@ class ContractSimulator extends Component {
                                 <LinkButton onClick={() => this.toggleCustomTransactionParameter("customGas")}>Use {customGas ? 'default' : 'custom'} gas value</LinkButton>
                             </div>
                         </div>
-                    </Card>
-                    <Card>
+                    </Panel>
+                    <Panel>
                         <h3 className="MarginBottom2">Function</h3>
                         <div className="DisplayFlex">
                             <div className="Flex1">
@@ -253,7 +254,7 @@ class ContractSimulator extends Component {
                                 })}
                             </div>}
                         </div>
-                    </Card>
+                    </Panel>
                     <div className="MarginTop4">
                         <Button disabled={!this.isFromValid()} onClick={this.submitTransactionForSimulation}>
                             <span>Simulate Transaction</span>
