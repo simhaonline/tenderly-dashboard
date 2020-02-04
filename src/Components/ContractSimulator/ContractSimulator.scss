@@ -1,7 +1,16 @@
+@import "../../Common/common";
 
 .ContractSimulator{
   display: flex;
-
 }
 
-.
+.ContractSimulator__Panel{
+  flex: 1;
+  max-width: 600px;
+  margin-right: $Spacing6;
+}
+
+.ContractSimulator__Panel_ContentPanel__Function{
+  display: flex;
+  flex-direction: column;
+}

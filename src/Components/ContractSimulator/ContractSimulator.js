@@ -7,7 +7,7 @@ import _ from "lodash";
 import {Contract} from "../../Core/models";
 import {contractActions, transactionActions} from "../../Core/actions";
 
-import {Input, Select, Button, Checkbox, LinkButton, Card, PanelContent} from "../../Elements";
+import {Input, Select, Button, Checkbox, LinkButton, Card, Panel, PanelContent} from "../../Elements";
 import {ContractMethodOrLogSelectOption, ContractSelectOption} from "../index";
 
 import './ContractSimulator.scss';
@@ -190,58 +190,21 @@ class ContractSimulator extends Component {
 
         return (
             <div className="ContractSimulator">
-                <Panel>
-                    <PanelContent>
+                <Panel className="ContractSimulator__Panel">
+                    <PanelContent className="ContractSimulator__Panel_ContentPanel">
                     <h3 className="MarginBottom2">Contract</h3>
                     <Select value={selectedContract} disabled={loadingContract} getOptionLabel={contract => contract.name} getOptionValue={contract => contract.id} components={{
                         Option: ContractSelectOption,
                     }} selectLabel="Select contract" onChange={this.handleContractSelect} options={contracts}/>
-                </Card>
-                {!loadingContract && !!contract && <div>
-                    <Card>
-                        <h3 className="MarginBottom2">Simulation Point</h3>
-                        <div>
-                            <div className="MarginBottom2">Select the point in time in which you wish to simulate this transaction. Select the block number and at which index you wish to execute it or simulate it in the current pending block.</div>
-                            <Checkbox field="usePendingBlock" label="Simulate in current pending block" value={usePendingBlock} onChange={this.handleInputChange}/>
-                            <div className="DisplayFlex AlignItemsStart">
-                                <Input value={block} readOnly={blockSelected || usePendingBlock} label="Block number" field="block" onChange={this.handleInputChange}/>
-                                <Button disabled={!this.isBlockNumberValid()} className="MarginLeft2" onClick={this.handleBlockSelect}>
-                                    <span>Select Block</span>
-                                </Button>
-                            </div>
-                            <div>
-                                <span>Current Block: {maximumBlock}</span>
-                            </div>
-                        </div>
-                        {blockSelected && <div>
-                            <Input value={blockIndex} readOnly={usePendingBlock} label="Block Index" field="blockIndex" onChange={this.handleInputChange}/>
-                            <span>Maximum Block Index: {maximumBlockIndex}</span>
-                        </div>}
-                    </Panel>
-                    <Panel>
-                        <h3 className="MarginBottom2">Transaction Parameters</h3>
-                        <div className="DisplayFlex">
-                            <div className="MarginRight4">
-                                <div>From</div>
-                                <Input value={from} label="From address" readOnly={!customFrom} field="from" onChange={this.handleInputChange}/>
-                                <LinkButton onClick={() => this.toggleCustomTransactionParameter("customFrom")}>Use {customFrom ? 'default' : 'custom'} from address</LinkButton>
-                            </div>
-                            <div>
-                                <div>Gas</div>
-                                <Input value={gas} label="Gas" readOnly={!customGas} field="gas" onChange={this.handleInputChange}/>
-                                <LinkButton onClick={() => this.toggleCustomTransactionParameter("customGas")}>Use {customGas ? 'default' : 'custom'} gas value</LinkButton>
-                            </div>
-                        </div>
-                    </Panel>
-                    <Panel>
-                        <h3 className="MarginBottom2">Function</h3>
-                        <div className="DisplayFlex">
-                            <div className="Flex1">
+
+                        <div className="ContractSimulator__Panel_ContentPanel__Function">
+                            {!!contract && <div className="Flex1">
+                                <h3 className="MarginBottom2 MarginTop1">Function</h3>
                                 <Select options={functionOptions} value={contractFunction} getOptionLabel={contract => contract.name} components={{
                                     Option: ContractMethodOrLogSelectOption,
                                 }} getOptionValue={contract => contract.name} onChange={this.handleFunctionSelect}/>
-                            </div>
-                            {!!contractFunction && <div className="Flex1 MarginLeft4">
+                            </div>}
+                            {!!contractFunction && <div className="Flex1 MarginRight2 MarginTop2">
                                 <h4 className="MarginBottom2">Input Parameters</h4>
                                 {!!contractFunction.inputs && contractFunction.inputs.map((functionInput, index) => {
                                     const field = `input_${index}`;
@@ -254,13 +217,51 @@ class ContractSimulator extends Component {
                                 })}
                             </div>}
                         </div>
-                    </Panel>
+                    </PanelContent>
+                </Panel>
+                <Panel className="ContractSimulator__Panel">
+
+                    <PanelContent className="ContractSimulator__Panel_ContentPanel">
+                        <h3 className="MarginBottom2">Transaction Parameters</h3>
+                        <div className="DisplayFlex">
+                            <div className="MarginRight4">
+                                <div className="MarginBottom1">From</div>
+                                <Input value={from} label="From address" readOnly={!customFrom} field="from" onChange={this.handleInputChange}/>
+                                <LinkButton onClick={() => this.toggleCustomTransactionParameter("customFrom")}>Use {customFrom ? 'default' : 'custom'} from address</LinkButton>
+                            </div>
+                            <div>
+                                <div className="MarginBottom1">Gas</div>
+                                <Input value={gas} label="Gas" readOnly={!customGas} field="gas" onChange={this.handleInputChange}/>
+                                <LinkButton onClick={() => this.toggleCustomTransactionParameter("customGas")}>Use {customGas ? 'default' : 'custom'} gas value</LinkButton>
+                            </div>
+                        </div>
+                    <h3 className="MarginBottom2 MarginTop2">Simulation Point</h3>
+                        <div><div className="MarginBottom2">Select the point in time in which you wish to simulate this transaction. Select the block number and at which index you wish to execute it or simulate it in the current pending block.</div>
+                            <div className="DisplayFlex MarginBottom1">
+                                {/*<span className="MarginRight1">Current Block: {maximumBlock}</span>*/}
+                                <Checkbox field="usePendingBlock" label="Simulate in latest block" value={usePendingBlock} onChange={this.handleInputChange}/>
+                            </div>
+
+                            <div className="DisplayFlex AlignItemsStart">
+                                <Input value={block} readOnly={blockSelected || usePendingBlock} label="Block number" field="block" onChange={this.handleInputChange}/>
+                                <Button disabled={!this.isBlockNumberValid()} className="MarginLeft2" onClick={this.handleBlockSelect}>
+                                    <span>Select Block</span>
+                                </Button>
+                            </div>
+
+                            {blockSelected && <div>
+                                <Input value={blockIndex} readOnly={usePendingBlock} label="Block Index" field="blockIndex" onChange={this.handleInputChange}/>
+                                <span>Maximum Block Index: {maximumBlockIndex}</span>
+                            </div>}
+                        </div>
+
                     <div className="MarginTop4">
                         <Button disabled={!this.isFromValid()} onClick={this.submitTransactionForSimulation}>
-                            <span>Simulate Transaction</span>
+                            <span >Simulate Transaction</span>
                         </Button>
                     </div>
-                </div>}
+                    </PanelContent>
+                </Panel>
             </div>
         );
     }
