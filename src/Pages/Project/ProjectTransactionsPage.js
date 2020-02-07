@@ -6,7 +6,13 @@ import _ from 'lodash';
 
 import Notifications from "../../Utils/Notifications";
 
-import {FIVE_SECOND_INTERVAL, ONE_MIN_INTERVAL, ProjectTypes, TransactionFilterTypes} from "../../Common/constants";
+import {
+    FIVE_SECOND_INTERVAL,
+    ONE_MIN_INTERVAL,
+    ProjectTypes,
+    TransactionFilterTypes,
+    UserPlanTypes
+} from "../../Common/constants";
 
 import {
     areProjectContractsLoaded,
@@ -18,8 +24,16 @@ import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors"
 
 import {contractActions, projectActions, transactionActions} from "../../Core/actions";
 
-import {Container, Page, PageHeading, Toggle} from "../../Elements";
-import {ProjectContentLoader, TransactionsList, BackfillingProgress, TransactionFilters, ProjectSetupEmptyState, NoTransactionsEmptyState} from "../../Components";
+import {Card, Container, Icon, Page, PageHeading, Toggle} from "../../Elements";
+import {
+    ProjectContentLoader,
+    TransactionsList,
+    BackfillingProgress,
+    TransactionFilters,
+    ProjectSetupEmptyState,
+    NoTransactionsEmptyState,
+    FreePlanContractPicker
+} from "../../Components";
 
 const DEFAULT_TX_PER_PAGE = 20;
 
@@ -42,17 +56,32 @@ class ProjectTransactionsPage extends Component {
     }
 
     async componentDidMount() {
-        const {project, projectActions, txActions, contractActions, contractsLoaded} = this.props;
+        const {project, projectActions, txActions, contractActions, contractsLoaded, accountPlan, contracts} = this.props;
         const {filters, page, perPage} = this.state;
 
         let transactions = [];
 
         if (project.type !== ProjectTypes.DEMO) {
-            if (!contractsLoaded) {
-                await contractActions.fetchContractsForProject(project);
-            }
 
-            const actionResponse = await txActions.fetchTransactionsForProject(project.slug, project.owner, filters, page, perPage);
+            let projectContracts = contracts;
+            let queryFilters = filters;
+
+            if (!contractsLoaded) {
+
+                const contractsResponse = await contractActions.fetchContractsForProject(project);
+                projectContracts = contractsResponse.data;
+            }
+            if(accountPlan.plan.type === UserPlanTypes.FREE && !queryFilters[TransactionFilterTypes.CONTRACTS] && projectContracts.length>0){
+                queryFilters[TransactionFilterTypes.CONTRACTS] = {
+                    type: TransactionFilterTypes.CONTRACTS,
+                    value: [projectContracts[0].id],
+                };
+
+                this.setState({
+                    filters: queryFilters,
+                }, this.updateUrlQuery)
+            }
+            const actionResponse = await txActions.fetchTransactionsForProject(project.slug, project.owner, queryFilters, page, perPage);
 
             if (!actionResponse.success) {
                 this.setState({
@@ -301,6 +330,13 @@ class ProjectTransactionsPage extends Component {
         });
     };
 
+    handleSingleContractChange = (contract) => {
+      this.handleFilterChange([{
+          type: TransactionFilterTypes.CONTRACTS,
+          value: [contract.id],
+      }])
+    };
+
     render() {
         const {loading, transactions, backfillingStatus, filters, page, perPage, activeColumns, refreshSubscriber, fetching, error} = this.state;
         const {contracts, contractRevisions, project, projectTags, accountPlan} = this.props;
@@ -325,6 +361,7 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
+                        {shouldDisplayListAndFilters && accountPlan.plan.type === UserPlanTypes.FREE && <FreePlanContractPicker contract={contracts.find(contract => contract.id === filters[TransactionFilterTypes.CONTRACTS].value[0])} onChange={this.handleSingleContractChange} accountPlan={accountPlan} project={project}/>}
                         {shouldDisplayListAndFilters && <TransactionFilters plan={accountPlan} activeFilters={filters} activeColumns={activeColumns} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange} onColumnToggle={this.handleColumnToggle}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
                                           loading={fetching} project={project} activeColumns={activeColumns} contractRevisions={contractRevisions}

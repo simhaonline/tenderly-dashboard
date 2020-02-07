@@ -1,5 +1,10 @@
 import {FETCH_USER_PLAN_ACTION, LOG_OUT_ACTION} from "../Auth/Auth.actions";
-import {FETCH_ALL_PLANS_ACTION, FETCH_PLAN_FOR_ACCOUNT_ACTION} from "./Billing.actions";
+import {
+    ACTIVATE_PLAN_FOR_ACCOUNT_ACTION,
+    ACTIVATE_TRIAL_FOR_ACCOUNT_ACTION,
+    FETCH_ALL_PLANS_ACTION,
+    FETCH_PLAN_FOR_ACCOUNT_ACTION
+} from "./Billing.actions";
 import {CommonActionTypes} from "../../Common/constants";
 
 const initialState = {
@@ -11,6 +16,8 @@ const initialState = {
     accountPlans: {},
     /** @type {AccountPlan|null} */
     userPlan: null,
+    /** @type {boolean} */
+    canActivateTrial: null,
 };
 
 
@@ -19,6 +26,8 @@ const BillingReducer = (state = initialState, action) => {
         case LOG_OUT_ACTION:
             return initialState;
         case FETCH_USER_PLAN_ACTION:
+        case ACTIVATE_TRIAL_FOR_ACCOUNT_ACTION:
+        case ACTIVATE_PLAN_FOR_ACCOUNT_ACTION:
             return {
                 ...state,
                 userPlan: action.accountPlan,
@@ -26,6 +35,7 @@ const BillingReducer = (state = initialState, action) => {
                     ...state.accountPlans,
                     [action.username]: action.accountPlan,
                 },
+                canActivateTrial: !action.trialUsed,
             };
         case FETCH_PLAN_FOR_ACCOUNT_ACTION:
         case CommonActionTypes.FETCH_ACCOUNT_PLAN_ACTION:

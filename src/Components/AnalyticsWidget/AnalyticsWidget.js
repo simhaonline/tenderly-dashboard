@@ -9,7 +9,14 @@ import {
     getFormattedTimeRange
 } from "../../Utils/AnalyticsHelpers";
 
-import {AnalyticsWidgetResolutionTypes, AnalyticsWidgetSizeTypes, TimeUnitLabelMap} from "../../Common/constants";
+import {
+    AnalyticsWidgetDataRangeLabelMap,
+    AnalyticsWidgetDataRangeTypes, AnalyticsWidgetDataRangeValueMap,
+    AnalyticsWidgetResolutionTypes,
+    AnalyticsWidgetSizeTypes,
+    AnalyticsWidgetTypes,
+    TimeUnitLabelMap
+} from "../../Common/constants";
 
 import {analyticsActions} from "../../Core/actions";
 
@@ -17,8 +24,9 @@ import {Panel, Tag, Icon, Tooltip, DropdownToggle, DropdownMenu, DropdownItem} f
 import {AnalyticsWidgetChart, SimpleLoader} from "..";
 
 import './AnalyticsWidget.scss';
-import {action} from "@storybook/addon-actions";
+
 import Dropdown from "../../Elements/Dropdown/Dropdown";
+import data from "../../Pages/Project/AnalyticsDashboardData";
 
 
 const widgetSizeClassMap = {
@@ -39,44 +47,50 @@ class AnalyticsWidget extends Component {
     }
 
     async componentDidMount() {
-        const {isCustom, analyticsActions, widget, project} = this.props;
+        this.fetchWidgetData();
+    }
+
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const {widget, filters} = this.props;
+        if (prevProps.widget !== widget || prevProps.filters!== filters){
+            this.setState({
+                loading: true,
+            });
+
+            this.fetchWidgetData();
+        }
+    }
+
+    fetchWidgetData = async () => {
+        const {project, widget, analyticsActions, isCustom, filters} = this.props;
 
         let dataResponse;
 
         if (isCustom) {
-            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
-        }
-
-        if (!dataResponse.success) {
-            // @TODO Set error state
-            return ;
+            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget, {filters});
+        } else {
+            dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget, {filters});
         }
 
         this.setState({
             loading: false,
             widgetData: dataResponse.data,
         })
-    }
 
-
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        const {widget, project, analyticsActions} = this.props;
-        if (prevProps.widget !== widget){
-            this.setState({
-                loading: true,
-            });
-            const dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
-            this.setState({
-                loading: false,
-                widgetData: dataResponse.data,
-            })
-        }
-    }
+    };
 
     handleWidgetResolutionChange = (resolution) => {
       const {widget, project, analyticsActions} = this.props;
 
       analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {resolution})
+    };
+
+    handleWidgetDateRangeChange = (dateRange) => {
+        const {widget, project, analyticsActions} = this.props;
+
+        analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {
+            time: AnalyticsWidgetDataRangeValueMap[dateRange],
+        })
     };
 
     render() {
@@ -109,10 +123,21 @@ class AnalyticsWidget extends Component {
                         </div>
                         <div className="AnalyticsWidget__Header__SubInfo">
                             {!!widget.time && <div>
-                                <Icon className="MarginRight1 MutedText" icon="calendar"/>
-                                <span>{getFormattedTimeRange(widget.time)}</span>
+                                <Dropdown>
+                                    <DropdownToggle>
+                                        <Icon className="MarginRight1 MutedText" icon="calendar"/>
+                                        <span>{getFormattedTimeRange(widget.time)}</span>
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        {Object.values(AnalyticsWidgetDataRangeTypes).map(dateRange =>
+                                            <DropdownItem key={dateRange} onClick={() => this.handleWidgetDateRangeChange(dateRange)}>
+                                                <Icon className="MarginRight1 MutedText" icon="calendar"/>
+                                                <span>{AnalyticsWidgetDataRangeLabelMap[dateRange]}</span>
+                                            </DropdownItem>)}
+                                    </DropdownMenu>
+                                </Dropdown>
                             </div>}
-                            {!!widget.resolution && <div>
+                            {!!widget.resolution && widget.type!== AnalyticsWidgetTypes.TABLE && <div>
                                 <Dropdown>
                                     <DropdownToggle>
                                         <Icon className="MarginRight1 MutedText" icon="clock"/>
@@ -136,20 +161,20 @@ class AnalyticsWidget extends Component {
                         "AnalyticsWidget__Data",
                         `AnalyticsWidget__Data--${widget.type}`,
                     )}>
-                        {!!widgetData && <AnalyticsWidgetChart dataPoints={widgetData.dataPoints} widget={widget} data={widgetData.data}/>}
-                        {!widgetData && <div>
+                        {!!widgetData && !!widgetData.data && widgetData.data.length>0 && <AnalyticsWidgetChart dataPoints={widgetData.dataPoints} widget={widget} data={widgetData.data}/>}
+                        {(!widgetData || !widgetData.data || widgetData.data.length===0) && <div>
                             No data
                         </div>}
                     </div>}
                     {!isCustom && <div className="AnalyticsWidget__Footer">
                         <div className="AnalyticsWidget__Footer__DataInfo">
-                            {widget.show.map(show => <div key={show.event} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Show">
+                            {widget.show.map(show => <div key={show.property} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Show">
                                 <Icon icon="target"/>
-                                <span>{show.event}</span>
+                                <span>{show.property}</span>
                             </div>)}
-                            {!!widget.group && widget.group.length > 0 && widget.group.map(group => <div key={group.variable} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Breakdown">
+                            {!!widget.group && widget.group.length > 0 && widget.group.map(group => <div key={group} className="AnalyticsWidget__Footer__DataInfoPill AnalyticsWidget__Footer__DataInfoPill--Breakdown">
                                 <Icon icon="share-2"/>
-                                <span>Breakdown by <span className="SemiBoldText">{group.variable}</span></span>
+                                <span>Breakdown by <span className="SemiBoldText">{group}</span></span>
                             </div>)}
                         </div>
                     </div>}

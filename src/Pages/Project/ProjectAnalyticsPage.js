@@ -1,26 +1,27 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
+import {areProjectContractsLoaded, getProjectBySlugAndUsername} from "../../Common/Selectors/ProjectSelectors";
 import {getAccountPlanForProject} from "../../Common/Selectors/BillingSelectors";
 
-import {analyticsActions} from "../../Core/actions";
+import {analyticsActions, contractActions} from "../../Core/actions";
 
 import {Container, Page, PageHeading, Panel, Button} from "../../Elements";
 
 import {
     EmptyState,
-    FeatureFlag,
+    FeatureFlag, FreePlanContractPicker,
     PaidFeatureButton,
     ProjectAnalyticsDashboard,
     ProjectContentLoader
 } from "../../Components";
 import {
-    areCustomDashboardsLoadedForProject,
+    areCustomDashboardsLoadedForProject, getAnalyticsDashboardsForProject,
     getCustomDashboardsForProject
 } from "../../Common/Selectors/AnalyticsSelectors";
-import {FeatureFlagTypes} from "../../Common/constants";
+import {AnalyticsDataFiltersTypes, FeatureFlagTypes, UserPlanTypes} from "../../Common/constants";
+import {getContractsForProject} from "../../Common/Selectors/ContractSelectors";
 import Intercom from "../../Utils/Intercom";
 
 class ProjectAnalyticsPage extends Component {
@@ -31,18 +32,34 @@ class ProjectAnalyticsPage extends Component {
             loading: true,
             hasCustom: false,
             dashboards: [],
+            filters: [],
         }
     }
 
     async componentDidMount() {
-        const {analyticsActions, project, loadedDashboards, customDashboards} = this.props;
-        if(loadedDashboards){
-            return this.setState({
-                currentDashboard: customDashboards[0].id
+        const {analyticsActions, project, loadedDashboards, dashboards, history, contractsLoaded, contractActions, contracts, accountPlan} = this.props;
 
+        let projectContracts = contracts;
+
+        if (!contractsLoaded) {
+
+            const contractsResponse = await contractActions.fetchContractsForProject(project);
+            projectContracts = contractsResponse.data;
+        }
+
+        if(accountPlan.plan.type === UserPlanTypes.FREE && projectContracts.length>0){
+            this.setState({
+                filters: [{
+                    type: AnalyticsDataFiltersTypes.CONTRACT,
+                    value: projectContracts[0].id,
+                }]
             })
         }
-        const analyticsResponse = await analyticsActions.fetchCustomAnalyticsForProject(project);
+
+        if(loadedDashboards){
+            return history.push(`?dashboard=${dashboards[0].id}`);
+        }
+        const analyticsResponse = await analyticsActions.fetchAnalyticsForProject(project);
 
         if (!analyticsResponse.success) {
 
@@ -50,30 +67,33 @@ class ProjectAnalyticsPage extends Component {
                 forceLoaded: true,
             })
         }
-
-        this.setState({
-            currentDashboard:  analyticsResponse.data[0].id,
-        });
+        history.push(`?dashboard=${analyticsResponse.data[0].id}`);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {loadedDashboards, customDashboards} = this.props;
+        const {loadedDashboards, dashboards, history} = this.props;
         if(prevProps.loadedDashboards!== loadedDashboards){
-            this.setState({
-                currentDashboard: customDashboards[0].id
-            })
+            history.push(`?dashboard=${dashboards[0].id}`);
         }
     }
 
+    handleSingleContractFilterChange= (contract) => {
+        this.setState({
+            filters: [{
+                type: AnalyticsDataFiltersTypes.CONTRACT,
+                value: contract.id,
+            }]
+        })
+    };
+
     render() {
-        const {project, accountPlan, loadedDashboards, customDashboards} = this.props;
-        const {currentDashboard, forceLoaded} = this.state;
+        const {project, accountPlan, loadedDashboards, dashboards, dashboardId, contracts} = this.props;
+        const {forceLoaded, filters} = this.state;
 
-        const loading = !forceLoaded && (!loadedDashboards || !currentDashboard);
-
+        const loading = !forceLoaded && (!loadedDashboards || !dashboardId);
 
         return (
-            <Page id="ProjectPage" tabs={customDashboards.map(d => ({
+            <Page id="ProjectPage" tabs={dashboards.map(d => ({
                 route: `${project.getUrlBase()}/analytics?dashboard=${d.id}`,
                 label: d.name,
             }))}>
@@ -81,16 +101,19 @@ class ProjectAnalyticsPage extends Component {
                     <PageHeading>
                         <h1>Analytics</h1>
                         <div className="MarginLeftAuto">
-                            <FeatureFlag flag={FeatureFlagTypes.ANALYTICS}>
                                 <PaidFeatureButton to={`${project.getUrlBase()}/analytics/create`} plan={accountPlan} includes="analytics.advanced">
                                     Create Graph
                                 </PaidFeatureButton>
-                            </FeatureFlag>
                         </div>
                     </PageHeading>
                     {loading && <ProjectContentLoader text="Fetching analytics dashboard..."/>}
-                    {!loading && customDashboards.length>0 && <ProjectAnalyticsDashboard dashboard={customDashboards.find(dashboard => dashboard.id===currentDashboard)} project={project}/>}
-                    {!loading && customDashboards.length===0 && <div>
+                    {!loading && dashboards.length>0 && <Fragment>
+                        {accountPlan.plan.type === UserPlanTypes.FREE && <FreePlanContractPicker accountPlan={accountPlan} project={project}
+                                                                                                 contract={contracts.find(contract=> filters.find(filter=> filter.type===AnalyticsDataFiltersTypes.CONTRACT).value===contract.id)}
+                                                                                                 onChange={this.handleSingleContractFilterChange}/>}
+                        <ProjectAnalyticsDashboard dashboard={dashboards.find(dashboard => dashboard.id===dashboardId)}
+                                                   project={project} filters={filters}/> </Fragment>}
+                    {!loading && dashboards.length===0 && <div>
                         <Panel>
                             <EmptyState title="This feature is currently in Beta" description="We are rolling out the beta version of Analytics to a small percentage of users. If you would like to participate in the Beta testing, contact us to enable Analytics for your account."
                                         renderActions={()=> <div>
@@ -107,21 +130,27 @@ class ProjectAnalyticsPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {match: {params: {username, slug}}} = ownProps;
+    const {match: {params: {username, slug}}, location: {search}} = ownProps;
+    const searchParams = new URLSearchParams(search);
+    const dashboardId = searchParams.get('dashboard')
 
     const project = getProjectBySlugAndUsername(state, slug, username);
 
     return {
         project,
         accountPlan: getAccountPlanForProject(state, project),
+        contracts: getContractsForProject(state, project.id),
         loadedDashboards: areCustomDashboardsLoadedForProject(state, project.id),
-        customDashboards: getCustomDashboardsForProject(state,project.id)
+        contractsLoaded: areProjectContractsLoaded(state, project.id),
+        dashboards: getAnalyticsDashboardsForProject(state,project.id),
+        dashboardId,
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         analyticsActions: bindActionCreators(analyticsActions, dispatch),
+        contractActions: bindActionCreators(contractActions, dispatch),
     }
 };
 

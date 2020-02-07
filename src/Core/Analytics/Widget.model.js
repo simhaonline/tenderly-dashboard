@@ -1,9 +1,11 @@
 import {
+    AnalyticsDataFiltersTypes,
     AnalyticsWidgetResolutionTypes,
     AnalyticsWidgetSizeTypes,
     AnalyticsWidgetTypes,
     TimeUnitTypes
 } from "../../Common/constants";
+import Account from "../Account/Account.model";
 
 class Widget {
     constructor(data) {
@@ -38,6 +40,9 @@ class Widget {
 
         /** @type {AnalyticsWidgetResolutionTypes} */
         this.resolution = data.resolution;
+
+        /** @type {Object[]} */
+        this.orderBy = data.orderBy;
     }
 
     /**
@@ -53,7 +58,7 @@ class Widget {
      * @param {Widget} widget
      * @returns {Object}
      */
-    static transformToApiPayloadForData(widget) {
+    static transformToApiPayloadForData(widget, overrides) {
         const data = {};
 
         if (widget.time && widget.time.window) {
@@ -91,6 +96,29 @@ class Widget {
 
         if(widget.group && widget.group.length > 0){
             data.group_by = widget.group;
+        }
+
+        if(widget.orderBy && widget.orderBy.length > 0){
+            data.order_by = widget.orderBy.map(order=> ({
+                field: order.property,
+                direction: order.direction,
+            }))
+        }
+
+        if(!!overrides){
+            if(overrides.filters){
+                overrides.filters.forEach(filter => {
+                    switch (filter.type) {
+                        case AnalyticsDataFiltersTypes.CONTRACT:
+                            if(!data.contract_ids){
+                                data.contract_ids = []
+                            }
+                            data.contract_ids.push(Account.generateApiId(filter.value));
+                            break;
+                    }
+                })
+            }
+
         }
 
         data.display_settings = {
@@ -133,20 +161,31 @@ class Widget {
             };
         } else {
             const time = Widget.parseTimeRange(response.time_range);
-
             widgetData = {
                 type: response.display_settings.chart_type,
                 size: AnalyticsWidgetSizeTypes.TWO,
                 resolution: response.resolution,
                 time,
                 alerts: [],
-                group: [
-                    {group: "contract", variable: "id"},
-                    {group: "transaction", variable: "status"},
-                ],
-                show: [
-                    {math: "count", event: "transaction"},
-                ],
+                dataSource: response.analytics_table,
+                dashboardId: response.analytics_dashboard_id,
+                group: response.group_by,
+                show: response.selectors.map(selector=> {
+                    if(selector.predefined_selector){
+                        return {
+                            custom: true,
+                            property: selector.predefined_selector,
+                        }
+                    }
+                    return {
+                        property: selector.selector.field,
+                        aggregation: selector.selector.aggregate,
+                    }
+                }),
+                orderBy: response.order_by.map(order=> ({
+                    property: order.field,
+                    direction: order.direction
+                }))
             };
         }
 

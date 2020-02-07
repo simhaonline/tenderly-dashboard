@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 
 import {Contract} from "../../Core/models";
 
-import {FeatureFlagTypes, TransactionFilterTypes, TransactionsListColumnTypes} from "../../Common/constants";
+import {
+    FeatureFlagTypes,
+    TransactionFilterTypes,
+    TransactionsListColumnTypes,
+    UserPlanTypes
+} from "../../Common/constants";
 import {getUniqueNetworksForContracts} from "../../Common/Selectors/NetworkSelectors";
 
 import {SegmentedControls, Button, Icon, Dialog, DialogHeader, DialogBody, Checkbox, LinkButton, Select} from "../../Elements";
@@ -16,6 +21,7 @@ import {
 } from "../index";
 
 import './TransactionFilters.scss';
+import AccountPlan from "../../Core/Billing/AccountPlan.model";
 
 const transactionStatusOptions = [
     {
@@ -246,9 +252,9 @@ class TransactionFilters extends Component {
 
         return (
             <div className="TransactionFilters">
-                <div>
+                {plan.plan.type !== UserPlanTypes.FREE && <div>
                     <SegmentedControls options={transactionStatusOptions} value={status} onChange={this.handleStatusChange}/>
-                </div>
+                </div>}
                 <div className="MarginLeftAuto">
                     <Button outline onClick={this.handleSettingsModalOpen}>
                         <Icon icon="settings"/>
@@ -367,7 +373,7 @@ TransactionFilters.propTypes = {
     tags: PropTypes.array.isRequired,
     onFiltersChange: PropTypes.func.isRequired,
     // @TODO @BILLING Remove when implement billing
-    // plan: PropTypes.instanceOf(AccountPlan).isRequired,
+    plan: PropTypes.instanceOf(AccountPlan).isRequired,
 };
 
 export default TransactionFilters;

@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 
-import {Checkbox, Panel, PanelContent, Toggle} from "../../Elements";
+import {Panel, PanelContent, Toggle} from "../../Elements";
 import {AnalyticsWidgetChart, CircularLoader, WidgetResolutionSelect, WidgetTimeRangeSelect} from "../index";
 
 import './AnalyticsDataView.scss';
 import {bindActionCreators} from "redux";
 import {analyticsActions} from "../../Core/actions";
 import {connect} from "react-redux";
-import data from "../../Pages/Project/AnalyticsDashboardData";
-import {AnalyticsWidgetListTypeColumnTypes} from "../../Common/constants";
+import {AnalyticsWidgetTypes} from "../../Common/constants";
 import _ from "lodash";
 
 class AnalyticsDataView extends Component {
@@ -24,11 +23,24 @@ class AnalyticsDataView extends Component {
         this.fetchWidgetData()
     }
 
-    fetchWidgetData = async () => {
-        const {widget,project,analyticsActions} = this.props;
-        const {timeRange, resolution} = this.state;
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+        const {filters} = this.props;
 
-        const dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget);
+        if(prevProps.filters!== filters){
+            this.fetchWidgetData();
+        }
+    }
+
+    fetchWidgetData = async () => {
+        const {widget,project,analyticsActions, dashboard, filters} = this.props;
+
+        let dataResponse;
+
+        if(dashboard.isCustom){
+            dataResponse = await analyticsActions.fetchCustomAnalyticsWidgetDataForProject(project, widget, {filters,});
+        } else {
+            dataResponse = await analyticsActions.fetchWidgetDataForProject(project, widget, {filters});
+        }
 
         if (!dataResponse.success) {
             // @TODO Set error state
@@ -73,8 +85,6 @@ class AnalyticsDataView extends Component {
     handleTimeRangeChange = (value) => {
         const {widget, project, analyticsActions} = this.props;
         analyticsActions.updateCustomAnalyticsWidgetForProject(project, widget, {time: value.time});
-
-        console.log(value);
         this.setState({
                 timeRange: value,
         }, this.fetchWidgetData)
@@ -99,57 +109,62 @@ class AnalyticsDataView extends Component {
                                 <h3 className='MarginBottom1'>Time range</h3>
                                 <WidgetTimeRangeSelect value={timeRange} onChange={this.handleTimeRangeChange}/>
                             </div>
-                            <div className='AnalyticsDataView__PropertyWrapper'>
+                            {widget.type !== AnalyticsWidgetTypes.TABLE && <div className='AnalyticsDataView__PropertyWrapper'>
                                 <h3 className='MarginBottom1'>Resolution</h3>
                                 <WidgetResolutionSelect value={resolution} onChange={this.handleResolutionChange}/>
-                            </div>
+                            </div>}
                         </div>
                     </PanelContent>
                 </Panel>
                 <Panel className="AnalyticsDataView">
-                    <div style={{height: 300}} className="AnalyticsDataView__Graph">
-                        <AnalyticsWidgetChart
-                            dataPoints={widgetData.dataPoints.filter(dp => !disabledDataPoints[dp.key])}
-                            widget={widget} data={widgetData.data}/>
-                    </div>
-                    <div className='AnalyticsDataView__Item'>
-                        <div className="AnalyticsDataView__Item__Labels">
-                            <span>Labels</span>
+                    {(!widgetData || !widgetData.data || widgetData.data.length===0) && <div> No data </div>}
+                    {!!widgetData && !!widgetData.data && widgetData.data.length>0 && <Fragment>
+                        <div style={{height: 300}} className="AnalyticsDataView__Graph">
+                            <AnalyticsWidgetChart
+                                dataPoints={widgetData.dataPoints.filter(dp => !disabledDataPoints[dp.key])}
+                                widget={widget} data={widgetData.data}/>
                         </div>
-                        <div className='AnalyticsDataView__Item__Value'>
-                            <span>Min</span>
-                        </div>
-                        <div className='AnalyticsDataView__Item__Value'>
-                            <span>Max</span>
-                        </div>
-                        <div className='AnalyticsDataView__Item__Value'/>
-                    </div>
-                    <div className="AnalyticsDataView__Items">
-                        {_.orderBy(widgetData.dataPoints, dataPoint=> metadata[dataPoint.key].max, 'desc').map(dataPoint => <div key={dataPoint.key}
-                                                                     className="AnalyticsDataView__Item" onClick={() => this.toggleDisableDataPoint(dataPoint)}>
-                            <div style={{backgroundColor: dataPoint.color}} className="AnalyticsDataView__Item__Dot"/>
-                            <div className="AnalyticsDataView__Item__Labels">
-                                {!!dataPoint.meta && Object.keys(dataPoint.meta).map(metaKey => <div key={metaKey}>
-                                    <span className='SemiBoldText'>{metaKey}: </span>
-                                    <span className='MonospaceFont MutedText'>{dataPoint.meta[metaKey]}</span>
+                        {widget.type !== AnalyticsWidgetTypes.TABLE && <Fragment>
+                            <div className='AnalyticsDataView__Item'>
+                                <div className="AnalyticsDataView__Item__Labels">
+                                    <span>Labels</span>
+                                </div>
+                                <div className='AnalyticsDataView__Item__Value'>
+                                    <span>Min</span>
+                                </div>
+                                <div className='AnalyticsDataView__Item__Value'>
+                                    <span>Max</span>
+                                </div>
+                                <div className='AnalyticsDataView__Item__Value'/>
+                            </div>
+                            <div className="AnalyticsDataView__Items">
+                                {_.orderBy(widgetData.dataPoints, dataPoint=> metadata[dataPoint.key].max, 'desc').map(dataPoint => <div key={dataPoint.key}
+                                                                                                                                         className="AnalyticsDataView__Item" onClick={() => this.toggleDisableDataPoint(dataPoint)}>
+                                    <div style={{backgroundColor: dataPoint.color}} className="AnalyticsDataView__Item__Dot"/>
+                                    <div className="AnalyticsDataView__Item__Labels">
+                                        {!!dataPoint.meta && Object.keys(dataPoint.meta).map(metaKey => <div key={metaKey}>
+                                            <span className='SemiBoldText'>{metaKey}: </span>
+                                            <span className='MonospaceFont MutedText'>{dataPoint.meta[metaKey]}</span>
+                                        </div>)}
+                                        {!dataPoint.meta && <span>{dataPoint.name}</span>}
+
+                                    </div>
+
+                                    <div className='AnalyticsDataView__Item__Value'>
+                                        <span className='MonospaceFont LinkText'>{metadata[dataPoint.key].min.toLocaleString()}</span>
+                                    </div>
+
+                                    <div className='AnalyticsDataView__Item__Value'>
+                                        <span className='MonospaceFont LinkText'>{metadata[dataPoint.key].max.toLocaleString()}</span>
+                                    </div>
+                                    <div className='AnalyticsDataView__Item__Value'>
+                                        <Toggle value={!disabledDataPoints[dataPoint.key]} className='MarginLeftAuto'/>
+                                    </div>
+
                                 </div>)}
-                                {!dataPoint.meta && <span>{dataPoint.name}</span>}
-
                             </div>
-
-                            <div className='AnalyticsDataView__Item__Value'>
-                                <span className='MonospaceFont LinkText'>{metadata[dataPoint.key].min.toLocaleString()}</span>
-                            </div>
-
-                            <div className='AnalyticsDataView__Item__Value'>
-                                <span className='MonospaceFont LinkText'>{metadata[dataPoint.key].max.toLocaleString()}</span>
-                            </div>
-                            <div className='AnalyticsDataView__Item__Value'>
-                                <Toggle value={!disabledDataPoints[dataPoint.key]} className='MarginLeftAuto'/>
-                            </div>
-
-                        </div>)}
-                    </div>
+                        </Fragment>}
+                    </Fragment>}
                 </Panel>
             </div>
         );

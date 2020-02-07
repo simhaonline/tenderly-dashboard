@@ -1,5 +1,6 @@
 import {LOG_OUT_ACTION} from "../Auth/Auth.actions";
 import {
+    FETCH_ANALYTICS_FOR_PROJECT_ACTION,
     FETCH_CUSTOM_ANALYTICS_FOR_PROJECT_ACTION,
     UPDATED_CUSTOM_ANALYTICS_WIDGET_FOR_PROJECT_ACTION
 } from "./Analytics.actions";
@@ -7,13 +8,25 @@ import {
 const initialState = {
     projectDashboards: {},
     projectCustomDashboards: {},
-    projectCustomDashboardsLoaded: {}
+    projectDashboardsLoaded: {}
 };
 
 const AnalyticsReducer =(state = initialState, action) => {
     switch (action.type) {
         case LOG_OUT_ACTION:
             return initialState;
+        case FETCH_ANALYTICS_FOR_PROJECT_ACTION:
+            return {
+                ...state,
+                projectDashboards: {
+                    ...state.projectDashboards,
+                    [action.projectId]: action.dashboards,
+                },
+                projectDashboardsLoaded: {
+                    ...state.projectDashboardsLoaded,
+                    [action.projectId]: true,
+                }
+            }
         case FETCH_CUSTOM_ANALYTICS_FOR_PROJECT_ACTION:
             return {
                 ...state,
@@ -21,13 +34,13 @@ const AnalyticsReducer =(state = initialState, action) => {
                     ...state.projectCustomDashboards,
                     [action.projectId]: action.dashboards,
                 },
-                projectCustomDashboardsLoaded: {
-                 ...state.projectCustomDashboardsLoaded,
+                projectDashboardsLoaded: {
+                 ...state.projectDashboardsLoaded,
                     [action.projectId]: true,
                 }
             };
         case UPDATED_CUSTOM_ANALYTICS_WIDGET_FOR_PROJECT_ACTION:
-            const updatedProjectDashboards = state.projectCustomDashboards[action.projectId].map(customDashboard => {
+            const updatedProjectDashboards = state.projectDashboards[action.projectId].map(customDashboard => {
                if (customDashboard.id!==action.widget.dashboardId){
                    return customDashboard;
                }
@@ -42,8 +55,8 @@ const AnalyticsReducer =(state = initialState, action) => {
             });
             return {
                 ...state,
-                projectCustomDashboards: {
-                    ...state.projectCustomDashboards,
+                projectDashboards: {
+                    ...state.projectDashboards,
                     [action.projectId]: updatedProjectDashboards,
                 }
             };

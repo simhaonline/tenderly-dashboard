@@ -35,14 +35,25 @@ export const fetchPlanForAccount = (username) => asyncActionWrapper({
 
 /**
  * @param {User} account
- * @param {Plan} plan
+ * @param {AccountPlan} plan
  */
 export const activatePlanForAccount = (account, plan) => asyncActionWrapper({
     name: 'activatePlanForAccount',
 }, async dispatch => {
-    const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.slug}`);
+    const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.plan.id}`);
 
-    console.log('plan', data);
+    if(!data || !data.plan) {
+        return new ErrorActionResponse();
+    }
+
+    const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
+
+    dispatch({
+        type: ACTIVATE_PLAN_FOR_ACCOUNT_ACTION,
+        accountPlan,
+        username: account.username,
+        trialUsed: data.trial_used,
+    });
 
     return new SuccessActionResponse();
 });
@@ -54,9 +65,20 @@ export const activatePlanForAccount = (account, plan) => asyncActionWrapper({
 export const activateTrialForAccount = (account, plan) => asyncActionWrapper({
     name: 'activateTrialForAccount',
 }, async dispatch => {
-    const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.slug}/trial`);
+    const {data} = await Api.post(`/account/${account.username}/billing/plan/${plan.id}/trial`);
 
-    console.log('trial', data);
+    if(!data || !data.plan) {
+        return new ErrorActionResponse();
+    }
+
+    const accountPlan = AccountPlan.buildFromResponse(data.plan, data.usage);
+
+    dispatch({
+        type: ACTIVATE_TRIAL_FOR_ACCOUNT_ACTION,
+        accountPlan,
+        username: account.username,
+        trialUsed: true,
+    });
 
     return new SuccessActionResponse();
 });

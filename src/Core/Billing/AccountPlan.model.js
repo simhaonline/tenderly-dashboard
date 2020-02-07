@@ -12,6 +12,8 @@ class AccountPlan {
         /** @type {Plan} */
         this.plan = data.plan;
 
+        this.ownerId = data.ownerId;
+
         /** @type {boolean} */
         this.isTrialActive = data.isTrialActive;
 
@@ -32,6 +34,7 @@ class AccountPlan {
 
         return new AccountPlan({
             plan,
+            ownerId: response.owner_id,
             isTrialActive: response.is_trial_active,
             isPlanActive: response.is_plan_active,
             usage,

@@ -246,16 +246,16 @@ export const AnalyticsWidgetSizeTypes = {
 };
 
 export const AnalyticsDataBreakdownTypes = {
-    CONTRACT_TO: 'contract_to',
     TX_STATUS: 'transaction_status',
+    NETWORK: 'network_id',
+    CONTRACT_FROM: 'contract_from',
+    CONTRACT_TO: 'contract_to',
+    FUNCTION: 'function_signature',
+    LOG: 'log_signature',
 };
 
-export const AnalyticsWidgetDataRangeTypes = {
-    LAST_7_DAYS: 'LAST_7_DAYS',
-    LAST_14_DAYS: 'LAST_14_DAYS',
-    LAST_30_DAYS: 'LAST_30_DAYS',
-    LAST_WEEK: 'LAST_WEEK',
-    LAST_MONTH: 'LAST_MONTH',
+export const AnalyticsDataFiltersTypes = {
+    CONTRACT: 'contract',
 };
 
 /**
@@ -282,6 +282,63 @@ export const TimeUnitLabelMap = {
     [TimeUnitTypes.WEEK]: "Week",
     [TimeUnitTypes.MONTH]: "Month",
     [TimeUnitTypes.YEAR]: "Year",
+};
+
+export const AnalyticsWidgetDataRangeTypes = {
+    LAST_HOUR: 'last_hour',
+    LAST_12_HOURS: 'last_12_hours',
+    LAST_24_HOURS: 'last_24_hours',
+    LAST_7_DAYS: 'last_7_days',
+    LAST_14_DAYS: 'last_14_days',
+    LAST_30_DAYS: 'last_30_days',
+};
+
+export const AnalyticsWidgetDataRangeValueMap = {
+    [AnalyticsWidgetDataRangeTypes.LAST_HOUR]: {
+        window: {
+            unit: TimeUnitTypes.HOUR,
+            value: 1,
+        },
+    },
+    [AnalyticsWidgetDataRangeTypes.LAST_12_HOURS]: {
+        window: {
+            unit: TimeUnitTypes.HOUR,
+            value: 12,
+        },
+    },
+    [AnalyticsWidgetDataRangeTypes.LAST_24_HOURS]: {
+        window: {
+            unit: TimeUnitTypes.HOUR,
+            value: 24,
+        },
+    },
+    [AnalyticsWidgetDataRangeTypes.LAST_7_DAYS]: {
+        window: {
+            unit: TimeUnitTypes.DAY,
+            value: 7,
+        },
+    },
+    [AnalyticsWidgetDataRangeTypes.LAST_14_DAYS]: {
+        window: {
+            unit: TimeUnitTypes.DAY,
+            value: 14,
+        },
+    },
+    [AnalyticsWidgetDataRangeTypes.LAST_30_DAYS]: {
+        window: {
+            unit: TimeUnitTypes.DAY,
+            value: 30,
+        },
+    }
+};
+
+export const AnalyticsWidgetDataRangeLabelMap = {
+    [AnalyticsWidgetDataRangeTypes.LAST_HOUR]: 'Last hour',
+    [AnalyticsWidgetDataRangeTypes.LAST_12_HOURS]: 'Last 12 hours',
+    [AnalyticsWidgetDataRangeTypes.LAST_24_HOURS]: 'Last 24 hours',
+    [AnalyticsWidgetDataRangeTypes.LAST_7_DAYS]: 'Last 7 days',
+    [AnalyticsWidgetDataRangeTypes.LAST_14_DAYS]: 'Last 14 days',
+    [AnalyticsWidgetDataRangeTypes.LAST_30_DAYS]: 'Last 30 days',
 };
 
 /**
@@ -788,6 +845,13 @@ export const SearchResultTypes = {
 export const AccountTypes = {
     CONTRACT: 'contract',
     WALLET: 'wallet',
+};
+
+export const PlanUsageLabelMap = {
+    address_usage: 'Monitored addresses',
+    project_usage: 'Projects',
+    invited_users: 'Collaborators',
+    alert_usage: 'Alerts'
 };
 
 export const FIVE_SECOND_INTERVAL = 5 * 1000;

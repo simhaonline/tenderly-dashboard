@@ -17,8 +17,10 @@ export {default as OnboardingCreateOrganizationStep} from './Onboarding/Onboardi
 export {default as PulsingDot} from './PulsingDot/PulsingDot';
 export {default as TenderlyFeaturesDemo} from './TenderlyFeaturesDemo/TenderlyFeaturesDemo';
 
-// Stateful Select Components
+
+// Stateful Select Component
 export {default as ProjectSelect} from './Select/ProjectSelect';
+export {default as ContractSelect} from './Select/ContractSelect';
 export {default as WidgetResolutionSelect} from './Select/WidgetResolutionSelect';
 export {default as WidgetTimeRangeSelect} from './Select/WidgetTimeRangeSelect';
 
@@ -26,6 +28,7 @@ export {default as WidgetTimeRangeSelect} from './Select/WidgetTimeRangeSelect';
 export {default as ProjectSelectOption} from './SelectComponents/ProjectSelectOption';
 export {default as ProjectSelectValue} from './SelectComponents/ProjectSelectValue';
 export {default as ContractSelectOption} from './SelectComponents/ContractSelectOption';
+export {default as ContractSelectValue} from './SelectComponents/ContractSelectValue';
 export {default as ContractMethodOrLogSelectOption} from './SelectComponents/ContractMethodOrLogSelectOption';
 export {default as ContractInputSelectOption} from './SelectComponents/ContractInputSelectOption';
 export {default as ConditionOperatorSelectOption} from './SelectComponents/ConditionOperatorSelectOption';
@@ -46,6 +49,7 @@ export {default as PaidFeatureMessage} from './PaidFeatureMessage/PaidFeatureMes
 export {default as PaidFeatureButton} from './PaidFeatureButton/PaidFeatureButton';
 export {default as PaidFeatureUpsell} from './PaidFeatureUpsell/PaidFeatureUpsell';
 export {default as ProjectPlanUsage} from './ProjectPlanUsage/ProjectPlanUsage';
+export {default as FreePlanContractPicker} from './FreePlanContractPicker/FreePlanContractPicker';
 
 // Explorer Components
 export {default as ExplorerHeader} from './ExplorerHeader/ExplorerHeader';

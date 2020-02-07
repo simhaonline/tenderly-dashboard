@@ -21,32 +21,27 @@ export const fetchAnalyticsForProject = (project) => asyncActionWrapper({
         return new ErrorActionResponse();
     }
 
-    const widgets = [];
     const dashboards = [];
 
-    data.dashboards.forEach(dashboard => {
-        console.log(dashboard);
-    });
+    if(data.custom_dashboards && data.custom_dashboards.length > 0){
+        data.custom_dashboards.forEach(dashboardResponse => {
+            dashboards.push(AnalyticsDashboard.buildFromResponse(dashboardResponse, project.id, true));
+        });
+    }
 
-    // const widgets = Object.keys(data.analytics).map(widgetKey => Widget.buildFromResponse(data.analytics[widgetKey], widgetKey));
-    //
-    // const dashboards = [AnalyticsDashboard.buildFromResponse({
-    //     id: 'default',
-    //     name: "Default Dashboard",
-    //     index: 0,
-    //     widgets: widgets.map(w => w.id),
-    // })];
+    if(data.dashboards && data.dashboards.length > 0){
+        data.dashboards.forEach(dashboardResponse => {
+            dashboards.push(AnalyticsDashboard.buildFromResponse(dashboardResponse, project.id));
+        });
+    }
 
     dispatch({
         type: FETCH_ANALYTICS_FOR_PROJECT_ACTION,
-        widgets,
+        projectId: project.id,
         dashboards,
     });
 
-    return new SuccessActionResponse({
-        widgets,
-        dashboards,
-    });
+    return new SuccessActionResponse(dashboards);
 });
 
 /**
@@ -79,13 +74,13 @@ export const fetchAnalyticsWidgetForProject = (project, widgetId) => asyncAction
  * @param {Project} project
  * @param {Widget} widget
  */
-export const fetchWidgetDataForProject = (project, widget) => asyncActionWrapper({
+export const fetchWidgetDataForProject = (project, widget, overrides) => asyncActionWrapper({
     name: 'fetchWidgetDataForProject',
 }, async () => {
-    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/data`, Widget.transformToApiPayloadForData(widget));
+    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/data`, Widget.transformToApiPayloadForData(widget, overrides));
 
     if (!data || !data.widget) {
-        return new SuccessActionResponse(null);
+        return new ErrorActionResponse(null);
     }
 
     const widgetData = WidgetData.buildFromResponse(data.widget);
@@ -127,18 +122,17 @@ export const fetchCustomAnalyticsForProject = (project) => asyncActionWrapper({
  * @param {AnalyticsDashboard.id} dashboardId
  * @param {Widget} widget
  */
-export const fetchCustomAnalyticsWidgetDataForProject = (project, widget) => asyncActionWrapper({
+export const fetchCustomAnalyticsWidgetDataForProject = (project, widget, overrides) => asyncActionWrapper({
     name: 'fetchCustomAnalyticsWidgetDataForProject',
 }, async () => {
-    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/custom-dashboard/${widget.dashboardId}/${widget.id}/data`, Widget.transformToApiPayloadForData(widget));
+    const {data} = await Api.post(`/account/${project.owner}/project/${project.slug}/analytics/custom-dashboard/${widget.dashboardId}/${widget.id}/data`, Widget.transformToApiPayloadForData(widget, overrides));
 
     if (!data || !data.widget) {
         return new SuccessActionResponse(null);
     }
 
     const widgetData = WidgetData.buildFromResponse(data.widget);
-
-
+    
     return new SuccessActionResponse(widgetData);
 });
 
