@@ -361,7 +361,7 @@ class ProjectTransactionsPage extends Component {
                     {loading && <ProjectContentLoader text="Fetching project transactions..."/>}
                     {!loading && !projectIsSetup && <ProjectSetupEmptyState project={project} onSetup={this.fetchTransactions}/>}
                     {!loading && projectIsSetup && <Fragment>
-                        {shouldDisplayListAndFilters && accountPlan.plan.type === UserPlanTypes.FREE && <FreePlanContractPicker contract={contracts.find(contract => contract.id === filters[TransactionFilterTypes.CONTRACTS].value[0])} onChange={this.handleSingleContractChange} accountPlan={accountPlan} project={project}/>}
+                        {shouldDisplayListAndFilters && !project.isDemoProject() && accountPlan.plan.type === UserPlanTypes.FREE && <FreePlanContractPicker contract={contracts.find(contract => contract.id === filters[TransactionFilterTypes.CONTRACTS].value[0])} onChange={this.handleSingleContractChange} accountPlan={accountPlan} project={project}/>}
                         {shouldDisplayListAndFilters && <TransactionFilters plan={accountPlan} activeFilters={filters} activeColumns={activeColumns} contracts={contracts} tags={projectTags} onFiltersChange={this.handleFilterChange} onColumnToggle={this.handleColumnToggle}/>}
                         {shouldDisplayListAndFilters && <TransactionsList transactions={transactions} contracts={contracts}
                                           loading={fetching} project={project} activeColumns={activeColumns} contractRevisions={contractRevisions}
