@@ -152,13 +152,13 @@ export const fetchContractsForTransaction = (project, txHash, network) => {
 export const fetchExampleContractsForTransaction = (projectId) => {
     return async () => {
         const contracts = [
-            Contract.buildFromResponse(exampleContract1Payload, {
+            Contract.buildFromResponse(exampleContract1Payload.contract, {
                 id: projectId,
-                listening: true,
+                listening: exampleContract1Payload.include_in_transaction_listing,
             }),
-            Contract.buildFromResponse(exampleContract2Payload, {
+            Contract.buildFromResponse(exampleContract2Payload.contract, {
                 id: projectId,
-                listening: true,
+                listening: exampleContract2Payload.include_in_transaction_listing,
             })
         ];
 
